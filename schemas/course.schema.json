@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "course.schema.json",
+  "title": "LearnLab course.json (SRS §4.3)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "title", "subject", "level", "description", "modules"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "$ref": "#/$defs/id" },
+    "title": { "type": "string", "minLength": 1 },
+    "subject": { "enum": ["maths", "physics", "cs", "ai"] },
+    "level": { "enum": ["gcse", "as", "a2", "alevel", "foundation"] },
+    "description": { "type": "string", "minLength": 1 },
+    "accent": { "type": "string" },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "dir"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "dir": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 64
+    }
+  }
+}

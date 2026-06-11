@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "pipeline-module",
+  "title": "Pipeline Module",
+  "description": "Fixture module exercising every directive form and the MVC rules.",
+  "estMinutes": 60,
+  "prerequisites": [],
+  "objectives": [
+    "Exercise the §4.7 validation pipeline",
+    "Pass the §8.6 MVC strict gate"
+  ],
+  "tags": ["fixture"],
+  "lessons": [
+    { "id": "one", "title": "Lesson One", "file": "01-one.md", "estMinutes": 20 },
+    { "id": "two", "title": "Lesson Two", "file": "02-two.md", "estMinutes": 20 },
+    { "id": "three", "title": "Lesson Three", "file": "03-three.md", "estMinutes": 20 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["fixture"]
+}

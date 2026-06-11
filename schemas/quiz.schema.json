@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "quiz.schema.json",
+  "title": "LearnLab assessment.json / quiz file (SRS §4.6)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "title", "questions"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "$ref": "#/$defs/id" },
+    "title": { "type": "string", "minLength": 1 },
+    "shuffleQuestions": { "type": "boolean" },
+    "shuffleChoices": { "type": "boolean" },
+    "pick": { "type": "integer", "minimum": 1 },
+    "questions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/question" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 64
+    },
+    "choices": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 2,
+      "maxItems": 6
+    },
+    "question": {
+      "type": "object",
+      "discriminator": { "propertyName": "type" },
+      "required": ["type"],
+      "oneOf": [
+        { "$ref": "#/$defs/mcq" },
+        { "$ref": "#/$defs/multi" },
+        { "$ref": "#/$defs/numeric" },
+        { "$ref": "#/$defs/text" }
+      ]
+    },
+    "mcq": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "text", "choices", "answer", "explanation"],
+      "properties": {
+        "type": { "const": "mcq" },
+        "id": { "$ref": "#/$defs/id" },
+        "text": { "type": "string", "minLength": 1 },
+        "choices": { "$ref": "#/$defs/choices" },
+        "answer": { "type": "integer", "minimum": 0 },
+        "explanation": { "type": "string", "minLength": 1 }
+      }
+    },
+    "multi": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "text", "choices", "answers", "explanation"],
+      "properties": {
+        "type": { "const": "multi" },
+        "id": { "$ref": "#/$defs/id" },
+        "text": { "type": "string", "minLength": 1 },
+        "choices": { "$ref": "#/$defs/choices" },
+        "answers": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0 },
+          "minItems": 1
+        },
+        "explanation": { "type": "string", "minLength": 1 }
+      }
+    },
+    "numeric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "text", "answer", "tolerance", "explanation"],
+      "properties": {
+        "type": { "const": "numeric" },
+        "id": { "$ref": "#/$defs/id" },
+        "text": { "type": "string", "minLength": 1 },
+        "answer": { "type": "number" },
+        "tolerance": { "type": "number", "minimum": 0 },
+        "unit": { "type": "string" },
+        "explanation": { "type": "string", "minLength": 1 }
+      }
+    },
+    "text": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "text", "accept", "explanation"],
+      "properties": {
+        "type": { "const": "text" },
+        "id": { "$ref": "#/$defs/id" },
+        "text": { "type": "string", "minLength": 1 },
+        "accept": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "caseSensitive": { "type": "boolean" },
+        "explanation": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
