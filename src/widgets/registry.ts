@@ -9,13 +9,16 @@
 // folder; the orchestrator adds the entry here.
 
 import type { WidgetDef } from './widget-def';
+import { def as figure } from './figure';
+import { def as functionGrapher } from './function-grapher';
 import keys from './keys.json';
 
 export type { WidgetDef, RawWidgetProps, ParsedProps } from './widget-def';
 
 export const widgetRegistry: Record<string, WidgetDef> = {
-  // wired by the orchestrator as widget tasks land:
-  // 'function-grapher' (T0.5), 'figure' (T0.5), 'quiz' (T0.6)
+  'function-grapher': functionGrapher,
+  figure,
+  // 'quiz' wired when T0.6 lands
 };
 
 export const WIDGET_KEYS: readonly string[] = keys;
