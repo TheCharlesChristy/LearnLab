@@ -40,13 +40,15 @@ function lessonCtx(overrides: Partial<LessonContextValue> = {}): LessonContextVa
 }
 
 describe('::widget directive', () => {
-  it('maps a known type to the registry widget with coerced props', async () => {
-    render(<MarkdownLesson markdown={'::widget{type="mock" expr="x^2" tangent=true n=3}'} />);
+  it('passes attribute values to parseProps verbatim as strings (D-004)', async () => {
+    render(
+      <MarkdownLesson markdown={'::widget{type="mock" expr="2" tangent=true n=3 bare}'} />,
+    );
     const widget = await screen.findByTestId('mock-widget');
     const props = JSON.parse(widget.textContent ?? '{}') as Record<string, unknown>;
-    expect(props).toEqual({ expr: 'x^2', tangent: true, n: 3 });
-    expect(props.tangent).toBe(true); // boolean, not "true"
-    expect(props.n).toBe(3); // number, not "3"
+    // Strings stay strings — type interpretation is each widget's parseProps
+    // job (§4.5); numeric-looking string props (expr="2") must survive.
+    expect(props).toEqual({ expr: '2', tangent: 'true', n: '3', bare: true });
   });
 
   it('renders a visible "Unknown widget" card for unknown types (FR-CONT-006)', () => {

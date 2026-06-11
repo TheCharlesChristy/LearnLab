@@ -88,24 +88,17 @@ export function parseDirectiveAttrs(attrs: unknown): Record<string, string | nul
 }
 
 /**
- * Directive attribute values arrive as strings; coerce "true"/"false" to
- * booleans and fully-numeric strings to numbers before parseProps (§5.3).
- * Bare attributes (`{tangent}`) arrive as null/'' and mean `true`.
+ * Directive attribute values are passed to parseProps verbatim as strings —
+ * §4.5: "each widget validates its own props", so type interpretation
+ * (numbers, booleans) is each widget's job. Pre-coercing here corrupted
+ * string props that look numeric (e.g. expr="2", alt="42") — DECISIONS.md
+ * D-004. Bare attributes (`{tangent}`) arrive as null/'' and mean `true`
+ * (the one case with no string representation).
  */
 export function coerceRawProps(raw: Record<string, string | null>): RawWidgetProps {
   const out: RawWidgetProps = {};
   for (const [key, value] of Object.entries(raw)) {
-    if (value === null || value === '') {
-      out[key] = true;
-    } else if (value === 'true') {
-      out[key] = true;
-    } else if (value === 'false') {
-      out[key] = false;
-    } else if (/^-?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/.test(value.trim())) {
-      out[key] = Number(value);
-    } else {
-      out[key] = value;
-    }
+    out[key] = value === null || value === '' ? true : value;
   }
   return out;
 }
