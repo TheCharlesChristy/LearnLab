@@ -12,13 +12,14 @@ import type { WidgetDef } from './widget-def';
 import { def as figure } from './figure';
 import { def as functionGrapher } from './function-grapher';
 import keys from './keys.json';
+import { def as quiz } from './quiz';
 
 export type { WidgetDef, RawWidgetProps, ParsedProps } from './widget-def';
 
 export const widgetRegistry: Record<string, WidgetDef> = {
   'function-grapher': functionGrapher,
   figure,
-  // 'quiz' wired when T0.6 lands
+  quiz,
 };
 
 export const WIDGET_KEYS: readonly string[] = keys;
