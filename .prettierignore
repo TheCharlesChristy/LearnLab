@@ -1,0 +1,13 @@
+# Spec and planning docs are orchestrator-owned — never reformat.
+SRS-LearnLab.md
+docs/
+README.md
+
+node_modules
+dist
+coverage
+playwright-report
+test-results
+package-lock.json
+public/content/index.json
+public/python-bundle.zip

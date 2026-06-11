@@ -1,0 +1,25 @@
+@import 'tailwindcss';
+
+/* Dark mode: class strategy (SRS §3.2) — toggling .dark on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Design tokens (SRS §3.2: tokens live in @theme).
+   System font stack only — no external fonts (NFR-SEC-001). */
+@theme {
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* Surfaces */
+  --color-surface: oklch(99% 0.002 247);
+  --color-surface-muted: oklch(96.5% 0.004 247);
+  --color-surface-dark: oklch(20% 0.02 257);
+  --color-surface-dark-muted: oklch(26% 0.02 257);
+
+  /* Subject accents (maths / physics / cs / ai) */
+  --color-maths: oklch(55% 0.2 262);
+  --color-physics: oklch(55% 0.22 300);
+  --color-cs: oklch(60% 0.17 150);
+  --color-ai: oklch(64% 0.19 45);
+}
