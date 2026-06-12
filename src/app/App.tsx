@@ -1,8 +1,21 @@
-// Placeholder shell — replaced by the real app shell (routes, layout, nav) in a later task.
+// App root: theme + toasts + hash router (C-3 / FR-SHELL-001).
+
+import { useState } from 'react';
+import { RouterProvider, createHashRouter } from 'react-router';
+
+import { ToastProvider } from '../ui';
+
+import { buildRoutes } from './router';
+import { ThemeProvider } from './theme';
+
 export default function App() {
+  // Created once per app instance (lazy state init keeps tests/HMR clean).
+  const [router] = useState(() => createHashRouter(buildRoutes()));
   return (
-    <main className="min-h-screen bg-surface p-8 dark:bg-surface-dark">
-      <h1 className="text-3xl font-bold">LearnLab</h1>
-    </main>
+    <ThemeProvider>
+      <ToastProvider>
+        <RouterProvider router={router} />
+      </ToastProvider>
+    </ThemeProvider>
   );
 }

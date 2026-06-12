@@ -14,3 +14,9 @@ createRoot(rootElement).render(
     <App />
   </StrictMode>,
 );
+
+// FR-PWA-001: register the service worker (production builds only; the
+// virtual module is provided by vite-plugin-pwa).
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  void import('./app/pwa').then((m) => m.setupPwa());
+}
