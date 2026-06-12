@@ -42,6 +42,13 @@ npm run test:e2e        # AC-03, AC-05, AC-07 (+ AC-01 fixture test in vitest)
 npm i && npm run dev    # clean-clone check (AC-08; deploy.yml reviewed manually)
 ```
 
+### Gate P0 result — GREEN (2026-06-12)
+
+All ten tasks merged. lint/tsc clean; 279 unit + 17 pipeline tests; e2e 8/8 (chromium);
+build + size-check green (entry 124 KB gz / 350 budget). AC-01 ✅ AC-03 ✅ AC-05 ✅ AC-07 ✅
+AC-08 ✅ (local halves; Actions deploy proves on merge to main). AC-06 documented
+(e2e/lighthouse-check.md), runs in CI on a deployed build — carried into P1 gate.
+
 ## Phase P1+ (not yet decomposed)
 
 P1 decomposition happens after Gate P0 is reported green. Protocol fixtures (§6.3–6.4)
