@@ -1,0 +1,21 @@
+{
+  "type": "Canvas",
+  "key": "sim",
+  "props": {
+    "width": 640,
+    "height": 320,
+    "background": "#0b1220",
+    "on_pointer": { "__h": "h0" },
+    "commands": [
+      { "op": "clear", "color": "#0b1220" },
+      { "op": "grid", "spacing": 30, "color": "#1e293b" },
+      { "op": "line", "x1": 0, "y1": 319, "x2": 640, "y2": 319, "color": "#475569", "width": 2 },
+      { "op": "circle", "x": 120, "y": 200, "r": 2, "fill": "#7dd3fc", "stroke": null, "width": 1 },
+      { "op": "rect", "x": 10, "y": 10, "w": 40, "h": 20, "fill": null, "stroke": "#e2e8f0", "width": 1 },
+      { "op": "polygon", "points": [[0, 0], [10, 0], [5, 10]], "fill": "#22c55e", "stroke": null, "width": 1 },
+      { "op": "text", "x": 8, "y": 16, "s": "t = 1.20 s", "color": "#e2e8f0", "size": 12, "align": "left" },
+      { "op": "arrow", "x1": 100, "y1": 100, "x2": 160, "y2": 60, "color": "#e2e8f0", "width": 2 }
+    ]
+  },
+  "children": []
+}

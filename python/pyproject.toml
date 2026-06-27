@@ -1,0 +1,31 @@
+[project]
+name = "learnlab-python"
+version = "1.0.0"
+description = "LearnLab Python SDK (learnsdk) and shared domain helpers (courselib)."
+requires-python = ">=3.12"
+# learnsdk depends only on the standard library (SRS §6.11). numpy/sympy are
+# loaded on demand inside Pyodide via `requires`, never declared here.
+dependencies = []
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["."]
+
+[tool.ruff.lint]
+# D = pydocstyle: NFR-MAINT-001 requires the public learnsdk API to be 100%
+# docstring'd. E/F/I/UP/B are the baseline. D is scoped to the public API via
+# per-file-ignores below (private/_bridge, courselib and tests are exempt).
+select = ["E", "F", "I", "UP", "B", "D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"learnsdk/_bridge.py" = ["D"]   # private module (§6.5)
+"courselib/**" = ["D"]
+"tests/**" = ["D"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

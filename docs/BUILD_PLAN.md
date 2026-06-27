@@ -53,3 +53,45 @@ AC-08 ✅ (local halves; Actions deploy proves on merge to main). AC-06 document
 
 P1 decomposition happens after Gate P0 is reported green. Protocol fixtures (§6.3–6.4)
 will be pinned before any P1 parallel dispatch.
+
+## Phase P1 — Python runtime + learnsdk + 4 pilot modules (§8.7)
+
+Goal: Pyodide worker + `PyHost` + protocol; tree renderer; `learnsdk` + `courselib`;
+bundle builder; `code-runner`/`data-plot`/`step-reveal` widgets; dev hot-reload; the two
+§6.13 reference items verbatim; four pilot modules (one per subject), each MVC.
+**Gate P1:** protocol fixtures pass BOTH sides; pytest (85% learnsdk) + Vitest coverage;
+AC-02, AC-04, AC-10 pass; `@py` Chromium smoke green.
+
+### Contracts pinned first (orchestrator, Wave 1)
+
+`src/python/protocol.ts` (§6.3 envelope + closed message sets), `src/python/component-tree.ts`
+(§6.4 PyNode/HandlerRef + §6.7 COMPONENT_TYPES + 8 DRAW_OPS), `src/python/py-render-context.tsx`
+(render context + PyComponentProps), `src/python/component-registry.ts` (skeleton, I wire),
+`tests/protocol-fixtures/**` (golden JSON, both-sides), `python/pyproject.toml` + ruff/pytest +
+minimal importable `learnsdk`/`courselib` packages (activates CI python job).
+
+### Task breakdown
+
+| ID    | Task                                                              | SRS refs           | Files (allowlist)                                   | Depends | Status |
+|-------|------------------------------------------------------------------|--------------------|-----------------------------------------------------|---------|--------|
+| T1.C  | Pin protocol + tree + render-context + fixtures + py skeleton     | §6.3–6.7, §11      | src/python/{protocol,component-tree,py-render-context,component-registry}, tests/protocol-fixtures, python/{pyproject,learnsdk/__init__,courselib/__init__,tests} | none | dispatched |
+| T1.1  | TS host: worker + PyHost + runtime hooks + TreeRenderer + PyItem  | §6.2–6.4, FR-PY-*  | src/python/{worker.ts,host.ts,runtime.ts,tree-renderer.tsx,PyItem.tsx,use-py-item.ts}, tests | T1.C | todo |
+| T1.2  | TS components: §6.7 component set + Canvas draw renderer          | §6.7, NFR-A11Y     | src/python/components/**, tests                      | T1.C | todo |
+| T1.3  | learnsdk core: item lifecycle, components, draw, rand, _bridge    | §6.4–6.6, §6.9     | python/learnsdk/{item,components,draw,rand,_bridge}.py, python/tests | T1.C | todo |
+| T1.4  | learnsdk higher: QuizItem+question types, Simulation, Plot, checking, MultiStep | §6.8, §6.9 | python/learnsdk/{quiz,simulation,plot,checking}.py, python/tests | T1.3 | todo |
+| T1.5  | courselib starters (maths/physics/cs/ai)                         | §6.9               | python/courselib/{maths,physics,cs,ai}.py, python/tests | T1.C | todo |
+| T1.6  | Real python-bundle builder (zip learnsdk+courselib)              | §6.2.2, §10.1      | scripts/build-python-bundle.mjs                      | T1.C | todo |
+| T1.7  | Native widgets data-plot + step-reveal (no python dep)           | §5.3               | src/widgets/{data-plot,step-reveal}/**              | none | todo |
+| T1.8  | code-runner widget (RUN_SNIPPET via worker)                      | §5.3, C-6          | src/widgets/code-runner/**                           | T1.1 | todo |
+| T1.9  | Dev hot-reload for .py items (FR-PYDX-001/002/003)               | §6.12              | (host hook + dev wiring; scoped at dispatch)         | T1.1 | todo |
+| T1.10 | Two §6.13 reference items verbatim + new:item templates          | §6.13, FR-AUTH-002 | scripts/templates/**, fixture items                  | T1.3,T1.4 | todo |
+| T1.11 | Four pilot modules MVC (differentiation-1, kinematics-suvat, boolean-algebra-and-logic, neural-networks-1-perceptrons) | §8.2-8.5, §8.6 | public/content/** | T1.1-T1.5,T1.10 | todo |
+| T1.12 | P1 gate tests: AC-02, AC-04, AC-10 + @py smoke                  | §11, §12           | e2e/**, timing harness                               | T1.11 | todo |
+
+### Waves
+
+1. **Wave 1 (orchestrator):** T1.C.
+2. **Wave 2 (parallel):** T1.1, T1.2, T1.3, T1.5, T1.6, T1.7 — disjoint files, against fixtures.
+3. **Wave 3 (parallel):** T1.4 (after T1.3), T1.8 (after T1.1), T1.9 (after T1.1).
+4. **Wave 4:** T1.10 → T1.11 → T1.12, then Gate P1.
+

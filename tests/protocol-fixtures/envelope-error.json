@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "id": "00000000-0000-0000-0000-000000000018",
+  "type": "ERROR",
+  "payload": {
+    "itemId": "power-rule-quiz",
+    "phase": "event",
+    "message": "ZeroDivisionError: division by zero",
+    "traceback": "Traceback (most recent call last):\n  File \"power-rule-quiz.py\", line 12, in on_click\n    x = 1 / 0\nZeroDivisionError: division by zero"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "note": "Golden host<->worker fixtures (SRS §6.3-6.4). Iterated by both the TS and Python test suites. direction: h2w (host->worker), w2h (worker->host), tree (bare component tree).",
+  "fixtures": [
+    { "file": "tree-basic.json", "direction": "tree", "desc": "Column with Text, Slider (on_change handler h0) and Button (on_click handler h1)" },
+    { "file": "tree-canvas.json", "direction": "tree", "desc": "Canvas exercising all eight draw ops and an on_pointer handler" },
+    { "file": "envelope-load-item.json", "direction": "h2w", "type": "LOAD_ITEM", "desc": "Load a Python item with params and a seed" },
+    { "file": "envelope-loaded.json", "direction": "w2h", "type": "LOADED", "desc": "Reply to LOAD_ITEM with item meta" },
+    { "file": "envelope-render.json", "direction": "w2h", "type": "RENDER", "desc": "Unsolicited render carrying a component tree and seq" },
+    { "file": "envelope-event.json", "direction": "h2w", "type": "EVENT", "desc": "User fired handler token h0 with a numeric value" },
+    { "file": "envelope-progress.json", "direction": "w2h", "type": "PROGRESS", "desc": "Scored progress (4/5)" },
+    { "file": "envelope-persist.json", "direction": "w2h", "type": "PERSIST", "desc": "Persist item state object" },
+    { "file": "envelope-ready.json", "direction": "w2h", "type": "READY", "desc": "Runtime ready with versions" },
+    { "file": "envelope-snippet-result.json", "direction": "w2h", "type": "SNIPPET_RESULT", "desc": "code-runner snippet result, ok" },
+    { "file": "envelope-error.json", "direction": "w2h", "type": "ERROR", "desc": "Item event-phase error with traceback" }
+  ]
+}

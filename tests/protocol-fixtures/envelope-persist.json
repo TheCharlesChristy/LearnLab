@@ -1,0 +1,9 @@
+{
+  "v": 1,
+  "id": "00000000-0000-0000-0000-000000000015",
+  "type": "PERSIST",
+  "payload": {
+    "itemId": "projectile",
+    "state": { "_v": 1, "angle": 45, "speed": 20.0, "best_range": 38.2 }
+  }
+}
