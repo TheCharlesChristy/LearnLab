@@ -1,5 +1,7 @@
 [
   "function-grapher",
   "figure",
-  "quiz"
+  "quiz",
+  "data-plot",
+  "step-reveal"
 ]
