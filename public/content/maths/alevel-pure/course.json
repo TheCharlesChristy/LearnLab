@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "alevel-pure",
+  "title": "A-level Pure Mathematics",
+  "subject": "maths",
+  "level": "alevel",
+  "description": "Core pure mathematics for A-level: proof, algebra, trigonometry, calculus, numerical methods and vectors. This pilot release begins with an introduction to differentiation.",
+  "modules": [
+    { "id": "differentiation-1", "dir": "differentiation-1" }
+  ]
+}
