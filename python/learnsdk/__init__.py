@@ -19,8 +19,9 @@ __version__ = "1.0.0"
 # the draw module, and the serialisation error. T1.4 extends this with
 # QuizItem/SimulationItem/PlotExplorerItem/MultiStepItem, checking, the quiz
 # question types, Ctl/Step and Result.
-from . import draw
+from . import checking, draw
 from ._bridge import SerializationError
+from .checking import Result
 from .components import (
     Alert,
     Badge,
@@ -50,11 +51,38 @@ from .components import (
     TextInput,
 )
 from .item import LearningItem
+from .plot import Ctl, PlotExplorerItem
+from .quiz import (
+    MCQ,
+    Expression,
+    Multi,
+    MultiStepItem,
+    Numeric,
+    QuizItem,
+    Step,
+    TextAnswer,
+)
+from .simulation import SimulationItem
 
 __all__: list[str] = [
     "LearningItem",
+    "QuizItem",
+    "SimulationItem",
+    "PlotExplorerItem",
+    "MultiStepItem",
     "SerializationError",
     "draw",
+    "checking",
+    "Result",
+    # §6.8 quiz question types
+    "MCQ",
+    "Multi",
+    "Numeric",
+    "TextAnswer",
+    "Expression",
+    # §6.8 helper dataclasses
+    "Ctl",
+    "Step",
     # §6.7 components
     "Component",
     "Column",
