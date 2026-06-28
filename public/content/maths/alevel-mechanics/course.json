@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "alevel-mechanics",
+  "title": "A-level Mechanics",
+  "subject": "maths",
+  "level": "alevel",
+  "description": "The mechanics strand of A-level Mathematics: modelling motion and forces. This pilot release begins with kinematics for constant acceleration (the SUVAT equations) and projectile motion.",
+  "modules": [
+    { "id": "kinematics-suvat", "dir": "kinematics-suvat" }
+  ]
+}
