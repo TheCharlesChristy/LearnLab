@@ -20,6 +20,7 @@ export {
   onWriteError,
   recordAttempt,
   setItemState,
+  getItemState,
   touchLesson,
   type ModuleMeta,
   type WriteErrorListener,

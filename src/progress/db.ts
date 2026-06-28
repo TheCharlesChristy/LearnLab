@@ -310,6 +310,12 @@ export async function setItemState(
   );
 }
 
+/** Read a persisted item state (the JSON-safe `state`), or null if none. */
+export async function getItemState(moduleId: string, itemId: string): Promise<unknown> {
+  const row = await db.itemState.get([moduleId, itemId]);
+  return row ? row.state : null;
+}
+
 /** Read a kv value. */
 export async function kvGet<T>(key: string): Promise<T | undefined> {
   const row = await db.kv.get(key);
