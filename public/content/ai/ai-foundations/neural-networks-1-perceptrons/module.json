@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "neural-networks-1-perceptrons",
+  "title": "Neural Networks I — Perceptrons",
+  "description": "The perceptron: a single artificial neuron that computes a weighted sum and applies an activation function. Covers the decision boundary, the perceptron learning rule, and linear separability.",
+  "estMinutes": 80,
+  "prerequisites": [],
+  "objectives": [
+    "Describe a perceptron as a weighted sum of inputs plus a bias, passed through an activation function",
+    "Compute the weighted sum (pre-activation) and apply the step and sigmoid activations",
+    "Interpret a perceptron geometrically as a decision boundary that splits the input space",
+    "Apply the perceptron learning rule to update weights from a misclassified example",
+    "Explain linear separability and why a single perceptron cannot solve XOR"
+  ],
+  "tags": ["ai", "machine-learning", "neural-networks", "perceptron", "activation", "sigmoid"],
+  "lessons": [
+    { "id": "the-perceptron", "title": "The perceptron: a single neuron", "file": "01-the-perceptron.md", "estMinutes": 25 },
+    { "id": "activation-and-decision-boundary", "title": "Activation and the decision boundary", "file": "02-activation-and-decision-boundary.md", "estMinutes": 30 },
+    { "id": "learning-rule", "title": "The perceptron learning rule", "file": "03-learning-rule.md", "estMinutes": 25 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

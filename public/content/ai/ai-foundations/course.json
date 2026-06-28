@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "ai-foundations",
+  "title": "AI Foundations",
+  "subject": "ai",
+  "level": "alevel",
+  "description": "An introduction to the ideas behind artificial intelligence and machine learning. No real A-level in AI exists; this is a designed track pitched at A-level-equivalent depth. This pilot release begins with the perceptron, the building block of neural networks.",
+  "modules": [
+    { "id": "neural-networks-1-perceptrons", "dir": "neural-networks-1-perceptrons" }
+  ]
+}
