@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "boolean-algebra-and-logic",
+  "title": "Boolean Algebra and Logic",
+  "description": "The logic operators behind every digital circuit: AND, OR, NOT, XOR, NAND and NOR; reading and building truth tables; and the Boolean laws (including De Morgan's) used to simplify expressions.",
+  "estMinutes": 80,
+  "prerequisites": [],
+  "objectives": [
+    "Evaluate expressions using the AND, OR, NOT, XOR, NAND and NOR operators",
+    "Construct and read truth tables for Boolean expressions of up to three inputs",
+    "State and apply the core Boolean identity, complement, commutative, associative and distributive laws",
+    "Apply De Morgan's laws to negate and rewrite Boolean expressions",
+    "Simplify Boolean expressions to a minimal equivalent form"
+  ],
+  "tags": ["boolean", "logic", "truth-table", "de-morgan", "simplification", "digital-logic"],
+  "lessons": [
+    { "id": "logic-operators", "title": "Logic operators", "file": "01-logic-operators.md", "estMinutes": 25 },
+    { "id": "truth-tables", "title": "Truth tables", "file": "02-truth-tables.md", "estMinutes": 25 },
+    { "id": "boolean-laws", "title": "Boolean laws and simplification", "file": "03-boolean-laws.md", "estMinutes": 30 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

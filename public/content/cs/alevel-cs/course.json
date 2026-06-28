@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "alevel-cs",
+  "title": "A-level Computer Science",
+  "subject": "cs",
+  "level": "alevel",
+  "description": "A-level Computer Science covering programming, data structures, algorithms, Boolean logic, data representation and machine architecture.",
+  "modules": [
+    { "id": "boolean-algebra-and-logic", "dir": "boolean-algebra-and-logic" }
+  ]
+}
