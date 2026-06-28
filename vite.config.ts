@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 import { APP_NAME, PYODIDE_BASE_URL, PYODIDE_VERSION, REPO_NAME } from './src/config';
+import { pyHotReloadPlugin } from './src/python/dev-hot-reload';
 
 // SRS §10.2: base is '/<REPO_NAME>/' for CI/Pages builds, '/' locally.
 // An explicit BASE env var (used by deploy.yml) takes precedence.
@@ -62,7 +63,9 @@ const pwaPlugin = VitePWA({
 
 export default defineConfig({
   base,
-  plugins: [react(), tailwindcss(), pwaPlugin],
+  // pyHotReloadPlugin is apply:'serve' → active in `vite dev` only, never in
+  // the production build (FR-PYDX-001; keeps prod output unchanged).
+  plugins: [react(), tailwindcss(), pwaPlugin, pyHotReloadPlugin()],
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test-setup.ts'],

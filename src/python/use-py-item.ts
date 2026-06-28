@@ -15,8 +15,14 @@ import {
   type PyHost,
 } from './host';
 import { useEnsureRuntimeOnVisible } from './runtime';
+import { cacheBust, matchItemChange, subscribePyHotReload } from './dev-hot-reload';
 import type { JsonObject, JsonValue, ProgressPayload } from './protocol';
 import type { PyNode } from './component-tree';
+
+// Dev-only flag. In production this is statically `false`, so every block
+// guarded by it (and the dev-hot-reload imports they reach) is dead code that
+// the bundler tree-shakes away — the prod bundle is byte-unchanged (FR-PY-002).
+const DEV = import.meta.env.DEV;
 
 export interface UsePyItemOptions {
   itemId: string;
@@ -61,6 +67,9 @@ export function usePyItem(opts: UsePyItemOptions): UsePyItemResult {
   const [tree, setTree] = useState<PyNode | null>(null);
   const [meta, setMeta] = useState<ItemHandle['meta'] | null>(null);
   const [error, setError] = useState<ItemError | null>(null);
+  // Dev-only: bumping this re-runs the load effect (DESTROY_ITEM + re-fetch +
+  // LOAD_ITEM) for hot-reload (FR-PYDX-001). Always 0 in prod.
+  const [reloadNonce, setReloadNonce] = useState(0);
 
   const handleRef = useRef<ItemHandle | null>(null);
   // Latest callbacks without re-triggering the load effect.
@@ -83,7 +92,14 @@ export function usePyItem(opts: UsePyItemOptions): UsePyItemResult {
         if (cancelled) return;
 
         let src = source;
-        if (src == null) {
+        // In dev, after a hot-reload (reloadNonce > 0) always re-fetch with a
+        // cache-buster so the just-edited source is read even if `source` was
+        // passed as a prop or the SW/HTTP layer cached it (FR-PYDX-001).
+        if (DEV && reloadNonce > 0) {
+          const res = await fetch(cacheBust(sourceUrl));
+          if (!res.ok) throw new Error(`Failed to fetch ${sourceUrl} (${res.status})`);
+          src = await res.text();
+        } else if (src == null) {
           // Same-origin fetch (NFR-SEC-001 / C-4). sourceUrl is already a
           // same-origin content path produced by the content loaders.
           const res = await fetch(sourceUrl);
@@ -132,7 +148,7 @@ export function usePyItem(opts: UsePyItemOptions): UsePyItemResult {
       handle?.destroy();
       handleRef.current = null;
     };
-  }, [host, itemId, sourceUrl, seed, source, params, savedState]);
+  }, [host, itemId, sourceUrl, seed, source, params, savedState, reloadNonce]);
 
   // rAF tick driver: only while the element is visible and the item wants ticks
   // (§6.3 TICK; clamp to min(tickHz, 60)). Uses the document visibility + an
@@ -208,6 +224,32 @@ export function usePyItem(opts: UsePyItemOptions): UsePyItemResult {
   const restart = useCallback(() => {
     void host.restart();
   }, [host]);
+
+  // ---------------------------------------------------------------------------
+  // Dev-only hot-reload (FR-PYDX-001). Production: `DEV` is statically false, so
+  // this whole effect — and its `import.meta.hot` use — is tree-shaken out.
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    if (!DEV) return;
+    // `import.meta.hot` is only defined under `vite dev`; undefined in prod/tests.
+    const hot = import.meta.hot;
+    return subscribePyHotReload(
+      {
+        // A content item changed: reload THIS item iff the path matches. The
+        // nonce bump re-runs the load effect, whose cleanup sends DESTROY_ITEM
+        // and which then re-fetches (cache-busted) + LOAD_ITEMs.
+        onItemChanged: (path) => {
+          if (matchItemChange(path, sourceUrl)) setReloadNonce((n) => n + 1);
+        },
+        // The learnsdk/courselib bundle changed: restart the worker so new SDK
+        // code is picked up, then reload this mounted item.
+        onBundleChanged: () => {
+          void host.restart().then(() => setReloadNonce((n) => n + 1));
+        },
+      },
+      hot,
+    );
+  }, [host, sourceUrl]);
 
   return { tree, meta, error, emit, restart };
 }
