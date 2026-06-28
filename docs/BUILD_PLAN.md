@@ -92,6 +92,13 @@ minimal importable `learnsdk`/`courselib` packages (activates CI python job).
 
 1. **Wave 1 (orchestrator):** T1.C.
 2. **Wave 2 (parallel):** T1.1, T1.2, T1.3, T1.5, T1.6, T1.7 — disjoint files, against fixtures.
-3. **Wave 3 (parallel):** T1.4 (after T1.3), T1.8 (after T1.1), T1.9 (after T1.1).
-4. **Wave 4:** T1.10 → T1.11 → T1.12, then Gate P1.
+3. **Wave 3 (parallel):** T1.4 (after T1.3), T1.8 (after T1.1), T1.9 (after T1.1), T1.W (app wiring).
+4. **Wave 4:** T1.10 → T1.11 (4 parallel modules) → T1.12, then Gate P1.
+
+### Progress (live)
+
+- **merged:** T1.C, T1.1, T1.2, T1.3, T1.4, T1.5, T1.6, T1.7, T1.8, T1.9, T1.W, T1.10, T1.11 (all 4 pilot modules) + glue (`getItemState`, `src/python` barrel).
+- **dispatched:** T1.12 (@py gate e2e).
+- Full-tree `build-content --strict` green (4 courses / 4 modules MVC); full build green (entry 122 KB gz; all chunks within budget); ~400 Vitest + 166 pytest passing.
+- **Environment note:** the Pyodide CDN (cdn.jsdelivr.net) is blocked by the sandbox egress policy (403, org denial), so the real-Pyodide `@py` smoke (AC-02/04/10) runs in CI, not locally — like AC-06 (Lighthouse). Local evidence for the SDK halves: `python/tests/test_reference_items.py` (T1.10).
 
