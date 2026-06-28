@@ -3,5 +3,6 @@
   "figure",
   "quiz",
   "data-plot",
-  "step-reveal"
+  "step-reveal",
+  "code-runner"
 ]
