@@ -6,9 +6,9 @@
 //          --name <item-name> [--dir <module-folder>]
 //
 // Generates <module-folder>/items/<item-name>.py from
-// scripts/templates/<kind>.py. P0 ships only the `blank` template; the
-// quiz/simulation/plot templates are added in P1 from the §6.13 reference
-// examples.
+// scripts/templates/<kind>.py. The quiz and simulation templates are
+// byte-identical to the §6.13 reference examples; plot follows the §6.8
+// PlotExplorerItem example; blank is a minimal starter.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -46,8 +46,8 @@ if (!NAME_RE.test(name)) die(`item name "${name}" is invalid — use lowercase l
 const template = path.join(templatesDir, `${kind}.py`);
 if (!fs.existsSync(template)) {
   die(
-    `the "${kind}" template is not available yet — it ships in P1, byte-identical to the §6.13 reference examples. ` +
-      `Available now: ${KINDS.filter((k) => fs.existsSync(path.join(templatesDir, `${k}.py`))).join(', ') || '(none)'}`,
+    `the "${kind}" template is missing from scripts/templates/. ` +
+      `Available: ${KINDS.filter((k) => fs.existsSync(path.join(templatesDir, `${k}.py`))).join(', ') || '(none)'}`,
   );
 }
 
