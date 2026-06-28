@@ -15,7 +15,71 @@ learnsdk depends only on the Python standard library (§6.11).
 
 __version__ = "1.0.0"
 
-# Public names are appended here by their owning modules as they land
-# (orchestrator-wired, mirroring the §6.5 contract). Until then the package is
-# importable and exposes its version.
-__all__: list[str] = []
+# Core public surface (T1.3): the item base class, the §6.7 component classes,
+# the draw module, and the serialisation error. T1.4 extends this with
+# QuizItem/SimulationItem/PlotExplorerItem/MultiStepItem, checking, the quiz
+# question types, Ctl/Step and Result.
+from . import draw
+from ._bridge import SerializationError
+from .components import (
+    Alert,
+    Badge,
+    Button,
+    Canvas,
+    Card,
+    Checkbox,
+    CheckboxGroup,
+    CodeBlock,
+    Column,
+    Component,
+    Divider,
+    FunctionPlot,
+    Image,
+    Markdown,
+    Math,
+    NumberInput,
+    Plot,
+    ProgressBar,
+    RadioGroup,
+    Row,
+    Select,
+    Slider,
+    Spacer,
+    Table,
+    Text,
+    TextInput,
+)
+from .item import LearningItem
+
+__all__: list[str] = [
+    "LearningItem",
+    "SerializationError",
+    "draw",
+    # §6.7 components
+    "Component",
+    "Column",
+    "Row",
+    "Card",
+    "Divider",
+    "Spacer",
+    "Text",
+    "Markdown",
+    "Math",
+    "Image",
+    "Alert",
+    "Table",
+    "CodeBlock",
+    "Badge",
+    "ProgressBar",
+    "Button",
+    "Slider",
+    "NumberInput",
+    "TextInput",
+    "Select",
+    "RadioGroup",
+    "Checkbox",
+    "CheckboxGroup",
+    "Plot",
+    "FunctionPlot",
+    "Canvas",
+]
