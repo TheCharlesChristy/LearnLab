@@ -13,6 +13,7 @@ import {
   importProgress,
   useKv,
 } from '../../progress';
+import { pyHost, usePyRuntime } from '../../python';
 import { Badge, Button, Card, Dialog, Spinner } from '../../ui';
 import { loadContentIndex } from '../content-api';
 import { useTheme } from '../theme';
@@ -173,16 +174,55 @@ function ProgressDataSection() {
   );
 }
 
+const RUNTIME_STATE_LABELS: Record<string, string> = {
+  idle: 'Not loaded',
+  'loading-pyodide': 'Loading Pyodide…',
+  'loading-bundle': 'Loading SDK…',
+  ready: 'Ready',
+  error: 'Error',
+};
+
 function PythonRuntimeSection() {
+  // FR-SET-001: live runtime status (state, version, packages) + an enabled
+  // "Restart Python runtime" button. The runtime stays lazily loaded — reading
+  // status here does not boot Pyodide.
+  const status = usePyRuntime();
+  const stateLabel = RUNTIME_STATE_LABELS[status.state] ?? status.state;
+  // Before load the worker has not reported a version; show the pinned config
+  // version so the page is never blank.
+  const version = status.pyodideVersion ?? PYODIDE_VERSION;
+  const packages = status.loadedPackages;
+
   return (
     <SectionCard title="Python runtime">
       <div className="flex items-center gap-3">
-        <Badge>Not loaded</Badge>
+        <Badge>{stateLabel}</Badge>
         <p className="text-sm text-slate-600 dark:text-slate-300">
-          Python items arrive in P1. Pinned Pyodide version: {PYODIDE_VERSION}.
+          Pyodide version: {version}
+          {status.pyodideVersion ? '' : ' (pinned)'}.
         </p>
       </div>
-      <Button variant="secondary" className="mt-3" disabled>
+      {status.sdkVersion ? (
+        <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+          learnsdk version: {status.sdkVersion}
+        </p>
+      ) : null}
+      <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+        Loaded packages:{' '}
+        <span className="font-medium">
+          {packages.length > 0 ? packages.join(', ') : 'none'}
+        </span>
+      </p>
+      {status.error ? (
+        <p className="mt-2 text-sm text-red-800 dark:text-red-300" role="alert">
+          {status.error}
+        </p>
+      ) : null}
+      <Button
+        variant="secondary"
+        className="mt-3"
+        onClick={() => void pyHost.restart()}
+      >
         Restart Python runtime
       </Button>
     </SectionCard>

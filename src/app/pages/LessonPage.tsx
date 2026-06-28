@@ -15,10 +15,11 @@ import {
   useModuleState,
 } from '../../progress';
 import type { ModuleMeta } from '../../progress';
-import { Button, Card, ProgressBar, Spinner } from '../../ui';
+import { Button, ProgressBar, Spinner } from '../../ui';
 import { LessonContext, loadLessonMarkdown, moduleBaseUrl } from '../content-api';
 import type { LessonContextValue, ModuleLocation } from '../content-api';
 import { findModule } from '../content-api';
+import { PyItemHost } from '../py-item-host';
 import {
   Breadcrumb,
   LazyMarkdownLesson,
@@ -141,6 +142,7 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
 
   if (!lesson) return <MissingContent what={`Lesson “${lessonId}”`} />;
 
+  const baseUrl = moduleBaseUrl(coursePath, moduleRef.dir);
   const prev = lessonIndex > 0 ? mod.lessons[lessonIndex - 1] : undefined;
   const next = lessonIndex < mod.lessons.length - 1 ? mod.lessons[lessonIndex + 1] : undefined;
   const lessonsDone = moduleState?.lessonsDone ?? 0;
@@ -175,20 +177,33 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
       <article>
         <h1 className="mb-4 text-2xl font-bold">{lesson.title}</h1>
         {isPython ? (
-          <Card role="note">
-            <p className="font-medium">Interactive Python lesson</p>
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-              This lesson is a full-page Python item. The Python runtime arrives in P1 — check back
-              after the next release.
-            </p>
-          </Card>
+          // Full-page Python lesson (Lesson.kind === 'python', §4.4): render the
+          // item full-width instead of fetching markdown. Prev/Next, the
+          // mark-complete action and the progress bar all live outside this.
+          <PyItemHost
+            moduleId={moduleId}
+            sourceUrl={baseUrl + lesson.file}
+            src={lesson.file}
+            title={lesson.title}
+          />
         ) : markdown.status === 'loading' ? (
           <Spinner label="Loading lesson…" />
         ) : markdown.status === 'error' ? (
           <RetryCard what="this lesson" error={markdown.error} onRetry={markdown.retry} />
         ) : (
           <Suspense fallback={<Spinner label="Preparing renderer…" />}>
-            <LazyMarkdownLesson markdown={markdown.data} pyItemRenderer={undefined} />
+            <LazyMarkdownLesson
+              markdown={markdown.data}
+              pyItemRenderer={(p) => (
+                <PyItemHost
+                  moduleId={moduleId}
+                  sourceUrl={baseUrl + p.src}
+                  src={p.src}
+                  params={p.params}
+                  height={p.height}
+                />
+              )}
+            />
           </Suspense>
         )}
       </article>

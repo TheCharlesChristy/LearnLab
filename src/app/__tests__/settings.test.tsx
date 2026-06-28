@@ -4,9 +4,11 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('../content-api', async () => (await import('./fixtures')).contentApiMock());
 vi.mock('../../progress', async () => (await import('./fixtures')).progressMock());
+vi.mock('../../python', async () => (await import('./fixtures')).pythonMock());
 
 import * as progress from '../../progress';
 import { ToastProvider } from '../../ui';
+import { pyItemSpy, resetPyItemSpy } from './fixtures';
 import SettingsPage from '../pages/SettingsPage';
 import { ThemeProvider } from '../theme';
 
@@ -22,6 +24,7 @@ function renderSettings() {
 
 afterEach(() => {
   document.documentElement.classList.remove('dark');
+  resetPyItemSpy();
 });
 
 describe('SettingsPage (FR-SET-001)', () => {
@@ -100,8 +103,10 @@ describe('SettingsPage (FR-SET-001)', () => {
     const user = userEvent.setup();
     renderSettings();
 
-    expect(screen.getByText(/Pinned Pyodide version: 0\.27\.7/)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Restart Python runtime' })).toBeDisabled();
+    // FR-SET-001: live runtime status. Before load: idle + pinned version.
+    expect(screen.getByText('Not loaded')).toBeInTheDocument();
+    expect(screen.getByText(/Pyodide version: 0\.27\.7 \(pinned\)/)).toBeInTheDocument();
+    expect(screen.getByText(/Loaded packages:/)).toBeInTheDocument();
     expect(screen.getByText(/Storage mode:/)).toBeInTheDocument();
     expect(screen.getByText('App version')).toBeInTheDocument();
     expect(screen.getByText(/never transmits learner data/)).toBeInTheDocument();
@@ -109,5 +114,31 @@ describe('SettingsPage (FR-SET-001)', () => {
 
     await user.click(screen.getByRole('button', { name: 'Download my progress' }));
     expect(progress.downloadProgress).toHaveBeenCalled();
+  });
+
+  it('reflects live runtime status (FR-SET-001)', () => {
+    pyItemSpy.runtime = {
+      state: 'ready',
+      pyodideVersion: '0.27.7',
+      sdkVersion: '1.2.3',
+      loadedPackages: ['numpy', 'sympy'],
+      phaseText: undefined,
+      error: undefined,
+    };
+    renderSettings();
+
+    expect(screen.getByText('Ready')).toBeInTheDocument();
+    expect(screen.getByText(/learnsdk version: 1\.2\.3/)).toBeInTheDocument();
+    expect(screen.getByText(/numpy, sympy/)).toBeInTheDocument();
+  });
+
+  it('the Restart Python runtime button is enabled and calls pyHost.restart() (FR-SET-001)', async () => {
+    const user = userEvent.setup();
+    renderSettings();
+
+    const btn = screen.getByRole('button', { name: 'Restart Python runtime' });
+    expect(btn).toBeEnabled();
+    await user.click(btn);
+    expect(pyItemSpy.restart).toHaveBeenCalled();
   });
 });

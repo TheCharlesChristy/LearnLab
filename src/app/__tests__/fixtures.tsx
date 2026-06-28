@@ -2,6 +2,7 @@
 // import the router/layout (mock factories load it while those modules are
 // being mocked — keep it leaf-level to avoid circular mocking).
 
+import type { ReactNode } from 'react';
 import { vi } from 'vitest';
 
 import { LessonContext, useLessonContext } from '../../content/lesson-context';
@@ -148,6 +149,8 @@ export function progressMock() {
     touchLesson: vi.fn(async () => undefined),
     addLessonTime: vi.fn(async () => undefined),
     recordAttempt: vi.fn(async () => 1),
+    getItemState: vi.fn(async () => null),
+    setItemState: vi.fn(async () => undefined),
     requestPersistentStorage: vi.fn(async () => true),
     downloadProgress: vi.fn(async () => undefined),
     importProgress: vi.fn(async () => ({ imported: 3, skipped: 1 })),
@@ -158,12 +161,74 @@ export function progressMock() {
   };
 }
 
+/** Default ::py invocation the markdown mock feeds to pyItemRenderer. */
+export const PY_DIRECTIVE = {
+  src: 'items/power-rule-quiz.py',
+  params: { questions: 4 },
+  height: 300,
+};
+
 /** Factory body for the lazily imported markdown barrel. */
 export function markdownMock() {
   return {
-    MarkdownLesson: ({ markdown }: { markdown: string }) => (
-      <div data-testid="markdown-lesson">{markdown}</div>
+    MarkdownLesson: ({
+      markdown,
+      pyItemRenderer,
+    }: {
+      markdown: string;
+      pyItemRenderer?: (p: {
+        src: string;
+        params?: Record<string, unknown>;
+        height?: number;
+      }) => ReactNode;
+    }) => (
+      <div data-testid="markdown-lesson">
+        {markdown}
+        {pyItemRenderer ? pyItemRenderer(PY_DIRECTIVE) : null}
+      </div>
     ),
     MarkdownInline: ({ markdown }: { markdown: string }) => <span>{markdown}</span>,
+  };
+}
+
+/**
+ * Factory body for mocking the src/python barrel. No real worker/Pyodide.
+ * The fake PyItem records the props it received and exposes the wired
+ * onProgress/onPersist callbacks via captured spies so tests can fire them.
+ */
+export const pyItemSpy = {
+  props: null as Record<string, unknown> | null,
+  restart: vi.fn(async () => undefined),
+  runtime: {
+    state: 'idle' as string,
+    pyodideVersion: undefined as string | undefined,
+    sdkVersion: undefined as string | undefined,
+    loadedPackages: [] as string[],
+    phaseText: undefined as string | undefined,
+    error: undefined as string | undefined,
+  },
+};
+
+export function resetPyItemSpy() {
+  pyItemSpy.props = null;
+  pyItemSpy.restart.mockClear();
+  pyItemSpy.runtime = {
+    state: 'idle',
+    pyodideVersion: undefined,
+    sdkVersion: undefined,
+    loadedPackages: [],
+    phaseText: undefined,
+    error: undefined,
+  };
+}
+
+export function pythonMock() {
+  return {
+    PyItem: (props: Record<string, unknown>) => {
+      pyItemSpy.props = props;
+      return <div data-testid="py-item" data-item-id={String(props.itemId)} />;
+    },
+    usePyRuntime: () => pyItemSpy.runtime,
+    pyHost: { restart: pyItemSpy.restart },
   };
 }
