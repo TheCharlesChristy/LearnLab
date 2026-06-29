@@ -1,12 +1,26 @@
-// Playwright e2e configuration — SRS §11 (E2E row), AC-01/03/05/07.
+// Playwright e2e configuration — SRS §11 (E2E row), AC-01/02/03/04/05/07/10.
 //
-// The suite runs against a production build of the app (vite preview) with
-// the fixture course tree served from dist/content/ (decision D-001 — P0
-// ships no public content). scripts/e2e-prepare.mjs performs that build.
+// The suite runs against a production build of the app (vite preview).
+// scripts/e2e-prepare.mjs stages dist/content with BOTH the real pilot modules
+// (public/content — driven by the @py specs) AND the fixture course tree
+// (tests/fixtures/content/valid — driven by AC-01/03/05/07; decision D-001).
+//
+// TWO TIERS OF SPECS:
+//   * Non-@py (AC-01/03/05/07): pure-app/fixture flows, run everywhere.
+//   * @py (AC-02/04/10, *.@py.pw.ts; the `@py` tag is in each test TITLE):
+//     need REAL Pyodide from the pinned jsDelivr CDN (§6.2.4). They run in CI
+//     (open egress) and SKIP GRACEFULLY locally when jsDelivr is unreachable
+//     (e2e/py-helpers.ts skipUnlessPyodideReachable). See e2e/README.md.
+//
+// SELECTING A TIER (the CI e2e job runs the whole suite — both tiers):
+//   * only @py:      npx playwright test --grep @py
+//   * only non-@py:  npx playwright test --grep-invert @py
 //
 // Projects: chromium always runs locally; firefox and webkit are defined so
 // CI can run all three engines (§11) once those browsers are installed —
-// locally `--project=chromium` is enough.
+// locally `--project=chromium` is enough. The chromiumExecutableFallback below
+// reuses a browser under PLAYWRIGHT_BROWSERS_PATH (e.g. /opt/pw-browsers) when
+// the pinned revision is not installed (offline / egress-restricted sandboxes).
 
 import fs from 'node:fs';
 import path from 'node:path';

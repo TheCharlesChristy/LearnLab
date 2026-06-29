@@ -1,19 +1,29 @@
 #!/usr/bin/env node
 /* global process, console */
-// E2E build step (SRS §11 E2E row, AC-01 app half, decision D-001).
+// E2E build step (SRS §11 E2E row; AC-01 app half; AC-02/04/10 @py suite).
 //
-// P0 ships no public content, so the Playwright suite runs against the
-// fixture course tree in tests/fixtures/content/valid. This script proves
-// the AC-01 / C-5 invariant from the app side: content that exists only as
-// files (zero src/ changes) is validated, indexed and rendered by the app.
+// The Playwright suite needs TWO content trees in dist/content/:
 //
-//   1. node scripts/build-content.mjs --root tests/fixtures/content/valid
-//      (validates the tree and emits index.json into the fixture root)
-//   2. npx vite build with local base '/' (BASE=/ wins over CI in vite.config.ts)
-//   3. copy tests/fixtures/content/valid/** (incl. the generated index.json)
-//      into dist/content/
+//   * The REAL pilot modules (public/content): differentiation-1 @
+//     maths/alevel-pure with items/power-rule-quiz.py, and kinematics-suvat @
+//     maths/alevel-mechanics with items/projectile.py. The @py specs
+//     (py-ac02/04/10) drive these against real Pyodide. `vite build` copies
+//     public/ → dist/, so dist/content already holds the real modules.
 //
-// Idempotent: dist/content is replaced wholesale on every run.
+//   * The fixture course tree (tests/fixtures/content/valid). The existing
+//     AC-01/03/05/07 specs target it (decision D-001): content that exists
+//     only as files (zero src/ changes) is validated, indexed and rendered —
+//     proving the C-5 invariant from the app side.
+//
+// Staging (idempotent — dist/content is rebuilt from public/ by vite each run):
+//   1. npx vite build with local base '/' (BASE=/ wins over CI in
+//      vite.config.ts) → dist/content holds the real pilot modules.
+//   2. merge-copy tests/fixtures/content/valid/* INTO dist/content/ WITHOUT
+//      deleting the real content (skip the fixture's own index.json; we
+//      regenerate it next). The fixture lives under maths/test-course, so the
+//      copy merges into the existing maths/ folder beside the real courses.
+//   3. run build-content against dist/content so index.json lists BOTH the
+//      fixture course AND the four real pilot courses (§4.2 catalogue).
 //
 // Usage: node scripts/e2e-prepare.mjs   (also run by playwright.config.ts webServer)
 
@@ -44,27 +54,66 @@ function run(label, command, args, extraEnv = {}) {
   }
 }
 
-// 1. Validate the fixture content tree and emit its index.json (§4.7).
-run('validating fixture content tree', process.execPath, [
-  path.join(repoRoot, 'scripts', 'build-content.mjs'),
-  '--root',
-  fixtureRoot,
-]);
-
-// 2. Build the app shell. BASE='/' keeps the local base even when CI=1
-//    (vite.config.ts: explicit BASE takes precedence over the CI default).
-run('building app (vite build)', 'npx', ['vite', 'build'], { BASE: '/' });
-
-// 3. Serve the fixture tree as the app's content root (replaces the empty
-//    public/content/index.json that vite copied into dist/).
-fs.rmSync(distContent, { recursive: true, force: true });
-fs.cpSync(fixtureRoot, distContent, {
-  recursive: true,
-  filter: (src) => !src.split(path.sep).includes('__pycache__'),
+// 1. Build the app shell (vite build copies public/content → dist/content,
+//    so the REAL pilot modules ship into the served content root). BASE='/'
+//    keeps the local base even when CI=1 (vite.config.ts: explicit BASE wins).
+run('building app (vite build, real public/content included)', 'npx', ['vite', 'build'], {
+  BASE: '/',
 });
 
-if (!fs.existsSync(path.join(distContent, 'index.json'))) {
-  console.error('e2e-prepare: dist/content/index.json missing after copy');
+if (!fs.existsSync(distContent)) {
+  console.error('e2e-prepare: dist/content missing after vite build');
   process.exit(1);
 }
-console.log('e2e-prepare: OK — fixture content copied into dist/content/');
+
+// 2. Merge-copy the fixture tree INTO dist/content (do NOT delete real
+//    content). Skip the fixture's own index.json (regenerated in step 3) and
+//    any __pycache__ artefacts (not valid content; build-content would py_compile
+//    real .py only). cpSync merges into existing directories (force overwrite),
+//    so maths/test-course lands beside the real maths/alevel-* courses.
+console.log('e2e-prepare: merging fixture course tree into dist/content');
+fs.cpSync(fixtureRoot, distContent, {
+  recursive: true,
+  force: true,
+  filter: (src) => {
+    const parts = src.split(path.sep);
+    if (parts.includes('__pycache__')) return false;
+    // The fixture's own index.json is stale here; build-content regenerates it.
+    if (path.basename(src) === 'index.json' && path.dirname(src) === fixtureRoot) return false;
+    return true;
+  },
+});
+
+// 3. Regenerate dist/content/index.json by validating + indexing the MERGED
+//    tree, so the catalogue lists the fixture course AND the four real pilots
+//    (§4.7 step 6). build-content emits <root>/index.json scanning <root>/**.
+run('regenerating dist/content/index.json (build-content over merged tree)', process.execPath, [
+  path.join(repoRoot, 'scripts', 'build-content.mjs'),
+  '--root',
+  distContent,
+]);
+
+// 4. Sanity-check: index.json exists and lists both the fixture course and the
+//    real pilot courses, so a misconfigured merge fails loudly here.
+const indexPath = path.join(distContent, 'index.json');
+if (!fs.existsSync(indexPath)) {
+  console.error('e2e-prepare: dist/content/index.json missing after regeneration');
+  process.exit(1);
+}
+const index = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+const courseIds = new Set(
+  (index.subjects ?? []).flatMap((s) => (s.courses ?? []).map((c) => c.id)),
+);
+const required = ['test-course', 'alevel-pure', 'alevel-mechanics', 'alevel-cs', 'ai-foundations'];
+const missing = required.filter((id) => !courseIds.has(id));
+if (missing.length > 0) {
+  console.error(
+    `e2e-prepare: dist/content/index.json is missing expected course(s): ${missing.join(', ')}\n` +
+      `  found: ${[...courseIds].sort().join(', ')}`,
+  );
+  process.exit(1);
+}
+console.log(
+  `e2e-prepare: OK — dist/content has ${courseIds.size} courses ` +
+    `(fixture + real pilots): ${[...courseIds].sort().join(', ')}`,
+);

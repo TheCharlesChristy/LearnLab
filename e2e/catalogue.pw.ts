@@ -16,13 +16,26 @@ test.describe('AC-01 catalogue and content rendering (fixture content, zero src/
   }) => {
     await page.goto('/');
 
-    // Subject section (§4.2 index: maths → "Mathematics").
-    await expect(page.getByRole('heading', { name: 'Mathematics' })).toBeVisible();
+    // Subject section (§4.2 index: maths → "Mathematics"). exact:true — the
+    // maths subject now also lists real pilot courses (e.g. "A-level Pure
+    // Mathematics"), so disambiguate from those course-title headings.
+    await expect(page.getByRole('heading', { name: 'Mathematics', exact: true })).toBeVisible();
 
-    // Course card: title link, level badge, module count (FR-SHELL-002).
-    await expect(page.getByRole('link', { name: 'Pipeline Test Course' })).toBeVisible();
-    await expect(page.getByText('A-level', { exact: true })).toBeVisible();
-    await expect(page.getByText(/1 module ·/)).toBeVisible();
+    // Fixture course card: title link, level badge, module count
+    // (FR-SHELL-002). The level/module assertions are scoped to the fixture
+    // card, since the real pilots also render "A-level" and "1 module ·".
+    const fixtureLink = page.getByRole('link', { name: 'Pipeline Test Course' });
+    await expect(fixtureLink).toBeVisible();
+    // The fixture course card is the smallest container holding both the title
+    // link and the module-count line (CourseCard is a <div> Card, not a
+    // landmark, so filter rather than role-scope).
+    const fixtureCard = page
+      .locator('div')
+      .filter({ has: fixtureLink })
+      .filter({ hasText: /module ·/ })
+      .last();
+    await expect(fixtureCard.getByText('A-level', { exact: true })).toBeVisible();
+    await expect(fixtureCard.getByText(/1 module ·/)).toBeVisible();
   });
 
   test('AC-01: course → module → lesson renders the fixture lesson markdown', async ({ page }) => {
