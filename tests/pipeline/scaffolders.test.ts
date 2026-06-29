@@ -169,16 +169,32 @@ describe('new-item.mjs (FR-AUTH-002)', () => {
   );
 
   it(
-    'errors helpfully for kinds whose template ships in P1',
+    'scaffolds the quiz/simulation/plot templates (shipped in P1, §6.13)',
+    () => {
+      for (const kind of ['quiz', 'simulation', 'plot']) {
+        const dir = tempDir();
+        const { status, output } = run('new-item.mjs', [
+          '--kind', kind,
+          '--name', kind,
+          '--dir', dir,
+        ]);
+        expect(status, output).toBe(0);
+        const created = fs.readFileSync(path.join(dir, 'items', `${kind}.py`), 'utf8');
+        expect(created).toContain('class Item');
+      }
+    },
+    TIMEOUT,
+  );
+
+  it(
+    'errors helpfully for an unknown --kind',
     () => {
       const { status, output } = run('new-item.mjs', [
-        '--kind', 'simulation',
-        '--name', 'sim',
+        '--kind', 'frobnicate',
+        '--name', 'x',
         '--dir', tempDir(),
       ]);
       expect(status, output).not.toBe(0);
-      expect(output).toContain('P1');
-      expect(output).toContain('blank');
     },
     TIMEOUT,
   );
