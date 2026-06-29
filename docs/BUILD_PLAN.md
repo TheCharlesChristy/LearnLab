@@ -97,8 +97,15 @@ minimal importable `learnsdk`/`courselib` packages (activates CI python job).
 
 ### Progress (live)
 
-- **merged:** T1.C, T1.1, T1.2, T1.3, T1.4, T1.5, T1.6, T1.7, T1.8, T1.9, T1.W, T1.10, T1.11 (all 4 pilot modules) + glue (`getItemState`, `src/python` barrel).
-- **dispatched:** T1.12 (@py gate e2e).
-- Full-tree `build-content --strict` green (4 courses / 4 modules MVC); full build green (entry 122 KB gz; all chunks within budget); ~400 Vitest + 166 pytest passing.
-- **Environment note:** the Pyodide CDN (cdn.jsdelivr.net) is blocked by the sandbox egress policy (403, org denial), so the real-Pyodide `@py` smoke (AC-02/04/10) runs in CI, not locally — like AC-06 (Lighthouse). Local evidence for the SDK halves: `python/tests/test_reference_items.py` (T1.10).
+- **merged:** ALL P1 tasks — T1.C, T1.1, T1.2, T1.3, T1.4, T1.5, T1.6, T1.7, T1.8, T1.9, T1.W, T1.10, T1.11 (4 pilot modules), T1.12 (@py gate e2e) + glue (`getItemState`, `src/python` barrel, @py chromium-only CI fix).
+
+### Gate P1 — status (local green; @py CI-gated)
+
+Local (all green): eslint, tsc, `build-content --strict` (4 courses / 4 modules, MVC ◆),
+Vitest 416 passed / 7 skipped, pytest 166 passed / 5 skipped, ruff clean, full build within
+NFR-PERF-001 budgets (entry 122 KB gz), non-`@py` e2e 8/8 (chromium).
+
+- **AC-02 / AC-04 / AC-10:** `@py` Playwright specs authored (Chromium-only per §11) — run in **CI**, not this sandbox (Pyodide CDN `cdn.jsdelivr.net` is an org egress denial here; self-host can't fetch the dist either). Local evidence for the SDK halves: `python/tests/test_reference_items.py` (quiz scores 3/3 + scored PROGRESS; projectile ticks/persists/completes). `@py` self-skips locally.
+- **AC-06:** Lighthouse — deploy-pipeline/CI (documented, `e2e/lighthouse-check.md`).
+- CI configured: 3 engines installed; `@py` restricted to chromium.
 
