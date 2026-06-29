@@ -67,7 +67,9 @@ jobs:
       - run: npm ci
       - name: Install Playwright browsers
         if: hashFiles('playwright.config.ts') != ''
-        run: npx playwright install --with-deps chromium
+        # 3 engines for the general suite (NFR-COMPAT-001); the @py smoke is
+        # Chromium-only (§11). CI has network so Pyodide loads from the CDN.
+        run: npx playwright install --with-deps chromium firefox webkit
       - name: Playwright suite
         if: hashFiles('playwright.config.ts') != ''
         run: npm run test:e2e
