@@ -6,7 +6,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    # main (§10.3) + the orchestrator dev branches, so CI runs and is visible on
+    # GitHub Actions before a PR/merge to main exists. deploy.yml stays main-only.
+    branches: [main, "claude/**"]
   pull_request:
 
 jobs:
