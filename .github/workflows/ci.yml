@@ -75,3 +75,13 @@ jobs:
       - name: Playwright suite
         if: hashFiles('playwright.config.ts') != ''
         run: npm run test:e2e
+      - name: Upload Playwright report (failure diagnostics)
+        if: ${{ !cancelled() && hashFiles('playwright.config.ts') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+          if-no-files-found: ignore
