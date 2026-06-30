@@ -113,18 +113,14 @@ async function answerCurrentQuestion(item: Locator): Promise<void> {
   if (q.kind === 'mcq') {
     // "The derivative of a constant is…" — correct choice is "0".
     //
-    // RadioGroup (src/python/components/input.tsx) is fully controlled by the
-    // Python-side `value` prop with no local optimistic state (§3.4 step 6:
-    // the host only re-renders AFTER the worker round trip). A native click
-    // toggles the DOM checkbox immediately, but React's controlled-input
-    // reconciliation reverts it on the same tick because the `checked` prop
-    // hasn't changed yet — then the EVENT round trip (sub-50ms, NFR-PY-003)
-    // delivers a fresh RENDER with the updated value and it becomes checked
-    // again, correctly. Playwright's `.check()` action asserts the state
-    // synchronously after the click and fails on that revert, so use a plain
-    // `.click()` + a polling `expect(...).toBeChecked()` (web-first
-    // assertions retry) to await the eventually-consistent, round-trip-
-    // confirmed state instead.
+    // Click + a polling `expect(...).toBeChecked()` rather than `.check()`'s
+    // single synchronous post-click assertion: the EVENT→RENDER round trip
+    // (§3.4 step 6) means the host only reflects the new selection once the
+    // worker replies, so the confirmed state is reached a beat after the
+    // click, not on it. (This shape also caught a real RadioGroup bug —
+    // §6.7's index-based `value` contract was compared against option TEXT
+    // host-side, so no option ever showed checked, deterministically; fixed
+    // in src/python/components/input.tsx.)
     const correctRadio = item.getByRole('radio', { name: '0', exact: true });
     await correctRadio.click();
     await expect(correctRadio).toBeChecked();
