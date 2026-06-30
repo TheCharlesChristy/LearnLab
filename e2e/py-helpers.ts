@@ -14,8 +14,23 @@
 //
 // The fixture suite (AC-01/03/05/07) lives in helpers.ts and is unaffected.
 
-import { test } from '@playwright/test';
-import type { Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
+
+/**
+ * Scroll a PyItem container into view, retrying the whole action if it
+ * detaches mid-scroll. PyItemHost briefly renders a "loading saved progress"
+ * wrapper (a DIFFERENT element, data-py-item-host) until its async
+ * getItemState read resolves, then swaps to the real PyItem (data-py-item) —
+ * that swap can land mid-action right after navigation and detach the
+ * element Playwright is actively scrolling. A single scrollIntoViewIfNeeded
+ * call doesn't recover from that; retrying the whole action does.
+ */
+export async function scrollPyItemIntoView(item: Locator): Promise<void> {
+  await expect(async () => {
+    await item.scrollIntoViewIfNeeded();
+  }).toPass({ timeout: 15_000 });
+}
 
 /**
  * Attach console/pageerror/requestfailed capture to a page and print it to

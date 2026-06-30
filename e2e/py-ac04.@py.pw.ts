@@ -19,6 +19,7 @@ import {
   PYODIDE_READY_TIMEOUT,
   logBrowserDiagnostics,
   readAttempts,
+  scrollPyItemIntoView,
   skipUnlessPyodideReachable,
 } from './py-helpers';
 
@@ -42,7 +43,7 @@ test.describe('@py AC-04 projectile sim works offline (real Pyodide + SW cache)'
     // --- 1. ONLINE: load the lesson, runtime loads, the sim renders. --------
     await page.goto(LESSON_URL);
     const item = page.locator(`[data-py-item="${ITEM_ID}"]`);
-    await item.scrollIntoViewIfNeeded();
+    await scrollPyItemIntoView(item);
 
     // Runtime-loading card resolves into the rendered sim: the projectile
     // Canvas (role="img", §6.7) and a "Launch" button (§6.13(b)).
@@ -76,7 +77,7 @@ test.describe('@py AC-04 projectile sim works offline (real Pyodide + SW cache)'
     });
 
     const offlineItem = page.locator(`[data-py-item="${ITEM_ID}"]`);
-    await offlineItem.scrollIntoViewIfNeeded();
+    await scrollPyItemIntoView(offlineItem);
     // Pyodide + bundle served from the SW cache (FR-PWA-003): the sim renders
     // again with no network.
     const offlineCanvas = offlineItem.getByRole('img', { name: 'Interactive canvas' });

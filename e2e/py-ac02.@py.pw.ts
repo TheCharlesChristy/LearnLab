@@ -22,6 +22,7 @@ import {
   logBrowserDiagnostics,
   readAttempts,
   readModuleState,
+  scrollPyItemIntoView,
   skipUnlessPyodideReachable,
   solvePowerRuleQuestion,
 } from './py-helpers';
@@ -50,7 +51,7 @@ test.describe('@py AC-02 power-rule QuizItem (real Pyodide)', () => {
     // The embedded Python item mounts inside its container; scrolling it into
     // view triggers PyHost.ensureRuntime() (FR-PY-002, IntersectionObserver).
     const item = page.locator(`[data-py-item="${ITEM_ID}"]`);
-    await item.scrollIntoViewIfNeeded();
+    await scrollPyItemIntoView(item);
 
     // While loading, the determinate-ish runtime card is shown (FR-PY-003).
     // Wait for it to RESOLVE into rendered quiz UI: the first question prompt
@@ -111,7 +112,22 @@ async function answerCurrentQuestion(item: Locator): Promise<void> {
 
   if (q.kind === 'mcq') {
     // "The derivative of a constant is…" — correct choice is "0".
-    await item.getByRole('radio', { name: '0', exact: true }).check();
+    //
+    // RadioGroup (src/python/components/input.tsx) is fully controlled by the
+    // Python-side `value` prop with no local optimistic state (§3.4 step 6:
+    // the host only re-renders AFTER the worker round trip). A native click
+    // toggles the DOM checkbox immediately, but React's controlled-input
+    // reconciliation reverts it on the same tick because the `checked` prop
+    // hasn't changed yet — then the EVENT round trip (sub-50ms, NFR-PY-003)
+    // delivers a fresh RENDER with the updated value and it becomes checked
+    // again, correctly. Playwright's `.check()` action asserts the state
+    // synchronously after the click and fails on that revert, so use a plain
+    // `.click()` + a polling `expect(...).toBeChecked()` (web-first
+    // assertions retry) to await the eventually-consistent, round-trip-
+    // confirmed state instead.
+    const correctRadio = item.getByRole('radio', { name: '0', exact: true });
+    await correctRadio.click();
+    await expect(correctRadio).toBeChecked();
   } else {
     // Numeric: single labelled textbox ("Your answer", §6.8 NumberInput).
     await item.getByRole('textbox').fill(String(q.answer));

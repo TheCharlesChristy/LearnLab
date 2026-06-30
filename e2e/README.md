@@ -90,6 +90,24 @@ AC-10 is a *duration* target on the reference machine; the gated *quantity*
 window the unmodified item allows. A continuous 20 s run would require a
 non-pausing sim variant (a content/app change, out of scope here).
 
+**Reference-machine scoping.** §12 AC-10 and §6.14 NFR-PY-004 both gate the
+30 Hz / ≤5 %-missed-ticks bar on **"the reference machine"** — the same scoping
+AC-06/Lighthouse already gets (deferred to a controlled environment, not
+asserted in this CI job; see below). A shared GitHub Actions runner doing real
+Pyodide/WASM CPython work measured a *consistent* ~22 Hz across repeated runs —
+not noisy jitter, but a stable throughput ceiling: each `TICK` round trip costs
+~45 ms there, which is itself within the separate NFR-PY-003 budget (≤ 50 ms
+p95) but too slow to sustain a 33.3 ms (30 Hz) cadence. So `py-ac10.@py.pw.ts`:
+- **always hard-gates mechanism correctness** — a multi-second flight window,
+  ticks actually applied, and `sim_time` integrating wall-clock time exactly
+  (no double/missed accounting);
+- **hard-gates the 28.5 Hz NFR-PY-004 cadence only** when
+  `LEARNLAB_REFERENCE_MACHINE=1` is set (run manually on verified reference
+  hardware to make a formal AC-10 release determination);
+- otherwise logs the measured rate as a non-blocking warning/annotation, so
+  shared-CI hardware variance can't fail Gate P1 on a bound the SRS itself
+  scopes to different hardware.
+
 ## Local CPython evidence for the SDK halves
 
 The @py specs can only be *seen* passing in CI. The Python-side behaviour of the
