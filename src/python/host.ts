@@ -95,8 +95,15 @@ export type WorkerFactory = () => WorkerLike;
 
 const PERSIST_DEBOUNCE_MS = 500; // §6.3 PERSIST trailing debounce.
 
+// §6.2.2: the worker boots via `self.importScripts(pyodideBaseUrl + 'pyodide.js')`,
+// a CLASSIC-worker-only API ('module' workers reject importScripts). Vite's
+// default worker build format is 'iife' (no override in vite.config.ts), which
+// bundles worker.ts's one runtime import (./protocol) into a self-contained
+// classic script — so { type: 'classic' } is correct here, not 'module'.
 const defaultWorkerFactory: WorkerFactory = () =>
-  new Worker(new URL('./worker.ts', import.meta.url), { type: 'module' }) as unknown as WorkerLike;
+  new Worker(new URL('./worker.ts', import.meta.url), {
+    type: 'classic',
+  }) as unknown as WorkerLike;
 
 /** Same-origin URL of the SDK bundle produced by build-python-bundle.mjs. */
 function defaultBundleUrl(): string {
