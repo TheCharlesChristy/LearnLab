@@ -198,15 +198,17 @@ export const Select: React.FC<PyComponentProps> = ({ node }) => {
 };
 
 // ---------------------------------------------------------------------------
-// RadioGroup — on_change(index: int). value is the selected option STRING;
-// we emit its index (§6.7). Rendered as a labelled <fieldset> radiogroup.
+// RadioGroup — value is the selected option's INDEX (consistent with
+// on_change(index: int) and with CheckboxGroup's index-based `values`); -1 (or
+// any non-matching number) means "nothing selected". Rendered as a labelled
+// <fieldset> radiogroup.
 
 export const RadioGroup: React.FC<PyComponentProps> = ({ node }) => {
   const { emit } = usePyRender();
   const name = useId();
   const token = handler(node.props, 'on_change');
   const options = strList(node.props, 'options');
-  const value = str(node.props, 'value');
+  const value = num(node.props, 'value', -1);
   return (
     <fieldset className="flex flex-col gap-1">
       <legend className={LABEL}>{str(node.props, 'label')}</legend>
@@ -215,7 +217,7 @@ export const RadioGroup: React.FC<PyComponentProps> = ({ node }) => {
           <input
             type="radio"
             name={name}
-            checked={opt === value}
+            checked={i === value}
             onChange={() => token !== undefined && emit(token, i)}
             className="accent-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:accent-indigo-400"
           />

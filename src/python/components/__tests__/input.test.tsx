@@ -151,13 +151,28 @@ describe('Select', () => {
 });
 
 describe('RadioGroup', () => {
+  it('checks the option matching the value INDEX (not its text)', () => {
+    renderComponent(
+      RadioGroup,
+      makeNode('RadioGroup', {
+        label: 'Pick',
+        options: ['one', 'two', 'three'],
+        value: 1,
+        on_change: H('h_radio'),
+      }),
+    );
+    expect(screen.getByRole('radio', { name: 'two' })).toBeChecked();
+    expect(screen.getByRole('radio', { name: 'one' })).not.toBeChecked();
+    expect(screen.getByRole('radio', { name: 'three' })).not.toBeChecked();
+  });
+
   it('emits the selected index (not the label)', async () => {
     const { emit } = renderComponent(
       RadioGroup,
       makeNode('RadioGroup', {
         label: 'Pick',
         options: ['one', 'two', 'three'],
-        value: 'one',
+        value: -1,
         on_change: H('h_radio'),
       }),
     );
