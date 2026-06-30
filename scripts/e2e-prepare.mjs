@@ -54,12 +54,29 @@ function run(label, command, args, extraEnv = {}) {
   }
 }
 
-// 1. Build the app shell (vite build copies public/content → dist/content,
-//    so the REAL pilot modules ship into the served content root). BASE='/'
-//    keeps the local base even when CI=1 (vite.config.ts: explicit BASE wins).
+// 1a. Build the Python SDK bundle. public/python-bundle.zip is gitignored
+//     (generated artifact, §3.3), so a fresh checkout — which is what every CI
+//     job gets, including the e2e job, which does NOT share a filesystem with
+//     the web job that calls `npm run build` — has none on disk until this
+//     runs. Skipping it means `vite build` copies no bundle into dist/, the
+//     worker's bundle fetch 404s, and every @py item hangs forever at
+//     "loading LearnLab SDK…" (§6.2.2 step 2) with no visible error.
+run('building python-bundle.zip (§6.2.2)', process.execPath, [
+  path.join(repoRoot, 'scripts', 'build-python-bundle.mjs'),
+]);
+
+// 1b. Build the app shell (vite build copies public/content → dist/content,
+//    so the REAL pilot modules ship into the served content root, and
+//    public/python-bundle.zip → dist/python-bundle.zip). BASE='/' keeps the
+//    local base even when CI=1 (vite.config.ts: explicit BASE wins).
 run('building app (vite build, real public/content included)', 'npx', ['vite', 'build'], {
   BASE: '/',
 });
+
+if (!fs.existsSync(path.join(distDir, 'python-bundle.zip'))) {
+  console.error('e2e-prepare: dist/python-bundle.zip missing after vite build');
+  process.exit(1);
+}
 
 if (!fs.existsSync(distContent)) {
   console.error('e2e-prepare: dist/content missing after vite build');
