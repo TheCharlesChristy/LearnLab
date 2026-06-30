@@ -33,8 +33,16 @@ const pwaPlugin = VitePWA({
     ],
   },
   workbox: {
-    // Precache the app shell incl. KaTeX woff2 fonts (FR-PWA-001).
-    globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+    // Precache the app shell incl. KaTeX woff2 fonts (FR-PWA-001) AND
+    // python-bundle.zip (§6.2.2 step 2, FR-PWA-003): it's a same-origin
+    // root-level asset matching neither the /content/ nor the Pyodide-CDN
+    // runtime-caching rule below, so without precache it's unreachable
+    // offline — the worker's bundle fetch silently fails and every Python
+    // item is stuck forever, even after a full online visit (caught by the
+    // AC-04 @py e2e test). It's a normal `dist/` build artifact, so
+    // vite-plugin-pwa content-hashes/revisions it like any other precached
+    // file — a content change (e.g. via FR-PYDX-001 rebuilds) busts the entry.
+    globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2,zip}'],
     runtimeCaching: [
       {
         // Same-origin course content (FR-PWA-002). A path-only RegExp can
