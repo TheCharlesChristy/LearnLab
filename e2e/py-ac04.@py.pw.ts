@@ -15,7 +15,12 @@
 import { expect, test } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
 
-import { PYODIDE_READY_TIMEOUT, readAttempts, skipUnlessPyodideReachable } from './py-helpers';
+import {
+  PYODIDE_READY_TIMEOUT,
+  logBrowserDiagnostics,
+  readAttempts,
+  skipUnlessPyodideReachable,
+} from './py-helpers';
 
 const MODULE_ID = 'kinematics-suvat';
 const LESSON_ID = 'projectiles';
@@ -32,6 +37,7 @@ test.describe('@py AC-04 projectile sim works offline (real Pyodide + SW cache)'
     context,
   }) => {
     test.setTimeout(240_000);
+    logBrowserDiagnostics(page, 'AC-04');
 
     // --- 1. ONLINE: load the lesson, runtime loads, the sim renders. --------
     await page.goto(LESSON_URL);

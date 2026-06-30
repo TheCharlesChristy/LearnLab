@@ -19,6 +19,7 @@ import type { Locator } from '@playwright/test';
 
 import {
   PYODIDE_READY_TIMEOUT,
+  logBrowserDiagnostics,
   readAttempts,
   readModuleState,
   skipUnlessPyodideReachable,
@@ -42,6 +43,7 @@ test.describe('@py AC-02 power-rule QuizItem (real Pyodide)', () => {
     // Cold Pyodide + bundle unpack + quiz run. Allow well beyond the cold-load
     // ceiling (NFR-PY-001 ≤ 20 s) plus the run itself.
     test.setTimeout(180_000);
+    logBrowserDiagnostics(page, 'AC-02');
 
     await page.goto(`/#/module/${MODULE_ID}/lesson/${LESSON_ID}`);
 

@@ -17,6 +17,24 @@
 import { test } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
+/**
+ * Attach console/pageerror/requestfailed capture to a page and print it to
+ * stdout (visible in the CI job log, unlike trace/HTML-report artifacts that
+ * require a separate download) so a failing @py test is diagnosable from
+ * `get_job_logs` alone. Call once per test, before navigating.
+ */
+export function logBrowserDiagnostics(page: Page, label: string): void {
+  page.on('console', (msg) => {
+    console.log(`[${label}][console:${msg.type()}] ${msg.text()}`);
+  });
+  page.on('pageerror', (err) => {
+    console.log(`[${label}][pageerror] ${err.message}`);
+  });
+  page.on('requestfailed', (req) => {
+    console.log(`[${label}][requestfailed] ${req.url()} :: ${req.failure()?.errorText}`);
+  });
+}
+
 // Mirror of src/config.ts (the e2e tsconfig does not include src/). Keep in
 // sync: this is the exact CDN the worker loads Pyodide from (§6.2.4).
 export const PYODIDE_VERSION = '0.27.7';

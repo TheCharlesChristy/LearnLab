@@ -33,7 +33,7 @@
 import { expect, test } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
 
-import { PYODIDE_READY_TIMEOUT, skipUnlessPyodideReachable } from './py-helpers';
+import { PYODIDE_READY_TIMEOUT, logBrowserDiagnostics, skipUnlessPyodideReachable } from './py-helpers';
 
 const MODULE_ID = 'kinematics-suvat';
 const LESSON_ID = 'projectiles';
@@ -52,6 +52,7 @@ test.describe('@py AC-10 projectile sustains 30 Hz ticks (real Pyodide)', () => 
     page,
   }) => {
     test.setTimeout(180_000);
+    logBrowserDiagnostics(page, 'AC-10');
 
     await page.goto(`/#/module/${MODULE_ID}/lesson/${LESSON_ID}`);
     const item = page.locator(`[data-py-item="${ITEM_ID}"]`);
