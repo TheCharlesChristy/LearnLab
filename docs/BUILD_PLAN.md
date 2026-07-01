@@ -154,13 +154,30 @@ Full design in the approved plan (see session); summary below.
    the orchestrator (mechanics + statistics get 100% coverage, not sampled — see verification
    notes below). Two content agents were interrupted mid-run by a session-limit blip and resumed
    via `SendMessage` with no loss of work (their temp-root state survived).
-3. **Waves 3–5 (next):** `alevel-pure`'s 15 modules in 3 batches of 5, following §8.2's listed
-   order (proof/indices-and-surds/quadratics-and-inequalities/algebraic-methods/
-   coordinate-geometry; sequences-and-series/binomial-expansion/trigonometry-1/trigonometry-2/
-   exponentials-and-logarithms; differentiation-2/integration-1/integration-2/
-   numerical-methods/vectors).
-4. **Gate P2:** full-tree `--strict` (27 modules / 3 courses), vitest/eslint/tsc, non-`@py` e2e
-   regression, `git diff --stat` audit against the stated allowlist.
+3. **Waves 3–5 (merged, dispatched as one combined wave of 15 rather than 3×5 batches — justified
+   by the proven reliability of the `SendMessage` resume mechanism from Wave 2):** all 15
+   `alevel-pure` modules, `course.json` wired with all 16 ModuleRefs in §8.2 order. 10 of 15
+   agents hit a session-limit rate-limit mid-task; every one resumed cleanly via `SendMessage`
+   with zero work lost (temp-root state survived in every case). Every assessment answer across
+   all 15 modules independently re-verified by the orchestrator (SymPy/Python cross-checks for
+   calculus, hand arithmetic for algebra/trig/vectors/numerical methods) — zero discrepancies
+   found.
+4. **Gate P2 — GREEN (2026-07-01):** full-tree `--strict` passes clean (5 courses, 29 modules);
+   full `vitest run` (467 passed, 7 skipped); `eslint .` and `tsc --noEmit` both clean;
+   `playwright test --grep-invert @py` — all 8 Chromium-based specs pass (firefox/webkit fail only
+   on missing browser binaries in this sandbox, a pre-existing environment gap, not a regression);
+   `git diff --stat` from the Gate-P1 commit confirms every changed file outside
+   `public/content/**` is in the approved allowlist (`lesson-context.ts`, `LessonPage.tsx`,
+   `AssessmentPage.tsx`, `build-content.mjs`, `src/widgets/{logic-gate-sim,flashcards}/**`,
+   `registry.ts`, `keys.json`, `docs/WIDGETS.md`, 6 test-mock updates, `docs/BUILD_PLAN.md`/
+   `DECISIONS.md`), and the content diff touches only `alevel-mechanics`/`alevel-statistics`/
+   `alevel-pure`.
+
+Found and fixed one real bug during Gate P2: the FR-WID-002 doc-coverage test mutated the real
+repo `docs/WIDGETS.md` in place to exercise its failure path, racing any other test file shelling
+out to `build-content.mjs` concurrently (checkWidgetDocs always reads that file regardless of
+`--root`). Added a `--docs-file` CLI override (test-only seam) so the test uses a scratch copy
+instead of shared repo state.
 
 ### Wave 2 verification notes
 
