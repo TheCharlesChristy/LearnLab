@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "addition-rule-check",
+  "title": "Quick check: complement and addition rule",
+  "shuffleQuestions": false,
+  "shuffleChoices": false,
+  "questions": [
+    {
+      "id": "arc-q1",
+      "type": "numeric",
+      "text": "$P(A) = 0.65$. Find $P(A')$.",
+      "answer": 0.35,
+      "tolerance": 0.001,
+      "explanation": "$P(A') = 1 - P(A) = 1 - 0.65 = 0.35$."
+    },
+    {
+      "id": "arc-q2",
+      "type": "mcq",
+      "text": "Events $A$ and $B$ are mutually exclusive with $P(A) = 0.2$ and $P(B) = 0.5$. What is $P(A \\cup B)$?",
+      "choices": ["$0.1$", "$0.6$", "$0.7$", "$1.0$"],
+      "answer": 2,
+      "explanation": "Mutually exclusive events cannot both occur, so $P(A \\cap B) = 0$ and $P(A \\cup B) = P(A) + P(B) = 0.2 + 0.5 = 0.7$."
+    }
+  ]
+}

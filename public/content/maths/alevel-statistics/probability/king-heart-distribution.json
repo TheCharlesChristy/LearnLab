@@ -1,0 +1,11 @@
+{
+  "kind": "bar",
+  "xLabel": "event",
+  "yLabel": "probability",
+  "series": [
+    {
+      "name": "P(event)",
+      "points": [[0, 0.0769], [1, 0.25], [2, 0.0192], [3, 0.3077]]
+    }
+  ]
+}
