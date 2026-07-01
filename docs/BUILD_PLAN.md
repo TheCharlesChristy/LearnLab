@@ -179,6 +179,17 @@ out to `build-content.mjs` concurrently (checkWidgetDocs always reads that file 
 `--root`). Added a `--docs-file` CLI override (test-only seam) so the test uses a scratch copy
 instead of shared repo state.
 
+**5. CI confirmation (2026-07-01, real GitHub Actions — all 3 Playwright engines available there,
+unlike this sandbox):** pushing Gate P2's commit surfaced a real webkit-only e2e failure
+(`progress-roundtrip.pw.ts`, deterministic across all 3 Playwright retries — chromium/firefox
+green) in code that predates P2 and that the P2 diff never touched. Root-caused to an optimistic
+UI update in `LessonPage.tsx`'s manual-completion handler (showed "Lesson completed" before the
+`markLessonComplete` write resolved) — fixed by reordering the await (D-017). Could not be
+reproduced locally (this sandbox has no webkit binary and the available GitHub token lacks
+`actions:write`/artifact-download scope), so the fix was verified the only way available: pushed
+and re-ran real CI. The next run (`8eb8bef1`) is **fully green — python, web, and e2e (chromium +
+firefox + webkit) all pass.** Gate P2 is CI-confirmed green, matching P0/P1's bar.
+
 ### Wave 2 verification notes
 
 All 10 mechanics/statistics assessments were independently re-derived by the orchestrator (not
