@@ -100,8 +100,8 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
 
   const complete = useMemo(
     () => async () => {
-      setCompletedNow(true);
       await markLessonComplete(moduleId, lessonId, meta);
+      setCompletedNow(true);
       await requestPersistentStorage();
     },
     [moduleId, lessonId, meta],
