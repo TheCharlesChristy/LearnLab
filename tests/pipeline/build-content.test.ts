@@ -199,27 +199,23 @@ describe('build-content.mjs — --strict MVC gate (§8.6)', () => {
 });
 
 describe('build-content.mjs — widget doc coverage (§7.3, FR-WID-002)', () => {
-  // This check reads the real repo's docs/WIDGETS.md (it's a fixed doc, not
-  // parameterized by --root), so the test backs it up and restores it via
-  // try/finally regardless of outcome — it must never leave the repo file
-  // mutated, even if an assertion below throws.
-  const docsFile = path.join(repoRoot, 'docs', 'WIDGETS.md');
+  // This check reads docs/WIDGETS.md, overridable via --docs-file so tests
+  // never need to mutate the real repo file in place — doing that would race
+  // other test files that shell out to this same script concurrently.
+  const realDocsFile = path.join(repoRoot, 'docs', 'WIDGETS.md');
 
   it(
     'fails, naming the widget, when a registered key has no matching heading',
     () => {
-      const original = fs.readFileSync(docsFile, 'utf8');
-      try {
-        const mutated = original.replace('## `figure`', '## `figure-renamed`');
-        expect(mutated).not.toBe(original); // sanity: the replace actually matched
-        fs.writeFileSync(docsFile, mutated);
-        const { status, output } = runBuild(path.join(fixtures, 'valid'));
-        expect(status, output).not.toBe(0);
-        expect(output).toContain('widget "figure" is registered');
-        expect(output).toContain('## `figure`');
-      } finally {
-        fs.writeFileSync(docsFile, original);
-      }
+      const original = fs.readFileSync(realDocsFile, 'utf8');
+      const mutated = original.replace('## `figure`', '## `figure-renamed`');
+      expect(mutated).not.toBe(original); // sanity: the replace actually matched
+      const scratchDocsFile = path.join(tempDir(), 'WIDGETS.md');
+      fs.writeFileSync(scratchDocsFile, mutated);
+      const { status, output } = runBuild(path.join(fixtures, 'valid'), '--docs-file', scratchDocsFile);
+      expect(status, output).not.toBe(0);
+      expect(output).toContain('widget "figure" is registered');
+      expect(output).toContain('## `figure`');
     },
     TIMEOUT,
   );

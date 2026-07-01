@@ -50,7 +50,12 @@ const CALLOUT_KINDS = ['info', 'tip', 'warning', 'key'];
 // CLI
 
 function parseCli(argv) {
-  const opts = { root: path.join(repoRoot, 'public', 'content'), strict: false, watch: false };
+  const opts = {
+    root: path.join(repoRoot, 'public', 'content'),
+    strict: false,
+    watch: false,
+    docsFile: path.join(repoRoot, 'docs', 'WIDGETS.md'),
+  };
   for (let i = 2; i < argv.length; i += 1) {
     const arg = argv[i];
     if (arg === '--root') {
@@ -62,6 +67,15 @@ function parseCli(argv) {
       opts.strict = true;
     } else if (arg === '--watch') {
       opts.watch = true;
+    } else if (arg === '--docs-file') {
+      // Test-only seam (§7.3, FR-WID-002 coverage test): lets a test point
+      // checkWidgetDocs at a scratch copy instead of mutating the real repo
+      // docs/WIDGETS.md, which would race other tests that shell out to this
+      // script concurrently. Not part of the documented CLI surface.
+      const value = argv[i + 1];
+      if (!value) fail('--docs-file requires a file argument');
+      opts.docsFile = path.resolve(value);
+      i += 1;
     } else {
       fail(`unknown argument: ${arg}\nusage: build-content.mjs [--root <dir>] [--strict] [--watch]`);
     }
@@ -627,8 +641,7 @@ function emitIndex(root, subjects, validators, reporter) {
 // gated on --strict) — this is an always-on M-priority invariant of
 // "registering a widget", not a content-strictness/MVC rule.
 
-function checkWidgetDocs(widgetKeys, reporter) {
-  const docsFile = path.join(repoRoot, 'docs', 'WIDGETS.md');
+function checkWidgetDocs(widgetKeys, docsFile, reporter) {
   const docsText = fs.existsSync(docsFile) ? fs.readFileSync(docsFile, 'utf8') : '';
   for (const key of widgetKeys) {
     const heading = `## \`${key}\``;
@@ -651,7 +664,7 @@ function runPipeline(opts) {
 
   // Step 1: regenerate + read the widget manifest.
   const widgetKeys = dumpWidgetKeys();
-  checkWidgetDocs(widgetKeys, reporter);
+  checkWidgetDocs(widgetKeys, opts.docsFile, reporter);
 
   const validators = makeValidators();
   const { subjects, moduleIds } = validateTree(opts.root, opts.strict, validators, widgetKeys, reporter);
