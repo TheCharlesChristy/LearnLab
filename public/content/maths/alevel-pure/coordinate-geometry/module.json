@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "coordinate-geometry",
+  "title": "Coordinate Geometry",
+  "description": "Straight lines and circles in the coordinate plane: gradients, equations of lines, parallel and perpendicular lines, midpoints and distances, the equation of a circle, and how lines and circles intersect.",
+  "estMinutes": 100,
+  "prerequisites": ["quadratics-and-inequalities"],
+  "objectives": [
+    "Calculate the gradient of a line joining two points and use it to test whether lines are parallel or perpendicular",
+    "Find the equation of a straight line in the forms y = mx + c and ax + by + c = 0",
+    "Find the midpoint of a line segment and the distance between two points",
+    "Recognise and write the equation of a circle (x-a)^2 + (y-b)^2 = r^2 and find its centre and radius by completing the square",
+    "Use the perpendicular-bisector property of a chord to find a circle's centre, and use the tangent-radius perpendicularity property",
+    "Find the points of intersection of a line and a circle by solving simultaneous equations that reduce to a quadratic"
+  ],
+  "tags": ["coordinate-geometry", "straight-lines", "circles", "gradient", "tangents"],
+  "lessons": [
+    { "id": "straight-lines", "title": "Straight lines: gradient, equations, parallel and perpendicular", "file": "01-straight-lines.md", "estMinutes": 35 },
+    { "id": "circles", "title": "The equation of a circle", "file": "02-circles.md", "estMinutes": 30 },
+    { "id": "lines-and-circles", "title": "Lines and circles: tangents, chords and intersections", "file": "03-lines-and-circles.md", "estMinutes": 35 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "numerical-methods",
+  "title": "Numerical Methods",
+  "description": "Locating roots by sign change, fixed-point iteration, the Newton-Raphson method, and the trapezium rule for approximating definite integrals.",
+  "estMinutes": 100,
+  "prerequisites": [
+    "differentiation-2",
+    "integration-1"
+  ],
+  "objectives": [
+    "TODO: state the first learner-facing outcome",
+    "TODO: state the second learner-facing outcome"
+  ],
+  "lessons": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "file": "01-introduction.md",
+      "estMinutes": 100
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "TODO-your-name"
+  ]
+}

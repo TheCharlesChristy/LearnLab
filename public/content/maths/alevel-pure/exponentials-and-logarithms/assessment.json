@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "id": "exponentials-and-logarithms-assessment",
+  "title": "End of module: Exponentials and Logarithms",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "For $y = a^x$ with $0 < a < 1$, which statement correctly describes the graph?",
+      "choices": [
+        "It is increasing and passes through $(0,1)$",
+        "It is decreasing and passes through $(0,1)$",
+        "It is decreasing and passes through $(1,0)$",
+        "It is a straight line through the origin"
+      ],
+      "answer": 1,
+      "explanation": "When $0<a<1$, $a^x$ decreases as $x$ increases (exponential decay), and every curve $y=a^x$ passes through $(0,1)$ since $a^0=1$."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "Which expression is equivalent to $\\log_a(x) = y$?",
+      "choices": ["$y^a = x$", "$a^y = x$", "$x^y = a$", "$a^x = y$"],
+      "answer": 1,
+      "explanation": "By definition, a logarithm is the inverse of an exponential: $\\log_a(x) = y$ means precisely $a^y = x$."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "Evaluate $\\log_2(64)$.",
+      "answer": 6,
+      "tolerance": 0.001,
+      "explanation": "$64 = 2^6$, so by the definition of a logarithm $\\log_2(64) = \\log_2(2^6) = 6$."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "Solve $5^x = 30$ for $x$, giving your answer to 3 decimal places.",
+      "answer": 2.113,
+      "tolerance": 0.005,
+      "explanation": "Take $\\ln$ of both sides: $x\\ln 5 = \\ln 30$, so $x = \\dfrac{\\ln 30}{\\ln 5} = \\dfrac{3.401197\\ldots}{1.609438\\ldots} = 2.11328\\ldots \\approx 2.113$."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "Simplify $\\ln(e^3)$.",
+      "answer": 3,
+      "tolerance": 0.001,
+      "explanation": "$\\ln$ and $e^{(\\cdot)}$ are inverse functions, so $\\ln(e^3) = 3$ directly (or: $\\ln(e^3) = 3\\ln e = 3 \\times 1 = 3$)."
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "text": "Which of the following correctly applies the laws of logarithms to write $\\log_a A + \\log_a B - \\log_a C$ as a single logarithm?",
+      "choices": [
+        "$\\log_a\\left(\\dfrac{AB}{C}\\right)$",
+        "$\\log_a(A + B - C)$",
+        "$\\log_a\\left(\\dfrac{A+B}{C}\\right)$",
+        "$\\log_a(ABC)$"
+      ],
+      "answer": 0,
+      "explanation": "The product law combines $\\log_a A + \\log_a B$ into $\\log_a(AB)$; the quotient law then subtracts $\\log_a C$ to give $\\log_a\\left(\\dfrac{AB}{C}\\right)$."
+    },
+    {
+      "id": "q7",
+      "type": "multi",
+      "text": "Select all statements that are correct applications of the laws of logarithms (for valid, positive arguments).",
+      "choices": [
+        "$\\log_a(A^n) = n\\log_a A$",
+        "$\\log_a(A) - \\log_a(B) = \\log_a\\left(\\dfrac{A}{B}\\right)$",
+        "$\\log_a(A) + \\log_a(B) = \\log_a(A+B)$",
+        "$\\log_a\\left(\\dfrac{1}{A}\\right) = -\\log_a A$"
+      ],
+      "answers": [0, 1, 3],
+      "explanation": "The power law gives $\\log_a(A^n)=n\\log_a A$ (true) and the quotient law gives $\\log_a A - \\log_a B = \\log_a(A/B)$ (true). $\\log_a\\left(\\frac{1}{A}\\right) = \\log_a(A^{-1}) = -\\log_a A$ (true, a special case of the power law). However $\\log_a A + \\log_a B = \\log_a(AB)$, **not** $\\log_a(A+B)$ — logs turn multiplication into addition, not addition into addition, so the third statement is false."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Solve $\\log_3(x+2) + \\log_3(x-2) = 2$ for $x > 2$.",
+      "answer": 3.606,
+      "tolerance": 0.01,
+      "explanation": "Combine with the product law: $\\log_3\\big((x+2)(x-2)\\big) = 2$, so $(x+2)(x-2) = 3^2 = 9$. Then $x^2 - 4 = 9$, so $x^2 = 13$ and $x = \\sqrt{13} \\approx 3.606$ (the negative root $x=-\\sqrt{13}$ is rejected since it fails $x>2$, which is needed for both logs to be defined)."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "A population of bacteria grows according to $P = 50e^{0.08t}$, where $t$ is in hours. Find the population after 15 hours, to the nearest whole number.",
+      "answer": 166,
+      "tolerance": 1,
+      "explanation": "Substitute $t=15$: $P = 50e^{0.08\\times15} = 50e^{1.2}$. Since $e^{1.2} = 3.320117\\ldots$, $P = 50 \\times 3.320117\\ldots = 166.006\\ldots \\approx 166$."
+    },
+    {
+      "id": "q10",
+      "type": "numeric",
+      "text": "A radioactive isotope decays according to $A = 200e^{-0.03t}$ (t in years). Find the half-life of the isotope, to 1 decimal place (the time for $A$ to fall to $100$).",
+      "answer": 23.1,
+      "tolerance": 0.1,
+      "explanation": "Set $A=100$: $100 = 200e^{-0.03t} \\Rightarrow 0.5 = e^{-0.03t}$. Taking $\\ln$: $\\ln(0.5) = -0.03t$, so $t = \\dfrac{\\ln(0.5)}{-0.03} = \\dfrac{-0.693147\\ldots}{-0.03} = 23.1049\\ldots \\approx 23.1$ years."
+    },
+    {
+      "id": "q11",
+      "type": "numeric",
+      "text": "\\$1000 is invested at a continuously compounded annual rate of 5%, so the balance after $t$ years is $A = 1000e^{0.05t}$. Find the balance after 8 years, to the nearest penny.",
+      "answer": 1491.82,
+      "tolerance": 0.02,
+      "explanation": "Substitute $t=8$: $A = 1000e^{0.05\\times8} = 1000e^{0.4}$. Since $e^{0.4} = 1.491825\\ldots$, $A = 1491.82$ to the nearest penny."
+    },
+    {
+      "id": "q12",
+      "type": "mcq",
+      "text": "An equation of the form $a^x = k$ (with $a>0$, $a\\ne1$, and $k \\le 0$) has:",
+      "choices": [
+        "Exactly one solution",
+        "Exactly two solutions",
+        "No real solution",
+        "Infinitely many solutions"
+      ],
+      "answer": 2,
+      "explanation": "Since $a^x > 0$ for every real $x$ (an exponential function never reaches zero or goes negative), the equation $a^x = k$ has no real solution when $k \\le 0$."
+    }
+  ]
+}

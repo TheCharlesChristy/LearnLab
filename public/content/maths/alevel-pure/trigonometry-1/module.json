@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "trigonometry-1",
+  "title": "Trigonometry I — Triangles, Radians and Trig Graphs",
+  "description": "Solve non-right-angled triangles with the sine and cosine rules and the area formula, work with radian measure, arc length and sector area, and learn the shapes, periods and exact values of the sine, cosine and tangent graphs.",
+  "estMinutes": 100,
+  "prerequisites": [
+    "coordinate-geometry"
+  ],
+  "objectives": [
+    "Apply the sine rule to find missing sides and angles in non-right-angled triangles, including recognising the ambiguous case",
+    "Apply the cosine rule to find missing sides and angles in non-right-angled triangles, and find the area using Area = (1/2)ab sin C",
+    "Convert between degrees and radians and use radian measure fluently",
+    "Calculate arc length and sector area using s = r*theta and Area = (1/2) r^2 theta",
+    "Sketch the graphs of sin, cos and tan, stating their period, shape and key features",
+    "Recall and use exact trigonometric values for 0, 30, 45, 60 and 90 degrees (and radian equivalents)"
+  ],
+  "tags": ["trigonometry", "sine-rule", "cosine-rule", "radians", "arc-length", "sector-area", "trig-graphs"],
+  "lessons": [
+    { "id": "sine-cosine-rules-area", "title": "The sine rule, cosine rule and area of a triangle", "file": "01-sine-cosine-rules-area.md", "estMinutes": 35 },
+    { "id": "radians-arcs-sectors", "title": "Radians, arc length and sector area", "file": "02-radians-arcs-sectors.md", "estMinutes": 30 },
+    { "id": "trig-graphs-exact-values", "title": "Graphs of sin, cos and tan, and exact values", "file": "03-trig-graphs-exact-values.md", "estMinutes": 35 }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

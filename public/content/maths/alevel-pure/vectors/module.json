@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "vectors",
+  "title": "Vectors",
+  "description": "Representing vectors in component form, calculating magnitude, adding and scaling vectors, and using position vectors to solve geometric problems such as collinearity and midpoints.",
+  "estMinutes": 80,
+  "prerequisites": [],
+  "objectives": [
+    "Represent a vector in component (column) form in two and three dimensions",
+    "Calculate the magnitude of a vector using Pythagoras' theorem",
+    "Add, subtract and scale vectors component-wise, and find unit vectors",
+    "Use position vectors to find the vector between two points",
+    "Use vectors to prove points are collinear and lines are parallel, and to find midpoints"
+  ],
+  "tags": ["vectors", "geometry", "magnitude", "position-vectors", "collinearity"],
+  "lessons": [
+    { "id": "magnitude-and-components", "title": "Vectors, magnitude and component form", "file": "01-magnitude-and-components.md", "estMinutes": 25 },
+    { "id": "adding-and-scaling", "title": "Adding, subtracting and scaling vectors", "file": "02-adding-and-scaling.md", "estMinutes": 25 },
+    { "id": "position-vectors-and-proofs", "title": "Position vectors and geometric proofs", "file": "03-position-vectors-and-proofs.md", "estMinutes": 30 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

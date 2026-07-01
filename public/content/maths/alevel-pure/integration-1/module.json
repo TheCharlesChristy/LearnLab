@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "integration-1",
+  "title": "Integration I — Reversing Differentiation",
+  "description": "Integration as the reverse process of differentiation: finding indefinite integrals of powers of x, the constant of integration, and evaluating definite integrals to find the area under a curve.",
+  "estMinutes": 90,
+  "prerequisites": [
+    "differentiation-1",
+    "differentiation-2"
+  ],
+  "objectives": [
+    "Recognise integration as the reverse of differentiation and integrate terms of the form ax^n",
+    "Find the constant of integration C using a given point on the curve",
+    "Evaluate definite integrals using the fundamental theorem of calculus",
+    "Interpret a definite integral as the area between a curve and the x-axis",
+    "Integrate simple polynomials to calculate the area under a curve between two x-values"
+  ],
+  "tags": ["calculus", "integration", "antiderivative", "area-under-a-curve", "definite-integral"],
+  "lessons": [
+    { "id": "reverse-differentiation", "title": "Integration as reverse differentiation", "file": "01-reverse-differentiation.md", "estMinutes": 30 },
+    { "id": "constant-of-integration", "title": "Finding the constant of integration", "file": "02-constant-of-integration.md", "estMinutes": 25 },
+    { "id": "definite-integrals-and-area", "title": "Definite integrals and the area under a curve", "file": "03-definite-integrals-and-area.md", "estMinutes": 35 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

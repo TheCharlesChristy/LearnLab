@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "trigonometry-2",
+  "title": "Trigonometry II — Identities, Compound Angles and Equations",
+  "description": "Trigonometric identities, compound angle and double angle formulas, solving trigonometric equations over a given interval, and the R sin(x+alpha) harmonic form for a sinx + b cosx.",
+  "estMinutes": 100,
+  "prerequisites": [
+    "trigonometry-1"
+  ],
+  "objectives": [
+    "Use sin^2(theta) + cos^2(theta) = 1 and tan(theta) = sin(theta)/cos(theta) to simplify expressions and prove identities",
+    "Apply the compound angle formulas for sin(A±B), cos(A±B) and tan(A±B)",
+    "Apply the double angle formulas for sin(2A), cos(2A) and tan(2A), including the three forms of cos(2A)",
+    "Solve trigonometric equations over a given interval, finding all solutions using identities and the symmetries of the trig graphs",
+    "Express a sin(x) + b cos(x) in the harmonic form R sin(x + alpha) or R cos(x + alpha) and use this to solve equations and find maxima/minima"
+  ],
+  "tags": ["trigonometry", "identities", "compound-angle", "double-angle", "harmonic-form", "trig-equations"],
+  "lessons": [
+    { "id": "identities-and-compound-angles", "title": "Trig identities and compound angle formulas", "file": "01-identities-and-compound-angles.md", "estMinutes": 30 },
+    { "id": "double-angle-formulas", "title": "Double angle formulas", "file": "02-double-angle-formulas.md", "estMinutes": 30 },
+    { "id": "equations-and-harmonic-form", "title": "Solving trig equations and the harmonic form", "file": "03-equations-and-harmonic-form.md", "estMinutes": 40 }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

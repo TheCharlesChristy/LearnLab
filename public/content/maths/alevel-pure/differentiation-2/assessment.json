@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "id": "differentiation-2-assessment",
+  "title": "End of module: Differentiation II — Chain, Product and Quotient Rules",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "If $y = (2x + 3)^4$, find $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$ at $x = 1$.",
+      "answer": 1000,
+      "tolerance": 0.001,
+      "explanation": "Let $u = 2x+3$, so $y = u^4$. Then $\\dfrac{\\mathrm{d}y}{\\mathrm{d}u} = 4u^3$ and $\\dfrac{\\mathrm{d}u}{\\mathrm{d}x} = 2$, so by the chain rule $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 8u^3 = 8(2x+3)^3$. At $x=1$, $u = 5$, so $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 8 \\times 125 = 1000$."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "If $f(x) = x^3(x-2)^2$, use the product rule to find $f'(1)$.",
+      "answer": 1,
+      "tolerance": 0.001,
+      "explanation": "Let $u = x^3$ and $v = (x-2)^2$, so $u' = 3x^2$ and $v' = 2(x-2)$. By the product rule, $f'(x) = u'v + uv' = 3x^2(x-2)^2 + 2x^3(x-2)$. At $x=1$: $u=1, v=1, u'=3, v'=-2$, so $f'(1) = 3(1)(1) + (1)(-2) = 3 - 2 = 1$."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "If $y = \\dfrac{x^2}{x+1}$, use the quotient rule to find $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$ at $x = 1$.",
+      "answer": 0.75,
+      "tolerance": 0.001,
+      "explanation": "Let $u = x^2$ and $v = x+1$, so $u' = 2x$ and $v' = 1$. By the quotient rule, $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = \\dfrac{u'v - uv'}{v^2} = \\dfrac{2x(x+1) - x^2}{(x+1)^2} = \\dfrac{x^2+2x}{(x+1)^2}$. At $x=1$: $\\dfrac{1+2}{4} = \\dfrac{3}{4} = 0.75$."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "If $y = \\sin(3x)$, find $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$ at $x = 0$.",
+      "answer": 3,
+      "tolerance": 0.001,
+      "explanation": "By the chain rule with $u = 3x$: $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 3\\cos(3x)$. At $x = 0$, $\\cos(0) = 1$, so $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 3 \\times 1 = 3$."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "If $y = e^{2x}$, find $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$ at $x = 0$.",
+      "answer": 2,
+      "tolerance": 0.001,
+      "explanation": "By the chain rule with $u = 2x$: $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 2e^{2x}$. At $x = 0$, $e^0 = 1$, so $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 2$."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "If $y = \\ln(4x)$, find $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$ at $x = 2$.",
+      "answer": 0.5,
+      "tolerance": 0.001,
+      "explanation": "By the chain rule with $u = 4x$: $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = \\dfrac{u'}{u} = \\dfrac{4}{4x} = \\dfrac{1}{x}$. At $x = 2$, $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = \\dfrac{1}{2} = 0.5$."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "What is $\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\big[\\cos(x^2)\\big]$?",
+      "choices": [
+        "$-\\sin(x^2)$",
+        "$-2x\\sin(x^2)$",
+        "$2x\\cos(x^2)$",
+        "$-2x\\cos(x^2)$"
+      ],
+      "answer": 1,
+      "explanation": "Let $u = x^2$, so $y = \\cos u$ and $u' = 2x$. By the chain rule, $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = -\\sin(u) \\times u' = -2x\\sin(x^2)$."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "The curve $y = x^3 - 3x^2 - 9x + 2$ has a local minimum at $(a, b)$ with $a > 0$. Find $b$.",
+      "answer": -25,
+      "tolerance": 0.001,
+      "explanation": "$\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 3x^2 - 6x - 9 = 3(x-3)(x+1)$, so stationary points occur at $x = 3$ and $x = -1$. Since $\\dfrac{\\mathrm{d}^2y}{\\mathrm{d}x^2} = 6x - 6$, at $x=3$ this is $12 > 0$ (minimum) and at $x=-1$ it is $-12 < 0$ (maximum). The minimum with $a>0$ is at $x=3$: $y = 27 - 27 - 27 + 2 = -25$."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "A stationary point of $f(x)$ at $x=a$ has $f'(a) = 0$ and $f''(a) = 0$, with $f'(x)$ having the same sign immediately either side of $a$. What kind of stationary point is this?",
+      "choices": [
+        "Local maximum",
+        "Local minimum",
+        "Stationary point of inflection",
+        "Not a stationary point"
+      ],
+      "answer": 2,
+      "explanation": "When the second derivative test is inconclusive ($f''(a)=0$) and the gradient does not change sign across $a$, the point is a stationary point of inflection — as with $y=x^3$ at the origin, where $f'(x)=3x^2 \\ge 0$ on both sides of $x=0$."
+    },
+    {
+      "id": "q10",
+      "type": "multi",
+      "text": "Which of the following statements about $y = \\dfrac{x^2}{x+1}$ and $y = x^2(x+1)$ are true?",
+      "choices": [
+        "Differentiating $\\dfrac{x^2}{x+1}$ requires the quotient rule",
+        "Differentiating $x^2(x+1)$ requires the product rule",
+        "Differentiating $\\dfrac{x^2}{x+1}$ requires the product rule",
+        "Both derivatives can be found using only the power rule term-by-term after expanding"
+      ],
+      "answers": [0, 1, 3],
+      "explanation": "$\\dfrac{x^2}{x+1}$ is a quotient of two functions of $x$, so the quotient rule applies directly. $x^2(x+1)$ is a product, so the product rule applies directly — but it can equally be expanded to $x^3+x^2$ and differentiated term-by-term with the power rule, giving the same result. The quotient does **not** simplify to a polynomial, so only the product rule route also has a power-rule alternative."
+    },
+    {
+      "id": "q11",
+      "type": "numeric",
+      "text": "A circle's radius $r$ (cm) increases at a constant rate $\\dfrac{\\mathrm{d}r}{\\mathrm{d}t} = 5\\text{ cm s}^{-1}$. Given $A = \\pi r^2$, find $\\dfrac{\\mathrm{d}A}{\\mathrm{d}t}$ (in $\\text{cm}^2\\text{s}^{-1}$, to the nearest whole number) when $r = 4\\text{ cm}$.",
+      "answer": 126,
+      "tolerance": 1,
+      "unit": "cm^2 s^-1",
+      "explanation": "$\\dfrac{\\mathrm{d}A}{\\mathrm{d}r} = 2\\pi r$. By the chain rule, $\\dfrac{\\mathrm{d}A}{\\mathrm{d}t} = \\dfrac{\\mathrm{d}A}{\\mathrm{d}r} \\times \\dfrac{\\mathrm{d}r}{\\mathrm{d}t} = 2\\pi r \\times 5 = 10\\pi r$. At $r=4$: $10\\pi(4) = 40\\pi \\approx 125.7$, which rounds to $126$."
+    },
+    {
+      "id": "q12",
+      "type": "text",
+      "text": "Name the rule used to differentiate a function of the form $y = \\dfrac{u}{v}$, where $u$ and $v$ are both functions of $x$.",
+      "accept": ["(the )?quotient rule"],
+      "caseSensitive": false,
+      "explanation": "The **quotient rule**, $\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left(\\dfrac{u}{v}\\right) = \\dfrac{u'v - uv'}{v^2}$, is used to differentiate a quotient of two functions of $x$."
+    }
+  ]
+}

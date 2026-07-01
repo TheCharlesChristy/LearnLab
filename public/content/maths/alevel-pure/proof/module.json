@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "proof",
+  "title": "Proof",
+  "description": "The core methods of mathematical proof used throughout A-level: proof by deduction, proof by exhaustion, and disproof by counter-example.",
+  "estMinutes": 80,
+  "prerequisites": [],
+  "objectives": [
+    "Explain what it means to prove a mathematical statement, and distinguish a proof from a check of examples",
+    "Construct a proof by deduction: a chain of algebraic or logical steps from agreed definitions to a conclusion",
+    "Use algebraic representations of odd, even, and consecutive integers to prove statements about them",
+    "Construct a proof by exhaustion by checking every case in a finite set",
+    "Disprove a false general statement by finding a single counter-example",
+    "Judge which proof technique (deduction, exhaustion, or counter-example) is appropriate for a given claim"
+  ],
+  "tags": ["proof", "deduction", "exhaustion", "counter-example", "logic", "foundations"],
+  "lessons": [
+    { "id": "what-is-proof", "title": "What is a mathematical proof?", "file": "01-what-is-proof.md", "estMinutes": 15 },
+    { "id": "proof-by-deduction", "title": "Proof by deduction", "file": "02-proof-by-deduction.md", "estMinutes": 25 },
+    { "id": "proof-by-exhaustion", "title": "Proof by exhaustion", "file": "03-proof-by-exhaustion.md", "estMinutes": 20 },
+    { "id": "disproof-by-counter-example", "title": "Disproof by counter-example", "file": "04-disproof-by-counter-example.md", "estMinutes": 20 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}
