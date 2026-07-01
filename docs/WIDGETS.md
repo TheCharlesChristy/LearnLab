@@ -211,6 +211,92 @@ Screenshot: TODO
 
 ---
 
-## Widgets planned but not yet implemented
+## `logic-gate-sim`
 
-The SRS §5.3 v1 widget set also schedules `logic-gate-sim` and `flashcards` (Should, P2). These are **TODO(P2)** — they do not exist in the registry yet and will gain sections here when they land.
+Interactive AND/OR/NOT/XOR/NAND/NOR circuit simulator. Fetches a module-relative JSON file describing input pins, gates, and declared outputs; renders one toggle per input, live gate/output values that update immediately on every toggle (no reload), and a truth-table side panel covering every input combination.
+
+Gate type is a **closed set** — `AND`, `OR`, `NOT`, `XOR`, `NAND`, `NOR` — any other value is a malformed-file error. A gate's `inputs` array may reference only input pin names or an **earlier** gate's `id` (array order = evaluation order), which makes the circuit acyclic by construction; a gate referencing a later gate, itself, or an unknown name is a malformed-file error caught at load time, not at click time. (§5.3 describes the source as "circuit JSON: nodes, wires" illustratively — the actual field names are `inputs`/`gates`/`outputs` as shown below.)
+
+Data file shape:
+
+```json
+{
+  "inputs": ["A", "B"],
+  "gates": [
+    { "id": "g1", "type": "AND", "inputs": ["A", "B"] },
+    { "id": "g2", "type": "NOT", "inputs": ["g1"] }
+  ],
+  "outputs": ["g2"]
+}
+```
+
+`inputs`: non-empty array of unique pin name strings. `gates`: non-empty array; `type` one of the six above; `inputs` has exactly 1 reference for `NOT`, exactly 2 for all others. `outputs`: non-empty array of gate ids or input names whose live values are displayed and used for the truth table.
+
+The truth table shows all 2^N rows (inputs capped at 6 — beyond that a message is shown instead of the table). Row and column order follows the `inputs` array order via standard binary counting (`inputs[0]` = most-significant bit): for `["A","B"]` the rows are `00, 01, 10, 11`. Columns are all input columns (in `inputs` order) followed by all output columns (in `outputs` order). The row matching the current live toggle state is visually highlighted.
+
+Toggles are real `role="switch"` elements — keyboard-operable, with visible focus and `prefers-reduced-motion`-aware transitions (NFR-A11Y-001).
+
+### Props
+
+| Prop  | Type   | Required | Default | Description                                       |
+| ----- | ------ | -------- | ------- | -------------------------------------------------- |
+| `src` | string | yes      | —       | Module-relative path to the circuit JSON file.      |
+
+### Example
+
+```markdown
+::widget{type="logic-gate-sim" src="circuits/xor-from-primitives.json"}
+```
+
+### Validation behaviour
+
+`parseProps` (`src/widgets/logic-gate-sim/index.ts`) errors:
+
+- missing/empty `src` → `src: required — a path to a circuit JSON file, e.g. src="circuits/and-or.json"`
+
+At render time, a fetched file that doesn't match the shape above shows an inline error card naming the exact problem, e.g. `gates[1].type: must be one of AND, OR, NOT, XOR, NAND, NOR (got "MAYBE")`, `gates[0].inputs[1]: references unknown pin/gate "x1"`, or `gates[0].inputs: NOT requires exactly 1 input (got 2)`. A fetch failure shows a retry card (FR-CONT-007 spirit).
+
+Screenshot: TODO
+
+---
+
+## `flashcards`
+
+Spaced-recall cards within a lesson: one card at a time, flip to reveal the back, then self-grade "Again" or "Good". Grades persist via the lesson's itemState (§5.5) so progress survives reloads — the widget never imports `src/progress` directly (§3.5); it goes through `LessonContext`'s `getItemState`/`setItemState` (D-012).
+
+Data file shape:
+
+```json
+{
+  "cards": [
+    { "front": "What is **2 + 2**?", "back": "4" },
+    { "front": "Capital of France?", "back": "Paris" }
+  ]
+}
+```
+
+`front` and `back` are Markdown strings (rendered via the same inline renderer used elsewhere — raw HTML is stripped). Both are required non-empty strings on every card, and `cards` must be a non-empty array.
+
+### Props
+
+| Prop  | Type   | Required | Default | Description                                    |
+| ----- | ------ | -------- | ------- | ------------------------------------------------ |
+| `src` | string | yes      | —       | Module-relative path to a cards JSON file.        |
+
+### Example
+
+```markdown
+::widget{type="flashcards" src="cards/key-terms.json"}
+```
+
+### Validation behaviour
+
+`parseProps` (`src/widgets/flashcards/index.ts`) errors:
+
+- missing/empty `src` → `src: required — a path to a cards JSON file, e.g. src="cards/unit1.json"`
+
+At render time, a fetched file that doesn't match the shape above (missing `cards`, an empty array, or a card missing `front`/`back`) shows an inline error card naming the exact problem (e.g. `cards[0].back: must be a non-empty string`); a fetch failure shows a retry card (FR-CONT-007 spirit).
+
+**itemState note:** the widget's itemId is `` `flashcards:${src}` `` (D-012). Persisted state maps each card's index to its most recent grade: `{ [cardIndex]: { grade: "again" | "good", reviewedAt: <epoch ms> } }`. On mount, prior grades are restored and the session resumes on the first card not yet graded "good"; a "Graded X/N" indicator (counting "good" grades) is always shown. Once every card has been graded "good" the widget shows a "Deck complete" state with a "Review again" control that resets the browsing position without discarding stored grades. This is a simple grade-tracking widget, not a spaced-repetition scheduler — SM-2-style scheduling is tracked separately on the roadmap (§13).
+
+Screenshot: TODO

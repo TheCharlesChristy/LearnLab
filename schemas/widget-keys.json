@@ -4,5 +4,7 @@
   "quiz",
   "data-plot",
   "step-reveal",
-  "code-runner"
+  "code-runner",
+  "logic-gate-sim",
+  "flashcards"
 ]

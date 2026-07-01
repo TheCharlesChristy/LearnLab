@@ -12,8 +12,10 @@ import type { WidgetDef } from './widget-def';
 import { def as codeRunner } from './code-runner';
 import { def as dataPlot } from './data-plot';
 import { def as figure } from './figure';
+import { def as flashcards } from './flashcards';
 import { def as functionGrapher } from './function-grapher';
 import keys from './keys.json';
+import { def as logicGateSim } from './logic-gate-sim';
 import { def as quiz } from './quiz';
 import { def as stepReveal } from './step-reveal';
 
@@ -26,6 +28,8 @@ export const widgetRegistry: Record<string, WidgetDef> = {
   'data-plot': dataPlot,
   'step-reveal': stepReveal,
   'code-runner': codeRunner,
+  'logic-gate-sim': logicGateSim,
+  flashcards,
 };
 
 export const WIDGET_KEYS: readonly string[] = keys;
