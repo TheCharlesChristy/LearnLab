@@ -148,13 +148,28 @@ Full design in the approved plan (see session); summary below.
    never implemented in P0 + backfilled 3 undocumented P1 widgets (code-runner, step-reveal,
    data-plot); `LessonContext` extension (`getItemState`/`setItemState`) + wiring in
    `LessonPage.tsx` + `AssessmentPage.tsx`.
-2. **Wave 2 (dispatched):** `logic-gate-sim` + `flashcards` widgets; all 5 `alevel-mechanics`
-   modules; all 5 `alevel-statistics` modules.
-3. **Waves 3–5:** `alevel-pure`'s 15 modules in 3 batches of 5, following §8.2's listed order.
-4. **Wave 6 (orchestrator):** doc sections for the 2 new widgets; splice every `ModuleRef` into
-   the three `course.json` files in §8.2 order; wire `registry.ts`/`keys.json`.
-5. **Gate P2:** full-tree `--strict` (27 modules / 3 courses), vitest/eslint/tsc, non-`@py` e2e
+2. **Wave 2 (merged):** `logic-gate-sim` + `flashcards` widgets (registered, docs added); all 5
+   `alevel-mechanics` modules + `course.json` wired; all 5 `alevel-statistics` modules +
+   `course.json` created/wired. All 10 content modules' assessments independently re-verified by
+   the orchestrator (mechanics + statistics get 100% coverage, not sampled — see verification
+   notes below). Two content agents were interrupted mid-run by a session-limit blip and resumed
+   via `SendMessage` with no loss of work (their temp-root state survived).
+3. **Waves 3–5 (next):** `alevel-pure`'s 15 modules in 3 batches of 5, following §8.2's listed
+   order (proof/indices-and-surds/quadratics-and-inequalities/algebraic-methods/
+   coordinate-geometry; sequences-and-series/binomial-expansion/trigonometry-1/trigonometry-2/
+   exponentials-and-logarithms; differentiation-2/integration-1/integration-2/
+   numerical-methods/vectors).
+4. **Gate P2:** full-tree `--strict` (27 modules / 3 courses), vitest/eslint/tsc, non-`@py` e2e
    regression, `git diff --stat` audit against the stated allowlist.
+
+### Wave 2 verification notes
+
+All 10 mechanics/statistics assessments were independently re-derived by the orchestrator (not
+sampled): SUVAT/F=ma/moments/friction arithmetic by hand, all binomial probabilities and
+`hypothesis-testing`'s critical regions via exact `comb(n,k)` summation in Python, normal-
+distribution Φ(z) values cross-checked — zero discrepancies found across all 10 modules. Current
+full-tree `--strict` has exactly one remaining error: `variable-acceleration`'s forward reference
+to `alevel-pure`'s `integration-1` (lands in Wave 5) — expected, not a defect.
 
 Module-authoring agents: scaffold via `new-module.mjs` against an **isolated temp root** (avoids
 schema drift across many agents), replace placeholders with real content, self-validate via
