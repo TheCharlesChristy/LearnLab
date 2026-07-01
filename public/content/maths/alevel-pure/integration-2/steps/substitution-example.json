@@ -1,0 +1,24 @@
+{
+  "steps": [
+    {
+      "title": "Spot the inner function",
+      "body": "Find $\\displaystyle\\int x(3x^2-2)^4\\,\\mathrm{d}x$. The bracket $3x^2-2$ is the inner function; its derivative is $6x$, and the integrand contains a factor of $x$ — proportional to $6x$. This signals a substitution $u = 3x^2-2$."
+    },
+    {
+      "title": "Substitute",
+      "body": "Let $u = 3x^2 - 2$. Then $\\dfrac{\\mathrm{d}u}{\\mathrm{d}x} = 6x$, so $\\mathrm{d}u = 6x\\,\\mathrm{d}x$, which gives $x\\,\\mathrm{d}x = \\dfrac{1}{6}\\mathrm{d}u$."
+    },
+    {
+      "title": "Rewrite the integral in u",
+      "body": "$\\displaystyle\\int x(3x^2-2)^4\\,\\mathrm{d}x = \\int u^4 \\cdot \\frac{1}{6}\\,\\mathrm{d}u = \\frac{1}{6}\\int u^4\\,\\mathrm{d}u$."
+    },
+    {
+      "title": "Integrate and substitute back",
+      "body": "$\\dfrac{1}{6}\\int u^4\\,\\mathrm{d}u = \\dfrac{1}{6}\\cdot\\dfrac{u^5}{5} + C = \\dfrac{u^5}{30} + C = \\dfrac{(3x^2-2)^5}{30} + C$."
+    },
+    {
+      "title": "Check by differentiating back",
+      "body": "$\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\left[\\dfrac{(3x^2-2)^5}{30}\\right] = \\dfrac{5(3x^2-2)^4 \\cdot 6x}{30} = \\dfrac{30x(3x^2-2)^4}{30} = x(3x^2-2)^4$ — matches the original integrand. ✓"
+    }
+  ]
+}

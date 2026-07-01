@@ -5,23 +5,106 @@
   "questions": [
     {
       "id": "q1",
-      "type": "mcq",
-      "text": "Placeholder question — which option is correct? (Replace me.)",
-      "choices": [
-        "This one",
-        "Not this one",
-        "Nor this one"
-      ],
-      "answer": 0,
-      "explanation": "Placeholder explanation — every question must explain its answer (§4.6)."
+      "type": "numeric",
+      "text": "Evaluate $\\displaystyle\\int_0^1 e^x \\, \\mathrm{d}x$.",
+      "answer": 1.718281828,
+      "tolerance": 0.001,
+      "explanation": "$\\int e^x\\,\\mathrm{d}x = e^x + C$, so $\\Big[e^x\\Big]_0^1 = e^1 - e^0 = e - 1 \\approx 1.71828$. Check: $\\frac{\\mathrm{d}}{\\mathrm{d}x}(e^x) = e^x$, confirming the antiderivative."
     },
     {
       "id": "q2",
       "type": "numeric",
-      "text": "Placeholder question — what is $2 + 2$? (Replace me.)",
-      "answer": 4,
-      "tolerance": 0,
-      "explanation": "Placeholder explanation — $2 + 2 = 4$."
+      "text": "Evaluate $\\displaystyle\\int_1^{e} \\frac{1}{x} \\, \\mathrm{d}x$.",
+      "answer": 1,
+      "tolerance": 0.001,
+      "explanation": "$\\int \\frac{1}{x}\\,\\mathrm{d}x = \\ln|x| + C$, so $\\Big[\\ln|x|\\Big]_1^{e} = \\ln(e) - \\ln(1) = 1 - 0 = 1$. Check: $\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\ln|x|) = \\frac{1}{x}$, confirming the antiderivative."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "Which substitution is most sensible for $\\displaystyle\\int 4x^3(x^4+1)^3 \\, \\mathrm{d}x$?",
+      "choices": ["$u = x^3$", "$u = x^4 + 1$", "$u = 4x^3$", "$u = (x^4+1)^3$"],
+      "answer": 1,
+      "explanation": "The inner function of the bracket is $x^4+1$, whose derivative is $4x^3$ — exactly the factor multiplying the bracket. So $u = x^4+1$ gives $\\mathrm{d}u = 4x^3\\,\\mathrm{d}x$, turning the integral into $\\int u^3\\,\\mathrm{d}u$, which is standard."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "Evaluate $\\displaystyle\\int_0^1 4x^3(x^4+1)^3 \\, \\mathrm{d}x$.",
+      "answer": 3.75,
+      "tolerance": 0.001,
+      "explanation": "Let $u = x^4+1$, so $\\mathrm{d}u = 4x^3\\,\\mathrm{d}x$. When $x=0$, $u=1$; when $x=1$, $u=2$. So $\\int_0^1 4x^3(x^4+1)^3\\,\\mathrm{d}x = \\int_1^2 u^3\\,\\mathrm{d}u = \\left[\\frac{u^4}{4}\\right]_1^2 = \\frac{16}{4} - \\frac{1}{4} = 4 - 0.25 = 3.75$. Check by differentiating back: $\\frac{\\mathrm{d}}{\\mathrm{d}x}\\left[\\frac{(x^4+1)^4}{4}\\right] = \\frac{4(x^4+1)^3 \\cdot 4x^3}{4} = 4x^3(x^4+1)^3$, matching the integrand."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "To integrate $\\displaystyle\\int x e^{2x} \\, \\mathrm{d}x$ by parts, which choice of $u$ and $\\dfrac{\\mathrm{d}v}{\\mathrm{d}x}$ is correct?",
+      "choices": [
+        "$u = x$, $\\dfrac{\\mathrm{d}v}{\\mathrm{d}x} = e^{2x}$",
+        "$u = e^{2x}$, $\\dfrac{\\mathrm{d}v}{\\mathrm{d}x} = x$",
+        "$u = xe^{2x}$, $\\dfrac{\\mathrm{d}v}{\\mathrm{d}x} = 1$",
+        "$u = 2x$, $\\dfrac{\\mathrm{d}v}{\\mathrm{d}x} = e^{2x}$"
+      ],
+      "answer": 0,
+      "explanation": "Choosing $u = x$ means $\\frac{\\mathrm{d}u}{\\mathrm{d}x} = 1$, which simplifies the remaining integral, while $\\dfrac{\\mathrm{d}v}{\\mathrm{d}x} = e^{2x}$ is easy to integrate to $v = \\frac{1}{2}e^{2x}$. The other options either make the remaining integral harder or don't set up a valid product for the formula."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "Evaluate $\\displaystyle\\int_0^1 x e^{2x} \\, \\mathrm{d}x$, giving your answer to 3 decimal places.",
+      "answer": 2.097,
+      "tolerance": 0.005,
+      "explanation": "With $u=x$, $\\dfrac{\\mathrm{d}v}{\\mathrm{d}x}=e^{2x}$, we get $\\dfrac{\\mathrm{d}u}{\\mathrm{d}x}=1$ and $v=\\frac{1}{2}e^{2x}$. So $\\int x e^{2x}\\,\\mathrm{d}x = \\frac{1}{2}xe^{2x} - \\int \\frac{1}{2}e^{2x}\\,\\mathrm{d}x = \\frac{1}{2}xe^{2x} - \\frac{1}{4}e^{2x} + C$. Check by differentiating back: $\\frac{\\mathrm{d}}{\\mathrm{d}x}\\left[\\frac{1}{2}xe^{2x} - \\frac{1}{4}e^{2x}\\right] = \\left(\\frac{1}{2}e^{2x} + xe^{2x}\\right) - \\frac{1}{2}e^{2x} = xe^{2x}$, matching the integrand. Evaluating: at $x=1$, $\\frac{1}{2}e^2 - \\frac{1}{4}e^2 = \\frac{1}{4}e^2$; at $x=0$, $0 - \\frac{1}{4} = -\\frac{1}{4}$. So the definite integral is $\\frac{1}{4}e^2 + \\frac{1}{4} = \\frac{e^2+1}{4} \\approx 2.097$."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "Find the area of the region enclosed between the curves $y = 2x$ and $y = x^2$.",
+      "answer": 1.333,
+      "tolerance": 0.01,
+      "explanation": "The curves meet where $x^2 = 2x \\implies x(x-2) = 0$, so $x=0$ or $x=2$. Between these, $y=2x$ is above $y=x^2$ (e.g. at $x=1$: line gives $2$, parabola gives $1$). Area $= \\int_0^2 (2x - x^2)\\,\\mathrm{d}x = \\left[x^2 - \\frac{x^3}{3}\\right]_0^2 = \\left(4 - \\frac{8}{3}\\right) - 0 = \\frac{4}{3} \\approx 1.333$. Check by differentiating back: $\\frac{\\mathrm{d}}{\\mathrm{d}x}\\left(x^2 - \\frac{x^3}{3}\\right) = 2x - x^2$, matching the integrand used for the area."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Find the area of the region enclosed between the curves $y = x + 2$ and $y = x^2$.",
+      "answer": 4.5,
+      "tolerance": 0.01,
+      "explanation": "The curves meet where $x^2 = x + 2 \\implies x^2 - x - 2 = 0 \\implies (x-2)(x+1) = 0$, so $x=-1$ or $x=2$. Between these, the line is above the parabola (at $x=0$: line gives $2$, parabola gives $0$). Area $= \\int_{-1}^{2} \\big[(x+2) - x^2\\big]\\,\\mathrm{d}x = \\left[\\frac{x^2}{2} + 2x - \\frac{x^3}{3}\\right]_{-1}^{2}$. At $x=2$: $2 + 4 - \\frac{8}{3} = \\frac{10}{3}$. At $x=-1$: $\\frac{1}{2} - 2 + \\frac{1}{3} = -\\frac{7}{6}$. Area $= \\frac{10}{3} + \\frac{7}{6} = \\frac{27}{6} = 4.5$."
+    },
+    {
+      "id": "q9",
+      "type": "multi",
+      "text": "Which of the following are correct standard integration results?",
+      "choices": [
+        "$\\int \\sin(x)\\,\\mathrm{d}x = -\\cos(x) + C$",
+        "$\\int \\cos(x)\\,\\mathrm{d}x = -\\sin(x) + C$",
+        "$\\int \\frac{1}{x}\\,\\mathrm{d}x = \\ln|x| + C$",
+        "$\\int e^x\\,\\mathrm{d}x = e^x + C$"
+      ],
+      "answers": [0, 2, 3],
+      "explanation": "$\\int \\sin(x)\\,\\mathrm{d}x = -\\cos(x)+C$ since $\\frac{\\mathrm{d}}{\\mathrm{d}x}(-\\cos x) = \\sin x$; $\\int \\frac{1}{x}\\,\\mathrm{d}x = \\ln|x|+C$ since $\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\ln|x|) = \\frac{1}{x}$; $\\int e^x\\,\\mathrm{d}x = e^x + C$ since $e^x$ is its own derivative. The second option is wrong: $\\int \\cos(x)\\,\\mathrm{d}x = \\sin(x) + C$, not $-\\sin(x)+C$, because $\\frac{\\mathrm{d}}{\\mathrm{d}x}(\\sin x) = \\cos x$."
+    },
+    {
+      "id": "q10",
+      "type": "text",
+      "text": "What is the name of the integration technique that reverses the product rule, used for integrals such as $\\int x e^x\\,\\mathrm{d}x$?",
+      "accept": ["integration by parts", "by parts"],
+      "caseSensitive": false,
+      "explanation": "This is **integration by parts**: $\\int u\\,\\frac{\\mathrm{d}v}{\\mathrm{d}x}\\,\\mathrm{d}x = uv - \\int v\\,\\frac{\\mathrm{d}u}{\\mathrm{d}x}\\,\\mathrm{d}x$, which reverses the product rule for differentiation."
+    },
+    {
+      "id": "q11",
+      "type": "mcq",
+      "text": "The area between two curves $y=f(x)$ and $y=g(x)$ (with $f(x) \\ge g(x)$) from $x=a$ to $x=b$ is found by…",
+      "choices": [
+        "adding the two integrals: $\\int_a^b f(x)\\,\\mathrm{d}x + \\int_a^b g(x)\\,\\mathrm{d}x$",
+        "integrating the difference: $\\int_a^b \\big(f(x)-g(x)\\big)\\,\\mathrm{d}x$",
+        "multiplying the two functions and integrating: $\\int_a^b f(x)g(x)\\,\\mathrm{d}x$",
+        "integrating only the upper function $f(x)$"
+      ],
+      "answer": 1,
+      "explanation": "The area strictly between two curves is found by integrating the difference of the upper and lower functions, $\\int_a^b\\big(f(x)-g(x)\\big)\\,\\mathrm{d}x$, over the interval between their intersection points — this subtracts away the overlapping area beneath the lower curve."
     }
   ]
 }
