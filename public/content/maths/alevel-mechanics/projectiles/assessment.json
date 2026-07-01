@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "id": "projectiles-assessment",
+  "title": "End of module: Projectiles from a Height",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "A projectile is launched from ground level and lands at the same height it was launched from. Ignoring air resistance, which launch angle maximises its range?",
+      "choices": ["$30^\\circ$", "$45^\\circ$", "$60^\\circ$", "$90^\\circ$"],
+      "answer": 1,
+      "explanation": "$R = \\dfrac{u^2\\sin 2\\theta}{g}$ is maximised when $\\sin 2\\theta = 1$, i.e. $2\\theta = 90^\\circ$, so $\\theta = 45^\\circ$."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "A projectile is launched from the top of a cliff (height $h > 0$ above the landing point) rather than from ground level. Compared with the ground-level case using the same speed and angle, the time of flight is…",
+      "choices": ["shorter", "the same", "longer", "impossible to say without more information"],
+      "answer": 2,
+      "explanation": "Landing time solves $\\tfrac12 g t^2 - u_y t - h = 0$, giving $t = \\dfrac{u_y + \\sqrt{u_y^2 + 2gh}}{g}$. Since $h>0$ makes the square root exceed $u_y$, this is always larger than the ground-level value $\\dfrac{2u_y}{g}$."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "For launches from an elevated point ($h > 0$), how does the launch angle that maximises range compare with the ground-level optimum of $45^\\circ$?",
+      "choices": ["It is always greater than $45^\\circ$", "It is always exactly $45^\\circ$", "It is always less than $45^\\circ$", "It is always $90^\\circ$"],
+      "answer": 2,
+      "explanation": "Raising the launch point effectively gives extra 'free' flight time from the fall, so keeping more speed directed horizontally (a flatter, smaller angle) increases range further. The optimal angle for $h>0$ is always below $45^\\circ$, decreasing as $h$ grows relative to $u^2/g$."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "A ball is launched horizontally (at $\\theta = 0^\\circ$) from a height $h$ above the ground. Which statement about its motion is correct?",
+      "choices": [
+        "Its vertical motion is identical to an object simply dropped from height $h$",
+        "It never reaches the ground because $u_y = 0$",
+        "Its time of flight is $\\dfrac{2u}{g}$",
+        "Its horizontal speed decreases as it falls"
+      ],
+      "answer": 0,
+      "explanation": "With $\\theta=0$, $u_y=0$, so the vertical equation $h = \\tfrac12 g t^2$ is exactly the free-fall equation for an object dropped from rest — horizontal speed does not affect vertical motion."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "A ball is launched horizontally at $u = 15\\,\\text{m s}^{-1}$ from a platform $h = 25\\,\\text{m}$ above the ground ($g = 9.81\\,\\text{m s}^{-2}$). Find the time of flight.",
+      "answer": 2.258,
+      "tolerance": 0.02,
+      "unit": "s",
+      "explanation": "Horizontal launch means $u_y = 0$, so $h = \\tfrac12 g t^2$ gives $t = \\sqrt{\\dfrac{2h}{g}} = \\sqrt{\\dfrac{2\\times 25}{9.81}} = \\sqrt{5.097} = 2.258\\,\\text{s}$."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "Using the same ball as the previous question ($u = 15\\,\\text{m s}^{-1}$ horizontal, $h = 25\\,\\text{m}$, $t = 2.258\\,\\text{s}$), find its horizontal range.",
+      "answer": 33.86,
+      "tolerance": 0.1,
+      "unit": "m",
+      "explanation": "Horizontal speed is constant at $u_x = u = 15\\,\\text{m s}^{-1}$, so $R = u\\,t = 15 \\times 2.258 = 33.9\\,\\text{m}$."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "A projectile is launched at $u = 20\\,\\text{m s}^{-1}$, $\\theta = 20^\\circ$, from the top of a $30\\,\\text{m}$ cliff ($g = 9.81\\,\\text{m s}^{-2}$). Find the time of flight.",
+      "answer": 3.267,
+      "tolerance": 0.03,
+      "unit": "s",
+      "explanation": "$u_x = 20\\cos20^\\circ = 18.79\\,\\text{m s}^{-1}$, $u_y = 20\\sin20^\\circ = 6.84\\,\\text{m s}^{-1}$. Solve $\\tfrac12(9.81)t^2 - 6.84t - 30 = 0$: $t = \\dfrac{6.84 + \\sqrt{6.84^2 + 2(9.81)(30)}}{9.81} = \\dfrac{6.84 + \\sqrt{46.8+588.6}}{9.81} = \\dfrac{6.84+25.21}{9.81} = 3.27\\,\\text{s}$."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "For the same cliff launch ($u = 20\\,\\text{m s}^{-1}$, $\\theta = 20^\\circ$, $h = 30\\,\\text{m}$, $t = 3.267\\,\\text{s}$), find the range.",
+      "answer": 61.4,
+      "tolerance": 0.5,
+      "unit": "m",
+      "explanation": "$R = u_x t = 18.79 \\times 3.267 = 61.4\\,\\text{m}$, using the horizontal component found in the previous question."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "A projectile is launched at $u = 16\\,\\text{m s}^{-1}$, $\\theta = 50^\\circ$, from a platform $h = 10\\,\\text{m}$ above the ground ($g = 9.81\\,\\text{m s}^{-2}$). Find its maximum height above the ground.",
+      "answer": 17.66,
+      "tolerance": 0.1,
+      "unit": "m",
+      "explanation": "$u_y = 16\\sin50^\\circ = 12.26\\,\\text{m s}^{-1}$. Extra height above launch: $\\dfrac{u_y^2}{2g} = \\dfrac{12.26^2}{19.62} = 7.66\\,\\text{m}$. Adding the platform height: $H_{\\text{above ground}} = 10 + 7.66 = 17.66\\,\\text{m}$."
+    },
+    {
+      "id": "q10",
+      "type": "numeric",
+      "text": "A projectile is launched at $u = 20\\,\\text{m s}^{-1}$ (at any angle) from a height $h = 25\\,\\text{m}$ above the ground ($g = 9.81\\,\\text{m s}^{-2}$). Find its speed on landing.",
+      "answer": 29.84,
+      "tolerance": 0.1,
+      "unit": "m/s",
+      "explanation": "Landing speed depends only on $u$ and $h$, not the angle: $v_{\\text{land}} = \\sqrt{u^2 + 2gh} = \\sqrt{20^2 + 2\\times9.81\\times25} = \\sqrt{400 + 490.5} = \\sqrt{890.5} = 29.84\\,\\text{m s}^{-1}$."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "steps": [
+    {
+      "title": "Step 1 — find the normal reaction N",
+      "body": "Resolve forces **perpendicular to the contact surface** first. On a horizontal surface with no other vertical forces, $N = mg$. On a slope inclined at $\\theta$ to the horizontal, $N = mg\\cos\\theta$."
+    },
+    {
+      "title": "Step 2 — find the maximum available friction",
+      "body": "Compute $F_{\\max} = \\mu N$ using the coefficient of friction $\\mu$ for the two surfaces in contact. This is the *most* friction can ever supply — not necessarily what it is actually supplying."
+    },
+    {
+      "title": "Step 3 — decide whether the object moves",
+      "body": "Compare the force trying to cause motion (along the surface) with $F_{\\max}$. If it is **less than or equal to** $F_{\\max}$, friction can balance it and the object stays in equilibrium. If it **exceeds** $F_{\\max}$, the object accelerates."
+    },
+    {
+      "title": "Step 4 — set F correctly in your equations",
+      "body": "If the object is in equilibrium (not on the point of moving), find the actual friction $F$ from the equilibrium equations — it will be less than $\\mu N$. If the object is sliding, or explicitly on the point of slipping, use $F = \\mu N$ exactly in your $F = ma$ equation."
+    }
+  ]
+}

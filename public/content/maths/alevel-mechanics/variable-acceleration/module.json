@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "variable-acceleration",
+  "title": "Variable Acceleration — Calculus in Kinematics",
+  "description": "Motion where acceleration is not constant: using differentiation to move from displacement to velocity to acceleration, and integration to reverse the process, finding constants of integration from initial conditions.",
+  "estMinutes": 85,
+  "prerequisites": ["kinematics-suvat", "differentiation-1", "integration-1"],
+  "objectives": [
+    "Differentiate displacement with respect to time to find velocity, and velocity to find acceleration",
+    "Integrate acceleration to find velocity, and velocity to find displacement, using initial conditions to determine constants of integration",
+    "Recognise when the SUVAT equations do not apply and calculus is required instead",
+    "Find times and positions of zero velocity, and use calculus to locate maximum or minimum displacement and velocity",
+    "Apply these techniques to solve multi-part kinematics problems involving polynomial functions of time"
+  ],
+  "tags": ["mechanics", "kinematics", "calculus", "differentiation", "integration", "variable-acceleration"],
+  "lessons": [
+    { "id": "differentiating-motion", "title": "Differentiating motion: from displacement to acceleration", "file": "01-differentiating-motion.md", "estMinutes": 25 },
+    { "id": "integrating-motion", "title": "Integrating motion: from acceleration back to displacement", "file": "02-integrating-motion.md", "estMinutes": 30 },
+    { "id": "applications", "title": "Applications: turning points, extremes and multi-part problems", "file": "03-applications.md", "estMinutes": 30 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}
