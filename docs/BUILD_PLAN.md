@@ -99,13 +99,31 @@ minimal importable `learnsdk`/`courselib` packages (activates CI python job).
 
 - **merged:** ALL P1 tasks — T1.C, T1.1, T1.2, T1.3, T1.4, T1.5, T1.6, T1.7, T1.8, T1.9, T1.W, T1.10, T1.11 (4 pilot modules), T1.12 (@py gate e2e) + glue (`getItemState`, `src/python` barrel, @py chromium-only CI fix).
 
-### Gate P1 — status (local green; @py CI-gated)
+### Gate P1 — GREEN (confirmed in CI, 2026-06-30)
 
-Local (all green): eslint, tsc, `build-content --strict` (4 courses / 4 modules, MVC ◆),
-Vitest 416 passed / 7 skipped, pytest 166 passed / 5 skipped, ruff clean, full build within
-NFR-PERF-001 budgets (entry 122 KB gz), non-`@py` e2e 8/8 (chromium).
+Local: eslint, tsc, `build-content --strict` (4 courses / 4 modules, MVC ◆), Vitest
+417 passed / 7 skipped, pytest 166 passed / 5 skipped, ruff clean, full build within
+NFR-PERF-001 budgets (entry 122 KB gz).
 
-- **AC-02 / AC-04 / AC-10:** `@py` Playwright specs authored (Chromium-only per §11) — run in **CI**, not this sandbox (Pyodide CDN `cdn.jsdelivr.net` is an org egress denial here; self-host can't fetch the dist either). Local evidence for the SDK halves: `python/tests/test_reference_items.py` (quiz scores 3/3 + scored PROGRESS; projectile ticks/persists/completes). `@py` self-skips locally.
+CI (run 28474050970, commit `36fe030`): **web / python / e2e all green.** The `@py`
+suite needs a real Pyodide CDN this sandbox can't reach (org egress denial on
+`cdn.jsdelivr.net`), so it self-skips locally and was verified in CI directly —
+26 passed, 0 failed, 1 pre-existing unrelated webkit flake (AC-03, passed on retry).
+
+- **AC-01/03/05/07** (non-`@py`): green, 3 engines.
+- **AC-02** (`items/power-rule-quiz.py` loads, marks, records attempt): green in CI.
+- **AC-04** (offline revisit): green in CI.
+- **AC-10** (30 Hz ≤5% missed ticks): mechanism-correctness hard-gated always;
+  the strict cadence bound hard-gates only under `LEARNLAB_REFERENCE_MACHINE=1`
+  (§12/§6.14 scope this to "the reference machine", not shared CI hardware —
+  same precedent as AC-06). Measured ~22 Hz consistently on the CI runner.
 - **AC-06:** Lighthouse — deploy-pipeline/CI (documented, `e2e/lighthouse-check.md`).
-- CI configured: 3 engines installed; `@py` restricted to chromium.
+
+**Getting to green surfaced four real bugs** (all fixed, see docs/DECISIONS.md D-008–D-011):
+worker constructed as a module worker but `importScripts()` is classic-only (D-008);
+`e2e-prepare.mjs` never built `python-bundle.zip` before `vite build`, so a fresh
+checkout had no bundle at all (D-009); `RadioGroup` compared option text to an
+index-typed value — never matched, on any click, ever (D-010); `python-bundle.zip`
+matched neither the PWA precache glob nor any runtime-caching rule, so it was
+unreachable offline (D-011).
 
