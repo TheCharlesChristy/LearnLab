@@ -35,6 +35,8 @@ function lessonCtx(overrides: Partial<LessonContextValue> = {}): LessonContextVa
     moduleId: 'differentiation-1',
     moduleBaseUrl: '/content/maths/alevel-pure/differentiation-1/',
     recordAttempt: async () => {},
+    getItemState: async () => null,
+    setItemState: async () => {},
     ...overrides,
   };
 }

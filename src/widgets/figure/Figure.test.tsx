@@ -17,6 +17,8 @@ function withLesson(children: ReactNode, moduleBaseUrl = '/content/modules/algeb
     moduleId: 'algebra',
     moduleBaseUrl,
     recordAttempt: async () => {},
+    getItemState: async () => null,
+    setItemState: async () => {},
   };
   return <LessonContext.Provider value={value}>{children}</LessonContext.Provider>;
 }

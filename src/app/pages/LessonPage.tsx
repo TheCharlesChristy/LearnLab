@@ -7,9 +7,11 @@ import { Link, useParams } from 'react-router';
 
 import {
   addLessonTime,
+  getItemState,
   markLessonComplete,
   recordAttempt,
   requestPersistentStorage,
+  setItemState,
   touchLesson,
   useLessonProgressList,
   useModuleState,
@@ -136,6 +138,8 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
         await recordAttempt(attempt);
         await requestPersistentStorage();
       },
+      getItemState: (itemId) => getItemState(moduleId, itemId),
+      setItemState: (itemId, state) => setItemState(moduleId, itemId, state),
     }),
     [moduleId, coursePath, moduleRef.dir],
   );

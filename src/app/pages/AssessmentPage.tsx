@@ -6,7 +6,13 @@ import { Suspense, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useParams } from 'react-router';
 
-import { recordAttempt, requestPersistentStorage, useAttempts } from '../../progress';
+import {
+  getItemState,
+  recordAttempt,
+  requestPersistentStorage,
+  setItemState,
+  useAttempts,
+} from '../../progress';
 import { Card, Spinner } from '../../ui';
 import { LessonContext, findModule, loadQuiz, moduleBaseUrl } from '../content-api';
 import type { LessonContextValue, ModuleLocation } from '../content-api';
@@ -67,6 +73,8 @@ function AssessmentBody({ loc }: { loc: ModuleLocation }) {
         );
         await requestPersistentStorage();
       },
+      getItemState: (itemId) => getItemState(moduleId, itemId),
+      setItemState: (itemId, state) => setItemState(moduleId, itemId, state),
     }),
     [moduleId, coursePath, moduleRef.dir, assessment],
   );

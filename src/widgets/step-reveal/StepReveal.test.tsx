@@ -20,6 +20,8 @@ function withLesson(children: ReactNode, moduleBaseUrl = '/content/modules/calc/
     moduleId: 'calc',
     moduleBaseUrl,
     recordAttempt: async () => {},
+    getItemState: async () => null,
+    setItemState: async () => {},
   };
   return <LessonContext.Provider value={value}>{children}</LessonContext.Provider>;
 }

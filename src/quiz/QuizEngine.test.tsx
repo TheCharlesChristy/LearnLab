@@ -68,6 +68,8 @@ function renderWithContext(
     moduleId: 'mod-1',
     moduleBaseUrl: '/content/maths/m1/',
     recordAttempt,
+    getItemState: vi.fn().mockResolvedValue(null),
+    setItemState: vi.fn().mockResolvedValue(undefined),
   };
   return render(<LessonContext.Provider value={value}>{ui}</LessonContext.Provider>);
 }
