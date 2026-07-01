@@ -127,3 +127,50 @@ index-typed value — never matched, on any click, ever (D-010); `python-bundle.
 matched neither the PWA precache glob nor any runtime-caching rule, so it was
 unreachable offline (D-011).
 
+## Phase P2 — Full alevel-pure / alevel-statistics / alevel-mechanics + logic-gate-sim / flashcards (§8.7)
+
+Goal: ship the 25 remaining modules across the three maths courses started in P0/P1, plus the
+two scheduled S-priority widgets. Content-only in spirit — should need zero `src/` changes
+beyond the two widgets + their contract, proving C-5 at scale (not just 4 pilot modules).
+Full design in the approved plan (see session); summary below.
+
+### Scope
+
+| Course | New modules (§8.2 order) | Existing |
+|---|---|---|
+| `alevel-mechanics` | variable-acceleration, forces-and-newtons-laws, moments, projectiles, friction-and-connected-particles | kinematics-suvat |
+| `alevel-statistics` | sampling-and-data, probability, binomial-distribution, normal-distribution, hypothesis-testing | *(course.json created once first module lands)* |
+| `alevel-pure` | proof, indices-and-surds, quadratics-and-inequalities, algebraic-methods, coordinate-geometry, sequences-and-series, binomial-expansion, trigonometry-1, trigonometry-2, exponentials-and-logarithms, differentiation-2, integration-1, integration-2, numerical-methods, vectors | differentiation-1 |
+
+### Waves
+
+1. **Wave 1 (orchestrator, merged):** §7.3/FR-WID-002 CI check (build-content.mjs) that was
+   never implemented in P0 + backfilled 3 undocumented P1 widgets (code-runner, step-reveal,
+   data-plot); `LessonContext` extension (`getItemState`/`setItemState`) + wiring in
+   `LessonPage.tsx` + `AssessmentPage.tsx`.
+2. **Wave 2 (dispatched):** `logic-gate-sim` + `flashcards` widgets; all 5 `alevel-mechanics`
+   modules; all 5 `alevel-statistics` modules.
+3. **Waves 3–5:** `alevel-pure`'s 15 modules in 3 batches of 5, following §8.2's listed order.
+4. **Wave 6 (orchestrator):** doc sections for the 2 new widgets; splice every `ModuleRef` into
+   the three `course.json` files in §8.2 order; wire `registry.ts`/`keys.json`.
+5. **Gate P2:** full-tree `--strict` (27 modules / 3 courses), vitest/eslint/tsc, non-`@py` e2e
+   regression, `git diff --stat` audit against the stated allowlist.
+
+Module-authoring agents: scaffold via `new-module.mjs` against an **isolated temp root** (avoids
+schema drift across many agents), replace placeholders with real content, self-validate via
+`--strict` on the temp root, hand back only their module folder — never touch any real
+`course.json` (shared-file collision risk with N modules per course, unlike P1's 1-module-per-
+new-course pilots). Orchestrator splices every `ModuleRef` after review, in §8.2 order.
+
+**Verification is stricter than P1** given the volume: `alevel-statistics`/`alevel-mechanics`
+(10 modules) get every assessment answer independently checked by the orchestrator, not sampled
+— schema validation checks shape, not correctness, and these two subjects are most prone to
+silent, CI-invisible formula errors. `alevel-pure` (15 modules): self-verification required,
+orchestrator re-derives at least one module per batch (≥3 of 15).
+
+### Decisions logged: D-012–D-015
+
+D-012 (LessonContext extension shape + `flashcards:${src}` itemId rule), D-013 (logic-gate-sim
+circuit JSON schema — SRS gives illustrative, not literal, wording), D-014 (the WIDGETS.md
+CI-check gap, fixed as a P2 precondition), D-015 (at least one module demos `flashcards`).
+
