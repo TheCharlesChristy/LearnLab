@@ -116,6 +116,101 @@ Screenshot: TODO
 
 ---
 
+## `code-runner`
+
+Learner-typed Python, executed in the **same Pyodide worker sandbox** as everything else (C-6, FR-PY-001) — never `eval`'d on the main thread (NFR-SEC-002). A CodeMirror 6 editor (lazy-loaded, NFR-PERF-001) plus a Run button; stdout/stderr and any traceback are shown in an output panel.
+
+Runs use a 5 s **soft** timeout: if a run hasn't resolved by then, a "still running…" notice appears with a **Restart Python runtime** button (`PyHost.restart()`) — the primary recovery mechanism. `SharedArrayBuffer`-based interrupt is feature-detected and mentioned in the notice text when available, but is best-effort only; restart is what actually recovers a wedged worker.
+
+If `solutionTest` is given, it runs (with its own 5 s soft timeout) immediately after a successful learner run; if it completes without raising, the widget shows a "✓ Complete" state and calls `onComplete`. The widget never imports `src/progress` (§3.5) — `onComplete` is a hook the app shell may wire to record progress later.
+
+### Props
+
+| Prop           | Type    | Required | Default    | Description                                                                 |
+| -------------- | ------- | -------- | ---------- | ---------------------------------------------------------------------------- |
+| `language`     | string  | yes      | —          | Must be `"python"` — v1 supports Python only.                                |
+| `starter`      | string  | no       | —          | Initial editor contents.                                                     |
+| `solutionTest` | string  | no       | —          | Python snippet run after a successful learner run; passing (no raise) marks the widget complete. |
+| `rows`         | integer | no       | `10`       | Editor height in text rows. Must be a positive integer.                      |
+
+### Example
+
+```markdown
+::widget{type="code-runner" language="python" starter="print('hello')" rows=8}
+```
+
+### Validation behaviour
+
+`parseProps` (`src/widgets/code-runner/index.ts`) errors:
+
+- `language` not exactly `"python"` → `language: must be "python" (v1 supports python only) — got <value>`
+- non-string `starter`/`solutionTest` (when provided) → `<name>: must be a string if provided — got <value>`
+- `rows` not a positive integer → `rows: must be a positive integer — got <value>`
+
+Screenshot: TODO
+
+---
+
+## `step-reveal`
+
+Multi-step worked-solution disclosure. Fetches a module-relative JSON file and reveals one step at a time via a real `<button>` ("Show next step"); each step's body renders as Markdown (no directives — same inline renderer used elsewhere, skipHtml applies). Once every step has been revealed, an `aria-live="polite"` note announces "All steps revealed" and the widget's root carries `data-step-reveal-complete="true"` — a visual/DOM completion signal only; the widget never imports `src/progress` (§3.5).
+
+Data file shape: `{ "steps": [{ "title": "...", "body": "...markdown..." }, ... ] }` (non-empty array).
+
+### Props
+
+| Prop  | Type   | Required | Default | Description                                    |
+| ----- | ------ | -------- | ------- | ----------------------------------------------- |
+| `src` | string | yes      | —       | Module-relative path to the steps JSON file.     |
+
+### Example
+
+```markdown
+::widget{type="step-reveal" src="steps/simplification.json"}
+```
+
+### Validation behaviour
+
+`parseProps` (`src/widgets/step-reveal/index.ts`) errors:
+
+- missing/empty `src` → `src: required — a path to a steps JSON file, e.g. src="steps/solution.json"`
+
+At render time, a fetched file that doesn't match the shape above (not an object with a non-empty `steps` array of `{title, body}` objects) shows an inline error card naming the exact problem (e.g. `steps[2].title: must be a non-empty string`); a fetch failure shows a retry card (FR-CONT-007 spirit).
+
+Screenshot: TODO
+
+---
+
+## `data-plot`
+
+Static data chart (line, bar, or scatter) rendered with Recharts (lazy-loaded, NFR-PERF-001). Fetches a module-relative JSON file describing the chart.
+
+Data file shape: `{ "kind": "line"|"bar"|"scatter", "series": [{ "name": "...", "points": [[x,y], ...] }, ...], "xLabel"?: "...", "yLabel"?: "..." }` (`series` non-empty; each series' `points` a non-empty array of finite `[x, y]` pairs).
+
+### Props
+
+| Prop  | Type   | Required | Default | Description                                     |
+| ----- | ------ | -------- | ------- | ------------------------------------------------ |
+| `src` | string | yes      | —       | Module-relative path to the chart JSON file.      |
+
+### Example
+
+```markdown
+::widget{type="data-plot" src="data/growth.json"}
+```
+
+### Validation behaviour
+
+`parseProps` (`src/widgets/data-plot/index.ts`) errors:
+
+- missing/empty `src` → `src: required — a path to a chart JSON file, e.g. src="data/growth.json"`
+
+At render time, a fetched file failing the shape above shows an inline error card naming the exact problem (e.g. `kind: must be "line", "bar" or "scatter" (got "pie")`, `series[0].points[2]: must be a pair of finite numbers [x, y]`); a fetch failure shows a retry card (FR-CONT-007 spirit).
+
+Screenshot: TODO
+
+---
+
 ## Widgets planned but not yet implemented
 
-The SRS §5.3 v1 widget set also requires `code-runner`, `step-reveal`, and `data-plot` (Must), plus `logic-gate-sim` and `flashcards` (Should). These are **TODO(P1+)** — they do not exist in the registry yet and will gain sections here when they land.
+The SRS §5.3 v1 widget set also schedules `logic-gate-sim` and `flashcards` (Should, P2). These are **TODO(P2)** — they do not exist in the registry yet and will gain sections here when they land.

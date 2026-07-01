@@ -622,6 +622,27 @@ function emitIndex(root, subjects, validators, reporter) {
 }
 
 // ---------------------------------------------------------------------------
+// Widget doc coverage (§7.3, FR-WID-002): every registered widget key must
+// have a `## `<key>`` heading in docs/WIDGETS.md. Runs unconditionally (not
+// gated on --strict) — this is an always-on M-priority invariant of
+// "registering a widget", not a content-strictness/MVC rule.
+
+function checkWidgetDocs(widgetKeys, reporter) {
+  const docsFile = path.join(repoRoot, 'docs', 'WIDGETS.md');
+  const docsText = fs.existsSync(docsFile) ? fs.readFileSync(docsFile, 'utf8') : '';
+  for (const key of widgetKeys) {
+    const heading = `## \`${key}\``;
+    if (!docsText.includes(heading)) {
+      reporter.atFile(
+        docsFile,
+        `widget "${key}" is registered (schemas/widget-keys.json) but docs/WIDGETS.md has no ` +
+          `"${heading}" section (§7.3, FR-WID-002)`,
+      );
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // One full pipeline run
 
 function runPipeline(opts) {
@@ -630,6 +651,7 @@ function runPipeline(opts) {
 
   // Step 1: regenerate + read the widget manifest.
   const widgetKeys = dumpWidgetKeys();
+  checkWidgetDocs(widgetKeys, reporter);
 
   const validators = makeValidators();
   const { subjects, moduleIds } = validateTree(opts.root, opts.strict, validators, widgetKeys, reporter);
