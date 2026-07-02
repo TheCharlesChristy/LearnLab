@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "programming-fundamentals",
+  "title": "Programming Fundamentals",
+  "description": "Variables, data types, the three fundamental control structures, operators, functions and lists — the core building blocks of every Python program.",
+  "estMinutes": 100,
+  "prerequisites": [],
+  "objectives": [
+    "Declare and use variables of type int, float, str and bool, and predict the result of type conversions",
+    "Use arithmetic, comparison and Boolean (and/or/not) operators, and evaluate compound conditions",
+    "Write selection using if/elif/else and iteration using for and while, choosing the right structure for a problem",
+    "Trace the execution of a program by hand and predict its output and final variable values",
+    "Define functions with parameters and return values, and explain the difference between a parameter and an argument",
+    "Create, index and iterate over 1D and simple 2D lists"
+  ],
+  "tags": ["python", "variables", "control-structures", "selection", "iteration", "operators", "functions", "lists", "arrays"],
+  "lessons": [
+    { "id": "variables-types-operators", "title": "Variables, data types and operators", "file": "01-variables-types-operators.md", "estMinutes": 30 },
+    { "id": "selection-and-iteration", "title": "Selection and iteration", "file": "02-selection-and-iteration.md", "estMinutes": 35 },
+    { "id": "functions-and-lists", "title": "Functions and lists", "file": "03-functions-and-lists.md", "estMinutes": 35 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

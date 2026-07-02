@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "networks-and-the-web",
+  "title": "Networks and the Web",
+  "description": "How networks connect devices, how packets travel across the Internet via TCP/IP, and how HTTP, DNS and other protocols make the World Wide Web work.",
+  "estMinutes": 85,
+  "prerequisites": [
+    "computer-architecture"
+  ],
+  "objectives": [
+    "Distinguish LAN and WAN, and compare star and bus network topologies",
+    "Describe the roles of key network hardware: switches, routers and NICs",
+    "Compare the client-server and peer-to-peer network models",
+    "Explain how packet switching breaks data into packets that travel independently and are reassembled",
+    "Describe the layers of the TCP/IP stack and the distinct roles of TCP and IP within it",
+    "Identify key application-layer protocols (HTTP/HTTPS, FTP, SMTP) and the role of DNS, and distinguish the Internet from the World Wide Web"
+  ],
+  "tags": ["networks", "internet", "tcp-ip", "http", "dns", "packet-switching", "topology", "www"],
+  "lessons": [
+    {
+      "id": "network-types-topologies-hardware",
+      "title": "Network types, topologies and hardware",
+      "file": "01-network-types-topologies-hardware.md",
+      "estMinutes": 25
+    },
+    {
+      "id": "packet-switching-and-tcp-ip",
+      "title": "Packet switching and the TCP/IP stack",
+      "file": "02-packet-switching-and-tcp-ip.md",
+      "estMinutes": 30
+    },
+    {
+      "id": "protocols-dns-and-the-web",
+      "title": "Protocols, DNS, and the Internet vs the Web",
+      "file": "03-protocols-dns-and-the-web.md",
+      "estMinutes": 30
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

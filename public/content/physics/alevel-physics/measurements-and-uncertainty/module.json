@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "measurements-and-uncertainty",
+  "title": "Measurements and Uncertainty",
+  "description": "SI base and derived units, significant figures and orders of magnitude, systematic and random error, and how to calculate and combine absolute, fractional and percentage uncertainties — including reading a gradient's uncertainty from a graph.",
+  "estMinutes": 80,
+  "prerequisites": [],
+  "objectives": [
+    "Recall the seven SI base units and construct derived units (e.g. N, J, W, Pa, V, Ω) from them",
+    "Use standard form, unit prefixes, significant figures and order-of-magnitude estimates appropriately",
+    "Distinguish systematic from random error and describe practical ways to reduce each",
+    "Calculate the absolute, fractional and percentage uncertainty in a single measurement",
+    "Combine uncertainties for sums/differences, products/quotients and powers of measured quantities",
+    "Find the uncertainty in a gradient and an intercept from a best-fit line using the max/min gradient method"
+  ],
+  "tags": ["measurement", "uncertainty", "si-units", "significant-figures", "error-analysis", "practical-physics", "graphs"],
+  "lessons": [
+    { "id": "units-and-significant-figures", "title": "SI units, prefixes and significant figures", "file": "01-units-and-significant-figures.md", "estMinutes": 25 },
+    { "id": "errors-and-uncertainty", "title": "Errors and uncertainty", "file": "02-errors-and-uncertainty.md", "estMinutes": 25 },
+    { "id": "combining-uncertainties", "title": "Combining uncertainties and graphs", "file": "03-combining-uncertainties.md", "estMinutes": 30 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

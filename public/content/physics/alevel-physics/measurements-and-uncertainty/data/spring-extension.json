@@ -1,0 +1,18 @@
+{
+  "kind": "scatter",
+  "series": [
+    {
+      "name": "Extension vs load",
+      "points": [
+        [1.0, 1.9],
+        [2.0, 4.1],
+        [3.0, 5.8],
+        [4.0, 8.2],
+        [5.0, 9.9],
+        [6.0, 12.1]
+      ]
+    }
+  ],
+  "xLabel": "Load, F (N)",
+  "yLabel": "Extension, x (cm)"
+}

@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "id": "networks-and-the-web-assessment",
+  "title": "End of module: Networks and the Web",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Which of the following best describes a Wide Area Network (WAN)?",
+      "choices": [
+        "A network confined to a single building or site, owned and managed by one organisation",
+        "A network that spans a large geographical area, often connecting multiple LANs, typically using third-party infrastructure",
+        "A network with no hardware devices, only cables",
+        "A network that can only ever connect exactly two computers directly"
+      ],
+      "answer": 1,
+      "explanation": "A WAN spans a large geographical area and typically connects multiple LANs using infrastructure such as leased lines or satellite links — the Internet is the largest example. A LAN, by contrast, is confined to one site and owned by a single organisation."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "In a star network topology, what typically happens if the central switch fails?",
+      "choices": [
+        "Only the device directly attached to the faulty cable loses its connection",
+        "Every device loses the ability to communicate, since all traffic passes through the central switch",
+        "Nothing changes — star networks have no single point of failure",
+        "The devices automatically reconnect directly to each other, forming a bus"
+      ],
+      "answer": 1,
+      "explanation": "In a star topology every device's traffic passes through the central switch, so the switch is a single point of failure: if it fails, no device can communicate with any other."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "In a bus network topology, what usually happens if the single shared cable breaks?",
+      "choices": [
+        "Nothing — bus networks have no single point of failure",
+        "Only the device that happened to be transmitting at that instant is affected",
+        "The whole network, or a whole section of it, can stop working, since every device shares that one cable",
+        "Data automatically re-routes through a spare central switch"
+      ],
+      "answer": 2,
+      "explanation": "All devices on a bus share one physical cable, so a break in it can disrupt communication for every device on that segment — there is no central switch to route around the fault."
+    },
+    {
+      "id": "q4",
+      "type": "multi",
+      "text": "Which of the following are true of packet switching?",
+      "choices": [
+        "Data is broken into small units called packets before being transmitted",
+        "Every packet belonging to one message must travel via exactly the same route",
+        "Each packet contains a header (e.g. source/destination address and sequence number) plus a payload",
+        "Packets can arrive out of order and are reassembled at the destination using their sequence numbers"
+      ],
+      "answers": [0, 2, 3],
+      "explanation": "Packets are broken from the original data, each carries a header (source/destination address, sequence number) plus a payload, and can arrive out of order to be reassembled at the destination using those sequence numbers. The false statement is the second one — different packets belonging to the same message can take different routes across the network; they are not forced onto the same path."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "What is the primary function of a network switch?",
+      "choices": [
+        "To translate domain names into IP addresses",
+        "To forward data frames between devices on the same local network, using MAC addresses",
+        "To physically connect a device to network hardware and provide it with a MAC address",
+        "To route packets between different networks based on IP addresses"
+      ],
+      "answer": 1,
+      "explanation": "A switch forwards frames to the correct device within a LAN based on the destination MAC address. Option 1 describes DNS, option 3 describes a NIC, and option 4 describes a router."
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "text": "What is the main function of a router?",
+      "choices": [
+        "It stores and serves web pages directly to clients",
+        "It forwards packets between different networks, choosing a path based on the destination IP address",
+        "It only amplifies the electrical signal travelling along a single cable",
+        "It performs arithmetic and logic operations inside the CPU"
+      ],
+      "answer": 1,
+      "explanation": "A router connects different networks together and forwards packets between them, deciding a path using the destination IP address — unlike a switch, which only forwards within one local network."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "In the peer-to-peer (P2P) model, compared with the client-server model:",
+      "choices": [
+        "There is always a single central server responsible for every resource",
+        "Each computer (peer) can act as both a client and a server, sharing resources directly with other peers",
+        "Only clients may request data; peers can never provide data to one another",
+        "A P2P network cannot function unless a dedicated server manages it"
+      ],
+      "answer": 1,
+      "explanation": "In a P2P network there is no dedicated central server: every peer can both request resources from, and provide resources to, other peers directly. That is precisely what distinguishes it from the client-server model."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "A file of 9000 bytes is sent using packet switching, where each packet can carry a maximum payload of 2000 bytes. How many packets are needed to send the whole file?",
+      "answer": 5,
+      "tolerance": 0,
+      "explanation": "$9000 / 2000 = 4.5$. Four full packets carry $4 \\times 2000 = 8000$ bytes, leaving $1000$ bytes for a fifth, partly-filled packet — so $5$ packets are needed in total (round up, since a partial packet still requires a whole packet)."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "Which statement best describes the role of TCP in the TCP/IP stack?",
+      "choices": [
+        "It translates domain names into IP addresses",
+        "It splits data into segments and provides reliable delivery: acknowledgement, retransmission of lost data, and reassembly in the correct order",
+        "It defines the physical/electrical signalling used on network cables",
+        "It assigns a permanent MAC address to every network interface card"
+      ],
+      "answer": 1,
+      "explanation": "TCP operates at the transport layer: it segments the application's data, tracks acknowledgements, retransmits lost or corrupted segments, and reassembles segments in the correct order at the destination."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "Which statement best describes the role of IP in the TCP/IP stack?",
+      "choices": [
+        "It provides addressing of devices and routes packets across different networks",
+        "It guarantees that data arrives without errors and in the correct order",
+        "It encrypts data for secure transmission between a browser and a server",
+        "It formats the visual layout of a web page for display"
+      ],
+      "answer": 0,
+      "explanation": "IP operates at the internet layer: it gives devices addresses and routes packets across interconnected networks. It does not itself guarantee ordered or error-free delivery — that reliability is provided by TCP above it."
+    },
+    {
+      "id": "q11",
+      "type": "text",
+      "text": "Which application-layer protocol is used to transfer files between a client and a server — for example, uploading a website's files to its host? Name the protocol.",
+      "accept": ["FTP"],
+      "caseSensitive": false,
+      "explanation": "FTP (File Transfer Protocol) is used to transfer files between a client and a server."
+    },
+    {
+      "id": "q12",
+      "type": "text",
+      "text": "Which protocol is used to send email — from a client to its outgoing mail server, and between mail servers as a message is relayed towards its recipient? Name the protocol.",
+      "accept": ["SMTP"],
+      "caseSensitive": false,
+      "explanation": "SMTP (Simple Mail Transfer Protocol) is the application-layer protocol used to send email."
+    },
+    {
+      "id": "q13",
+      "type": "mcq",
+      "text": "What is the purpose of DNS (Domain Name System)?",
+      "choices": [
+        "It encrypts data sent between a browser and a web server",
+        "It translates human-readable domain names (e.g. www.example.com) into the IP addresses computers use to locate each other",
+        "It compresses files before they are transmitted over a network",
+        "It assigns a MAC address to a network interface card at manufacture"
+      ],
+      "answer": 1,
+      "explanation": "DNS acts like a phone book for the Internet, translating domain names that people can remember into the numeric IP addresses that computers actually use to route traffic."
+    },
+    {
+      "id": "q14",
+      "type": "multi",
+      "text": "Which of the following statements correctly distinguish the Internet from the World Wide Web?",
+      "choices": [
+        "The Internet is the underlying global network infrastructure of interconnected devices and networks",
+        "The World Wide Web is a service that runs on top of the Internet, made up of linked documents accessed via HTTP/HTTPS",
+        "The Internet and the World Wide Web are exactly the same thing, just two different names",
+        "Email (SMTP) and file transfer (FTP) are Internet services that are not part of the Web"
+      ],
+      "answers": [0, 1, 3],
+      "explanation": "The Internet is the network infrastructure itself; the Web is one service built on top of it, made of hyperlinked documents accessed via HTTP/HTTPS. They are not the same thing, so the third statement is false — email and file transfer are examples of other Internet services that exist outside the Web, so the fourth statement is true."
+    }
+  ]
+}

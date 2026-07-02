@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "nuclear-and-radioactivity",
+  "title": "Nuclear Physics and Radioactivity",
+  "description": "Atomic structure and nuclide notation, the four types of radioactive decay and nuclear equations, the random nature of decay, the exponential decay law and half-life, and mass-energy equivalence, binding energy, fission and fusion.",
+  "estMinutes": 100,
+  "prerequisites": ["particles-and-quantum"],
+  "objectives": [
+    "Interpret nuclide notation (mass number A, proton number Z) and identify isotopes",
+    "Write and balance nuclear equations for alpha, beta-minus, beta-plus and gamma decay",
+    "Compare the penetrating power and ionising ability of alpha, beta and gamma radiation",
+    "Explain why radioactive decay is random and spontaneous, and relate activity to the decay constant via A = λN",
+    "Derive and apply the exponential decay law N = N₀e^(-λt) and the half-life relation T½ = ln2/λ",
+    "Use mass-energy equivalence (E = mc²) to calculate mass defect and binding energy, and relate the binding-energy-per-nucleon curve to fission and fusion"
+  ],
+  "tags": ["nuclear-physics", "radioactivity", "half-life", "decay-constant", "binding-energy", "fission", "fusion", "alevel-physics"],
+  "lessons": [
+    { "id": "nuclear-structure-and-decay", "title": "Nuclear structure and types of decay", "file": "01-nuclear-structure-and-decay.md", "estMinutes": 30 },
+    { "id": "half-life-and-decay-law", "title": "Activity, half-life and the decay law", "file": "02-half-life-and-decay-law.md", "estMinutes": 35 },
+    { "id": "binding-energy-fission-fusion", "title": "Mass-energy equivalence, binding energy, fission and fusion", "file": "03-binding-energy-fission-fusion.md", "estMinutes": 35 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

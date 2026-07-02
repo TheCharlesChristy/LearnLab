@@ -1,0 +1,11 @@
+{
+  "kind": "bar",
+  "xLabel": "n (principal quantum number)",
+  "yLabel": "Energy / eV",
+  "series": [
+    {
+      "name": "hydrogen energy level",
+      "points": [[1, -13.6], [2, -3.4], [3, -1.51], [4, -0.85], [5, -0.54]]
+    }
+  ]
+}
