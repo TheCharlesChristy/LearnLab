@@ -14,6 +14,8 @@
     { "id": "data-representation", "dir": "data-representation" },
     { "id": "computer-architecture", "dir": "computer-architecture" },
     { "id": "networks-and-the-web", "dir": "networks-and-the-web" },
-    { "id": "paradigms-oop-functional", "dir": "paradigms-oop-functional" }
+    { "id": "databases-and-sql", "dir": "databases-and-sql" },
+    { "id": "paradigms-oop-functional", "dir": "paradigms-oop-functional" },
+    { "id": "theory-of-computation", "dir": "theory-of-computation" }
   ]
 }
