@@ -217,3 +217,40 @@ D-012 (LessonContext extension shape + `flashcards:${src}` itemId rule), D-013 (
 circuit JSON schema — SRS gives illustrative, not literal, wording), D-014 (the WIDGETS.md
 CI-check gap, fixed as a P2 precondition), D-015 (at least one module demos `flashcards`).
 
+## Phase P3 — Full alevel-physics / alevel-cs (§8.7)
+
+Goal: ship the 22 remaining modules across the two courses named in §8.7's P3 row. Exit
+criterion is just "MVC" — no new widget is scheduled for P3 (unlike P2's `logic-gate-sim`/
+`flashcards`), so this phase should need **zero `src/`/`python/` changes at all**: every module
+uses only the widgets and §6.7 Python components that already exist. That's a strictly stronger
+C-5 proof than P2 (which still needed 2 new widgets + a contract extension).
+
+### Scope
+
+| Course | New modules (§8.3/§8.4 order) | Existing |
+|---|---|---|
+| `alevel-physics` | measurements-and-uncertainty, particles-and-quantum, waves-and-optics, mechanics-and-energy, materials, electricity-dc, further-mechanics-circular-shm, thermal-and-gases, fields-1-gravitational-electric, fields-2-magnetic-and-induction, nuclear-and-radioactivity | *(course.json created once first module lands — this is physics' first content, no P1 pilot per D-007)* |
+| `alevel-cs` | programming-fundamentals, data-structures, algorithms-1-search-sort, algorithms-2-complexity-graphs, data-representation, computer-architecture, operating-systems-and-software, networks-and-the-web, databases-and-sql, paradigms-oop-functional, theory-of-computation | boolean-algebra-and-logic (P1 pilot) |
+
+Same module-authoring discipline as P2: agents scaffold via `new-module.mjs` into an isolated temp
+root, write real content, self-validate `--strict`, hand back only their own module folder —
+never touch any real `course.json`. Orchestrator splices every `ModuleRef` after review, in
+§8.3/§8.4 order, then creates `alevel-physics/course.json` fresh (mirroring how
+`alevel-statistics/course.json` was created in P2).
+
+All 22 modules dispatched as one wave (proven reliable at this scale by P2's 15-module
+`alevel-pure` wave, including its `SendMessage`-resume path for session-limit interruptions).
+
+**Verification:** `alevel-physics` (11 modules) gets every assessment answer independently
+re-derived by the orchestrator, not sampled — continuous, formula-driven numeric answers (SUVAT,
+circuits, fields, SHM, nuclear decay) are exactly the class of error P2 found needed 100%
+coverage for maths/mechanics/statistics. `alevel-cs` (11 modules): self-verification required
+from each agent, plus the orchestrator re-derives/re-checks at least 3 of 11 — weighted toward
+the numeric-conversion-heavy modules (`data-representation`, `algorithms-2-complexity-graphs`)
+where exact-answer risk is highest, even though most CS content is definitional/lower-risk than
+physics.
+
+Gate P3: full-tree `--strict` (51 modules / 6 courses expected), vitest/eslint/tsc (expected
+unchanged — no `src/` diff), non-`@py` e2e regression, `git diff --stat` audit confirming the
+diff touches only `public/content/{physics,cs}/**`.
+
