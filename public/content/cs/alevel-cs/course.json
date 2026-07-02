@@ -13,6 +13,7 @@
     { "id": "boolean-algebra-and-logic", "dir": "boolean-algebra-and-logic" },
     { "id": "data-representation", "dir": "data-representation" },
     { "id": "computer-architecture", "dir": "computer-architecture" },
+    { "id": "operating-systems-and-software", "dir": "operating-systems-and-software" },
     { "id": "networks-and-the-web", "dir": "networks-and-the-web" },
     { "id": "databases-and-sql", "dir": "databases-and-sql" },
     { "id": "paradigms-oop-functional", "dir": "paradigms-oop-functional" },
