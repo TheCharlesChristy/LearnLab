@@ -6,22 +6,105 @@
     {
       "id": "q1",
       "type": "mcq",
-      "text": "Placeholder question — which option is correct? (Replace me.)",
-      "choices": [
-        "This one",
-        "Not this one",
-        "Nor this one"
-      ],
-      "answer": 0,
-      "explanation": "Placeholder explanation — every question must explain its answer (§4.6)."
+      "text": "What is the time complexity of **linear search** in the worst case, on an array of $n$ elements?",
+      "choices": ["$O(1)$", "$O(\\log n)$", "$O(n)$", "$O(n^2)$"],
+      "answer": 2,
+      "explanation": "In the worst case (the target is last, or absent) linear search must check every one of the $n$ elements, so it is $O(n)$."
     },
     {
       "id": "q2",
+      "type": "mcq",
+      "text": "What is the time complexity of **binary search** in the worst case, on a sorted array of $n$ elements?",
+      "choices": ["$O(1)$", "$O(\\log n)$", "$O(n)$", "$O(n^2)$"],
+      "answer": 1,
+      "explanation": "Each comparison halves the remaining search space, so the number of comparisons needed is $\\log_2 n$, giving $O(\\log n)$."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "What is the worst-case time complexity of **bubble sort**?",
+      "choices": ["$O(n)$", "$O(n \\log n)$", "$O(n^2)$", "$O(2^n)$"],
+      "answer": 2,
+      "explanation": "On a reverse-sorted array bubble sort needs about $n$ passes of about $n$ comparisons each, giving $O(n^2)$."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "What is the worst-case time complexity of **merge sort**?",
+      "choices": ["$O(n)$", "$O(n \\log n)$", "$O(n^2)$", "$O(2^n)$"],
+      "answer": 1,
+      "explanation": "Merge sort splits the array in half $\\log n$ times and does $O(n)$ work merging at each level, giving $O(n \\log n)$ in the best, worst and average case alike."
+    },
+    {
+      "id": "q5",
       "type": "numeric",
-      "text": "Placeholder question — what is $2 + 2$? (Replace me.)",
-      "answer": 4,
+      "text": "In the worst case, how many comparisons does binary search need to find (or rule out) a target in a **sorted array of 32 elements**?",
+      "answer": 5,
       "tolerance": 0,
-      "explanation": "Placeholder explanation — $2 + 2 = 4$."
+      "explanation": "Each comparison halves the search space: $32 \\to 16 \\to 8 \\to 4 \\to 2 \\to 1$ is 5 halvings, matching $\\log_2 32 = 5$."
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "text": "Select every statement below that is **true** of adjacency list vs. adjacency matrix representations of a graph with $V$ vertices and $E$ edges.",
+      "choices": [
+        "An adjacency list uses $O(V + E)$ space",
+        "An adjacency matrix uses $O(V + E)$ space",
+        "An adjacency matrix allows checking whether two vertices are connected in $O(1)$ time",
+        "An adjacency list representation is generally preferred for dense graphs"
+      ],
+      "answers": [0, 2],
+      "explanation": "An adjacency list stores one entry per vertex and one per edge-endpoint, so it uses $O(V+E)$ space — the matrix always uses $O(V^2)$ regardless of how many edges exist, so the second statement is false. The matrix gives $O(1)$ edge lookup by direct indexing. Adjacency lists are preferred for **sparse** graphs (space-efficient); matrices suit **dense** graphs, so the fourth statement is false."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "A graph has adjacency list A: [B, C], B: [A, D, E], C: [A, F], D: [B], E: [B, F], F: [C, E]. Running **breadth-first search (BFS)** from A, visiting neighbours in the order listed, what order are the vertices visited in?",
+      "choices": [
+        "A, B, C, D, E, F",
+        "A, B, D, E, F, C",
+        "A, C, B, F, E, D",
+        "A, B, C, F, D, E"
+      ],
+      "answer": 0,
+      "explanation": "BFS visits layer by layer with a queue: visit A, enqueue B, C; visit B, enqueue D, E; visit C, enqueue F; then D, E, F are visited in the order they were enqueued, with no new vertices left to add. The order is A, B, C, D, E, F."
+    },
+    {
+      "id": "q8",
+      "type": "mcq",
+      "text": "Using the same graph as the previous question (A: [B, C], B: [A, D, E], C: [A, F], D: [B], E: [B, F], F: [C, E]), running **depth-first search (DFS)** from A, visiting neighbours in the order listed, what order are the vertices visited in?",
+      "choices": [
+        "A, B, C, D, E, F",
+        "A, B, D, E, F, C",
+        "A, C, F, E, B, D",
+        "A, B, E, D, F, C"
+      ],
+      "answer": 1,
+      "explanation": "DFS commits to a path before backtracking: from A go to B, then to B's first unvisited neighbour D (dead end, backtrack to B), then to B's next unvisited neighbour E, then to F, then to F's unvisited neighbour C. That gives A, B, D, E, F, C."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "A weighted graph has edges A–B (7), A–C (9), A–F (14), B–C (10), B–D (15), C–D (11), C–F (2), D–E (6), F–E (9). Using Dijkstra's algorithm from A, what is the length of the **shortest path from A to E**?",
+      "answer": 20,
+      "tolerance": 0,
+      "explanation": "Dijkstra's algorithm gives final distances A=0, B=7, C=9, F=11, D=20, E=20. The shortest route to E is A → C → F → E with weights $9 + 2 + 9 = 20$; the alternative via D (A → C → D → E = $9+11+6=26$, or A → B → D → E = $7+15+6=28$) is longer."
+    },
+    {
+      "id": "q10",
+      "type": "text",
+      "text": "Which data structure does breadth-first search (BFS) use to decide which vertex to process next?",
+      "accept": ["(a |the )?queue"],
+      "caseSensitive": false,
+      "explanation": "BFS uses a **queue** (first-in, first-out): vertices are processed in the order they were discovered, which produces the layer-by-layer visiting order."
+    },
+    {
+      "id": "q11",
+      "type": "multi",
+      "text": "Select every complexity class below that grows **faster** than $O(n)$ as $n$ becomes large.",
+      "choices": ["$O(1)$", "$O(\\log n)$", "$O(n \\log n)$", "$O(n^2)$"],
+      "answers": [2, 3],
+      "explanation": "$O(1)$ and $O(\\log n)$ both grow more slowly than $O(n)$. $O(n \\log n)$ grows faster than $O(n)$ because the extra $\\log n$ factor keeps increasing, and $O(n^2)$ grows faster still."
     }
   ]
 }
