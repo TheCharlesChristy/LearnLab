@@ -254,3 +254,30 @@ Gate P3: full-tree `--strict` (51 modules / 6 courses expected), vitest/eslint/t
 unchanged — no `src/` diff), non-`@py` e2e regression, `git diff --stat` audit confirming the
 diff touches only `public/content/{physics,cs}/**`.
 
+### Gate P3 — GREEN (2026-07-02)
+
+All 22 modules landed. 10 of 11 physics agents and 10 of 12 (new) CS agents hit session-limit
+rate-limits mid-task — every one resumed cleanly via `SendMessage` with zero work lost, same
+pattern as P2. One real process gap found and fixed along the way: **orphan module folders (not
+yet referenced by any `course.json`) are silently skipped by `build-content.mjs`'s MVC checks
+entirely** — an early "16 modules already pass strict" read was wrong because 5 of those CS
+modules weren't in `course.json` yet, so they were never actually checked; several turned out to
+be bare `new-module.mjs` scaffolds (TODO objectives, 1 lesson, 2-question assessment) that had
+been silently passing. Fixed by adding every landed module's `ModuleRef` to its course.json
+immediately as it lands, rather than batching the splice to the end — this makes `--strict`
+authoritative throughout the wave instead of only at the final review.
+
+Full-tree `node scripts/build-content.mjs --strict` passes clean: **6 courses, 51 modules.**
+Every one of `alevel-physics`'s 11 assessments independently re-derived by the orchestrator (unit
+conversions, SUVAT/projectiles, circuits, fields, SHM, thermal/ideal-gas, nuclear decay/binding
+energy) — zero discrepancies. `alevel-cs`: 5 of 12 modules spot-checked in full
+(`algorithms-1-search-sort`'s search/sort traces, `data-representation`'s base
+conversions/two's-complement/floating-point, `computer-architecture`'s half-adder truth table,
+`theory-of-computation`'s FSM traces, `operating-systems-and-software`'s round-robin schedule) —
+comfortably exceeding the ≥3-of-11 bar, zero discrepancies. `vitest run` (467 passed, 7 skipped),
+`eslint .`, `tsc --noEmit` all clean; `playwright test --grep-invert @py --project=chromium` — all
+8 specs pass (firefox/webkit unavailable in this sandbox, checked via real CI as in P2). `git diff
+--stat` from the Gate-P2 commit confirms **zero changes outside `docs/BUILD_PLAN.md` and
+`public/content/{physics,cs}/**`** — P3 needed no `src/`/`python/`/`schemas/` changes at all, a
+strictly stronger C-5 proof than P2.
+
