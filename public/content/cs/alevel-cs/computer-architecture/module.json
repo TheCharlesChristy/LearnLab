@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "computer-architecture",
+  "title": "Computer Architecture",
+  "description": "The von Neumann stored-program architecture, CPU components and the fetch-decode-execute cycle, factors affecting performance, cache and buses, and how logic gates implement arithmetic in the ALU.",
+  "estMinutes": 95,
+  "prerequisites": [
+    "data-representation"
+  ],
+  "objectives": [
+    "TODO: state the first learner-facing outcome",
+    "TODO: state the second learner-facing outcome"
+  ],
+  "lessons": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "file": "01-introduction.md",
+      "estMinutes": 95
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "TODO-your-name"
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "fields-2-magnetic-and-induction-assessment",
+  "title": "End of module: Fields 2: Magnetic Fields and Induction",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "A straight wire of length $0.40\\,\\text{m}$ carries a current of $5.0\\,\\text{A}$ perpendicular to a uniform magnetic field of flux density $0.30\\,\\text{T}$. Calculate the force on the wire.",
+      "answer": 0.6,
+      "tolerance": 0.005,
+      "unit": "N",
+      "explanation": "$F = BIL\\sin\\theta$ with $\\theta = 90^\\circ$ so $\\sin\\theta = 1$: $F = 0.30 \\times 5.0 \\times 0.40 \\times 1 = 0.6\\,\\text{N}$."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "Using Fleming's left-hand rule for the force on a current-carrying conductor, which finger (or thumb) represents the direction of the magnetic field?",
+      "choices": ["Thumb", "First finger", "Second finger", "None — the field has no assigned direction in the rule"],
+      "answer": 1,
+      "explanation": "Fleming's left-hand rule: First finger = Field, seCond finger = Current, thuMb = Motion (force). The first finger represents the field."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "A proton ($m = 1.67 \\times 10^{-27}\\,\\text{kg}$, $Q = 1.6 \\times 10^{-19}\\,\\text{C}$) travels at $1.0 \\times 10^{7}\\,\\text{m s}^{-1}$ perpendicular to a uniform magnetic field of flux density $0.20\\,\\text{T}$. Calculate the radius of its circular path.",
+      "answer": 0.52,
+      "tolerance": 0.01,
+      "unit": "m",
+      "explanation": "$r = \\dfrac{mv}{BQ} = \\dfrac{1.67 \\times 10^{-27} \\times 1.0 \\times 10^{7}}{0.20 \\times 1.6 \\times 10^{-19}} = \\dfrac{1.67 \\times 10^{-20}}{3.2 \\times 10^{-20}} \\approx 0.52\\,\\text{m}$."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "A charged particle moves in a circular path in a region of uniform magnetic field, entering perpendicular to the field. Why does the magnetic force not change the particle's speed?",
+      "choices": [
+        "The magnetic force is always perpendicular to the velocity, so it does no work and only acts as a centripetal force",
+        "The magnetic force increases the particle's speed continuously",
+        "The magnetic force acts parallel to the velocity at all times",
+        "The magnetic force is zero throughout the motion"
+      ],
+      "answer": 0,
+      "explanation": "$F = BQv\\sin\\theta$ acts perpendicular to $v$ at every instant. A force perpendicular to velocity does no work, so it cannot change speed — it only changes direction, acting as the centripetal force for uniform circular motion."
+    },
+    {
+      "id": "q5",
+      "type": "multi",
+      "text": "By Faraday's law, $\\varepsilon = -N\\dfrac{\\mathrm{d}\\Phi}{\\mathrm{d}t}$. Which of the following would increase the magnitude of the induced EMF in a coil, all else being equal?",
+      "choices": [
+        "Increasing the number of turns $N$ on the coil",
+        "Increasing the rate of change of flux, $\\mathrm{d}\\Phi/\\mathrm{d}t$",
+        "Decreasing the coil's cross-sectional area while the rate of change of $B$ stays the same",
+        "In a generator, rotating the coil faster (increasing $\\omega$)"
+      ],
+      "answers": [0, 1, 3],
+      "explanation": "EMF is proportional to $N$ and to the rate of change of flux, so increasing either increases the EMF; in a generator $\\varepsilon_0 = NBA\\omega$, so increasing $\\omega$ also increases it. Decreasing the coil's area (with $\\mathrm{d}B/\\mathrm{d}t$ fixed) reduces $\\mathrm{d}\\Phi/\\mathrm{d}t = A\\,\\mathrm{d}B/\\mathrm{d}t$, so it decreases the EMF, not increases it."
+    },
+    {
+      "id": "q6",
+      "type": "text",
+      "text": "Lenz's law states that an induced EMF always acts in a direction that opposes the change producing it. This direction is a direct consequence of which fundamental physical principle?",
+      "accept": ["conservation of energy", "(the )?law of conservation of energy", "energy conservation"],
+      "caseSensitive": false,
+      "explanation": "If the induced current instead reinforced the change that caused it, the effect would keep growing and generate energy from nothing. Lenz's law — opposition to the change — is required by the **conservation of energy**."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "A flat coil of $150$ turns has cross-sectional area $0.02\\,\\text{m}^2$ and lies with its plane perpendicular to a uniform magnetic field of flux density $0.08\\,\\text{T}$. Calculate the flux linkage of the coil.",
+      "answer": 0.24,
+      "tolerance": 0.001,
+      "unit": "Wb",
+      "explanation": "$\\Phi = BA = 0.08 \\times 0.02 = 0.0016\\,\\text{Wb}$ per turn. Flux linkage $= N\\Phi = 150 \\times 0.0016 = 0.24\\,\\text{Wb}$."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "The magnetic field through a single-turn coil of area $0.05\\,\\text{m}^2$ decreases uniformly from $0.60\\,\\text{T}$ to $0.20\\,\\text{T}$ in $0.10\\,\\text{s}$. Calculate the magnitude of the induced EMF.",
+      "answer": 0.2,
+      "tolerance": 0.005,
+      "unit": "V",
+      "explanation": "$\\Delta\\Phi = \\Delta B \\times A = (0.60 - 0.20) \\times 0.05 = 0.02\\,\\text{Wb}$. With $N = 1$: $\\varepsilon = N\\dfrac{\\Delta\\Phi}{\\Delta t} = \\dfrac{0.02}{0.10} = 0.2\\,\\text{V}$."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "An ideal transformer has $500$ turns on its primary coil and $100$ turns on its secondary coil. If the primary voltage is $100\\,\\text{V}$, calculate the secondary voltage.",
+      "answer": 20,
+      "tolerance": 0.1,
+      "unit": "V",
+      "explanation": "$\\dfrac{V_p}{V_s} = \\dfrac{N_p}{N_s} \\Rightarrow V_s = V_p \\times \\dfrac{N_s}{N_p} = 100 \\times \\dfrac{100}{500} = 20\\,\\text{V}$."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "An ideal step-up transformer has more turns on its secondary coil than its primary coil. Compared with the primary current, the secondary current is…",
+      "choices": ["Larger", "Smaller", "The same", "Impossible to determine from this information"],
+      "answer": 1,
+      "explanation": "For an ideal transformer, power is conserved: $I_pV_p = I_sV_s$. A step-up transformer has $V_s > V_p$, so to keep the product constant $I_s$ must be smaller than $I_p$."
+    }
+  ]
+}

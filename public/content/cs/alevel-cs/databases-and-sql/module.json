@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "databases-and-sql",
+  "title": "Databases and SQL",
+  "description": "The relational model of tables and keys, normalising a flat-file design to 1NF/2NF/3NF, and the core SQL statements used to query and update relational data.",
+  "estMinutes": 90,
+  "prerequisites": [
+    "data-structures"
+  ],
+  "objectives": [
+    "Describe a relational database as a set of tables (relations) made up of rows (records) and columns (attributes/fields)",
+    "Identify primary keys and foreign keys, and explain how a foreign key creates a relationship between two tables",
+    "Explain the redundancy and update/insertion/deletion anomalies caused by an unnormalised flat-file design",
+    "Normalise an unnormalised table to first, second and third normal form (1NF, 2NF, 3NF)",
+    "Write SQL SELECT statements using FROM, WHERE and ORDER BY to retrieve and sort data",
+    "Write SQL INSERT INTO, UPDATE and DELETE statements, and a simple INNER JOIN across two tables using a foreign key"
+  ],
+  "tags": ["databases", "sql", "relational-model", "normalisation", "primary-key", "foreign-key", "join"],
+  "lessons": [
+    { "id": "relational-model", "title": "The relational model: tables, keys and relationships", "file": "01-relational-model.md", "estMinutes": 25 },
+    { "id": "normalisation", "title": "Data redundancy and normalisation", "file": "02-normalisation.md", "estMinutes": 30 },
+    { "id": "sql-queries", "title": "Querying and updating data with SQL", "file": "03-sql-queries.md", "estMinutes": 35 }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

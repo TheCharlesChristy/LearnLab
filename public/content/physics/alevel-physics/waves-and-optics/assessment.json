@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "id": "waves-and-optics-assessment",
+  "title": "End of module: Waves and Optics",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "A wave has frequency $50\\,\\text{Hz}$ and wavelength $4\\,\\text{m}$. Find its speed.",
+      "answer": 200,
+      "tolerance": 0.5,
+      "unit": "m/s",
+      "explanation": "Using the wave equation $v = f\\lambda$: $v = 50 \\times 4 = 200\\,\\text{m s}^{-1}$."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "Sound travels at $340\\,\\text{m s}^{-1}$ in air. Find the wavelength of a sound wave of frequency $680\\,\\text{Hz}$.",
+      "answer": 0.5,
+      "tolerance": 0.01,
+      "unit": "m",
+      "explanation": "Rearranging $v = f\\lambda$: $\\lambda = v/f = 340/680 = 0.5\\,\\text{m}$."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "In which type of wave does the oscillation occur perpendicular to the direction of energy transfer?",
+      "choices": ["Transverse wave", "Longitudinal wave", "Both types equally", "Neither type"],
+      "answer": 0,
+      "explanation": "By definition, a transverse wave oscillates perpendicular to its direction of travel (e.g. light, water surface waves)."
+    },
+    {
+      "id": "q4",
+      "type": "multi",
+      "text": "Which of the following waves can be polarised?",
+      "choices": ["Visible light", "Sound waves in air", "Radio waves", "A longitudinal wave on a spring"],
+      "answers": [0, 2],
+      "explanation": "Only transverse waves can be polarised, since polarisation restricts the oscillation to one plane perpendicular to the direction of travel. Light and radio waves are both transverse electromagnetic waves; sound and longitudinal spring waves have no perpendicular oscillation to restrict."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "A string of length $0.80\\,\\text{m}$, fixed at both ends, vibrates in its second harmonic ($n = 2$). Find the wavelength.",
+      "answer": 0.8,
+      "tolerance": 0.01,
+      "unit": "m",
+      "explanation": "For a string fixed at both ends, $L = n\\lambda_n/2$, so $\\lambda_2 = 2L/n = (2 \\times 0.80)/2 = 0.80\\,\\text{m}$."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "The wave speed on the string in the previous question is $40\\,\\text{m s}^{-1}$. Find the frequency of the second harmonic.",
+      "answer": 50,
+      "tolerance": 0.5,
+      "unit": "Hz",
+      "explanation": "Using $v = f\\lambda$ with $\\lambda_2 = 0.80\\,\\text{m}$: $f = v/\\lambda_2 = 40/0.80 = 50\\,\\text{Hz}$."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "At a node in a stationary (standing) wave, the amplitude of oscillation is…",
+      "choices": ["Maximum", "Zero", "Half the maximum amplitude", "Dependent on time"],
+      "answer": 1,
+      "explanation": "A node is a point of permanent zero displacement — destructive superposition occurs there at all times."
+    },
+    {
+      "id": "q8",
+      "type": "text",
+      "text": "Two wave sources with the same frequency and a constant (unchanging) phase difference are said to be… (one word)",
+      "accept": ["coherent"],
+      "caseSensitive": false,
+      "explanation": "Sources with a constant phase difference are **coherent** — coherence is required for a stable interference pattern to be observed."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "In a double-slit experiment, the slit separation is $0.25\\,\\text{mm}$, the screen is $2.4\\,\\text{m}$ away, and the fringe spacing is $5.28\\,\\text{mm}$. Find the wavelength of the light, in metres.",
+      "answer": 5.5e-7,
+      "tolerance": 2e-8,
+      "unit": "m",
+      "explanation": "Using $\\lambda = ax/D$: $\\lambda = \\dfrac{(0.25\\times10^{-3})\\times(5.28\\times10^{-3})}{2.4} = 5.5\\times10^{-7}\\,\\text{m}$ ($550\\,\\text{nm}$, green light)."
+    },
+    {
+      "id": "q10",
+      "type": "numeric",
+      "text": "A diffraction grating has $300$ lines per millimetre. Find the grating spacing $d$, in metres.",
+      "answer": 3.33e-6,
+      "tolerance": 0.05e-6,
+      "unit": "m",
+      "explanation": "$N = 300$ lines/mm $= 3.00\\times10^{5}$ lines/m, so $d = 1/N = 1/(3.00\\times10^{5}) = 3.33\\times10^{-6}\\,\\text{m}$."
+    },
+    {
+      "id": "q11",
+      "type": "numeric",
+      "text": "Using the grating from the previous question ($d = 3.33\\times10^{-6}\\,\\text{m}$) and light of wavelength $600\\,\\text{nm}$, find $\\sin\\theta$ for the first-order ($n=1$) maximum.",
+      "answer": 0.18,
+      "tolerance": 0.005,
+      "explanation": "From $d\\sin\\theta = n\\lambda$: $\\sin\\theta = n\\lambda/d = (1 \\times 600\\times10^{-9})/(3.33\\times10^{-6}) = 0.18$ (so $\\theta \\approx 10.4^\\circ$)."
+    },
+    {
+      "id": "q12",
+      "type": "mcq",
+      "text": "Total internal reflection can only occur when light travels…",
+      "choices": [
+        "From a less dense medium to a more dense medium",
+        "From a more dense medium to a less dense medium",
+        "Through a vacuum",
+        "At normal incidence to the boundary"
+      ],
+      "answer": 1,
+      "explanation": "TIR requires light to travel from a denser medium towards a less dense one (e.g. glass to air), at an angle of incidence greater than the critical angle."
+    },
+    {
+      "id": "q13",
+      "type": "numeric",
+      "text": "A glass block has a refractive index of $1.50$ relative to air. Find its critical angle, in degrees.",
+      "answer": 41.8,
+      "tolerance": 0.5,
+      "unit": "degrees",
+      "explanation": "$\\sin C = 1/n = 1/1.50 = 0.667$, so $C = \\sin^{-1}(0.667) \\approx 41.8^\\circ$."
+    },
+    {
+      "id": "q14",
+      "type": "numeric",
+      "text": "Light travels from air ($n_1 = 1.00$) into water ($n_2 = 1.33$) at an angle of incidence of $40^\\circ$. Find the angle of refraction, in degrees.",
+      "answer": 28.9,
+      "tolerance": 0.5,
+      "unit": "degrees",
+      "explanation": "By Snell's law $n_1\\sin\\theta_1 = n_2\\sin\\theta_2$: $\\sin\\theta_2 = (1.00 \\times \\sin 40^\\circ)/1.33 = 0.643/1.33 = 0.483$, so $\\theta_2 = \\sin^{-1}(0.483) \\approx 28.9^\\circ$."
+    }
+  ]
+}

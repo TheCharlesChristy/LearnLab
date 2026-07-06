@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "algorithms-1-search-sort",
+  "title": "Algorithms 1: Searching and Sorting",
+  "description": "Linear and binary search, and the bubble, insertion and merge sort algorithms, traced step-by-step on small example lists.",
+  "estMinutes": 100,
+  "prerequisites": [
+    "programming-fundamentals"
+  ],
+  "objectives": [
+    "Trace linear search and binary search on a small list and count the comparisons each makes",
+    "Explain why binary search requires the input data to be sorted, and state its comparison advantage over linear search",
+    "Trace bubble sort and insertion sort pass-by-pass on a small list",
+    "Trace merge sort's divide-and-conquer splitting and the merge step on a small list",
+    "State the informal best/worst-case behaviour of each algorithm and choose an appropriate one for a given situation"
+  ],
+  "tags": ["algorithms", "search", "sort", "linear-search", "binary-search", "bubble-sort", "insertion-sort", "merge-sort"],
+  "lessons": [
+    { "id": "linear-and-binary-search", "title": "Linear search and binary search", "file": "01-linear-and-binary-search.md", "estMinutes": 30 },
+    { "id": "bubble-and-insertion-sort", "title": "Bubble sort and insertion sort", "file": "02-bubble-and-insertion-sort.md", "estMinutes": 35 },
+    { "id": "merge-sort", "title": "Merge sort", "file": "03-merge-sort.md", "estMinutes": 35 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

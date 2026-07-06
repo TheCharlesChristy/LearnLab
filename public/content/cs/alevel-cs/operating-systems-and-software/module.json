@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "operating-systems-and-software",
+  "title": "Operating Systems and Software",
+  "description": "How an operating system manages hardware, processes and memory, how it responds to interrupts, and how systems, application and utility software differ.",
+  "estMinutes": 90,
+  "prerequisites": [
+    "computer-architecture"
+  ],
+  "objectives": [
+    "Explain the core purpose of an operating system: managing hardware resources, providing a user interface, and running and managing processes",
+    "Describe the states a process passes through and trace round-robin scheduling given process burst times and a time slice",
+    "Explain how paging and segmentation implement virtual memory, and compare their advantages",
+    "Distinguish systems software, utility software and application software, and classify examples of each",
+    "Explain what an interrupt is and describe how the fetch-decode-execute cycle checks for one at the end of every cycle"
+  ],
+  "tags": ["operating-systems", "scheduling", "memory-management", "interrupts", "software"],
+  "lessons": [
+    { "id": "os-purpose-and-processes", "title": "What an operating system does", "file": "01-os-purpose-and-processes.md", "estMinutes": 25 },
+    { "id": "scheduling-and-memory", "title": "Scheduling and memory management", "file": "02-scheduling-and-memory.md", "estMinutes": 35 },
+    { "id": "software-and-interrupts", "title": "Software categories and interrupts", "file": "03-software-and-interrupts.md", "estMinutes": 30 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

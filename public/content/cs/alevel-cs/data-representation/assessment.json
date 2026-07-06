@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "id": "data-representation-assessment",
+  "title": "End of module: Data Representation",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "How many distinct values can be stored in a single 8-bit byte?",
+      "choices": ["8", "16", "128", "256"],
+      "answer": 3,
+      "explanation": "An $n$-bit pattern can represent $2^n$ distinct values; for $n=8$ that is $2^8 = 256$ (denary $0$ to $255$)."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "Convert the 8-bit binary number $01011010$ to denary.",
+      "answer": 90,
+      "tolerance": 0,
+      "explanation": "Only the bits set to 1 contribute their place value: $64 + 16 + 8 + 2 = 90$."
+    },
+    {
+      "id": "q3",
+      "type": "text",
+      "text": "Convert the denary number 90 to hexadecimal (two hex digits, e.g. write it like \"c8\").",
+      "accept": ["5a", "0x5a"],
+      "caseSensitive": false,
+      "explanation": "$90 \\div 16 = 5$ remainder $10$. The remainder $10$ is hex digit A, and the quotient 5 is hex digit 5, giving $\\texttt{5A}$. Check: $5 \\times 16 + 10 = 90$."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "Convert the hexadecimal number $\\texttt{2F}$ to denary.",
+      "answer": 47,
+      "tolerance": 0,
+      "explanation": "Each hex digit is worth its value times $16^{\\text{position}}$: $2 \\times 16 + 15 \\times 1 = 32 + 15 = 47$ (recall $\\texttt{F} = 15$)."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "What is the main reason programmers write memory addresses and colour codes in hexadecimal rather than binary?",
+      "choices": [
+        "Each hex digit represents exactly 4 bits, so a long binary string becomes a short, easy-to-read hex string via a simple mechanical grouping",
+        "Computer hardware performs arithmetic faster in hexadecimal than in binary",
+        "Hexadecimal is the only base a CPU's circuits can physically store",
+        "Hexadecimal removes the need for two's complement when representing negative numbers"
+      ],
+      "answer": 0,
+      "explanation": "Because $16 = 2^4$, every hex digit corresponds to exactly one group of 4 bits (a nibble), so binary-to-hex conversion is a mechanical grouping, not real arithmetic — this is purely for human readability; the hardware still stores and processes binary."
+    },
+    {
+      "id": "q6",
+      "type": "text",
+      "text": "Add the 8-bit binary numbers $01011010$ and $00100101$. Give the 8-bit binary result (no spaces).",
+      "accept": ["01111111"],
+      "caseSensitive": false,
+      "explanation": "$01011010$ (90) plus $00100101$ (37) equals $127$ in denary, and $127 = 01111111$ in 8-bit binary. No carry is generated out of bit 7, so there is no overflow."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "An 8-bit unsigned register adds $200$ and $100$ (binary $11001000 + 01100100$). What happens?",
+      "choices": [
+        "The correct result, 300, is stored exactly",
+        "The result overflows: only the lower 8 bits (denary 44) are kept in the register, with a carry out that is discarded",
+        "The register automatically grows to 9 bits to fit the answer",
+        "The addition is invalid and the processor raises an error"
+      ],
+      "answer": 1,
+      "explanation": "$200 + 100 = 300$, which needs 9 bits ($100101100$). An 8-bit register keeps only the lower 8 bits, $00101100 = 44$, and the leading bit is lost as a discarded carry — this is overflow, since $300 - 256 = 44$."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Using 8-bit two's complement, what denary value does the bit pattern $11011011$ represent?",
+      "answer": -37,
+      "tolerance": 0,
+      "explanation": "The most significant bit contributes $-128$; the remaining bits $1011011$ contribute $64+16+8+2+1=91$. Total: $-128 + 91 = -37$."
+    },
+    {
+      "id": "q9",
+      "type": "text",
+      "text": "Find the 8-bit two's complement representation of $-37$. Give your answer as an 8-bit binary string (no spaces).",
+      "accept": ["11011011"],
+      "caseSensitive": false,
+      "explanation": "$37$ in 8-bit binary is $00100101$. Invert every bit to get $11011010$, then add 1 to get $11011011$."
+    },
+    {
+      "id": "q10",
+      "type": "numeric",
+      "text": "Using 8-bit two's complement addition (discarding any carry out of bit 7), what denary value results from computing $50 + (-37)$?",
+      "answer": 13,
+      "tolerance": 0,
+      "explanation": "$50 = 00110010$ and $-37 = 11011011$. Adding these 8-bit patterns and discarding the carry out of bit 7 gives $00001101 = 8+4+1 = 13$, matching $50 - 37 = 13$."
+    },
+    {
+      "id": "q11",
+      "type": "mcq",
+      "text": "What is the range of denary values representable in 8-bit two's complement?",
+      "choices": ["0 to 255", "$-127$ to $127$", "$-128$ to $127$", "$-256$ to $255$"],
+      "answer": 2,
+      "explanation": "An $n$-bit two's complement register represents $-2^{n-1}$ to $2^{n-1}-1$; for $n=8$ that is $-128$ to $127$ — the same 256 bit patterns as unsigned, shared differently between negative and positive values."
+    },
+    {
+      "id": "q12",
+      "type": "numeric",
+      "text": "A simplified floating-point format uses a sign bit, a 4-bit normalised mantissa (representing $0.bbbb$), and a 3-bit two's complement exponent. Given sign $=0$, mantissa $=1011$, exponent $=011$, what denary value does this represent?",
+      "answer": 5.5,
+      "tolerance": 0.01,
+      "explanation": "Mantissa $0.1011 = 0.5+0.125+0.0625 = 0.6875$. Exponent $011$ in 3-bit two's complement is $3$. Value $= 0.6875 \\times 2^3 = 5.5$."
+    },
+    {
+      "id": "q13",
+      "type": "multi",
+      "text": "Which of the following statements about character encoding are true?",
+      "choices": [
+        "ASCII uses 7 bits and can represent 128 characters",
+        "Extended ASCII uses 8 bits and can represent 256 characters",
+        "Unicode/UTF-8 can represent far more characters than ASCII because it can use more bytes for less common characters",
+        "Every character set must use exactly the same number of bits for every character"
+      ],
+      "answers": [0, 1, 2],
+      "explanation": "ASCII is a 7-bit code ($2^7=128$ characters); extended ASCII is 8-bit ($2^8=256$ characters); UTF-8 is variable-length (1 to 4 bytes), which is exactly how it covers far more characters than a fixed 1-byte scheme could. The last statement is false — UTF-8 is a counterexample, since it deliberately varies the number of bytes per character."
+    },
+    {
+      "id": "q14",
+      "type": "numeric",
+      "text": "An uncompressed image is 200 pixels wide by 100 pixels tall, stored with 8 bits of colour depth per pixel. What is the file size in bytes?",
+      "answer": 20000,
+      "tolerance": 0,
+      "explanation": "Size in bits $= 200 \\times 100 \\times 8 = 160{,}000$ bits. Dividing by 8 gives bytes: $160{,}000 \\div 8 = 20{,}000$ bytes."
+    },
+    {
+      "id": "q15",
+      "type": "numeric",
+      "text": "A 10-second mono sound clip is sampled at 44,100 Hz with a bit depth of 16 bits. What is the uncompressed file size in bytes?",
+      "answer": 882000,
+      "tolerance": 0,
+      "explanation": "Size in bits $= 44{,}100 \\times 16 \\times 10 = 7{,}056{,}000$ bits. Dividing by 8 gives bytes: $7{,}056{,}000 \\div 8 = 882{,}000$ bytes."
+    },
+    {
+      "id": "q16",
+      "type": "mcq",
+      "text": "Why does floating-point represent both very large and very small numbers more flexibly than fixed-point, at the cost of some precision?",
+      "choices": [
+        "Because the exponent scales the value over a huge range, while a fixed-length mantissa always supplies roughly the same number of significant bits regardless of magnitude",
+        "Because floating-point numbers are always stored using more total bits than fixed-point numbers",
+        "Because floating-point cannot represent negative numbers, simplifying the hardware",
+        "Because fixed-point cannot represent fractional values at all"
+      ],
+      "answer": 0,
+      "explanation": "Floating-point's exponent lets the same bit pattern length cover an enormous range of magnitudes by shifting the effective position of the binary point, but the mantissa still only ever supplies a fixed number of significant bits — so very large and very small values are represented with the same relative precision, unlike fixed-point where the position of the point (and hence range vs precision) is fixed in advance."
+    }
+  ]
+}

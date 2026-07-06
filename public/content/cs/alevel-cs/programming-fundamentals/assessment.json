@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "id": "programming-fundamentals-assessment",
+  "title": "End of module: Programming Fundamentals",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "What data type does Python assign to the literal `3.0`?",
+      "choices": ["int", "float", "str", "bool"],
+      "answer": 1,
+      "explanation": "Any numeric literal written with a decimal point, such as `3.0`, is a `float` in Python, even though its value is a whole number. `type(3.0)` reports `<class 'float'>`."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "What is the result of `7 // 2` in Python?",
+      "choices": ["3.5", "3", "4", "2"],
+      "answer": 1,
+      "explanation": "`//` is floor (integer) division: it divides and rounds down to the nearest whole number, discarding the remainder. `7 / 2 = 3.5`, and flooring 3.5 gives `3`."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "What is the value of `7 % 2`?",
+      "answer": 1,
+      "tolerance": 0,
+      "explanation": "`%` is the modulus operator: it returns the remainder after division. `7 = 3 * 2 + 1`, so `7 % 2 = 1`."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "Which control structure should you use to repeat an action while a condition remains true, when you do not know in advance how many times it will repeat?",
+      "choices": ["for loop", "while loop", "if statement", "function"],
+      "answer": 1,
+      "explanation": "A `while` loop checks its condition before every pass and keeps repeating for as long as it holds — ideal when the number of repetitions is not known ahead of time. A `for` loop is best when you are working through a sequence of known length (e.g. a list or a `range`)."
+    },
+    {
+      "id": "q5",
+      "type": "multi",
+      "text": "Which of the following are valid comparison operators in Python?",
+      "choices": ["==", "=", "!=", "<>"],
+      "answers": [0, 2],
+      "explanation": "`==` (equal to) and `!=` (not equal to) are valid comparison operators. A single `=` is the assignment operator, not a comparison, and `<>` was removed from the language in Python 3 (it existed only in Python 2)."
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "text": "What does `not (5 == 5) or (3 > 10)` evaluate to?",
+      "choices": ["True", "False"],
+      "answer": 1,
+      "explanation": "`5 == 5` is `True`, so `not (5 == 5)` is `False`. `3 > 10` is `False`. Combining with `or`: `False or False` is `False`."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "What is printed by the following code?\n\n```python\nx = 2\ny = 5\nx = x + y * 2\nprint(x)\n```",
+      "answer": 12,
+      "tolerance": 0,
+      "explanation": "By precedence, `y * 2` is evaluated first: `5 * 2 = 10`. Then `x = x + 10 = 2 + 10 = 12`, so `print(x)` outputs `12`."
+    },
+    {
+      "id": "q8",
+      "type": "text",
+      "text": "What is printed by the following code? (Write exactly what appears, without quotes.)\n\n```python\ndef greet(name):\n    return \"Hi \" + name\n\nprint(greet(\"Sam\"))\n```",
+      "accept": ["Hi Sam"],
+      "caseSensitive": false,
+      "explanation": "Calling `greet(\"Sam\")` sets the parameter `name` to `\"Sam\"`. The function returns `\"Hi \" + \"Sam\"`, which concatenates to `\"Hi Sam\"`, and that is what `print` displays: `Hi Sam`."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "What is printed by the following code?\n\n```python\ntotal = 0\nfor i in range(1, 5):\n    total = total + i\nprint(total)\n```",
+      "answer": 10,
+      "tolerance": 0,
+      "explanation": "`range(1, 5)` produces `1, 2, 3, 4` (the stop value 5 is excluded). Summing: `0 + 1 + 2 + 3 + 4 = 10`."
+    },
+    {
+      "id": "q10",
+      "type": "numeric",
+      "text": "What is the final value of `count` printed by the following code?\n\n```python\nn = 1\ncount = 0\nwhile n < 20:\n    n = n * 2\n    count = count + 1\nprint(count)\n```",
+      "answer": 5,
+      "tolerance": 0,
+      "explanation": "Trace `n` and `count` together, checking the condition before each pass: (1, 0) -> condition true -> (2, 1) -> true -> (4, 2) -> true -> (8, 3) -> true -> (16, 4) -> true -> (32, 5) -> now `32 < 20` is false, so the loop stops. `count` is printed as `5`."
+    },
+    {
+      "id": "q11",
+      "type": "mcq",
+      "text": "Given `nums = [10, 20, 30, 40]`, what is `nums[-2]`?",
+      "choices": ["10", "20", "30", "40"],
+      "answer": 2,
+      "explanation": "Negative indices count from the end: `nums[-1]` is the last element (`40`), so `nums[-2]` is the second-to-last element, `30`."
+    },
+    {
+      "id": "q12",
+      "type": "numeric",
+      "text": "Given `grid = [[1, 2, 3], [4, 5, 6]]`, what is printed by `print(grid[1][2])`?",
+      "answer": 6,
+      "tolerance": 0,
+      "explanation": "`grid[1]` selects the second row, `[4, 5, 6]`. Indexing that row at position `2` (the third element, since indexing starts at 0) gives `6`."
+    },
+    {
+      "id": "q13",
+      "type": "multi",
+      "text": "Which of the following statements about functions in Python are true?",
+      "choices": [
+        "A function is defined using the `def` keyword",
+        "A function must always return a value",
+        "Values passed into a function when it is called are called arguments",
+        "A function can be called before it has been defined anywhere earlier in the program"
+      ],
+      "answers": [0, 2],
+      "explanation": "Functions are defined with `def`, and the actual values supplied at the call site are called arguments (the names in the definition are parameters). A function need not return a value — one with no `return` statement implicitly returns `None`, so the second statement is false. A function must be defined (executed by Python) before the point at which it is called, so the fourth statement is also false."
+    }
+  ]
+}

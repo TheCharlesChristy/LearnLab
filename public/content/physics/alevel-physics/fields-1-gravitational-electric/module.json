@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "fields-1-gravitational-electric",
+  "title": "Fields 1: Gravitational and Electric Fields",
+  "description": "Newton's law of gravitation and Coulomb's law as parallel inverse-square field laws, covering field strength, potential, orbital motion and the analogy between gravitational and electric fields.",
+  "estMinutes": 100,
+  "prerequisites": [
+    "mechanics-and-energy",
+    "electricity-dc"
+  ],
+  "objectives": [
+    "State and apply Newton's law of gravitation and Coulomb's law for point masses and point charges",
+    "Define gravitational field strength and electric field strength as force per unit mass/charge, and calculate them for radial and uniform fields",
+    "Explain gravitational potential and electric potential and use them to find changes in potential energy",
+    "Derive and apply v = sqrt(GM/r) and Kepler's third law (T^2 proportional to r^3) for circular orbits, including geostationary orbits",
+    "Compare gravitational and electric fields, explaining why gravitational forces are always attractive while electric forces may attract or repel"
+  ],
+  "tags": ["fields", "gravity", "electric-fields", "coulombs-law", "newtons-law-of-gravitation", "orbits", "potential"],
+  "lessons": [
+    { "id": "gravitational-fields", "title": "Gravitational fields and orbits", "file": "01-gravitational-fields.md", "estMinutes": 35 },
+    { "id": "electric-fields", "title": "Electric fields: point charges and uniform fields", "file": "02-electric-fields.md", "estMinutes": 35 },
+    { "id": "comparing-fields", "title": "Comparing gravitational and electric fields", "file": "03-comparing-fields.md", "estMinutes": 30 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

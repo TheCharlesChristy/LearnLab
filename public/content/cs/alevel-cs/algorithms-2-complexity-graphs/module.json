@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "algorithms-2-complexity-graphs",
+  "title": "Algorithms 2: Complexity and Graphs",
+  "description": "Time and space complexity with Big-O notation, graphs as an abstract data structure, BFS/DFS traversal, and Dijkstra's shortest-path algorithm.",
+  "estMinutes": 100,
+  "prerequisites": [
+    "data-structures",
+    "algorithms-1-search-sort"
+  ],
+  "objectives": [
+    "TODO: state the first learner-facing outcome",
+    "TODO: state the second learner-facing outcome"
+  ],
+  "lessons": [
+    {
+      "id": "introduction",
+      "title": "Introduction",
+      "file": "01-introduction.md",
+      "estMinutes": 100
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "TODO-your-name"
+  ]
+}

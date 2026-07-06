@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "electricity-dc-assessment",
+  "title": "End of module: DC Electricity",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Placeholder question — which option is correct? (Replace me.)",
+      "choices": [
+        "This one",
+        "Not this one",
+        "Nor this one"
+      ],
+      "answer": 0,
+      "explanation": "Placeholder explanation — every question must explain its answer (§4.6)."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "Placeholder question — what is $2 + 2$? (Replace me.)",
+      "answer": 4,
+      "tolerance": 0,
+      "explanation": "Placeholder explanation — $2 + 2 = 4$."
+    }
+  ]
+}

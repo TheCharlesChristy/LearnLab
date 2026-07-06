@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "mechanics-and-energy",
+  "title": "Mechanics and Energy",
+  "description": "Vectors and the SUVAT equations, projectile motion, Newton's three laws with momentum conservation, and work, energy and power for mechanical systems.",
+  "estMinutes": 95,
+  "prerequisites": ["measurements-and-uncertainty"],
+  "objectives": [
+    "Distinguish scalar and vector quantities and resolve a vector into perpendicular components",
+    "Apply the SUVAT equations to motion with constant acceleration in one dimension",
+    "Model projectile motion by treating horizontal and vertical components independently",
+    "State Newton's three laws of motion and apply F = ma to force problems",
+    "Apply conservation of momentum to elastic and inelastic collisions",
+    "Calculate work done, kinetic energy, gravitational potential energy and power, and apply conservation of mechanical energy"
+  ],
+  "tags": ["mechanics", "energy", "suvat", "projectiles", "newtons-laws", "momentum", "work", "power"],
+  "lessons": [
+    { "id": "vectors-and-suvat", "title": "Scalars, vectors and the SUVAT equations", "file": "01-vectors-and-suvat.md", "estMinutes": 25 },
+    { "id": "projectile-motion", "title": "Projectile motion", "file": "02-projectile-motion.md", "estMinutes": 20 },
+    { "id": "newtons-laws-and-momentum", "title": "Newton's laws and momentum", "file": "03-newtons-laws-and-momentum.md", "estMinutes": 25 },
+    { "id": "work-energy-and-power", "title": "Work, energy and power", "file": "04-work-energy-and-power.md", "estMinutes": 25 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

@@ -1,0 +1,10 @@
+{
+  "cards": [
+    { "front": "What is assumed about the **number** of molecules in the kinetic theory model?", "back": "There is a very large number of molecules, moving with random speeds and in random directions, so that average, statistical behaviour is meaningful." },
+    { "front": "What is assumed about the **volume of the molecules themselves**?", "back": "The volume of the molecules is negligible compared with the volume occupied by the gas as a whole." },
+    { "front": "What is assumed about **forces between molecules**?", "back": "Intermolecular forces are negligible, except during collisions." },
+    { "front": "What type of **collisions** do the molecules undergo?", "back": "All collisions — between molecules, and between molecules and the container walls — are perfectly elastic, so no kinetic energy is lost overall." },
+    { "front": "How does the **duration of a collision** compare with the time between collisions?", "back": "The duration of a collision is negligible compared with the time between successive collisions." },
+    { "front": "What law of motion governs the molecules between collisions?", "back": "The molecules obey Newton's laws of motion, moving in straight lines at constant velocity between collisions." }
+  ]
+}
