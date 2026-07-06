@@ -281,3 +281,48 @@ comfortably exceeding the ≥3-of-11 bar, zero discrepancies. `vitest run` (467 
 `public/content/{physics,cs}/**`** — P3 needed no `src/`/`python/`/`schemas/` changes at all, a
 strictly stronger C-5 proof than P2.
 
+## Phase P4 — `ai-foundations` (§8.7)
+
+Goal: ship the 9 remaining modules in `ai-foundations`. Exit criterion is MVC, "leans on
+`code-runner` + Python items, incl. an interactive perceptron/NN playground item." Investigated
+before dispatch: `learnsdk`'s existing base classes (`QuizItem`, `PlotExplorerItem`,
+`SimulationItem`, `MultiStepItem`) and `courselib.ai` (already ships `sigmoid`, `mse`, and a full
+gradient-descent linear-regression trainer `train_linreg_1d` with per-epoch history, built and
+tested in P1) already cover everything this phase needs — **zero `src/`/`python/` changes
+expected here too**, same bar as P3.
+
+### Scope
+
+| Course | New modules (§8.5 order) | Existing |
+|---|---|---|
+| `ai-foundations` | what-is-ai, search-and-problem-solving, knowledge-and-reasoning, ml-concepts-data-and-evaluation, regression, classification, neural-networks-2-training, modern-ai-transformers-and-llms, ethics-and-safety | neural-networks-1-perceptrons (P1 pilot) |
+
+Prerequisite chain (real dependencies, not just list order): `what-is-ai` (entry point) →
+{`search-and-problem-solving`, `knowledge-and-reasoning`, `ml-concepts-data-and-evaluation`} →
+`regression` (needs ml-concepts) → `classification` (needs regression's loss/sigmoid framing) →
+`neural-networks-2-training` (needs `neural-networks-1-perceptrons` + `regression`'s gradient
+descent) → `modern-ai-transformers-and-llms` → `ethics-and-safety` (capstone, needs ml-concepts +
+transformers).
+
+The SRS explicitly calls out an "interactive perceptron/NN playground item" for this phase (unlike
+other MVC items, which are generic) — assigned to `neural-networks-2-training` specifically, built
+as a genuine `SimulationItem`/multi-step trainer with live weight updates and a decision-boundary
+redraw each step, not a static plot, mirroring `neural-networks-1-perceptrons`'s existing
+`perceptron-explorer.py` (`PlotExplorerItem` + `courselib.ai.sigmoid`) pattern one level up.
+
+Same module-authoring discipline as P2/P3: scaffold into an isolated temp root via `new-module.mjs`,
+self-validate `--strict`, hand back only the module's own folder, never touch `course.json`.
+
+**Verification:** the four computation-heavy modules (`ml-concepts-data-and-evaluation` —
+precision/recall/F1/confusion-matrix arithmetic; `regression` — gradient-descent traces;
+`classification` — sigmoid/threshold calcs; `neural-networks-2-training` — perceptron weight
+updates) get every assessment answer independently re-derived by the orchestrator, not sampled —
+same numeric-error-prone class P2/P3 found needed 100% coverage. The five conceptual/discursive
+modules (`what-is-ai`, `search-and-problem-solving`, `knowledge-and-reasoning`,
+`modern-ai-transformers-and-llms`, `ethics-and-safety`) get self-verification required plus
+orchestrator spot-check of ≥2 of 5.
+
+Gate P4: full-tree `--strict` (60 modules / 6 courses expected), vitest/eslint/tsc (expected
+unchanged), non-`@py` e2e regression, `git diff --stat` audit confirming the diff touches only
+`public/content/ai/**`.
+
