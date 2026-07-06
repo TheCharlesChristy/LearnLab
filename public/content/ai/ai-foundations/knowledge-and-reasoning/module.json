@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge-and-reasoning",
+  "title": "Knowledge Representation and Reasoning",
+  "description": "How AI systems represent facts and rules, and how forward and backward chaining derive new conclusions from a knowledge base.",
+  "estMinutes": 85,
+  "prerequisites": [
+    "what-is-ai"
+  ],
+  "objectives": [
+    "Represent simple facts and if-then rules using predicate-style notation",
+    "Explain how a rule-based (expert) system combines a knowledge base with an inference engine to answer questions",
+    "Trace forward chaining step-by-step, deriving new facts in order until the goal is reached or no more rules apply",
+    "Trace backward chaining step-by-step, reducing a goal to subgoals and checking them against known facts",
+    "Compare forward and backward chaining and judge which is more efficient for a given situation",
+    "Implement a small forward-chaining inference loop in Python"
+  ],
+  "tags": ["ai", "knowledge-representation", "reasoning", "expert-systems", "forward-chaining", "backward-chaining", "rule-based-systems"],
+  "lessons": [
+    { "id": "facts-and-rules", "title": "Representing knowledge as facts and rules", "file": "01-facts-and-rules.md", "estMinutes": 20 },
+    { "id": "forward-chaining", "title": "Forward chaining: reasoning from facts to conclusions", "file": "02-forward-chaining.md", "estMinutes": 30 },
+    { "id": "backward-chaining", "title": "Backward chaining and comparing the two strategies", "file": "03-backward-chaining.md", "estMinutes": 35 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

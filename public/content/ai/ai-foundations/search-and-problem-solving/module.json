@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "search-and-problem-solving",
+  "title": "AI as Search: Problem Solving",
+  "description": "How AI systems formulate problems as search and solve them with breadth-first, depth-first, and A* search over a state graph.",
+  "estMinutes": 90,
+  "prerequisites": ["what-is-ai"],
+  "objectives": [
+    "Formulate a problem as a search problem: initial state, actions, transition model, goal test, and path cost",
+    "Explain how a search tree is built by expanding nodes, and why an explored set avoids revisiting states",
+    "Trace breadth-first search and depth-first search by hand on a small graph, and explain which one guarantees the fewest-step path",
+    "Explain the idea of a heuristic function and trace greedy best-first search on a small weighted graph",
+    "Trace A* search by hand, computing f(n) = g(n) + h(n), and explain informally why an admissible heuristic (one that never overestimates) keeps A* optimal"
+  ],
+  "tags": ["ai", "search", "algorithms", "bfs", "dfs", "heuristics", "a-star", "graphs"],
+  "lessons": [
+    { "id": "search-problems", "title": "Search problems: states, actions, and goals", "file": "01-search-problems.md", "estMinutes": 25 },
+    { "id": "uninformed-search", "title": "Uninformed search: breadth-first and depth-first", "file": "02-uninformed-search.md", "estMinutes": 30 },
+    { "id": "heuristics-and-a-star", "title": "Heuristics and A* search", "file": "03-heuristics-and-a-star.md", "estMinutes": 35 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

@@ -7,6 +7,13 @@
   "description": "An introduction to the ideas behind artificial intelligence and machine learning. No real A-level in AI exists; this is a designed track pitched at A-level-equivalent depth. This pilot release begins with the perceptron, the building block of neural networks.",
   "modules": [
     { "id": "what-is-ai", "dir": "what-is-ai" },
-    { "id": "neural-networks-1-perceptrons", "dir": "neural-networks-1-perceptrons" }
+    { "id": "search-and-problem-solving", "dir": "search-and-problem-solving" },
+    { "id": "knowledge-and-reasoning", "dir": "knowledge-and-reasoning" },
+    { "id": "ml-concepts-data-and-evaluation", "dir": "ml-concepts-data-and-evaluation" },
+    { "id": "regression", "dir": "regression" },
+    { "id": "classification", "dir": "classification" },
+    { "id": "neural-networks-1-perceptrons", "dir": "neural-networks-1-perceptrons" },
+    { "id": "modern-ai-transformers-and-llms", "dir": "modern-ai-transformers-and-llms" },
+    { "id": "ethics-and-safety", "dir": "ethics-and-safety" }
   ]
 }

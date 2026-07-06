@@ -1,0 +1,13 @@
+{
+  "kind": "scatter",
+  "xLabel": "toy dimension 1",
+  "yLabel": "toy dimension 2",
+  "series": [
+    { "name": "king", "points": [[4.0, 3.0]] },
+    { "name": "queen", "points": [[4.2, 3.5]] },
+    { "name": "man", "points": [[3.0, 1.0]] },
+    { "name": "woman", "points": [[3.2, 1.5]] },
+    { "name": "cat", "points": [[-2.0, 0.0]] },
+    { "name": "dog", "points": [[-2.3, 0.4]] }
+  ]
+}
