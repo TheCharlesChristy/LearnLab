@@ -39,8 +39,14 @@ jobs:
       - name: Build (vite only — until scripts/ lands)
         if: hashFiles('scripts/build-content.mjs') == ''
         run: npx vite build
+      # Unique per run+attempt so a rerun can never collide with a stale
+      # artifact from a previous attempt (the cause of deploy-pages'
+      # "Multiple artifacts named github-pages" error).
       - uses: actions/upload-pages-artifact@v3
         with:
+          name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
           path: dist
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
