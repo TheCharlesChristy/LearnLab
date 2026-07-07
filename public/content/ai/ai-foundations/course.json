@@ -4,7 +4,7 @@
   "title": "AI Foundations",
   "subject": "ai",
   "level": "alevel",
-  "description": "An introduction to the ideas behind artificial intelligence and machine learning. No real A-level in AI exists; this is a designed track pitched at A-level-equivalent depth. This pilot release begins with the perceptron, the building block of neural networks.",
+  "description": "An introduction to the ideas behind artificial intelligence and machine learning, from symbolic vs learning-based AI through search, knowledge representation, supervised learning, neural networks, transformers/LLMs, and AI ethics and safety.",
   "modules": [
     { "id": "what-is-ai", "dir": "what-is-ai" },
     { "id": "search-and-problem-solving", "dir": "search-and-problem-solving" },
@@ -13,6 +13,7 @@
     { "id": "regression", "dir": "regression" },
     { "id": "classification", "dir": "classification" },
     { "id": "neural-networks-1-perceptrons", "dir": "neural-networks-1-perceptrons" },
+    { "id": "neural-networks-2-training", "dir": "neural-networks-2-training" },
     { "id": "modern-ai-transformers-and-llms", "dir": "modern-ai-transformers-and-llms" },
     { "id": "ethics-and-safety", "dir": "ethics-and-safety" }
   ]

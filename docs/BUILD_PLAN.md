@@ -326,3 +326,35 @@ Gate P4: full-tree `--strict` (60 modules / 6 courses expected), vitest/eslint/t
 unchanged), non-`@py` e2e regression, `git diff --stat` audit confirming the diff touches only
 `public/content/ai/**`.
 
+### Session-continuity incident (D-019)
+
+This session resumed from a stale checkpoint and independently redid all of Phase P3 from
+scratch, unaware that a separate earlier continuation of the same task had already completed P3
+(Gate P3 CI-confirmed green) and landed 8 of `ai-foundations`'s 9 new P4 modules on the shared
+remote branch. Discovered when the push was rejected. Diffed the redundant local P3 work against
+origin's (near-identical) and, after explicit user confirmation, merged (not reset) the two
+histories, resolving 4 small conflicts in origin's favour. See D-019 for the full account.
+
+### Gate P4 — GREEN (2026-07-07)
+
+Only one of the 9 planned modules was genuinely missing after the merge: `neural-networks-2-training`
+(`modern-ai-transformers-and-llms` already declared it as a dangling prerequisite). Dispatched as a
+single well-scoped agent — it built the required "interactive perceptron/NN playground item" as a
+genuine `SimulationItem` (mirroring `kinematics-suvat/items/projectile.py`'s tick-driven pattern),
+training a perceptron on a small fixed dataset with a live decision-boundary redraw each tick, using
+only existing `learnsdk`/`courselib.ai` primitives — zero `src/`/`python/` changes, as planned.
+
+Full-tree `node scripts/build-content.mjs --strict` passes clean: **6 courses, 60 modules.** All 4
+computation-heavy P4 modules (`ml-concepts-data-and-evaluation`, `regression`, `classification`,
+`neural-networks-2-training`) independently re-derived by the orchestrator, not sampled — one real
+bug found and fixed (D-020: an assessment question's own stated convergence definition didn't match
+its stored answer). Two of the five conceptual modules spot-checked (`what-is-ai`,
+`modern-ai-transformers-and-llms`), comfortably clearing the ≥2-of-5 bar — zero further
+discrepancies. `vitest run` (467 passed, 7 skipped), `eslint .`, `tsc --noEmit` all clean;
+`playwright test --grep-invert @py --project=chromium` — all 8 specs pass, including
+`progress-roundtrip` (confirms the D-017 webkit fix still holds). `git diff --stat` from the
+Gate-P3 commit confirms the diff touches only `public/content/ai/**` plus one cosmetic
+`alevel-cs/course.json` description line (a benign carry-over from this session's earlier,
+pre-merge P3 redo). All six §8.2–8.5 courses (`alevel-pure`, `alevel-mechanics`,
+`alevel-statistics`, `alevel-physics`, `alevel-cs`, `ai-foundations`) are now fully MVC.
+
