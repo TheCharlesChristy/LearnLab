@@ -1,0 +1,28 @@
+{
+  "cards": [
+    {
+      "front": "In a right-angled triangle, which side is the **hypotenuse**?",
+      "back": "The longest side — always the one **opposite the right angle**. It doesn't depend on which angle $\\theta$ you're using."
+    },
+    {
+      "front": "Relative to angle $\\theta$, which side is **opposite**?",
+      "back": "The side across from $\\theta$ — it does **not** touch $\\theta$."
+    },
+    {
+      "front": "Relative to angle $\\theta$, which side is **adjacent**?",
+      "back": "The side that touches $\\theta$ but is **not** the hypotenuse."
+    },
+    {
+      "front": "If you switch to looking from the *other* non-right angle, do the opposite and adjacent labels change?",
+      "back": "Yes — opposite and adjacent are defined **relative to the chosen angle**, so they swap when you change which angle you're using. The hypotenuse never changes."
+    },
+    {
+      "front": "When should you use **Pythagoras' theorem** rather than SOHCAHTOA?",
+      "back": "When you know **two sides** and want the third, and **no angle** is involved: $a^2 + b^2 = c^2$."
+    },
+    {
+      "front": "$5, 12, 13$ is an example of what kind of triple?",
+      "back": "A **Pythagorean triple** — whole numbers satisfying $a^2 + b^2 = c^2$ (here $5^2 + 12^2 = 13^2$, i.e. $25 + 144 = 169$)."
+    }
+  ]
+}

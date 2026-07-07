@@ -393,3 +393,19 @@ Gate P5: full-tree `--strict` (64 modules / 7 courses expected), vitest/eslint/t
 unchanged), non-`@py` e2e regression, `git diff --stat` audit confirming the diff touches only
 `public/content/maths/maths-foundation/**`.
 
+### Gate P5 — GREEN (2026-07-07)
+
+All 4 modules landed cleanly in one wave with no session-limit interruptions. Full-tree
+`node scripts/build-content.mjs --strict` passes clean: **7 courses, 64 modules.** Every
+assessment answer across all 4 modules independently re-derived by the orchestrator (algebra,
+factorising, SOHCAHTOA/Pythagoras trig computed via Python's `math` module) — zero discrepancies.
+`vitest run` (467 passed, 7 skipped), `eslint .`, `tsc --noEmit` all clean; `playwright test
+--grep-invert @py --project=chromium` — all 8 specs pass. `git diff --stat` confirms the diff
+touches only `public/content/maths/maths-foundation/**`.
+
+This closes out every content phase in §8.7 (P0–P5). All 7 courses across 4 subjects
+(`maths-foundation`, `alevel-pure`, `alevel-mechanics`, `alevel-statistics`, `alevel-physics`,
+`alevel-cs`, `ai-foundations`) are now fully MVC. Remaining §8.7/§13 items are roadmap-only
+(spaced-repetition review queue, per-question partial credit for `multi`, content search, printable
+lesson view, optional cloud-drive sync) — none are gated phases.
+
