@@ -358,3 +358,38 @@ Gate-P3 commit confirms the diff touches only `public/content/ai/**` plus one co
 pre-merge P3 redo). All six §8.2–8.5 courses (`alevel-pure`, `alevel-mechanics`,
 `alevel-statistics`, `alevel-physics`, `alevel-cs`, `ai-foundations`) are now fully MVC.
 
+## Phase P5 — `maths-foundation` bridge (§8.7)
+
+Goal: ship the 4-module `maths-foundation` course (§8.2 — GCSE-grade refresher, `level: "foundation"`).
+Unlike P0–P4, §8.7's P5 row has no formal exit criterion (`—`) — this is the smallest, lowest-stakes
+remaining phase. The row also names a "spaced-repetition review queue" alongside the bridge course,
+but that item is separately listed under §13's "Roadmap (post-P4, prioritised)" as a genuine future
+feature (SM-2-lite spaced repetition over `flashcards` + missed questions) — not a P5-scoped content
+deliverable. Scoping P5 to the content course only; the review queue is a `src/` feature for a future
+phase, out of scope here (P5 itself needs zero `src/`/`python/` changes, same bar as P3/P4).
+
+### Scope
+
+| Course | New modules (§8.2 order) | Existing |
+|---|---|---|
+| `maths-foundation` | algebra-essentials, quadratics-intro, trigonometry-basics, graphs-and-functions | *(course.json created fresh — first content for this course)* |
+
+Prerequisite chain: `algebra-essentials` (entry point, no prerequisites) → `quadratics-intro` (needs
+algebraic manipulation) → `graphs-and-functions` (needs both algebra and an intro to quadratics, for
+plotting parabolas alongside lines) → `trigonometry-basics` has no real dependency on the other three
+(SOHCAHTOA and right-angled triangles stand alone) but is ordered last per §8.2's own listed order.
+
+Same module-authoring discipline as P2–P4: scaffold via `new-module.mjs` into an isolated temp root,
+self-validate `--strict`, hand back only the module's own folder, never touch `course.json`.
+Orchestrator creates `maths-foundation/course.json` fresh after reviewing all 4 modules, mirroring
+`alevel-statistics`/`alevel-physics`'s first-content pattern from P2/P3.
+
+**Verification:** all 4 modules are GCSE-grade algebra/trig — lower-risk than A-level content, but
+still fully numeric/formula-driven, so the orchestrator independently re-derives every assessment
+answer across all 4 modules (not sampled), consistent with the precedent that any module dominated by
+exact numeric answers gets full coverage regardless of nominal difficulty level.
+
+Gate P5: full-tree `--strict` (64 modules / 7 courses expected), vitest/eslint/tsc (expected
+unchanged), non-`@py` e2e regression, `git diff --stat` audit confirming the diff touches only
+`public/content/maths/maths-foundation/**`.
+
