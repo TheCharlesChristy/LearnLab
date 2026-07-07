@@ -13,7 +13,7 @@ Adding content never requires touching application source — courses are folder
 
 ## For learners
 
-Open the app and start: **`https://<user>.github.io/learnlab/`** *(TODO: replace with the real GitHub Pages URL once Pages is enabled.)*
+Open the app and start: **https://thecharleschristy.github.io/LearnLab/**
 
 - Works in any modern browser (latest Chrome, Edge, Firefox, Safari; iOS Safari ≥ 17).
 - Works offline after your first visit (PWA — P1).
