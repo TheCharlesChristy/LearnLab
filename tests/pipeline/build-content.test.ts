@@ -89,6 +89,36 @@ describe('build-content.mjs — §4.7 pipeline', () => {
   );
 
   it(
+    'emits a schema-valid content/search-index.json with directive syntax stripped (§13 roadmap, D-022)',
+    () => {
+      const root = tempDir();
+      fs.cpSync(path.join(fixtures, 'valid'), root, { recursive: true });
+      const { status, output } = runBuild(root);
+      expect(status, output).toBe(0);
+
+      const searchIndex = JSON.parse(fs.readFileSync(path.join(root, 'search-index.json'), 'utf8'));
+      expect(searchIndex.schemaVersion).toBe(1);
+      expect(Number.isNaN(Date.parse(searchIndex.generatedAt))).toBe(false);
+      expect(Array.isArray(searchIndex.lessons)).toBe(true);
+      expect(searchIndex.lessons.length).toBeGreaterThan(0);
+
+      const lesson = searchIndex.lessons.find((l: { lessonId: string }) => l.lessonId === 'three');
+      expect(lesson).toMatchObject({
+        subject: 'maths',
+        courseId: 'test-course',
+        moduleId: 'pipeline-module',
+        lessonId: 'three',
+      });
+      // Directive fences, math-span delimiters and markdown punctuation are
+      // stripped; the surrounding prose survives as plain, searchable text.
+      expect(lesson.body).not.toMatch(/:::/);
+      expect(lesson.body).not.toMatch(/\$/);
+      expect(lesson.body).toContain('GFM tables and maths work together.');
+    },
+    TIMEOUT,
+  );
+
+  it(
     'regenerates schemas/widget-keys.json from src/widgets/keys.json on every run',
     () => {
       const srcKeys = JSON.parse(

@@ -1,2 +1,3 @@
 # build-content.mjs output when run directly against a fixture root
 */index.json
+*/search-index.json

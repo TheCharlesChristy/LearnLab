@@ -103,6 +103,7 @@ function makeValidators() {
     module: ajv.compile(loadSchema('module.schema.json')),
     quiz: ajv.compile(loadSchema('quiz.schema.json')),
     contentIndex: ajv.compile(loadSchema('content-index.schema.json')),
+    searchIndex: ajv.compile(loadSchema('search-index.schema.json')),
   };
 }
 
@@ -636,6 +637,78 @@ function emitIndex(root, subjects, validators, reporter) {
 }
 
 // ---------------------------------------------------------------------------
+// Content search index (§13 roadmap, D-022): plain-text lesson bodies for a
+// dependency-free client-side search — no server, no new npm dependency;
+// src/search/ does substring/token scoring over this at runtime. Re-walks
+// the (already-validated) tree directly rather than threading state through
+// validateModule/checkLessonMarkdown, keeping this fully additive and
+// independent of the validator's internal bookkeeping.
+
+/** Strip directive syntax / markdown markup down to plain, searchable text. */
+function stripMarkdownForSearch(md) {
+  return md
+    // Container directive fences, e.g. :::callout{kind="info"} ... :::
+    .replace(/^:::+[a-z-]*\s*\{[^}]*\}\s*$/gim, '')
+    .replace(/^:::+\s*$/gm, '')
+    // Leaf directives, e.g. ::widget{type="..." ...} / ::py{src="..."}
+    .replace(/^::[a-z-]+\s*\{[^}]*\}\s*$/gim, '')
+    // Links: keep the visible text, drop the URL.
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    // KaTeX math spans (inline $...$ and display $$...$$) — formulas aren't searchable text.
+    .replace(/\$\$[^$]*\$\$/g, ' ')
+    .replace(/\$[^$\n]*\$/g, ' ')
+    // Residual markdown punctuation.
+    .replace(/[`*_#>]/g, '')
+    .replace(/[ \t]+/g, ' ')
+    .replace(/\n{2,}/g, '\n')
+    .trim();
+}
+
+function emitSearchIndex(root, validators, reporter) {
+  const lessons = [];
+  for (const subject of SUBJECTS) {
+    const subjectDir = path.join(root, subject);
+    if (!fs.existsSync(subjectDir)) continue;
+    for (const courseDirName of listDirs(subjectDir)) {
+      const courseDir = path.join(subjectDir, courseDirName);
+      const course = readJson(path.join(courseDir, 'course.json'), reporter);
+      if (!course?.modules) continue;
+      for (const ref of course.modules) {
+        const moduleDir = path.join(courseDir, ref.dir);
+        const mod = readJson(path.join(moduleDir, 'module.json'), reporter);
+        if (!mod?.lessons) continue;
+        for (const lesson of mod.lessons) {
+          if ((lesson.kind ?? 'markdown') !== 'markdown') continue; // full-page Python items have no static body
+          const lessonFile = path.resolve(moduleDir, lesson.file);
+          if (!fs.existsSync(lessonFile)) continue;
+          lessons.push({
+            subject,
+            courseId: course.id,
+            courseTitle: course.title,
+            moduleId: mod.id,
+            moduleTitle: mod.title,
+            lessonId: lesson.id,
+            lessonTitle: lesson.title,
+            body: stripMarkdownForSearch(fs.readFileSync(lessonFile, 'utf8')),
+          });
+        }
+      }
+    }
+  }
+
+  const index = { schemaVersion: 1, generatedAt: new Date().toISOString(), lessons };
+  if (!validators.searchIndex(index)) {
+    reporter.schemaErrors(path.join(root, 'search-index.json'), validators.searchIndex.errors);
+    return;
+  }
+  fs.mkdirSync(root, { recursive: true });
+  // Compact (no pretty-print): a generated data file consumed by code, sized
+  // by hundreds of lesson bodies — unlike index.json this isn't meant to be
+  // human-diffed.
+  fs.writeFileSync(path.join(root, 'search-index.json'), `${JSON.stringify(index)}\n`);
+}
+
+// ---------------------------------------------------------------------------
 // Widget doc coverage (§7.3, FR-WID-002): every registered widget key must
 // have a `## `<key>`` heading in docs/WIDGETS.md. Runs unconditionally (not
 // gated on --strict) — this is an always-on M-priority invariant of
@@ -673,6 +746,7 @@ function runPipeline(opts) {
 
   if (reporter.errors.length === 0) {
     emitIndex(opts.root, subjects, validators, reporter);
+    emitSearchIndex(opts.root, validators, reporter);
   }
 
   for (const warning of reporter.warnings) console.warn(`WARN  ${warning}`);
