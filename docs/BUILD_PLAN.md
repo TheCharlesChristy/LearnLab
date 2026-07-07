@@ -474,3 +474,51 @@ this lesson" button on `LessonPage`, using `window.print()` — no new data or r
    export/import round-trip check covering `reviewState`, manual smoke of the review queue and
    search UI, `git diff --stat` audit against the allowlist above.
 
+### Gate P6 — GREEN (2026-07-07)
+
+All 12 Wave 2 tasks landed cleanly in one parallel wave (11 subagents + orchestrator-authored
+Wave 1 contracts), zero session-limit interruptions. Orchestrator integration after review: wired
+all 4 new widgets into `registry.ts`/`keys.json`/`schemas/widget-keys.json`, wrote all 4
+`docs/WIDGETS.md` sections (3 from agent drafts, `circuit-sim`'s written by the orchestrator after
+independently re-deriving its nested series/parallel worked example — see D-024), wired `/review`
+and `/search` routes into `router.tsx` and nav links (with a live due-count badge) into
+`AppLayout.tsx`, extended the shared `progressMock()` test fixture for the new `src/progress`
+surface.
+
+**Full suite:** `vitest run` — 700 passed, 7 skipped (up from 494 pre-P6); `eslint .` and
+`tsc --noEmit` both clean; `npm run build` succeeds, all chunks within the NFR-PERF-001 budget
+(4 new lazy widget chunks + `ReviewPage`/`SearchPage` chunks, all comfortably under 150 KB).
+`playwright test --grep-invert @py --project=chromium` — all 8 pass (one real fix needed: the
+AC-03 round-trip e2e asserted `exportVersion === 1`, now `2` per D-021 — extended `DbDump`/
+`expectSameProgress` to also round-trip `reviewState`).
+
+**Manual browser verification** (real headless Chromium against `vite preview`, per this session's
+UI-change discipline): screenshotted the catalogue, `/search` (typed "derivative", got 18
+highlighted, correctly-ranked results across every course), `/review` (empty-queue state), and a
+real lesson page in both normal and `@media print` emulation (nav/breadcrumb/progress-bar/action
+row correctly hidden, content readable full-width, forced light background, interactive
+`function-grapher` widget renders its current state cleanly on paper).
+
+**Verification of computation-heavy pieces:** independently re-derived `circuit-sim`'s nested
+series/parallel example by hand (total resistance 22 Ω, total current ≈0.545 A, branch currents
+≈0.327 A / ≈0.218 A summing back to the total) — matches the shipped algorithm exactly.
+`scoreMulti`'s worked examples (full credit, partial both directions, floored-at-zero) verified
+against the pinned D-023 formula. `sm2Step`'s repetition/interval/easiness-factor progression
+spot-checked against the standard SuperMemo-2 algorithm.
+
+**One real bug found and fixed during Gate P6 (not logged as a numbered decision — a process
+mistake, not a design ambiguity):** the initial e2e run showed the AC-01 catalogue tests failing
+to find the fixture course. Root-caused to the orchestrator's own leftover manual `vite preview`
+process still bound to port 4173 from an earlier browser smoke-test — Playwright's
+`reuseExistingServer: !process.env.CI` reused it instead of running `scripts/e2e-prepare.mjs`, so
+the fixture-course merge never happened. Killed the stray process and reran clean; not a code
+regression.
+
+`git diff --stat` from the Gate-P5 commit confirms every changed file matches the plan's stated
+scope: `src/progress/**` (D-021), `scripts/build-content.mjs` + `schemas/search-index.schema.json`
+(D-022), `src/quiz/**` (D-023), `src/widgets/{vector-field,geometry-canvas,circuit-sim,truth-table}/**`
++ registry wiring (D-024), `src/sync/**` + `SettingsPage.tsx` (D-025), `LessonPage.tsx` +
+`src/index.css` (D-026), `src/search/**` + `SearchPage.tsx`, `src/app/pages/ReviewPage.tsx`,
+`router.tsx`/`AppLayout.tsx` (orchestrator wiring), `.claude/skills/**` (3 new skills), plus the
+test-fixture/doc updates each of those required. All six §13 roadmap items are now shipped.
+

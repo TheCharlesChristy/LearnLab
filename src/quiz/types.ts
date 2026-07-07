@@ -26,7 +26,8 @@ export interface MultiQuestion {
   id: string;
   text: string;
   choices: string[];
-  answers: number[]; // ≥ 1; exact-set marking, no partial credit in v1
+  answers: number[]; // ≥ 1; exact-set marking (markMulti) for feedback wording,
+  // per-question partial credit for scoring via scoreMulti (v2, §13 roadmap D-023)
   explanation: string;
 }
 export interface NumericQuestion {

@@ -36,6 +36,7 @@ interface DbDump {
   attempts: Record<string, unknown>[];
   itemState: Record<string, unknown>[];
   kv: Record<string, unknown>[];
+  reviewState: Record<string, unknown>[];
 }
 
 /** Read all object stores of the 'learnlab' Dexie DB via raw IndexedDB. */
@@ -47,7 +48,7 @@ function dumpDb(page: Page): Promise<DbDump> {
       open.onerror = () => reject(open.error);
     });
     const out: Record<string, unknown[]> = {};
-    for (const name of ['moduleState', 'lessonProgress', 'attempts', 'itemState', 'kv']) {
+    for (const name of ['moduleState', 'lessonProgress', 'attempts', 'itemState', 'kv', 'reviewState']) {
       out[name] = await new Promise<unknown[]>((resolve, reject) => {
         const req = db.transaction(name, 'readonly').objectStore(name).getAll();
         req.onsuccess = () => resolve(req.result as unknown[]);
@@ -69,7 +70,7 @@ function strip(rows: Record<string, unknown>[], drop: string[], sortKey: string)
     .sort((a, b) => String(a[sortKey]).localeCompare(String(b[sortKey])));
 }
 
-/** AC-03 deep-equality on the three tables, modulo updatedAt (+ local attemptId). */
+/** AC-03 deep-equality on the tables, modulo updatedAt (+ local attemptId). */
 function expectSameProgress(actual: DbDump, expected: DbDump) {
   expect(strip(actual.moduleState, ['updatedAt'], 'moduleId')).toEqual(
     strip(expected.moduleState, ['updatedAt'], 'moduleId'),
@@ -80,6 +81,12 @@ function expectSameProgress(actual: DbDump, expected: DbDump) {
   // attemptId is auto-increment-local and reassigned on import by design.
   expect(strip(actual.attempts, ['attemptId'], 'startedAt')).toEqual(
     strip(expected.attempts, ['attemptId'], 'startedAt'),
+  );
+  // D-021 (§13 roadmap): reviewState round-trips too (this fixture flow
+  // answers every question correctly, so it's expected to be empty — the
+  // check still proves the 6th table survives export/erase/import intact).
+  expect(strip(actual.reviewState, ['updatedAt'], 'itemId')).toEqual(
+    strip(expected.reviewState, ['updatedAt'], 'itemId'),
   );
 }
 
@@ -162,7 +169,8 @@ test('AC-03: lessons + assessment → export → erase → import restores ident
     tables: DbDump;
   };
   expect(exported.app).toBe('learnlab');
-  expect(exported.exportVersion).toBe(1);
+  // D-021 (§13 roadmap): exportVersion bumped to 2 when reviewState was added.
+  expect(exported.exportVersion).toBe(2);
   expect(exported.tables.moduleState).toHaveLength(1);
   expect(exported.tables.lessonProgress).toHaveLength(mod.lessons.length);
   expect(exported.tables.attempts).toHaveLength(1);

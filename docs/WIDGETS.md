@@ -297,6 +297,190 @@ Data file shape:
 
 At render time, a fetched file that doesn't match the shape above (missing `cards`, an empty array, or a card missing `front`/`back`) shows an inline error card naming the exact problem (e.g. `cards[0].back: must be a non-empty string`); a fetch failure shows a retry card (FR-CONT-007 spirit).
 
-**itemState note:** the widget's itemId is `` `flashcards:${src}` `` (D-012). Persisted state maps each card's index to its most recent grade: `{ [cardIndex]: { grade: "again" | "good", reviewedAt: <epoch ms> } }`. On mount, prior grades are restored and the session resumes on the first card not yet graded "good"; a "Graded X/N" indicator (counting "good" grades) is always shown. Once every card has been graded "good" the widget shows a "Deck complete" state with a "Review again" control that resets the browsing position without discarding stored grades. This is a simple grade-tracking widget, not a spaced-repetition scheduler — SM-2-style scheduling is tracked separately on the roadmap (§13).
+**itemState note:** the widget's itemId is `` `flashcards:${src}` `` (D-012). Persisted state maps each card's index to its most recent grade: `{ [cardIndex]: { grade: "again" | "good", reviewedAt: <epoch ms> } }`. On mount, prior grades are restored and the session resumes on the first card not yet graded "good"; a "Graded X/N" indicator (counting "good" grades) is always shown. Once every card has been graded "good" the widget shows a "Deck complete" state with a "Review again" control that resets the browsing position without discarding stored grades.
+
+**Review-queue note (§13 roadmap, D-021):** each grade is ALSO fed into the spaced-repetition review queue via `LessonContext.recordReview`, per-card (itemId `` `${itemId}:${cardIndex}` ``, distinct from the per-deck itemId above) — the SM-2-lite algorithm schedules when that specific card should resurface, independent of this deck's own linear per-session progress. See the `#/review` page.
+
+Screenshot: TODO
+
+---
+
+## `vector-field`
+
+Plots a 2D vector field as a responsive SVG (up to 480×480, scaled to the aspect ratio of the plotted range, y-axis pointing **up** per maths convention). Two expressions, `fx(x,y)` and `fy(x,y)`, are compiled with the same mathjs `compile` used by `function-grapher` — nothing is ever `eval`'d (NFR-SEC-002) — and evaluated at every point of a `step`-spaced grid over `[xmin,xmax] × [ymin,ymax]`. Each grid point draws a small arrow whose direction comes from `(fx, fy)` at that point; arrow length is auto-normalized against the field's largest sampled magnitude so arrows never overlap regardless of the expressions' raw scale, then multiplied by `scale`. A point where `fx = fy = 0` (a critical point) renders as a small dot rather than a zero-length arrow. A point where evaluation throws (e.g. division by zero) or yields a non-finite number is simply skipped, leaving a gap in the grid rather than crashing the widget.
+
+The generated plot has no text alternative of its own, so the `<svg>` carries `role="img"` and a descriptive `aria-label` summarising the field and range (NFR-A11Y-001).
+
+### Props
+
+| Prop    | Type    | Required | Default | Description                                                                                |
+| ------- | ------- | -------- | ------- | -------------------------------------------------------------------------------------------- |
+| `fx`    | string  | yes      | —       | Expression in `x`, `y` for the field's x-component, e.g. `"y"`. Parsed by mathjs `compile`.   |
+| `fy`    | string  | yes      | —       | Expression in `x`, `y` for the field's y-component, e.g. `"-x"`. Parsed by mathjs `compile`.  |
+| `xmin`  | number  | no       | `-5`    | Left edge of the x-range. Must be `< xmax`.                                                   |
+| `xmax`  | number  | no       | `5`     | Right edge of the x-range.                                                                    |
+| `ymin`  | number  | no       | `-5`    | Lower edge of the y-range. Must be `< ymax`.                                                  |
+| `ymax`  | number  | no       | `5`     | Upper edge of the y-range.                                                                    |
+| `step`  | number  | no       | `1`     | Grid spacing between arrows. Must be `> 0` and give at least a 2×2 grid on both axes.         |
+| `scale` | number  | no       | `1`     | Visual arrow-length multiplier applied on top of the auto-normalized size. Must be `> 0`.     |
+| `grid`  | boolean | no       | `true`  | Show the background gridlines.                                                                |
+
+### Example
+
+```markdown
+::widget{type="vector-field" fx="y" fy="-x" xmin=-4 xmax=4 ymin=-4 ymax=4 step=0.5 scale=1.2}
+```
+
+### Validation behaviour
+
+`parseProps` (`src/widgets/vector-field/index.ts`) collects all errors before failing:
+
+- missing/empty `fx` → `fx: required — a non-empty expression in x, y, e.g. fx="y"`
+- missing/empty `fy` → `fy: required — a non-empty expression in x, y, e.g. fy="-x"`
+- non-finite `xmin`/`xmax`/`ymin`/`ymax`/`step`/`scale` → `<name>: must be a finite number (got <value>)`
+- `xmin >= xmax` → `xmin: must be less than xmax (got xmin=<v>, xmax=<v>)`; same pattern for `ymin`/`ymax`
+- `step <= 0` → `step: must be greater than 0 (got <value>)`
+- `step` too coarse for the range → `step: too large — must give at least 2 grid points across x (got step=<v>, x range=<v>)` (and the y-axis equivalent)
+- `scale <= 0` → `scale: must be greater than 0 (got <value>)`
+- `grid` not `true`/`false` → `grid: must be true or false (got <value>)`
+
+At render time, if every grid point fails to evaluate (e.g. an expression that compiles but always throws), an inline error state is shown instead of a blank plot.
+
+Screenshot: TODO
+
+---
+
+## `geometry-canvas`
+
+Interactive 2D geometry construction: points, lines and circles defined by a small JSON scene file, with `draggable` points that recompute any lines/circles defined in terms of them live. y-axis points up (maths convention, same as `vector-field`). Fetches a module-relative scene JSON file, resolved the same way as `flashcards`'/`logic-gate-sim`'s `src` prop.
+
+Data file shape:
+
+```json
+{
+  "bounds": { "xmin": -5, "xmax": 5, "ymin": -5, "ymax": 5 },
+  "points": [
+    { "id": "A", "x": 0, "y": 0, "label": "A", "draggable": true },
+    { "id": "B", "x": 3, "y": 0, "label": "B", "draggable": true },
+    { "id": "C", "x": 0, "y": 3, "draggable": false }
+  ],
+  "lines": [ { "from": "A", "to": "B" }, { "from": "B", "to": "C" }, { "from": "C", "to": "A" } ],
+  "circles": [ { "center": "A", "throughPoint": "B" } ]
+}
+```
+
+`bounds`: required, `xmin < xmax` and `ymin < ymax`. `points`: non-empty array; `id` unique non-empty string; `x`/`y` finite numbers; `label` optional non-empty string (defaults to `id`); `draggable` optional boolean (defaults to `false`). `lines`: optional array of `{ from, to }` referencing existing point ids. `circles`: optional array of `{ center, throughPoint }` referencing existing point ids — a circle's radius is the **live** distance from `center` to `throughPoint`, so dragging either point resizes/repositions it every render. Bounds are mapped to `width`×`height` pixels with a single uniform scale (not independent x/y stretch), letterboxed and centred, so circles always render as true circles regardless of the width/height aspect ratio.
+
+### Props
+
+| Prop     | Type   | Required | Default | Description                                            |
+| -------- | ------ | -------- | ------- | -------------------------------------------------------- |
+| `src`    | string | yes      | —       | Module-relative path to the geometry scene JSON file.    |
+| `width`  | number | no       | `480`   | Rendered width in CSS pixels. Must be `> 0`.             |
+| `height` | number | no       | `480`   | Rendered height in CSS pixels. Must be `> 0`.            |
+
+### Example
+
+```markdown
+::widget{type="geometry-canvas" src="scenes/triangle.json" width=480 height=480}
+```
+
+### Validation behaviour
+
+`parseProps` (`src/widgets/geometry-canvas/index.ts`) errors:
+
+- missing/empty `src` → `src: required — a path to a geometry scene JSON file, e.g. src="scenes/triangle.json"`
+- non-positive or non-numeric `width`/`height` → `<name>: must be a positive number of pixels (got <value>)`
+
+At render time, a fetched file that doesn't match the scene shape above shows an inline error card naming the exact problem (e.g. `bounds: xmin must be less than xmax`, a duplicate point id, or a line/circle referencing an unknown point); a fetch failure shows a retry card (FR-CONT-007 spirit).
+
+**Keyboard operability (NFR-A11Y-001):** every `draggable` point is a focusable control (an invisible HTML button overlaid on the purely-visual SVG, since SVG focus/ARIA support is inconsistent across browsers) with `aria-label` `` Point <label>, draggable, currently at (x, y) ``, draggable by pointer and nudgeable by arrow keys (step = 5% of the larger bounds axis), clamped to `bounds`. Non-draggable points render with no interactive control and never move.
+
+Screenshot: TODO
+
+---
+
+## `circuit-sim`
+
+A simple analog DC circuit calculator: one voltage source plus resistors wired in series and/or parallel, computing and displaying the current through and voltage across each resistor via Ohm's law, plus total circuit resistance and current. This is the analog counterpart to `logic-gate-sim`'s digital gate circuits — deliberately restricted to a series/parallel **tree** (not a general SPICE-like solver), so the maths stays exact and unambiguous.
+
+Data file shape (a recursive tree: a `"series"`/`"parallel"` node's `elements` are either resistor leaves or further nested `"series"`/`"parallel"` nodes):
+
+```json
+{
+  "voltage": 12,
+  "circuit": {
+    "type": "series",
+    "elements": [
+      { "type": "resistor", "id": "R1", "ohms": 10 },
+      {
+        "type": "parallel",
+        "elements": [
+          { "type": "resistor", "id": "R2", "ohms": 20 },
+          { "type": "resistor", "id": "R3", "ohms": 30 }
+        ]
+      }
+    ]
+  }
+}
+```
+
+`voltage`: required, `> 0`. Every resistor `id` must be a non-empty string, unique across the whole tree; `ohms > 0`; at least one resistor must exist in the circuit. A `"series"` node's combined resistance is the sum of its elements' combined resistances (recursively); a `"parallel"` node's is `1 / Σ(1/Rᵢ)` (recursively). Current is constant along a series path; a parallel group's branches all drop the same voltage (`incomingCurrent × combinedResistanceOfGroup`) and each branch's current is that voltage divided by the branch's own combined resistance. For the example above (V=12V): total resistance = 10 + 1/(1/20+1/30) = 22 Ω, total current ≈ 0.545 A (flowing entirely through R1); the parallel group drops ≈6.545 V, giving I(R2) ≈ 0.327 A and I(R3) ≈ 0.218 A (summing back to ≈0.545 A, as current conservation requires).
+
+### Props
+
+| Prop  | Type   | Required | Default | Description                                    |
+| ----- | ------ | -------- | ------- | ------------------------------------------------ |
+| `src` | string | yes      | —       | Module-relative path to a circuit JSON file.      |
+
+### Example
+
+```markdown
+::widget{type="circuit-sim" src="circuits/series-parallel.json"}
+```
+
+### Validation behaviour
+
+`parseProps` (`src/widgets/circuit-sim/index.ts`) errors:
+
+- missing/empty `src` → `src: required — a path to a circuit JSON file, e.g. src="circuits/series-parallel.json"`
+
+At render time, a fetched file that doesn't match the shape above shows an inline error card naming the exact problem (e.g. a non-positive `voltage`, a duplicate resistor id, an invalid node `type`, or an `elements` array that isn't a non-empty array); a fetch failure shows a retry card (FR-CONT-007 spirit). The results table (resistor id, ohms, current, voltage, plus a total-resistance/total-current summary line) is a real `<table>` with `<th>` headers (NFR-A11Y-001); an accompanying schematic-style diagram carries `role="img"` with a summarising `aria-label` (e.g. "R1 in series with R2 parallel R3").
+
+Screenshot: TODO
+
+---
+
+## `truth-table`
+
+Renders the full truth table for a boolean **expression string** typed by the content author — no circuit/diagram, no data file. Complementary to `logic-gate-sim` (which derives its truth table from a wired circuit JSON of gates and connections): this widget parses and evaluates a plain expression directly, e.g. `"A AND (B OR NOT C)"`.
+
+Operators are a closed set, case-insensitive keywords, reusing `logic-gate-sim`'s gate vocabulary: `AND`, `OR`, `NOT`, `XOR`, `NAND`, `NOR`, plus parentheses for grouping and `NOT` as a unary prefix. Variables are identifiers matching `[A-Z][A-Z0-9]*` (uppercase only — lowercase is rejected with a clear error). Precedence, tightest to loosest: `NOT` > `AND`/`NAND` > `XOR` > `OR`/`NOR`; all binary operators are 2-operand and left-associative (`A XOR B XOR C` = `(A XOR B) XOR C`). No `eval`/`new Function` (NFR-SEC-002 spirit, same rationale as `logic-gate-sim`'s closed gate set) — a hand-written tokenizer, recursive-descent parser, and tree-walking evaluator.
+
+The truth table shows all 2^N rows (variables capped at `maxInputs`, default 6 — mirrors `logic-gate-sim`'s own cap and rationale: row explosion beyond that). Row and column order follows the variables' first-appearance, left-to-right order in the expression via standard binary counting (the first variable encountered = most-significant bit) — the same convention as `logic-gate-sim`'s truth table. Columns are each variable (in that order) followed by a final "Result" column. Cells show `0`/`1`, matching `logic-gate-sim`'s convention.
+
+A real semantic `<table>` with `<th scope="col">` headers is the accessible representation of tabular data (NFR-A11Y-001) — no supplementary ARIA is needed.
+
+### Props
+
+| Prop        | Type    | Required | Default | Description                                                                        |
+| ----------- | ------- | -------- | ------- | ------------------------------------------------------------------------------------ |
+| `expr`      | string  | yes      | —       | Boolean expression, e.g. `"A AND (B OR NOT C)"`.                                     |
+| `maxInputs` | integer | no       | `6`     | Safety cap on distinct variables (2^`maxInputs` rows). Must be a positive integer.    |
+
+### Example
+
+```markdown
+::widget{type="truth-table" expr="A AND (B OR NOT C)"}
+```
+
+### Validation behaviour
+
+`parseProps` (`src/widgets/truth-table/index.ts`) errors:
+
+- missing/empty `expr` → `expr: required — a non-empty boolean expression, e.g. expr="A AND (B OR NOT C)"`
+- `maxInputs` not a positive integer → `maxInputs: must be a positive integer — got <value>`
+
+At render time, `expr` is parsed by `src/widgets/truth-table/expression.ts`; a malformed expression shows an inline error card naming the exact problem (e.g. an empty expression, an unbalanced parenthesis, an unknown token, a lowercase/invalid variable name, or more than `maxInputs` distinct variables).
 
 Screenshot: TODO

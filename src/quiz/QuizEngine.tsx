@@ -7,7 +7,7 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 
 import { LessonContext } from '../content/lesson-context';
-import { markMcq, markMulti, markNumeric, markText, parseNumericInput } from './marking';
+import { markMcq, markMulti, markNumeric, markText, parseNumericInput, scoreMulti } from './marking';
 import { prepareAttempt, toOriginalChoiceIndex } from './prepare';
 import type { PreparedQuestion } from './prepare';
 import type { Quiz } from './types';
@@ -32,9 +32,26 @@ interface ResponseRecord {
   questionId: string;
   /** JSON-safe echo in authored (original) index space — §5.5 Attempt.answers. */
   given: unknown;
+  /** Exact-match correctness — drives "Correct!"/"Incorrect." feedback wording. */
   correct: boolean;
+  /** Numeric score in [0, 1] contributing to the quiz total (§13 roadmap: multi partial credit). */
+  points: number;
   givenDisplay: string;
   correctDisplay: string;
+}
+
+/**
+ * Three-state correctness for feedback/summary wording. `multi` questions can
+ * land strictly between fully correct and fully incorrect (partial credit,
+ * §13 roadmap); other question types only ever have `points` 0 or 1, so the
+ * 'partial' state never arises for them.
+ */
+type CorrectnessState = 'correct' | 'partial' | 'incorrect';
+
+function correctnessState(correct: boolean, points: number, isMulti: boolean): CorrectnessState {
+  if (correct) return 'correct';
+  if (isMulti && points > 0) return 'partial';
+  return 'incorrect';
 }
 
 /** One quiz attempt; remounts (fresh state) whenever quiz id or attemptNumber changes. */
@@ -66,7 +83,11 @@ function QuizAttempt({
   const [index, setIndex] = useState(0);
   const [phase, setPhase] = useState<'question' | 'summary'>('question');
   const [responses, setResponses] = useState<ResponseRecord[]>([]);
-  const [feedback, setFeedback] = useState<{ correct: boolean } | null>(null);
+  const [feedback, setFeedback] = useState<{
+    correct: boolean;
+    points: number;
+    isMulti: boolean;
+  } | null>(null);
   const [recordError, setRecordError] = useState(false);
 
   // Per-question input state (reset on Next).
@@ -90,10 +111,12 @@ function QuizAttempt({
     switch (q.type) {
       case 'mcq': {
         const sel = selected ?? -1;
+        const correct = markMcq(q, sel);
         return {
           questionId: q.id,
           given: toOriginalChoiceIndex(p, sel),
-          correct: markMcq(q, sel),
+          correct,
+          points: correct ? 1 : 0,
           givenDisplay: q.choices[sel] ?? '(no answer)',
           correctDisplay: q.choices[q.answer] ?? '',
         };
@@ -104,6 +127,7 @@ function QuizAttempt({
           questionId: q.id,
           given: sel.map((i) => toOriginalChoiceIndex(p, i)).sort((a, b) => a - b),
           correct: markMulti(q, sel),
+          points: scoreMulti(q, sel),
           givenDisplay: sel.map((i) => q.choices[i] ?? '').join(', ') || '(none selected)',
           correctDisplay: q.answers.map((i) => q.choices[i] ?? '').join(', '),
         };
@@ -111,20 +135,24 @@ function QuizAttempt({
       case 'numeric': {
         const value = parseNumericInput(numericText);
         const unit = q.unit ? ` ${q.unit}` : '';
+        const correct = value !== null && markNumeric(q, value);
         return {
           questionId: q.id,
           given: value,
-          correct: value !== null && markNumeric(q, value),
+          correct,
+          points: correct ? 1 : 0,
           givenDisplay: `${numericText.trim()}${unit}`,
           correctDisplay:
             q.tolerance > 0 ? `${q.answer} ± ${q.tolerance}${unit}` : `${q.answer}${unit}`,
         };
       }
       case 'text': {
+        const correct = markText(q, textInput);
         return {
           questionId: q.id,
           given: textInput.trim(),
-          correct: markText(q, textInput),
+          correct,
+          points: correct ? 1 : 0,
           givenDisplay: textInput.trim() || '(blank)',
           correctDisplay: `matches: ${q.accept.join(' | ')}`,
         };
@@ -150,7 +178,7 @@ function QuizAttempt({
     finishedRef.current = true;
     setPhase('summary');
 
-    const score = allResponses.filter((r) => r.correct).length;
+    const score = allResponses.reduce((sum, r) => sum + r.points, 0);
     const maxScore = total;
     onFinished?.({ score, maxScore });
 
@@ -196,7 +224,11 @@ function QuizAttempt({
     if (!current) return;
     const response = buildResponse(current);
     setResponses((prev) => [...prev, response]);
-    setFeedback({ correct: response.correct });
+    setFeedback({
+      correct: response.correct,
+      points: response.points,
+      isMulti: current.question.type === 'multi',
+    });
   }
 
   function handleNext() {
@@ -212,7 +244,7 @@ function QuizAttempt({
     setTextInput('');
   }
 
-  const score = responses.filter((r) => r.correct).length;
+  const score = responses.reduce((sum, r) => sum + r.points, 0);
 
   if (phase === 'summary') {
     return (
@@ -233,11 +265,19 @@ function QuizAttempt({
         <ol className="mt-4 space-y-4">
           {prepared.map((p, i) => {
             const r = responses[i];
+            const isMulti = p.question.type === 'multi';
+            const state = r ? correctnessState(r.correct, r.points, isMulti) : 'incorrect';
+            const label =
+              state === 'correct'
+                ? 'Correct'
+                : state === 'partial'
+                  ? `Partially correct (${Math.round((r?.points ?? 0) * 100)}%)`
+                  : 'Incorrect';
             return (
               <li key={p.question.id} className="rounded border p-3">
                 <div className="font-medium">{md(p.question.text)}</div>
                 <p className="mt-1 text-sm">
-                  {r?.correct ? 'Correct' : 'Incorrect'} — Your answer: {r?.givenDisplay ?? '—'}
+                  {label} — Your answer: {r?.givenDisplay ?? '—'}
                 </p>
                 <p className="text-sm">Correct answer: {r?.correctDisplay ?? '—'}</p>
                 <div className="mt-1 text-sm opacity-80">{md(p.question.explanation)}</div>
@@ -326,12 +366,22 @@ function QuizAttempt({
 
       {/* FR-QUIZ-005: feedback announced politely; region exists before content. */}
       <div aria-live="polite" className="mt-3 min-h-6">
-        {feedback && (
-          <div>
-            <p className="font-semibold">{feedback.correct ? 'Correct!' : 'Incorrect.'}</p>
-            <div className="mt-1 text-sm opacity-80">{md(q.explanation)}</div>
-          </div>
-        )}
+        {feedback &&
+          (() => {
+            const state = correctnessState(feedback.correct, feedback.points, feedback.isMulti);
+            const label =
+              state === 'correct'
+                ? 'Correct!'
+                : state === 'partial'
+                  ? `Partially correct (${Math.round(feedback.points * 100)}%).`
+                  : 'Incorrect.';
+            return (
+              <div>
+                <p className="font-semibold">{label}</p>
+                <div className="mt-1 text-sm opacity-80">{md(q.explanation)}</div>
+              </div>
+            );
+          })()}
       </div>
 
       <button

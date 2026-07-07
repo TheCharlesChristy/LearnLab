@@ -8,7 +8,9 @@ export function markMcq(question: McqQuestion, selected: number): boolean {
   return selected === question.answer;
 }
 
-/** multi: correct iff the selected set equals `answers` exactly — no partial credit (§4.6). */
+/** multi: correct iff the selected set equals `answers` exactly (§4.6). Used for
+ *  feedback-wording purposes ("Correct!" vs "Incorrect.") — the numeric score
+ *  for `multi` is computed by `scoreMulti` instead (§13 roadmap: partial credit). */
 export function markMulti(question: MultiQuestion, selected: readonly number[]): boolean {
   const want = new Set(question.answers);
   const got = new Set(selected);
@@ -17,6 +19,26 @@ export function markMulti(question: MultiQuestion, selected: readonly number[]):
     if (!got.has(index)) return false;
   }
   return true;
+}
+
+/**
+ * multi: per-question partial credit (§13 roadmap, D-023). Score is
+ * `max(0, (correctPicks − incorrectPicks) / answers.length)`, clamped to
+ * [0, 1] — a pinned algorithm, not a design choice. `correctPicks` counts
+ * selected indices that are in `answers`; `incorrectPicks` counts selected
+ * indices that are not. Duplicate selections are ignored (set semantics),
+ * matching `markMulti`.
+ */
+export function scoreMulti(question: MultiQuestion, selected: readonly number[]): number {
+  const want = new Set(question.answers);
+  const got = new Set(selected);
+  let correctPicks = 0;
+  let incorrectPicks = 0;
+  for (const index of got) {
+    if (want.has(index)) correctPicks++;
+    else incorrectPicks++;
+  }
+  return Math.max(0, (correctPicks - incorrectPicks) / want.size);
 }
 
 // FR-QUIZ-004: accept '-', decimals, and scientific notation (e.g. 1.2e3); reject otherwise.

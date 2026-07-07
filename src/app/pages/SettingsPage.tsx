@@ -10,10 +10,12 @@ import {
   KV_PERSIST_REQUESTED,
   downloadProgress,
   eraseAll,
+  exportProgress,
   importProgress,
   useKv,
 } from '../../progress';
 import { pyHost, usePyRuntime } from '../../python';
+import { isFileSyncSupported, loadFromSyncFile, pickSyncFile, saveToSyncFile } from '../../sync';
 import { Badge, Button, Card, Dialog, Spinner } from '../../ui';
 import { loadContentIndex } from '../content-api';
 import { useTheme } from '../theme';
@@ -174,6 +176,120 @@ function ProgressDataSection() {
   );
 }
 
+function isAbortError(error: unknown): boolean {
+  return error instanceof DOMException && error.name === 'AbortError';
+}
+
+function SyncSection() {
+  const supported = isFileSyncSupported();
+  const [handle, setHandle] = useState<FileSystemFileHandle | null>(null);
+  const [saveResult, setSaveResult] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [loadResult, setLoadResult] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  const clearMessages = () => {
+    setSaveResult(null);
+    setSaveError(null);
+    setLoadResult(null);
+    setLoadError(null);
+  };
+
+  const onChooseFile = async () => {
+    clearMessages();
+    try {
+      const picked = await pickSyncFile();
+      setHandle(picked);
+    } catch (error) {
+      if (isAbortError(error)) return; // user cancelled the picker; no-op
+      setSaveError(error instanceof Error ? error.message : String(error));
+    }
+  };
+
+  const onSave = async () => {
+    if (!handle) return;
+    setSaveResult(null);
+    setSaveError(null);
+    try {
+      const data = await exportProgress();
+      await saveToSyncFile(handle, data);
+      setSaveResult(`Saved to ${handle.name}.`);
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : String(error));
+    }
+  };
+
+  const onLoad = async () => {
+    if (!handle) return;
+    setLoadResult(null);
+    setLoadError(null);
+    try {
+      const data = await loadFromSyncFile(handle);
+      const summary = await importProgress(data);
+      setLoadResult(`Imported ${summary.imported}, skipped ${summary.skipped}.`);
+    } catch (error) {
+      setLoadError(error instanceof Error ? error.message : String(error));
+    }
+  };
+
+  return (
+    <SectionCard title="Sync via a synced folder">
+      <p className="text-sm text-slate-600 dark:text-slate-300">
+        Point LearnLab at a JSON file inside a folder your OS already syncs (Dropbox, Google
+        Drive, iCloud Drive, OneDrive, etc.) to save or load your progress there directly,
+        without a manual download/upload each time. This is a manual, one-click action — nothing
+        syncs automatically or in the background, and your data never touches a server.
+      </p>
+      {!supported ? (
+        <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
+          This feature isn&rsquo;t available in this browser (it requires the File System Access
+          API, currently supported in Chromium-based browsers such as Chrome and Edge). Use
+          &ldquo;Download my progress&rdquo; and &ldquo;Import progress file&rdquo; above instead.
+        </p>
+      ) : (
+        <>
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            <Button variant="secondary" onClick={() => void onChooseFile()}>
+              Choose sync file…
+            </Button>
+            {handle && (
+              <>
+                <Button onClick={() => void onSave()}>Save to synced file</Button>
+                <Button variant="secondary" onClick={() => void onLoad()}>
+                  Load from synced file
+                </Button>
+              </>
+            )}
+          </div>
+          {handle && (
+            <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
+              Syncing to: <span className="font-medium">{handle.name}</span>
+            </p>
+          )}
+          <div aria-live="polite">
+            {saveResult && (
+              <p className="mt-3 text-sm text-green-800 dark:text-green-300">{saveResult}</p>
+            )}
+            {saveError && (
+              <p className="mt-3 text-sm text-red-800 dark:text-red-300" role="alert">
+                {saveError}
+              </p>
+            )}
+            {loadResult && (
+              <p className="mt-3 text-sm text-green-800 dark:text-green-300">{loadResult}</p>
+            )}
+            {loadError && (
+              <p className="mt-3 text-sm text-red-800 dark:text-red-300" role="alert">
+                Import rejected: {loadError} Nothing was changed.
+              </p>
+            )}
+          </div>
+        </>
+      )}
+    </SectionCard>
+  );
+}
+
 const RUNTIME_STATE_LABELS: Record<string, string> = {
   idle: 'Not loaded',
   'loading-pyodide': 'Loading Pyodide…',
@@ -303,6 +419,7 @@ export default function SettingsPage() {
       <h1 className="mb-5 text-2xl font-bold">Settings</h1>
       <ThemeSection />
       <ProgressDataSection />
+      <SyncSection />
       <PythonRuntimeSection />
       <StorageSection />
       <AboutSection />

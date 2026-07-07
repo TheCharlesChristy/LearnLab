@@ -161,18 +161,21 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
 
   return (
     <LessonContext.Provider value={lessonCtx}>
-      <Breadcrumb
-        crumbs={[
-          { label: 'Catalogue', to: '/' },
-          { label: SUBJECT_LABELS[course.subject] ?? subjectId },
-          { label: course.title, to: `/course/${course.id}` },
-          { label: mod.title, to: `/module/${moduleId}` },
-          { label: lesson.title },
-        ]}
-      />
+      <div className="print:hidden">
+        <Breadcrumb
+          crumbs={[
+            { label: 'Catalogue', to: '/' },
+            { label: SUBJECT_LABELS[course.subject] ?? subjectId },
+            { label: course.title, to: `/course/${course.id}` },
+            { label: mod.title, to: `/module/${moduleId}` },
+            { label: lesson.title },
+          ]}
+        />
+      </div>
 
-      {/* Persistent module progress bar (FR-SHELL-004). */}
-      <div className="sticky top-0 z-10 -mx-4 mb-4 border-b border-slate-200 bg-surface/95 px-4 py-2 backdrop-blur dark:border-slate-700 dark:bg-surface-dark/95">
+      {/* Persistent module progress bar (FR-SHELL-004). Hidden on paper: it's
+          a live-progress affordance with no meaning on a static printout. */}
+      <div className="sticky top-0 z-10 -mx-4 mb-4 border-b border-slate-200 bg-surface/95 px-4 py-2 backdrop-blur dark:border-slate-700 dark:bg-surface-dark/95 print:hidden">
         <ProgressBar
           value={lessonsTotal > 0 ? (lessonsDone / lessonsTotal) * 100 : 0}
           label={`Module progress: ${lessonsDone} of ${lessonsTotal} lessons complete`}
@@ -182,7 +185,7 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
         </p>
       </div>
 
-      <article>
+      <article className="lesson-article">
         <h1 className="mb-4 text-2xl font-bold">{lesson.title}</h1>
         {isPython ? (
           // Full-page Python lesson (Lesson.kind === 'python', §4.4): render the
@@ -219,7 +222,7 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
       {/* End-of-content scroll sentinel (auto-complete). */}
       <div ref={sentinelRef} data-testid="lesson-end-sentinel" aria-hidden className="h-px" />
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-4 dark:border-slate-700">
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-4 print:hidden dark:border-slate-700">
         {prev ? (
           <Link
             to={`/module/${moduleId}/lesson/${prev.id}`}
@@ -230,9 +233,14 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
         ) : (
           <span />
         )}
-        <Button onClick={() => void complete()} disabled={isComplete}>
-          {isComplete ? 'Lesson completed' : 'Mark lesson complete'}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="secondary" onClick={() => window.print()}>
+            Print this lesson
+          </Button>
+          <Button onClick={() => void complete()} disabled={isComplete}>
+            {isComplete ? 'Lesson completed' : 'Mark lesson complete'}
+          </Button>
+        </div>
         {next ? (
           <Link
             to={`/module/${moduleId}/lesson/${next.id}`}

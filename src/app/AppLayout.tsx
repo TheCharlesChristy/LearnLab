@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
 
 import { APP_NAME } from '../config';
-import { onWriteError } from '../progress';
+import { onWriteError, useDueReviewCount } from '../progress';
 import { cx, toast } from '../ui';
 
 /** WebAssembly + Workers are hard requirements for Python items (§2.3). */
@@ -62,6 +62,7 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
 
 export default function AppLayout() {
   const online = useOnline();
+  const dueReviewCount = useDueReviewCount();
 
   // NFR-REL-001: failed progress writes surface via a toast.
   useEffect(
@@ -99,6 +100,20 @@ export default function AppLayout() {
             </span>
           )}
           <nav aria-label="Main" className="ml-auto flex items-center gap-1">
+            <NavLink to="/search" className={navLinkClass}>
+              Search
+            </NavLink>
+            <NavLink to="/review" className={navLinkClass}>
+              Review
+              {!!dueReviewCount && (
+                <span
+                  className="ml-1.5 rounded-full bg-indigo-600 px-1.5 py-0.5 text-xs font-semibold text-white dark:bg-indigo-500"
+                  aria-label={`${dueReviewCount} due`}
+                >
+                  {dueReviewCount}
+                </span>
+              )}
+            </NavLink>
             <NavLink to="/progress" className={navLinkClass}>
               Progress
             </NavLink>

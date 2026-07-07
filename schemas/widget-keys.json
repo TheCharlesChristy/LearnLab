@@ -6,5 +6,9 @@
   "step-reveal",
   "code-runner",
   "logic-gate-sim",
-  "flashcards"
+  "flashcards",
+  "vector-field",
+  "geometry-canvas",
+  "circuit-sim",
+  "truth-table"
 ]

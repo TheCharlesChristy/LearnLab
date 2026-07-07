@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { markMcq, markMulti, markNumeric, markText, parseNumericInput } from './marking';
+import { markMcq, markMulti, markNumeric, markText, parseNumericInput, scoreMulti } from './marking';
 import type { McqQuestion, MultiQuestion, NumericQuestion, TextQuestion } from './types';
 
 const mcq: McqQuestion = {
@@ -64,6 +64,50 @@ describe('markMulti (exact set, no partial credit)', () => {
   });
   it('ignores duplicate selections (set semantics)', () => {
     expect(markMulti(multi, [1, 1, 3])).toBe(true);
+  });
+});
+
+describe('scoreMulti (§13 roadmap D-023: per-question partial credit)', () => {
+  // Fixture `multi`: answers = [1, 3] (2 correct choices total, of 4).
+  it('gives full credit (1.0) for the exact set, any order', () => {
+    expect(scoreMulti(multi, [1, 3])).toBe(1);
+    expect(scoreMulti(multi, [3, 1])).toBe(1);
+  });
+  it('gives partial credit for a correct subset (missing one correct pick)', () => {
+    // correctPicks=1, incorrectPicks=0 → (1-0)/2 = 0.5
+    expect(scoreMulti(multi, [1])).toBe(0.5);
+    expect(scoreMulti(multi, [3])).toBe(0.5);
+  });
+  it('gives partial credit for the full correct set plus one wrong extra', () => {
+    // correctPicks=2, incorrectPicks=1 → (2-1)/2 = 0.5
+    expect(scoreMulti(multi, [0, 1, 3])).toBe(0.5);
+  });
+  it('floors at 0 when incorrect picks outweigh correct picks', () => {
+    // Selecting only a wrong choice: correctPicks=0, incorrectPicks=1 → (0-1)/2 = -0.5 → 0
+    expect(scoreMulti(multi, [0])).toBe(0);
+    expect(scoreMulti(multi, [2])).toBe(0);
+  });
+  it('is 0 for an empty selection', () => {
+    expect(scoreMulti(multi, [])).toBe(0);
+  });
+  it('nets correct and incorrect picks to 0 when they cancel exactly', () => {
+    // correctPicks=1, incorrectPicks=1 → (1-1)/2 = 0
+    expect(scoreMulti(multi, [1, 0])).toBe(0);
+  });
+  it('is 0 for selecting every choice (all correct picks cancelled by all wrong picks)', () => {
+    // correctPicks=2, incorrectPicks=2 → (2-2)/2 = 0
+    expect(scoreMulti(multi, [0, 1, 2, 3])).toBe(0);
+  });
+  it('ignores duplicate selections (set semantics), matching markMulti', () => {
+    expect(scoreMulti(multi, [1, 1, 3])).toBe(1);
+    expect(scoreMulti(multi, [1, 1])).toBe(0.5);
+  });
+  it('stays within [0, 1] and matches the pinned formula for a 3-of-4-answer question', () => {
+    const threeAnswer: MultiQuestion = { ...multi, answers: [0, 1, 2] };
+    // correctPicks=2, incorrectPicks=0 → (2-0)/3 ≈ 0.6667
+    expect(scoreMulti(threeAnswer, [0, 1])).toBeCloseTo(2 / 3);
+    // correctPicks=3, incorrectPicks=1 → (3-1)/3 ≈ 0.6667
+    expect(scoreMulti(threeAnswer, [0, 1, 2, 3])).toBeCloseTo(2 / 3);
   });
 });
 

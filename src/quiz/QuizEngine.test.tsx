@@ -183,6 +183,100 @@ describe('QuizEngine flow (FR-QUIZ-001)', () => {
   });
 });
 
+describe('multi partial credit (§13 roadmap D-023)', () => {
+  const partialMultiQuiz: Quiz = {
+    schemaVersion: 1,
+    id: 'partial-multi-quiz',
+    title: 'Partial multi',
+    shuffleQuestions: false,
+    shuffleChoices: false,
+    questions: [
+      {
+        type: 'multi',
+        id: 'q-multi',
+        text: 'Select the two correct choices',
+        choices: ['right-a', 'right-b', 'wrong-a', 'wrong-b'],
+        answers: [0, 1],
+        explanation: 'right-a and right-b are correct.',
+      },
+    ],
+  };
+
+  it('awards partial credit (0.5) and shows "Partially correct (50%)." when only one of two correct answers is picked', async () => {
+    const user = userEvent.setup();
+    const onFinished = vi.fn();
+    renderWithContext(
+      <QuizEngine
+        quiz={partialMultiQuiz}
+        attemptNumber={1}
+        kind="inline-quiz"
+        practiceMode
+        onFinished={onFinished}
+      />,
+    );
+
+    await user.click(screen.getByRole('checkbox', { name: 'right-a' }));
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
+    expect(screen.getByText('Partially correct (50%).')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Finish' }));
+
+    expect(screen.getByText(/Score: 0\.5 \/ 1/)).toBeInTheDocument();
+    expect(onFinished).toHaveBeenCalledWith({ score: 0.5, maxScore: 1 });
+    const review = screen.getAllByRole('listitem');
+    expect(
+      within(review[0] as HTMLElement).getByText(/Partially correct \(50%\) — Your answer:/),
+    ).toBeInTheDocument();
+  });
+
+  it('still shows "Correct!" and full credit for an exact-match multi selection (no regression)', async () => {
+    const user = userEvent.setup();
+    const onFinished = vi.fn();
+    renderWithContext(
+      <QuizEngine
+        quiz={partialMultiQuiz}
+        attemptNumber={1}
+        kind="inline-quiz"
+        practiceMode
+        onFinished={onFinished}
+      />,
+    );
+
+    await user.click(screen.getByRole('checkbox', { name: 'right-a' }));
+    await user.click(screen.getByRole('checkbox', { name: 'right-b' }));
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
+    expect(screen.getByText('Correct!')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Finish' }));
+
+    expect(screen.getByText(/Score: 1 \/ 1/)).toBeInTheDocument();
+    expect(onFinished).toHaveBeenCalledWith({ score: 1, maxScore: 1 });
+  });
+
+  it('still shows "Incorrect." and zero credit when only wrong choices are selected (no regression)', async () => {
+    const user = userEvent.setup();
+    const onFinished = vi.fn();
+    renderWithContext(
+      <QuizEngine
+        quiz={partialMultiQuiz}
+        attemptNumber={1}
+        kind="inline-quiz"
+        practiceMode
+        onFinished={onFinished}
+      />,
+    );
+
+    await user.click(screen.getByRole('checkbox', { name: 'wrong-a' }));
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
+    expect(screen.getByText('Incorrect.')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Finish' }));
+
+    expect(screen.getByText(/Score: 0 \/ 1/)).toBeInTheDocument();
+    expect(onFinished).toHaveBeenCalledWith({ score: 0, maxScore: 1 });
+  });
+});
+
 describe('numeric input validation (FR-QUIZ-004)', () => {
   it('invalid input disables Submit and shows an inline hint; valid input enables it', async () => {
     const user = userEvent.setup();

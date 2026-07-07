@@ -17,6 +17,8 @@ const ModulePage = lazy(() => import('./pages/ModulePage'));
 const LessonPage = lazy(() => import('./pages/LessonPage'));
 const AssessmentPage = lazy(() => import('./pages/AssessmentPage'));
 const ProgressPage = lazy(() => import('./pages/ProgressPage'));
+const ReviewPage = lazy(() => import('./pages/ReviewPage'));
+const SearchPage = lazy(() => import('./pages/SearchPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
@@ -53,6 +55,8 @@ export function buildRoutes(): RouteObject[] {
           errorElement: <RouteErrorPage />,
         },
         { path: 'progress', element: page(<ProgressPage />), errorElement: <RouteErrorPage /> },
+        { path: 'review', element: page(<ReviewPage />), errorElement: <RouteErrorPage /> },
+        { path: 'search', element: page(<SearchPage />), errorElement: <RouteErrorPage /> },
         { path: 'settings', element: page(<SettingsPage />), errorElement: <RouteErrorPage /> },
         { path: '*', element: page(<NotFoundPage />), errorElement: <RouteErrorPage /> },
       ],

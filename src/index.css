@@ -23,3 +23,100 @@
   --color-cs: oklch(60% 0.17 150);
   --color-ai: oklch(64% 0.19 45);
 }
+
+/* Printable lesson view (SRS §13 roadmap, D-026). LessonPage.tsx marks its
+   own chrome (breadcrumb, progress bar, prev/complete/print/next row) with
+   the `print:hidden` Tailwind variant; the rules below cover everything that
+   variant can't reach: the app shell header/nav (AppLayout.tsx, outside this
+   file's page-level control), forcing a light-on-white palette regardless of
+   the active theme so dark surfaces don't waste ink, letting horizontally
+   scrollable regions (code blocks) wrap instead of being clipped since a
+   printed page can't scroll, and capping Python item hosts so an
+   interactive-only widget can't print as pages of blank space. */
+@media print {
+  /* Force light-on-white everywhere, overriding both light- and dark-theme
+     utility backgrounds/foregrounds (NFR-A11Y-001 colours are for screens;
+     paper gets plain black-on-white). */
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  html,
+  body {
+    background: #fff !important;
+    color-scheme: light;
+  }
+
+  /* App-shell chrome (AppLayout.tsx header + its nav) never belongs on a
+     printed page. */
+  header,
+  nav {
+    display: none !important;
+  }
+
+  /* The routed page no longer needs to compete with a fixed shell width. */
+  main {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .lesson-article {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+
+  /* Code blocks (src/markdown/CodeBlock.tsx) render on a dark terminal
+     background with syntax-highlight inline colours and an
+     overflow-x-auto scroll region; none of that survives paper well. */
+  pre,
+  code {
+    background: #fff !important;
+    color: #111 !important;
+    border: 1px solid #d4d4d8;
+    overflow: visible !important;
+    white-space: pre-wrap !important;
+    word-break: break-word;
+  }
+  pre *,
+  code * {
+    color: inherit !important;
+  }
+
+  /* Any other horizontally-scrolling wrapper (tables, wide diagrams) should
+     expand instead of clipping/scrolling, which is impossible on paper. */
+  .overflow-x-auto {
+    overflow: visible !important;
+  }
+
+  table {
+    width: 100% !important;
+  }
+
+  img,
+  svg,
+  canvas {
+    max-width: 100% !important;
+  }
+
+  pre,
+  figure,
+  table,
+  img {
+    break-inside: avoid;
+  }
+
+  /* Python items (src/app/py-item-host.tsx, src/python/PyItem.tsx) are
+     interactive-only and can't meaningfully run on paper. Cap their height
+     so a widget with a tall canvas/plot doesn't print as several blank
+     pages; whatever static markup is on screen at print time still shows. */
+  [data-py-item],
+  [data-py-item-host] {
+    max-height: 70vh;
+    overflow: hidden !important;
+    border: 1px solid #d4d4d8;
+  }
+}
