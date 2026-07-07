@@ -6,102 +6,105 @@
     {
       "id": "q1",
       "type": "mcq",
-      "text": "Which special method is called automatically when a new object is created from a class, e.g. `BankAccount('Alex', 100)`?",
-      "choices": ["`__init__`", "`__new__`", "`__call__`", "`__main__`"],
-      "answer": 0,
-      "explanation": "`__init__` is the constructor: Python calls it automatically right after creating the new object, passing along the arguments given at creation (here `'Alex'` and `100`)."
+      "text": "Which programming paradigm bundles an object's data together with the functions (methods) that operate on that data?",
+      "choices": ["Procedural", "Object-oriented", "Functional", "None of them — data and functions are always kept separate"],
+      "answer": 1,
+      "explanation": "Object-oriented programming groups data (attributes) and behaviour (methods) together inside a class, so each object carries both its state and the operations on that state."
     },
     {
       "id": "q2",
       "type": "mcq",
-      "text": "In the `BankAccount` class, `_balance` is stored with a leading underscore rather than being freely writable from outside the class. Which OOP principle does this demonstrate?",
-      "choices": ["Inheritance", "Polymorphism", "Encapsulation", "Recursion"],
-      "answer": 2,
-      "explanation": "Encapsulation bundles data with the methods that operate on it and restricts direct outside access, favouring controlled access via methods like `deposit`/`withdraw` over freely modifying `_balance` directly."
+      "text": "In Python, which special method is called automatically to set up a new object's attributes when the object is created?",
+      "choices": ["`__main__`", "`__init__`", "`__call__`", "`__new__`"],
+      "answer": 1,
+      "explanation": "`__init__` is the constructor: Python creates a new (empty) object, then calls `__init__(self, ...)` on it to attach its initial attributes."
     },
     {
       "id": "q3",
-      "type": "text",
-      "text": "`class Cat(Animal):` makes `Cat` a subclass of `Animal`. What is the general term for a subclass extending a superclass and overriding one of its methods (like `speak`)?",
-      "accept": ["inheritance( and (method )?overrid(e|ing))?"],
-      "caseSensitive": false,
-      "explanation": "This is inheritance: `Cat` inherits `Animal`'s attributes/methods and overrides `speak` with its own version."
+      "type": "multi",
+      "text": "Which of the following statements correctly describe **encapsulation**?",
+      "choices": [
+        "Bundling an object's data together with the methods that operate on it",
+        "Allowing a subclass to automatically reuse a superclass's methods",
+        "Restricting direct access to an object's internal data and exposing controlled methods instead",
+        "The same method call producing different behaviour depending on the object's class"
+      ],
+      "answers": [0, 2],
+      "explanation": "Encapsulation is bundling data with its methods and controlling access to that data (e.g. `_balance` changed only via `deposit`/`withdraw`). Option 1 describes inheritance and option 3 describes polymorphism, not encapsulation."
     },
     {
       "id": "q4",
-      "type": "mcq",
-      "text": "Given `animals = [Animal('Generic'), Cat('Tom'), Dog('Rex'), Fish('Nemo')]` where `Cat`/`Dog` override `speak()` but `Fish` does not, what happens when the loop `for a in animals: print(a.speak())` runs?",
-      "choices": [
-        "It fails, because `speak` isn't defined identically for every object",
-        "`Cat` and `Dog` each print their own overridden message, `Animal` and `Fish` print `Animal`'s generic message",
-        "Every object prints exactly the same message, since they are all in one list",
-        "Only `Animal`'s `speak` ever runs, because that's the type of the first list element"
-      ],
-      "answer": 1,
-      "explanation": "This is polymorphism: the same call `a.speak()` behaves differently depending on each object's actual run-time class. `Cat`/`Dog` use their own overridden `speak`; `Fish` has no override so it falls back to `Animal`'s version (as does the plain `Animal` object)."
+      "type": "numeric",
+      "text": "Given `def factorial(n):\\n    if n == 0:\\n        return 1\\n    return n * factorial(n - 1)`, what does `factorial(5)` evaluate to?",
+      "answer": 120,
+      "tolerance": 0,
+      "explanation": "Tracing the calls: `factorial(0)=1`, `factorial(1)=1*1=1`, `factorial(2)=2*1=2`, `factorial(3)=3*2=6`, `factorial(4)=4*6=24`, `factorial(5)=5*24=120`."
     },
     {
       "id": "q5",
-      "type": "multi",
-      "text": "Which of the following are true of a pure function?",
-      "choices": [
-        "Given the same arguments, it always returns the same result",
-        "It may modify a global variable as a side effect",
-        "It does not print, mutate its arguments, or write to a file",
-        "Calling it twice with the same input can give two different answers"
-      ],
-      "answers": [0, 2],
-      "explanation": "A pure function has no side effects (no printing/mutating/writing/modifying external state) and is deterministic — same input always gives the same output. Options 2 and 4 describe impure functions like `add_to_total`, which depends on and changes the external `total` variable."
+      "type": "numeric",
+      "text": "Given `def fibonacci(n):\\n    if n == 0:\\n        return 0\\n    if n == 1:\\n        return 1\\n    return fibonacci(n - 1) + fibonacci(n - 2)`, what does `fibonacci(6)` evaluate to?",
+      "answer": 8,
+      "tolerance": 0,
+      "explanation": "The sequence from the two base cases is $F(0)=0, F(1)=1, F(2)=1, F(3)=2, F(4)=3, F(5)=5, F(6)=8$ — each term is the sum of the previous two, so $F(6) = F(5) + F(4) = 5 + 3 = 8$."
     },
     {
       "id": "q6",
       "type": "numeric",
-      "text": "Using `def factorial(n): return 1 if n == 0 else n * factorial(n - 1)`, what is `factorial(5)`?",
-      "answer": 120,
+      "text": "Using the same `factorial` function as above, how many total calls to `factorial` (including the very first call) happen when evaluating `factorial(6)`?",
+      "answer": 7,
       "tolerance": 0,
-      "explanation": "$factorial(5) = 5 \\times 4 \\times 3 \\times 2 \\times 1 \\times factorial(0) = 5\\times4\\times3\\times2\\times1\\times1 = 120$."
+      "explanation": "Each recursive case reduces `n` by exactly 1 until the base case `n == 0`, so evaluating `factorial(6)` makes one call for each of `n = 6, 5, 4, 3, 2, 1, 0` — that is $6 + 1 = 7$ calls in total."
     },
     {
       "id": "q7",
-      "type": "numeric",
-      "text": "Using `def fibonacci(n): return n if n < 2 else fibonacci(n-1) + fibonacci(n-2)`, what is `fibonacci(7)`?",
-      "answer": 13,
-      "tolerance": 0,
-      "explanation": "The sequence from $fib(0)$ is $0,1,1,2,3,5,8,13$ — so $fib(0)=0, fib(1)=1, fib(2)=1, fib(3)=2, fib(4)=3, fib(5)=5, fib(6)=8, fib(7)=13$."
+      "type": "mcq",
+      "text": "What does `print(list(map(lambda x: x * 2, [1, 2, 3])))` print?",
+      "choices": ["`[1, 2, 3]`", "`[2, 4, 6]`", "`[1, 4, 9]`", "It raises an error"],
+      "answer": 1,
+      "explanation": "`map` applies the lambda to every element: $1 \\times 2 = 2$, $2 \\times 2 = 4$, $3 \\times 2 = 6$, giving `[2, 4, 6]`."
     },
     {
       "id": "q8",
       "type": "mcq",
-      "text": "Every correct recursive function must have a base case. What is the base case for?",
-      "choices": [
-        "It makes the function run faster",
-        "It solves the simplest version of the problem directly, without a further recursive call, stopping the recursion",
-        "It is optional if the function is short enough",
-        "It converts the recursive function into an iterative one"
-      ],
+      "text": "What does `print(list(filter(lambda x: x > 2, [1, 2, 3, 4])))` print?",
+      "choices": ["`[1, 2]`", "`[3, 4]`", "`[1, 2, 3, 4]`", "`[]`"],
       "answer": 1,
-      "explanation": "The base case is the version of the problem solved directly (e.g. `factorial(0) = 1`) with no further recursive call — without one (or if it's unreachable), the recursion never terminates and eventually raises a `RecursionError`."
+      "explanation": "`filter` keeps only elements for which the lambda returns `True`: $1>2$ and $2>2$ are false, $3>2$ and $4>2$ are true, so the surviving elements are `[3, 4]`."
     },
     {
       "id": "q9",
       "type": "text",
-      "text": "Given `numbers = [1, 2, 3, 4, 5, 6]`, what is `list(filter(lambda x: x % 2 == 0, numbers))`? Write it as a Python list, e.g. `[1, 2, 3]`.",
-      "accept": ["\\[\\s*2\\s*,\\s*4\\s*,\\s*6\\s*\\]"],
+      "text": "What single term describes a function that has no side effects and always returns the same output for the same input?",
+      "accept": ["(a )?pure function", "purity", "pure"],
       "caseSensitive": false,
-      "explanation": "`filter` keeps only elements where the lambda returns `True`, i.e. `x % 2 == 0` (even numbers): $2, 4, 6$ from $[1,2,3,4,5,6]$, giving `[2, 4, 6]`."
+      "explanation": "This describes a **pure function** — its result depends only on its arguments, and calling it never changes anything outside itself."
     },
     {
       "id": "q10",
-      "type": "mcq",
-      "text": "`map` and `filter` are described as higher-order functions. Why?",
+      "type": "multi",
+      "text": "Which of the following statements about recursion are true?",
       "choices": [
-        "They run faster than an equivalent `for` loop",
-        "They only work on numbers",
-        "They take another function as an argument and use it to decide what to do with each element",
-        "They must always return a new list, never an iterator"
+        "Every correct recursive function needs at least one base case that stops further recursive calls",
+        "Each recursive call should move strictly closer to a base case",
+        "A recursive function is only allowed to call itself once inside its body",
+        "Recursion can be a natural alternative to iteration for problems with self-similar substructure"
       ],
-      "answer": 2,
-      "explanation": "A higher-order function takes a function as an argument, returns a function, or both. `map(function, iterable)` and `filter(function, iterable)` both take a function argument (here, a `lambda`) and apply it to each element, rather than the caller writing explicit loop mechanics."
+      "answers": [0, 1, 3],
+      "explanation": "A base case is essential to stop the recursion, and each call must progress toward it or the function never terminates. Option 2 is false: `fibonacci` above calls itself **twice** in its recursive case (`fibonacci(n-1) + fibonacci(n-2)`), which is perfectly valid."
+    },
+    {
+      "id": "q11",
+      "type": "mcq",
+      "text": "Given:\n```python\nclass Bird:\n    def move(self):\n        return \"walks\"\n\nclass Eagle(Bird):\n    def move(self):\n        return \"flies\"\n\nclass Penguin(Bird):\n    def move(self):\n        return \"swims\"\n\nbirds = [Bird(), Eagle(), Penguin()]\nprint([b.move() for b in birds])\n```\nWhat is printed?",
+      "choices": [
+        "`['walks', 'walks', 'walks']`",
+        "`['walks', 'flies', 'swims']`",
+        "`['flies', 'swims', 'walks']`",
+        "It raises an error because `Bird` has no `Eagle` or `Penguin` methods"
+      ],
+      "answer": 1,
+      "explanation": "Each object's own class is used to look up `move`: the plain `Bird` has no override so it uses `Bird.move` (`\"walks\"`); `Eagle` and `Penguin` each override `move` with their own version (`\"flies\"`, `\"swims\"`). This is polymorphism — the same call `b.move()` behaves differently per object."
     }
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "kind": "scatter",
+  "xLabel": "hours studied (x)",
+  "yLabel": "true label (0 = fail, 1 = pass)",
+  "series": [
+    {
+      "name": "actual: fail (0)",
+      "points": [[1, 0], [2, 0], [4, 0]]
+    },
+    {
+      "name": "actual: pass (1)",
+      "points": [[2.5, 1], [3, 1], [5, 1], [6, 1], [7, 1]]
+    },
+    {
+      "name": "decision boundary x = 3",
+      "points": [[3, -0.2], [3, 1.2]]
+    }
+  ]
+}

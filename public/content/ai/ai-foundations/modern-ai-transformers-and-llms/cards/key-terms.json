@@ -1,0 +1,32 @@
+{
+  "cards": [
+    {
+      "front": "What is a **word embedding**?",
+      "back": "A representation of a word as a dense vector of real numbers (typically tens to hundreds of dimensions), learned so that words used in similar contexts or with similar meanings end up **close together** in the vector space."
+    },
+    {
+      "front": "What does the **attention mechanism** do?",
+      "back": "For each word in a sequence, attention computes how relevant every other word is to it, and uses those relevance weights to build a better representation of that word — e.g. working out what a pronoun like *it* refers to."
+    },
+    {
+      "front": "What is a **transformer**?",
+      "back": "A neural network architecture built from stacked layers of attention plus simple feed-forward networks. It processes an entire sequence **at once**, rather than one word at a time like older recurrent (RNN) approaches."
+    },
+    {
+      "front": "What is a **token**?",
+      "back": "The basic unit of text — often a whole word or a small piece of one — that a language model reads and generates one at a time."
+    },
+    {
+      "front": "What is **pretraining**?",
+      "back": "The first stage of building a large language model: training it to predict the next token over huge amounts of general text, with no task-specific labels required."
+    },
+    {
+      "front": "What is **fine-tuning**?",
+      "back": "A further stage of training, after pretraining, on a smaller curated set of examples (e.g. instructions paired with good responses) that shapes the model's behaviour for a particular use, such as following instructions."
+    },
+    {
+      "front": "What is **hallucination** in an LLM?",
+      "back": "When a language model confidently generates plausible-sounding but factually incorrect statements — a consequence of completing statistical patterns rather than checking claims against real-world facts."
+    }
+  ]
+}

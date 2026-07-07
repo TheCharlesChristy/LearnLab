@@ -16,7 +16,7 @@ Use the walk-through below to step through each stage in order.
 This repeating fetch → decode → execute → fetch → … sequence is sometimes called the CPU's **instruction cycle**. It never stops on its own; it only pauses for interrupts (outside the scope of this module) or when the machine is halted.
 :::
 
-:::reveal{title="Worked example: tracing one full cycle for ADD 300"}
+:::reveal{title="Worked example: tracing one full cycle for ADD 205"}
 Continuing the example from lesson 1: the fetch has just finished, so `PC = 101`, `CIR = LDA 205` (load the value at address 205 into the accumulator). Now suppose the *next* instruction, at address 101, is `ADD 300` (add the value at address 300 to the accumulator). Trace it stage by stage.
 
 **Fetch**

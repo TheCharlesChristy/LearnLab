@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge-and-reasoning-assessment",
+  "title": "End of module: Knowledge Representation and Reasoning",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "In predicate notation, what does the fact `has_feathers(tweety)` mean?",
+      "choices": [
+        "Tweety has feathers",
+        "Feathers have Tweety",
+        "Tweety is a type of feather",
+        "All birds have feathers"
+      ],
+      "answer": 0,
+      "explanation": "A fact is written `predicate(object)`, so `has_feathers(tweety)` reads as \"tweety has feathers\" — the predicate names the property, the argument names the object it holds for."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "In the rule `flies(X) :- bird(X), not(penguin(X))`, what does `X` represent?",
+      "choices": [
+        "A specific fact named X",
+        "A variable that stands for any object",
+        "The name of the rule",
+        "A logical AND operator"
+      ],
+      "answer": 1,
+      "explanation": "`X` is a variable. To use the rule for a particular object you substitute (ground) that object for `X` throughout the rule — the same rule works for tweety, percy, or any other object."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "A rule \"fires\" when…",
+      "choices": [
+        "at least one condition in its body is true",
+        "every condition in its body is known to be true, for the same substitution",
+        "its conclusion is already a known fact",
+        "it appears first in the list of rules"
+      ],
+      "answer": 1,
+      "explanation": "A rule's body is a conjunction (AND) of conditions — a single unmet condition blocks the whole rule. Only when every condition holds does the rule fire and its conclusion get derived."
+    },
+    {
+      "id": "q4",
+      "type": "text",
+      "text": "Using `predicate(object)` notation, write the fact \"Percy is a penguin\".",
+      "accept": ["penguin\\(percy\\)"],
+      "caseSensitive": false,
+      "explanation": "The predicate `penguin` applied to the object `percy` gives `penguin(percy)`, exactly mirroring `bird(tweety)` for \"Tweety is a bird\"."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "In the Tweety/Percy example, why does the knowledge base fail to derive `flies(percy)`?",
+      "choices": [
+        "Because `bird(percy)` is not a known fact",
+        "Because `penguin(percy)` is a known fact, so `NOT penguin(percy)` is false",
+        "Because Percy has no feathers",
+        "Because forward chaining was not used"
+      ],
+      "answer": 1,
+      "explanation": "`bird(percy)` is true, but the rule also requires `NOT penguin(percy)`. Since `penguin(percy)` is a known fact, that condition is false, the rule's body is not entirely satisfied, and the rule does not fire."
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "text": "Which best describes forward chaining?",
+      "choices": [
+        "Goal-driven: start from the question and work backward",
+        "Data-driven: start from known facts and apply rules to derive new ones",
+        "A random search over all possible facts",
+        "A method that only works with numeric facts"
+      ],
+      "answer": 1,
+      "explanation": "Forward chaining is data-driven: it starts with the facts you have and repeatedly fires any rule whose body is fully satisfied, growing the set of known facts until a fixpoint (or a chosen goal) is reached."
+    },
+    {
+      "id": "q7",
+      "type": "text",
+      "text": "In the farmyard knowledge base (rules R1–R3: `has_feathers(X), lays_eggs(X) -> bird(X)`; `bird(X), can_swim(X) -> waterbird(X)`; `waterbird(X), has_webbed_feet(X), quacks(X) -> duck(X)`), list, in order, the three new facts forward chaining derives about kim up to and including `duck(kim)`. Separate them with commas, e.g. \"fact1, fact2, fact3\".",
+      "accept": ["bird\\(kim\\)\\s*,\\s*waterbird\\(kim\\)\\s*,\\s*duck\\(kim\\)"],
+      "caseSensitive": false,
+      "explanation": "R1 fires first (its body `has_feathers(kim), lays_eggs(kim)` is already known), deriving `bird(kim)`. That lets R2 fire, deriving `waterbird(kim)`. That lets R3 fire, deriving `duck(kim)`. Order: `bird(kim)`, `waterbird(kim)`, `duck(kim)`."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Starting from the initial facts about kim and max, how many new facts in total does forward chaining derive from the 5-rule farmyard knowledge base (R1–R5) before it reaches a fixpoint (no more rules can fire)?",
+      "answer": 5,
+      "tolerance": 0,
+      "explanation": "Forward chaining derives `bird(kim)`, `waterbird(kim)`, `duck(kim)`, `mammal(max)`, `carnivore(max)` — five new facts in total — before no rule can fire any further."
+    },
+    {
+      "id": "q9",
+      "type": "multi",
+      "text": "Which of the following facts does forward chaining derive when run to a fixpoint on the farmyard knowledge base (kim and max, rules R1–R5)?",
+      "choices": ["bird(kim)", "carnivore(max)", "reptile(kim)", "mammal(max)"],
+      "answers": [0, 1, 3],
+      "explanation": "Forward chaining derives `bird(kim)`, `waterbird(kim)`, `duck(kim)`, `mammal(max)` and `carnivore(max)`. There is no rule in the knowledge base that concludes `reptile(kim)`, so it is never derived."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "When backward chaining proves `duck(kim)` in the farmyard example, which rule is consulted first?",
+      "choices": [
+        "R1 (the bird rule)",
+        "R2 (the waterbird rule)",
+        "R3 (the duck rule)",
+        "R4 (the mammal rule)"
+      ],
+      "answer": 2,
+      "explanation": "Backward chaining starts from the goal `duck(kim)` and looks for a rule whose head matches it — that is R3. Only afterwards, to prove R3's `waterbird(kim)` subgoal, does it consult R2, then R1."
+    },
+    {
+      "id": "q11",
+      "type": "mcq",
+      "text": "Which fact is never consulted while backward chaining proves `duck(kim)` in the farmyard example?",
+      "choices": [
+        "has_feathers(kim)",
+        "can_swim(kim)",
+        "gives_milk(max)",
+        "quacks(kim)"
+      ],
+      "answer": 2,
+      "explanation": "Proving `duck(kim)` only ever needs facts about kim (`has_feathers`, `lays_eggs`, `can_swim`, `has_webbed_feet`, `quacks`). `gives_milk(max)` belongs to the unrelated mammal/carnivore rules (R4, R5) and backward chaining never looks at it."
+    },
+    {
+      "id": "q12",
+      "type": "mcq",
+      "text": "Which reasoning strategy is generally more efficient for answering one specific, known question in a large knowledge base with many irrelevant rules?",
+      "choices": [
+        "Forward chaining, because it derives everything the rules allow",
+        "Backward chaining, because it only explores what the goal depends on",
+        "Neither — both always explore the entire knowledge base",
+        "It depends only on how many facts there are, never on the rules"
+      ],
+      "answer": 1,
+      "explanation": "Backward chaining works only on the branch of rules and facts the goal actually depends on, so in a large knowledge base with many irrelevant rules it typically does far less work than forward chaining, which derives every consequence of the facts regardless of whether it is asked for."
+    }
+  ]
+}

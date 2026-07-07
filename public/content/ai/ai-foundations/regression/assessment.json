@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "id": "regression-assessment",
+  "title": "End of module: Regression and Gradient Descent",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "For the sales data $(1,2), (2,5), (3,8)$, the candidate line $\\hat{y} = 2x$ (i.e. $w=2$, $b=0$) gives residuals $0, -1, -2$. Compute its mean squared error.",
+      "answer": 1.6667,
+      "tolerance": 0.01,
+      "explanation": "Squared residuals are $0, 1, 4$, summing to $5$. $\\text{MSE} = \\frac{5}{3} \\approx 1.667$."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "For the same data $(1,2), (2,5), (3,8)$, compute the mean squared error of the line $\\hat{y} = 3x - 1$.",
+      "answer": 0,
+      "tolerance": 0.0001,
+      "explanation": "$\\hat{y} = 3x-1$ gives predictions $2, 5, 8$ — exactly matching every $y$, so every residual is $0$ and $\\text{MSE} = 0$."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "Why does the mean squared error square each residual instead of just averaging the residuals directly?",
+      "choices": [
+        "So positive and negative errors can't cancel out, and larger errors are penalised more heavily",
+        "Because squaring is computationally faster than addition",
+        "So that a very good fit can have a negative loss",
+        "Because $x$ must always be squared before comparing to $y$"
+      ],
+      "answer": 0,
+      "explanation": "Averaging signed residuals directly would let a line that overshoots high on some points and low on others look perfect on average. Squaring makes every contribution positive and grows faster for larger errors."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "For the sales data $(1,2),(2,5),(3,8)$ starting from $w=0$, $b=0$, compute $\\frac{\\partial \\text{MSE}}{\\partial w} = \\frac{2}{n}\\sum_i (wx_i+b-y_i)x_i$.",
+      "answer": -24,
+      "tolerance": 0.01,
+      "explanation": "Residuals are $-2,-5,-8$. $\\sum e_i x_i = (-2)(1)+(-5)(2)+(-8)(3) = -2-10-24=-36$, so $\\frac{\\partial \\text{MSE}}{\\partial w} = \\frac{2}{3}(-36) = -24$."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "Using the same starting point $w=0$, $b=0$, compute $\\frac{\\partial \\text{MSE}}{\\partial b} = \\frac{2}{n}\\sum_i (wx_i+b-y_i)$.",
+      "answer": -10,
+      "tolerance": 0.01,
+      "explanation": "$\\sum e_i = -2-5-8=-15$, so $\\frac{\\partial \\text{MSE}}{\\partial b} = \\frac{2}{3}(-15) = -10$."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "Using learning rate $\\eta = 0.01$ and the gradient $\\frac{\\partial \\text{MSE}}{\\partial w} = -24$ from $w=0$, compute the updated weight $w \\leftarrow w - \\eta\\,\\frac{\\partial \\text{MSE}}{\\partial w}$.",
+      "answer": 0.24,
+      "tolerance": 0.001,
+      "explanation": "$w \\leftarrow 0 - (0.01)(-24) = 0.24$."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "Using the same learning rate $\\eta = 0.01$ and the gradient $\\frac{\\partial \\text{MSE}}{\\partial b} = -10$ from $b=0$, compute the updated bias $b \\leftarrow b - \\eta\\,\\frac{\\partial \\text{MSE}}{\\partial b}$.",
+      "answer": 0.1,
+      "tolerance": 0.001,
+      "explanation": "$b \\leftarrow 0 - (0.01)(-10) = 0.10$."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Starting instead from the flat guess $w=0$, $b=1$ (so $\\hat{y}=1$ for every $x$) on the same data, compute $\\frac{\\partial \\text{MSE}}{\\partial b}$.",
+      "answer": -8,
+      "tolerance": 0.01,
+      "explanation": "Residuals are $1-2=-1$, $1-5=-4$, $1-8=-7$, summing to $-12$. $\\frac{\\partial \\text{MSE}}{\\partial b} = \\frac{2}{3}(-12) = -8$."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "Using learning rate $\\eta = 0.1$ and the gradient $\\frac{\\partial \\text{MSE}}{\\partial b} = -8$ from Q8, compute the updated bias starting from $b=1$.",
+      "answer": 1.8,
+      "tolerance": 0.001,
+      "explanation": "$b \\leftarrow 1 - (0.1)(-8) = 1 + 0.8 = 1.8$. Note this moves $b$ further from the true intercept $-1$ — a single step does not always move every parameter closer to its final value."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "What typically happens if the learning rate in gradient descent is set far too large?",
+      "choices": [
+        "Training stops immediately and the weights freeze",
+        "Each step can overshoot the minimum, and the loss may oscillate or diverge instead of decreasing",
+        "The model instantly reaches the exact global minimum with no downside",
+        "It has no effect on training, only on the final rounding of the answer"
+      ],
+      "answer": 1,
+      "explanation": "A learning rate that is too large causes each update to overshoot the bottom of the loss bowl; repeated overshooting can make the loss grow without bound (divergence) rather than shrink."
+    },
+    {
+      "id": "q11",
+      "type": "mcq",
+      "text": "What typically happens if the learning rate is set far too small?",
+      "choices": [
+        "The weights diverge to infinity",
+        "Training converges correctly but needs far more epochs to get close to the minimum",
+        "The gradients become undefined",
+        "The loss becomes negative"
+      ],
+      "answer": 1,
+      "explanation": "A tiny learning rate takes tiny steps: each epoch reduces the loss only slightly, so reaching a good fit requires many more epochs than a well-chosen learning rate."
+    },
+    {
+      "id": "q12",
+      "type": "multi",
+      "text": "Which of the following are true of batch gradient descent applied to this 1-D linear regression's MSE loss?",
+      "choices": [
+        "Each epoch computes the gradient using every point in the training data",
+        "The MSE loss, as a function of $w$ and $b$, is convex, so with a small enough learning rate gradient descent converges to the global minimum",
+        "A single epoch is always enough to reach the best-fitting line exactly",
+        "Each update moves $w$ and $b$ in the direction that most increases the loss"
+      ],
+      "answers": [0, 1],
+      "explanation": "Batch gradient descent sums over the whole dataset every epoch (true), and the MSE surface for linear regression is a convex bowl, so a suitably small learning rate is guaranteed to converge to the global minimum (true). One epoch is rarely enough (false — see the worked trace, where two epochs only made partial progress), and updates move *against* the gradient to *decrease* the loss, not increase it (false)."
+    },
+    {
+      "id": "q13",
+      "type": "text",
+      "text": "What is the name of the algorithm that repeatedly nudges $w$ and $b$ against the gradient of the loss, a small step at a time, to minimise it?",
+      "accept": ["(the )?(batch )?gradient descent( algorithm)?"],
+      "caseSensitive": false,
+      "explanation": "This is **gradient descent** (here, batch gradient descent, since every step uses the whole dataset): $w \\leftarrow w - \\eta\\frac{\\partial \\text{MSE}}{\\partial w}$ and $b \\leftarrow b - \\eta\\frac{\\partial \\text{MSE}}{\\partial b}$."
+    }
+  ]
+}

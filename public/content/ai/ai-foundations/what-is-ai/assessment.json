@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "id": "what-is-ai-assessment",
+  "title": "End of module: What Is AI?",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Which of the following best defines artificial intelligence, as used in this course?",
+      "choices": [
+        "A system that is conscious and self-aware",
+        "A computational system that performs tasks which would require human intelligence if a person did them",
+        "Any robot with a physical body",
+        "A program guaranteed never to make a mistake"
+      ],
+      "answer": 1,
+      "explanation": "AI is defined by *what a system does* — performing tasks (perception, language, reasoning, decision-making) that would need human intelligence if a person did them — not by consciousness, embodiment, or infallibility."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "A spam filter that blocks any email containing a fixed, hand-written list of banned words (e.g. \"lottery winner\") is an example of…",
+      "choices": [
+        "rule-based (symbolic) AI",
+        "learning-based AI",
+        "general AI",
+        "not AI at all, since it is too simple"
+      ],
+      "answer": 0,
+      "explanation": "A human decided the exact trigger words in advance and the filter simply follows that fixed list — the hallmark of rule-based (symbolic) AI. It still counts as AI: it automates a task (deciding spam vs. not) that otherwise needs human judgement."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "An image-recognition system trained on millions of labelled photographs to distinguish cats from dogs is an example of…",
+      "choices": [
+        "rule-based (symbolic) AI",
+        "learning-based AI",
+        "general AI",
+        "the Turing test"
+      ],
+      "answer": 1,
+      "explanation": "Nobody hand-writes rules for recognising a cat in a photo; the system's parameters are adjusted automatically from many labelled training examples, which is the defining feature of learning-based AI."
+    },
+    {
+      "id": "q4",
+      "type": "multi",
+      "text": "Which of the following are true characteristics of narrow (weak) AI?",
+      "choices": [
+        "It is designed and trained to perform one specific task well",
+        "It possesses flexible, general reasoning that transfers across any domain",
+        "It describes essentially all AI systems currently in everyday use",
+        "It has already been achieved in the form of a fully general household robot"
+      ],
+      "answers": [0, 2],
+      "explanation": "Narrow AI does one job and cannot generalise beyond it (option 1), and it is what virtually all deployed AI is today (option 3). Flexible cross-domain reasoning (option 2) and a fully general household robot (option 4) both describe general AI, which does not exist."
+    },
+    {
+      "id": "q5",
+      "type": "text",
+      "text": "What is the name for the hypothetical kind of AI that would have flexible, human-like intelligence able to learn or perform virtually any intellectual task?",
+      "accept": ["(artificial )?general (ai|intelligence)", "strong ai", "agi"],
+      "caseSensitive": false,
+      "explanation": "This is **general AI** (also called strong AI, or artificial general intelligence, AGI) — an aspirational goal, not a system that exists today."
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "text": "Rule-based (symbolic) AI systems typically work by…",
+      "choices": [
+        "automatically adjusting their own parameters as they see more data",
+        "following explicit rules or logic that a human programmer wrote in advance",
+        "requiring no programming of any kind",
+        "training a neural network on labelled examples"
+      ],
+      "answer": 1,
+      "explanation": "In rule-based AI, a human expert encodes explicit rules or logical conditions (e.g. if/then statements), and the program follows exactly those rules — nothing is learned from data."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "Compared with learning-based AI, a key weakness of rule-based AI is that…",
+      "choices": [
+        "it cannot run on modern computer hardware",
+        "it tends to be brittle: it struggles with situations its author did not explicitly anticipate",
+        "it always needs a very large training dataset to function at all",
+        "its decisions can never be explained or inspected by a human"
+      ],
+      "answer": 1,
+      "explanation": "Because every case must be anticipated and encoded by hand, rule-based systems are brittle outside the situations their rules were written for. (Needing a large dataset and being hard to inspect are, if anything, weaknesses of learning-based systems, not rule-based ones.)"
+    },
+    {
+      "id": "q8",
+      "type": "multi",
+      "text": "Which of the following are genuine weaknesses of learning-based AI, compared with hand-written rules?",
+      "choices": [
+        "It can behave as a \"black box\" whose decision-making is hard for a human to inspect or explain",
+        "It can reproduce and amplify biases present in its training data",
+        "It always outputs a fully explainable, human-readable set of rules",
+        "It needs a large, representative set of training examples to perform well"
+      ],
+      "answers": [0, 1, 3],
+      "explanation": "Learning-based systems are often opaque (option 1), can inherit biased training data (option 2), and need substantial representative data (option 4). Option 3 is false — the opposite is true: learning-based systems typically do *not* produce a transparent, human-readable rule set, which is exactly why they can be a black box."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "In Alan Turing's imitation game (the Turing test), a machine is judged to have \"passed\" if…",
+      "choices": [
+        "it can multiply large numbers faster than a human",
+        "a human judge, conversing by text with both a human and the machine, cannot reliably tell which is which",
+        "it has a humanoid physical appearance",
+        "it can defeat any human opponent at chess"
+      ],
+      "answer": 1,
+      "explanation": "The test is purely behavioural and conversational: if the judge cannot reliably distinguish the machine's text responses from the human's, the machine passes — nothing is asked about arithmetic speed, appearance, or game-playing skill."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "Which of the following is a genuine limitation of the Turing test as a measure of intelligence?",
+      "choices": [
+        "It is physically impossible for any computer to attempt it",
+        "Passing it shows only that a system can convincingly imitate conversation, not that it genuinely understands or reasons",
+        "It can only ever be judged by professional computer scientists",
+        "It requires the machine being tested to have a camera"
+      ],
+      "answer": 1,
+      "explanation": "The test measures indistinguishable conversational behaviour, not genuine understanding, reasoning, or consciousness — a purely rule-based system with no real understanding (like ELIZA) can fool some judges, which is exactly why the test is an imperfect proxy for intelligence."
+    },
+    {
+      "id": "q11",
+      "type": "numeric",
+      "text": "In what year did Alan Turing publish \"Computing Machinery and Intelligence\", the paper that proposed what became known as the Turing test?",
+      "answer": 1950,
+      "tolerance": 0,
+      "explanation": "Turing's paper was published in 1950 in the journal *Mind*."
+    },
+    {
+      "id": "q12",
+      "type": "numeric",
+      "text": "In what year was the Dartmouth workshop held, at which the term \"artificial intelligence\" was coined?",
+      "answer": 1956,
+      "tolerance": 0,
+      "explanation": "The Dartmouth Summer Research Project on Artificial Intelligence, organised by John McCarthy and colleagues, was held in the summer of 1956 and is credited with coining the field's name."
+    },
+    {
+      "id": "q13",
+      "type": "mcq",
+      "text": "Deep Blue, the chess computer that beat world champion Garry Kasparov in 1997, relied mainly on…",
+      "choices": [
+        "a hand-crafted position-evaluation function combined with brute-force search — a rule-based (symbolic) approach",
+        "a deep neural network trained entirely by self-play, with no hand-coded chess knowledge",
+        "a large language model fine-tuned on chess commentary",
+        "trial-and-error guessing with no evaluation of positions at all"
+      ],
+      "answer": 0,
+      "explanation": "Deep Blue combined a chess-position evaluation function tuned by programmers and grandmasters with a fast search through possible move sequences — a classic rule-based/symbolic approach, not a learning-based one."
+    },
+    {
+      "id": "q14",
+      "type": "mcq",
+      "text": "Unlike Deep Blue, AlphaZero's evaluation of chess positions was…",
+      "choices": [
+        "hand-written by a team of chess grandmasters",
+        "learned automatically through millions of games of self-play, given only the rules of chess",
+        "looked up from a fixed table of opening moves and nothing else",
+        "identical in design to Deep Blue's evaluation function"
+      ],
+      "answer": 1,
+      "explanation": "AlphaZero was given only the rules of chess and learned which positions were strong purely through self-play — a learning-based approach, in contrast with Deep Blue's hand-crafted, rule-based evaluation function."
+    }
+  ]
+}

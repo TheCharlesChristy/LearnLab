@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "id": "ml-concepts-data-and-evaluation-assessment",
+  "title": "End of module: Machine Learning Concepts, Data and Evaluation",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "A spam classifier is tested on $200$ emails, giving the confusion matrix $TP = 70$, $FP = 20$, $FN = 10$, $TN = 100$. Compute its accuracy $= \\dfrac{TP + TN}{TP + FP + TN + FN}$.",
+      "answer": 0.85,
+      "tolerance": 0.001,
+      "explanation": "$\\text{accuracy} = \\dfrac{70 + 100}{70 + 20 + 10 + 100} = \\dfrac{170}{200} = 0.85$."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "Using the same confusion matrix ($TP = 70$, $FP = 20$, $FN = 10$, $TN = 100$), compute the precision $= \\dfrac{TP}{TP + FP}$ (give your answer to 4 decimal places).",
+      "answer": 0.7778,
+      "tolerance": 0.001,
+      "explanation": "$\\text{precision} = \\dfrac{70}{70 + 20} = \\dfrac{70}{90} = \\dfrac{7}{9} \\approx 0.7778$."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "Using the same confusion matrix ($TP = 70$, $FP = 20$, $FN = 10$, $TN = 100$), compute the recall $= \\dfrac{TP}{TP + FN}$.",
+      "answer": 0.875,
+      "tolerance": 0.001,
+      "explanation": "$\\text{recall} = \\dfrac{70}{70 + 10} = \\dfrac{70}{80} = 0.875$."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "Using the same confusion matrix, and the precision and recall you just computed ($\\text{precision} = \\tfrac{7}{9}$, $\\text{recall} = \\tfrac{7}{8}$), compute the F1 score $= \\dfrac{2 \\times \\text{precision} \\times \\text{recall}}{\\text{precision} + \\text{recall}}$ (give your answer to 4 decimal places).",
+      "answer": 0.8235,
+      "tolerance": 0.001,
+      "explanation": "$F_1 = \\dfrac{2 \\times \\frac{7}{9} \\times \\frac{7}{8}}{\\frac{7}{9} + \\frac{7}{8}} = \\dfrac{98/72}{119/72} = \\dfrac{98}{119} = \\dfrac{14}{17} \\approx 0.8235$."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "A model is trained on a dataset of houses where each row has features (size, location) **and** a known sale price, and learns to predict the price of new houses. Which paradigm is this?",
+      "choices": ["Supervised learning", "Unsupervised learning", "Reinforcement learning", "Clustering"],
+      "answer": 0,
+      "explanation": "Every training example has a labelled correct output (the sale price), so the model learns a mapping from features to labels — this is **supervised learning** (specifically regression, since the label is a continuous number)."
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "text": "An agent learns to play a video game by receiving points for good moves and losing points for bad ones; it is never told the single 'correct' move for any situation. Which paradigm is this?",
+      "choices": ["Supervised learning", "Unsupervised learning", "Reinforcement learning", "Linear regression"],
+      "answer": 2,
+      "explanation": "The agent learns from reward/penalty feedback accumulated over actions, not from labelled correct answers — this is **reinforcement learning**."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "A retailer has purchase histories for thousands of customers with no labels of any kind, and wants to discover natural groups of similar customers. This is an example of...",
+      "choices": ["Supervised classification", "Unsupervised clustering", "Reinforcement learning", "Supervised regression"],
+      "answer": 1,
+      "explanation": "There are no labels to learn from, and the goal is to find structure (groups of similar customers) in the data itself — this is **unsupervised learning**, specifically clustering."
+    },
+    {
+      "id": "q8",
+      "type": "mcq",
+      "text": "A model achieves $2\\%$ error on its training set but $35\\%$ error on its test set. This large gap is the signature of...",
+      "choices": ["Underfitting (high bias)", "Overfitting (high variance)", "Perfect generalisation", "An unusually easy test set"],
+      "answer": 1,
+      "explanation": "Very low training error together with much higher test error is the classic signature of **overfitting**: the model has fitted the training data (including its noise) too closely to generalise."
+    },
+    {
+      "id": "q9",
+      "type": "multi",
+      "text": "Which of the following are true of a **validation set**, as distinct from a test set?",
+      "choices": [
+        "It is used during development to tune hyperparameters or choose between candidate models",
+        "It should be evaluated only once, right at the very end of a project",
+        "Repeatedly checking performance on it can let information leak into modelling decisions",
+        "It must contain exactly the same examples as the training set"
+      ],
+      "answers": [0, 2],
+      "explanation": "The validation set is used *repeatedly* during development to tune choices such as hyperparameters (true), and because it's checked repeatedly, information about it can leak into modelling decisions (true). Evaluating only once at the very end describes the **test set**, not the validation set, and a validation set must be held out from training, not identical to it."
+    },
+    {
+      "id": "q10",
+      "type": "text",
+      "text": "What is the term for a model that is too simple to capture the underlying pattern in the data, performing poorly on both the training set and the test set?",
+      "accept": ["under-?fitting"],
+      "caseSensitive": false,
+      "explanation": "This is **underfitting** (high bias): the model is too simple, so it fails to fit even the data it was trained on, let alone new data."
+    },
+    {
+      "id": "q11",
+      "type": "text",
+      "text": "In a confusion matrix, what is the name for a prediction where the model said 'positive' but the true label was actually negative?",
+      "accept": ["(a |an )?false positive(s)?"],
+      "caseSensitive": false,
+      "explanation": "This is a **false positive (FP)**: the model incorrectly predicted the positive class for an example that was actually negative."
+    }
+  ]
+}

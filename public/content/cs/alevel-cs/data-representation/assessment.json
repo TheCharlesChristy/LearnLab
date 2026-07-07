@@ -121,7 +121,7 @@
       ],
       "answers": [0, 1, 2],
       "explanation": "ASCII is a 7-bit code ($2^7=128$ characters); extended ASCII is 8-bit ($2^8=256$ characters); UTF-8 is variable-length (1 to 4 bytes), which is exactly how it covers far more characters than a fixed 1-byte scheme could. The last statement is false — UTF-8 is a counterexample, since it deliberately varies the number of bytes per character."
-    },
+      },
     {
       "id": "q14",
       "type": "numeric",
