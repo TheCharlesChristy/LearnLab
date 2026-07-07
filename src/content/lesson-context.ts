@@ -26,6 +26,22 @@ export interface LessonContextValue {
    */
   getItemState: (itemId: string) => Promise<unknown>;
   setItemState: (itemId: string, state: unknown) => Promise<void>;
+  /**
+   * Grade one spaced-repetition review-queue item (§13 roadmap, D-021/D-022),
+   * pre-bound to this lesson's moduleId. `itemId` is the caller's own
+   * namespaced string (e.g. `flashcards` uses `${itemId}:${cardIndex}`,
+   * `quiz`/assessments use `${quizId}:${questionId}`) — same "consumer
+   * assembles it" precedent as recordAttempt/getItemState. Fire-and-forget;
+   * errors surface via the progress layer's onWriteError → toast.
+   */
+  recordReview: (itemId: string, grade: 'again' | 'good') => Promise<void>;
+  /**
+   * Add an item to the review queue as if just graded "again", but ONLY if
+   * it isn't already tracked — used to seed a missed quiz/assessment
+   * question into the queue on first miss without disturbing a real
+   * schedule a learner may already be progressing through.
+   */
+  seedReviewItem: (itemId: string) => Promise<void>;
 }
 
 export const LessonContext = createContext<LessonContextValue | null>(null);

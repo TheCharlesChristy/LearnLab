@@ -10,7 +10,9 @@ import {
   getItemState,
   markLessonComplete,
   recordAttempt,
+  recordReview,
   requestPersistentStorage,
+  seedReviewItem,
   setItemState,
   touchLesson,
   useLessonProgressList,
@@ -140,6 +142,8 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
       },
       getItemState: (itemId) => getItemState(moduleId, itemId),
       setItemState: (itemId, state) => setItemState(moduleId, itemId, state),
+      recordReview: (itemId, grade) => recordReview(moduleId, itemId, grade),
+      seedReviewItem: (itemId) => seedReviewItem(moduleId, itemId),
     }),
     [moduleId, coursePath, moduleRef.dir],
   );

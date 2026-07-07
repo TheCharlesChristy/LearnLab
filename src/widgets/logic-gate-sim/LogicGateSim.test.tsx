@@ -24,6 +24,8 @@ function withLesson(children: ReactNode, moduleBaseUrl = '/content/modules/dt/')
     recordAttempt: async () => {},
     getItemState: async () => null,
     setItemState: async () => {},
+    recordReview: async () => {},
+    seedReviewItem: async () => {},
   };
   return <LessonContext.Provider value={value}>{children}</LessonContext.Provider>;
 }

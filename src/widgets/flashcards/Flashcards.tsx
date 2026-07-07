@@ -252,6 +252,14 @@ function Deck({ cards, itemId }: { cards: Card[]; itemId: string }) {
     persist(next);
     setFlipped(false);
 
+    // §13 roadmap (D-021/D-022): feed this card's grade into the spaced-
+    // repetition review queue, per-card (not per-deck like `itemId` above),
+    // so it can resurface later independent of this deck's own linear pass.
+    // Fire-and-forget, same rationale as persist()'s setItemState call.
+    if (ctx) {
+      void ctx.recordReview(`${itemId}:${index}`, g);
+    }
+
     const nextAllGood = cards.every((_, i) => next[i]?.grade === 'good');
     if (nextAllGood) {
       setAnnouncement('Deck complete');

@@ -180,6 +180,15 @@ function QuizAttempt({
           setRecordError(true);
         }
       })();
+
+      // §13 roadmap (D-021/D-022): seed each missed question into the
+      // spaced-repetition queue so it resurfaces later, independent of
+      // whether the learner ever revisits this quiz. seedReviewItem() is a
+      // no-op for an already-tracked item, so retries don't disturb a real
+      // in-progress review schedule — fire-and-forget, same as setItemState.
+      for (const r of allResponses) {
+        if (!r.correct) void lessonCtx.seedReviewItem(`${quiz.id}:${r.questionId}`);
+      }
     }
   }
 

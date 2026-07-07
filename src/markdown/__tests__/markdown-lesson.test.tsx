@@ -37,6 +37,8 @@ function lessonCtx(overrides: Partial<LessonContextValue> = {}): LessonContextVa
     recordAttempt: async () => {},
     getItemState: async () => null,
     setItemState: async () => {},
+    recordReview: async () => {},
+    seedReviewItem: async () => {},
     ...overrides,
   };
 }

@@ -6,11 +6,14 @@ import {
   ITEM_STATE_MAX_BYTES,
   addLessonTime,
   db,
+  dueReviewItems,
   kvGet,
   kvSet,
   markLessonComplete,
   onWriteError,
   recordAttempt,
+  recordReview,
+  seedReviewItem,
   setItemState,
   touchLesson,
   type ModuleMeta,
@@ -51,15 +54,16 @@ afterEach(() => {
 });
 
 describe('schema', () => {
-  it('uses database name learnlab, version 1, with the five §5.5 stores', () => {
+  it('uses database name learnlab, version 2, with the five §5.5 stores + reviewState (D-021)', () => {
     expect(db.name).toBe('learnlab');
-    expect(db.verno).toBe(1);
+    expect(db.verno).toBe(2);
     expect(db.tables.map((t) => t.name).sort()).toEqual([
       'attempts',
       'itemState',
       'kv',
       'lessonProgress',
       'moduleState',
+      'reviewState',
     ]);
   });
 });
@@ -230,6 +234,79 @@ describe('kv', () => {
     expect(await kvGet<string>('theme')).toBe('dark');
     await kvSet('theme', 'light');
     expect(await kvGet<string>('theme')).toBe('light');
+  });
+});
+
+describe('recordReview / dueReviewItems / seedReviewItem (§13 roadmap, D-021)', () => {
+  it('creates a row on first grade with SM-2-lite state, due in the future', async () => {
+    const before = Date.now();
+    await recordReview('m1', 'flashcards:deck:0', 'good');
+    const row = await db.reviewState.get(['m1', 'flashcards:deck:0']);
+    expect(row).toBeDefined();
+    expect(row!.repetitions).toBe(1);
+    expect(row!.intervalDays).toBe(1);
+    expect(row!.easinessFactor).toBeCloseTo(2.5, 5); // q=4 leaves EF at 2.5 (delta 0)
+    expect(row!.dueAt).toBeGreaterThanOrEqual(before + 1 * 86_400_000);
+  });
+
+  it('"again" resets repetitions to 0 and schedules a 1-day interval', async () => {
+    await recordReview('m1', 'quiz:a:q1', 'good');
+    await recordReview('m1', 'quiz:a:q1', 'good'); // repetitions=2, interval=6
+    await recordReview('m1', 'quiz:a:q1', 'again');
+    const row = await db.reviewState.get(['m1', 'quiz:a:q1']);
+    expect(row!.repetitions).toBe(0);
+    expect(row!.intervalDays).toBe(1);
+  });
+
+  it('grows the interval by the easiness factor from the third repetition onward', async () => {
+    await recordReview('m1', 'flashcards:d:1', 'good'); // rep1 -> interval 1
+    await recordReview('m1', 'flashcards:d:1', 'good'); // rep2 -> interval 6
+    await recordReview('m1', 'flashcards:d:1', 'good'); // rep3 -> interval round(6*EF)
+    const row = await db.reviewState.get(['m1', 'flashcards:d:1']);
+    expect(row!.repetitions).toBe(3);
+    expect(row!.intervalDays).toBe(Math.round(6 * row!.easinessFactor));
+  });
+
+  it('dueReviewItems returns only items due at/before now, oldest first', async () => {
+    await recordReview('m1', 'a', 'again'); // due tomorrow, not due now
+    // Manually backdate one row to be already due, and another further out.
+    await db.reviewState.put({
+      moduleId: 'm1',
+      itemId: 'b',
+      easinessFactor: 2.5,
+      intervalDays: 0,
+      repetitions: 0,
+      dueAt: Date.now() - 1000,
+      lastReviewedAt: Date.now() - 1000,
+      lastQuality: 2,
+      updatedAt: Date.now() - 1000,
+    });
+    await db.reviewState.put({
+      moduleId: 'm1',
+      itemId: 'c',
+      easinessFactor: 2.5,
+      intervalDays: 0,
+      repetitions: 0,
+      dueAt: Date.now() - 500,
+      lastReviewedAt: Date.now() - 500,
+      lastQuality: 2,
+      updatedAt: Date.now() - 500,
+    });
+    const due = await dueReviewItems();
+    expect(due.map((r) => r.itemId)).toEqual(['b', 'c']); // oldest-due first, 'a' excluded
+  });
+
+  it('seedReviewItem creates an "again"-equivalent row only if none already exists', async () => {
+    await seedReviewItem('m1', 'quiz:a:q2');
+    const first = await db.reviewState.get(['m1', 'quiz:a:q2']);
+    expect(first!.repetitions).toBe(0);
+    expect(first!.intervalDays).toBe(1);
+
+    // Advance it, then seeding again must be a no-op (real schedule preserved).
+    await recordReview('m1', 'quiz:a:q2', 'good');
+    await seedReviewItem('m1', 'quiz:a:q2');
+    const after = await db.reviewState.get(['m1', 'quiz:a:q2']);
+    expect(after!.repetitions).toBe(1); // unchanged by the second seed call
   });
 });
 

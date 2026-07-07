@@ -9,7 +9,9 @@ import { useParams } from 'react-router';
 import {
   getItemState,
   recordAttempt,
+  recordReview,
   requestPersistentStorage,
+  seedReviewItem,
   setItemState,
   useAttempts,
 } from '../../progress';
@@ -75,6 +77,8 @@ function AssessmentBody({ loc }: { loc: ModuleLocation }) {
       },
       getItemState: (itemId) => getItemState(moduleId, itemId),
       setItemState: (itemId, state) => setItemState(moduleId, itemId, state),
+      recordReview: (itemId, grade) => recordReview(moduleId, itemId, grade),
+      seedReviewItem: (itemId) => seedReviewItem(moduleId, itemId),
     }),
     [moduleId, coursePath, moduleRef.dir, assessment],
   );

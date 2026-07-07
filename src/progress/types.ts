@@ -48,10 +48,30 @@ export interface KV {
   value: unknown; // 'theme', 'pyodideConsent', 'lastRoute', …
 }
 
-// §5.5 export file shape (FR-PROG-003)
+// SM-2-lite spaced-repetition state (§13 roadmap), one row per reviewable
+// item: a flashcard (`flashcards:${src}:${cardIndex}`) or a missed
+// assessment/quiz question (`quiz:${itemId}:${questionId}`). D-021: a
+// 2-grade "lite" quality scale (again/good), not full SM-2's 0-5, matching
+// flashcards' existing 2-button grading UX exactly — see src/progress/srs.ts.
+export interface ReviewState {
+  moduleId: string;
+  itemId: string;
+  easinessFactor: number; // SM-2 EF; floor 1.3, starts 2.5
+  intervalDays: number;
+  repetitions: number; // consecutive "good" grades; resets to 0 on "again"
+  dueAt: number; // epoch ms
+  lastReviewedAt: number;
+  lastQuality: number; // 2 ("again") or 4 ("good") — see GRADE_QUALITY in srs.ts
+  updatedAt: number;
+}
+
+// §5.5 export file shape (FR-PROG-003). exportVersion 2 adds `reviewState`
+// (D-021, NFR-MAINT-002): new exports always include it; importing an older
+// version-1 file (which has no reviewState key) treats it as empty — see
+// validateExport in export.ts, the system-boundary parser for this.
 export interface ProgressExport {
   app: 'learnlab';
-  exportVersion: 1;
+  exportVersion: 1 | 2;
   exportedAt: string;
   tables: {
     moduleState: ModuleState[];
@@ -59,5 +79,6 @@ export interface ProgressExport {
     attempts: Attempt[];
     itemState: ItemState[];
     kv: KV[];
+    reviewState: ReviewState[];
   };
 }

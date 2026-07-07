@@ -9,7 +9,9 @@
 
 import Dexie, { type Table } from 'dexie';
 
-import type { Attempt, ItemState, KV, LessonProgress, ModuleState } from './types';
+import { GRADE_QUALITY, INITIAL_SM2_STATE, MS_PER_DAY, sm2Step } from './srs';
+import type { ReviewGrade } from './srs';
+import type { Attempt, ItemState, KV, LessonProgress, ModuleState, ReviewState } from './types';
 
 /** Module metadata callers pass alongside lesson writes (from the content index). */
 export interface ModuleMeta {
@@ -26,6 +28,7 @@ class LearnLabDB extends Dexie {
   attempts!: Table<Attempt, number>;
   itemState!: Table<ItemState, [string, string]>;
   kv!: Table<KV, string>;
+  reviewState!: Table<ReviewState, [string, string]>;
 
   constructor() {
     super('learnlab');
@@ -36,6 +39,13 @@ class LearnLabDB extends Dexie {
       attempts: '++attemptId, [moduleId+itemId], itemId, finishedAt',
       itemState: '[moduleId+itemId], updatedAt',
       kv: 'key',
+    });
+    // D-021 (§13 roadmap): additive Dexie schema upgrade for the
+    // spaced-repetition review queue. Unrelated to ProgressExport's own
+    // `exportVersion` field (which happens to also become 2) — this is
+    // Dexie's independent on-disk schema version counter.
+    this.version(2).stores({
+      reviewState: '[moduleId+itemId], dueAt',
     });
   }
 }
@@ -325,4 +335,59 @@ export async function kvGet<T>(key: string): Promise<T | undefined> {
 /** Write a kv value. */
 export async function kvSet(key: string, value: unknown): Promise<void> {
   await guardedWrite('kvSet', () => db.kv.put({ key, value }));
+}
+
+// ---------------------------------------------------------------------------
+// Spaced-repetition review queue (SM-2-lite, §13 roadmap, D-021)
+// ---------------------------------------------------------------------------
+
+/**
+ * Grade one reviewable item (a flashcard or a missed quiz question — see
+ * `flashcardReviewItemId`/`quizReviewItemId` in ./srs) and schedule its next
+ * due date via SM-2-lite. Creates the row on first grade.
+ */
+export async function recordReview(
+  moduleId: string,
+  itemId: string,
+  grade: ReviewGrade,
+): Promise<void> {
+  await guardedWrite('recordReview', () =>
+    db.transaction('rw', db.reviewState, async () => {
+      const now = Date.now();
+      const existing = await db.reviewState.get([moduleId, itemId]);
+      const prev = existing ?? INITIAL_SM2_STATE;
+      const quality = GRADE_QUALITY[grade];
+      const next = sm2Step(prev, quality);
+      const row: ReviewState = {
+        moduleId,
+        itemId,
+        easinessFactor: next.easinessFactor,
+        intervalDays: next.intervalDays,
+        repetitions: next.repetitions,
+        dueAt: now + next.intervalDays * MS_PER_DAY,
+        lastReviewedAt: now,
+        lastQuality: quality,
+        updatedAt: now,
+      };
+      await db.reviewState.put(row);
+    }),
+  );
+}
+
+/**
+ * Seed a reviewable item into the queue without grading it yet — used when a
+ * quiz/assessment question is answered wrong for the first time, so it joins
+ * the queue as due-tomorrow (same effect as an explicit "Again" grade)
+ * without requiring the learner to visit the review page first.
+ */
+export async function seedReviewItem(moduleId: string, itemId: string): Promise<void> {
+  const existing = await db.reviewState.get([moduleId, itemId]);
+  if (existing) return; // already tracked; leave its real schedule alone
+  await recordReview(moduleId, itemId, 'again');
+}
+
+/** All review items due at or before `now` (default: this instant), oldest-due first. */
+export async function dueReviewItems(now: number = Date.now()): Promise<ReviewState[]> {
+  const rows = await db.reviewState.where('dueAt').belowOrEqual(now).toArray();
+  return rows.sort((a, b) => a.dueAt - b.dueAt);
 }

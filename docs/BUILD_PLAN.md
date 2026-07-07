@@ -409,3 +409,68 @@ This closes out every content phase in §8.7 (P0–P5). All 7 courses across 4 s
 (spaced-repetition review queue, per-question partial credit for `multi`, content search, printable
 lesson view, optional cloud-drive sync) — none are gated phases.
 
+## Phase P6 — §13 roadmap: engine features + 4 new widgets + 3 authoring skills
+
+Goal: implement all six §13 roadmap items (spaced-repetition review queue, the 4 named widget
+candidates, `multi` partial credit, content search, printable lesson view, cloud-drive sync) plus
+three new Claude Code skills for content authoring (create lesson/module/course; research for new
+content; break down an existing resource into lessons/modules/courses). Unlike P2–P5 this is
+engine work, not content — same "contracts pinned first" discipline as P0/P1, not the content
+wave's scaffold-into-temp-root pattern.
+
+### Contracts pinned first (orchestrator, Wave 1)
+
+**D-021 spaced-repetition review queue (done):** new additive `reviewState` Dexie table
+(`.version(2)`), pure SM-2-lite algorithm in `src/progress/srs.ts`, `recordReview`/`seedReviewItem`
+write API in `db.ts`, `ProgressExport` bumped to `exportVersion: 2` with full v1-backward-compat
+import handling, `LessonContext` extended with `recordReview`/`seedReviewItem` (both construction
+sites wired), `Flashcards.tsx` and `QuizEngine.tsx` wired to feed the queue. 494 tests / lint / tsc
+green before dispatching the consumer (the review-queue UI page).
+
+**D-022 content search index (next):** extend `build-content.mjs` to emit
+`content/search-index.json` from lesson markdown bodies; new schema; a dependency-free client-side
+`src/search/` query module (substring/token scoring — no new npm dependency, consistent with the
+project's pinned-stack philosophy).
+
+**D-023 `multi` partial credit:** supersedes §4.6 v1's "no partial credit" rule for `multi`
+questions only (mcq/numeric/text stay boolean). Algorithm: `max(0, (correctSelected -
+incorrectSelected) / totalAnswers)`, in `[0, 1]`. `QuizEngine`'s per-question `correct: boolean`
+becomes a `points: number` accumulated into `score`; feedback UI gains a third "Partially correct
+(NN%)" state alongside Correct!/Incorrect.
+
+**D-024 widget schemas for the 4 named candidates** (each a full WidgetDef + docs section, same
+process as `logic-gate-sim`/`flashcards` in P2):
+- `vector-field`: `{fx, fy}` mathjs expressions in x,y (reuses the pinned mathjs `compile`,
+  NFR-SEC-002, same as `function-grapher`), plots an arrow grid over a configurable range.
+- `geometry-canvas`: a `{shapes: [...]}` JSON describing points/lines/circles/labels on a
+  draggable 2D canvas — an interactive construction, not a static `figure`.
+- `circuit-sim` (analog): a `{components: [...], connections: [...]}` JSON describing a simple
+  series/parallel DC circuit (resistors, one voltage source) that computes and displays current/
+  voltage at each node via Ohm's law/Kirchhoff's laws — the analog counterpart to `logic-gate-sim`.
+- `truth-table`: given a boolean **expression string** (e.g. `A AND (B OR NOT C)`, reusing
+  `logic-gate-sim`'s AND/OR/NOT/XOR/NAND/NOR vocabulary as function-call-style tokens), parses and
+  evaluates it to render the full truth table — complementary to `logic-gate-sim`'s circuit-diagram
+  approach, not a duplicate of it.
+
+**D-025 cloud-drive sync:** File System Access API (`showSaveFilePicker`/`showOpenFilePicker`,
+Chromium-only) reusing the existing `ProgressExport` JSON shape verbatim — a live file handle for
+"Save to synced file" / "Load from synced file" in Settings, not a new data format or a background
+sync daemon. Feature-detected; hidden with a note on unsupported browsers (Firefox/Safari), where
+the already-shipped manual export/import remains the fallback.
+
+**D-026 printable lesson view:** a `@media print` stylesheet (hide nav/buttons/sidebar) + a "Print
+this lesson" button on `LessonPage`, using `window.print()` — no new data or route.
+
+### Waves
+
+1. **Wave 1 (orchestrator, in progress):** D-021 spaced-repetition contract (done, committed).
+   D-022 search-index pipeline emission (next, orchestrator-owned like the P2 WIDGETS.md check).
+2. **Wave 2 (parallel subagents):** review-queue UI page + nav wiring (consumes D-021); search UI
+   page + nav wiring (consumes D-022); `multi` partial credit implementation (D-023, `src/quiz/**`
+   only); printable lesson view (D-026); cloud-drive sync (D-025, `SettingsPage.tsx` + one new
+   module); 4 widgets (D-024); 3 Claude Code skills (`.claude/skills/**`, research + write, no
+   `src/` changes).
+3. **Gate P6:** full `vitest run`/`eslint`/`tsc`, e2e regression (chromium), a fresh AC-03-style
+   export/import round-trip check covering `reviewState`, manual smoke of the review queue and
+   search UI, `git diff --stat` audit against the allowlist above.
+

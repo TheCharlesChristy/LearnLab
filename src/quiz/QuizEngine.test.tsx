@@ -70,8 +70,11 @@ function renderWithContext(
     recordAttempt,
     getItemState: vi.fn().mockResolvedValue(null),
     setItemState: vi.fn().mockResolvedValue(undefined),
+    recordReview: vi.fn().mockResolvedValue(undefined),
+    seedReviewItem: vi.fn().mockResolvedValue(undefined),
   };
-  return render(<LessonContext.Provider value={value}>{ui}</LessonContext.Provider>);
+  const result = render(<LessonContext.Provider value={value}>{ui}</LessonContext.Provider>);
+  return { ...result, ctx: value };
 }
 
 afterEach(() => {
@@ -84,7 +87,7 @@ describe('QuizEngine flow (FR-QUIZ-001)', () => {
     const user = userEvent.setup();
     const onFinished = vi.fn();
     const recordAttempt = vi.fn().mockResolvedValue(undefined);
-    renderWithContext(
+    const { ctx } = renderWithContext(
       <QuizEngine
         quiz={flowQuiz}
         attemptNumber={1}
@@ -123,6 +126,11 @@ describe('QuizEngine flow (FR-QUIZ-001)', () => {
 
     expect(onFinished).toHaveBeenCalledWith({ score: 1, maxScore: 2 });
     await waitFor(() => expect(recordAttempt).toHaveBeenCalledTimes(1));
+
+    // §13 roadmap (D-021/D-022): the missed numeric question (q-num) is
+    // seeded into the review queue; the correctly-answered mcq (q-mcq) is not.
+    expect(ctx.seedReviewItem).toHaveBeenCalledTimes(1);
+    expect(ctx.seedReviewItem).toHaveBeenCalledWith('flow-quiz:q-num');
   });
 
   it('handles multi (checkboxes) and text questions', async () => {
@@ -334,6 +342,20 @@ describe('attempt recording (FR-QUIZ-003, §5.5, NFR-REL-001)', () => {
     expect(onFinished).toHaveBeenCalledWith({ score: 1, maxScore: 1 });
     await new Promise((r) => setTimeout(r, 0));
     expect(recordAttempt).not.toHaveBeenCalled();
+  });
+
+  it('practice mode does not seed missed questions into the review queue either (§13 roadmap)', async () => {
+    const user = userEvent.setup();
+    const numericOnly: Quiz = { ...flowQuiz, questions: [flowQuiz.questions[1]!] };
+    const { ctx } = renderWithContext(
+      <QuizEngine quiz={numericOnly} attemptNumber={1} kind="assessment" practiceMode />,
+    );
+    await user.type(screen.getByLabelText(/Your answer \(m\)/), '0');
+    await user.click(screen.getByRole('button', { name: 'Submit' }));
+    await user.click(screen.getByRole('button', { name: 'Finish' }));
+
+    await new Promise((r) => setTimeout(r, 0));
+    expect(ctx.seedReviewItem).not.toHaveBeenCalled();
   });
 
   it('completes without recording when no LessonContext is present (tests/storybook)', async () => {

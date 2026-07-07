@@ -3,18 +3,26 @@
 // FR-PROG-005 (erase), NFR-MAINT-002 (version compatibility rule).
 
 import { db } from './db';
-import type { Attempt, ItemState, KV, LessonProgress, ModuleState, ProgressExport } from './types';
+import type {
+  Attempt,
+  ItemState,
+  KV,
+  LessonProgress,
+  ModuleState,
+  ProgressExport,
+  ReviewState,
+} from './types';
 
 export interface ImportSummary {
   imported: number;
   skipped: number;
 }
 
-/** Snapshot all five tables into the §5.5 / FR-PROG-003 export shape. */
+/** Snapshot all six tables into the §5.5 / FR-PROG-003 export shape (D-021: v2 adds reviewState). */
 export async function exportProgress(): Promise<ProgressExport> {
-  const [moduleState, lessonProgress, attempts, itemState, kv] = await db.transaction(
+  const [moduleState, lessonProgress, attempts, itemState, kv, reviewState] = await db.transaction(
     'r',
-    [db.moduleState, db.lessonProgress, db.attempts, db.itemState, db.kv],
+    [db.moduleState, db.lessonProgress, db.attempts, db.itemState, db.kv, db.reviewState],
     () =>
       Promise.all([
         db.moduleState.toArray(),
@@ -22,13 +30,14 @@ export async function exportProgress(): Promise<ProgressExport> {
         db.attempts.toArray(),
         db.itemState.toArray(),
         db.kv.toArray(),
+        db.reviewState.toArray(),
       ]),
   );
   return {
     app: 'learnlab',
-    exportVersion: 1,
+    exportVersion: 2,
     exportedAt: new Date().toISOString(),
-    tables: { moduleState, lessonProgress, attempts, itemState, kv },
+    tables: { moduleState, lessonProgress, attempts, itemState, kv, reviewState },
   };
 }
 
@@ -115,9 +124,24 @@ function isKv(v: unknown): v is KV {
   return isRecord(v) && typeof v.key === 'string' && 'value' in v;
 }
 
+function isReviewState(v: unknown): v is ReviewState {
+  return (
+    isRecord(v) &&
+    typeof v.moduleId === 'string' &&
+    typeof v.itemId === 'string' &&
+    typeof v.easinessFactor === 'number' &&
+    typeof v.intervalDays === 'number' &&
+    typeof v.repetitions === 'number' &&
+    typeof v.dueAt === 'number' &&
+    typeof v.updatedAt === 'number'
+  );
+}
+
 /**
  * Validate an unknown parsed JSON value as a ProgressExport. Throws an Error
- * with a human-readable reason on any problem; touches nothing.
+ * with a human-readable reason on any problem; touches nothing. D-021
+ * (NFR-MAINT-002): version 1 files (no `reviewState` table) are accepted —
+ * they simply import with an empty review queue, since v1 predates it.
  */
 function validateExport(data: unknown): ProgressExport {
   if (!isRecord(data)) {
@@ -130,15 +154,15 @@ function validateExport(data: unknown): ProgressExport {
   if (typeof version !== 'number') {
     throw new Error('Import rejected: missing or invalid exportVersion.');
   }
-  if (version > 1) {
+  if (version > 2) {
     // NFR-MAINT-002: fail loudly and actionably on unknown newer versions.
     throw new Error(
       `Import rejected: this file was exported by a newer version of LearnLab ` +
-        `(exportVersion ${version}, this app understands version 1). ` +
+        `(exportVersion ${version}, this app understands up to version 2). ` +
         `Update LearnLab and try again.`,
     );
   }
-  if (version !== 1) {
+  if (version !== 1 && version !== 2) {
     throw new Error(`Import rejected: unsupported exportVersion ${version}.`);
   }
   const tables = data.tables;
@@ -163,7 +187,22 @@ function validateExport(data: unknown): ProgressExport {
       }
     }
   }
-  return data as unknown as ProgressExport;
+  // reviewState: absent entirely on v1 files (backfilled to []); when present
+  // (v2), every row must be well-formed.
+  let reviewState: ReviewState[] = [];
+  if ('reviewState' in tables) {
+    const rows = tables.reviewState;
+    if (!Array.isArray(rows)) {
+      throw new Error('Import rejected: tables.reviewState is not an array.');
+    }
+    for (let i = 0; i < rows.length; i++) {
+      if (!isReviewState(rows[i])) {
+        throw new Error(`Import rejected: tables.reviewState[${i}] is malformed.`);
+      }
+    }
+    reviewState = rows as ReviewState[];
+  }
+  return { ...(data as object), tables: { ...tables, reviewState } } as unknown as ProgressExport;
 }
 
 /**
@@ -180,7 +219,7 @@ export async function importProgress(data: unknown): Promise<ImportSummary> {
 
   return db.transaction(
     'rw',
-    [db.moduleState, db.lessonProgress, db.attempts, db.itemState, db.kv],
+    [db.moduleState, db.lessonProgress, db.attempts, db.itemState, db.kv, db.reviewState],
     async () => {
       let imported = 0;
       let skipped = 0;
@@ -219,6 +258,16 @@ export async function importProgress(data: unknown): Promise<ImportSummary> {
         const existing = await db.kv.get(incoming.key);
         if (!existing) {
           await db.kv.put(incoming);
+          imported++;
+        } else {
+          skipped++;
+        }
+      }
+
+      for (const incoming of t.reviewState) {
+        const existing = await db.reviewState.get([incoming.moduleId, incoming.itemId]);
+        if (!existing || incoming.updatedAt > existing.updatedAt) {
+          await db.reviewState.put(incoming);
           imported++;
         } else {
           skipped++;

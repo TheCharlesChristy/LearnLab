@@ -2,9 +2,24 @@ import 'fake-indexeddb/auto';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { db, kvSet, markLessonComplete, recordAttempt, setItemState, type ModuleMeta } from './db';
+import {
+  db,
+  kvSet,
+  markLessonComplete,
+  recordAttempt,
+  recordReview,
+  setItemState,
+  type ModuleMeta,
+} from './db';
 import { downloadProgress, eraseAll, exportProgress, importProgress } from './export';
-import type { Attempt, ItemState, LessonProgress, ModuleState, ProgressExport } from './types';
+import type {
+  Attempt,
+  ItemState,
+  LessonProgress,
+  ModuleState,
+  ProgressExport,
+  ReviewState,
+} from './types';
 
 const META: ModuleMeta = {
   courseId: 'course-1',
@@ -56,10 +71,25 @@ function attemptRow(over: Partial<Attempt> = {}): Attempt {
   };
 }
 
+function reviewRow(over: Partial<ReviewState> = {}): ReviewState {
+  return {
+    moduleId: 'm1',
+    itemId: 'flashcards:deck:0',
+    easinessFactor: 2.5,
+    intervalDays: 1,
+    repetitions: 1,
+    dueAt: 5000,
+    lastReviewedAt: 2000,
+    lastQuality: 4,
+    updatedAt: 2000,
+    ...over,
+  };
+}
+
 function validExport(tables: Partial<ProgressExport['tables']> = {}): ProgressExport {
   return {
     app: 'learnlab',
-    exportVersion: 1,
+    exportVersion: 2,
     exportedAt: new Date().toISOString(),
     tables: {
       moduleState: [],
@@ -67,6 +97,7 @@ function validExport(tables: Partial<ProgressExport['tables']> = {}): ProgressEx
       attempts: [],
       itemState: [],
       kv: [],
+      reviewState: [],
       ...tables,
     },
   };
@@ -79,6 +110,7 @@ async function snapshotAllTables() {
     attempts: await db.attempts.toArray(),
     itemState: await db.itemState.toArray(),
     kv: await db.kv.toArray(),
+    reviewState: await db.reviewState.toArray(),
   };
 }
 
@@ -92,12 +124,13 @@ afterEach(() => {
 });
 
 describe('exportProgress (FR-PROG-003)', () => {
-  it('produces the §5.5 export shape with all five tables', async () => {
+  it('produces the §5.5 export shape with all six tables (D-021: v2 adds reviewState)', async () => {
     await db.moduleState.put(moduleStateRow());
     await db.kv.put({ key: 'theme', value: 'dark' });
+    await db.reviewState.put(reviewRow());
     const out = await exportProgress();
     expect(out.app).toBe('learnlab');
-    expect(out.exportVersion).toBe(1);
+    expect(out.exportVersion).toBe(2);
     expect(new Date(out.exportedAt).toISOString()).toBe(out.exportedAt);
     expect(Object.keys(out.tables).sort()).toEqual([
       'attempts',
@@ -105,9 +138,11 @@ describe('exportProgress (FR-PROG-003)', () => {
       'kv',
       'lessonProgress',
       'moduleState',
+      'reviewState',
     ]);
     expect(out.tables.moduleState).toEqual([moduleStateRow()]);
     expect(out.tables.kv).toEqual([{ key: 'theme', value: 'dark' }]);
+    expect(out.tables.reviewState).toEqual([reviewRow()]);
   });
 });
 
@@ -145,9 +180,26 @@ describe('importProgress validation (FR-PROG-004, NFR-MAINT-002)', () => {
   });
 
   it('rejects an unknown NEWER exportVersion loudly and actionably', async () => {
-    const file = { ...validExport(), exportVersion: 2 };
+    const file = { ...validExport(), exportVersion: 3 };
     await expect(importProgress(file)).rejects.toThrow(/newer version of LearnLab/);
     await expect(importProgress(file)).rejects.toThrow(/Update LearnLab/);
+  });
+
+  it('accepts a version-1 file with no reviewState table, importing an empty review queue (D-021)', async () => {
+    const v1File = {
+      app: 'learnlab',
+      exportVersion: 1,
+      exportedAt: new Date().toISOString(),
+      tables: { moduleState: [], lessonProgress: [], attempts: [], itemState: [], kv: [] },
+    };
+    const result = await importProgress(v1File);
+    expect(result).toEqual({ imported: 0, skipped: 0 });
+    expect(await db.reviewState.count()).toBe(0);
+  });
+
+  it('rejects a malformed reviewState row when present (v2 files)', async () => {
+    const file = validExport({ reviewState: [{ moduleId: 'm1' } as unknown as ReviewState] });
+    await expect(importProgress(file)).rejects.toThrow(/tables\.reviewState\[0\]/);
   });
 
   it('rejects a missing or non-numeric exportVersion', async () => {
@@ -235,6 +287,15 @@ describe('importProgress merge policy (FR-PROG-004)', () => {
     expect((await db.kv.get('lastRoute'))!.value).toBe('#/x');
   });
 
+  it('newer updatedAt wins for reviewState too (D-021)', async () => {
+    await db.reviewState.put(reviewRow({ updatedAt: 2000, repetitions: 1 }));
+    const result = await importProgress(
+      validExport({ reviewState: [reviewRow({ updatedAt: 3000, repetitions: 2 })] }),
+    );
+    expect(result).toEqual({ imported: 1, skipped: 0 });
+    expect((await db.reviewState.get(['m1', 'flashcards:deck:0']))!.repetitions).toBe(2);
+  });
+
   it('unions attempts, deduping on (moduleId, itemId, startedAt)', async () => {
     await db.attempts.add(attemptRow({ startedAt: 100 }));
     const result = await importProgress(
@@ -288,6 +349,7 @@ describe('eraseAll + round-trip (FR-PROG-005, AC-03 unit half)', () => {
     );
     await setItemState('m1', 'widget-1', { value: 42 });
     await kvSet('theme', 'dark');
+    await recordReview('m1', 'flashcards:deck:0', 'good');
 
     const exported = await exportProgress();
     const before = await snapshotAllTables();
@@ -304,7 +366,8 @@ describe('eraseAll + round-trip (FR-PROG-005, AC-03 unit half)', () => {
         before.lessonProgress.length +
         before.attempts.length +
         before.itemState.length +
-        before.kv.length,
+        before.kv.length +
+        before.reviewState.length,
     );
 
     const after = await snapshotAllTables();
@@ -318,6 +381,7 @@ describe('eraseAll + round-trip (FR-PROG-005, AC-03 unit half)', () => {
     expect(after.lessonProgress).toEqual(before.lessonProgress);
     expect(after.itemState).toEqual(before.itemState);
     expect(after.kv).toEqual(before.kv);
+    expect(after.reviewState).toEqual(before.reviewState);
     expect(stripIds(after.attempts)).toEqual(stripIds(before.attempts));
     expect((await db.moduleState.get('m1'))!.status).toBe('completed');
   });

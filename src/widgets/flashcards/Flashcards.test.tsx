@@ -24,6 +24,8 @@ function makeLessonContext(overrides: Partial<LessonContextValue> = {}): LessonC
     recordAttempt: vi.fn(async () => {}),
     getItemState: vi.fn(async () => null),
     setItemState: vi.fn(async () => {}),
+    recordReview: vi.fn(async () => {}),
+    seedReviewItem: vi.fn(async () => {}),
     ...overrides,
   };
 }
@@ -95,6 +97,18 @@ describe('Flashcards', () => {
     // Advanced to the second card's front.
     expect(await screen.findByText('Capital of France?')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Flip' })).toBeInTheDocument();
+  });
+
+  it('grading also feeds the per-card review queue via recordReview (§13 roadmap, D-021/D-022)', async () => {
+    mockFetchJson(CARDS);
+    const ctx = makeLessonContext();
+    render(withLesson(<Flashcards src="cards/unit1.json" />, ctx));
+
+    await userEvent.click(await screen.findByRole('button', { name: 'Flip' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Good' }));
+
+    expect(ctx.recordReview).toHaveBeenCalledTimes(1);
+    expect(ctx.recordReview).toHaveBeenCalledWith('flashcards:cards/unit1.json:0', 'good');
   });
 
   it('grading "Again" records the grade and still advances to the next card', async () => {
