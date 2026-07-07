@@ -8,8 +8,7 @@
   "objectives": [
     "Relate angular velocity to period and frequency, and to linear speed via v = ωr",
     "Calculate centripetal acceleration and centripetal force for an object moving in a circle",
-    "State and apply the defining equation of simple harmonic motion, a = -ω²x",
-    "Use x = A cos(ωt), v = ±ω√(A² - x²), and the maximum speed and acceleration of an oscillator",
+    "State the defining equation of SHM (a = -ω²x) and use x = A cos(ωt), v = ±ω√(A² - x²), and the maximum speed and acceleration of an oscillator",
     "Describe the exchange between kinetic and potential energy in SHM and calculate total energy",
     "Apply T = 2π√(l/g) for a simple pendulum and T = 2π√(m/k) for a mass-spring system",
     "Distinguish free, damped and forced oscillations and explain resonance"

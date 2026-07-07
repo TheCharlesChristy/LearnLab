@@ -6,22 +6,102 @@
     {
       "id": "q1",
       "type": "mcq",
-      "text": "Placeholder question — which option is correct? (Replace me.)",
-      "choices": [
-        "This one",
-        "Not this one",
-        "Nor this one"
-      ],
+      "text": "Which special method is called automatically when a new object is created from a class, e.g. `BankAccount('Alex', 100)`?",
+      "choices": ["`__init__`", "`__new__`", "`__call__`", "`__main__`"],
       "answer": 0,
-      "explanation": "Placeholder explanation — every question must explain its answer (§4.6)."
+      "explanation": "`__init__` is the constructor: Python calls it automatically right after creating the new object, passing along the arguments given at creation (here `'Alex'` and `100`)."
     },
     {
       "id": "q2",
+      "type": "mcq",
+      "text": "In the `BankAccount` class, `_balance` is stored with a leading underscore rather than being freely writable from outside the class. Which OOP principle does this demonstrate?",
+      "choices": ["Inheritance", "Polymorphism", "Encapsulation", "Recursion"],
+      "answer": 2,
+      "explanation": "Encapsulation bundles data with the methods that operate on it and restricts direct outside access, favouring controlled access via methods like `deposit`/`withdraw` over freely modifying `_balance` directly."
+    },
+    {
+      "id": "q3",
+      "type": "text",
+      "text": "`class Cat(Animal):` makes `Cat` a subclass of `Animal`. What is the general term for a subclass extending a superclass and overriding one of its methods (like `speak`)?",
+      "accept": ["inheritance( and (method )?overrid(e|ing))?"],
+      "caseSensitive": false,
+      "explanation": "This is inheritance: `Cat` inherits `Animal`'s attributes/methods and overrides `speak` with its own version."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "Given `animals = [Animal('Generic'), Cat('Tom'), Dog('Rex'), Fish('Nemo')]` where `Cat`/`Dog` override `speak()` but `Fish` does not, what happens when the loop `for a in animals: print(a.speak())` runs?",
+      "choices": [
+        "It fails, because `speak` isn't defined identically for every object",
+        "`Cat` and `Dog` each print their own overridden message, `Animal` and `Fish` print `Animal`'s generic message",
+        "Every object prints exactly the same message, since they are all in one list",
+        "Only `Animal`'s `speak` ever runs, because that's the type of the first list element"
+      ],
+      "answer": 1,
+      "explanation": "This is polymorphism: the same call `a.speak()` behaves differently depending on each object's actual run-time class. `Cat`/`Dog` use their own overridden `speak`; `Fish` has no override so it falls back to `Animal`'s version (as does the plain `Animal` object)."
+    },
+    {
+      "id": "q5",
+      "type": "multi",
+      "text": "Which of the following are true of a pure function?",
+      "choices": [
+        "Given the same arguments, it always returns the same result",
+        "It may modify a global variable as a side effect",
+        "It does not print, mutate its arguments, or write to a file",
+        "Calling it twice with the same input can give two different answers"
+      ],
+      "answers": [0, 2],
+      "explanation": "A pure function has no side effects (no printing/mutating/writing/modifying external state) and is deterministic — same input always gives the same output. Options 2 and 4 describe impure functions like `add_to_total`, which depends on and changes the external `total` variable."
+    },
+    {
+      "id": "q6",
       "type": "numeric",
-      "text": "Placeholder question — what is $2 + 2$? (Replace me.)",
-      "answer": 4,
+      "text": "Using `def factorial(n): return 1 if n == 0 else n * factorial(n - 1)`, what is `factorial(5)`?",
+      "answer": 120,
       "tolerance": 0,
-      "explanation": "Placeholder explanation — $2 + 2 = 4$."
+      "explanation": "$factorial(5) = 5 \\times 4 \\times 3 \\times 2 \\times 1 \\times factorial(0) = 5\\times4\\times3\\times2\\times1\\times1 = 120$."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "Using `def fibonacci(n): return n if n < 2 else fibonacci(n-1) + fibonacci(n-2)`, what is `fibonacci(7)`?",
+      "answer": 13,
+      "tolerance": 0,
+      "explanation": "The sequence from $fib(0)$ is $0,1,1,2,3,5,8,13$ — so $fib(0)=0, fib(1)=1, fib(2)=1, fib(3)=2, fib(4)=3, fib(5)=5, fib(6)=8, fib(7)=13$."
+    },
+    {
+      "id": "q8",
+      "type": "mcq",
+      "text": "Every correct recursive function must have a base case. What is the base case for?",
+      "choices": [
+        "It makes the function run faster",
+        "It solves the simplest version of the problem directly, without a further recursive call, stopping the recursion",
+        "It is optional if the function is short enough",
+        "It converts the recursive function into an iterative one"
+      ],
+      "answer": 1,
+      "explanation": "The base case is the version of the problem solved directly (e.g. `factorial(0) = 1`) with no further recursive call — without one (or if it's unreachable), the recursion never terminates and eventually raises a `RecursionError`."
+    },
+    {
+      "id": "q9",
+      "type": "text",
+      "text": "Given `numbers = [1, 2, 3, 4, 5, 6]`, what is `list(filter(lambda x: x % 2 == 0, numbers))`? Write it as a Python list, e.g. `[1, 2, 3]`.",
+      "accept": ["\\[\\s*2\\s*,\\s*4\\s*,\\s*6\\s*\\]"],
+      "caseSensitive": false,
+      "explanation": "`filter` keeps only elements where the lambda returns `True`, i.e. `x % 2 == 0` (even numbers): $2, 4, 6$ from $[1,2,3,4,5,6]$, giving `[2, 4, 6]`."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "`map` and `filter` are described as higher-order functions. Why?",
+      "choices": [
+        "They run faster than an equivalent `for` loop",
+        "They only work on numbers",
+        "They take another function as an argument and use it to decide what to do with each element",
+        "They must always return a new list, never an iterator"
+      ],
+      "answer": 2,
+      "explanation": "A higher-order function takes a function as an argument, returns a function, or both. `map(function, iterable)` and `filter(function, iterable)` both take a function argument (here, a `lambda`) and apply it to each element, rather than the caller writing explicit loop mechanics."
     }
   ]
 }

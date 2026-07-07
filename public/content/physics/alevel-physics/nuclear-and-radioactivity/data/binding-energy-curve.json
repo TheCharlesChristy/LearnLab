@@ -1,0 +1,15 @@
+{
+  "kind": "line",
+  "series": [
+    {
+      "name": "Binding energy per nucleon (MeV)",
+      "points": [
+        [2, 1.11], [4, 7.07], [7, 5.61], [12, 7.68], [16, 7.98],
+        [28, 8.45], [56, 8.79], [84, 8.72], [119, 8.51],
+        [141, 8.30], [184, 7.98], [238, 7.57]
+      ]
+    }
+  ],
+  "xLabel": "Mass number A",
+  "yLabel": "Binding energy per nucleon (MeV)"
+}
