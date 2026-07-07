@@ -1,0 +1,11 @@
+{
+  "kind": "bar",
+  "series": [
+    {
+      "name": "Typical access time (ns)",
+      "points": [[1, 1], [2, 4], [3, 15], [4, 100]]
+    }
+  ],
+  "xLabel": "Memory level (1 = L1 cache, 2 = L2 cache, 3 = L3 cache, 4 = main memory RAM)",
+  "yLabel": "Typical access time (nanoseconds)"
+}

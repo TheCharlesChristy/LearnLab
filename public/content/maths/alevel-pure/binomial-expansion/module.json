@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "binomial-expansion",
+  "title": "Binomial Expansion",
+  "description": "Pascal's triangle, binomial coefficients, and the binomial theorem for expanding (a+b)^n, including finding specific terms and using the expansion for approximations.",
+  "estMinutes": 100,
+  "prerequisites": [
+    "indices-and-surds",
+    "sequences-and-series"
+  ],
+  "objectives": [
+    "Construct Pascal's triangle and use it to read off binomial coefficients",
+    "Compute binomial coefficients nCr using the factorial formula n!/(r!(n-r)!)",
+    "State and apply the binomial theorem to expand (a+b)^n for positive integer n",
+    "Find a specific term or coefficient in a binomial expansion without expanding fully",
+    "Use the expansion (1+x)^n ≈ 1+nx to approximate values for small x"
+  ],
+  "tags": ["binomial", "pascals-triangle", "combinatorics", "series", "approximation"],
+  "lessons": [
+    { "id": "pascals-triangle", "title": "Pascal's triangle and binomial coefficients", "file": "01-pascals-triangle.md", "estMinutes": 25 },
+    { "id": "binomial-theorem", "title": "The binomial theorem and full expansions", "file": "02-binomial-theorem.md", "estMinutes": 30 },
+    { "id": "specific-terms", "title": "Finding specific terms and coefficients", "file": "03-specific-terms.md", "estMinutes": 25 },
+    { "id": "approximations", "title": "Approximations using the binomial expansion", "file": "04-approximations.md", "estMinutes": 20 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

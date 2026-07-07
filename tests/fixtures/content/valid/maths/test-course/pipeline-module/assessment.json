@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "pipeline-module-assessment",
+  "title": "End of module: Pipeline Module",
+  "questions": [
+    { "id": "q1", "type": "mcq", "text": "Pick A.", "choices": ["A", "B"], "answer": 0, "explanation": "A is first." },
+    { "id": "q2", "type": "mcq", "text": "Pick B.", "choices": ["A", "B"], "answer": 1, "explanation": "B is second." },
+    { "id": "q3", "type": "mcq", "text": "Pick A again.", "choices": ["A", "B", "C"], "answer": 0, "explanation": "Still A." },
+    { "id": "q4", "type": "numeric", "text": "What is $2+2$?", "answer": 4, "tolerance": 0, "explanation": "$2+2=4$." },
+    { "id": "q5", "type": "numeric", "text": "What is $10/4$?", "answer": 2.5, "tolerance": 0.001, "unit": "units", "explanation": "$10/4 = 2.5$." },
+    { "id": "q6", "type": "multi", "text": "Select the even numbers.", "choices": ["1", "2", "3", "4"], "answers": [1, 3], "explanation": "2 and 4 are even." },
+    { "id": "q7", "type": "text", "text": "Name the function whose derivative is itself.", "accept": ["e\\^x", "exp\\(x\\)"], "explanation": "$e^x$ is its own derivative." },
+    { "id": "q8", "type": "mcq", "text": "Pick C.", "choices": ["A", "B", "C"], "answer": 2, "explanation": "C is third." }
+  ]
+}

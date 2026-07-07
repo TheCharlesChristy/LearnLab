@@ -1,0 +1,17 @@
+{
+  "cards": [
+    { "front": "Process", "back": "A program currently loaded into memory and executing, tracked by the OS via a process control block (PCB)." },
+    { "front": "Round-robin scheduling", "back": "A scheduling algorithm that gives each ready process a fixed time slice in turn, pre-empting it and moving it to the back of the queue if it isn't finished." },
+    { "front": "Time slice (quantum)", "back": "The fixed maximum amount of CPU time a process may run before the OS pre-empts it, in round-robin scheduling." },
+    { "front": "Context switch", "back": "Saving the registers of the process being paused and loading the registers of the process being resumed, so execution can continue correctly later." },
+    { "front": "Paging", "back": "Dividing logical memory into fixed-size pages and physical memory into equal-size frames, so a process's pages can be scattered across any free frames." },
+    { "front": "Segmentation", "back": "Dividing a program into variable-size logical segments (e.g. code, data, stack) that reflect its structure." },
+    { "front": "Virtual memory", "back": "Using disk storage as an extension of RAM, via a page table, so the total memory in use can exceed physical RAM." },
+    { "front": "Page fault", "back": "An event triggered when a process accesses a page that isn't currently in RAM, causing the OS to load it in from disk." },
+    { "front": "Interrupt", "back": "A signal that causes the processor to pause its current instruction stream and transfer control to an interrupt service routine." },
+    { "front": "Interrupt service routine (ISR)", "back": "The operating system code that runs in response to a specific interrupt, e.g. reading a keystroke or handling a finished disk transfer." },
+    { "front": "Systems software", "back": "Software that manages a computer's hardware and provides the platform other software runs on, e.g. the operating system and device drivers." },
+    { "front": "Utility software", "back": "Systems software that performs one specific maintenance task, e.g. a disk defragmenter, antivirus scanner or backup tool." },
+    { "front": "Application software", "back": "Software written to let a user perform a real-world task unrelated to managing the computer itself, e.g. a word processor or web browser." }
+  ]
+}

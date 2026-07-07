@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "binomial-distribution",
+  "title": "The Binomial Distribution",
+  "description": "The binomial distribution X ~ B(n, p) as a model for counting successes in a fixed number of independent trials, including the probability formula, cumulative probabilities, and the mean and variance.",
+  "estMinutes": 90,
+  "prerequisites": [
+    "probability"
+  ],
+  "objectives": [
+    "Recognise when a binomial model X ~ B(n, p) is appropriate, and state its conditions",
+    "Use the formula P(X = r) = C(n, r) p^r (1-p)^(n-r) to calculate individual binomial probabilities by hand",
+    "Calculate cumulative probabilities P(X ≤ r) and P(X ≥ r) for small n, using the complement rule where helpful",
+    "State and apply the mean np and variance np(1-p) of a binomial distribution"
+  ],
+  "tags": ["statistics", "probability", "binomial", "discrete distribution"],
+  "lessons": [
+    {
+      "id": "binomial-model",
+      "title": "What makes a binomial model?",
+      "file": "01-binomial-model.md",
+      "estMinutes": 25
+    },
+    {
+      "id": "binomial-formula",
+      "title": "The binomial probability formula",
+      "file": "02-binomial-formula.md",
+      "estMinutes": 35
+    },
+    {
+      "id": "mean-and-variance",
+      "title": "Mean and variance of a binomial distribution",
+      "file": "03-mean-and-variance.md",
+      "estMinutes": 30
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": ["learnlab-content-agent"]
+}

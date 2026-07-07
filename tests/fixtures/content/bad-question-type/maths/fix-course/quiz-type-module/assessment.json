@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "id": "quiz-type-assessment",
+  "title": "Bad quiz",
+  "questions": [
+    { "id": "q1", "type": "essay", "text": "Write an essay.", "explanation": "Essays are not a §4.6 type." }
+  ]
+}

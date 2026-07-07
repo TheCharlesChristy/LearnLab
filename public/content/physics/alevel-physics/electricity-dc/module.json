@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "electricity-dc",
+  "title": "DC Electricity",
+  "description": "Current, potential difference, resistance and Ohm's law; series and parallel circuits; and EMF, internal resistance and potential dividers.",
+  "estMinutes": 130,
+  "prerequisites": ["measurements-and-uncertainty"],
+  "objectives": [
+    "Define current, charge and potential difference and relate them via I = Q/t and V = W/Q",
+    "State and apply Ohm's law (V = IR) and calculate resistance from resistivity data using R = ρL/A",
+    "Calculate electrical power and energy using P = IV = I²R = V²/R and E = Pt",
+    "Analyse series and parallel circuits using the rules for current, potential difference and total resistance",
+    "Apply ε = I(R + r) and V = ε - Ir to circuits with internal resistance, and calculate potential-divider outputs"
+  ],
+  "tags": ["electricity", "current", "resistance", "ohms-law", "circuits", "emf", "internal-resistance", "potential-divider"],
+  "lessons": [
+    { "id": "current-pd-ohms-law", "title": "Current, potential difference and Ohm's law", "file": "01-current-pd-and-ohms-law.md", "estMinutes": 45 },
+    { "id": "series-and-parallel-circuits", "title": "Series and parallel circuits", "file": "02-series-and-parallel-circuits.md", "estMinutes": 45 },
+    { "id": "emf-internal-resistance-and-potential-dividers", "title": "EMF, internal resistance and potential dividers", "file": "03-emf-internal-resistance-and-potential-dividers.md", "estMinutes": 40 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

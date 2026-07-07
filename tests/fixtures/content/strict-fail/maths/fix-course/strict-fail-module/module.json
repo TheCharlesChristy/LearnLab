@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "strict-fail-module",
+  "title": "Fixture Module",
+  "description": "Invalid-fixture module.",
+  "estMinutes": 30,
+  "prerequisites": [],
+  "objectives": [
+    "Objective one",
+    "Objective two"
+  ],
+  "lessons": [
+    {
+      "id": "only",
+      "title": "Only Lesson",
+      "file": "01-only.md",
+      "estMinutes": 30
+    }
+  ],
+  "version": "1.0.0",
+  "authors": [
+    "fixture"
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  }
+}

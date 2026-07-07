@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "algebra-essentials",
+  "title": "Algebra Essentials",
+  "description": "A GCSE-grade algebra refresher covering simplifying expressions, expanding and factorising brackets, solving linear equations, rearranging formulae, and the laws of indices.",
+  "estMinutes": 80,
+  "prerequisites": [],
+  "objectives": [
+    "Simplify algebraic expressions by collecting like terms",
+    "Expand single brackets and pairs of brackets such as (x+2)(x+3)",
+    "Factorise expressions using a common factor and simple quadratics by inspection",
+    "Solve linear equations, including those with brackets and unknowns on both sides",
+    "Rearrange a formula to change the subject",
+    "Apply the laws of indices for multiplying, dividing, and raising powers, including zero and negative indices"
+  ],
+  "tags": ["algebra", "expanding", "factorising", "linear-equations", "rearranging-formulae", "indices", "gcse"],
+  "lessons": [
+    { "id": "expanding-and-simplifying", "title": "Expanding and Simplifying Expressions", "file": "01-expanding-and-simplifying.md", "estMinutes": 20 },
+    { "id": "factorising", "title": "Factorising Expressions", "file": "02-factorising.md", "estMinutes": 20 },
+    { "id": "solving-and-rearranging", "title": "Solving Linear Equations and Rearranging Formulae", "file": "03-solving-and-rearranging.md", "estMinutes": 20 },
+    { "id": "laws-of-indices", "title": "The Laws of Indices", "file": "04-laws-of-indices.md", "estMinutes": 20 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

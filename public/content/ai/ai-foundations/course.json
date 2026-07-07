@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "ai-foundations",
+  "title": "AI Foundations",
+  "subject": "ai",
+  "level": "alevel",
+  "description": "An introduction to the ideas behind artificial intelligence and machine learning, from symbolic vs learning-based AI through search, knowledge representation, supervised learning, neural networks, transformers/LLMs, and AI ethics and safety.",
+  "modules": [
+    { "id": "what-is-ai", "dir": "what-is-ai" },
+    { "id": "search-and-problem-solving", "dir": "search-and-problem-solving" },
+    { "id": "knowledge-and-reasoning", "dir": "knowledge-and-reasoning" },
+    { "id": "ml-concepts-data-and-evaluation", "dir": "ml-concepts-data-and-evaluation" },
+    { "id": "regression", "dir": "regression" },
+    { "id": "classification", "dir": "classification" },
+    { "id": "neural-networks-1-perceptrons", "dir": "neural-networks-1-perceptrons" },
+    { "id": "neural-networks-2-training", "dir": "neural-networks-2-training" },
+    { "id": "modern-ai-transformers-and-llms", "dir": "modern-ai-transformers-and-llms" },
+    { "id": "ethics-and-safety", "dir": "ethics-and-safety" }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "alevel-statistics",
+  "title": "A-level Statistics",
+  "subject": "maths",
+  "level": "alevel",
+  "description": "A-level Statistics: sampling and summarising data, probability, the binomial and normal distributions, and hypothesis testing for a binomial proportion.",
+  "modules": [
+    { "id": "sampling-and-data", "dir": "sampling-and-data" },
+    { "id": "probability", "dir": "probability" },
+    { "id": "binomial-distribution", "dir": "binomial-distribution" },
+    { "id": "normal-distribution", "dir": "normal-distribution" },
+    { "id": "hypothesis-testing", "dir": "hypothesis-testing" }
+  ]
+}

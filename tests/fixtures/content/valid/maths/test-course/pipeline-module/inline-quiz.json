@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "inline-quiz",
+  "title": "Quick check",
+  "questions": [
+    {
+      "id": "iq1",
+      "type": "mcq",
+      "text": "The derivative of a constant is…",
+      "choices": ["undefined", "0", "1"],
+      "answer": 1,
+      "explanation": "A constant has zero rate of change."
+    }
+  ]
+}

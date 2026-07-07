@@ -1,0 +1,8 @@
+{
+  "inputs": ["A", "B"],
+  "gates": [
+    { "id": "sum", "type": "XOR", "inputs": ["A", "B"] },
+    { "id": "carry", "type": "AND", "inputs": ["A", "B"] }
+  ],
+  "outputs": ["sum", "carry"]
+}

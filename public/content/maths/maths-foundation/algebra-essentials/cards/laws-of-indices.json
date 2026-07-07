@@ -1,0 +1,12 @@
+{
+  "cards": [
+    { "front": "What does **index** (or **exponent**/**power**) mean in $a^n$?", "back": "$n$ tells you how many times the base $a$ is multiplied by itself, e.g. $a^4 = a \\times a \\times a \\times a$." },
+    { "front": "Law: $x^a \\times x^b = \\; ?$", "back": "$x^{a+b}$ — when multiplying powers of the *same base*, **add** the indices. E.g. $x^3 \\times x^4 = x^7$." },
+    { "front": "Law: $\\dfrac{x^a}{x^b} = \\; ?$", "back": "$x^{a-b}$ — when dividing powers of the *same base*, **subtract** the indices. E.g. $\\dfrac{x^5}{x^2} = x^3$." },
+    { "front": "Law: $(x^a)^b = \\; ?$", "back": "$x^{ab}$ — when raising a power to a further power, **multiply** the indices. E.g. $(x^2)^3 = x^6$." },
+    { "front": "What is $x^0$ (for $x \\neq 0$)?", "back": "$1$, always — because $\\dfrac{x^n}{x^n} = x^{n-n} = x^0$, and any non-zero number divided by itself is $1$." },
+    { "front": "What is $x^{-1}$?", "back": "$\\dfrac{1}{x}$ — a negative index means 'reciprocal of'. More generally, $x^{-n} = \\dfrac{1}{x^n}$." },
+    { "front": "Can you use $x^a \\times x^b = x^{a+b}$ on $2^3 \\times 3^4$?", "back": "No — the bases must be the **same** for the multiplying/dividing laws to apply directly. $2$ and $3$ are different bases." },
+    { "front": "Simplify $x^5 \\times x^{-2}$.", "back": "$x^{5+(-2)} = x^3$, using $x^a \\times x^b = x^{a+b}$ with $b = -2$." }
+  ]
+}

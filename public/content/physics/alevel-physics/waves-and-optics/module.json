@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "waves-and-optics",
+  "title": "Waves and Optics",
+  "description": "Transverse and longitudinal waves, the wave equation and polarisation, superposition and standing waves, two-source interference and diffraction gratings, and refraction with total internal reflection.",
+  "estMinutes": 105,
+  "prerequisites": ["measurements-and-uncertainty"],
+  "objectives": [
+    "Distinguish transverse and longitudinal waves and describe wave properties (amplitude, wavelength, frequency, period, speed)",
+    "Apply the wave equation v = fλ and explain polarisation as evidence that a wave is transverse",
+    "Apply the principle of superposition to explain standing waves on a string, including nodes, antinodes, harmonics and resonance",
+    "Explain path difference and coherence, and use two-source interference (λ = ax/D) and the diffraction grating equation (d sinθ = nλ)",
+    "Apply Snell's law (n = sinθ1/sinθ2) and the critical angle condition (sinC = 1/n) to refraction and total internal reflection"
+  ],
+  "tags": ["waves", "optics", "interference", "diffraction", "refraction", "standing-waves", "polarisation"],
+  "lessons": [
+    { "id": "wave-basics", "title": "Wave properties, the wave equation and standing waves", "file": "01-wave-basics.md", "estMinutes": 40 },
+    { "id": "interference-diffraction", "title": "Two-source interference and diffraction gratings", "file": "02-interference-diffraction.md", "estMinutes": 35 },
+    { "id": "refraction-tir", "title": "Refraction and total internal reflection", "file": "03-refraction-tir.md", "estMinutes": 30 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

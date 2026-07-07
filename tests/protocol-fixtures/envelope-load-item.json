@@ -1,0 +1,13 @@
+{
+  "v": 1,
+  "id": "00000000-0000-0000-0000-000000000010",
+  "type": "LOAD_ITEM",
+  "payload": {
+    "itemId": "power-rule-quiz",
+    "sourceUrl": "content/maths/alevel-pure/differentiation-1/items/power-rule-quiz.py",
+    "source": "from learnsdk import QuizItem\n\nclass Item(QuizItem):\n    pass\n",
+    "params": { "questions": 4 },
+    "savedState": null,
+    "seed": 1234567
+  }
+}

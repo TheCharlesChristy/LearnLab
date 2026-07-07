@@ -1,0 +1,11 @@
+{
+  "kind": "line",
+  "xLabel": "time t / s",
+  "yLabel": "velocity v / m s^-1",
+  "series": [
+    {
+      "name": "velocity",
+      "points": [[0, 0], [5, 10], [10, 10], [15, 0]]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "prereq-module",
+  "title": "Fixture Module",
+  "description": "Invalid-fixture module.",
+  "estMinutes": 30,
+  "prerequisites": [
+    "no-such-module"
+  ],
+  "objectives": [
+    "Objective one",
+    "Objective two"
+  ],
+  "lessons": [
+    {
+      "id": "only",
+      "title": "Only Lesson",
+      "file": "01-only.md",
+      "estMinutes": 30
+    }
+  ],
+  "version": "1.0.0",
+  "authors": [
+    "fixture"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "v": 1,
+  "id": "00000000-0000-0000-0000-000000000011",
+  "replyTo": "00000000-0000-0000-0000-000000000010",
+  "type": "LOADED",
+  "payload": {
+    "itemId": "power-rule-quiz",
+    "meta": { "title": "Check: the power rule", "wantsTick": false }
+  }
+}

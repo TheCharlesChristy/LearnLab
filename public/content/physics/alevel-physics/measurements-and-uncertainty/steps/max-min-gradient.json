@@ -1,0 +1,24 @@
+{
+  "steps": [
+    {
+      "title": "Step 1 — draw the best-fit line",
+      "body": "Draw a single straight line that passes as close as possible to all the plotted points, with roughly equal numbers of points scattered above and below it. Read its gradient in the usual way, using two well-separated points **on the line itself** (they need not be data points): $\\text{gradient} = \\dfrac{\\Delta y}{\\Delta x}$."
+    },
+    {
+      "title": "Step 2 — draw the steepest acceptable line",
+      "body": "Using the error bar on each point, draw the steepest straight line that still passes through every error bar (the 'maximum' line). Calculate its gradient, $g_{\\text{max}}$."
+    },
+    {
+      "title": "Step 3 — draw the shallowest acceptable line",
+      "body": "Draw the least steep straight line that still passes through every error bar (the 'minimum' line). Calculate its gradient, $g_{\\text{min}}$."
+    },
+    {
+      "title": "Step 4 — find the uncertainty in the gradient",
+      "body": "The uncertainty in the gradient is taken as half the spread between the two extreme gradients:\n\n$$\\Delta g = \\dfrac{g_{\\text{max}} - g_{\\text{min}}}{2}.$$\n\nQuote the final result as (best-fit gradient) $\\pm$ (this uncertainty), rounding both to the same number of decimal places."
+    },
+    {
+      "title": "Step 5 — the intercept, the same way",
+      "body": "Exactly the same idea gives the uncertainty in the y-intercept: read the intercept of the best-fit line, then the intercepts of the max and min lines, and take half the spread of those two extreme intercepts as the uncertainty in the intercept."
+    }
+  ]
+}

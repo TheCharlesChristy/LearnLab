@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "id": "vectors-assessment",
+  "title": "End of module: Vectors",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "Find the magnitude of $\\mathbf{v} = \\begin{pmatrix} 6 \\\\ 8 \\end{pmatrix}$.",
+      "answer": 10,
+      "tolerance": 0.01,
+      "explanation": "$|\\mathbf{v}| = \\sqrt{6^2 + 8^2} = \\sqrt{36 + 64} = \\sqrt{100} = 10$."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "Find the magnitude of the 3D vector $\\mathbf{v} = \\begin{pmatrix} 2 \\\\ -3 \\\\ 6 \\end{pmatrix}$.",
+      "answer": 7,
+      "tolerance": 0.01,
+      "explanation": "$|\\mathbf{v}| = \\sqrt{2^2 + (-3)^2 + 6^2} = \\sqrt{4 + 9 + 36} = \\sqrt{49} = 7$."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "If $\\mathbf{a} = \\begin{pmatrix} 2 \\\\ 5 \\end{pmatrix}$ and $\\mathbf{b} = \\begin{pmatrix} -1 \\\\ 3 \\end{pmatrix}$, what is $\\mathbf{a} + \\mathbf{b}$?",
+      "choices": [
+        "$\\begin{pmatrix} 1 \\\\ 8 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 3 \\\\ 8 \\end{pmatrix}$",
+        "$\\begin{pmatrix} -2 \\\\ 15 \\end{pmatrix}$"
+      ],
+      "answer": 0,
+      "explanation": "Add component-wise: $\\begin{pmatrix} 2 + (-1) \\\\ 5 + 3 \\end{pmatrix} = \\begin{pmatrix} 1 \\\\ 8 \\end{pmatrix}$."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "If $\\mathbf{a} = \\begin{pmatrix} 4 \\\\ -2 \\end{pmatrix}$ and $\\mathbf{b} = \\begin{pmatrix} 1 \\\\ 3 \\end{pmatrix}$, what is $\\mathbf{a} - \\mathbf{b}$?",
+      "choices": [
+        "$\\begin{pmatrix} 5 \\\\ 1 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 3 \\\\ -5 \\end{pmatrix}$",
+        "$\\begin{pmatrix} -3 \\\\ 5 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 3 \\\\ 1 \\end{pmatrix}$"
+      ],
+      "answer": 1,
+      "explanation": "Subtract component-wise: $\\begin{pmatrix} 4 - 1 \\\\ -2 - 3 \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ -5 \\end{pmatrix}$."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "Let $\\mathbf{v} = \\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$. Find $|4\\mathbf{v}|$.",
+      "answer": 20,
+      "tolerance": 0.01,
+      "explanation": "$4\\mathbf{v} = \\begin{pmatrix} 12 \\\\ 16 \\end{pmatrix}$, so $|4\\mathbf{v}| = \\sqrt{12^2+16^2} = \\sqrt{144+256} = \\sqrt{400} = 20$. (Equivalently, $|4\\mathbf{v}| = 4|\\mathbf{v}| = 4 \\times 5 = 20$.)"
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "text": "What is the unit vector in the direction of $\\begin{pmatrix} 0 \\\\ 5 \\end{pmatrix}$?",
+      "choices": [
+        "$\\begin{pmatrix} 0 \\\\ 5 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 0 \\\\ 1 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 0 \\\\ 0.5 \\end{pmatrix}$"
+      ],
+      "answer": 1,
+      "explanation": "The magnitude is $|\\begin{pmatrix} 0 \\\\ 5 \\end{pmatrix}| = 5$, so the unit vector is $\\frac{1}{5}\\begin{pmatrix} 0 \\\\ 5 \\end{pmatrix} = \\begin{pmatrix} 0 \\\\ 1 \\end{pmatrix}$."
+    },
+    {
+      "id": "q7",
+      "type": "multi",
+      "text": "Which of the following vectors are parallel to $\\begin{pmatrix} 2 \\\\ 3 \\end{pmatrix}$? Select all that apply.",
+      "choices": [
+        "$\\begin{pmatrix} 4 \\\\ 6 \\end{pmatrix}$",
+        "$\\begin{pmatrix} -2 \\\\ -3 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 2 \\\\ 4 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 6 \\\\ 9 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 3 \\\\ 2 \\end{pmatrix}$"
+      ],
+      "answers": [0, 1, 3],
+      "explanation": "A vector is parallel to $\\begin{pmatrix} 2 \\\\ 3 \\end{pmatrix}$ iff it equals $k\\begin{pmatrix} 2 \\\\ 3 \\end{pmatrix}$ for one consistent scalar $k$. $\\begin{pmatrix} 4 \\\\ 6 \\end{pmatrix} = 2\\begin{pmatrix} 2 \\\\ 3 \\end{pmatrix}$ ($k=2$); $\\begin{pmatrix} -2 \\\\ -3 \\end{pmatrix} = -1\\begin{pmatrix} 2 \\\\ 3 \\end{pmatrix}$ ($k=-1$); $\\begin{pmatrix} 6 \\\\ 9 \\end{pmatrix} = 3\\begin{pmatrix} 2 \\\\ 3 \\end{pmatrix}$ ($k=3$). $\\begin{pmatrix} 2 \\\\ 4 \\end{pmatrix}$ needs $k=1$ for the top and $k=\\frac{4}{3}$ for the bottom — inconsistent, so not parallel. $\\begin{pmatrix} 3 \\\\ 2 \\end{pmatrix}$ needs $k=1.5$ then $k=\\frac{2}{3}$ — inconsistent, not parallel."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Points $A$ and $B$ have position vectors $\\mathbf{a} = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$ and $\\mathbf{b} = \\begin{pmatrix} 4 \\\\ 6 \\end{pmatrix}$. Find $|\\overrightarrow{AB}|$.",
+      "answer": 5,
+      "tolerance": 0.01,
+      "explanation": "$\\overrightarrow{AB} = \\mathbf{b} - \\mathbf{a} = \\begin{pmatrix} 4-1 \\\\ 6-2 \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$, so $|\\overrightarrow{AB}| = \\sqrt{3^2+4^2} = \\sqrt{25} = 5$."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "Points $A(2, -1)$ and $B(6, 7)$ are given. What is the position vector of the midpoint $M$ of $AB$?",
+      "choices": [
+        "$\\begin{pmatrix} 4 \\\\ 3 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 8 \\\\ 6 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 2 \\\\ 4 \\end{pmatrix}$",
+        "$\\begin{pmatrix} 4 \\\\ 8 \\end{pmatrix}$"
+      ],
+      "answer": 0,
+      "explanation": "$\\overrightarrow{OM} = \\frac{1}{2}(\\mathbf{a}+\\mathbf{b}) = \\frac{1}{2}\\begin{pmatrix} 2+6 \\\\ -1+7 \\end{pmatrix} = \\frac{1}{2}\\begin{pmatrix} 8 \\\\ 6 \\end{pmatrix} = \\begin{pmatrix} 4 \\\\ 3 \\end{pmatrix}$."
+    },
+    {
+      "id": "q10",
+      "type": "multi",
+      "text": "$A(0,1)$, $B(2,5)$ and $C(5,11)$ are three points. Which statements are true?",
+      "choices": [
+        "$\\overrightarrow{AB} = \\begin{pmatrix} 2 \\\\ 4 \\end{pmatrix}$",
+        "$\\overrightarrow{BC} = \\begin{pmatrix} 3 \\\\ 6 \\end{pmatrix}$",
+        "$\\overrightarrow{BC} = 1.5\\,\\overrightarrow{AB}$, so $A$, $B$, $C$ are collinear",
+        "$A$, $B$, $C$ are not collinear because $\\overrightarrow{AB} \\ne \\overrightarrow{BC}$"
+      ],
+      "answers": [0, 1, 2],
+      "explanation": "$\\overrightarrow{AB} = \\begin{pmatrix} 2-0 \\\\ 5-1 \\end{pmatrix} = \\begin{pmatrix} 2 \\\\ 4 \\end{pmatrix}$ and $\\overrightarrow{BC} = \\begin{pmatrix} 5-2 \\\\ 11-5 \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ 6 \\end{pmatrix}$, confirming the first two statements. Since $\\begin{pmatrix} 3 \\\\ 6 \\end{pmatrix} = 1.5\\begin{pmatrix} 2 \\\\ 4 \\end{pmatrix}$, $\\overrightarrow{BC}$ is a scalar multiple of $\\overrightarrow{AB}$ and they share point $B$, so $A$, $B$, $C$ are collinear — vectors do **not** need to be equal to prove collinearity, only parallel and sharing a point, so the last statement is false."
+    }
+  ]
+}

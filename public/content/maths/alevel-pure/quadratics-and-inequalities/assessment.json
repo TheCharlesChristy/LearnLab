@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "quadratics-and-inequalities-assessment",
+  "title": "End of module: Quadratics and Inequalities",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "Find the discriminant $b^2 - 4ac$ of $3x^2 + 2x - 5 = 0$.",
+      "answer": 64,
+      "tolerance": 0.001,
+      "explanation": "$b^2 - 4ac = 2^2 - 4(3)(-5) = 4 + 60 = 64$."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "The discriminant of $x^2 + 4x + 4 = 0$ is $0$. What does this tell you about its roots?",
+      "choices": ["Two distinct real roots", "One repeated real root", "No real roots", "Three real roots"],
+      "answer": 1,
+      "explanation": "A discriminant of $0$ means the quadratic has exactly one repeated real root. Here $x^2+4x+4=(x+2)^2=0$, so $x=-2$ (repeated)."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "The discriminant of $x^2 + x + 1 = 0$ is negative. What does this mean for the graph of $y = x^2 + x + 1$?",
+      "choices": [
+        "It crosses the x-axis twice",
+        "It touches the x-axis once",
+        "It never meets the x-axis",
+        "It passes through the origin"
+      ],
+      "answer": 2,
+      "explanation": "$b^2-4ac = 1^2 - 4(1)(1) = 1-4=-3 < 0$, so there are no real roots — the upward parabola stays entirely above the x-axis."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "Solve $x^2 - 5x + 6 = 0$ by factorising and give the larger root.",
+      "answer": 3,
+      "tolerance": 0.001,
+      "explanation": "$x^2-5x+6=(x-2)(x-3)=0$, so $x=2$ or $x=3$. The larger root is $3$. Check: $9-15+6=0$. ✓"
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "Solve $x^2 + 4x - 5 = 0$ by factorising and give the smaller (more negative) root.",
+      "answer": -5,
+      "tolerance": 0.001,
+      "explanation": "$x^2+4x-5=(x+5)(x-1)=0$, so $x=-5$ or $x=1$. The smaller root is $-5$. Check: $25-20-5=0$. ✓"
+    },
+    {
+      "id": "q6",
+      "type": "text",
+      "text": "Write the completed-square form of $x^2 - 4x + 1$ as $(x-a)^2 - b$. State it in the form `(x-2)^2-3` using integers for $a$ and $b$ (no spaces).",
+      "accept": ["\\(x-2\\)\\^2-3"],
+      "caseSensitive": false,
+      "explanation": "$x^2-4x+1 = (x-2)^2 - 4 + 1 = (x-2)^2 - 3$. This gives exact roots $x = 2 \\pm \\sqrt{3}$ when set to zero, matching the quadratic formula."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "Using the quadratic formula, find the positive root of $x^2 - 4x + 1 = 0$ correct to 3 decimal places.",
+      "answer": 3.732,
+      "tolerance": 0.01,
+      "explanation": "$x = \\dfrac{4 \\pm \\sqrt{16-4}}{2} = \\dfrac{4 \\pm \\sqrt{12}}{2} = 2 \\pm \\sqrt{3}$. Since $\\sqrt{3}\\approx 1.732$, the positive root is $2+\\sqrt{3}\\approx 3.732$."
+    },
+    {
+      "id": "q8",
+      "type": "multi",
+      "text": "The quadratic $y = -(x-1)^2 + 9$ is sketched. Which of the following statements are true?",
+      "choices": [
+        "The parabola opens downward",
+        "The turning point is a maximum at $(1, 9)$",
+        "The turning point is a minimum at $(-1, 9)$",
+        "The graph crosses the x-axis at $x = -2$ and $x = 4$"
+      ],
+      "answers": [0, 1, 3],
+      "explanation": "Since the coefficient of $(x-1)^2$ is negative, the parabola opens downward with a **maximum** at $(1,9)$ (not a minimum, and not at $(-1,9)$). Setting $y=0$: $(x-1)^2=9 \\Rightarrow x-1=\\pm3 \\Rightarrow x=4$ or $x=-2$, so it does cross the axis at $x=-2$ and $x=4$."
+    },
+    {
+      "id": "q9",
+      "type": "text",
+      "text": "Solve the inequality $x^2 - 9x + 14 > 0$. Write your answer in the form `x<2 or x>7`.",
+      "accept": ["x\\s*<\\s*2\\s*or\\s*x\\s*>\\s*7", "x\\s*>\\s*7\\s*or\\s*x\\s*<\\s*2"],
+      "caseSensitive": false,
+      "explanation": "Factorise: $x^2-9x+14=(x-2)(x-7)$, so the critical values are $x=2$ and $x=7$. This is an upward parabola, positive **outside** the roots, so the solution is $x<2$ or $x>7$. Check $x=0$: $14>0$ ✓; check $x=10$: $100-90+14=24>0$ ✓; check $x=5$ (between, should fail): $25-45+14=-6$, not $>0$, correctly excluded."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "A line $y = 3x - 2$ and a curve $y = x^2$ are solved simultaneously, giving $x^2 - 3x + 2 = 0$, i.e. $(x-1)(x-2)=0$. What are the coordinates of the two intersection points?",
+      "choices": [
+        "$(1, 1)$ and $(2, 4)$",
+        "$(1, -2)$ and $(2, -2)$",
+        "$(-1, -5)$ and $(-2, -8)$",
+        "$(1, 3)$ and $(2, 6)$"
+      ],
+      "answer": 0,
+      "explanation": "$x=1 \\Rightarrow y=x^2=1$ (check with the line: $3(1)-2=1$ ✓); $x=2 \\Rightarrow y=x^2=4$ (check: $3(2)-2=4$ ✓). So the points are $(1,1)$ and $(2,4)$."
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "id": "probability-assessment",
+  "title": "End of module: Probability",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "Events $A$ and $B$ are independent, with $P(A) = 0.3$ and $P(B) = 0.5$. Find $P(A \\cap B)$.",
+      "answer": 0.15,
+      "tolerance": 0.001,
+      "explanation": "For independent events, $P(A \\cap B) = P(A) \\times P(B) = 0.3 \\times 0.5 = 0.15$."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "$P(A) = 0.45$. Find $P(A')$, the probability that $A$ does not occur.",
+      "answer": 0.55,
+      "tolerance": 0.001,
+      "explanation": "$P(A') = 1 - P(A) = 1 - 0.45 = 0.55$."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "$P(A) = 0.4$, $P(B) = 0.35$ and $P(A \\cap B) = 0.1$. Find $P(A \\cup B)$.",
+      "answer": 0.65,
+      "tolerance": 0.001,
+      "explanation": "By the addition rule, $P(A \\cup B) = P(A) + P(B) - P(A \\cap B) = 0.4 + 0.35 - 0.1 = 0.65$."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "Which statement correctly distinguishes mutually exclusive events from independent events?",
+      "choices": [
+        "Mutually exclusive events cannot both occur; independent events can both occur and knowing one occurred does not change the probability of the other",
+        "Mutually exclusive and independent are two names for the same property",
+        "Independent events cannot both occur; mutually exclusive events always occur together",
+        "Mutually exclusive events always have equal probabilities"
+      ],
+      "answer": 0,
+      "explanation": "Mutually exclusive means $P(A \\cap B) = 0$ — the events cannot happen together. Independent means $P(A \\cap B) = P(A) \\times P(B)$ — knowing one occurred has no effect on the probability of the other, and they frequently occur together."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "$P(A \\cap B) = 0.18$ and $P(B) = 0.6$. Find $P(A \\mid B)$.",
+      "answer": 0.3,
+      "tolerance": 0.001,
+      "explanation": "$P(A \\mid B) = \\dfrac{P(A \\cap B)}{P(B)} = \\dfrac{0.18}{0.6} = 0.3$."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "In a survey of 40 people, 22 like hiking ($X$), 15 like cycling ($Y$), and 7 like both. Find the probability that a randomly chosen person likes neither hiking nor cycling.",
+      "answer": 0.25,
+      "tolerance": 0.001,
+      "explanation": "$P(X \\cup Y) = P(X) + P(Y) - P(X \\cap Y) = \\frac{22}{40} + \\frac{15}{40} - \\frac{7}{40} = \\frac{30}{40} = 0.75$. So $P(\\text{neither}) = 1 - 0.75 = 0.25$."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "A bag contains 5 red and 4 blue counters (9 total). Two counters are drawn at random without replacement. Find the probability that both are blue.",
+      "answer": 0.1667,
+      "tolerance": 0.001,
+      "explanation": "$P(B_1) = \\dfrac{4}{9}$. After removing one blue counter, $P(B_2 \\mid B_1) = \\dfrac{3}{8}$. By the multiplication rule, $P(B_1 \\cap B_2) = \\dfrac{4}{9} \\times \\dfrac{3}{8} = \\dfrac{12}{72} = \\dfrac{1}{6} \\approx 0.1667$."
+    },
+    {
+      "id": "q8",
+      "type": "mcq",
+      "text": "Events $C$ and $D$ are mutually exclusive, with $P(C) = 0.15$ and $P(D) = 0.4$. What is $P(C \\cup D)$?",
+      "choices": ["$0.06$", "$0.25$", "$0.55$", "$1.0$"],
+      "answer": 2,
+      "explanation": "Since $C$ and $D$ are mutually exclusive, $P(C \\cap D) = 0$, so the addition rule simplifies to $P(C \\cup D) = P(C) + P(D) = 0.15 + 0.4 = 0.55$."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "Events $A$ and $B$ are independent, with $P(A) = 0.2$ and $P(B) = 0.6$. Find the probability that at least one of $A$ or $B$ occurs.",
+      "answer": 0.68,
+      "tolerance": 0.001,
+      "explanation": "\"At least one\" is the complement of \"neither\". Since $A$ and $B$ are independent, so are $A'$ and $B'$: $P(\\text{neither}) = P(A') \\times P(B') = 0.8 \\times 0.4 = 0.32$. So $P(\\text{at least one}) = 1 - 0.32 = 0.68$."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "On a tree diagram, what must be true of the probabilities on all branches leaving the same node?",
+      "choices": [
+        "They must sum to 1",
+        "They must multiply to 1",
+        "They must all be equal",
+        "They must sum to the probability of the node before it"
+      ],
+      "answer": 0,
+      "explanation": "The branches leaving a single node represent all possible outcomes at that stage, which are mutually exclusive and exhaustive, so their probabilities must sum to 1."
+    }
+  ]
+}

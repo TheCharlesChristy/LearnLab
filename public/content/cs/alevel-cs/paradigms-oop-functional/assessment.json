@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "id": "paradigms-oop-functional-assessment",
+  "title": "End of module: Programming Paradigms: OOP and Functional",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Which programming paradigm bundles an object's data together with the functions (methods) that operate on that data?",
+      "choices": ["Procedural", "Object-oriented", "Functional", "None of them — data and functions are always kept separate"],
+      "answer": 1,
+      "explanation": "Object-oriented programming groups data (attributes) and behaviour (methods) together inside a class, so each object carries both its state and the operations on that state."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "In Python, which special method is called automatically to set up a new object's attributes when the object is created?",
+      "choices": ["`__main__`", "`__init__`", "`__call__`", "`__new__`"],
+      "answer": 1,
+      "explanation": "`__init__` is the constructor: Python creates a new (empty) object, then calls `__init__(self, ...)` on it to attach its initial attributes."
+    },
+    {
+      "id": "q3",
+      "type": "multi",
+      "text": "Which of the following statements correctly describe **encapsulation**?",
+      "choices": [
+        "Bundling an object's data together with the methods that operate on it",
+        "Allowing a subclass to automatically reuse a superclass's methods",
+        "Restricting direct access to an object's internal data and exposing controlled methods instead",
+        "The same method call producing different behaviour depending on the object's class"
+      ],
+      "answers": [0, 2],
+      "explanation": "Encapsulation is bundling data with its methods and controlling access to that data (e.g. `_balance` changed only via `deposit`/`withdraw`). Option 1 describes inheritance and option 3 describes polymorphism, not encapsulation."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "Given `def factorial(n):\\n    if n == 0:\\n        return 1\\n    return n * factorial(n - 1)`, what does `factorial(5)` evaluate to?",
+      "answer": 120,
+      "tolerance": 0,
+      "explanation": "Tracing the calls: `factorial(0)=1`, `factorial(1)=1*1=1`, `factorial(2)=2*1=2`, `factorial(3)=3*2=6`, `factorial(4)=4*6=24`, `factorial(5)=5*24=120`."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "Given `def fibonacci(n):\\n    if n == 0:\\n        return 0\\n    if n == 1:\\n        return 1\\n    return fibonacci(n - 1) + fibonacci(n - 2)`, what does `fibonacci(6)` evaluate to?",
+      "answer": 8,
+      "tolerance": 0,
+      "explanation": "The sequence from the two base cases is $F(0)=0, F(1)=1, F(2)=1, F(3)=2, F(4)=3, F(5)=5, F(6)=8$ — each term is the sum of the previous two, so $F(6) = F(5) + F(4) = 5 + 3 = 8$."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "Using the same `factorial` function as above, how many total calls to `factorial` (including the very first call) happen when evaluating `factorial(6)`?",
+      "answer": 7,
+      "tolerance": 0,
+      "explanation": "Each recursive case reduces `n` by exactly 1 until the base case `n == 0`, so evaluating `factorial(6)` makes one call for each of `n = 6, 5, 4, 3, 2, 1, 0` — that is $6 + 1 = 7$ calls in total."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "What does `print(list(map(lambda x: x * 2, [1, 2, 3])))` print?",
+      "choices": ["`[1, 2, 3]`", "`[2, 4, 6]`", "`[1, 4, 9]`", "It raises an error"],
+      "answer": 1,
+      "explanation": "`map` applies the lambda to every element: $1 \\times 2 = 2$, $2 \\times 2 = 4$, $3 \\times 2 = 6$, giving `[2, 4, 6]`."
+    },
+    {
+      "id": "q8",
+      "type": "mcq",
+      "text": "What does `print(list(filter(lambda x: x > 2, [1, 2, 3, 4])))` print?",
+      "choices": ["`[1, 2]`", "`[3, 4]`", "`[1, 2, 3, 4]`", "`[]`"],
+      "answer": 1,
+      "explanation": "`filter` keeps only elements for which the lambda returns `True`: $1>2$ and $2>2$ are false, $3>2$ and $4>2$ are true, so the surviving elements are `[3, 4]`."
+    },
+    {
+      "id": "q9",
+      "type": "text",
+      "text": "What single term describes a function that has no side effects and always returns the same output for the same input?",
+      "accept": ["(a )?pure function", "purity", "pure"],
+      "caseSensitive": false,
+      "explanation": "This describes a **pure function** — its result depends only on its arguments, and calling it never changes anything outside itself."
+    },
+    {
+      "id": "q10",
+      "type": "multi",
+      "text": "Which of the following statements about recursion are true?",
+      "choices": [
+        "Every correct recursive function needs at least one base case that stops further recursive calls",
+        "Each recursive call should move strictly closer to a base case",
+        "A recursive function is only allowed to call itself once inside its body",
+        "Recursion can be a natural alternative to iteration for problems with self-similar substructure"
+      ],
+      "answers": [0, 1, 3],
+      "explanation": "A base case is essential to stop the recursion, and each call must progress toward it or the function never terminates. Option 2 is false: `fibonacci` above calls itself **twice** in its recursive case (`fibonacci(n-1) + fibonacci(n-2)`), which is perfectly valid."
+    },
+    {
+      "id": "q11",
+      "type": "mcq",
+      "text": "Given:\n```python\nclass Bird:\n    def move(self):\n        return \"walks\"\n\nclass Eagle(Bird):\n    def move(self):\n        return \"flies\"\n\nclass Penguin(Bird):\n    def move(self):\n        return \"swims\"\n\nbirds = [Bird(), Eagle(), Penguin()]\nprint([b.move() for b in birds])\n```\nWhat is printed?",
+      "choices": [
+        "`['walks', 'walks', 'walks']`",
+        "`['walks', 'flies', 'swims']`",
+        "`['flies', 'swims', 'walks']`",
+        "It raises an error because `Bird` has no `Eagle` or `Penguin` methods"
+      ],
+      "answer": 1,
+      "explanation": "Each object's own class is used to look up `move`: the plain `Bird` has no override so it uses `Bird.move` (`\"walks\"`); `Eagle` and `Penguin` each override `move` with their own version (`\"flies\"`, `\"swims\"`). This is polymorphism — the same call `b.move()` behaves differently per object."
+    }
+  ]
+}

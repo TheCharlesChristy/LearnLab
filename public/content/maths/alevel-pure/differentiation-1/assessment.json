@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "id": "differentiation-1-assessment",
+  "title": "End of module: Differentiation I",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "If $f(x) = 3x^4$, find $f'(2)$.",
+      "answer": 96,
+      "tolerance": 0.001,
+      "explanation": "By the power rule $f'(x) = 12x^3$, so $f'(2) = 12 \\times 2^3 = 12 \\times 8 = 96$."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "The derivative of a constant is…",
+      "choices": ["undefined", "the constant itself", "$0$", "$1$"],
+      "answer": 2,
+      "explanation": "A constant function has a horizontal graph, so its gradient — and hence its derivative — is $0$ everywhere."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "If $f(x) = x^5$, find $f'(2)$.",
+      "answer": 80,
+      "tolerance": 0.001,
+      "explanation": "$f'(x) = 5x^4$, so $f'(2) = 5 \\times 2^4 = 5 \\times 16 = 80$."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "Differentiating $f(x) = x^2$ from first principles gives $\\dfrac{(x+h)^2 - x^2}{h} = 2x + h$. What is $f'(x)$?",
+      "choices": ["$2x + h$", "$2x$", "$x^2$", "$2$"],
+      "answer": 1,
+      "explanation": "Taking the limit as $h \\to 0$ removes the $h$ term, leaving $f'(x) = 2x$."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "If $f(x) = 4x^3 - 2x$, find $f'(1)$.",
+      "answer": 10,
+      "tolerance": 0.001,
+      "explanation": "Differentiating term by term, $f'(x) = 12x^2 - 2$. Then $f'(1) = 12 \\times 1 - 2 = 10$."
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "text": "Which of the following functions have derivative equal to $6x$?",
+      "choices": ["$x^2$", "$3x^2$", "$6x$", "$3x^2 + 5$"],
+      "answers": [1, 3],
+      "explanation": "$\\frac{\\mathrm{d}}{\\mathrm{d}x}(3x^2) = 6x$ and $\\frac{\\mathrm{d}}{\\mathrm{d}x}(3x^2 + 5) = 6x$ (the constant $5$ differentiates to $0$). By contrast $\\frac{\\mathrm{d}}{\\mathrm{d}x}(x^2) = 2x$ and $\\frac{\\mathrm{d}}{\\mathrm{d}x}(6x) = 6$."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "Find the gradient of the curve $y = x^2 - 4x + 3$ at the point where $x = 3$.",
+      "answer": 2,
+      "tolerance": 0.001,
+      "explanation": "$\\frac{\\mathrm{d}y}{\\mathrm{d}x} = 2x - 4$, so at $x = 3$ the gradient is $2 \\times 3 - 4 = 2$."
+    },
+    {
+      "id": "q8",
+      "type": "text",
+      "text": "Name the rule used to differentiate a term of the form $ax^n$.",
+      "accept": ["(the )?power rule"],
+      "caseSensitive": false,
+      "explanation": "Differentiating $ax^n$ to get $anx^{n-1}$ is the **power rule**: bring the power down and reduce it by one."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "If $f(x) = 7x$, find $f'(x)$.",
+      "answer": 7,
+      "tolerance": 0.001,
+      "explanation": "$7x = 7x^1$, so by the power rule $f'(x) = 7 \\times 1 \\times x^{0} = 7$. The gradient of the line $y = 7x$ is $7$ everywhere."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "Using the power rule, $\\dfrac{\\mathrm{d}}{\\mathrm{d}x}(a x^n)$ equals…",
+      "choices": ["$a x^{n-1}$", "$n x^{n-1}$", "$a n x^{n-1}$", "$a n x^{n+1}$"],
+      "answer": 2,
+      "explanation": "The power rule states $\\frac{\\mathrm{d}}{\\mathrm{d}x}(ax^n) = anx^{n-1}$: multiply by the power and reduce the power by one."
+    }
+  ]
+}

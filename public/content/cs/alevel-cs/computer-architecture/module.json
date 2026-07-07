@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "computer-architecture",
+  "title": "Computer Architecture",
+  "description": "The von Neumann stored-program architecture, CPU components and the fetch-decode-execute cycle, factors affecting performance, cache and buses, and how logic gates implement arithmetic in the ALU.",
+  "estMinutes": 95,
+  "prerequisites": ["data-representation"],
+  "objectives": [
+    "Explain the stored-program (von Neumann) concept and identify the role of the ALU, CU and each core register (PC, ACC, MAR, MDR, CIR)",
+    "Trace the fetch-decode-execute cycle step by step for a simple instruction",
+    "Explain how clock speed, number of cores and cache size affect CPU performance",
+    "Explain why cache memory speeds up access using locality of reference, and describe the roles of the address, data and control buses",
+    "Show how logic gates implement binary addition in the ALU, using a half-adder built from XOR and AND gates"
+  ],
+  "tags": ["cpu", "von-neumann", "fetch-decode-execute", "cache", "buses", "logic-gates", "half-adder", "computer-architecture"],
+  "lessons": [
+    { "id": "von-neumann-and-cpu", "title": "Von Neumann architecture and CPU components", "file": "01-von-neumann-and-cpu.md", "estMinutes": 30 },
+    { "id": "fetch-decode-execute", "title": "The fetch-decode-execute cycle and performance", "file": "02-fetch-decode-execute.md", "estMinutes": 30 },
+    { "id": "cache-buses-and-adders", "title": "Cache, buses and building an adder from logic gates", "file": "03-cache-buses-and-adders.md", "estMinutes": 35 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "id": "binomial-expansion-assessment",
+  "title": "End of module: Binomial Expansion",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "Calculate $\\binom{6}{2}$ (i.e. $^6C_2$).",
+      "answer": 15,
+      "tolerance": 0,
+      "explanation": "$\\binom{6}{2} = \\dfrac{6!}{2!\\,4!} = \\dfrac{6 \\times 5}{2 \\times 1} = 15$. This matches entry $r=2$ in row $n=6$ of Pascal's triangle: $1, 6, 15, 20, 15, 6, 1$."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "Calculate $\\binom{9}{4}$ (i.e. $^9C_4$).",
+      "answer": 126,
+      "tolerance": 0,
+      "explanation": "$\\binom{9}{4} = \\dfrac{9!}{4!\\,5!} = \\dfrac{9 \\times 8 \\times 7 \\times 6}{4 \\times 3 \\times 2 \\times 1} = \\dfrac{3024}{24} = 126$."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "How many terms are there in the full expansion of $(a+b)^7$?",
+      "choices": ["6", "7", "8", "14"],
+      "answer": 2,
+      "explanation": "The expansion of $(a+b)^n$ has $n+1$ terms, indexed by $r = 0, 1, \\dots, n$. For $n=7$ this gives $7+1 = 8$ terms."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "In the binomial expansion $(a+b)^n = \\sum_{r=0}^{n}\\binom{n}{r}a^{n-r}b^r$, what is the power of $a$ in the term where $r = 3$ and $n = 8$?",
+      "choices": ["3", "5", "8", "11"],
+      "answer": 1,
+      "explanation": "The power of $a$ is $n - r = 8 - 3 = 5$, since the powers of $a$ and $b$ in each term always add up to $n$."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "Find the coefficient of $x^3$ in the expansion of $(2+x)^7$.",
+      "answer": 560,
+      "tolerance": 0,
+      "explanation": "The general term is $T_{r+1} = \\binom{7}{r}(2)^{7-r}x^r$. For the $x^3$ term, $r=3$: $T_4 = \\binom{7}{3}(2)^4 x^3 = 35 \\times 16\\, x^3 = 560x^3$, so the coefficient is $560$."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "Find the coefficient of $x^5$ in the expansion of $(3-x)^8$ (give a negative number if the coefficient is negative).",
+      "answer": -1512,
+      "tolerance": 0,
+      "explanation": "Here $a=3$, $b=-x$, $n=8$. For the $x^5$ term, $r=5$: $T_6 = \\binom{8}{5}(3)^3(-x)^5 = 56 \\times 27 \\times (-1)x^5 = -1512x^5$, so the coefficient is $-1512$."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "In the expansion of $(1+kx)^5$, the coefficient of $x^2$ is $90$. Which of the following gives all possible value(s) of $k$?",
+      "choices": ["$k = 3$ only", "$k = 9$ only", "$k = 3$ or $k = -3$", "$k = 9$ or $k = -9$"],
+      "answer": 2,
+      "explanation": "The $x^2$ term ($r=2$) is $\\binom{5}{2}k^2x^2 = 10k^2x^2$. Setting $10k^2 = 90$ gives $k^2 = 9$, so $k = 3$ or $k = -3$ — both square to give the same coefficient."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Fully expand $(2x+3)^4$ and give the coefficient of $x^2$.",
+      "answer": 216,
+      "tolerance": 0,
+      "explanation": "With $a=2x$, $b=3$, $n=4$: the $x^2$ term has $r=2$, giving $\\binom{4}{2}(2x)^2(3)^2 = 6 \\times 4x^2 \\times 9 = 216x^2$. The full expansion is $16x^4 + 96x^3 + 216x^2 + 216x + 81$, confirming the coefficient of $x^2$ is $216$."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "Using $(1+x)^n \\approx 1 + nx$ for small $x$, estimate $1.02^{10}$ (i.e. $n=10$, $x=0.02$) to 3 decimal places.",
+      "answer": 1.2,
+      "tolerance": 0.001,
+      "explanation": "$1.02^{10} = (1+0.02)^{10} \\approx 1 + 10(0.02) = 1 + 0.2 = 1.2$. (The true value is $1.21899\\ldots$, so this two-term approximation is a reasonable estimate for a small $x$.)"
+    },
+    {
+      "id": "q10",
+      "type": "numeric",
+      "text": "Using the three-term approximation $(1+x)^n \\approx 1 + nx + \\binom{n}{2}x^2$, estimate $1.01^{8}$ (i.e. $n=8$, $x=0.01$) to 4 decimal places.",
+      "answer": 1.0828,
+      "tolerance": 0.0001,
+      "explanation": "$1 + 8(0.01) + \\binom{8}{2}(0.01)^2 = 1 + 0.08 + 28 \\times 0.0001 = 1 + 0.08 + 0.0028 = 1.0828$. The true value is $1.082857\\ldots$, so the three-term estimate is accurate to 3 d.p."
+    },
+    {
+      "id": "q11",
+      "type": "mcq",
+      "text": "Which row of Pascal's triangle gives the coefficients in the expansion of $(a+b)^6$?",
+      "choices": ["$1, 5, 10, 10, 5, 1$", "$1, 6, 15, 20, 15, 6, 1$", "$1, 6, 12, 6, 1$", "$1, 6, 30, 20, 30, 6, 1$"],
+      "answer": 1,
+      "explanation": "Row $n=6$ of Pascal's triangle is built from row $n=5$ ($1,5,10,10,5,1$) by summing adjacent pairs and keeping $1$s at the ends: $1,\\ (1{+}5){=}6,\\ (5{+}10){=}15,\\ (10{+}10){=}20,\\ (10{+}5){=}15,\\ (5{+}1){=}6,\\ 1$, giving $1, 6, 15, 20, 15, 6, 1$."
+    },
+    {
+      "id": "q12",
+      "type": "numeric",
+      "text": "Find the coefficient of $x^4$ in the expansion of $(2-x)^6$.",
+      "answer": 60,
+      "tolerance": 0,
+      "explanation": "With $a=2$, $b=-x$, $n=6$: for the $x^4$ term, $r=4$, so $T_5 = \\binom{6}{4}(2)^2(-x)^4 = 15 \\times 4 \\times x^4 = 60x^4$ (note $(-1)^4 = 1$, so the sign stays positive). The coefficient is $60$."
+    }
+  ]
+}

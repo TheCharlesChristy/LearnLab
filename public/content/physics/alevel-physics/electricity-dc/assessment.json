@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "id": "electricity-dc-assessment",
+  "title": "End of module: DC Electricity",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "A current of $3.0\\,\\text{A}$ flows through a wire for $40\\,\\text{s}$. How much charge passes a point in the wire?",
+      "answer": 120,
+      "tolerance": 0.5,
+      "unit": "C",
+      "explanation": "$Q = It = 3.0 \\times 40 = 120\\,\\text{C}$."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "A charge of $5.0\\,\\text{C}$ has $15\\,\\text{J}$ of work done on it moving through a component. What is the potential difference across the component?",
+      "answer": 3,
+      "tolerance": 0.05,
+      "unit": "V",
+      "explanation": "$V = \\dfrac{W}{Q} = \\dfrac{15}{5.0} = 3.0\\,\\text{V}$."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "Which statement correctly describes Ohm's law?",
+      "choices": [
+        "The current through a conductor is directly proportional to the potential difference across it, provided its temperature (and other physical conditions) stay constant.",
+        "The resistance of a conductor is always constant, regardless of temperature.",
+        "The current through a conductor is inversely proportional to the potential difference across it.",
+        "Resistance equals power divided by current."
+      ],
+      "answer": 0,
+      "explanation": "Ohm's law is the experimental statement that $I \\propto V$ (equivalently $V = IR$ with $R$ constant) for a conductor held at constant physical conditions, especially temperature — it is not true for all conductors (e.g. filament lamps, diodes)."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "A resistor of $15\\,\\Omega$ has a potential difference of $6.0\\,\\text{V}$ across it. Find the current through it.",
+      "answer": 0.4,
+      "tolerance": 0.005,
+      "unit": "A",
+      "explanation": "$I = \\dfrac{V}{R} = \\dfrac{6.0}{15} = 0.4\\,\\text{A}$."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "A wire has length $4.0\\,\\text{m}$, cross-sectional area $5.0 \\times 10^{-7}\\,\\text{m}^2$, and is made from a material of resistivity $2.5 \\times 10^{-7}\\,\\Omega\\,\\text{m}$. Find its resistance.",
+      "answer": 2,
+      "tolerance": 0.02,
+      "unit": "Ω",
+      "explanation": "$R = \\dfrac{\\rho L}{A} = \\dfrac{2.5 \\times 10^{-7} \\times 4.0}{5.0 \\times 10^{-7}} = \\dfrac{1.0 \\times 10^{-6}}{5.0 \\times 10^{-7}} = 2.0\\,\\Omega$."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "An electric heater rated at $1000\\,\\text{W}$ runs for $3.0$ minutes. How much electrical energy does it transfer?",
+      "answer": 180000,
+      "tolerance": 500,
+      "unit": "J",
+      "explanation": "$3.0$ minutes $= 180\\,\\text{s}$, so $E = Pt = 1000 \\times 180 = 180\\,000\\,\\text{J}$ (equivalently $180\\,\\text{kJ}$)."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "Resistors of $5.0\\,\\Omega$ and $15\\,\\Omega$ are connected in series across a $40\\,\\text{V}$ supply. Find the current drawn from the supply.",
+      "answer": 2,
+      "tolerance": 0.02,
+      "unit": "A",
+      "explanation": "$R_{\\text{total}} = 5.0 + 15 = 20\\,\\Omega$, so $I = \\dfrac{V}{R_{\\text{total}}} = \\dfrac{40}{20} = 2.0\\,\\text{A}$."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Resistors of $4.0\\,\\Omega$ and $12\\,\\Omega$ are connected in parallel. Find their combined resistance.",
+      "answer": 3,
+      "tolerance": 0.02,
+      "unit": "Ω",
+      "explanation": "$\\dfrac{1}{R_{\\text{total}}} = \\dfrac{1}{4.0} + \\dfrac{1}{12} = \\dfrac{3}{12} + \\dfrac{1}{12} = \\dfrac{4}{12} = \\dfrac{1}{3}$, so $R_{\\text{total}} = 3.0\\,\\Omega$ (equivalently, product over sum: $\\dfrac{4 \\times 12}{4 + 12} = \\dfrac{48}{16} = 3.0\\,\\Omega$)."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "In a series circuit of three identical lamps, the filament of one lamp breaks. What happens to the other two?",
+      "choices": [
+        "They both go out, because the single current path is broken",
+        "They stay lit, unaffected, because they are independent of the broken lamp",
+        "They get brighter, because the total resistance falls",
+        "Only the lamp nearest the battery stays lit"
+      ],
+      "answer": 0,
+      "explanation": "A series circuit has only one current path. Breaking any one component breaks the whole loop, so the current — and hence every lamp — stops immediately."
+    },
+    {
+      "id": "q10",
+      "type": "multi",
+      "text": "Select every statement below that is true for two resistors connected in parallel.",
+      "choices": [
+        "The potential difference is the same across both resistors",
+        "The combined resistance is greater than the larger of the two individual resistances",
+        "The current splits between the two branches, more current taking the smaller resistance",
+        "The total current equals the sum of the two branch currents"
+      ],
+      "answers": [0, 2, 3],
+      "explanation": "Parallel branches share the same pd (true) and their currents add to the total (true); more current flows through the smaller resistance since $I = V/R$ (true). The combined resistance is always *less* than the smallest individual resistance, not greater, so the second statement is false."
+    },
+    {
+      "id": "q11",
+      "type": "numeric",
+      "text": "A battery has emf $6.0\\,\\text{V}$ and internal resistance $1.0\\,\\Omega$. It is connected to an external resistor of $5.0\\,\\Omega$. Find the terminal potential difference of the battery.",
+      "answer": 5,
+      "tolerance": 0.05,
+      "unit": "V",
+      "explanation": "$I = \\dfrac{\\varepsilon}{R+r} = \\dfrac{6.0}{5.0+1.0} = 1.0\\,\\text{A}$, so $V = \\varepsilon - Ir = 6.0 - (1.0 \\times 1.0) = 5.0\\,\\text{V}$ (equivalently $V = IR = 1.0 \\times 5.0 = 5.0\\,\\text{V}$)."
+    },
+    {
+      "id": "q12",
+      "type": "numeric",
+      "text": "A $10\\,\\text{V}$ supply is connected across two resistors in series: $R_1 = 2\\,\\text{k}\\Omega$ and $R_2 = 8\\,\\text{k}\\Omega$. Find the output voltage $V_{\\text{out}}$ taken across $R_2$.",
+      "answer": 8,
+      "tolerance": 0.05,
+      "unit": "V",
+      "explanation": "$V_{\\text{out}} = V_{\\text{in}} \\times \\dfrac{R_2}{R_1+R_2} = 10 \\times \\dfrac{8}{2+8} = 10 \\times 0.8 = 8.0\\,\\text{V}$."
+    },
+    {
+      "id": "q13",
+      "type": "text",
+      "text": "Name the physical quantity whose SI unit is the ohm ($\\Omega$).",
+      "accept": ["(the )?(electrical )?resistance"],
+      "caseSensitive": false,
+      "explanation": "The ohm ($\\Omega$) is the SI unit of **resistance**, defined by $R = V/I$."
+    }
+  ]
+}

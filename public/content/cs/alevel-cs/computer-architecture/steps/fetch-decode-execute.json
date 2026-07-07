@@ -1,0 +1,20 @@
+{
+  "steps": [
+    {
+      "title": "Step 1 — Fetch",
+      "body": "The address held in the **PC** is copied into the **MAR**. The instruction stored at that address in main memory travels along the data bus into the **MDR**, and from there into the **CIR**. The **PC** is then incremented so it points at the next instruction in sequence."
+    },
+    {
+      "title": "Step 2 — Decode",
+      "body": "The **CU** examines the instruction now sitting in the **CIR** and works out which operation it represents (e.g. load, add, store, jump) and which operand(s) or address(es) it needs. The CU generates the control signals that will drive the next step."
+    },
+    {
+      "title": "Step 3 — Execute",
+      "body": "The CPU actually carries out the operation: the **ALU** may perform an arithmetic or logical calculation (writing its result to the **ACC**), or the CU may trigger a memory read/write (using the **MAR**/**MDR** again) or change the **PC** directly (for a jump/branch instruction)."
+    },
+    {
+      "title": "Step 4 — Repeat",
+      "body": "Once execution finishes, the cycle immediately restarts at **Fetch**, now using the updated **PC**. This repeats, millions or billions of times per second, for as long as the CPU runs — it is the basic heartbeat of every von Neumann machine."
+    }
+  ]
+}

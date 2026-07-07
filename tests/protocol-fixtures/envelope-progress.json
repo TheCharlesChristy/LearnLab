@@ -1,0 +1,6 @@
+{
+  "v": 1,
+  "id": "00000000-0000-0000-0000-000000000014",
+  "type": "PROGRESS",
+  "payload": { "itemId": "power-rule-quiz", "kind": "scored", "score": 4, "maxScore": 5 }
+}

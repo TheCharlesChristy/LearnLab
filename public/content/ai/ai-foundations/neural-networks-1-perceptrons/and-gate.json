@@ -1,0 +1,19 @@
+{
+  "kind": "scatter",
+  "xLabel": "input x1",
+  "yLabel": "input x2",
+  "series": [
+    {
+      "name": "output 0",
+      "points": [[0, 0], [0, 1], [1, 0]]
+    },
+    {
+      "name": "output 1",
+      "points": [[1, 1]]
+    },
+    {
+      "name": "boundary x1 + x2 = 1.5",
+      "points": [[0.5, 1], [1.5, 0]]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+// Native widget registry — SRS §3.5, §5.3.
+// One map; a new widget = one component file + one entry here + a keys.json
+// entry + a WIDGETS.md section (FR-WID-002). keys.json is the plain-data twin
+// of this map so the Node content pipeline can validate ::widget types without
+// importing TS; scripts/dump-widget-keys.mjs copies it to
+// schemas/widget-keys.json (§4.7). A unit test asserts map and keys agree.
+//
+// ORCHESTRATOR-OWNED WIRING: widget tasks export a WidgetDef from their own
+// folder; the orchestrator adds the entry here.
+
+import type { WidgetDef } from './widget-def';
+import { def as circuitSim } from './circuit-sim';
+import { def as codeRunner } from './code-runner';
+import { def as dataPlot } from './data-plot';
+import { def as figure } from './figure';
+import { def as flashcards } from './flashcards';
+import { def as functionGrapher } from './function-grapher';
+import { def as geometryCanvas } from './geometry-canvas';
+import keys from './keys.json';
+import { def as logicGateSim } from './logic-gate-sim';
+import { def as quiz } from './quiz';
+import { def as stepReveal } from './step-reveal';
+import { def as truthTable } from './truth-table';
+import { def as vectorField } from './vector-field';
+
+export type { WidgetDef, RawWidgetProps, ParsedProps } from './widget-def';
+
+export const widgetRegistry: Record<string, WidgetDef> = {
+  'function-grapher': functionGrapher,
+  figure,
+  quiz,
+  'data-plot': dataPlot,
+  'step-reveal': stepReveal,
+  'code-runner': codeRunner,
+  'logic-gate-sim': logicGateSim,
+  flashcards,
+  'vector-field': vectorField,
+  'geometry-canvas': geometryCanvas,
+  'circuit-sim': circuitSim,
+  'truth-table': truthTable,
+};
+
+export const WIDGET_KEYS: readonly string[] = keys;

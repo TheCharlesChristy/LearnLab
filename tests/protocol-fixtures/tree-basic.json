@@ -1,0 +1,33 @@
+{
+  "type": "Column",
+  "key": "root",
+  "props": { "gap": 3 },
+  "children": [
+    {
+      "type": "Text",
+      "key": "0",
+      "props": { "text": "Angle", "size": "md", "weight": "normal", "mono": false },
+      "children": []
+    },
+    {
+      "type": "Slider",
+      "key": "angle",
+      "props": {
+        "label": "Angle",
+        "min": 10,
+        "max": 80,
+        "step": 1,
+        "value": 45,
+        "show_value": true,
+        "on_change": { "__h": "h0" }
+      },
+      "children": []
+    },
+    {
+      "type": "Button",
+      "key": "launch",
+      "props": { "label": "Launch", "kind": "primary", "disabled": false, "on_click": { "__h": "h1" } },
+      "children": []
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "data-structures",
+  "title": "Data Structures",
+  "description": "Abstract data types and their concrete implementations: stacks, queues, linked lists, trees and hash tables, and the operations and use-cases that distinguish them.",
+  "estMinutes": 110,
+  "prerequisites": ["programming-fundamentals"],
+  "objectives": [
+    "Distinguish an abstract data type (ADT) from a concrete implementation",
+    "Implement and trace a stack (LIFO) and a queue (FIFO), and describe real uses for each",
+    "Explain the node/pointer concept behind a singly-linked list and trace traversal, insertion and deletion",
+    "Define binary tree terminology and the binary search tree (BST) property, and trace pre-order, in-order and post-order traversals",
+    "Explain how hashing maps keys to array indices, how collisions are handled, and why lookup is O(1) on average"
+  ],
+  "tags": ["stacks", "queues", "linked-lists", "trees", "binary-search-tree", "hash-tables", "data-structures"],
+  "lessons": [
+    { "id": "stacks-and-queues", "title": "Stacks and queues", "file": "01-stacks-and-queues.md", "estMinutes": 35 },
+    { "id": "linked-lists-and-trees", "title": "Linked lists and trees", "file": "02-linked-lists-and-trees.md", "estMinutes": 40 },
+    { "id": "hash-tables", "title": "Hash tables", "file": "03-hash-tables.md", "estMinutes": 35 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

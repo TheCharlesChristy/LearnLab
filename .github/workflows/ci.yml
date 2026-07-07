@@ -1,0 +1,87 @@
+# CI per SRS §10.3.
+# Steps that depend on files owned by later P0/P1 tasks (scripts/*.mjs,
+# python/, playwright.config.ts) are guarded with hashFiles() so they no-op
+# until those tasks land, then activate automatically.
+name: CI
+
+on:
+  push:
+    # main (§10.3) + the orchestrator dev branches, so CI runs and is visible on
+    # GitHub Actions before a PR/merge to main exists. deploy.yml stays main-only.
+    branches: [main, "claude/**"]
+  pull_request:
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - name: Validate content (§4.7)
+        if: hashFiles('scripts/build-content.mjs') != ''
+        run: node scripts/build-content.mjs
+      - run: npx vitest run
+      - name: Build (full pipeline)
+        if: hashFiles('scripts/build-content.mjs') != ''
+        run: npm run build
+      - name: Build (vite only — until scripts/ lands)
+        if: hashFiles('scripts/build-content.mjs') == ''
+        run: npx vite build
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # The python job no-ops until python/ lands in P1 (SRS §8.7).
+      - name: Install tooling
+        if: hashFiles('python/pyproject.toml') != ''
+        run: pip install ruff pytest
+      - name: Ruff
+        if: hashFiles('python/pyproject.toml') != ''
+        run: |
+          ruff check python
+          ruff format --check python
+      - name: Pytest
+        if: hashFiles('python/pyproject.toml') != ''
+        run: pytest python/tests
+
+  e2e:
+    # SRS §10.3: main pushes + PRs labelled 'e2e'.
+    if: >-
+      github.event_name == 'push' ||
+      contains(github.event.pull_request.labels.*.name, 'e2e')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install Playwright browsers
+        if: hashFiles('playwright.config.ts') != ''
+        # 3 engines for the general suite (NFR-COMPAT-001); the @py smoke is
+        # Chromium-only (§11). CI has network so Pyodide loads from the CDN.
+        run: npx playwright install --with-deps chromium firefox webkit
+      - name: Playwright suite
+        if: hashFiles('playwright.config.ts') != ''
+        run: npm run test:e2e
+      - name: Upload Playwright report (failure diagnostics)
+        if: ${{ !cancelled() && hashFiles('playwright.config.ts') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+          if-no-files-found: ignore

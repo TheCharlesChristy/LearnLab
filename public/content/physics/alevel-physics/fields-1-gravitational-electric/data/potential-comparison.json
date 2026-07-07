@@ -1,0 +1,15 @@
+{
+  "kind": "line",
+  "series": [
+    {
+      "name": "Gravitational potential (GM = 10, arbitrary units)",
+      "points": [[1, -10], [2, -5], [3, -3.33], [4, -2.5], [5, -2]]
+    },
+    {
+      "name": "Electric potential, positive source charge (kQ = 10, arbitrary units)",
+      "points": [[1, 10], [2, 5], [3, 3.33], [4, 2.5], [5, 2]]
+    }
+  ],
+  "xLabel": "r (arbitrary distance units)",
+  "yLabel": "Potential (arbitrary units)"
+}

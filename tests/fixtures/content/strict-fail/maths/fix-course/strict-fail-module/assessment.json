@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "strict-fail-assessment",
+  "title": "Tiny quiz",
+  "questions": [
+    { "id": "q1", "type": "mcq", "text": "Pick A.", "choices": ["A", "B"], "answer": 0, "explanation": "A." },
+    { "id": "q2", "type": "mcq", "text": "Pick B.", "choices": ["A", "B"], "answer": 1, "explanation": "B." }
+  ]
+}

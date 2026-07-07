@@ -1,0 +1,8 @@
+{
+  "kind": "line",
+  "series": [
+    { "name": "vector a = (5, -12)", "points": [[0, 0], [5, -12]] }
+  ],
+  "xLabel": "x",
+  "yLabel": "y"
+}

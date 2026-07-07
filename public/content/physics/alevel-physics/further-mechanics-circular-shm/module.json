@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "further-mechanics-circular-shm",
+  "title": "Further Mechanics: Circular Motion and SHM",
+  "description": "Angular velocity, centripetal acceleration and force in circular motion, the defining equations and energy of simple harmonic motion, and the behaviour of pendulums, springs, damping and resonance.",
+  "estMinutes": 90,
+  "prerequisites": ["mechanics-and-energy"],
+  "objectives": [
+    "Relate angular velocity to period and frequency, and to linear speed via v = ωr",
+    "Calculate centripetal acceleration and centripetal force for an object moving in a circle",
+    "State the defining equation of SHM (a = -ω²x) and use x = A cos(ωt), v = ±ω√(A² - x²), and the maximum speed and acceleration of an oscillator",
+    "Describe the exchange between kinetic and potential energy in SHM and calculate total energy",
+    "Apply T = 2π√(l/g) for a simple pendulum and T = 2π√(m/k) for a mass-spring system",
+    "Distinguish free, damped and forced oscillations and explain resonance"
+  ],
+  "tags": ["circular-motion", "centripetal-force", "shm", "simple-harmonic-motion", "pendulum", "damping", "resonance", "further-mechanics"],
+  "lessons": [
+    { "id": "circular-motion", "title": "Circular motion: angular velocity, acceleration and force", "file": "01-circular-motion.md", "estMinutes": 25 },
+    { "id": "shm-basics", "title": "Simple harmonic motion: defining equations and energy", "file": "02-shm-basics.md", "estMinutes": 30 },
+    { "id": "pendulums-damping-resonance", "title": "Pendulums, springs, damping and resonance", "file": "03-pendulums-damping-resonance.md", "estMinutes": 35 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

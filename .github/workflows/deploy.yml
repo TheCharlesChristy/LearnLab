@@ -1,0 +1,46 @@
+# Deploy to GitHub Pages per SRS §10.3.
+# Build steps are re-run here (rather than gating on workflow_run) so the
+# deployed artifact is always built from the exact pushed commit.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Prevent overlapping deploys (SRS §10.3).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      # SRS §10.2: project-site base path for Pages builds.
+      BASE: /learnlab/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build (full pipeline)
+        if: hashFiles('scripts/build-content.mjs') != ''
+        run: npm run build
+      - name: Build (vite only — until scripts/ lands)
+        if: hashFiles('scripts/build-content.mjs') == ''
+        run: npx vite build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v4

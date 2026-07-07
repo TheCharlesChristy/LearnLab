@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "id": "friction-and-connected-particles-assessment",
+  "title": "End of module: Friction and Connected Particles",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "A crate of weight-equivalent mass $8\\,\\text{kg}$ rests on rough horizontal ground with coefficient of friction $\\mu = 0.35$. Find the limiting friction force $F_{\\max}$.",
+      "answer": 27.468,
+      "tolerance": 0.05,
+      "unit": "N",
+      "explanation": "With no other vertical forces, $N = mg = 8 \\times 9.81 = 78.48\\,\\text{N}$. The limiting friction is $F_{\\max} = \\mu N = 0.35 \\times 78.48 = 27.468\\,\\text{N}$."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "A block of mass $12\\,\\text{kg}$ on horizontal ground is on the point of sliding when a horizontal force of $47.088\\,\\text{N}$ is applied. Find the coefficient of friction $\\mu$.",
+      "answer": 0.4,
+      "tolerance": 0.005,
+      "unit": "",
+      "explanation": "$N = mg = 12 \\times 9.81 = 117.72\\,\\text{N}$. At the point of sliding, $F = \\mu N$, so $\\mu = \\dfrac{47.088}{117.72} = 0.4$."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "A particle slides across rough horizontal ground with friction as the only horizontal force, coefficient of friction $\\mu = 0.5$. Find its deceleration.",
+      "answer": 4.905,
+      "tolerance": 0.01,
+      "unit": "m/s^2",
+      "explanation": "For a horizontal surface with only friction acting, $N = mg$ and $F = \\mu mg$, so by Newton's second law $ma = -\\mu mg$, giving $a = -\\mu g = -0.5 \\times 9.81 = -4.905\\,\\text{m s}^{-2}$. The magnitude of the deceleration is $4.905\\,\\text{m s}^{-2}$."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "A particle slides across rough horizontal ground with initial speed $u = 15\\,\\text{m s}^{-1}$ and coefficient of friction $\\mu = 0.3$ (friction is the only horizontal force). Find the distance travelled before it stops.",
+      "answer": 38.23,
+      "tolerance": 0.1,
+      "unit": "m",
+      "explanation": "The deceleration is $a = \\mu g = 0.3 \\times 9.81 = 2.943\\,\\text{m s}^{-2}$. Using $v^2 = u^2 - 2as$ with $v = 0$: $s = \\dfrac{u^2}{2a} = \\dfrac{15^2}{2 \\times 2.943} = \\dfrac{225}{5.886} = 38.23\\,\\text{m}$ (3 s.f.)."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "A block of mass $5\\,\\text{kg}$ is released from rest on a rough slope inclined at $30^\\circ$ to the horizontal, with $\\mu = 0.2$. Find its acceleration down the slope.",
+      "answer": 3.206,
+      "tolerance": 0.02,
+      "unit": "m/s^2",
+      "explanation": "Perpendicular to the slope: $N = mg\\cos\\theta = 5 \\times 9.81 \\times \\cos 30^\\circ = 42.48\\,\\text{N}$. Friction (up the slope): $F = \\mu N = 0.2 \\times 42.48 = 8.496\\,\\text{N}$. Weight component down the slope: $mg\\sin\\theta = 5 \\times 9.81 \\times \\sin 30^\\circ = 24.525\\,\\text{N}$. Newton's second law down the slope: $mg\\sin\\theta - F = ma$, so $a = \\dfrac{24.525 - 8.496}{5} = \\dfrac{16.029}{5} = 3.206\\,\\text{m s}^{-2}$ (equivalently $a = g(\\sin\\theta - \\mu\\cos\\theta)$)."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "Particle $A$, mass $4\\,\\text{kg}$, lies on a rough horizontal table with $\\mu = 0.25$, connected by a light inextensible string over a smooth pulley to particle $B$, mass $6\\,\\text{kg}$, hanging freely. The system is released from rest. Find the acceleration of the system.",
+      "answer": 4.905,
+      "tolerance": 0.02,
+      "unit": "m/s^2",
+      "explanation": "For A: $N = m_Ag = 4 \\times 9.81 = 39.24\\,\\text{N}$, friction $F = \\mu N = 0.25 \\times 39.24 = 9.81\\,\\text{N}$. Equation for A: $T - 9.81 = 4a$. Equation for B: $m_Bg - T = m_Ba \\Rightarrow 58.86 - T = 6a$. Adding the two equations to eliminate $T$: $58.86 - 9.81 = 10a \\Rightarrow 49.05 = 10a \\Rightarrow a = 4.905\\,\\text{m s}^{-2}$."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "For the same system as the previous question (particle $A$, mass $4\\,\\text{kg}$, on a rough table with $\\mu = 0.25$, connected over a smooth pulley to hanging particle $B$, mass $6\\,\\text{kg}$), find the tension in the string.",
+      "answer": 29.43,
+      "tolerance": 0.05,
+      "unit": "N",
+      "explanation": "From the acceleration found previously, $a = 4.905\\,\\text{m s}^{-2}$. Substituting into B's equation of motion, $T = m_Bg - m_Ba = 58.86 - 6 \\times 4.905 = 58.86 - 29.43 = 29.43\\,\\text{N}$. Check with A's equation: $T = m_Aa + \\mu m_Ag = 4 \\times 4.905 + 9.81 = 19.62 + 9.81 = 29.43\\,\\text{N}$ — the two routes agree."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Two particles hang either side of a smooth, light pulley (an Atwood machine): $m_1 = 5\\,\\text{kg}$ and $m_2 = 3\\,\\text{kg}$. The system is released from rest. Find the acceleration of the system.",
+      "answer": 2.4525,
+      "tolerance": 0.01,
+      "unit": "m/s^2",
+      "explanation": "For $m_1$ (falling): $m_1g - T = m_1a$. For $m_2$ (rising): $T - m_2g = m_2a$. Adding: $(m_1 - m_2)g = (m_1+m_2)a$, so $a = \\dfrac{(5-3)\\times 9.81}{5+3} = \\dfrac{19.62}{8} = 2.4525\\,\\text{m s}^{-2}$."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "Which statement about the friction force $F$ between two surfaces is correct?",
+      "choices": [
+        "$F = \\mu N$ at all times, whether or not the object is moving",
+        "$F \\le \\mu N$, with equality only when the object is sliding or on the point of slipping",
+        "$F$ is independent of the normal reaction $N$",
+        "$F$ always acts perpendicular to the contact surface"
+      ],
+      "answer": 1,
+      "explanation": "Friction can take any value up to a maximum of $\\mu N$ while an object remains in equilibrium; it only equals $\\mu N$ exactly at the point of slipping or while the object slides. It acts along the surface (not perpendicular to it) and depends directly on $N$."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "Two particles are connected by a light, inextensible string passing over a smooth, light pulley. Why is it valid to use the same symbol $a$ for both particles' accelerations in their separate equations of motion?",
+      "choices": [
+        "Because both particles have the same mass",
+        "Because the pulley is frictionless, so no energy is lost",
+        "Because the string cannot stretch, so both particles must have the same magnitude of acceleration at every instant",
+        "Because both particles are in equilibrium"
+      ],
+      "answer": 2,
+      "explanation": "An inextensible string keeps the two particles a fixed distance apart along its length, so if one particle's speed changes, the other's must change identically — they share the same magnitude of acceleration. This holds regardless of the particles' masses or whether the pulley is smooth (smoothness is instead why the tension is equal throughout the string)."
+    },
+    {
+      "id": "q11",
+      "type": "mcq",
+      "text": "A block rests on a rough slope inclined at angle $\\theta$ to the horizontal. What is the correct expression for the normal reaction $N$?",
+      "choices": [
+        "$N = mg$",
+        "$N = mg\\sin\\theta$",
+        "$N = mg\\cos\\theta$",
+        "$N = mg\\tan\\theta$"
+      ],
+      "answer": 2,
+      "explanation": "Resolving perpendicular to the slope, only the component of weight perpendicular to the surface is balanced by the normal reaction: $N = mg\\cos\\theta$. The component $mg\\sin\\theta$ acts down the slope (parallel to the surface) and does not contribute to $N$."
+    }
+  ]
+}

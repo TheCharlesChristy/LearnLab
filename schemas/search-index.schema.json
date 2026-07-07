@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "search-index.schema.json",
+  "title": "LearnLab content/search-index.json (generated — §13 roadmap, D-022)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "lessons"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "lessons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "subject",
+          "courseId",
+          "courseTitle",
+          "moduleId",
+          "moduleTitle",
+          "lessonId",
+          "lessonTitle",
+          "body"
+        ],
+        "properties": {
+          "subject": { "enum": ["maths", "physics", "cs", "ai"] },
+          "courseId": { "$ref": "#/$defs/id" },
+          "courseTitle": { "type": "string", "minLength": 1 },
+          "moduleId": { "$ref": "#/$defs/id" },
+          "moduleTitle": { "type": "string", "minLength": 1 },
+          "lessonId": { "$ref": "#/$defs/id" },
+          "lessonTitle": { "type": "string", "minLength": 1 },
+          "body": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 64
+    }
+  }
+}

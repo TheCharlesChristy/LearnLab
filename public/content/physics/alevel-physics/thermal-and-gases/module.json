@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "thermal-and-gases",
+  "title": "Thermal Physics and Ideal Gases",
+  "description": "Temperature, internal energy, specific heat and latent heat, the ideal gas laws, and the kinetic theory of gases.",
+  "estMinutes": 100,
+  "prerequisites": [
+    "measurements-and-uncertainty"
+  ],
+  "objectives": [
+    "Convert between Celsius and Kelvin temperature scales and state the significance of absolute zero",
+    "Define internal energy and calculate energy transfers using specific heat capacity (Q = mcΔT)",
+    "Calculate energy transfers during changes of state using specific latent heat (Q = mL)",
+    "Apply the ideal gas equation pV = nRT and pV = NkT, and identify Boyle's, the pressure, and Charles's laws as special cases",
+    "State the assumptions of the kinetic theory of gases and apply the kinetic theory equation pV = (1/3)Nm⟨c²⟩",
+    "Relate the mean kinetic energy of a gas molecule to its absolute temperature"
+  ],
+  "tags": ["thermal-physics", "temperature", "specific-heat-capacity", "latent-heat", "ideal-gas-law", "kinetic-theory"],
+  "lessons": [
+    { "id": "temperature-and-heat", "title": "Temperature, specific heat capacity and latent heat", "file": "01-temperature-and-heat.md", "estMinutes": 35 },
+    { "id": "ideal-gas-laws", "title": "The ideal gas laws", "file": "02-ideal-gas-laws.md", "estMinutes": 35 },
+    { "id": "kinetic-theory", "title": "The kinetic theory of gases", "file": "03-kinetic-theory.md", "estMinutes": 30 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

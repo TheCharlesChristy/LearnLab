@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "content-index.schema.json",
+  "title": "LearnLab content/index.json (generated — SRS §4.2)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "subjects"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "subjects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "courses"],
+        "properties": {
+          "id": { "enum": ["maths", "physics", "cs", "ai"] },
+          "title": { "type": "string", "minLength": 1 },
+          "courses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "path", "title", "level", "moduleCount", "totalEstMinutes"],
+              "properties": {
+                "id": { "$ref": "#/$defs/id" },
+                "path": { "type": "string", "minLength": 1 },
+                "title": { "type": "string", "minLength": 1 },
+                "level": { "enum": ["gcse", "as", "a2", "alevel", "foundation"] },
+                "moduleCount": { "type": "integer", "minimum": 0 },
+                "totalEstMinutes": { "type": "integer", "minimum": 0 }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 64
+    }
+  }
+}

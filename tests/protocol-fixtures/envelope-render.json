@@ -1,0 +1,22 @@
+{
+  "v": 1,
+  "id": "00000000-0000-0000-0000-000000000012",
+  "type": "RENDER",
+  "payload": {
+    "itemId": "power-rule-quiz",
+    "seq": 1,
+    "tree": {
+      "type": "Column",
+      "key": "root",
+      "props": { "gap": 2 },
+      "children": [
+        {
+          "type": "Text",
+          "key": "0",
+          "props": { "text": "Question 1 of 4", "size": "md", "weight": "normal", "mono": false },
+          "children": []
+        }
+      ]
+    }
+  }
+}

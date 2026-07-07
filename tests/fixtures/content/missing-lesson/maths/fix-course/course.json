@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "fix-course",
+  "title": "Fixture Course",
+  "subject": "maths",
+  "level": "alevel",
+  "description": "Invalid-fixture course.",
+  "modules": [{ "id": "missing-lesson-module", "dir": "missing-lesson-module" }]
+}

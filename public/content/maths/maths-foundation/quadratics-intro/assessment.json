@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "quadratics-intro-assessment",
+  "title": "End of module: Introduction to Quadratics",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Which of these is a quadratic expression (its highest power of $x$, once expanded, is $x^2$)?",
+      "choices": ["$3x+5$", "$x^2-4x+1$", "$x^3-2x$", "$\\frac{2}{x}+1$"],
+      "answer": 1,
+      "explanation": "Only $x^2-4x+1$ has $x^2$ as its highest power once expanded; $3x+5$ is linear, $x^3-2x$ is cubic, and $\\frac{2}{x}+1$ is not a polynomial at all."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "Expand $(x+4)(x+2)$ to write it in the form $x^2+bx+c$. What is $b$?",
+      "answer": 6,
+      "tolerance": 0.001,
+      "explanation": "$(x+4)(x+2) = x^2+2x+4x+8 = x^2+6x+8$, so $b=6$."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "Expand $(x-5)(x+3)$ to write it in the form $x^2+bx+c$. What is $c$?",
+      "answer": -15,
+      "tolerance": 0.001,
+      "explanation": "$(x-5)(x+3) = x^2+3x-5x-15 = x^2-2x-15$, so $c=-15$."
+    },
+    {
+      "id": "q4",
+      "type": "text",
+      "text": "Factorise $x^2+9x+20$. Write your answer with no spaces, e.g. `(x+4)(x+5)`.",
+      "accept": ["\\(x\\+4\\)\\(x\\+5\\)", "\\(x\\+5\\)\\(x\\+4\\)"],
+      "caseSensitive": false,
+      "explanation": "We need two numbers multiplying to $20$ and adding to $9$: $4$ and $5$ work, since $4\\times5=20$ and $4+5=9$. So $x^2+9x+20=(x+4)(x+5)$."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "Solve $x^2+7x+12=0$ by factorising. Give the larger (less negative) root.",
+      "answer": -3,
+      "tolerance": 0.001,
+      "explanation": "$x^2+7x+12=(x+3)(x+4)=0$, so $x=-3$ or $x=-4$. The larger (less negative) root is $-3$. Check: $(-3)^2+7(-3)+12=9-21+12=0$. ✓"
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "Solve $x^2-2x-15=0$ by factorising. Give the positive root.",
+      "answer": 5,
+      "tolerance": 0.001,
+      "explanation": "$x^2-2x-15=(x+3)(x-5)=0$, so $x=-3$ or $x=5$. The positive root is $5$. Check: $5^2-2(5)-15=25-10-15=0$. ✓"
+    },
+    {
+      "id": "q7",
+      "type": "text",
+      "text": "Solve $x^2+2x-8=0$ by factorising. Write both roots separated by the word 'or', in the form `x=2 or x=-4` (either order, no extra spaces around the equals signs).",
+      "accept": ["x=-4\\s*or\\s*x=2", "x=2\\s*or\\s*x=-4"],
+      "caseSensitive": false,
+      "explanation": "$x^2+2x-8=(x+4)(x-2)=0$, so $x=-4$ or $x=2$. Check: $(-4)^2+2(-4)-8=16-8-8=0$ ✓; $2^2+2(2)-8=4+4-8=0$ ✓."
+    },
+    {
+      "id": "q8",
+      "type": "mcq",
+      "text": "For a quadratic $y=ax^2+bx+c$ with $a>0$, what shape is its graph?",
+      "choices": [
+        "A u-shaped curve, opening upward, with a minimum point",
+        "An n-shaped curve, opening downward, with a maximum point",
+        "A straight line",
+        "A pair of straight lines crossing at the origin"
+      ],
+      "answer": 0,
+      "explanation": "A positive coefficient of $x^2$ always gives a u-shaped (upward-opening) parabola with a minimum turning point, e.g. $y=x^2$."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "The quadratic $y=-3x^2+2x+1$ has a negative coefficient of $x^2$. What does this tell you about its graph?",
+      "choices": [
+        "It is u-shaped with a minimum point",
+        "It is n-shaped with a maximum point",
+        "It is a straight line with positive gradient",
+        "It never crosses the y-axis"
+      ],
+      "answer": 1,
+      "explanation": "Since $a=-3<0$, the parabola opens downward (n-shaped) and has a maximum turning point rather than a minimum."
+    },
+    {
+      "id": "q10",
+      "type": "multi",
+      "text": "Which of the following are true about the graph of $y=(x-2)(x+6)$?",
+      "choices": [
+        "It crosses the x-axis at $x=2$ and $x=-6$",
+        "It is n-shaped (opens downward)",
+        "It is u-shaped (opens upward)",
+        "It crosses the x-axis at $x=-2$ and $x=6$"
+      ],
+      "answers": [0, 2],
+      "explanation": "Setting $y=0$ gives $x=2$ or $x=-6$, so the graph meets the x-axis there (not at $x=-2$ / $x=6$). Expanding, $(x-2)(x+6)=x^2+4x-12$, so $a=1>0$: the parabola is u-shaped (opens upward), not n-shaped."
+    }
+  ]
+}

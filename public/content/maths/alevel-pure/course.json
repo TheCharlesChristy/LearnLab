@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "alevel-pure",
+  "title": "A-level Pure Mathematics",
+  "subject": "maths",
+  "level": "alevel",
+  "description": "Core pure mathematics for A-level: proof, algebra and functions, coordinate geometry, sequences and series, trigonometry, exponentials and logarithms, differentiation, integration, numerical methods, and vectors.",
+  "modules": [
+    { "id": "proof", "dir": "proof" },
+    { "id": "indices-and-surds", "dir": "indices-and-surds" },
+    { "id": "quadratics-and-inequalities", "dir": "quadratics-and-inequalities" },
+    { "id": "algebraic-methods", "dir": "algebraic-methods" },
+    { "id": "coordinate-geometry", "dir": "coordinate-geometry" },
+    { "id": "sequences-and-series", "dir": "sequences-and-series" },
+    { "id": "binomial-expansion", "dir": "binomial-expansion" },
+    { "id": "trigonometry-1", "dir": "trigonometry-1" },
+    { "id": "trigonometry-2", "dir": "trigonometry-2" },
+    { "id": "exponentials-and-logarithms", "dir": "exponentials-and-logarithms" },
+    { "id": "differentiation-1", "dir": "differentiation-1" },
+    { "id": "differentiation-2", "dir": "differentiation-2" },
+    { "id": "integration-1", "dir": "integration-1" },
+    { "id": "integration-2", "dir": "integration-2" },
+    { "id": "numerical-methods", "dir": "numerical-methods" },
+    { "id": "vectors", "dir": "vectors" }
+  ]
+}

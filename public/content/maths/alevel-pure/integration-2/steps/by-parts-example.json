@@ -1,0 +1,24 @@
+{
+  "steps": [
+    {
+      "title": "Identify the product",
+      "body": "Find $\\displaystyle\\int x\\cos(x)\\,\\mathrm{d}x$. This is a product of an algebraic factor $x$ and a trigonometric factor $\\cos(x)$, so integration by parts is the right technique."
+    },
+    {
+      "title": "Choose u and dv/dx",
+      "body": "Let $u = x$ (algebraic — differentiating it simplifies things) and $\\dfrac{\\mathrm{d}v}{\\mathrm{d}x} = \\cos(x)$. Then $\\dfrac{\\mathrm{d}u}{\\mathrm{d}x} = 1$ and $v = \\sin(x)$."
+    },
+    {
+      "title": "Apply the by-parts formula",
+      "body": "$\\displaystyle\\int x\\cos(x)\\,\\mathrm{d}x = uv - \\int v\\,\\frac{\\mathrm{d}u}{\\mathrm{d}x}\\,\\mathrm{d}x = x\\sin(x) - \\int \\sin(x)\\cdot 1\\,\\mathrm{d}x$."
+    },
+    {
+      "title": "Finish the remaining integral",
+      "body": "$\\displaystyle x\\sin(x) - \\int \\sin(x)\\,\\mathrm{d}x = x\\sin(x) - (-\\cos(x)) + C = x\\sin(x) + \\cos(x) + C$."
+    },
+    {
+      "title": "Check by differentiating back",
+      "body": "Using the product rule: $\\dfrac{\\mathrm{d}}{\\mathrm{d}x}\\big(x\\sin(x) + \\cos(x)\\big) = \\big(\\sin(x) + x\\cos(x)\\big) - \\sin(x) = x\\cos(x)$ — matches the original integrand. ✓"
+    }
+  ]
+}

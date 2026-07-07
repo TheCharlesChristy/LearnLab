@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "id": "particles-and-quantum-assessment",
+  "title": "End of module: Particles and Quantum Phenomena",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "What is the quark composition of a proton?",
+      "choices": ["up, up, down", "up, down, down", "down, down, down", "up, up, up"],
+      "answer": 0,
+      "explanation": "The proton is uud: charge $= \\frac{2}{3}e + \\frac{2}{3}e - \\frac{1}{3}e = +1e$, matching the proton's known charge."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "Using quark charges up $= +\\frac{2}{3}e$ and down $= -\\frac{1}{3}e$, calculate the total charge of a neutron (udd), in units of $e$.",
+      "answer": 0,
+      "tolerance": 0.01,
+      "unit": "e",
+      "explanation": "$\\frac{2}{3}e - \\frac{1}{3}e - \\frac{1}{3}e = 0$, consistent with the neutron being electrically neutral."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "Which fundamental force holds quarks together inside protons and neutrons, and has a range of about $10^{-15}\\,\\text{m}$?",
+      "choices": ["Gravitational", "Electromagnetic", "Strong nuclear", "Weak nuclear"],
+      "answer": 2,
+      "explanation": "The strong nuclear force acts over nuclear-sized distances ($\\sim 10^{-15}\\,\\text{m}$) and is what binds quarks into hadrons and nucleons into nuclei."
+    },
+    {
+      "id": "q4",
+      "type": "multi",
+      "text": "Which of the following quantities must be conserved in every particle interaction or decay?",
+      "choices": ["Electric charge", "Baryon number", "Lepton number", "Kinetic energy of each individual particle"],
+      "answers": [0, 1, 2],
+      "explanation": "Charge, baryon number and lepton number are all conserved overall. Total energy (not each particle's kinetic energy alone) is conserved — kinetic energy can be converted to/from mass-energy or other forms."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "Calculate the energy, in joules, of a photon of frequency $5.00 \\times 10^{14}\\,\\text{Hz}$. Use $h = 6.63 \\times 10^{-34}\\,\\text{J s}$.",
+      "answer": 3.315e-19,
+      "tolerance": 3e-21,
+      "unit": "J",
+      "explanation": "$E = hf = (6.63\\times10^{-34})(5.00\\times10^{14}) = 3.315\\times10^{-19}\\,\\text{J}$."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "A metal has work function $\\Phi = 2.30\\,\\text{eV}$. Using $h = 6.63\\times10^{-34}\\,\\text{J s}$ and $e = 1.60\\times10^{-19}\\,\\text{C}$, calculate its threshold frequency $f_0$ in Hz.",
+      "answer": 5.55e14,
+      "tolerance": 5e12,
+      "unit": "Hz",
+      "explanation": "$\\Phi = 2.30 \\times 1.60\\times10^{-19} = 3.68\\times10^{-19}\\,\\text{J}$. Then $f_0 = \\Phi/h = (3.68\\times10^{-19})/(6.63\\times10^{-34}) = 5.55\\times10^{14}\\,\\text{Hz}$."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "Light of frequency $8.00\\times10^{14}\\,\\text{Hz}$ shines on a metal with work function $\\Phi = 2.30\\,\\text{eV}$. Calculate the maximum kinetic energy of the emitted photoelectrons, in eV.",
+      "answer": 1.015,
+      "tolerance": 0.01,
+      "unit": "eV",
+      "explanation": "$E_{\\text{photon}} = hf = (6.63\\times10^{-34})(8.00\\times10^{14}) = 5.304\\times10^{-19}\\,\\text{J} = 3.315\\,\\text{eV}$. Then $KE_{\\max} = 3.315 - 2.30 = 1.015\\,\\text{eV}$ by Einstein's photoelectric equation."
+    },
+    {
+      "id": "q8",
+      "type": "mcq",
+      "text": "Light with a frequency below a metal's threshold frequency is shone on the metal, and its intensity is then increased. What happens?",
+      "choices": [
+        "Photoemission occurs with a higher maximum kinetic energy",
+        "Photoemission occurs with more photoelectrons per second, but the same maximum kinetic energy",
+        "No photoemission occurs at all, regardless of the intensity",
+        "Photoemission occurs, but only after a short time delay"
+      ],
+      "answer": 2,
+      "explanation": "Each photon below the threshold frequency carries too little energy ($hf < \\Phi$) to free an electron. Increasing the intensity only increases the number of photons per second, not the energy of each one, so no electron is ever emitted."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "Calculate the de Broglie wavelength of an electron (mass $9.11\\times10^{-31}\\,\\text{kg}$) travelling at $2.00\\times10^{6}\\,\\text{m s}^{-1}$. Use $h = 6.63\\times10^{-34}\\,\\text{J s}$.",
+      "answer": 3.64e-10,
+      "tolerance": 5e-12,
+      "unit": "m",
+      "explanation": "$p = mv = (9.11\\times10^{-31})(2.00\\times10^{6}) = 1.822\\times10^{-24}\\,\\text{kg m s}^{-1}$. Then $\\lambda = h/p = (6.63\\times10^{-34})/(1.822\\times10^{-24}) = 3.64\\times10^{-10}\\,\\text{m}$."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "Which experimental observation provides direct evidence that electrons have wave-like properties?",
+      "choices": [
+        "Electron diffraction through a thin crystalline sample",
+        "The photoelectric effect",
+        "The existence of atomic emission line spectra",
+        "Beta decay"
+      ],
+      "answer": 0,
+      "explanation": "Electron diffraction produces a pattern of rings just as light does through a diffraction grating — only a wave can diffract, so this confirms electrons have wave-like character, as predicted by de Broglie."
+    },
+    {
+      "id": "q11",
+      "type": "numeric",
+      "text": "In hydrogen, $E_n = -13.6/n^2\\,\\text{eV}$. Calculate the energy, in eV, of the photon emitted when an electron falls from $n=3$ to $n=2$.",
+      "answer": 1.89,
+      "tolerance": 0.01,
+      "unit": "eV",
+      "explanation": "$E_3 = -13.6/9 = -1.511\\,\\text{eV}$, $E_2 = -13.6/4 = -3.4\\,\\text{eV}$. The emitted photon's energy is $E_3 - E_2 = -1.511 - (-3.4) = 1.889\\,\\text{eV} \\approx 1.89\\,\\text{eV}$."
+    },
+    {
+      "id": "q12",
+      "type": "text",
+      "text": "What name is given to a single, discrete packet (quantum) of electromagnetic radiation, of energy $E = hf$?",
+      "accept": ["photons?"],
+      "caseSensitive": false,
+      "explanation": "A discrete quantum of electromagnetic radiation is called a **photon**."
+    }
+  ]
+}

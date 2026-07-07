@@ -1,0 +1,20 @@
+{
+  "steps": [
+    {
+      "title": "Step 1 — the starting expression",
+      "body": "We want to simplify $A \\cdot B + A \\cdot \\overline{B}$. Both terms contain a factor of $A$, which is the key to simplifying."
+    },
+    {
+      "title": "Step 2 — factor out the common term",
+      "body": "Apply the **distributive law** in reverse to pull out the shared $A$:\n\n$$A \\cdot B + A \\cdot \\overline{B} = A \\cdot (B + \\overline{B}).$$"
+    },
+    {
+      "title": "Step 3 — apply the complement law",
+      "body": "A variable ORed with its own complement is always true: $B + \\overline{B} = 1$. So the expression becomes\n\n$$A \\cdot (B + \\overline{B}) = A \\cdot 1.$$"
+    },
+    {
+      "title": "Step 4 — apply the identity law",
+      "body": "Anything ANDed with $1$ is itself: $A \\cdot 1 = A$. The whole expression simplifies to just\n\n$$A.$$\n\nTwo AND gates and an OR gate collapse into a single wire."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "alevel-mechanics",
+  "title": "A-level Mechanics",
+  "subject": "maths",
+  "level": "alevel",
+  "description": "The mechanics strand of A-level Mathematics: modelling motion, forces and equilibrium. Covers constant- and variable-acceleration kinematics, Newton's laws, moments, projectiles, and friction with connected particles.",
+  "modules": [
+    { "id": "kinematics-suvat", "dir": "kinematics-suvat" },
+    { "id": "variable-acceleration", "dir": "variable-acceleration" },
+    { "id": "forces-and-newtons-laws", "dir": "forces-and-newtons-laws" },
+    { "id": "moments", "dir": "moments" },
+    { "id": "projectiles", "dir": "projectiles" },
+    { "id": "friction-and-connected-particles", "dir": "friction-and-connected-particles" }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "projectiles",
+  "title": "Projectiles from a Height",
+  "description": "Extends the introductory projectile motion of kinematics-suvat to launches from an elevated point, derives the general range and time-of-flight results, finds the angle that maximises range, and tackles harder maximum-height and landing-on-a-slope style problems.",
+  "estMinutes": 90,
+  "prerequisites": ["kinematics-suvat"],
+  "objectives": [
+    "Extend the independent horizontal/vertical component model to projectiles launched from a height above the landing point",
+    "Derive and apply the time-of-flight and range formulas for a projectile launched from height h",
+    "Prove that, for a launch from ground level, range is maximised at a launch angle of 45 degrees",
+    "Solve maximum-height and landing-speed problems for elevated launches",
+    "Interpret a graph of range against launch angle, including how the elevated-launch case departs from the level-ground 45 degree symmetry"
+  ],
+  "tags": ["mechanics", "projectiles", "range", "time-of-flight", "maximising-range", "cliff-problems"],
+  "lessons": [
+    {
+      "id": "projectiles-from-a-height",
+      "title": "Projectiles launched from a height",
+      "file": "01-projectiles-from-a-height.md",
+      "estMinutes": 30
+    },
+    {
+      "id": "range-and-time-of-flight",
+      "title": "General range and time-of-flight formulas",
+      "file": "02-range-and-time-of-flight.md",
+      "estMinutes": 30
+    },
+    {
+      "id": "maximising-range",
+      "title": "Maximising range and harder problems",
+      "file": "03-maximising-range.md",
+      "estMinutes": 30
+    }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "trigonometry-basics",
+  "title": "Trigonometry Basics",
+  "description": "Label the sides of a right-angled triangle, apply Pythagoras' theorem, and use SOHCAHTOA and inverse trig functions to find missing sides and angles.",
+  "estMinutes": 80,
+  "prerequisites": [],
+  "objectives": [
+    "Label the hypotenuse, opposite and adjacent sides of a right-angled triangle relative to a given angle",
+    "Use Pythagoras' theorem (a^2 + b^2 = c^2) to find a missing side when no angle is involved",
+    "State and apply SOHCAHTOA to find a missing side, given one angle and one side",
+    "Use the inverse trig functions sin^-1, cos^-1 and tan^-1 to find a missing angle, given two sides",
+    "Decide which tool (Pythagoras or SOHCAHTOA) fits a given right-angled-triangle problem"
+  ],
+  "tags": ["trigonometry", "sohcahtoa", "pythagoras", "right-angled-triangles", "gcse"],
+  "lessons": [
+    { "id": "pythagoras-and-labelling", "title": "Pythagoras' theorem and labelling triangle sides", "file": "01-pythagoras-and-labelling.md", "estMinutes": 25 },
+    { "id": "sohcahtoa-finding-a-side", "title": "SOHCAHTOA: finding a missing side", "file": "02-sohcahtoa-finding-a-side.md", "estMinutes": 30 },
+    { "id": "sohcahtoa-finding-an-angle", "title": "SOHCAHTOA: finding a missing angle", "file": "03-sohcahtoa-finding-an-angle.md", "estMinutes": 25 }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

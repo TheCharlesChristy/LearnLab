@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "test-course",
+  "title": "Pipeline Test Course",
+  "subject": "maths",
+  "level": "alevel",
+  "description": "A fixture course used by the content-pipeline tests.",
+  "modules": [{ "id": "pipeline-module", "dir": "pipeline-module" }]
+}

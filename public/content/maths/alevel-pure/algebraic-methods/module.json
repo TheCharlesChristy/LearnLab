@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "algebraic-methods",
+  "title": "Algebraic Methods",
+  "description": "Divide polynomials and use the factor and remainder theorems to factorise and solve cubic and quartic equations, then simplify algebraic fractions and split them into partial fractions.",
+  "estMinutes": 100,
+  "prerequisites": [
+    "quadratics-and-inequalities"
+  ],
+  "objectives": [
+    "Divide a cubic polynomial by a linear factor",
+    "Apply the factor theorem to identify linear factors of a polynomial",
+    "Apply the remainder theorem to find the remainder of a polynomial division without dividing",
+    "Factorise and solve cubic and simple quartic equations using the factor theorem",
+    "Simplify algebraic fractions by factorising and cancelling common factors",
+    "Split an algebraic fraction with distinct linear factors in the denominator into partial fractions"
+  ],
+  "tags": ["algebra", "polynomials", "factor-theorem", "remainder-theorem", "partial-fractions"],
+  "lessons": [
+    { "id": "division-and-theorems", "title": "Algebraic division and the factor and remainder theorems", "file": "01-division-and-theorems.md", "estMinutes": 35 },
+    { "id": "factorising-cubics", "title": "Factorising and solving cubic and quartic equations", "file": "02-factorising-cubics.md", "estMinutes": 35 },
+    { "id": "fractions-and-partial-fractions", "title": "Algebraic fractions and basic partial fractions", "file": "03-fractions-and-partial-fractions.md", "estMinutes": 30 }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

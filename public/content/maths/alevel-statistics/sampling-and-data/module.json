@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "id": "sampling-and-data",
+  "title": "Sampling and Data",
+  "description": "How to collect representative samples, classify data, and summarise a data set using measures of location, spread and outliers.",
+  "estMinutes": 100,
+  "prerequisites": [],
+  "objectives": [
+    "Describe and compare sampling methods: simple random, stratified, systematic, opportunity and quota sampling",
+    "Classify data as qualitative or quantitative, and as discrete, continuous or categorical",
+    "Calculate the mean, median and mode from raw data and from a frequency table",
+    "Calculate the range, interquartile range, variance and standard deviation of a data set",
+    "Identify outliers using the 1.5 x IQR rule and interpret a box plot"
+  ],
+  "tags": ["statistics", "sampling", "data", "averages", "spread", "outliers", "box-plot"],
+  "lessons": [
+    {
+      "id": "sampling-methods",
+      "title": "Sampling methods",
+      "file": "01-sampling-methods.md",
+      "estMinutes": 30
+    },
+    {
+      "id": "types-of-data",
+      "title": "Types of data",
+      "file": "02-types-of-data.md",
+      "estMinutes": 15
+    },
+    {
+      "id": "averages-and-spread",
+      "title": "Measures of location and spread",
+      "file": "03-averages-and-spread.md",
+      "estMinutes": 35
+    },
+    {
+      "id": "outliers-and-boxplots",
+      "title": "Outliers and box plots",
+      "file": "04-outliers-and-boxplots.md",
+      "estMinutes": 20
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

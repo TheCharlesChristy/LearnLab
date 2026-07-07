@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "ethics-and-safety",
+  "title": "AI Ethics and Safety",
+  "description": "The capstone of AI Foundations: how AI systems can encode bias, threaten privacy, resist explanation, enable misuse, and raise open questions of accountability and long-term safety.",
+  "estMinutes": 75,
+  "prerequisites": [
+    "ml-concepts-data-and-evaluation",
+    "modern-ai-transformers-and-llms"
+  ],
+  "objectives": [
+    "Explain how a model trained on biased or unrepresentative data can reproduce and amplify that bias, using a concrete hiring-screening example",
+    "Describe the privacy risks of models trained on personal data, including memorisation and inference of sensitive information",
+    "Explain the black-box problem and why explainability matters for high-stakes decisions such as medical diagnosis and loan approval",
+    "Identify potential misuses of generative AI, such as deepfakes and automated misinformation at scale",
+    "Discuss who can reasonably bear responsibility when an AI system causes harm",
+    "Give a balanced overview of AI safety and alignment concerns for more capable future systems"
+  ],
+  "tags": ["ai", "ethics", "bias", "privacy", "explainability", "alignment", "safety", "accountability"],
+  "lessons": [
+    { "id": "bias-in-training-data", "title": "Bias in training data", "file": "01-bias-in-training-data.md", "estMinutes": 25 },
+    { "id": "privacy-and-the-black-box-problem", "title": "Privacy and the black-box problem", "file": "02-privacy-and-the-black-box-problem.md", "estMinutes": 25 },
+    { "id": "misuse-accountability-and-safety", "title": "Misuse, accountability and AI safety", "file": "03-misuse-accountability-and-safety.md", "estMinutes": 25 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}

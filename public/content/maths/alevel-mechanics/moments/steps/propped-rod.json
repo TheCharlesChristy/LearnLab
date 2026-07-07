@@ -1,0 +1,24 @@
+{
+  "steps": [
+    {
+      "title": "Set up the problem",
+      "body": "A uniform rod $AB$ of length $4\\,\\text{m}$ and weight $50\\,\\text{N}$ is smoothly hinged to a wall at end $A$ and held horizontal by a vertical prop force $P$ applied at end $B$. Find $P$."
+    },
+    {
+      "title": "Locate the centre of mass",
+      "body": "The rod is uniform, so its weight of $50\\,\\text{N}$ acts vertically downward at its midpoint — a distance $\\dfrac{4}{2} = 2\\,\\text{m}$ from $A$ (and also $2\\,\\text{m}$ from $B$)."
+    },
+    {
+      "title": "Choose a pivot to eliminate the unknown hinge force",
+      "body": "The hinge at $A$ exerts an unknown reaction force on the rod. Taking moments **about $A$** makes that reaction's perpendicular distance zero, so it drops out of the equation — leaving only $P$ and the weight."
+    },
+    {
+      "title": "Apply the principle of moments about A",
+      "body": "Clockwise moment (the weight, at $2\\,\\text{m}$) must equal the anticlockwise moment (the prop force $P$, at $4\\,\\text{m}$):\n\n$$\nP \\times 4 = 50 \\times 2.\n$$"
+    },
+    {
+      "title": "Solve for P",
+      "body": "$$\nP = \\frac{50 \\times 2}{4} = \\frac{100}{4} = 25\\,\\text{N}.\n$$\n\nThe prop must supply an upward force of $25\\,\\text{N}$ to hold the rod horizontal."
+    }
+  ]
+}

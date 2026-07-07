@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "friction-and-connected-particles",
+  "title": "Friction and Connected Particles",
+  "description": "Model friction as a resistive force with the F ≤ μN law, apply F = ma to particles decelerating on rough horizontal and inclined surfaces, and analyse systems of connected particles linked by a light inextensible string over a pulley.",
+  "estMinutes": 75,
+  "prerequisites": [
+    "forces-and-newtons-laws"
+  ],
+  "objectives": [
+    "Explain friction as a resistive force opposing relative motion or the tendency to move",
+    "Apply the limiting friction relation F ≤ μN, with F = μN at the point of slipping",
+    "Apply F = ma to particles decelerating due to friction on horizontal and inclined surfaces",
+    "Set up F = ma for each particle in a system connected by a light inextensible string over a pulley",
+    "Solve simultaneous equations of motion using a common tension T and common acceleration magnitude a"
+  ],
+  "tags": ["mechanics", "friction", "coefficient-of-friction", "connected-particles", "pulley", "newtons-laws"],
+  "lessons": [
+    {
+      "id": "friction-and-limiting-equilibrium",
+      "title": "Friction and the F ≤ μN model",
+      "file": "01-friction-and-limiting-equilibrium.md",
+      "estMinutes": 25
+    },
+    {
+      "id": "newtons-second-law-with-friction",
+      "title": "F = ma with friction on horizontal and inclined surfaces",
+      "file": "02-newtons-second-law-with-friction.md",
+      "estMinutes": 25
+    },
+    {
+      "id": "connected-particles-and-pulleys",
+      "title": "Connected particles: strings, pulleys and simultaneous equations",
+      "file": "03-connected-particles-and-pulleys.md",
+      "estMinutes": 25
+    }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["learnlab"]
+}

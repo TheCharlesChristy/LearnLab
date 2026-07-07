@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "id": "operating-systems-and-software-assessment",
+  "title": "End of module: Operating Systems and Software",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Which of these is **not** one of the operating system's core functions?",
+      "choices": [
+        "Managing hardware resources",
+        "Providing a user interface",
+        "Running and managing processes",
+        "Compiling source code into an executable"
+      ],
+      "answer": 3,
+      "explanation": "Compiling source code is done by a compiler, which is systems software in its own right, but it is not one of the OS's own core jobs. The OS manages hardware, provides the user interface, and runs/manages processes."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "A process that is waiting for a slow disk read to finish is in which state?",
+      "choices": ["Running", "Ready", "Waiting / blocked", "Terminated"],
+      "answer": 2,
+      "explanation": "A process that cannot proceed until an external event (like an I/O operation) completes is *waiting* (blocked); it only returns to *ready* once that event finishes."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "Three processes $P_1, P_2, P_3$ arrive together with burst times 10, 4 and 6 respectively, and are run with round-robin scheduling using a time slice of 4. What is $P_2$'s waiting time?",
+      "answer": 4,
+      "tolerance": 0,
+      "explanation": "$P_2$ needs only one turn (burst 4 ≤ slice 4), running from $t=4$ to $t=8$, so it finishes at $t=8$. Waiting time = finish − burst = $8 - 4 = 4$."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "Using the same scenario (burst times $P_1=10$, $P_2=4$, $P_3=6$, time slice 4), at what time does $P_3$ complete?",
+      "answer": 18,
+      "tolerance": 0,
+      "explanation": "Tracing the queue: $P_1$ runs 0–4 (6 left), $P_2$ runs 4–8 (done), $P_3$ runs 8–12 (2 left), $P_1$ runs 12–16 (2 left), $P_3$ runs 16–18 (done). $P_3$ finishes at $t=18$."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "In the same scenario, what is $P_1$'s turnaround time (finish time, since all processes arrive at $t=0$)?",
+      "answer": 20,
+      "tolerance": 0,
+      "explanation": "$P_1$ needs three turns of the queue (10 = 4 + 4 + 2): it runs 0–4, 12–16, then 18–20, finishing at $t=20$. Since it arrived at $t=0$, its turnaround time equals its finish time, 20."
+    },
+    {
+      "id": "q6",
+      "type": "text",
+      "text": "In round-robin scheduling, what do we call the fixed maximum amount of CPU time a process may use before the OS pre-empts it? (One or two words.)",
+      "accept": ["time slice", "quantum", "time quantum"],
+      "caseSensitive": false,
+      "explanation": "This is called the **time slice** (or **quantum**) — the fixed period each process is allowed to run before being pre-empted and sent to the back of the ready queue."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "In paged memory management, physical (main) memory is divided into fixed-size blocks called…",
+      "choices": ["Pages", "Frames", "Segments", "Sectors"],
+      "answer": 1,
+      "explanation": "Physical memory is divided into fixed-size **frames**; a process's logical memory is divided into equal-size **pages**, and the page table maps each page to the frame currently holding it."
+    },
+    {
+      "id": "q8",
+      "type": "multi",
+      "text": "Which of these are advantages of paging over segmentation?",
+      "choices": [
+        "No external fragmentation, because every block is the same size",
+        "Matches the logical structure of a program (e.g. separate code/data/stack segments)",
+        "Simple allocation, since any free frame can hold any page",
+        "Each unit can grow independently without affecting the others"
+      ],
+      "answers": [0, 2],
+      "explanation": "Because every frame is the same fixed size, paging has no external fragmentation and allocation is simple (any free frame will do). Matching a program's logical structure and letting units grow independently are advantages of **segmentation**, not paging."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "What does virtual memory allow a computer to do?",
+      "choices": [
+        "Run only as much software as fits in physical RAM at once",
+        "Run programs whose total memory demand is larger than physical RAM, by using disk as an extension of RAM",
+        "Permanently store user files without needing a hard disk",
+        "Increase the CPU's clock speed"
+      ],
+      "answer": 1,
+      "explanation": "Virtual memory uses disk storage (via paging or segmentation) to give processes the illusion of more memory than is physically installed, swapping data in and out of RAM as needed."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "Which of these is an example of **utility** software?",
+      "choices": ["A word processor", "A disk defragmenter", "A web browser", "A photo-editing app"],
+      "answer": 1,
+      "explanation": "A disk defragmenter performs a specific maintenance task on the computer itself, which is exactly what utility software does. The other options are all application software — they help the user complete a real-world task unrelated to computer upkeep."
+    },
+    {
+      "id": "q11",
+      "type": "multi",
+      "text": "Which of the following are examples of **systems** software?",
+      "choices": ["Operating system", "Device driver", "Spreadsheet application", "Compiler"],
+      "answers": [0, 1, 3],
+      "explanation": "The operating system, device drivers and compilers all manage the computer or provide a platform for other software to run on, so they are systems software. A spreadsheet application is application software — it performs a real-world task for the user."
+    },
+    {
+      "id": "q12",
+      "type": "mcq",
+      "text": "What is an interrupt?",
+      "choices": [
+        "A signal that tells the CPU to immediately restart the computer",
+        "A signal that causes the processor to pause its current instruction stream and deal with a more urgent event",
+        "A permanent stop to a process that can never be resumed",
+        "A signal that can only be generated by application software"
+      ],
+      "answer": 1,
+      "explanation": "An interrupt is a signal (from hardware or software) telling the processor to pause what it is doing and transfer control to an interrupt service routine, before resuming exactly where it left off."
+    },
+    {
+      "id": "q13",
+      "type": "text",
+      "text": "During the fetch-decode-execute cycle, the processor checks whether an interrupt is waiting at the ___ of each cycle (write one word).",
+      "accept": ["end"],
+      "caseSensitive": false,
+      "explanation": "The check happens at the **end** of each fetch-decode-execute cycle, once the current instruction has finished executing and before the next instruction is fetched."
+    }
+  ]
+}

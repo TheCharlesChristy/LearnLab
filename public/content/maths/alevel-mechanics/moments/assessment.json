@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "id": "moments-assessment",
+  "title": "End of module: Moments and Equilibrium of Rigid Bodies",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "A force of $F = 15\\,\\text{N}$ acts perpendicular to a lever at a distance $d = 0.6\\,\\text{m}$ from the pivot. Find the moment of the force about the pivot.",
+      "answer": 9,
+      "tolerance": 0.01,
+      "unit": "N m",
+      "explanation": "$\\text{moment} = F \\times d = 15 \\times 0.6 = 9\\,\\text{N}\\,\\text{m}$."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "A force of $40\\,\\text{N}$ is applied perpendicular to a spanner at a perpendicular distance of $0.25\\,\\text{m}$ from a nut. Find the moment of the force about the nut.",
+      "answer": 10,
+      "tolerance": 0.01,
+      "unit": "N m",
+      "explanation": "$\\text{moment} = F \\times d = 40 \\times 0.25 = 10\\,\\text{N}\\,\\text{m}$."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "What is the SI unit of the moment of a force?",
+      "choices": ["Newtons (N)", "Newton metres (N m)", "Newtons per metre (N/m)", "Joules (J)"],
+      "answer": 1,
+      "explanation": "Moment is force multiplied by perpendicular distance, so its unit is the newton metre, $\\text{N}\\,\\text{m}$. (Note this is dimensionally the same combination as the joule, but moments are not energies, so N m — not J — is used.)"
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "A seesaw is pivoted at its centre. Child A weighs $300\\,\\text{N}$ and sits $1.5\\,\\text{m}$ from the pivot. Child B sits $2.5\\,\\text{m}$ from the pivot on the other side. What must child B's weight be for the seesaw to balance?",
+      "answer": 180,
+      "tolerance": 0.5,
+      "unit": "N",
+      "explanation": "By the principle of moments, clockwise moment = anticlockwise moment: $300 \\times 1.5 = W_B \\times 2.5$, so $W_B = \\dfrac{450}{2.5} = 180\\,\\text{N}$."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "A uniform rod of length $3\\,\\text{m}$ and weight $60\\,\\text{N}$ is hinged at one end and held horizontal by a vertical force $F$ applied at the other end. Find $F$.",
+      "answer": 30,
+      "tolerance": 0.5,
+      "unit": "N",
+      "explanation": "The rod is uniform, so its weight acts at its midpoint, $1.5\\,\\text{m}$ from the hinge. Taking moments about the hinge: $F \\times 3 = 60 \\times 1.5 = 90$, so $F = \\dfrac{90}{3} = 30\\,\\text{N}$."
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "text": "For a uniform rod, where does its weight act when modelling moments?",
+      "choices": ["At the end nearest any applied load", "At the midpoint of the rod", "At the pivot", "Weight is spread out and cannot be modelled as a single force"],
+      "answer": 1,
+      "explanation": "A uniform rod has constant mass per unit length, so its centre of mass — and hence the single point through which its weight acts — is at its midpoint."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "A uniform beam $AB$ of length $5\\,\\text{m}$ and weight $100\\,\\text{N}$ rests on supports at $A$ ($x=0$) and $B$ ($x=5$). An additional load of $50\\,\\text{N}$ is placed at $x = 4\\,\\text{m}$ from $A$. Find the reaction at $A$.",
+      "answer": 60,
+      "tolerance": 0.5,
+      "unit": "N",
+      "explanation": "Taking moments about $B$ (distance $5\\,\\text{m}$ away) eliminates the reaction at $B$: the beam's weight acts at its midpoint, $2.5\\,\\text{m}$ from $A$, i.e. $5-2.5=2.5\\,\\text{m}$ from $B$; the load is $5-4=1\\,\\text{m}$ from $B$. So $R_A \\times 5 = 100 \\times 2.5 + 50 \\times 1 = 250 + 50 = 300$, giving $R_A = \\dfrac{300}{5} = 60\\,\\text{N}$."
+    },
+    {
+      "id": "q8",
+      "type": "mcq",
+      "text": "Which statement correctly gives the principle of moments for a rigid body in equilibrium?",
+      "choices": [
+        "The sum of all forces acting on the body is zero",
+        "The sum of clockwise moments about any point equals the sum of anticlockwise moments about that same point",
+        "The moment about the centre of mass is always greater than the moment about any other point",
+        "Moments only need to balance about the body's actual physical pivot or hinge"
+      ],
+      "answer": 1,
+      "explanation": "The principle of moments states that for a body in equilibrium, the sum of clockwise moments about any chosen point equals the sum of anticlockwise moments about that same point — and this holds for every choice of point, not only a physical hinge."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "A uniform ladder of weight $200\\,\\text{N}$ and length $5\\,\\text{m}$ rests with its foot on rough ground, $3\\,\\text{m}$ horizontally from a smooth vertical wall, and its top touching the wall $4\\,\\text{m}$ above the ground. Find the normal reaction from the wall, $N_B$.",
+      "answer": 75,
+      "tolerance": 1,
+      "unit": "N",
+      "explanation": "The weight acts at the midpoint, a horizontal distance $1.5\\,\\text{m}$ from the foot; the wall's horizontal force $N_B$ acts at height $4\\,\\text{m}$. Taking moments about the foot: $N_B \\times 4 = 200 \\times 1.5 = 300$, so $N_B = \\dfrac{300}{4} = 75\\,\\text{N}$."
+    },
+    {
+      "id": "q10",
+      "type": "numeric",
+      "text": "For the same ladder as the previous question ($N_B = 75\\,\\text{N}$, weight $200\\,\\text{N}$, smooth wall), find the minimum coefficient of friction $\\mu$ between the ladder and the ground needed to prevent slipping.",
+      "answer": 0.375,
+      "tolerance": 0.01,
+      "explanation": "Vertical equilibrium gives $N_A = W = 200\\,\\text{N}$ (the smooth wall contributes no vertical force). Horizontal equilibrium gives $F_A = N_B = 75\\,\\text{N}$. Equilibrium requires $F_A \\le \\mu N_A$, so $\\mu \\ge \\dfrac{75}{200} = 0.375$."
+    },
+    {
+      "id": "q11",
+      "type": "numeric",
+      "text": "A moment of $18\\,\\text{N}\\,\\text{m}$ is required to loosen a nut. If a mechanic can apply at most $60\\,\\text{N}$ of force perpendicular to a spanner, find the minimum perpendicular distance from the nut at which the force must be applied.",
+      "answer": 0.3,
+      "tolerance": 0.01,
+      "unit": "m",
+      "explanation": "Rearranging $\\text{moment} = F \\times d$ for $d$: $d = \\dfrac{\\text{moment}}{F} = \\dfrac{18}{60} = 0.3\\,\\text{m}$."
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "id": "measurements-and-uncertainty-assessment",
+  "title": "End of module: Measurements and Uncertainty",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "Round $0.004205$ to 2 significant figures.",
+      "answer": 0.0042,
+      "tolerance": 0.0001,
+      "explanation": "The first significant figure is the $4$ (leading zeros never count); the second is the $2$. The following digit is $0$, so we round down: $0.004205 \\approx 0.0042$ (2 s.f.)."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "A length is measured as $12.4\\,\\text{cm}$ with a ruler marked in millimetres, giving an absolute uncertainty of $\\pm 0.05\\,\\text{cm}$. What is the percentage uncertainty, to 3 significant figures?",
+      "answer": 0.403,
+      "tolerance": 0.01,
+      "unit": "%",
+      "explanation": "$\\%\\Delta x = \\dfrac{\\Delta x}{x}\\times 100 = \\dfrac{0.05}{12.4}\\times 100 = 0.403\\%$ (3 s.f.)."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "Two lengths are measured as $a = 12.4 \\pm 0.1\\,\\text{cm}$ and $b = 5.2 \\pm 0.1\\,\\text{cm}$. Find the absolute uncertainty in $a - b$.",
+      "answer": 0.2,
+      "tolerance": 0.001,
+      "unit": "cm",
+      "explanation": "For a sum or difference, absolute uncertainties add regardless of the sign of the operation: $\\Delta(a-b) = \\Delta a + \\Delta b = 0.1 + 0.1 = 0.2\\,\\text{cm}$."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "A rectangle has length $l = 8.0 \\pm 0.2\\,\\text{cm}$ and width $w = 5.0 \\pm 0.1\\,\\text{cm}$. Find the percentage uncertainty in its area, $l \\times w$.",
+      "answer": 4.5,
+      "tolerance": 0.01,
+      "unit": "%",
+      "explanation": "For a product, percentage uncertainties add: $\\%\\Delta l = \\dfrac{0.2}{8.0}\\times100 = 2.5\\%$ and $\\%\\Delta w = \\dfrac{0.1}{5.0}\\times100 = 2.0\\%$, so $\\%\\Delta(\\text{area}) = 2.5\\% + 2.0\\% = 4.5\\%$."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "Using the rectangle from the previous question ($l = 8.0 \\pm 0.2\\,\\text{cm}$, $w = 5.0 \\pm 0.1\\,\\text{cm}$, percentage uncertainty in the area $= 4.5\\%$), find the absolute uncertainty in the area.",
+      "answer": 1.8,
+      "tolerance": 0.02,
+      "unit": "cm^2",
+      "explanation": "The area is $A = 8.0 \\times 5.0 = 40.0\\,\\text{cm}^2$. Converting the $4.5\\%$ uncertainty back to an absolute value: $\\Delta A = 0.045 \\times 40.0 = 1.8\\,\\text{cm}^2$."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "A sphere's radius is measured as $r = 3.0 \\pm 0.1\\,\\text{cm}$. Its volume is $V = \\tfrac{4}{3}\\pi r^3$. Find the percentage uncertainty in $V$.",
+      "answer": 10.0,
+      "tolerance": 0.1,
+      "unit": "%",
+      "explanation": "For a power, the percentage uncertainty is multiplied by the power: $\\%\\Delta r = \\dfrac{0.1}{3.0}\\times100 = 3.33\\%$, so $\\%\\Delta V = 3 \\times 3.33\\% = 10.0\\%$. The exact constant $\\tfrac{4}{3}\\pi$ contributes no uncertainty."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "Using the sphere from the previous question ($r = 3.0 \\pm 0.1\\,\\text{cm}$, percentage uncertainty in $V$ is $10.0\\%$), find the absolute uncertainty in the volume $V = \\tfrac{4}{3}\\pi r^3$, to 3 significant figures.",
+      "answer": 11.3,
+      "tolerance": 0.2,
+      "unit": "cm^3",
+      "explanation": "$V = \\tfrac{4}{3}\\pi (3.0)^3 = 36\\pi = 113\\,\\text{cm}^3$ (3 s.f.). Then $\\Delta V = 10.0\\% \\times 113 = 11.3\\,\\text{cm}^3$ (3 s.f.)."
+    },
+    {
+      "id": "q8",
+      "type": "mcq",
+      "text": "A voltmeter has a zero-offset fault, so every reading it gives is $0.2\\,\\text{V}$ higher than the true voltage. This is an example of…",
+      "choices": ["a random error", "a systematic error", "a rounding error only", "not a real error, since it is small"],
+      "answer": 1,
+      "explanation": "The reading is shifted by the same amount, in the same direction, every single time — the defining feature of a systematic error. Averaging repeat readings would not remove it."
+    },
+    {
+      "id": "q9",
+      "type": "multi",
+      "text": "Which of the following are effective ways to reduce the effect of **random** error in a measurement?",
+      "choices": [
+        "Taking several readings of the same quantity and averaging them",
+        "Recalibrating the instrument against a known standard before use",
+        "Using an instrument with a finer scale (smaller divisions)",
+        "Checking the instrument reads zero before taking any measurements (zero-error correction)"
+      ],
+      "answers": [0, 2],
+      "explanation": "Averaging repeated readings lets random scatter above and below the true value partially cancel, and a finer scale reduces the random error introduced by reading resolution. Recalibration and zero-error correction remove a *systematic* offset — they do nothing to reduce random scatter."
+    },
+    {
+      "id": "q10",
+      "type": "text",
+      "text": "An experimenter always views a scale from the same off-centre angle, so every reading is shifted the same way by parallax. What type of error is this?",
+      "accept": ["(a |an )?systematic( error)?"],
+      "caseSensitive": false,
+      "explanation": "Because the shift is consistent in size and direction every time, this is a **systematic error**, even though its cause (parallax) is a viewing habit rather than an instrument fault."
+    },
+    {
+      "id": "q11",
+      "type": "mcq",
+      "text": "When two measured quantities are multiplied or divided, how should their uncertainties be combined?",
+      "choices": [
+        "Add the absolute uncertainties",
+        "Add the percentage (or fractional) uncertainties",
+        "Multiply the percentage uncertainties together",
+        "Take whichever absolute uncertainty is larger"
+      ],
+      "answer": 1,
+      "explanation": "For a product or quotient, percentage (or equivalently fractional) uncertainties add: $\\%\\Delta(ab) = \\%\\Delta a + \\%\\Delta b$."
+    },
+    {
+      "id": "q12",
+      "type": "numeric",
+      "text": "A best-fit line through a set of graph data has gradient $2.4$. The steepest line that still passes through every error bar has gradient $2.7$, and the shallowest such line has gradient $2.1$. Using the max/min gradient method, find the uncertainty in the gradient.",
+      "answer": 0.3,
+      "tolerance": 0.01,
+      "explanation": "The uncertainty is half the spread between the extreme gradients: $\\Delta g = \\dfrac{g_{\\max}-g_{\\min}}{2} = \\dfrac{2.7-2.1}{2} = \\dfrac{0.6}{2} = 0.3$."
+    }
+  ]
+}

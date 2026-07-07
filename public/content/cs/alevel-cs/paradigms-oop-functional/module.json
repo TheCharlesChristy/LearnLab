@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "paradigms-oop-functional",
+  "title": "Programming Paradigms: OOP and Functional",
+  "description": "How procedural, object-oriented and functional programming approach the same problems differently, covering classes, inheritance, polymorphism, pure functions, recursion and higher-order functions.",
+  "estMinutes": 100,
+  "prerequisites": [
+    "programming-fundamentals"
+  ],
+  "objectives": [
+    "Compare procedural, object-oriented and functional paradigms and explain what kinds of problem each suits",
+    "Define a class with attributes, methods and an `__init__` constructor, and explain encapsulation",
+    "Use inheritance to extend a superclass and override a method, and explain polymorphism",
+    "Write a pure function and explain why immutability and no side effects make code easier to reason about",
+    "Write a recursive function with a correct base case and recursive case, and trace its call stack",
+    "Use higher-order functions such as `map` and `filter` to process data without explicit loops"
+  ],
+  "tags": ["oop", "functional-programming", "classes", "inheritance", "polymorphism", "recursion", "higher-order-functions", "paradigms"],
+  "lessons": [
+    { "id": "paradigms-and-oop-basics", "title": "Paradigms overview and OOP basics", "file": "01-paradigms-and-oop-basics.md", "estMinutes": 35 },
+    { "id": "inheritance-and-polymorphism", "title": "Inheritance and polymorphism", "file": "02-inheritance-and-polymorphism.md", "estMinutes": 30 },
+    { "id": "functional-programming", "title": "Functional programming", "file": "03-functional-programming.md", "estMinutes": 35 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}
