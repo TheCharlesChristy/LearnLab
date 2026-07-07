@@ -1082,7 +1082,7 @@ Every shipped module SHALL contain: ◆ ≥ 3 lessons; ◆ ≥ 1 interactive ite
 
 ### 10.2 Single-point configuration
 
-`src/config.ts` SHALL export: `APP_NAME = 'LearnLab'`, `REPO_NAME = 'learnlab'` (drives Vite `base: '/' + REPO_NAME + '/'` in CI builds; `'/'` locally), `PYODIDE_VERSION`, `PYODIDE_BASE_URL`. Renaming the app/repo touches only this file plus `package.json`.
+`src/config.ts` SHALL export: `APP_NAME = 'LearnLab'`, `REPO_NAME = 'LearnLab'` (drives Vite `base: '/' + REPO_NAME + '/'` in CI builds; `'/'` locally), `PYODIDE_VERSION`, `PYODIDE_BASE_URL`. Renaming the app/repo touches only this file plus `package.json`.
 
 ### 10.3 GitHub Actions
 

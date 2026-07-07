@@ -24,8 +24,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     env:
-      # SRS §10.2: project-site base path for Pages builds.
-      BASE: /learnlab/
+      # SRS §10.2: project-site base path for Pages builds. GitHub Pages
+      # project-site paths preserve the repo name's exact case, so this
+      # must match the repo name casing exactly ("LearnLab", not "learnlab")
+      # or every asset request 404s while index.html itself still loads.
+      BASE: /LearnLab/
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
