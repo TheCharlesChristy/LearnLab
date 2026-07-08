@@ -439,15 +439,27 @@ function Construction({ scene, width, height }: { scene: Scene; width: number; h
 
   return (
     <div className="my-4">
-      <div style={{ position: 'relative', width, height }} className="mx-auto">
+      {/* Mobile fix: the requested width/height are a pixel BUDGET (and the
+          coordinate space for viewBox / the point math above), not a literal
+          rendered size — a fixed-pixel box wider than the viewport (this
+          widget's default is 480) previously blew out the page on a narrow
+          screen. `width: 100%` + `maxWidth` + `aspectRatio` let the box
+          shrink to fit while staying uniformly scaled (no distortion); the
+          draggable-handle buttons below are positioned in % of this same
+          box, so they track the SVG's rendered points at any size — the
+          existing `fromClientCoords` pointer math already reads the SVG's
+          *actual* rendered rect via getBoundingClientRect, so it needed no
+          change. */}
+      <div
+        style={{ width: '100%', maxWidth: width, aspectRatio: `${width} / ${height}` }}
+        className="relative mx-auto"
+      >
         <svg
           ref={svgRef}
           viewBox={`0 0 ${width} ${height}`}
-          width={width}
-          height={height}
           role="img"
           aria-label="Geometry construction"
-          className="block rounded border border-zinc-300 bg-white"
+          className="block h-full w-full rounded border border-zinc-300 bg-white"
         >
           {scene.lines.map((line, i) => {
             const p1 = positions[line.from];
@@ -544,8 +556,11 @@ function Construction({ scene, width, height }: { scene: Scene; width: number; h
               onBlur={() => setFocusedId((cur) => (cur === p.id ? null : cur))}
               style={{
                 position: 'absolute',
-                left: px,
-                top: py,
+                // % of the box, not raw viewBox units, so the handle tracks
+                // the SVG's rendered point regardless of how much the
+                // responsive box above has scaled it down.
+                left: `${(px / width) * 100}%`,
+                top: `${(py / height) * 100}%`,
                 width: 22,
                 height: 22,
                 transform: 'translate(-50%, -50%)',
