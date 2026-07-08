@@ -3,6 +3,7 @@
 // FR-PROG-005 (erase), NFR-MAINT-002 (version compatibility rule).
 
 import { db } from './db';
+import type { EngagementState } from './engagement-types';
 import type {
   Attempt,
   ItemState,
@@ -18,26 +19,28 @@ export interface ImportSummary {
   skipped: number;
 }
 
-/** Snapshot all six tables into the §5.5 / FR-PROG-003 export shape (D-021: v2 adds reviewState). */
+/** Snapshot all tables into the §5.5 / FR-PROG-003 export shape (D-021: v2 adds reviewState; D-027: v3 adds engagement). */
 export async function exportProgress(): Promise<ProgressExport> {
-  const [moduleState, lessonProgress, attempts, itemState, kv, reviewState] = await db.transaction(
-    'r',
-    [db.moduleState, db.lessonProgress, db.attempts, db.itemState, db.kv, db.reviewState],
-    () =>
-      Promise.all([
-        db.moduleState.toArray(),
-        db.lessonProgress.toArray(),
-        db.attempts.toArray(),
-        db.itemState.toArray(),
-        db.kv.toArray(),
-        db.reviewState.toArray(),
-      ]),
-  );
+  const [moduleState, lessonProgress, attempts, itemState, kv, reviewState, engagement] =
+    await db.transaction(
+      'r',
+      [db.moduleState, db.lessonProgress, db.attempts, db.itemState, db.kv, db.reviewState, db.engagement],
+      () =>
+        Promise.all([
+          db.moduleState.toArray(),
+          db.lessonProgress.toArray(),
+          db.attempts.toArray(),
+          db.itemState.toArray(),
+          db.kv.toArray(),
+          db.reviewState.toArray(),
+          db.engagement.toArray(),
+        ]),
+    );
   return {
     app: 'learnlab',
-    exportVersion: 2,
+    exportVersion: 3,
     exportedAt: new Date().toISOString(),
-    tables: { moduleState, lessonProgress, attempts, itemState, kv, reviewState },
+    tables: { moduleState, lessonProgress, attempts, itemState, kv, reviewState, engagement },
   };
 }
 
@@ -137,11 +140,26 @@ function isReviewState(v: unknown): v is ReviewState {
   );
 }
 
+function isEngagementState(v: unknown): v is EngagementState {
+  return (
+    isRecord(v) &&
+    v.id === 'me' &&
+    typeof v.points === 'number' &&
+    typeof v.currentStreak === 'number' &&
+    typeof v.longestStreak === 'number' &&
+    typeof v.lastActiveDateKey === 'string' &&
+    Array.isArray(v.unlockedAchievements) &&
+    v.unlockedAchievements.every((a) => typeof a === 'string') &&
+    typeof v.updatedAt === 'number'
+  );
+}
+
 /**
  * Validate an unknown parsed JSON value as a ProgressExport. Throws an Error
- * with a human-readable reason on any problem; touches nothing. D-021
- * (NFR-MAINT-002): version 1 files (no `reviewState` table) are accepted —
- * they simply import with an empty review queue, since v1 predates it.
+ * with a human-readable reason on any problem; touches nothing. D-021/D-027
+ * (NFR-MAINT-002): version 1 files (no `reviewState`) and version 1/2 files
+ * (no `engagement`) are accepted — they simply import with an empty review
+ * queue / zeroed engagement, since those versions predate those tables.
  */
 function validateExport(data: unknown): ProgressExport {
   if (!isRecord(data)) {
@@ -154,15 +172,15 @@ function validateExport(data: unknown): ProgressExport {
   if (typeof version !== 'number') {
     throw new Error('Import rejected: missing or invalid exportVersion.');
   }
-  if (version > 2) {
+  if (version > 3) {
     // NFR-MAINT-002: fail loudly and actionably on unknown newer versions.
     throw new Error(
       `Import rejected: this file was exported by a newer version of LearnLab ` +
-        `(exportVersion ${version}, this app understands up to version 2). ` +
+        `(exportVersion ${version}, this app understands up to version 3). ` +
         `Update LearnLab and try again.`,
     );
   }
-  if (version !== 1 && version !== 2) {
+  if (version !== 1 && version !== 2 && version !== 3) {
     throw new Error(`Import rejected: unsupported exportVersion ${version}.`);
   }
   const tables = data.tables;
@@ -188,7 +206,7 @@ function validateExport(data: unknown): ProgressExport {
     }
   }
   // reviewState: absent entirely on v1 files (backfilled to []); when present
-  // (v2), every row must be well-formed.
+  // (v2+), every row must be well-formed.
   let reviewState: ReviewState[] = [];
   if ('reviewState' in tables) {
     const rows = tables.reviewState;
@@ -202,7 +220,25 @@ function validateExport(data: unknown): ProgressExport {
     }
     reviewState = rows as ReviewState[];
   }
-  return { ...(data as object), tables: { ...tables, reviewState } } as unknown as ProgressExport;
+  // engagement: absent entirely on v1/v2 files (backfilled to []); when
+  // present (v3), every row must be well-formed.
+  let engagement: EngagementState[] = [];
+  if ('engagement' in tables) {
+    const rows = tables.engagement;
+    if (!Array.isArray(rows)) {
+      throw new Error('Import rejected: tables.engagement is not an array.');
+    }
+    for (let i = 0; i < rows.length; i++) {
+      if (!isEngagementState(rows[i])) {
+        throw new Error(`Import rejected: tables.engagement[${i}] is malformed.`);
+      }
+    }
+    engagement = rows as EngagementState[];
+  }
+  return {
+    ...(data as object),
+    tables: { ...tables, reviewState, engagement },
+  } as unknown as ProgressExport;
 }
 
 /**
@@ -219,7 +255,7 @@ export async function importProgress(data: unknown): Promise<ImportSummary> {
 
   return db.transaction(
     'rw',
-    [db.moduleState, db.lessonProgress, db.attempts, db.itemState, db.kv, db.reviewState],
+    [db.moduleState, db.lessonProgress, db.attempts, db.itemState, db.kv, db.reviewState, db.engagement],
     async () => {
       let imported = 0;
       let skipped = 0;
@@ -268,6 +304,16 @@ export async function importProgress(data: unknown): Promise<ImportSummary> {
         const existing = await db.reviewState.get([incoming.moduleId, incoming.itemId]);
         if (!existing || incoming.updatedAt > existing.updatedAt) {
           await db.reviewState.put(incoming);
+          imported++;
+        } else {
+          skipped++;
+        }
+      }
+
+      for (const incoming of t.engagement) {
+        const existing = await db.engagement.get(incoming.id);
+        if (!existing || incoming.updatedAt > existing.updatedAt) {
+          await db.engagement.put(incoming);
           imported++;
         } else {
           skipped++;

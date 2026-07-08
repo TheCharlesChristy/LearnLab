@@ -9,6 +9,8 @@
 
 import Dexie, { type Table } from 'dexie';
 
+import { applyEngagementEvent, INITIAL_ENGAGEMENT_STATE } from './engagement';
+import type { Achievement, EngagementEvent, EngagementState } from './engagement-types';
 import { GRADE_QUALITY, INITIAL_SM2_STATE, MS_PER_DAY, sm2Step } from './srs';
 import type { ReviewGrade } from './srs';
 import type { Attempt, ItemState, KV, LessonProgress, ModuleState, ReviewState } from './types';
@@ -29,6 +31,7 @@ class LearnLabDB extends Dexie {
   itemState!: Table<ItemState, [string, string]>;
   kv!: Table<KV, string>;
   reviewState!: Table<ReviewState, [string, string]>;
+  engagement!: Table<EngagementState, string>;
 
   constructor() {
     super('learnlab');
@@ -46,6 +49,12 @@ class LearnLabDB extends Dexie {
     // Dexie's independent on-disk schema version counter.
     this.version(2).stores({
       reviewState: '[moduleId+itemId], dueAt',
+    });
+    // D-027: additive Dexie schema upgrade for the engagement (streaks/
+    // points/achievements) singleton row. Same non-normative-addition
+    // pattern as version 2 — see engagement-types.ts.
+    this.version(3).stores({
+      engagement: 'id',
     });
   }
 }
@@ -390,4 +399,44 @@ export async function seedReviewItem(moduleId: string, itemId: string): Promise<
 export async function dueReviewItems(now: number = Date.now()): Promise<ReviewState[]> {
   const rows = await db.reviewState.where('dueAt').belowOrEqual(now).toArray();
   return rows.sort((a, b) => a.dueAt - b.dueAt);
+}
+
+// ---------------------------------------------------------------------------
+// Engagement (streaks/points/achievements, D-027) — additive, non-normative
+// ---------------------------------------------------------------------------
+
+/**
+ * Apply one engagement event (lesson/quiz/deck/game completion): rolls the
+ * daily streak, adds points, and unlocks any newly-earned achievements — see
+ * ./engagement.ts for the pure rules. Never throws into the caller; on
+ * failure (like every other write here) it reports via onWriteError and
+ * resolves undefined, so a broken write never blocks the completion it rides
+ * alongside (marking a lesson/attempt complete always succeeds independently
+ * of this).
+ */
+export async function recordEngagementEvent(
+  event: EngagementEvent,
+): Promise<{ state: EngagementState; newlyUnlocked: Achievement[] } | undefined> {
+  return guardedWrite('recordEngagementEvent', () =>
+    db.transaction(
+      'rw',
+      [db.engagement, db.lessonProgress, db.moduleState],
+      async () => {
+        const prev = (await db.engagement.get('me')) ?? INITIAL_ENGAGEMENT_STATE;
+        // lessonProgress has no 'status' index (SRS §5.5 schema is fixed to
+        // version 1's strings) — filter() runs a full-table scan instead of
+        // requiring one, which is fine at this table's size.
+        const [totalLessonsCompleted, totalModulesCompleted] = await Promise.all([
+          db.lessonProgress.filter((r) => r.status === 'completed').count(),
+          db.moduleState.where('status').equals('completed').count(),
+        ]);
+        const result = applyEngagementEvent(prev, event, {
+          totalLessonsCompleted,
+          totalModulesCompleted,
+        });
+        await db.engagement.put(result.state);
+        return result;
+      },
+    ),
+  );
 }

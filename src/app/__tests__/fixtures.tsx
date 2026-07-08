@@ -149,6 +149,7 @@ export function progressMock() {
     touchLesson: vi.fn(async () => undefined),
     addLessonTime: vi.fn(async () => undefined),
     recordAttempt: vi.fn(async () => 1),
+    recordEngagementEvent: vi.fn(async () => undefined),
     getItemState: vi.fn(async () => null),
     setItemState: vi.fn(async () => undefined),
     recordReview: vi.fn(async () => undefined),

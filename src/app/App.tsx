@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { RouterProvider, createHashRouter } from 'react-router';
 
-import { ToastProvider } from '../ui';
+import { CelebrationLayer, ToastProvider } from '../ui';
 
 import { buildRoutes } from './router';
 import { ThemeProvider } from './theme';
@@ -15,6 +15,7 @@ export default function App() {
     <ThemeProvider>
       <ToastProvider>
         <RouterProvider router={router} />
+        <CelebrationLayer />
       </ToastProvider>
     </ThemeProvider>
   );

@@ -140,9 +140,20 @@ schemas in `docs/WIDGETS.md`) instead of describing them in prose or embedding a
 | A "try these practice problems" section | Questions in `assessment.json` (or an inline `::widget{type="quiz" src="..."}`) — see Step 5 |
 | A multi-step derivation the source shows all at once | `::widget{type="step-reveal" src="steps/....json"}` if you want the learner to reveal it one line at a time, rather than a reveal block if it should open all at once |
 | A key-terms glossary / vocabulary list | `::widget{type="flashcards" src="cards/....json"}` |
+| A term/definition matching exercise, or any paired-concepts list (term↔meaning, cause↔effect, symbol↔name) | `::widget{type="matching-pairs" src="cards/....json"}` — see `docs/WIDGETS.md` |
 | A circuit diagram (logic/boolean topics) | `::widget{type="logic-gate-sim" src="circuits/....json"}` |
 | "Try running this calculation yourself" | `::widget{type="code-runner" language="python" starter="..."}` |
 | A genuinely static diagram/photo with no data to plot | `::widget{type="figure" src="..." alt="..."}` (note: `figure` does **not** satisfy the MVC interactive-item requirement — see Step 5) |
+
+**Voice — LearnLab teaches through play, not just correct transcription.** A
+source textbook is usually written in a flat, formal register; don't carry
+that register over by default. Rewriting in your own words (required below,
+for copyright reasons too) is also your chance to write like you're
+explaining the idea to someone, not grading them — and to notice where the
+source describes something static that could become one of the interactive
+widgets in the table above instead. None of this loosens the copyright or
+verification rules that follow; a playful voice on a wrong or plagiarised
+fact is still a bug.
 
 **Copyright — read this before drafting.** Adapting a source's *structure and pedagogical
 approach* (how it sequences ideas, which examples it emphasises, the shape of its explanations)

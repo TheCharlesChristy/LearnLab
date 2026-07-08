@@ -10,6 +10,7 @@ import {
   getItemState,
   markLessonComplete,
   recordAttempt,
+  recordEngagementEvent,
   recordReview,
   requestPersistentStorage,
   seedReviewItem,
@@ -19,7 +20,8 @@ import {
   useModuleState,
 } from '../../progress';
 import type { ModuleMeta } from '../../progress';
-import { Button, ProgressBar, Spinner } from '../../ui';
+import { Button, ProgressBar, Spinner, celebrate } from '../../ui';
+import { describeEngagementEvent } from '../engagement-copy';
 import { LessonContext, loadLessonMarkdown, moduleBaseUrl } from '../content-api';
 import type { LessonContextValue, ModuleLocation } from '../content-api';
 import { findModule } from '../content-api';
@@ -105,6 +107,9 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
       await markLessonComplete(moduleId, lessonId, meta);
       setCompletedNow(true);
       await requestPersistentStorage();
+      const event = { kind: 'lesson-complete' as const };
+      const result = await recordEngagementEvent(event);
+      if (result) celebrate({ message: describeEngagementEvent(event, result) });
     },
     [moduleId, lessonId, meta],
   );
@@ -144,6 +149,12 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
       setItemState: (itemId, state) => setItemState(moduleId, itemId, state),
       recordReview: (itemId, grade) => recordReview(moduleId, itemId, grade),
       seedReviewItem: (itemId) => seedReviewItem(moduleId, itemId),
+      notifyEngagement: (event) => {
+        void (async () => {
+          const result = await recordEngagementEvent(event);
+          if (result) celebrate({ message: describeEngagementEvent(event, result) });
+        })();
+      },
     }),
     [moduleId, coursePath, moduleRef.dir],
   );

@@ -25,6 +25,7 @@ function withLesson(children: ReactNode, moduleBaseUrl = '/content/modules/geo/'
     setItemState: async () => {},
     recordReview: async () => {},
     seedReviewItem: async () => {},
+    notifyEngagement: () => {},
   };
   return <LessonContext.Provider value={value}>{children}</LessonContext.Provider>;
 }

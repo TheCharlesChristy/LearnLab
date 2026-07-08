@@ -55,6 +55,7 @@ function renderWidget(
     setItemState: vi.fn().mockResolvedValue(undefined),
     recordReview: vi.fn().mockResolvedValue(undefined),
     seedReviewItem: vi.fn().mockResolvedValue(undefined),
+    notifyEngagement: vi.fn(),
   };
   return render(<LessonContext.Provider value={value}>{ui}</LessonContext.Provider>);
 }

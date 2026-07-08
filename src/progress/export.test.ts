@@ -7,10 +7,12 @@ import {
   kvSet,
   markLessonComplete,
   recordAttempt,
+  recordEngagementEvent,
   recordReview,
   setItemState,
   type ModuleMeta,
 } from './db';
+import type { EngagementState } from './engagement-types';
 import { downloadProgress, eraseAll, exportProgress, importProgress } from './export';
 import type {
   Attempt,
@@ -86,10 +88,23 @@ function reviewRow(over: Partial<ReviewState> = {}): ReviewState {
   };
 }
 
+function engagementRow(over: Partial<EngagementState> = {}): EngagementState {
+  return {
+    id: 'me',
+    points: 10,
+    currentStreak: 1,
+    longestStreak: 1,
+    lastActiveDateKey: '2026-01-01',
+    unlockedAchievements: ['first-lesson'],
+    updatedAt: 2000,
+    ...over,
+  };
+}
+
 function validExport(tables: Partial<ProgressExport['tables']> = {}): ProgressExport {
   return {
     app: 'learnlab',
-    exportVersion: 2,
+    exportVersion: 3,
     exportedAt: new Date().toISOString(),
     tables: {
       moduleState: [],
@@ -98,6 +113,7 @@ function validExport(tables: Partial<ProgressExport['tables']> = {}): ProgressEx
       itemState: [],
       kv: [],
       reviewState: [],
+      engagement: [],
       ...tables,
     },
   };
@@ -111,6 +127,7 @@ async function snapshotAllTables() {
     itemState: await db.itemState.toArray(),
     kv: await db.kv.toArray(),
     reviewState: await db.reviewState.toArray(),
+    engagement: await db.engagement.toArray(),
   };
 }
 
@@ -124,16 +141,18 @@ afterEach(() => {
 });
 
 describe('exportProgress (FR-PROG-003)', () => {
-  it('produces the §5.5 export shape with all six tables (D-021: v2 adds reviewState)', async () => {
+  it('produces the §5.5 export shape with all seven tables (D-021: v2 adds reviewState; D-027: v3 adds engagement)', async () => {
     await db.moduleState.put(moduleStateRow());
     await db.kv.put({ key: 'theme', value: 'dark' });
     await db.reviewState.put(reviewRow());
+    await db.engagement.put(engagementRow());
     const out = await exportProgress();
     expect(out.app).toBe('learnlab');
-    expect(out.exportVersion).toBe(2);
+    expect(out.exportVersion).toBe(3);
     expect(new Date(out.exportedAt).toISOString()).toBe(out.exportedAt);
     expect(Object.keys(out.tables).sort()).toEqual([
       'attempts',
+      'engagement',
       'itemState',
       'kv',
       'lessonProgress',
@@ -143,6 +162,7 @@ describe('exportProgress (FR-PROG-003)', () => {
     expect(out.tables.moduleState).toEqual([moduleStateRow()]);
     expect(out.tables.kv).toEqual([{ key: 'theme', value: 'dark' }]);
     expect(out.tables.reviewState).toEqual([reviewRow()]);
+    expect(out.tables.engagement).toEqual([engagementRow()]);
   });
 });
 
@@ -180,12 +200,12 @@ describe('importProgress validation (FR-PROG-004, NFR-MAINT-002)', () => {
   });
 
   it('rejects an unknown NEWER exportVersion loudly and actionably', async () => {
-    const file = { ...validExport(), exportVersion: 3 };
+    const file = { ...validExport(), exportVersion: 4 };
     await expect(importProgress(file)).rejects.toThrow(/newer version of LearnLab/);
     await expect(importProgress(file)).rejects.toThrow(/Update LearnLab/);
   });
 
-  it('accepts a version-1 file with no reviewState table, importing an empty review queue (D-021)', async () => {
+  it('accepts a version-1 file with no reviewState/engagement tables, importing both empty (D-021/D-027)', async () => {
     const v1File = {
       app: 'learnlab',
       exportVersion: 1,
@@ -195,11 +215,38 @@ describe('importProgress validation (FR-PROG-004, NFR-MAINT-002)', () => {
     const result = await importProgress(v1File);
     expect(result).toEqual({ imported: 0, skipped: 0 });
     expect(await db.reviewState.count()).toBe(0);
+    expect(await db.engagement.count()).toBe(0);
   });
 
-  it('rejects a malformed reviewState row when present (v2 files)', async () => {
+  it('accepts a version-2 file with no engagement table, importing an empty engagement row set (D-027)', async () => {
+    const v2File = {
+      app: 'learnlab',
+      exportVersion: 2,
+      exportedAt: new Date().toISOString(),
+      tables: {
+        moduleState: [],
+        lessonProgress: [],
+        attempts: [],
+        itemState: [],
+        kv: [],
+        reviewState: [reviewRow()],
+      },
+    };
+    const result = await importProgress(v2File);
+    expect(result).toEqual({ imported: 1, skipped: 0 });
+    expect(await db.engagement.count()).toBe(0);
+  });
+
+  it('rejects a malformed reviewState row when present (v2+ files)', async () => {
     const file = validExport({ reviewState: [{ moduleId: 'm1' } as unknown as ReviewState] });
     await expect(importProgress(file)).rejects.toThrow(/tables\.reviewState\[0\]/);
+  });
+
+  it('rejects a malformed engagement row when present (v3 files)', async () => {
+    const file = validExport({
+      engagement: [{ id: 'me' } as unknown as EngagementState],
+    });
+    await expect(importProgress(file)).rejects.toThrow(/tables\.engagement\[0\]/);
   });
 
   it('rejects a missing or non-numeric exportVersion', async () => {
@@ -296,6 +343,15 @@ describe('importProgress merge policy (FR-PROG-004)', () => {
     expect((await db.reviewState.get(['m1', 'flashcards:deck:0']))!.repetitions).toBe(2);
   });
 
+  it('newer updatedAt wins for engagement too (D-027)', async () => {
+    await db.engagement.put(engagementRow({ updatedAt: 2000, points: 10 }));
+    const result = await importProgress(
+      validExport({ engagement: [engagementRow({ updatedAt: 3000, points: 50 })] }),
+    );
+    expect(result).toEqual({ imported: 1, skipped: 0 });
+    expect((await db.engagement.get('me'))!.points).toBe(50);
+  });
+
   it('unions attempts, deduping on (moduleId, itemId, startedAt)', async () => {
     await db.attempts.add(attemptRow({ startedAt: 100 }));
     const result = await importProgress(
@@ -350,6 +406,7 @@ describe('eraseAll + round-trip (FR-PROG-005, AC-03 unit half)', () => {
     await setItemState('m1', 'widget-1', { value: 42 });
     await kvSet('theme', 'dark');
     await recordReview('m1', 'flashcards:deck:0', 'good');
+    await recordEngagementEvent({ kind: 'lesson-complete' });
 
     const exported = await exportProgress();
     const before = await snapshotAllTables();
@@ -367,7 +424,8 @@ describe('eraseAll + round-trip (FR-PROG-005, AC-03 unit half)', () => {
         before.attempts.length +
         before.itemState.length +
         before.kv.length +
-        before.reviewState.length,
+        before.reviewState.length +
+        before.engagement.length,
     );
 
     const after = await snapshotAllTables();
@@ -382,6 +440,7 @@ describe('eraseAll + round-trip (FR-PROG-005, AC-03 unit half)', () => {
     expect(after.itemState).toEqual(before.itemState);
     expect(after.kv).toEqual(before.kv);
     expect(after.reviewState).toEqual(before.reviewState);
+    expect(after.engagement).toEqual(before.engagement);
     expect(stripIds(after.attempts)).toEqual(stripIds(before.attempts));
     expect((await db.moduleState.get('m1'))!.status).toBe('completed');
   });

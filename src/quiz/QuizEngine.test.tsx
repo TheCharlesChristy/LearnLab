@@ -72,6 +72,7 @@ function renderWithContext(
     setItemState: vi.fn().mockResolvedValue(undefined),
     recordReview: vi.fn().mockResolvedValue(undefined),
     seedReviewItem: vi.fn().mockResolvedValue(undefined),
+    notifyEngagement: vi.fn(),
   };
   const result = render(<LessonContext.Provider value={value}>{ui}</LessonContext.Provider>);
   return { ...result, ctx: value };
@@ -131,6 +132,15 @@ describe('QuizEngine flow (FR-QUIZ-001)', () => {
     // seeded into the review queue; the correctly-answered mcq (q-mcq) is not.
     expect(ctx.seedReviewItem).toHaveBeenCalledTimes(1);
     expect(ctx.seedReviewItem).toHaveBeenCalledWith('flow-quiz:q-num');
+
+    // Delight layer: reports the finished attempt through notifyEngagement,
+    // never by importing src/progress directly (§3.5).
+    expect(ctx.notifyEngagement).toHaveBeenCalledWith({
+      kind: 'quiz-finished',
+      ratio: 0.5,
+      perfect: false,
+      isAssessment: false,
+    });
   });
 
   it('handles multi (checkboxes) and text questions', async () => {

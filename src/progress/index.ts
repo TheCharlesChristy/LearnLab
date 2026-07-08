@@ -11,6 +11,10 @@ export type {
   ReviewState,
 } from './types';
 
+export type { Achievement, EngagementEvent, EngagementState } from './engagement-types';
+
+export { ACHIEVEMENTS, pointsForEvent } from './engagement';
+
 export {
   ITEM_STATE_MAX_BYTES,
   addLessonTime,
@@ -21,6 +25,7 @@ export {
   markLessonComplete,
   onWriteError,
   recordAttempt,
+  recordEngagementEvent,
   recordReview,
   seedReviewItem,
   setItemState,
@@ -37,6 +42,7 @@ export {
   useCourseProgress,
   useDueReviewCount,
   useDueReviewItems,
+  useEngagement,
   useKv,
   useLessonProgressList,
   useModuleState,
