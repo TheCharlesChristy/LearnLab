@@ -1,7 +1,7 @@
 // App shell layout: header (app name → home, nav, offline chip), skip link,
 // unsupported-browser banner (§2.3), main landmark, routed outlet.
 
-import { WifiOff, X } from 'lucide-react';
+import { BarChart3, RotateCcw, Search as SearchIcon, Settings as SettingsIcon, WifiOff, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
 
@@ -52,9 +52,13 @@ function UnsupportedBanner() {
   );
 }
 
+// Icon-only below `sm:` (NFR mobile fix — 4 full-text labels overflowed a
+// 390px viewport by ~50px); icon + label from `sm:` up. `aria-label` on the
+// NavLink itself keeps the accessible name correct regardless of which of
+// the icon/text is visually shown.
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   cx(
-    'rounded-md px-3 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
+    'flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3',
     isActive
       ? 'bg-indigo-100 text-indigo-900 dark:bg-indigo-900 dark:text-indigo-100'
       : 'text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700',
@@ -99,26 +103,30 @@ export default function AppLayout() {
               Offline
             </span>
           )}
-          <nav aria-label="Main" className="ml-auto flex items-center gap-1">
-            <NavLink to="/search" className={navLinkClass}>
-              Search
+          <nav aria-label="Main" className="ml-auto flex items-center gap-0.5 sm:gap-1">
+            <NavLink to="/search" aria-label="Search" className={navLinkClass}>
+              <SearchIcon aria-hidden className="h-4 w-4 shrink-0" />
+              <span className="hidden sm:inline">Search</span>
             </NavLink>
-            <NavLink to="/review" className={navLinkClass}>
-              Review
+            <NavLink to="/review" aria-label="Review" className={navLinkClass}>
+              <RotateCcw aria-hidden className="h-4 w-4 shrink-0" />
+              <span className="hidden sm:inline">Review</span>
               {!!dueReviewCount && (
                 <span
-                  className="ml-1.5 rounded-full bg-indigo-600 px-1.5 py-0.5 text-xs font-semibold text-white dark:bg-indigo-500"
+                  className="rounded-full bg-indigo-600 px-1.5 py-0.5 text-xs font-semibold text-white dark:bg-indigo-500"
                   aria-label={`${dueReviewCount} due`}
                 >
                   {dueReviewCount}
                 </span>
               )}
             </NavLink>
-            <NavLink to="/progress" className={navLinkClass}>
-              Progress
+            <NavLink to="/progress" aria-label="Progress" className={navLinkClass}>
+              <BarChart3 aria-hidden className="h-4 w-4 shrink-0" />
+              <span className="hidden sm:inline">Progress</span>
             </NavLink>
-            <NavLink to="/settings" className={navLinkClass}>
-              Settings
+            <NavLink to="/settings" aria-label="Settings" className={navLinkClass}>
+              <SettingsIcon aria-hidden className="h-4 w-4 shrink-0" />
+              <span className="hidden sm:inline">Settings</span>
             </NavLink>
           </nav>
         </div>

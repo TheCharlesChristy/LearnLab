@@ -77,6 +77,19 @@
   }
 }
 
+/* KaTeX display maths ($$...$$) mobile fix: a wide equation (many terms)
+   otherwise forces its own intrinsic width onto the page, blowing out the
+   whole document's scrollWidth on a narrow viewport — confirmed on a 390px
+   mobile viewport where a display equation rendered ~500px wide with no way
+   to reach the rest of it. Scope the horizontal scroll to the equation's own
+   box instead (KaTeX's documented approach for responsive display maths);
+   the small vertical padding keeps a scrollbar from clipping descenders. */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.25rem;
+}
+
 /* Printable lesson view (SRS §13 roadmap, D-026). LessonPage.tsx marks its
    own chrome (breadcrumb, progress bar, prev/complete/print/next row) with
    the `print:hidden` Tailwind variant; the rules below cover everything that
