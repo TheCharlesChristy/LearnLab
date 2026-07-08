@@ -305,6 +305,51 @@ Screenshot: TODO
 
 ---
 
+## `matching-pairs`
+
+A click/tap-to-select matching game: pick a term on the left, then its match on the right (or vice versa). Deliberately **not** HTML5 drag-and-drop (D-028) — native drag-and-drop isn't keyboard- or screen-reader-operable without substantial extra ARIA/live-region engineering, while click-to-select gets full keyboard/AT support for free from ordinary `<button>` semantics. Built on the shared game-widget kit (`src/widgets/game-kit/`) — see `docs/ARCHITECTURE.md` "Building a new game widget" if you're adding another one.
+
+The right column's display order is shuffled, seeded on the widget's `src` (same determinism precedent as quiz question order, FR-QUIZ-002), so layout is stable across reloads and only reshuffles on an explicit "Play again". Unlike `flashcards`, this widget is **deliberately not persisted** via `LessonContext.getItemState`/`setItemState` — a matching game is meant to be replayed, not tracked for mastery, so the board simply resets each time the widget mounts. On completion it reports the milestone through `LessonContext.notifyEngagement({ kind: 'game-complete' })` — the widget never imports `src/progress` directly (§3.5).
+
+Data file shape:
+
+```json
+{
+  "title": "Match the terms",
+  "instructions": "Select a term, then its definition.",
+  "pairs": [
+    { "left": "Derivative", "right": "Rate of change" },
+    { "left": "Integral", "right": "Area under a curve" }
+  ]
+}
+```
+
+`title` and `instructions` are optional Markdown-lite strings (rendered via the same inline renderer used elsewhere — raw HTML is stripped); if `instructions` is omitted a default "Select a term, then its match." is shown. `pairs` is required, at least 2 entries, each a non-empty `{ left, right }` string pair.
+
+### Props
+
+| Prop  | Type   | Required | Default | Description                                       |
+| ----- | ------ | -------- | ------- | --------------------------------------------------- |
+| `src` | string | yes      | —       | Module-relative path to a matching-pairs JSON file.  |
+
+### Example
+
+```markdown
+::widget{type="matching-pairs" src="cards/key-terms.json"}
+```
+
+### Validation behaviour
+
+`parseProps` (`src/widgets/matching-pairs/index.ts`) errors:
+
+- missing/empty `src` → `src: required — a path to a matching-pairs JSON file, e.g. src="cards/key-terms.json"`
+
+At render time, a fetched file that doesn't match the shape above (missing `pairs`, fewer than 2 entries, or a pair missing `left`/`right`) shows an inline error card naming the exact problem (e.g. `pairs[0].right: must be a non-empty string`); a fetch failure shows a retry card (FR-CONT-007 spirit).
+
+Screenshot: TODO
+
+---
+
 ## `vector-field`
 
 Plots a 2D vector field as a responsive SVG (up to 480×480, scaled to the aspect ratio of the plotted range, y-axis pointing **up** per maths convention). Two expressions, `fx(x,y)` and `fy(x,y)`, are compiled with the same mathjs `compile` used by `function-grapher` — nothing is ever `eval`'d (NFR-SEC-002) — and evaluated at every point of a `step`-spaced grid over `[xmin,xmax] × [ymin,ymax]`. Each grid point draws a small arrow whose direction comes from `(fx, fy)` at that point; arrow length is auto-normalized against the field's largest sampled magnitude so arrows never overlap regardless of the expressions' raw scale, then multiplied by `scale`. A point where `fx = fy = 0` (a critical point) renders as a small dot rather than a zero-length arrow. A point where evaluation throws (e.g. division by zero) or yields a non-finite number is simply skipped, leaving a gap in the grid rather than crashing the widget.

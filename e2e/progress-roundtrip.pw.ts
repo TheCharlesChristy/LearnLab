@@ -37,6 +37,7 @@ interface DbDump {
   itemState: Record<string, unknown>[];
   kv: Record<string, unknown>[];
   reviewState: Record<string, unknown>[];
+  engagement: Record<string, unknown>[];
 }
 
 /** Read all object stores of the 'learnlab' Dexie DB via raw IndexedDB. */
@@ -48,7 +49,15 @@ function dumpDb(page: Page): Promise<DbDump> {
       open.onerror = () => reject(open.error);
     });
     const out: Record<string, unknown[]> = {};
-    for (const name of ['moduleState', 'lessonProgress', 'attempts', 'itemState', 'kv', 'reviewState']) {
+    for (const name of [
+      'moduleState',
+      'lessonProgress',
+      'attempts',
+      'itemState',
+      'kv',
+      'reviewState',
+      'engagement',
+    ]) {
       out[name] = await new Promise<unknown[]>((resolve, reject) => {
         const req = db.transaction(name, 'readonly').objectStore(name).getAll();
         req.onsuccess = () => resolve(req.result as unknown[]);
@@ -87,6 +96,13 @@ function expectSameProgress(actual: DbDump, expected: DbDump) {
   // check still proves the 6th table survives export/erase/import intact).
   expect(strip(actual.reviewState, ['updatedAt'], 'itemId')).toEqual(
     strip(expected.reviewState, ['updatedAt'], 'itemId'),
+  );
+  // D-027 (delivery-layer engagement work): the 7th table also round-trips —
+  // this flow completes 3 lessons + passes the assessment, so unlike
+  // reviewState this one is expected to be non-empty (points/streak/an
+  // unlocked achievement), proving a real row survives intact.
+  expect(strip(actual.engagement, ['updatedAt'], 'id')).toEqual(
+    strip(expected.engagement, ['updatedAt'], 'id'),
   );
 }
 
@@ -169,11 +185,14 @@ test('AC-03: lessons + assessment → export → erase → import restores ident
     tables: DbDump;
   };
   expect(exported.app).toBe('learnlab');
-  // D-021 (§13 roadmap): exportVersion bumped to 2 when reviewState was added.
-  expect(exported.exportVersion).toBe(2);
+  // D-021 bumped exportVersion to 2 when reviewState was added; D-027 bumped
+  // it to 3 when engagement was added.
+  expect(exported.exportVersion).toBe(3);
   expect(exported.tables.moduleState).toHaveLength(1);
   expect(exported.tables.lessonProgress).toHaveLength(mod.lessons.length);
   expect(exported.tables.attempts).toHaveLength(1);
+  // D-027: 3 lessons complete + 1 assessment pass -> a real engagement row.
+  expect(exported.tables.engagement).toHaveLength(1);
   // The export snapshots the live DB exactly.
   expectSameProgress(exported.tables, preEraseDump);
 

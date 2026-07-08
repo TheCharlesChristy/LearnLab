@@ -39,6 +39,7 @@ function lessonCtx(overrides: Partial<LessonContextValue> = {}): LessonContextVa
     setItemState: async () => {},
     recordReview: async () => {},
     seedReviewItem: async () => {},
+    notifyEngagement: () => {},
     ...overrides,
   };
 }

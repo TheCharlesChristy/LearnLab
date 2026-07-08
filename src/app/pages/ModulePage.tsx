@@ -113,7 +113,7 @@ export default function ModulePage() {
                   {done ? (
                     <CheckCircle2
                       aria-hidden
-                      className="h-5 w-5 shrink-0 text-green-700 dark:text-green-400"
+                      className="h-5 w-5 shrink-0 motion-safe:animate-pop text-green-700 dark:text-green-400"
                     />
                   ) : (
                     <Circle aria-hidden className="h-5 w-5 shrink-0 text-slate-400" />

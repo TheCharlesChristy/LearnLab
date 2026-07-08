@@ -9,15 +9,17 @@ import { useParams } from 'react-router';
 import {
   getItemState,
   recordAttempt,
+  recordEngagementEvent,
   recordReview,
   requestPersistentStorage,
   seedReviewItem,
   setItemState,
   useAttempts,
 } from '../../progress';
-import { Card, Spinner } from '../../ui';
+import { Card, Spinner, celebrate } from '../../ui';
 import { LessonContext, findModule, loadQuiz, moduleBaseUrl } from '../content-api';
 import type { LessonContextValue, ModuleLocation } from '../content-api';
+import { describeEngagementEvent } from '../engagement-copy';
 import {
   Breadcrumb,
   LazyMarkdownInline,
@@ -79,6 +81,12 @@ function AssessmentBody({ loc }: { loc: ModuleLocation }) {
       setItemState: (itemId, state) => setItemState(moduleId, itemId, state),
       recordReview: (itemId, grade) => recordReview(moduleId, itemId, grade),
       seedReviewItem: (itemId) => seedReviewItem(moduleId, itemId),
+      notifyEngagement: (event) => {
+        void (async () => {
+          const result = await recordEngagementEvent(event);
+          if (result) celebrate({ message: describeEngagementEvent(event, result) });
+        })();
+      },
     }),
     [moduleId, coursePath, moduleRef.dir, assessment],
   );

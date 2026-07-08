@@ -12,6 +12,7 @@ import {
   markLessonComplete,
   onWriteError,
   recordAttempt,
+  recordEngagementEvent,
   recordReview,
   seedReviewItem,
   setItemState,
@@ -54,11 +55,12 @@ afterEach(() => {
 });
 
 describe('schema', () => {
-  it('uses database name learnlab, version 2, with the five §5.5 stores + reviewState (D-021)', () => {
+  it('uses database name learnlab, version 3, with the five §5.5 stores + reviewState (D-021) + engagement (D-027)', () => {
     expect(db.name).toBe('learnlab');
-    expect(db.verno).toBe(2);
+    expect(db.verno).toBe(3);
     expect(db.tables.map((t) => t.name).sort()).toEqual([
       'attempts',
+      'engagement',
       'itemState',
       'kv',
       'lessonProgress',
@@ -307,6 +309,53 @@ describe('recordReview / dueReviewItems / seedReviewItem (§13 roadmap, D-021)',
     await seedReviewItem('m1', 'quiz:a:q2');
     const after = await db.reviewState.get(['m1', 'quiz:a:q2']);
     expect(after!.repetitions).toBe(1); // unchanged by the second seed call
+  });
+});
+
+describe('recordEngagementEvent (D-027)', () => {
+  it('creates the singleton row on first event, awarding points and a 1-day streak', async () => {
+    await markLessonComplete('m1', 'l1', META);
+    const result = await recordEngagementEvent({ kind: 'lesson-complete' });
+    expect(result!.state.id).toBe('me');
+    expect(result!.state.points).toBe(10);
+    expect(result!.state.currentStreak).toBe(1);
+    expect(result!.newlyUnlocked.map((a) => a.id)).toContain('first-lesson');
+    expect(await db.engagement.get('me')).toEqual(result!.state);
+  });
+
+  it('accumulates points across events without re-unlocking the same achievement', async () => {
+    await markLessonComplete('m1', 'l1', META);
+    const first = await recordEngagementEvent({ kind: 'lesson-complete' });
+    await markLessonComplete('m1', 'l2', META);
+    const second = await recordEngagementEvent({ kind: 'lesson-complete' });
+    expect(second!.state.points).toBe(first!.state.points + 10);
+    expect(second!.newlyUnlocked.map((a) => a.id)).not.toContain('first-lesson');
+  });
+
+  it('unlocks first-module only once a module actually completes', async () => {
+    await markLessonComplete('m1', 'l1', META_NO_ASSESSMENT);
+    await markLessonComplete('m1', 'l2', META_NO_ASSESSMENT); // completes the module
+    const result = await recordEngagementEvent({ kind: 'lesson-complete' });
+    expect(result!.newlyUnlocked.map((a) => a.id)).toContain('first-module');
+  });
+
+  it('unlocks perfect-assessment only for a perfect, isAssessment quiz-finished event', async () => {
+    const inline = await recordEngagementEvent({
+      kind: 'quiz-finished',
+      ratio: 1,
+      perfect: true,
+      isAssessment: false,
+    });
+    expect(inline!.newlyUnlocked.map((a) => a.id)).toContain('perfect-quiz');
+    expect(inline!.newlyUnlocked.map((a) => a.id)).not.toContain('perfect-assessment');
+
+    const assessment = await recordEngagementEvent({
+      kind: 'quiz-finished',
+      ratio: 1,
+      perfect: true,
+      isAssessment: true,
+    });
+    expect(assessment!.newlyUnlocked.map((a) => a.id)).toContain('perfect-assessment');
   });
 });
 

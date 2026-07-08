@@ -21,6 +21,7 @@ function withLesson(children: ReactNode, moduleBaseUrl = '/content/modules/algeb
     setItemState: async () => {},
     recordReview: async () => {},
     seedReviewItem: async () => {},
+    notifyEngagement: () => {},
   };
   return <LessonContext.Provider value={value}>{children}</LessonContext.Provider>;
 }

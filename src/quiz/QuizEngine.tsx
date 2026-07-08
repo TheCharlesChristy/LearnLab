@@ -54,6 +54,27 @@ function correctnessState(correct: boolean, points: number, isMulti: boolean): C
   return 'incorrect';
 }
 
+/**
+ * Varied encouraging copy shown alongside the (stable, test-relied-upon)
+ * "Correct!"/"Incorrect."/"Partially correct" label — flavour text only,
+ * never the a11y-carrying primary signal, so which one gets picked never
+ * affects correctness semantics or breaks anything reading the label.
+ */
+const ENCOURAGEMENT: Record<CorrectnessState, readonly string[]> = {
+  correct: ['Nice work!', 'Great job!', "You've got this!", 'Sharp thinking!', 'Well done!'],
+  partial: ["Close — you're onto something!", 'Getting there!', 'Good instinct — not quite all of it.'],
+  incorrect: [
+    "Keep going — you'll get the next one.",
+    'No worries, onward!',
+    'Mistakes help it stick — try the next one.',
+  ],
+};
+
+function pickEncouragement(state: CorrectnessState): string {
+  const pool = ENCOURAGEMENT[state];
+  return pool[Math.floor(Math.random() * pool.length)]!;
+}
+
 /** One quiz attempt; remounts (fresh state) whenever quiz id or attemptNumber changes. */
 export function QuizEngine(props: QuizEngineProps) {
   return <QuizAttempt key={`${props.quiz.id}:${props.attemptNumber}`} {...props} />;
@@ -87,8 +108,14 @@ function QuizAttempt({
     correct: boolean;
     points: number;
     isMulti: boolean;
+    encouragement: string;
   } | null>(null);
   const [recordError, setRecordError] = useState(false);
+  // Ephemeral, non-persisted momentum indicator ("🔥 ×N") — resets on any
+  // non-fully-correct answer. Not part of ResponseRecord/Attempt (§5.5); a
+  // purely in-session delight touch, unrelated to the persisted streak in
+  // src/progress/engagement.ts.
+  const [correctStreak, setCorrectStreak] = useState(0);
 
   // Per-question input state (reset on Next).
   const [selected, setSelected] = useState<number | null>(null);
@@ -217,6 +244,17 @@ function QuizAttempt({
       for (const r of allResponses) {
         if (!r.correct) void lessonCtx.seedReviewItem(`${quiz.id}:${r.questionId}`);
       }
+
+      // Delight layer (not SRS-normative): report the finished attempt so the
+      // app can award points/streak/achievements and celebrate. Routed
+      // through LessonContext, same as recordAttempt above, so this engine
+      // still never imports src/progress directly (§3.5).
+      lessonCtx.notifyEngagement({
+        kind: 'quiz-finished',
+        ratio: maxScore > 0 ? score / maxScore : 0,
+        perfect: maxScore > 0 && score === maxScore,
+        isAssessment: kind === 'assessment',
+      });
     }
   }
 
@@ -224,11 +262,15 @@ function QuizAttempt({
     if (!current) return;
     const response = buildResponse(current);
     setResponses((prev) => [...prev, response]);
+    const isMulti = current.question.type === 'multi';
+    const state = correctnessState(response.correct, response.points, isMulti);
     setFeedback({
       correct: response.correct,
       points: response.points,
-      isMulti: current.question.type === 'multi',
+      isMulti,
+      encouragement: pickEncouragement(state),
     });
+    setCorrectStreak((s) => (response.correct ? s + 1 : 0));
   }
 
   function handleNext() {
@@ -250,6 +292,11 @@ function QuizAttempt({
     return (
       <section aria-label={`${quiz.title} — summary`} className="rounded-lg border p-4">
         <h2 className="text-lg font-semibold">{quiz.title} — Summary</h2>
+        {total > 0 && score === total && (
+          <p className="mt-1 motion-safe:animate-pop text-base font-semibold text-emerald-700 dark:text-emerald-400">
+            Perfect score! 🎉
+          </p>
+        )}
         <p className="mt-1 font-medium" aria-live="polite">
           Score: {score} / {total}
         </p>
@@ -314,9 +361,12 @@ function QuizAttempt({
       {q.type === 'mcq' || q.type === 'multi' ? (
         <fieldset className="mt-2" disabled={answered}>
           <legend className="font-medium">{md(q.text)}</legend>
-          <div className="mt-2 space-y-1">
+          <div className="mt-2 space-y-2">
             {q.choices.map((choice, i) => (
-              <label key={i} className="flex items-center gap-2">
+              <label
+                key={i}
+                className="flex cursor-pointer items-center gap-2 rounded-md border border-slate-300 px-3 py-2 transition-colors motion-safe:duration-150 hover:bg-indigo-50 has-checked:border-indigo-600 has-checked:bg-indigo-50 has-disabled:cursor-default has-disabled:hover:bg-transparent dark:border-slate-600 dark:hover:bg-slate-700 dark:has-checked:border-indigo-400 dark:has-checked:bg-indigo-950/40"
+              >
                 <input
                   type={q.type === 'mcq' ? 'radio' : 'checkbox'}
                   name={`${quiz.id}-${q.id}`}
@@ -375,9 +425,22 @@ function QuizAttempt({
                 : state === 'partial'
                   ? `Partially correct (${Math.round(feedback.points * 100)}%).`
                   : 'Incorrect.';
+            // Re-keyed per question so the pop/shake replays on every answer,
+            // not just the first (motion-safe: — no-op under reduced motion).
+            const animationClass =
+              state === 'incorrect' ? 'motion-safe:animate-shake' : 'motion-safe:animate-pop';
             return (
-              <div>
-                <p className="font-semibold">{label}</p>
+              <div key={index} className={animationClass}>
+                <p className="font-semibold">
+                  {label}
+                  {state === 'correct' && correctStreak >= 2 ? (
+                    <span className="ml-2 text-sm font-normal text-orange-600 dark:text-orange-400">
+                      🔥 ×{correctStreak}
+                    </span>
+                  ) : null}
+                </p>
+                {/* Flavour text only — the label above is the a11y-carrying signal. */}
+                <p className="mt-0.5 text-sm italic opacity-70">{feedback.encouragement}</p>
                 <div className="mt-1 text-sm opacity-80">{md(q.explanation)}</div>
               </div>
             );

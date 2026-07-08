@@ -28,7 +28,7 @@ say so rather than inventing syntax that will fail validation.
    `src/widgets/keys.json` (a flat JSON array) to see the *current* live set —
    don't trust this document or your memory, since new widgets land over time.
    At the time this skill was written it was:
-   `["function-grapher", "figure", "quiz", "data-plot", "step-reveal", "code-runner", "logic-gate-sim", "flashcards"]`.
+   `["function-grapher", "figure", "quiz", "data-plot", "step-reveal", "code-runner", "logic-gate-sim", "flashcards", "matching-pairs", "vector-field", "geometry-canvas", "circuit-sim", "truth-table"]`.
    Every key in that file has a matching `` ## `<key>` `` section in
    `docs/WIDGETS.md` (CI-enforced, FR-WID-002) — that section is the prop
    contract. Read it for the widget you're about to use before writing the
@@ -99,6 +99,50 @@ full MVC checking for any module folder not yet referenced by its course's
 An orphan folder that "passes `--strict`" may just never have been checked.
 Always add the `ModuleRef` to the real `course.json` before trusting a green
 `--strict` run as meaning the module is actually valid.
+
+## Writing for play, not just correctness
+
+LearnLab's goal is to make learning fun — to teach through play, not just
+deliver correct information. The rendering/quiz/progress layer already
+carries a lot of this on its own (animated feedback, streaks, points,
+celebratory moments on lesson/quiz/deck/game completion) — you never need to
+add markup for any of that; it fires automatically whenever a learner
+completes a lesson, quiz, flashcard deck, or game widget. Your job as a
+content author is the other half: making the *content itself* worth playing
+with.
+
+- **Reach for a genuinely interactive widget before settling for the MVC
+  minimum.** A module that hits "≥ 1 interactive item" with a single `figure`-
+  adjacent widget bolted on technically passes `--strict`, but a lesson that's
+  mostly prose with one perfunctory chart isn't the bar to aim for. Ask what
+  in this lesson would be more fun to *do* than to *read*: a term/definition-
+  heavy topic is a natural `matching-pairs` game
+  (`::widget{type="matching-pairs" src="..."}`, see `docs/WIDGETS.md`); a
+  vocabulary or key-facts set is a `flashcards` deck; anything with a tunable
+  parameter (a function, a circuit, a distribution) is a natural
+  `function-grapher`/`code-runner`/`vector-field`/`circuit-sim` candidate
+  where the learner drags a slider and sees the consequence immediately,
+  rather than reading a static description of what would happen.
+- **Write quiz `explanation` text in an encouraging voice** — the engine
+  already varies the surrounding microcopy ("Nice work!", "Keep going —
+  you'll get the next one.") but your explanation is the substantive teaching
+  moment after an answer. Write it like you're talking a learner through the
+  idea, not grading them. This is purely a tone choice — it changes nothing
+  about the discipline in "The single most important discipline" below: an
+  encouragingly-worded explanation for a factually wrong `answer` is still a
+  bug, and still the one class of error `--strict` cannot catch.
+- **A `:::callout{kind="tip"}` or a well-placed `:::reveal` worked example
+  earns its keep by feeling like a discovery**, not a wall of text — the
+  existing house style (short framing prose, one full derivation, one
+  held-back worked example) already does this; lean into it rather than
+  writing past it.
+- If you're asked to build a *new* kind of interactive widget (not just use
+  an existing one) — e.g. another game beyond `matching-pairs` — that's a
+  `src/`-level task per the "three closed sets" rule above, not a
+  content-authoring one. Point whoever's doing that work at
+  `src/widgets/game-kit/` and the "Building a new game widget" section of
+  `docs/ARCHITECTURE.md`, which document the shared chrome/shuffle/persistence
+  pattern so a new game doesn't reinvent it from scratch.
 
 ## Directive syntax, with real examples from shipped content
 

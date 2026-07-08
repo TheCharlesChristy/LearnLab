@@ -26,6 +26,7 @@ function makeLessonContext(overrides: Partial<LessonContextValue> = {}): LessonC
     setItemState: vi.fn(async () => {}),
     recordReview: vi.fn(async () => {}),
     seedReviewItem: vi.fn(async () => {}),
+    notifyEngagement: vi.fn(),
     ...overrides,
   };
 }
@@ -69,10 +70,14 @@ describe('Flashcards', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'Flip' }));
 
-    expect(screen.getByText('4')).toBeInTheDocument();
+    // The grade buttons and the "flipped" aria-live announcement appear
+    // immediately; the back TEXT swaps in slightly later, at the CSS flip
+    // animation's midpoint (see FLIP_HALF_DURATION_MS) — so it needs a
+    // findBy (polling), not a synchronous getBy.
     expect(screen.getByRole('button', { name: 'Again' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Good' })).toBeInTheDocument();
     expect(screen.getByRole('status')).toHaveTextContent('Card flipped');
+    expect(await screen.findByText('4')).toBeInTheDocument();
   });
 
   it('grading calls setItemState with itemId flashcards:<src> and a JSON-safe grades object, and advances to the next card', async () => {
@@ -157,6 +162,10 @@ describe('Flashcards', () => {
     expect(await screen.findAllByText('Deck complete')).toHaveLength(2);
     expect(screen.getByRole('status')).toHaveTextContent('Deck complete');
     expect(screen.getByRole('button', { name: 'Review again' })).toBeInTheDocument();
+
+    // Delight layer: reports the milestone through notifyEngagement, never
+    // by importing src/progress directly (D-012/§3.5).
+    expect(ctx.notifyEngagement).toHaveBeenCalledWith({ kind: 'flashcards-deck-complete' });
   });
 
   it('shows an error card naming the problem when "cards" is missing', async () => {

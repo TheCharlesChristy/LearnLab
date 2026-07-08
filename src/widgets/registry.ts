@@ -18,6 +18,7 @@ import { def as functionGrapher } from './function-grapher';
 import { def as geometryCanvas } from './geometry-canvas';
 import keys from './keys.json';
 import { def as logicGateSim } from './logic-gate-sim';
+import { def as matchingPairs } from './matching-pairs';
 import { def as quiz } from './quiz';
 import { def as stepReveal } from './step-reveal';
 import { def as truthTable } from './truth-table';
@@ -34,6 +35,7 @@ export const widgetRegistry: Record<string, WidgetDef> = {
   'code-runner': codeRunner,
   'logic-gate-sim': logicGateSim,
   flashcards,
+  'matching-pairs': matchingPairs,
   'vector-field': vectorField,
   'geometry-canvas': geometryCanvas,
   'circuit-sim': circuitSim,

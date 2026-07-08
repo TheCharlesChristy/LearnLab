@@ -244,7 +244,11 @@ export function CalloutDirective(props: { kind?: string; children?: ReactNode })
   const kind: CalloutKind = valid ? requested : 'info';
   const { icon: Icon, label, className, iconClassName } = CALLOUT_KINDS[kind];
   return (
-    <aside role="note" data-callout={kind} className={`my-4 flex gap-3 rounded-md border px-4 py-3 ${className}`}>
+    <aside
+      role="note"
+      data-callout={kind}
+      className={`motion-safe:animate-reveal-in my-4 flex gap-3 rounded-md border px-4 py-3 ${className}`}
+    >
       <Icon aria-hidden="true" className={`mt-0.5 size-5 shrink-0 ${iconClassName}`} />
       <div className="min-w-0 flex-1">
         <span className="sr-only">{label}: </span>
@@ -286,7 +290,10 @@ export function RevealDirective(props: { title?: string; children?: ReactNode })
         {title}
       </button>
       {open ? (
-        <div id={contentId} className="border-t border-slate-200 px-4 py-3 dark:border-slate-800">
+        <div
+          id={contentId}
+          className="motion-safe:animate-reveal-in border-t border-slate-200 px-4 py-3 dark:border-slate-800"
+        >
           {props.children}
         </div>
       ) : null}

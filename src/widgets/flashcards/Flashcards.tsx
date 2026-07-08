@@ -34,9 +34,14 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 
 import { LessonContext } from '../../content';
+import { prefersReducedMotion } from '../../lib/motion';
 import { MarkdownInline } from '../../markdown';
 
 import type { FlashcardsProps } from './index';
+
+/** Half of the flip's CSS transition duration (motion-safe:duration-500) — the
+ * content swap fires here, at the animation's edge-on midpoint. */
+const FLIP_HALF_DURATION_MS = 250;
 
 interface Card {
   front: string;
@@ -194,8 +199,40 @@ function Deck({ cards, itemId }: { cards: Card[]; itemId: string }) {
   const [restored, setRestored] = useState(false);
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  // Which face is actually rendered — lags `flipped` by half the CSS
+  // transition so the content swap lands at the pinch's zero-width midpoint
+  // instead of visibly jumping (see the render below for why this is a
+  // single face in the DOM, not two stacked backface-hidden faces — that
+  // rotateY(180deg) + backface-visibility:hidden version was tried first and
+  // is subtly wrong: at the final 180deg state the div IS its own back face,
+  // so backface-visibility:hidden hides it entirely instead of revealing the
+  // swapped content).
+  const [displayFace, setDisplayFace] = useState<'front' | 'back'>('front');
+  // True while pinched to zero width (mid-flip); false = full width, whether
+  // showing front or back. Driving `scaleX` this way (1 -> 0 -> 1) rather
+  // than a 3D rotateY sidesteps the mirroring/backface issue above entirely.
+  const [pinched, setPinched] = useState(false);
   const [announcement, setAnnouncement] = useState('');
   const flipButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!flipped) {
+      setDisplayFace('front');
+      setPinched(false);
+      return;
+    }
+    if (prefersReducedMotion()) {
+      setDisplayFace('back');
+      setPinched(false);
+      return;
+    }
+    setPinched(true); // pinch shut over the first half of the transition
+    const timeout = window.setTimeout(() => {
+      setDisplayFace('back'); // swap at the zero-width midpoint...
+      setPinched(false); // ...then grow back open over the second half
+    }, FLIP_HALF_DURATION_MS);
+    return () => window.clearTimeout(timeout);
+  }, [flipped]);
 
   // Restore prior grades on mount and start the session on the first card
   // not already graded "good" (documented choice above).
@@ -263,6 +300,10 @@ function Deck({ cards, itemId }: { cards: Card[]; itemId: string }) {
     const nextAllGood = cards.every((_, i) => next[i]?.grade === 'good');
     if (nextAllGood) {
       setAnnouncement('Deck complete');
+      // Delight layer (not SRS-normative): report the milestone through
+      // LessonContext, same fire-and-forget contract as recordReview above —
+      // this widget still never imports src/progress directly (D-012/§3.5).
+      if (ctx) void ctx.notifyEngagement({ kind: 'flashcards-deck-complete' });
       return;
     }
 
@@ -301,11 +342,29 @@ function Deck({ cards, itemId }: { cards: Card[]; itemId: string }) {
           <p className="text-xs font-medium uppercase tracking-wide opacity-60">
             Card {index + 1} of {cards.length}
           </p>
-          <div
-            className="mt-2 min-h-[4rem] rounded border p-3 motion-safe:transition-transform motion-safe:duration-300"
-            data-flipped={flipped ? 'true' : 'false'}
-          >
-            <MarkdownInline markdown={flipped ? currentCard.back : currentCard.front} />
+          {/* Flip animation: a "pinch" — scaleX 1 -> 0 -> 1 — rather than a
+              literal 3D rotateY. Deliberately a SINGLE face in the DOM at a
+              time (not two stacked, backface-hidden faces): AT would read
+              both the front and back text at once if both were mounted,
+              since `backface-visibility` is a paint-only trick screen
+              readers ignore entirely. The displayed content swaps at the
+              pinch's zero-width midpoint (`pinched` true -> false, timed via
+              FLIP_HALF_DURATION_MS below), so the swap is visually
+              imperceptible instead of a jump — and unlike a single-node
+              rotateY(180deg), scaleX never crosses into "looking at the back
+              of the plane", so there's no mirroring/backface-visibility
+              trap at the end state. */}
+          <div className="mt-2 rounded border p-3">
+            <div
+              className={`transition-transform motion-safe:duration-[250ms] motion-reduce:transition-none ${
+                pinched ? '[transform:scaleX(0)]' : '[transform:scaleX(1)]'
+              }`}
+              data-flipped={flipped ? 'true' : 'false'}
+            >
+              <div className="min-h-[4rem]">
+                <MarkdownInline markdown={displayFace === 'back' ? currentCard.back : currentCard.front} />
+              </div>
+            </div>
           </div>
 
           <div className="mt-3 flex flex-wrap gap-2">

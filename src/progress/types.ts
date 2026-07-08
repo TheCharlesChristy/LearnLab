@@ -1,6 +1,8 @@
 // Progress record shapes — normative per SRS §5.5 (verbatim).
 // Pinned by the orchestrator (T0.C). Do not add or rename fields.
 
+import type { EngagementState } from './engagement-types';
+
 export interface ModuleState {
   moduleId: string;
   courseId: string;
@@ -66,12 +68,15 @@ export interface ReviewState {
 }
 
 // §5.5 export file shape (FR-PROG-003). exportVersion 2 adds `reviewState`
-// (D-021, NFR-MAINT-002): new exports always include it; importing an older
-// version-1 file (which has no reviewState key) treats it as empty — see
-// validateExport in export.ts, the system-boundary parser for this.
+// (D-021, NFR-MAINT-002); exportVersion 3 adds `engagement` (D-027) the same
+// way: new exports always include it, an older file missing the key is
+// treated as empty on import — see validateExport in export.ts, the
+// system-boundary parser for this. `engagement` is intentionally NOT part of
+// ./engagement-types.ts's own pin comment — it's additive, not part of the
+// SRS §5.5 normative set the other five tables belong to.
 export interface ProgressExport {
   app: 'learnlab';
-  exportVersion: 1 | 2;
+  exportVersion: 1 | 2 | 3;
   exportedAt: string;
   tables: {
     moduleState: ModuleState[];
@@ -80,5 +85,6 @@ export interface ProgressExport {
     itemState: ItemState[];
     kv: KV[];
     reviewState: ReviewState[];
+    engagement: EngagementState[];
   };
 }

@@ -76,6 +76,16 @@ Per FR-WID-002, registering a widget requires only the component file, one regis
 
 That's the whole surface. No router changes, no loader changes, no schema changes.
 
+### Building a new game widget
+
+A "game" widget (like `matching-pairs`) is registered exactly per the runbook above — no separate mechanism — but should build on the shared kit at `src/widgets/game-kit/` rather than reinventing its chrome:
+
+- **`GameShell`** — the common wrapper: title/instructions header, an `aria-live="polite"` event region (mirrors the `flashcards` `announcement` pattern), and a completion banner with a "Play again" reset. The game-specific board goes in `children`.
+- **`hashStringFnv1a`/`mulberry32`/`shuffle`** (re-exported from `src/lib/seeded-random.ts`) — for any deterministic shuffling, seed on the widget's own `src` or `itemId` (same determinism precedent as quiz question order, FR-QUIZ-002). This is the single shared implementation `src/quiz/seeded.ts` also uses, so quiz and widgets never cross-import each other (§3.5).
+- **Persistence, if the game needs it** — `LessonContext.getItemState`/`setItemState`, pre-bound to the lesson's `moduleId`, exactly per `flashcards`' D-012 precedent (itemId your own namespaced string). Not every game needs this: `matching-pairs` deliberately doesn't persist, since a matching game is meant to be replayed rather than tracked for mastery — persist only when the game genuinely has state worth resuming (a high score, a partially-solved puzzle).
+- **On completion**, call `LessonContext.notifyEngagement({ kind: 'game-complete' })` (fire-and-forget) so the app can award points/streak progress and celebrate — this is how a game reports its milestone without importing `src/progress` directly, same boundary `QuizEngine`/`Flashcards` hold.
+- **Interaction model**: prefer click/tap-to-select over native HTML5 drag-and-drop unless you have a concrete plan for keyboard/screen-reader parity — drag-and-drop is not operable via `<button>` semantics, and this codebase holds a strict a11y bar (see D-028 for the `matching-pairs` precedent).
+
 ## 5. Runbook: change the Pyodide version or hosting
 
 Both are single-constant changes in `src/config.ts` (§6.2.4, §10.2):

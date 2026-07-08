@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import { useOverallProgress } from '../../progress';
 import { Card, ProgressBar, Spinner } from '../../ui';
 import { loadContentIndex } from '../content-api';
+import { EngagementSummary } from '../EngagementSummary';
 import { RetryCard } from '../shared';
 import { useAsyncData } from '../useAsyncData';
 
@@ -28,6 +29,8 @@ export default function ProgressPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold">Your progress</h1>
+
+      <EngagementSummary />
 
       <section className="mt-5" aria-label="Course completion">
         <h2 className="mb-3 text-lg font-semibold">Courses</h2>

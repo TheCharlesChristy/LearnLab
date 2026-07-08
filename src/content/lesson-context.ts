@@ -6,6 +6,7 @@
 
 import { createContext, useContext } from 'react';
 
+import type { EngagementEvent } from '../progress/engagement-types';
 import type { Attempt } from '../progress/types';
 
 export interface LessonContextValue {
@@ -42,6 +43,16 @@ export interface LessonContextValue {
    * schedule a learner may already be progressing through.
    */
   seedReviewItem: (itemId: string) => Promise<void>;
+  /**
+   * Report a delight-layer milestone (quiz finished, flashcard deck cleared,
+   * a game widget completed) so the app can award points/streak progress and
+   * celebrate — pre-bound to this lesson's moduleId. Fire-and-forget, same
+   * contract as recordReview: a widget/quiz calls this instead of importing
+   * `src/progress` directly, keeping the §3.5 subsystem boundary intact.
+   * `lesson-complete` is NOT sent through here — LessonPage is the context
+   * provider itself and calls the progress layer directly for that one.
+   */
+  notifyEngagement: (event: EngagementEvent) => void;
 }
 
 export const LessonContext = createContext<LessonContextValue | null>(null);
