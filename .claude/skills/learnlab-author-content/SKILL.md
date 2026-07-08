@@ -144,6 +144,57 @@ with.
   `docs/ARCHITECTURE.md`, which document the shared chrome/shuffle/persistence
   pattern so a new game doesn't reinvent it from scratch.
 
+### The mid-lesson interactivity formula
+
+A repo-wide check across all 201 shipped lessons found: 88% already have at
+least one inline widget, but interactivity is heavily back-loaded — 57% of
+all inline `::widget`/`::py` occurrences sit in the last third of the lesson,
+and only 8% in the first third. A lesson that saves its one interactive
+moment for the very end still *reads* like a wall of text with a quiz bolted
+on — "boring in the middle" is a real, measurable pattern, not just a vibe.
+
+`maths/alevel-further-maths/complex-numbers/01-imaginary-numbers-and-arithmetic.md`
+is a worked pilot of the fix — a topic picked specifically for having a
+reputation as dry and abstract (complex numbers), used to derive this
+concrete, reusable formula:
+
+1. **Chunk the lesson into short teachable beats** — roughly 150–250 words of
+   new prose each, the length of the sections in that pilot lesson (definition
+   of $i$; addition/subtraction; multiplication; the Argand diagram). If a
+   section is pushing 400+ words before the reader does anything, it's two
+   beats, not one.
+2. **Put one interactive checkpoint after every beat that introduces
+   something checkable** — not just at the end of the lesson, and not only
+   after the "big" sections. In the pilot: a `flashcards` deck right after new
+   vocabulary is defined, an inline `quiz` right after the addition/subtraction
+   rule, a `matching-pairs` game right after the multiplication rule, and a
+   `geometry-canvas` scene as the Argand-diagram section's centerpiece — four
+   checkpoints spread across the whole lesson, not one at the bottom.
+3. **Rotate which *kind* of checkpoint you use** — the same drill four times
+   in a row (quiz, quiz, quiz, quiz) reads as repetitive even if the content
+   is fine. Match the kind to what's actually being practised: freshly-defined
+   vocabulary → `flashcards`; a quick correctness check on a rule just
+   stated → an inline `quiz` (own small JSON, `shuffleQuestions`/
+   `shuffleChoices` false for a sequential concept check, unlike the
+   randomised end-of-module `assessment.json`); a mechanical, most-practised
+   skill (the pilot's complex multiplication) → `matching-pairs`, which
+   rewards pattern-recognition over rote recall; a spatial/visual idea → the
+   subject-appropriate hands-on widget (`geometry-canvas`, `function-grapher`,
+   `vector-field`, `code-runner`, `data-plot`...).
+4. **Reserve the lesson's best visual or hands-on widget for where the idea
+   actually lands, not the end.** In the pilot, the Argand diagram
+   (`geometry-canvas`, with one `draggable` point so the learner places a
+   number themselves rather than only reading about it) is the lesson's
+   centerpiece and sits in the middle, immediately after the idea it
+   visualises is introduced — not appended afterwards as an also-ran.
+5. **Keep the closing hand-off short**, exactly per the existing house style —
+   the formula is about the *middle* of the lesson, not about padding the end.
+
+This isn't a hard rule enforced by `--strict` (no CI check counts checkpoints
+or measures section length) — it's a design habit to default to when writing
+or substantially revising a lesson, the same way the "one derivation, one
+reveal, one widget" house style already is.
+
 ## Directive syntax, with real examples from shipped content
 
 All four forms, pulled verbatim from modules that have shipped and passed

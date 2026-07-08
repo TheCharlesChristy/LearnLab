@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "complex-arithmetic-check",
+  "title": "Quick check: adding and subtracting complex numbers",
+  "shuffleQuestions": false,
+  "shuffleChoices": false,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "If $z = 5 - 2i$ and $w = 3 + 7i$, what is the real part of $z + w$?",
+      "answer": 8,
+      "tolerance": 0,
+      "explanation": "Add the real parts and the imaginary parts separately: $z + w = (5+3) + (-2+7)i = 8 + 5i$, so the real part is $8$."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "Using the same $z = 5 - 2i$ and $w = 3 + 7i$, what is the imaginary part of $z + w$ (the coefficient of $i$)?",
+      "answer": 5,
+      "tolerance": 0,
+      "explanation": "$z + w = (5+3) + (-2+7)i = 8 + 5i$, so the imaginary part is $5$."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "If $z = 2 + 3i$ and $w = 5 - i$, what is $z - w$?",
+      "choices": ["$-3 + 4i$", "$3 + 4i$", "$-3 - 4i$", "$7 + 2i$"],
+      "answer": 0,
+      "explanation": "Subtract real from real and imaginary from imaginary: $z - w = (2-5) + (3-(-1))i = -3 + 4i$."
+    }
+  ]
+}
