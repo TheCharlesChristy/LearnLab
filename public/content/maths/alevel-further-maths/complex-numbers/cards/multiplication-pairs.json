@@ -1,0 +1,10 @@
+{
+  "title": "Match each product to its simplified form",
+  "instructions": "Multiply out each pair of complex numbers using i^2 = -1, then match it to its answer in standard form.",
+  "pairs": [
+    { "left": "$(2+i)(1-i)$", "right": "$3 - i$" },
+    { "left": "$(1+i)(1-i)$", "right": "$2$" },
+    { "left": "$(3+2i)(1+i)$", "right": "$1 + 5i$" },
+    { "left": "$(2-i)(2+i)$", "right": "$5$" }
+  ]
+}
