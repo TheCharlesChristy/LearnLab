@@ -144,6 +144,87 @@ with.
   `docs/ARCHITECTURE.md`, which document the shared chrome/shuffle/persistence
   pattern so a new game doesn't reinvent it from scratch.
 
+### Structure the lesson as a journey, not a list of facts
+
+Learners engage with a throughline much more than with a sequence of
+independent fact-dumps, even when the underlying facts are identical. This
+isn't a vague aspiration — it's a concrete rewrite that happened to
+`alevel-further-maths/complex-numbers/01-imaginary-numbers-and-arithmetic.md`:
+the maths content and all four interactive checkpoints stayed exactly the
+same, only the framing and connective prose changed, and it reads as a far
+more engaging lesson for it. Apply the same treatment whenever you write or
+substantially revise a lesson:
+
+1. **Open with a hook, not a topic statement.** Don't start "In this lesson
+   we will cover imaginary numbers." Start from a problem the reader's
+   current toolkit can't solve — the pilot lesson opens with "Every journey
+   into new territory starts with hitting a wall" and the wall being
+   $x^2 = -1$ having no real solution. The rest of the lesson exists to get
+   past that wall.
+2. **Give sections waypoint titles, not bureaucratic labels.** Compare
+   "Definition of imaginary numbers" (a label) to "## Naming what we found"
+   (a waypoint) — same content, but the second one reads as the next step in
+   a journey the reader is already on. Other real headings from the same
+   lesson: "## Learning to move around" (addition/subtraction), "## The one
+   rule that unlocks everything" (multiplication), "## Drawing the map" (the
+   Argand diagram), "## Where the journey goes next" (the close).
+3. **Carry a throughline between sections.** Each new section should pick up
+   from where the last one left off — "Now that we can name this new kind of
+   number, the next question is how it behaves" — rather than starting cold
+   as if it were an independent topic. The four mid-lesson checkpoints from
+   the formula below become the journey's waypoints: each one is a place the
+   traveller stops, tries something, and keeps going, not a graded checkpoint
+   bolted onto a fact.
+4. **Close by tying back to the opening, not just summarising.** The pilot's
+   closing section explicitly returns to the wall from the opening hook and
+   previews the next thing the journey enables (modulus/argument in a future
+   lesson), giving a sense of forward momentum rather than a flat "in this
+   lesson we covered" recap.
+5. **The story is a framing device, not a licence to loosen rigour.** Every
+   equation, definition, and worked example must still be exactly as
+   correct and precise as house style already demands — "Learning to move
+   around" still has to teach addition/subtraction correctly. The narrative
+   changes how it's introduced and connected, never what's actually taught.
+
+This layers directly on top of the mid-lesson interactivity formula below —
+apply both together, not one instead of the other.
+
+### Never use dashes that could be misread as a minus sign
+
+Em-dashes (—) and en-dashes (–) must never appear in any user-facing text:
+lesson Markdown prose, `:::callout`/`:::reveal` content, quiz `text`/
+`explanation` strings in `assessment.json` (or any inline quiz JSON),
+widget data files (flashcard fronts/backs, matching-pairs terms, and
+similar), and headings. In a subject that's full of mathematical notation, a
+dash sitting in running prose is genuinely ambiguous with a minus sign —
+this isn't a house-style nitpick, it actively confuses maths and physics
+content specifically, and for consistency the rule applies platform-wide,
+not just to numeric subjects.
+
+Rewrite instead of just deleting the dash — pick whichever of these actually
+matches what the dash was doing:
+
+| The dash was doing... | Use instead |
+|---|---|
+| A parenthetical aside | A comma, or full parentheses |
+| Introducing an elaboration or list | A colon |
+| Joining two independent clauses | A period (two sentences), or a comma if a lighter connective reads better |
+
+Real before/after examples from this repo's own fixes:
+
+- `'Nice work — quiz passed!'` → `'Nice work, quiz passed!'`
+- `'Practice mode — this attempt was not recorded.'` → `'Practice mode: this attempt was not recorded.'`
+- `"— written $\operatorname{Re}(z)$."` → `", written $\operatorname{Re}(z)$."`
+- `` ` ${streak}-day streak` `` → `` ` streak of ${streak} days` `` (note:
+  even a hyphen directly adjacent to a digit in generated text reads badly
+  next to maths — rephrase around it rather than just swapping the
+  character)
+
+Check your own draft for `—`/`–` characters before considering a lesson,
+quiz, or widget data file done — `grep -n "—\|–" <file>` over anything
+you've just written is a fast, cheap check. This rule does not apply to
+source code comments (`src/**`), which are not user-facing.
+
 ### The mid-lesson interactivity formula
 
 A repo-wide check across all 201 shipped lessons found: 88% already have at

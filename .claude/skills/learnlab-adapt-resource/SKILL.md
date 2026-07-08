@@ -149,11 +149,23 @@ schemas in `docs/WIDGETS.md`) instead of describing them in prose or embedding a
 source textbook is usually written in a flat, formal register; don't carry
 that register over by default. Rewriting in your own words (required below,
 for copyright reasons too) is also your chance to write like you're
-explaining the idea to someone, not grading them — and to notice where the
+explaining the idea to someone, not grading them, and to notice where the
 source describes something static that could become one of the interactive
 widgets in the table above instead. None of this loosens the copyright or
 verification rules that follow; a playful voice on a wrong or plagiarised
 fact is still a bug.
+
+This is also the point where **`learnlab-author-content`**'s two house-style
+rules for lesson prose apply, since you're drafting real lesson text here,
+not just mapping structure: frame the rewritten lesson as a journey (a hook
+the source's own chapter opening rarely gives you for free, waypoint section
+headings, a throughline between sections, a close that ties back to the
+opening) rather than a flat transcription of the source's own section order,
+and never use an em-dash or en-dash anywhere in the rewritten text (they read
+as a minus sign next to the maths/physics notation you're about to add) —
+see that skill's "Structure the lesson as a journey" and "Never use dashes
+that could be misread as a minus sign" sections for the full detail and
+real examples.
 
 **Copyright — read this before drafting.** Adapting a source's *structure and pedagogical
 approach* (how it sequences ideas, which examples it emphasises, the shape of its explanations)
