@@ -36,13 +36,22 @@ describe('LessonPage (FR-SHELL-004)', () => {
     expect(progress.markLessonComplete).toHaveBeenCalledWith('diff-1', 'l1', EXPECTED_META);
   });
 
-  it('auto-completes via the end-of-content scroll sentinel (FR-SHELL-004)', async () => {
+  it('auto-completes via the end-of-content scroll sentinel, but not from the initial baseline report alone (FR-SHELL-004)', async () => {
     renderRoute('/module/diff-1/lesson/l1');
     await screen.findByTestId('markdown-lesson');
 
     const sentinel = screen.getByTestId('lesson-end-sentinel');
     const observer = intersectionObservers.find((o) => o.elements.includes(sentinel));
     expect(observer).toBeDefined();
+    const callsBefore = vi.mocked(progress.markLessonComplete).mock.calls.length;
+
+    // The real IntersectionObserver reports its baseline state immediately on
+    // observe() — for a short lesson (or tall viewport) that can already be
+    // `isIntersecting: true`. That first report must be ignored (opening a
+    // lesson must never award completion by itself); only a later, genuine
+    // transition into view from scrolling should auto-complete it.
+    act(() => observer!.callback([{ isIntersecting: true }]));
+    expect(progress.markLessonComplete).toHaveBeenCalledTimes(callsBefore);
 
     act(() => observer!.callback([{ isIntersecting: true }]));
     await waitFor(() =>

@@ -104,7 +104,7 @@ describe('MatchingPairs', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Derivative' }));
     await userEvent.click(screen.getByRole('button', { name: 'Area under a curve' }));
 
-    expect(screen.getByRole('status')).toHaveTextContent('Not a match — try again.');
+    expect(screen.getByRole('status')).toHaveTextContent('Not a match, try again.');
     expect(screen.getByRole('button', { name: 'Derivative' })).not.toBeDisabled();
     expect(screen.getByRole('button', { name: 'Area under a curve' })).not.toBeDisabled();
   });

@@ -235,7 +235,7 @@ describe('multi partial credit (§13 roadmap D-023)', () => {
     expect(onFinished).toHaveBeenCalledWith({ score: 0.5, maxScore: 1 });
     const review = screen.getAllByRole('listitem');
     expect(
-      within(review[0] as HTMLElement).getByText(/Partially correct \(50%\) — Your answer:/),
+      within(review[0] as HTMLElement).getByText(/Partially correct \(50%\)\. Your answer:/),
     ).toBeInTheDocument();
   });
 
@@ -442,7 +442,7 @@ describe('attempt recording (FR-QUIZ-003, §5.5, NFR-REL-001)', () => {
     await user.click(screen.getByRole('button', { name: 'Submit' }));
     await user.click(screen.getByRole('button', { name: 'Finish' }));
 
-    expect(screen.getByText(/Practice mode — this attempt was not recorded\./)).toBeInTheDocument();
+    expect(screen.getByText(/Practice mode: this attempt was not recorded\./)).toBeInTheDocument();
     expect(onFinished).toHaveBeenCalledWith({ score: 1, maxScore: 1 });
     await new Promise((r) => setTimeout(r, 0));
     expect(recordAttempt).not.toHaveBeenCalled();

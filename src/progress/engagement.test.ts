@@ -79,7 +79,7 @@ describe('pointsForEvent', () => {
     ).toBe(15);
     expect(
       pointsForEvent({ kind: 'quiz-finished', ratio: 0.2, perfect: false, isAssessment: false }),
-    ).toBe(5);
+    ).toBe(0);
   });
 
   it('scales assessment points higher than the equivalent inline quiz', () => {

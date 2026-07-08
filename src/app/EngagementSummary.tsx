@@ -59,7 +59,7 @@ export function EngagementSummary() {
           return (
             <li key={achievement.id}>
               <div
-                title={`${achievement.title} — ${achievement.description}`}
+                title={`${achievement.title}: ${achievement.description}`}
                 className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm ${
                   isUnlocked
                     ? 'motion-safe:animate-pop border-amber-300 bg-amber-50 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200'
@@ -68,7 +68,7 @@ export function EngagementSummary() {
               >
                 <Icon aria-hidden className="h-4 w-4" />
                 <span>{achievement.title}</span>
-                <span className="sr-only">{isUnlocked ? ' — unlocked' : ' — locked'}</span>
+                <span className="sr-only">{isUnlocked ? ' (unlocked)' : ' (locked)'}</span>
               </div>
             </li>
           );

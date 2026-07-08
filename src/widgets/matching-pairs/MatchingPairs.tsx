@@ -221,7 +221,7 @@ function Board({ data, src }: { data: GameData; src: string }) {
     setSelectedLeft(null);
     setSelectedRight(null);
     setMismatch(null);
-    setAnnouncement('New round — select a term, then its match.');
+    setAnnouncement('New round: select a term, then its match.');
     notifiedRef.current = false;
     setShuffleSalt((s) => s + 1);
   }
@@ -239,7 +239,7 @@ function Board({ data, src }: { data: GameData; src: string }) {
       return;
     }
     setMismatch({ left: leftIndex, right: rightIndex });
-    setAnnouncement('Not a match — try again.');
+    setAnnouncement('Not a match, try again.');
     mismatchTimeoutRef.current = window.setTimeout(() => {
       setMismatch(null);
       setSelectedLeft(null);

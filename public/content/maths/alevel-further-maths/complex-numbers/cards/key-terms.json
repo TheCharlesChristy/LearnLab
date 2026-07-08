@@ -10,11 +10,11 @@
     },
     {
       "front": "**Real part**",
-      "back": "The real number $a$ in $a + bi$ — written $\\operatorname{Re}(z)$."
+      "back": "The real number $a$ in $a + bi$, written $\\operatorname{Re}(z)$."
     },
     {
       "front": "**Imaginary part**",
-      "back": "The real number $b$ in $a + bi$ (the *coefficient* of $i$, not $bi$ itself) — written $\\operatorname{Im}(z)$."
+      "back": "The real number $b$ in $a + bi$ (the *coefficient* of $i$, not $bi$ itself), written $\\operatorname{Im}(z)$."
     }
   ]
 }

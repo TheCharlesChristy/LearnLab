@@ -122,7 +122,7 @@ function AssessmentBody({ loc }: { loc: ModuleLocation }) {
           className="h-4 w-4 accent-indigo-700"
         />
         <label htmlFor="practice-mode" className="text-sm">
-          <span className="font-medium">Practice mode</span> — this attempt will{' '}
+          <span className="font-medium">Practice mode</span>: this attempt will{' '}
           <strong>not</strong> be recorded
         </label>
       </Card>
