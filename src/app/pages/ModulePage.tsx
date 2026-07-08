@@ -84,7 +84,7 @@ export default function ModulePage() {
               role="note"
               className="mt-3 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-100"
             >
-              Recommended first: {unmet.join(', ')}. You can still continue — prerequisites never
+              Recommended first: {unmet.join(', ')}. You can still continue: prerequisites never
               block access.
             </p>
           )}

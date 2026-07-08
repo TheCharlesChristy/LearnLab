@@ -102,14 +102,34 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
     `lesson-md:${moduleId}:${lessonId}:${lesson?.file ?? ''}`,
   );
 
+  // Was this lesson already completed before *this* render (a prior visit,
+  // or earlier in this same session)? Read via a ref so `complete()` below
+  // always sees the latest value without needing to be recreated on every
+  // lessonProgress change (engagement points must only ever be awarded on
+  // the FIRST genuine completion, never on a revisit).
+  const wasAlreadyComplete =
+    completedNow ||
+    (lessonProgress ?? []).some((lp) => lp.lessonId === lessonId && lp.status === 'completed');
+  const wasAlreadyCompleteRef = useRef(wasAlreadyComplete);
+  useEffect(() => {
+    wasAlreadyCompleteRef.current = wasAlreadyComplete;
+  });
+
   const complete = useMemo(
     () => async () => {
+      const alreadyComplete = wasAlreadyCompleteRef.current;
       await markLessonComplete(moduleId, lessonId, meta);
       setCompletedNow(true);
       await requestPersistentStorage();
-      const event = { kind: 'lesson-complete' as const };
-      const result = await recordEngagementEvent(event);
-      if (result) celebrate({ message: describeEngagementEvent(event, result) });
+      // FR-PROG-002 / D-027: award lesson-complete points/streak/achievement
+      // progress exactly once per lesson, the first time it's genuinely
+      // completed. Re-completing an already-completed lesson (e.g. the
+      // scroll sentinel firing again on a revisit) must not re-award points.
+      if (!alreadyComplete) {
+        const event = { kind: 'lesson-complete' as const };
+        const result = await recordEngagementEvent(event);
+        if (result) celebrate({ message: describeEngagementEvent(event, result) });
+      }
     },
     [moduleId, lessonId, meta],
   );
@@ -125,7 +145,19 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
     const el = sentinelRef.current;
     if (!el || typeof IntersectionObserver === 'undefined') return;
     let fired = false;
+    // IntersectionObserver reports the CURRENT intersection state as its
+    // first callback, immediately on observe() — for a short lesson (or a
+    // tall viewport), the sentinel can already be in view the instant the
+    // page loads, which would otherwise auto-complete the lesson (and award
+    // points) from merely opening it, before the learner has read anything.
+    // Ignore that first, baseline report; only a later, genuine transition
+    // into view (an actual scroll) counts.
+    let sawFirstReport = false;
     const io = new IntersectionObserver((entries) => {
+      if (!sawFirstReport) {
+        sawFirstReport = true;
+        return;
+      }
       if (!fired && entries.some((e) => e.isIntersecting)) {
         fired = true;
         void completeRef.current();
@@ -166,9 +198,7 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
   const next = lessonIndex < mod.lessons.length - 1 ? mod.lessons[lessonIndex + 1] : undefined;
   const lessonsDone = moduleState?.lessonsDone ?? 0;
   const lessonsTotal = moduleState?.lessonsTotal ?? mod.lessons.length;
-  const isComplete =
-    completedNow ||
-    (lessonProgress ?? []).some((lp) => lp.lessonId === lessonId && lp.status === 'completed');
+  const isComplete = wasAlreadyComplete;
 
   return (
     <LessonContext.Provider value={lessonCtx}>

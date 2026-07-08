@@ -62,11 +62,11 @@ function correctnessState(correct: boolean, points: number, isMulti: boolean): C
  */
 const ENCOURAGEMENT: Record<CorrectnessState, readonly string[]> = {
   correct: ['Nice work!', 'Great job!', "You've got this!", 'Sharp thinking!', 'Well done!'],
-  partial: ["Close — you're onto something!", 'Getting there!', 'Good instinct — not quite all of it.'],
+  partial: ["Close, you're onto something!", 'Getting there!', "Good instinct, not quite all of it."],
   incorrect: [
-    "Keep going — you'll get the next one.",
+    "Keep going, you'll get the next one.",
     'No worries, onward!',
-    'Mistakes help it stick — try the next one.',
+    'Mistakes help it stick, try the next one.',
   ],
 };
 
@@ -290,8 +290,8 @@ function QuizAttempt({
 
   if (phase === 'summary') {
     return (
-      <section aria-label={`${quiz.title} — summary`} className="rounded-lg border p-4">
-        <h2 className="text-lg font-semibold">{quiz.title} — Summary</h2>
+      <section aria-label={`${quiz.title}: summary`} className="rounded-lg border p-4">
+        <h2 className="text-lg font-semibold">{quiz.title}: Summary</h2>
         {total > 0 && score === total && (
           <p className="mt-1 motion-safe:animate-pop text-base font-semibold text-emerald-700 dark:text-emerald-400">
             Perfect score! 🎉
@@ -301,7 +301,7 @@ function QuizAttempt({
           Score: {score} / {total}
         </p>
         {practiceMode && (
-          <p className="mt-1 text-sm italic">Practice mode — this attempt was not recorded.</p>
+          <p className="mt-1 text-sm italic">Practice mode: this attempt was not recorded.</p>
         )}
         {recordError && (
           <p role="alert" className="mt-1 text-sm text-red-700 dark:text-red-400">
@@ -324,9 +324,9 @@ function QuizAttempt({
               <li key={p.question.id} className="rounded border p-3">
                 <div className="font-medium">{md(p.question.text)}</div>
                 <p className="mt-1 text-sm">
-                  {label} — Your answer: {r?.givenDisplay ?? '—'}
+                  {label}. Your answer: {r?.givenDisplay ?? '(no answer)'}
                 </p>
-                <p className="text-sm">Correct answer: {r?.correctDisplay ?? '—'}</p>
+                <p className="text-sm">Correct answer: {r?.correctDisplay ?? '(no answer)'}</p>
                 <div className="mt-1 text-sm opacity-80">{md(p.question.explanation)}</div>
               </li>
             );
@@ -408,7 +408,7 @@ function QuizAttempt({
           </label>
           {numericInvalid && (
             <p id={hintId} className="mt-1 text-sm text-red-700 dark:text-red-400">
-              Enter a number — decimals and scientific notation (e.g. 1.2e3) are accepted.
+              Enter a number: decimals and scientific notation (e.g. 1.2e3) are accepted.
             </p>
           )}
         </div>

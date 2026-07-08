@@ -13,18 +13,18 @@ function baseMessage(event: EngagementEvent): string {
       if (event.perfect) {
         return event.isAssessment ? 'Perfect score on the assessment! 🎉' : 'Perfect score! 🎉';
       }
-      return event.ratio >= 0.5 ? 'Nice work — quiz passed!' : 'Quiz finished — keep practising!';
+      return event.ratio >= 0.5 ? 'Nice work, quiz passed!' : 'Quiz finished, keep practising!';
     case 'flashcards-deck-complete':
       return 'Flashcard deck cleared! 🃏';
     case 'game-complete':
-      return 'Nice — game complete! 🎮';
+      return 'Nice, game complete! 🎮';
   }
 }
 
 function achievementSuffix(newlyUnlocked: Achievement[]): string {
   if (newlyUnlocked.length === 0) return '';
   const titles = newlyUnlocked.map((a) => a.title).join(', ');
-  return ` — achievement unlocked: ${titles}!`;
+  return `, achievement unlocked: ${titles}!`;
 }
 
 /** Full celebration message for one engagement event's recorded result. */
@@ -34,6 +34,6 @@ export function describeEngagementEvent(
 ): string {
   const points = pointsForEvent(event);
   const streakSuffix =
-    result.state.currentStreak >= 2 ? ` 🔥 ${result.state.currentStreak}-day streak` : '';
+    result.state.currentStreak >= 2 ? ` 🔥 streak of ${result.state.currentStreak} days` : '';
   return `${baseMessage(event)} +${points} points${streakSuffix}${achievementSuffix(result.newlyUnlocked)}`;
 }

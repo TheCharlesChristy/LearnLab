@@ -58,8 +58,9 @@ export function pointsForEvent(event: EngagementEvent): number {
       return 15;
     case 'quiz-finished': {
       const pass = event.ratio >= 0.5;
-      if (event.isAssessment) return event.perfect ? 30 : pass ? 20 : 5;
-      return event.perfect ? 25 : pass ? 15 : 5;
+      if (!pass) return 0;
+      if (event.isAssessment) return event.perfect ? 30 : 20;
+      return event.perfect ? 25 : 15;
     }
   }
 }
