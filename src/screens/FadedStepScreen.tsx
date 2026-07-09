@@ -1,7 +1,8 @@
-// `entry` screen — generation-format checkpoint (numeric/text), reusing
-// src/quiz/marking.ts's marking semantics verbatim (target spec #8: generation
-// over passive recognition). Gating: the learner must submit a correct value
-// themselves; a wrong submission surfaces the next rung of the hint ladder.
+// `faded-step` screen — backward-faded worked example (target spec #6,
+// extend-platform backlog item 4): the worked steps are shown, the final
+// step is blanked for the learner to supply. Gating and marking are
+// identical to `entry` (checkGenerationAnswer) — the difference is purely
+// presentational: worked context precedes the blanked prompt.
 
 import { useState } from 'react';
 
@@ -12,9 +13,14 @@ import { checkGenerationAnswer } from './marking-helpers';
 import { defineScreen } from './screen-def';
 import type { ScreenRunnerProps } from './screen-def';
 import { ScreenShell } from './ScreenShell';
-import type { EntryScreen as EntryScreenType } from './types';
+import type { FadedStepScreen as FadedStepScreenType } from './types';
 
-function EntryScreenRunner({ screen, index, total, onAdvance }: ScreenRunnerProps<EntryScreenType>) {
+function FadedStepScreenRunner({
+  screen,
+  index,
+  total,
+  onAdvance,
+}: ScreenRunnerProps<FadedStepScreenType>) {
   const [value, setValue] = useState('');
   const [correct, setCorrect] = useState(false);
   const [attempts, setAttempts] = useState(0);
@@ -24,11 +30,8 @@ function EntryScreenRunner({ screen, index, total, onAdvance }: ScreenRunnerProp
     if (correct || value.trim() === '') return;
     const ok = checkGenerationAnswer(screen, value);
     setShowFeedback(true);
-    if (ok) {
-      setCorrect(true);
-    } else {
-      setAttempts((n) => n + 1);
-    }
+    if (ok) setCorrect(true);
+    else setAttempts((n) => n + 1);
   }
 
   const hints = screen.hints ?? [];
@@ -39,10 +42,13 @@ function EntryScreenRunner({ screen, index, total, onAdvance }: ScreenRunnerProp
 
   return (
     <ScreenShell index={index} total={total} canAdvance={correct} onAdvance={onAdvance}>
-      <p className="text-lg font-medium">
+      <div className="text-sm">
+        <MarkdownInline markdown={screen.worked} />
+      </div>
+      <p className="mt-4 border-t border-slate-200 pt-3 text-lg font-medium dark:border-slate-700">
         <MarkdownInline markdown={screen.prompt} />
       </p>
-      <div className="mt-4">
+      <div className="mt-3">
         <label className="flex items-center gap-2" htmlFor={`${screen.id}-input`}>
           <span>Your answer{screen.inputMode === 'numeric' && screen.unit ? ` (${screen.unit})` : ''}</span>
           <input
@@ -89,4 +95,4 @@ function EntryScreenRunner({ screen, index, total, onAdvance }: ScreenRunnerProp
   );
 }
 
-export const def = defineScreen<EntryScreenType>({ component: EntryScreenRunner });
+export const def = defineScreen<FadedStepScreenType>({ component: FadedStepScreenRunner });

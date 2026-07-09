@@ -18,6 +18,8 @@ function baseMessage(event: EngagementEvent): string {
       return 'Flashcard deck cleared! 🃏';
     case 'game-complete':
       return 'Nice, game complete! 🎮';
+    case 'screen-complete':
+      return 'Nice.';
   }
 }
 

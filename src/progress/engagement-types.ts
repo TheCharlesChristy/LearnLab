@@ -19,7 +19,8 @@ export type EngagementEvent =
   | { kind: 'lesson-complete' }
   | { kind: 'quiz-finished'; ratio: number; perfect: boolean; isAssessment: boolean }
   | { kind: 'flashcards-deck-complete' }
-  | { kind: 'game-complete' };
+  | { kind: 'game-complete' }
+  | { kind: 'screen-complete' };
 
 export interface Achievement {
   id: string;

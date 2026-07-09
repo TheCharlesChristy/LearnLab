@@ -11,7 +11,15 @@ export interface ScreenSequence {
   screens: Screen[];
 }
 
-export type Screen = PredictScreen | TapChoiceScreen | EntryScreen | ManipulableTargetScreen;
+export type Screen =
+  | PredictScreen
+  | TapChoiceScreen
+  | EntryScreen
+  | ManipulableTargetScreen
+  | FadedStepScreen
+  | SortMatchScreen
+  | FlashRecallScreen
+  | RevealMechanismScreen;
 
 /**
  * The signature Brilliant move (target spec #3): pose a question the learner
@@ -91,4 +99,65 @@ export interface ManipulableTargetScreen {
   goal: ManipulableTargetGoal;
   successFeedback?: string;
   hints?: string[];
+}
+
+/**
+ * Backward-faded worked example (target spec #6, extend-platform backlog
+ * item 4): `worked` shows the already-solved steps, `prompt` blanks the
+ * final one for the learner to supply. Reuses the same numeric/text marking
+ * as `entry` — see checkGenerationAnswer in ./marking-helpers.ts.
+ */
+export interface FadedStepScreen {
+  type: 'faded-step';
+  id: string;
+  /** Markdown: the worked steps already shown, up to the blanked final step. */
+  worked: string;
+  prompt: string;
+  inputMode: 'numeric' | 'text';
+  answer?: number;
+  tolerance?: number;
+  unit?: string;
+  accept?: string[];
+  caseSensitive?: boolean;
+  successFeedback?: string;
+  hints?: string[];
+}
+
+/** Click-to-select matching, generalizing the `matching-pairs` widget as a single screen. */
+export interface SortMatchScreen {
+  type: 'sort-match';
+  id: string;
+  prompt: string;
+  /** 2-6 pairs; the right column is shuffled (seeded on screen id). */
+  pairs: { left: string; right: string }[];
+  successFeedback?: string;
+}
+
+/**
+ * Single retrieval-practice card: attempt recall of `back` from `front`
+ * BEFORE it's revealed (attempt-before-reveal, same family as `predict`),
+ * then self-grade. Generalizes the `flashcards` widget's flip/self-grade
+ * loop to one gated screen.
+ */
+export interface FlashRecallScreen {
+  type: 'flash-recall';
+  id: string;
+  front: string; // markdown prompt/question
+  back: string; // markdown answer
+}
+
+/**
+ * A worked mechanism with a MANDATORY self-explanation prompt (target spec
+ * #2: never a passive reveal). The learner must write something before the
+ * model self-explanation and Continue become available — not graded, but
+ * genuine generation is required, not just reading.
+ */
+export interface RevealMechanismScreen {
+  type: 'reveal-mechanism';
+  id: string;
+  /** Markdown: the worked content up to the self-explanation point. */
+  body: string;
+  selfExplainPrompt: string;
+  /** Markdown: the model self-explanation, shown once the learner has answered. */
+  selfExplainAnswer: string;
 }

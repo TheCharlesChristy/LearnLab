@@ -5,10 +5,14 @@ export { ScreenSequenceEngine, type ScreenSequenceEngineProps } from './ScreenSe
 export { screenRegistry, SCREEN_TYPES } from './registry';
 export type {
   EntryScreen,
+  FadedStepScreen,
+  FlashRecallScreen,
   ManipulableTargetGoal,
   ManipulableTargetScreen,
   PredictScreen,
+  RevealMechanismScreen,
   Screen,
   ScreenSequence,
+  SortMatchScreen,
   TapChoiceScreen,
 } from './types';

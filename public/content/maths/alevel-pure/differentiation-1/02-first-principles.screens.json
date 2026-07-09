@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "first-principles",
+  "title": "Differentiation from first principles",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-limit",
+      "prompt": "Last lesson, chord gradients on $y=x^2$ got closer and closer to 4 as the second point slid toward $x=2$. If you kept sliding it closer than any distance you could actually write down as a decimal, what do you think happens to the chord gradient?",
+      "choices": [
+        "It keeps getting closer to a fixed value — the tangent gradient",
+        "It reaches a value, then starts jumping around unpredictably",
+        "It becomes undefined, because the two points would be the same"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "That fixed value is exactly what we mean by the **derivative**. Formally,\n\n$$\nf'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}.\n$$\n\nThe fraction is the chord gradient between $(x, f(x))$ and $(x+h, f(x+h))$; the limit as $h \\to 0$ is the tangent gradient. You can also write the derivative as $\\dfrac{dy}{dx}$."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "why-h-vanishes",
+      "body": "Apply the definition to $f(x) = x^2$:\n\n$$\n\\frac{f(x+h)-f(x)}{h} = \\frac{(x+h)^2 - x^2}{h} = \\frac{2xh + h^2}{h} = 2x + h.\n$$\n\nTaking the limit as $h \\to 0$ leaves $f'(x) = 2x$ — matching the gradients you found by dragging last lesson ($4$ at $x=2$, $2$ at $x=1$).",
+      "selfExplainPrompt": "Before moving on: as $h \\to 0$, the '+h' term disappears but the '2x' term doesn't. Why not — what's different about the two terms?",
+      "selfExplainAnswer": "The '$+h$' term literally contains $h$, so as $h \\to 0$ it shrinks to $0$ and vanishes. The '$2x$' term has no $h$ in it at all — it doesn't depend on $h$, so letting $h \\to 0$ doesn't touch it. That's why $f'(x) = 2x$ survives as the limit while the $h$ drops away. (It's also why you can't just set $h=0$ from the start: before cancelling, both the top and bottom of the fraction are $0$, which is undefined — you must simplify first, *then* take the limit.)"
+    },
+    {
+      "type": "manipulable-target",
+      "id": "find-gradient-neg4",
+      "prompt": "Now find a point on $y = x^2$ where the tangent gradient is $-4$.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "x^2", "xmin": -4, "xmax": 4, "tangent": true, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": -4.4,
+        "max": -3.6,
+        "description": "Target: tangent gradient = -4."
+      },
+      "successFeedback": "That's it — the gradient is -4 right around $x = -2$, matching $f'(x)=2x$.",
+      "hints": [
+        "A negative gradient means the curve is falling as x increases — try the left-hand side.",
+        "You're looking for $x = -2$.",
+        "At $x=-2$, $2x = -4$."
+      ]
+    },
+    {
+      "type": "faded-step",
+      "id": "cube-first-principles",
+      "worked": "The same method on $f(x) = x^3$:\n\n$$\n\\frac{(x+h)^3 - x^3}{h} = \\frac{3x^2h + 3xh^2 + h^3}{h} = 3x^2 + 3xh + h^2.\n$$\n\nLetting $h \\to 0$, the last two terms vanish, leaving\n\n$$\nf'(x) = 3x^2.\n$$",
+      "prompt": "So the gradient of $y = x^3$ at any point is $3x^2$. What is $f'(2)$?",
+      "inputMode": "numeric",
+      "answer": 12,
+      "tolerance": 0.01,
+      "successFeedback": "Right — $f'(2) = 3 \\times 2^2 = 12$. First principles always works, but it's laborious — next lesson packages this pattern into a single rule: the power rule.",
+      "hints": ["$f'(x) = 3x^2$ — substitute $x = 2$.", "$3 \\times 2^2 = 3 \\times 4$."]
+    }
+  ]
+}

@@ -36,7 +36,11 @@
         { "$ref": "#/$defs/predict" },
         { "$ref": "#/$defs/tapChoice" },
         { "$ref": "#/$defs/entry" },
-        { "$ref": "#/$defs/manipulableTarget" }
+        { "$ref": "#/$defs/manipulableTarget" },
+        { "$ref": "#/$defs/fadedStep" },
+        { "$ref": "#/$defs/sortMatch" },
+        { "$ref": "#/$defs/flashRecall" },
+        { "$ref": "#/$defs/revealMechanism" }
       ]
     },
     "predict": {
@@ -167,6 +171,87 @@
         },
         "successFeedback": { "type": "string", "minLength": 1 },
         "hints": { "$ref": "#/$defs/hints" }
+      }
+    },
+    "fadedStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "worked", "prompt", "inputMode"],
+      "properties": {
+        "type": { "const": "faded-step" },
+        "id": { "$ref": "#/$defs/id" },
+        "worked": { "type": "string", "minLength": 1 },
+        "prompt": { "type": "string", "minLength": 1 },
+        "inputMode": { "enum": ["numeric", "text"] },
+        "answer": { "type": "number" },
+        "tolerance": { "type": "number", "minimum": 0 },
+        "unit": { "type": "string" },
+        "accept": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "caseSensitive": { "type": "boolean" },
+        "successFeedback": { "type": "string", "minLength": 1 },
+        "hints": { "$ref": "#/$defs/hints" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "inputMode": { "const": "numeric" } } },
+          "then": { "required": ["answer", "tolerance"] }
+        },
+        {
+          "if": { "properties": { "inputMode": { "const": "text" } } },
+          "then": { "required": ["accept"] }
+        }
+      ]
+    },
+    "sortMatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "prompt", "pairs"],
+      "properties": {
+        "type": { "const": "sort-match" },
+        "id": { "$ref": "#/$defs/id" },
+        "prompt": { "type": "string", "minLength": 1 },
+        "pairs": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["left", "right"],
+            "properties": {
+              "left": { "type": "string", "minLength": 1 },
+              "right": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "successFeedback": { "type": "string", "minLength": 1 }
+      }
+    },
+    "flashRecall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "front", "back"],
+      "properties": {
+        "type": { "const": "flash-recall" },
+        "id": { "$ref": "#/$defs/id" },
+        "front": { "type": "string", "minLength": 1 },
+        "back": { "type": "string", "minLength": 1 }
+      }
+    },
+    "revealMechanism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "body", "selfExplainPrompt", "selfExplainAnswer"],
+      "properties": {
+        "type": { "const": "reveal-mechanism" },
+        "id": { "$ref": "#/$defs/id" },
+        "body": { "type": "string", "minLength": 1 },
+        "selfExplainPrompt": { "type": "string", "minLength": 1 },
+        "selfExplainAnswer": { "type": "string", "minLength": 1 }
       }
     }
   }

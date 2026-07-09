@@ -6,9 +6,13 @@
 // schemas/screen-sequence.schema.json.
 
 import { def as entryDef } from './EntryScreen';
+import { def as fadedStepDef } from './FadedStepScreen';
+import { def as flashRecallDef } from './FlashRecallScreen';
 import { def as manipulableTargetDef } from './ManipulableTargetScreen';
 import { def as predictDef } from './PredictScreen';
+import { def as revealMechanismDef } from './RevealMechanismScreen';
 import type { ScreenDef } from './screen-def';
+import { def as sortMatchDef } from './SortMatchScreen';
 import { def as tapChoiceDef } from './TapChoiceScreen';
 import type { Screen } from './types';
 
@@ -17,6 +21,10 @@ export const screenRegistry: Record<Screen['type'], ScreenDef> = {
   'tap-choice': tapChoiceDef,
   entry: entryDef,
   'manipulable-target': manipulableTargetDef,
+  'faded-step': fadedStepDef,
+  'sort-match': sortMatchDef,
+  'flash-recall': flashRecallDef,
+  'reveal-mechanism': revealMechanismDef,
 };
 
 export const SCREEN_TYPES: readonly Screen['type'][] = Object.keys(screenRegistry) as Screen['type'][];

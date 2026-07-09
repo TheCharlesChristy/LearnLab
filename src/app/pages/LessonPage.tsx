@@ -195,7 +195,17 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
       notifyEngagement: (event) => {
         void (async () => {
           const result = await recordEngagementEvent(event);
-          if (result) celebrate({ message: describeEngagementEvent(event, result) });
+          if (result) {
+            // Per-screen completion (docs/BRILLIANT_REWRITE_PLAN.md) is
+            // frequent within one lesson — a small toast per screen matches
+            // "immediate feedback on every interaction", but a confetti
+            // burst every 20-30s would be noise; confetti stays reserved
+            // for whole-artifact milestones (lesson/quiz/deck/game).
+            celebrate({
+              message: describeEngagementEvent(event, result),
+              confetti: event.kind !== 'screen-complete',
+            });
+          }
         })();
       },
     }),
