@@ -110,8 +110,8 @@ The app ships a CSP via meta tag:
 
 ```
 default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net;
-worker-src 'self' blob:; connect-src 'self' https://cdn.jsdelivr.net;
-img-src 'self' data:; style-src 'self' 'unsafe-inline'
+worker-src 'self' blob:; connect-src 'self' https://cdn.jsdelivr.net blob:;
+img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'
 ```
 
 **No other origins, ever.** No analytics, no font CDNs (fonts are self-hosted). Corollaries that bite contributors:
@@ -119,3 +119,4 @@ img-src 'self' data:; style-src 'self' 'unsafe-inline'
 - No `eval`/`new Function` anywhere in app code (NFR-SEC-002) — `function-grapher` compiles expressions with a mathjs number-only subset instead.
 - Raw HTML in lesson Markdown is disabled (FR-CONT-005), eliminating content-borne XSS.
 - The only cross-origin traffic is the pinned Pyodide CDN prefix; learner-typed code (the `code-runner` widget, P1) runs only in the DOM-less worker.
+- `connect-src`/`img-src` trust `blob:` for the same reason `worker-src` already did (same-origin Pyodide worker blobs): the `/widgets` playground (`src/app/WidgetPlayground.tsx`) feeds a widget's `src` prop from a `URL.createObjectURL()` blob built from user-edited JSON/images, so it can preview a widget without a real hosted file. `blob:` URLs are ephemeral and document-scoped — a remote page can't forge one that resolves in this origin — so this doesn't open cross-origin traffic.
