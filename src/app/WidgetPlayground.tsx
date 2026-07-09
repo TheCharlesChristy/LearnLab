@@ -1,7 +1,10 @@
-// Interactive "Try it" panel for the /widgets gallery (WidgetsPage.tsx):
-// lets a user edit a widget's props and see it re-render live, reusing the
-// exact parseProps -> DirectiveErrorCard | <Widget/> flow the real lesson
-// markdown pipeline uses (src/markdown/directives.tsx's WidgetDirective).
+// Interactive playground for the /widgets explorer (WidgetsPage.tsx): lets
+// a user edit a widget's props and see it re-render live, reusing the exact
+// parseProps -> DirectiveErrorCard | <Widget/> flow the real lesson markdown
+// pipeline uses (src/markdown/directives.tsx's WidgetDirective). The page
+// mounts this directly (key={widgetKey}) for whichever widget is currently
+// selected — only one is ever mounted at a time, so no lazy-open guard is
+// needed here.
 // No LessonContext.Provider is mounted anywhere here — every widget is
 // written and tested to degrade gracefully with a null context, and it's
 // required for correctness: quiz's fetch collapses moduleBaseUrl to '' with
@@ -289,7 +292,7 @@ function ImageSrcField({ onResolved }: { onResolved: (src: string | undefined) =
   );
 }
 
-function PlaygroundBody({ widgetKey, doc }: { widgetKey: string; doc: WidgetDoc }) {
+export default function WidgetPlayground({ widgetKey, doc }: { widgetKey: string; doc: WidgetDoc }) {
   const initial = useMemo(() => buildInitialState(doc), [doc]);
   const [values, setValues] = useState(initial.values);
   const [booleans, setBooleans] = useState(initial.booleans);
@@ -387,29 +390,5 @@ function PlaygroundBody({ widgetKey, doc }: { widgetKey: string; doc: WidgetDoc 
         ) : null}
       </div>
     </div>
-  );
-}
-
-export default function WidgetPlayground({ widgetKey, doc }: { widgetKey: string; doc: WidgetDoc }) {
-  const [open, setOpen] = useState(false);
-  const [hasOpened, setHasOpened] = useState(false);
-
-  return (
-    <details
-      className="mt-3 rounded-md border border-slate-200 dark:border-slate-700"
-      open={open}
-      onToggle={(e) => {
-        const next = (e.target as HTMLDetailsElement).open;
-        setOpen(next);
-        if (next) setHasOpened(true);
-      }}
-    >
-      <summary className="cursor-pointer select-none rounded-md px-3 py-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-indigo-600">
-        Try it
-      </summary>
-      <div className="border-t border-slate-200 p-3 dark:border-slate-700">
-        {hasOpened && <PlaygroundBody widgetKey={widgetKey} doc={doc} />}
-      </div>
-    </details>
   );
 }

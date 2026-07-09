@@ -1,11 +1,13 @@
-// Widget gallery (#/widgets): dynamically enumerates every widget in
-// src/widgets/registry.ts and shows its docs/WIDGETS.md documentation
-// (description, props, example). Adding a widget via the existing runbook
-// (docs/ARCHITECTURE.md §4) requires no changes here.
+// Widget explorer (#/widgets/:widgetKey?): a sidebar lists every widget in
+// src/widgets/registry.ts (dynamically — adding one via the existing runbook,
+// docs/ARCHITECTURE.md §4, requires no changes here); picking one shows its
+// playground immediately, with docs/WIDGETS.md documentation collapsed
+// behind a "Show documentation" toggle.
 import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Navigate, NavLink, useParams } from 'react-router';
 
 import { WIDGET_KEYS } from '../../widgets/registry';
-import { Card } from '../../ui';
+import { Card, cx } from '../../ui';
 import { LazyMarkdownInline } from '../shared';
 import WidgetPlayground from '../WidgetPlayground';
 import type { WidgetDoc, WidgetPropRow } from '../widgetDocs';
@@ -72,32 +74,37 @@ function PropsTable({ props }: { props: WidgetPropRow[] }) {
   );
 }
 
-function WidgetCard({ widgetKey, doc }: { widgetKey: string; doc: WidgetDoc | undefined }) {
-  if (!doc) {
-    return (
-      <Card className="min-w-0">
-        <h2 className="font-mono text-sm font-semibold">{widgetKey}</h2>
-        <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-          Documentation unavailable.
-        </p>
-      </Card>
-    );
-  }
-
+/** Description/props/example — collapsed by default so the playground is
+ * the only thing shown until a user explicitly asks for documentation.
+ * Content is only rendered after the first open (not just CSS-hidden while
+ * closed), matching the on-demand-disclosure idiom this page already uses
+ * for the playground panel. */
+function WidgetDocs({ doc }: { doc: WidgetDoc }) {
+  const [hasOpened, setHasOpened] = useState(false);
   return (
-    <Card className="min-w-0">
-      <h2 className="font-mono text-sm font-semibold">{doc.key}</h2>
-      <div className="mt-2 text-sm text-slate-700 dark:text-slate-200">
-        <InlineMarkdown markdown={doc.description} />
-      </div>
-      <PropsTable props={doc.props} />
-      {doc.example && (
-        <pre className="mt-3 overflow-x-auto rounded-md bg-slate-100 p-3 text-xs dark:bg-slate-800">
-          <code>{doc.example}</code>
-        </pre>
+    <details
+      className="mt-4 rounded-md border border-slate-200 dark:border-slate-700"
+      onToggle={(e) => {
+        if ((e.target as HTMLDetailsElement).open) setHasOpened(true);
+      }}
+    >
+      <summary className="cursor-pointer select-none rounded-md px-3 py-2 text-sm font-medium focus-visible:outline-2 focus-visible:outline-indigo-600">
+        Show documentation
+      </summary>
+      {hasOpened && (
+        <div className="border-t border-slate-200 p-3 dark:border-slate-700">
+          <div className="text-sm text-slate-700 dark:text-slate-200">
+            <InlineMarkdown markdown={doc.description} />
+          </div>
+          <PropsTable props={doc.props} />
+          {doc.example && (
+            <pre className="mt-3 overflow-x-auto rounded-md bg-slate-100 p-3 text-xs dark:bg-slate-800">
+              <code>{doc.example}</code>
+            </pre>
+          )}
+        </div>
       )}
-      <WidgetPlayground widgetKey={doc.key} doc={doc} />
-    </Card>
+    </details>
   );
 }
 
@@ -112,7 +119,16 @@ function matchesQuery(key: string, doc: WidgetDoc | undefined, query: string): b
   return haystack.includes(query);
 }
 
+const sidebarLinkClass = ({ isActive }: { isActive: boolean }) =>
+  cx(
+    'block rounded-md px-3 py-1.5 font-mono text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600',
+    isActive
+      ? 'bg-indigo-100 text-indigo-900 dark:bg-indigo-900 dark:text-indigo-100'
+      : 'text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700',
+  );
+
 export default function WidgetsPage() {
+  const { widgetKey: paramKey } = useParams<{ widgetKey?: string }>();
   const keys = useMemo(() => [...WIDGET_KEYS].sort((a, b) => a.localeCompare(b)), []);
 
   const [raw, setRaw] = useState('');
@@ -128,42 +144,76 @@ export default function WidgetsPage() {
     [keys, query],
   );
 
+  if (!paramKey) {
+    return <Navigate to={`/widgets/${keys[0]}`} replace />;
+  }
+
+  const selectedKey = keys.includes(paramKey) ? paramKey : undefined;
+  const doc = selectedKey ? getWidgetDoc(selectedKey) : undefined;
+
   return (
     <div>
       <h1 className="mb-1 text-2xl font-bold">Widgets</h1>
       <p className="mb-4 text-sm text-slate-600 dark:text-slate-300">
-        Every native widget available in lesson content ({keys.length} total), read directly from
-        the widget registry and its documentation. Expand a card&rsquo;s &ldquo;Try it&rdquo;
-        panel to configure and preview it live.
+        Pick a widget to configure and preview it live ({keys.length} available), read directly
+        from the widget registry and its documentation.
       </p>
 
-      <label htmlFor="widget-search-input" className="block text-sm font-medium">
-        Search widgets
-      </label>
-      <input
-        id="widget-search-input"
-        type="search"
-        value={raw}
-        onChange={(e) => setRaw(e.target.value)}
-        placeholder="e.g. quiz, tangent, boolean"
-        className="mt-1 w-full max-w-md rounded border border-slate-300 px-3 py-2 focus-visible:outline-2 focus-visible:outline-indigo-600 dark:border-slate-600 dark:bg-slate-800"
-        autoComplete="off"
-      />
-      <p aria-live="polite" className="mb-4 mt-2 min-h-5 text-sm text-slate-600 dark:text-slate-300">
-        {`${visibleKeys.length} of ${keys.length} widgets`}
-      </p>
-
-      {visibleKeys.length === 0 ? (
-        <p className="text-slate-600 dark:text-slate-300">
-          No widgets matched &ldquo;{debounced.trim()}&rdquo;. Try a different word.
-        </p>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {visibleKeys.map((key) => (
-            <WidgetCard key={key} widgetKey={key} doc={getWidgetDoc(key)} />
-          ))}
+      <div className="grid gap-4 md:grid-cols-[240px_1fr]">
+        <div className="min-w-0">
+          <label htmlFor="widget-search-input" className="block text-sm font-medium">
+            Search widgets
+          </label>
+          <input
+            id="widget-search-input"
+            type="search"
+            value={raw}
+            onChange={(e) => setRaw(e.target.value)}
+            placeholder="e.g. quiz, tangent, boolean"
+            className="mt-1 w-full rounded border border-slate-300 px-3 py-2 focus-visible:outline-2 focus-visible:outline-indigo-600 dark:border-slate-600 dark:bg-slate-800"
+            autoComplete="off"
+          />
+          <p aria-live="polite" className="mb-2 mt-2 min-h-5 text-xs text-slate-600 dark:text-slate-300">
+            {`${visibleKeys.length} of ${keys.length} widgets`}
+          </p>
+          {visibleKeys.length === 0 ? (
+            <p className="text-sm text-slate-600 dark:text-slate-300">
+              No widgets matched &ldquo;{debounced.trim()}&rdquo;.
+            </p>
+          ) : (
+            <nav aria-label="Widgets">
+              <ul className="space-y-0.5">
+                {visibleKeys.map((key) => (
+                  <li key={key}>
+                    <NavLink to={`/widgets/${key}`} end className={sidebarLinkClass}>
+                      {key}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
         </div>
-      )}
+
+        <div className="min-w-0">
+          {!doc ? (
+            <Card className="min-w-0">
+              <h2 className="font-semibold">Unknown widget: {paramKey}</h2>
+              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                That widget doesn&rsquo;t exist. Pick one from the list to the side.
+              </p>
+            </Card>
+          ) : (
+            <>
+              <h2 className="font-mono text-lg font-semibold">{doc.key}</h2>
+              <div className="mt-3">
+                <WidgetPlayground key={doc.key} widgetKey={doc.key} doc={doc} />
+              </div>
+              <WidgetDocs doc={doc} />
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
