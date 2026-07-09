@@ -6,44 +6,44 @@
     {
       "type": "predict",
       "id": "predict-x5",
-      "prompt": "We've now seen $\\frac{d}{dx}(x^2) = 2x$ and $\\frac{d}{dx}(x^3) = 3x^2$. Following that pattern, what do you think $\\frac{d}{dx}(x^5)$ equals?",
+      "prompt": "We've now found the instantaneous-speed rule for two vehicle models: $\\frac{d}{dx}(x^2) = 2x$ and $\\frac{d}{dx}(x^3) = 3x^2$. Following that pattern, what do you think the rule for a vehicle modelled by $x^5$ would be — $\\frac{d}{dx}(x^5)$?",
       "choices": ["$5x^4$", "$x^4$", "$5x^5$"],
       "correctChoiceIndex": 0,
-      "reveal": "The general rule: if $f(x) = ax^n$ then\n\n$$\nf'(x) = anx^{n-1}.\n$$\n\nIn words: multiply by the power, then reduce the power by one. So $\\frac{d}{dx}(x^5) = 5x^4$ — the same pattern, generalised."
+      "reveal": "The general rule: if $f(x) = ax^n$ then\n\n$$\nf'(x) = anx^{n-1}.\n$$\n\nIn words: multiply by the power, then reduce the power by one. So $\\frac{d}{dx}(x^5) = 5x^4$ — the same pattern, generalised, and now you never need to repeat lesson 2's limit calculation for a new vehicle model again."
     },
     {
       "type": "tap-choice",
       "id": "constant-rule",
-      "prompt": "Using the same rule (or just first principles): what is the derivative of a constant, like $9$?",
+      "prompt": "Using the same rule (or just first principles): what is the instantaneous speed of a parked car, whose distance-time graph is the constant $y = 9$?",
       "choices": [
         { "text": "$0$" },
         {
           "text": "$9$",
-          "feedback": "A constant graph is perfectly flat — its gradient (rate of change) is zero, not the constant's own value."
+          "feedback": "A constant graph is perfectly flat — a parked car isn't moving, so its speed is zero, not the constant $9$ itself."
         },
         {
           "text": "undefined",
-          "feedback": "Constants differentiate perfectly normally — the derivative is well-defined, it's just zero."
+          "feedback": "Parked cars differentiate perfectly normally — the derivative is well-defined, it's just zero."
         }
       ],
       "correctIndex": 0,
-      "successFeedback": "Right — a constant graph is horizontal, so its gradient is 0 everywhere. You also differentiate a sum term by term: the derivative of $f(x)+g(x)$ is $f'(x)+g'(x)$."
+      "successFeedback": "Right — a parked car's distance-time graph is horizontal, so its speed is 0 at every instant. You also differentiate a sum term by term: the derivative of $f(x)+g(x)$ is $f'(x)+g'(x)$."
     },
     {
       "type": "manipulable-target",
       "id": "confirm-cubic-gradient",
-      "prompt": "Drag the point along $y = x^3$ until the tangent gradient reads about 3 — there's more than one point where this works; any of them count.",
+      "prompt": "Back to the faster-accelerating vehicle from last lesson, modelled by $y = x^3$: drag the point until its instantaneous speed reads about 3 m/s — there's more than one instant where this works; either counts.",
       "widget": "function-grapher",
       "widgetProps": { "expr": "x^3", "xmin": -3, "xmax": 3, "tangent": true, "grid": true },
       "goal": {
         "kind": "tangent-gradient-in-range",
         "min": 2.3,
         "max": 3.7,
-        "description": "Target: tangent gradient ≈ 3 (matches the power rule: 3x²)."
+        "description": "Target: instantaneous speed ≈ 3 m/s (matches the power rule: 3x²)."
       },
       "successFeedback": "Exactly — the power rule says $\\frac{d}{dx}(x^3)=3x^2$, and $3x^2=3$ at $x=\\pm1$.",
       "hints": [
-        "The power rule predicts the gradient is $3x^2$ — where does $3x^2 = 3$?",
+        "The power rule predicts the speed is $3x^2$ m/s — where does $3x^2 = 3$?",
         "Solve $3x^2 = 3$: that's $x^2 = 1$.",
         "Try landing the point at $x = 1$ (or $x = -1$)."
       ]
@@ -51,12 +51,12 @@
     {
       "type": "faded-step",
       "id": "evaluate-polynomial-derivative",
-      "worked": "Differentiate $f(x) = 3x^4 - 5x^2 + 2$ term by term with the power rule:\n\n$$\nf'(x) = 3 \\cdot 4x^{3} - 5 \\cdot 2x^{1} + 0 = 12x^3 - 10x.\n$$",
-      "prompt": "So $f'(x) = 12x^3 - 10x$. What is $f'(2)$?",
+      "worked": "A delivery drone's height above the ground is modelled by $f(x) = 3x^4 - 5x^2 + 2$ (metres, $x$ seconds after launch). Differentiate term by term with the power rule to get its climb rate:\n\n$$\nf'(x) = 3 \\cdot 4x^{3} - 5 \\cdot 2x^{1} + 0 = 12x^3 - 10x.\n$$",
+      "prompt": "So the drone's climb rate is $f'(x) = 12x^3 - 10x$ m/s. What is $f'(2)$ — its climb rate at $x=2$ s?",
       "inputMode": "numeric",
       "answer": 76,
       "tolerance": 0.01,
-      "successFeedback": "Right — $f'(2) = 12(2)^3 - 10(2) = 96 - 20 = 76$. You're ready for the end-of-module assessment.",
+      "successFeedback": "Right — $f'(2) = 12(2)^3 - 10(2) = 96 - 20 = 76$ m/s. Remember the speedometer paradox from the start of this module? You now have the tool to resolve it for any vehicle, any model: differentiate the position function with the power rule, then evaluate it at the instant you care about. You're ready for the end-of-module assessment.",
       "hints": ["Substitute $x = 2$ into $12x^3 - 10x$.", "$12 \\times 8 - 10 \\times 2 = 96 - 20$."]
     }
   ]
