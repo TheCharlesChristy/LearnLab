@@ -10,8 +10,11 @@ This skill is the **decomposition and mapping** step: turning a source resource 
 voice — that is ready to author. It does not cover the mechanical authoring steps (scaffolding
 with `npm run new:module`, directive syntax, JSON schemas, the PR/validate loop): once your
 content is mapped and drafted, hand off to the **`learnlab-author-content`** skill for that.
-For verifying any fact, formula, or numeric answer you carry over from the source, hand off to
-the **`learnlab-research-content`** skill — do not trust the source's own correctness.
+For everything about how the rewritten lessons should *teach* (hooks, checkpoints, worked-example
+fading, narrative rules, level calibration), the **`learnlab-lesson-pedagogy`** skill is the
+authority — read it before drafting in Step 4. For verifying any fact, formula, or numeric answer
+you carry over from the source, hand off to the **`learnlab-research-content`** skill — do not
+trust the source's own correctness.
 
 Do all of this with a **fresh read of the source in hand**, never from a summary someone else
 gave you. Sources vary wildly in structure (a textbook chapter, a PDF exam syllabus, raw lecture
@@ -80,6 +83,12 @@ focused minutes, with one worked example and room for one interactive check?" If
 roughly one lesson's worth. If it's clearly 3+ of those in sequence with a coherent throughline,
 it's a module. If it's several such modules' worth spanning a whole subject, it's a course.
 
+While you're mapping, also **fix the source's audience level**: decide which of
+learnlab-lesson-pedagogy's level-dial settings (GCSE / A-level / adult-facing) the adapted
+content targets. A university textbook adapted down to GCSE and the same textbook adapted to an
+adult professional course produce very different rewrites of identical source material — pin
+the dial in the plan, before any drafting, so every lesson in the module holds it consistently.
+
 ## Step 3 — Derive prerequisites from the source's real dependencies, not its table of contents
 
 A source resource is usually linear (chapter 1, then 2, then 3…), and it is tempting to copy
@@ -115,6 +124,11 @@ topic that secretly needs a pure-maths integration technique the source assumed 
 `integration-1` in BUILD_PLAN.md's Phase P2 notes) — these are easy to miss if you just mirror
 the source's own chapter order.
 
+An honest prerequisite graph pays a second dividend: learnlab-lesson-pedagogy requires each
+module assessment to include at least one cumulative review question drawing on a *declared*
+prerequisite. The dependency tracing you do here is exactly what identifies which earlier
+technique that review question should exercise.
+
 ## Step 4 — Rewrite in LearnLab's voice; never paste the source
 
 Read a couple of shipped lessons closely before drafting your own — e.g.
@@ -122,22 +136,33 @@ Read a couple of shipped lessons closely before drafting your own — e.g.
 `public/content/physics/alevel-physics/waves-and-optics/02-interference-diffraction.md`. Both
 show the same house style: a short framing paragraph connecting to the previous lesson, one or
 two `$$display$$` derivations worked in full prose-plus-algebra (not just a dropped formula), a
-`:::callout{kind="key"|"tip"}` pulling out the one fact worth memorising, at least one
-`:::reveal{title="Worked example: …"}` with a *second*, harder worked example the learner can
-attempt before opening, one embedded native widget or Python item placed where it earns its
-keep (right after the idea it illustrates, not bolted on at the end), and a closing line or two
-that hands off to the next lesson. Match this shape — prose that teaches, one full derivation,
-one extra worked example held back behind a reveal, one interactive moment — rather than a wall
-of source text with a quiz bolted onto the end.
+`:::callout{kind="key"|"tip"}` pulling out the one fact worth memorising, worked examples the
+learner can attempt before opening, one embedded native widget or Python item placed where it
+earns its keep (right after the idea it illustrates, not bolted on at the end), and a closing
+line or two that hands off to the next lesson.
+
+**The pedagogy of the rewrite is governed by `learnlab-lesson-pedagogy` — read it now, before
+drafting.** In particular, a source rewrite must apply, not just the house shape above, but that
+skill's full design rules: a hook ending in a committed prediction (the four approved patterns;
+never the source's "this chapter covers…" register), 150–250 word beats with a checkpoint after
+each, at least half the checkpoints demanding generation rather than recognition, the worked
+example rebuilt as a full-plus-backward-faded pair with self-explanation prompts, the centerpiece
+widget in the middle third, and the close resolving the opening prediction. Its final self-check
+applies to every adapted lesson exactly as it does to lessons written from scratch. The dash rule
+(no em/en-dashes anywhere in user-facing text) lives in **`learnlab-author-content`** and applies
+here too.
 
 **Convert the source's static elements into LearnLab's native formats** (full catalogue and prop
 schemas in `docs/WIDGETS.md`) instead of describing them in prose or embedding a scanned image:
 
 | Source element | LearnLab target |
 |---|---|
-| A static graph/plot image | `::widget{type="function-grapher" ...}` (for `y=f(x)` shapes) or `::widget{type="data-plot" src="..."}` (for discrete/measured data) |
-| A worked-example box / "solution" panel | `:::reveal{title="Worked example: …"}` container |
-| A "try these practice problems" section | Questions in `assessment.json` (or an inline `::widget{type="quiz" src="..."}`) — see Step 5 |
+| A static graph/plot image | `::widget{type="function-grapher" ...}` (for `y=f(x)` shapes) or `::widget{type="data-plot" src="..."}` (for discrete/measured data) — with a predict/find-the-pattern task per learnlab-lesson-pedagogy |
+| A worked-example box / "solution" panel | A full `:::reveal` worked example **plus** a backward-faded companion with new numbers (see learnlab-lesson-pedagogy) — never a single monolithic transcription |
+| A "try these practice problems" section | Questions in `assessment.json` (or an inline `::widget{type="quiz" src="..."}`) — with **your own** new questions; see Step 5 |
+| Chapter-opening "preview questions" or objectives box | A prediction/prequestion hook the learner commits to before teaching — the strongest possible conversion, since attempting-before-instruction measurably improves retention |
+| A chapter-opening anecdote, "did you know" box, historical aside, or fun-fact margin note | Apply learnlab-lesson-pedagogy's deletion test: keep only if load-bearing (it introduces the problem, carries the concept, or threads the sequence); otherwise **delete it** — do not port it out of loyalty to the source |
+| End-of-chapter review questions and mark schemes | Never copy them — but **mine them for misconception patterns** (what wrong answers do they anticipate?) to build your own distractors; see learnlab-research-content's misconception section |
 | A multi-step derivation the source shows all at once | `::widget{type="step-reveal" src="steps/....json"}` if you want the learner to reveal it one line at a time, rather than a reveal block if it should open all at once |
 | A key-terms glossary / vocabulary list | `::widget{type="flashcards" src="cards/....json"}` |
 | A term/definition matching exercise, or any paired-concepts list (term↔meaning, cause↔effect, symbol↔name) | `::widget{type="matching-pairs" src="cards/....json"}` — see `docs/WIDGETS.md` |
@@ -145,27 +170,25 @@ schemas in `docs/WIDGETS.md`) instead of describing them in prose or embedding a
 | "Try running this calculation yourself" | `::widget{type="code-runner" language="python" starter="..."}` |
 | A genuinely static diagram/photo with no data to plot | `::widget{type="figure" src="..." alt="..."}` (note: `figure` does **not** satisfy the MVC interactive-item requirement — see Step 5) |
 
+**A warning specific to adapting sources: textbooks are seductive-detail factories.** The
+margin boxes, historical vignettes, and "in the real world" asides that make a printed chapter
+feel lively are precisely the interesting-but-irrelevant material shown to *reduce* retention
+and transfer when carried into a lesson. When adapting, the pull to keep them is strong — they
+feel like free engagement. Resist it: run the deletion test on every one, and remember that the
+correct LearnLab replacement for a fun-but-idle aside is not a fun-but-idle aside in a callout;
+it is either nothing, or a load-bearing hook built from the same real-world material.
+
 **Voice — LearnLab teaches through play, not just correct transcription.** A
 source textbook is usually written in a flat, formal register; don't carry
 that register over by default. Rewriting in your own words (required below,
 for copyright reasons too) is also your chance to write like you're
 explaining the idea to someone, not grading them, and to notice where the
 source describes something static that could become one of the interactive
-widgets in the table above instead. None of this loosens the copyright or
+widgets in the table above instead. Calibrate the playfulness to the level
+dial fixed in Step 2 — a GCSE rewrite and an adult-facing rewrite of the same
+chapter should read very differently. None of this loosens the copyright or
 verification rules that follow; a playful voice on a wrong or plagiarised
 fact is still a bug.
-
-This is also the point where **`learnlab-author-content`**'s two house-style
-rules for lesson prose apply, since you're drafting real lesson text here,
-not just mapping structure: frame the rewritten lesson as a journey (a hook
-the source's own chapter opening rarely gives you for free, waypoint section
-headings, a throughline between sections, a close that ties back to the
-opening) rather than a flat transcription of the source's own section order,
-and never use an em-dash or en-dash anywhere in the rewritten text (they read
-as a minus sign next to the maths/physics notation you're about to add) —
-see that skill's "Structure the lesson as a journey" and "Never use dashes
-that could be misread as a minus sign" sections for the full detail and
-real examples.
 
 **Copyright — read this before drafting.** Adapting a source's *structure and pedagogical
 approach* (how it sequences ideas, which examples it emphasises, the shape of its explanations)
@@ -201,7 +224,12 @@ source was a static PDF with no interactivity is not a reason to skip the intera
 - ◆ Declared `prerequisites` (Step 3) and `objectives` (2–6 learner-facing outcomes derived from
   what the source actually teaches).
 - ◆ `estMinutes` set on the module and on every lesson.
-- Every concept lesson SHOULD include one `:::reveal` worked example (Step 4).
+
+And the **house bar on top of CI**: adapted modules must also pass learnlab-lesson-pedagogy's
+final self-check (prediction hook, checkpoint format mix and placement, faded worked-example
+pair, misconception distractors, cumulative review question). A source's flat structure is not
+an exemption from any of it — the whole point of adapting rather than mirroring is to end up
+with a lesson that teaches better than the source did.
 
 Once your mapping, drafts, and widget/assessment choices are settled, switch to the
 **`learnlab-author-content`** skill for the actual mechanics — scaffolding via `npm run new:module`,

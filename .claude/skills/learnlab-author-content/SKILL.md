@@ -1,6 +1,6 @@
 ---
 name: learnlab-author-content
-description: Author new LearnLab lessons, modules, or courses under public/content/ — scaffolding a module, writing lesson Markdown with the four directive forms, building assessment.json quizzes, meeting the Minimum Viable Content (MVC) bar, and validating with build-content.mjs --strict. Use for "add a module", "write a lesson", "create a course", "new LearnLab content", or any task touching public/content/**.
+description: Author new LearnLab lessons, modules, or courses under public/content/ — scaffolding a module, writing lesson Markdown with the four directive forms, building assessment.json quizzes, meeting the Minimum Viable Content (MVC) bar, and validating with build-content.mjs --strict. Use for "add a module", "write a lesson", "create a course", "new LearnLab content", or any task touching public/content/**. Always pair with the learnlab-lesson-pedagogy skill, which governs what to write; this skill governs the mechanics of writing it.
 ---
 
 # Authoring LearnLab content
@@ -12,7 +12,9 @@ guide doesn't spell out: how the tooling actually behaves, the tacit process
 knowledge from three phases of shipping ~90 real modules, and the exact
 verbatim shapes to copy from. Never touch `src/` to add or edit content — that
 is a hard architectural invariant (C-5) and `--strict` plus the PR lane both
-assume it.
+assume it. (If a task genuinely requires a `src/` change — a new widget, a new
+question type — that's the **learnlab-extend-platform** skill's territory,
+not this one's.)
 
 ## The three closed sets — never silently extend
 
@@ -93,6 +95,12 @@ any of them fails CI on a content PR:
 - (SHOULD, not CI-enforced) every concept lesson includes one `:::reveal`
   worked example.
 
+The **house bar** is higher than the CI bar: the learnlab-lesson-pedagogy
+skill's final self-check (prediction hook, checkpoint format mix and
+placement, faded worked-example pair, misconception distractors, cumulative
+review question) applies to every module on top of the ◆ rules above. CI
+passing does not mean the module is done.
+
 One sharp edge worth knowing (D-018): `build-content.mjs` **silently skips**
 full MVC checking for any module folder not yet referenced by its course's
 `course.json` — it only prints a `WARN ... not referenced by course.json`.
@@ -100,94 +108,30 @@ An orphan folder that "passes `--strict`" may just never have been checked.
 Always add the `ModuleRef` to the real `course.json` before trusting a green
 `--strict` run as meaning the module is actually valid.
 
-## Writing for play, not just correctness
+## Pedagogy is its own skill — read it before drafting prose
 
-LearnLab's goal is to make learning fun — to teach through play, not just
-deliver correct information. The rendering/quiz/progress layer already
-carries a lot of this on its own (animated feedback, streaks, points,
-celebratory moments on lesson/quiz/deck/game completion) — you never need to
-add markup for any of that; it fires automatically whenever a learner
-completes a lesson, quiz, flashcard deck, or game widget. Your job as a
-content author is the other half: making the *content itself* worth playing
-with.
+Everything about *what* to write — hooks and the banned openers, journey
+structure, the level dial for GCSE/A-level/adult tone, beat length,
+checkpoint placement and format mix, worked-example fading, self-explanation
+prompts, the load-bearing-narrative deletion test, misconception-based
+distractors, feedback voice — lives in the **learnlab-lesson-pedagogy**
+skill. Reading it is a required step before writing or substantially
+revising any lesson prose or quiz question, exactly the way reading
+`docs/WIDGETS.md` is required before writing a widget directive. Its final
+self-check and this skill's validation loop are both mandatory; neither
+substitutes for the other.
 
-- **Reach for a genuinely interactive widget before settling for the MVC
-  minimum.** A module that hits "≥ 1 interactive item" with a single `figure`-
-  adjacent widget bolted on technically passes `--strict`, but a lesson that's
-  mostly prose with one perfunctory chart isn't the bar to aim for. Ask what
-  in this lesson would be more fun to *do* than to *read*: a term/definition-
-  heavy topic is a natural `matching-pairs` game
-  (`::widget{type="matching-pairs" src="..."}`, see `docs/WIDGETS.md`); a
-  vocabulary or key-facts set is a `flashcards` deck; anything with a tunable
-  parameter (a function, a circuit, a distribution) is a natural
-  `function-grapher`/`code-runner`/`vector-field`/`circuit-sim` candidate
-  where the learner drags a slider and sees the consequence immediately,
-  rather than reading a static description of what would happen.
-- **Write quiz `explanation` text in an encouraging voice** — the engine
-  already varies the surrounding microcopy ("Nice work!", "Keep going —
-  you'll get the next one.") but your explanation is the substantive teaching
-  moment after an answer. Write it like you're talking a learner through the
-  idea, not grading them. This is purely a tone choice — it changes nothing
-  about the discipline in "The single most important discipline" below: an
-  encouragingly-worded explanation for a factually wrong `answer` is still a
-  bug, and still the one class of error `--strict` cannot catch.
-- **A `:::callout{kind="tip"}` or a well-placed `:::reveal` worked example
-  earns its keep by feeling like a discovery**, not a wall of text — the
-  existing house style (short framing prose, one full derivation, one
-  held-back worked example) already does this; lean into it rather than
-  writing past it.
-- If you're asked to build a *new* kind of interactive widget (not just use
-  an existing one) — e.g. another game beyond `matching-pairs` — that's a
-  `src/`-level task per the "three closed sets" rule above, not a
-  content-authoring one. Point whoever's doing that work at
-  `src/widgets/game-kit/` and the "Building a new game widget" section of
-  `docs/ARCHITECTURE.md`, which document the shared chrome/shuffle/persistence
-  pattern so a new game doesn't reinvent it from scratch.
+Two platform facts worth knowing so you don't duplicate effort while
+following it:
 
-### Structure the lesson as a journey, not a list of facts
-
-Learners engage with a throughline much more than with a sequence of
-independent fact-dumps, even when the underlying facts are identical. This
-isn't a vague aspiration — it's a concrete rewrite that happened to
-`alevel-further-maths/complex-numbers/01-imaginary-numbers-and-arithmetic.md`:
-the maths content and all four interactive checkpoints stayed exactly the
-same, only the framing and connective prose changed, and it reads as a far
-more engaging lesson for it. Apply the same treatment whenever you write or
-substantially revise a lesson:
-
-1. **Open with a hook, not a topic statement.** Don't start "In this lesson
-   we will cover imaginary numbers." Start from a problem the reader's
-   current toolkit can't solve — the pilot lesson opens with "Every journey
-   into new territory starts with hitting a wall" and the wall being
-   $x^2 = -1$ having no real solution. The rest of the lesson exists to get
-   past that wall.
-2. **Give sections waypoint titles, not bureaucratic labels.** Compare
-   "Definition of imaginary numbers" (a label) to "## Naming what we found"
-   (a waypoint) — same content, but the second one reads as the next step in
-   a journey the reader is already on. Other real headings from the same
-   lesson: "## Learning to move around" (addition/subtraction), "## The one
-   rule that unlocks everything" (multiplication), "## Drawing the map" (the
-   Argand diagram), "## Where the journey goes next" (the close).
-3. **Carry a throughline between sections.** Each new section should pick up
-   from where the last one left off — "Now that we can name this new kind of
-   number, the next question is how it behaves" — rather than starting cold
-   as if it were an independent topic. The four mid-lesson checkpoints from
-   the formula below become the journey's waypoints: each one is a place the
-   traveller stops, tries something, and keeps going, not a graded checkpoint
-   bolted onto a fact.
-4. **Close by tying back to the opening, not just summarising.** The pilot's
-   closing section explicitly returns to the wall from the opening hook and
-   previews the next thing the journey enables (modulus/argument in a future
-   lesson), giving a sense of forward momentum rather than a flat "in this
-   lesson we covered" recap.
-5. **The story is a framing device, not a licence to loosen rigour.** Every
-   equation, definition, and worked example must still be exactly as
-   correct and precise as house style already demands — "Learning to move
-   around" still has to teach addition/subtraction correctly. The narrative
-   changes how it's introduced and connected, never what's actually taught.
-
-This layers directly on top of the mid-lesson interactivity formula below —
-apply both together, not one instead of the other.
+- **The engine already carries the celebration layer.** Animated feedback,
+  streaks, points, and celebratory moments on lesson/quiz/deck/game
+  completion all fire automatically — never add markup or content-level
+  reward language for any of that.
+- **Building a new *kind* of interactive widget** (another game beyond
+  `matching-pairs`, a new sim) is a `src/`-level task per the three-closed-sets
+  rule — hand it to the learnlab-extend-platform skill, which knows the
+  game-kit and registry procedure.
 
 ### Never use dashes that could be misread as a minus sign
 
@@ -225,57 +169,6 @@ quiz, or widget data file done — `grep -n "—\|–" <file>` over anything
 you've just written is a fast, cheap check. This rule does not apply to
 source code comments (`src/**`), which are not user-facing.
 
-### The mid-lesson interactivity formula
-
-A repo-wide check across all 201 shipped lessons found: 88% already have at
-least one inline widget, but interactivity is heavily back-loaded — 57% of
-all inline `::widget`/`::py` occurrences sit in the last third of the lesson,
-and only 8% in the first third. A lesson that saves its one interactive
-moment for the very end still *reads* like a wall of text with a quiz bolted
-on — "boring in the middle" is a real, measurable pattern, not just a vibe.
-
-`maths/alevel-further-maths/complex-numbers/01-imaginary-numbers-and-arithmetic.md`
-is a worked pilot of the fix — a topic picked specifically for having a
-reputation as dry and abstract (complex numbers), used to derive this
-concrete, reusable formula:
-
-1. **Chunk the lesson into short teachable beats** — roughly 150–250 words of
-   new prose each, the length of the sections in that pilot lesson (definition
-   of $i$; addition/subtraction; multiplication; the Argand diagram). If a
-   section is pushing 400+ words before the reader does anything, it's two
-   beats, not one.
-2. **Put one interactive checkpoint after every beat that introduces
-   something checkable** — not just at the end of the lesson, and not only
-   after the "big" sections. In the pilot: a `flashcards` deck right after new
-   vocabulary is defined, an inline `quiz` right after the addition/subtraction
-   rule, a `matching-pairs` game right after the multiplication rule, and a
-   `geometry-canvas` scene as the Argand-diagram section's centerpiece — four
-   checkpoints spread across the whole lesson, not one at the bottom.
-3. **Rotate which *kind* of checkpoint you use** — the same drill four times
-   in a row (quiz, quiz, quiz, quiz) reads as repetitive even if the content
-   is fine. Match the kind to what's actually being practised: freshly-defined
-   vocabulary → `flashcards`; a quick correctness check on a rule just
-   stated → an inline `quiz` (own small JSON, `shuffleQuestions`/
-   `shuffleChoices` false for a sequential concept check, unlike the
-   randomised end-of-module `assessment.json`); a mechanical, most-practised
-   skill (the pilot's complex multiplication) → `matching-pairs`, which
-   rewards pattern-recognition over rote recall; a spatial/visual idea → the
-   subject-appropriate hands-on widget (`geometry-canvas`, `function-grapher`,
-   `vector-field`, `code-runner`, `data-plot`...).
-4. **Reserve the lesson's best visual or hands-on widget for where the idea
-   actually lands, not the end.** In the pilot, the Argand diagram
-   (`geometry-canvas`, with one `draggable` point so the learner places a
-   number themselves rather than only reading about it) is the lesson's
-   centerpiece and sits in the middle, immediately after the idea it
-   visualises is introduced — not appended afterwards as an also-ran.
-5. **Keep the closing hand-off short**, exactly per the existing house style —
-   the formula is about the *middle* of the lesson, not about padding the end.
-
-This isn't a hard rule enforced by `--strict` (no CI check counts checkpoints
-or measures section length) — it's a design habit to default to when writing
-or substantially revising a lesson, the same way the "one derivation, one
-reveal, one widget" house style already is.
-
 ## Directive syntax, with real examples from shipped content
 
 All four forms, pulled verbatim from modules that have shipped and passed
@@ -303,6 +196,10 @@ build — it renders an inline "must be a finite number" error card at runtime.
 Check `docs/WIDGETS.md`'s per-widget "Validation behaviour" section for the
 exact prop names and error strings before shipping, and actually load the
 lesson in `npm run dev` to see the widget render, not just the source text.
+
+(Placement, surrounding prose, and the required predict/make/find task for
+every explorable widget: learnlab-lesson-pedagogy's "Widgets: a task, not a
+toy" section.)
 
 **`::py` (leaf)** — from `boolean-algebra-and-logic/01-logic-operators.md`:
 
@@ -338,6 +235,10 @@ f'(x) = 3 \cdot 4 x^{3} - 5 \cdot 2 x^{1} + 0 = 12x^3 - 10x.
 $$
 :::
 ```
+
+(House style now pairs every full worked example with a backward-faded
+companion and a self-explanation prompt — verbatim patterns in
+learnlab-lesson-pedagogy's "Worked examples" section.)
 
 **No-nesting rule:** containers may hold Markdown, maths, and *leaf*
 directives, but never another container. A `:::reveal` inside a `:::callout`
@@ -395,6 +296,25 @@ Real examples, one per type, from `differentiation-1/assessment.json`:
 }
 ```
 
+House-style rules on top of the schema (from learnlab-lesson-pedagogy, stated
+here because this is where questions get written):
+
+- **New `mcq` questions default to exactly 3 choices** — the key plus two
+  misconception-based distractors — even though the schema allows 2–6 and
+  older shipped questions (like q2 above, which predates the rule) use 4.
+  (The em-dashes inside q2's and q6's `explanation` strings likewise predate
+  the dash rule below and would not pass today's grep check — copy the JSON
+  *shapes* from these examples, not their punctuation.)
+  Add a 4th choice only for a third distinct, documented misconception.
+  Never "none of the above" / "all of the above"; never double negatives.
+- **Every distractor's `explanation` names the specific error** that leads to
+  it, in encouraging voice. Where to find real documented misconceptions:
+  learnlab-research-content's misconception-research section.
+- **≥ 1/3 of a module assessment's questions should be `numeric` or `text`**
+  (generation beats recognition), and **≥ 1 question should be a cumulative
+  review item** requiring a technique from a declared prerequisite module,
+  flagged as review in its explanation.
+
 Marking rules to hold yourself to when writing questions: **mcq** — `answer`
 is the correct choice's index (2–6 choices). **multi** — `answers` is the
 exact correct index set; there is **no partial credit**, so don't write a
@@ -428,7 +348,10 @@ Before you consider any assessment done:
 - Recompute every `numeric` answer independently (by hand, or by running the
   actual formula/code — e.g. a quick SymPy check for calculus, exact
   `comb(n,k)` arithmetic for probability) rather than trusting that it "looks
-  right" next to the explanation you just wrote.
+  right" next to the explanation you just wrote. This now includes every
+  blanked step of a faded worked example and every prediction-quiz answer —
+  the pedagogy skill's patterns add checkable numbers to lessons, and each
+  one is held to this same bar.
 - Re-read every `mcq`/`multi` question's `text` against its `explanation` and
   ask whether a domain expert would derive the *stored* answer from the
   *literal* wording of the question — not the wording you meant.
@@ -502,3 +425,9 @@ The pattern this repo has run successfully across three multi-module phases
    change touched only `public/content/**` (and this doc set) — a content
    wave that also diffs `src/` is a signal something leaked outside the
    intended scope.
+6. The orchestrator's review of each module includes the
+   learnlab-lesson-pedagogy final self-check, not just schema and answer
+   verification — a module can be schema-perfect and numerically correct and
+   still fail the house bar (all-mcq checkpoints, back-loaded interactivity,
+   a "Welcome to" opener). Reject those the same way you'd reject a wrong
+   answer.

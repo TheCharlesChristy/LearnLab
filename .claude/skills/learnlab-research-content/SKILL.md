@@ -1,6 +1,6 @@
 ---
 name: learnlab-research-content
-description: Research a topic before authoring new LearnLab lessons, modules, or courses — pin down the right curriculum scope/depth against adjacent modules, verify formulas and facts against authoritative sources, and independently re-derive worked examples before they go in a lesson or assessment.json. Use before writing any new module, before adding a topic to an existing module, and before trusting a remembered formula, exam-board convention, or numeric fact in maths, physics, CS, or AI content.
+description: Research a topic before authoring new LearnLab lessons, modules, or courses — pin down the right curriculum scope/depth against adjacent modules, verify formulas and facts against authoritative sources, research the documented misconceptions needed for distractor and feedback design, and independently re-derive worked examples before they go in a lesson or assessment.json. Use before writing any new module, before adding a topic to an existing module, before writing mcq distractors or a prediction hook, and before trusting a remembered formula, exam-board convention, or numeric fact in maths, physics, CS, or AI content.
 ---
 
 # Researching LearnLab content before authoring it
@@ -13,10 +13,10 @@ the facts right by checking against real specifications and independent computat
 pretending to be any one exam board.
 
 Do this research **before** writing a lesson, module, or assessment question — not as a
-proofreading pass afterward. Two failure modes matter equally: authoring a module that duplicates
-or contradicts a sibling module's scope, and authoring a formula or worked answer that is subtly
-wrong. Both have happened in this repo already (see below); both are cheap to prevent up front and
-expensive to find later.
+proofreading pass afterward. Three failure modes matter: authoring a module that duplicates
+or contradicts a sibling module's scope, authoring a formula or worked answer that is subtly
+wrong, and authoring quiz distractors or "common pitfall" callouts from imagined rather than
+real learner errors. All are cheap to prevent up front and expensive to find later.
 
 ## 1. Pin down scope and depth before writing anything
 
@@ -60,6 +60,10 @@ read every `module.json` that turns up, not just the one you were asked to write
 would teach materially the same fact from two different angles, that's fine — decide deliberately
 which one owns the derivation and which one treats it as a prerequisite, the way the two examples
 above already do, rather than let it happen by accident.
+
+Scope research also fixes the **level-dial setting** learnlab-lesson-pedagogy requires before
+drafting: reading the adjacent modules' objectives tells you not just what to cover but who
+you're writing for, which drives narrative dosage, worked-example fading depth, and tone.
 
 ## 2. Verify facts and formulas before they go in a lesson or assessment
 
@@ -116,7 +120,54 @@ Apply the same discipline to your own authoring, not just to a mechanical orches
    is precisely what went wrong in D-020 — the fix was to reword the question to match the lesson's
    actual convention, rather than force the answer to match an over-precise question).
 
-## 3. Using WebSearch / WebFetch effectively for this
+Note that learnlab-lesson-pedagogy's patterns increase the number of values under this
+discipline: every backward-faded worked-example step and every prediction-quiz answer is a
+number you authored and must independently re-derive, exactly like an assessment answer.
+
+## 3. Research the misconceptions, not just the facts
+
+learnlab-lesson-pedagogy requires every mcq distractor to encode a *real* learner misconception
+(so a wrong choice diagnoses the learner's thinking, and its explanation can name and correct the
+specific error), and its best prediction hooks target a widespread wrong intuition. Both need
+research: a distractor invented from imagination is usually either implausible (no one picks it,
+so it teaches nothing) or accidentally defensible (ambiguous marking). Before writing a module's
+assessment or its "common pitfall" callouts, spend a focused pass gathering the documented errors
+for that topic, in this source-priority order:
+
+1. **Exam-board examiner reports — the goldmine.** AQA, Edexcel/Pearson, and OCR publish a
+   per-paper examiner report alongside every past paper and mark scheme, and these documents
+   exist precisely to catalogue what real candidates got wrong and why ("a significant number of
+   candidates differentiated instead of integrating," "the most common error was treating
+   tolerance as relative"). Search e.g. `"AQA A-level physics examiner report projectile motion"`
+   or `"Edexcel examiners report differentiation chain rule"` and read the actual PDF. One
+   examiner report on your topic typically yields more usable distractors than any other single
+   source. **Never copy the report's own example questions or answers** (copyright, and the
+   adapt-resource skill's rules apply) — you are mining the *error patterns*, then building your
+   own fresh questions around them.
+2. **Discipline-based education research and concept inventories.** Physics education research
+   has decades of catalogued misconceptions (the Force Concept Inventory's distractors are
+   themselves a curated misconception list for mechanics); maths education and CS education
+   research have equivalents (e.g. documented misconceptions about equality, negative-number
+   arithmetic, variable assignment vs mathematical equality, reference vs value semantics).
+   Search `"<topic> misconceptions" education research` and prefer published studies or
+   university teaching pages over blogs.
+3. **Reputable teaching-practice sources** (subject-association sites, exam-board teaching
+   guides, well-known educator resources) as a supplement, with the usual scepticism about
+   quality.
+4. **Derived-by-making-the-mistake, as the fallback.** If nothing documented turns up for a
+   specific question, derive a distractor by *genuinely performing* the plausible error yourself
+   — do the sign slip, forget to square, use the radius where the diameter belongs — and record
+   what value it produces. This guarantees the distractor is at least mechanically reachable by
+   a real mistake, rather than an arbitrary wrong number.
+
+Whatever the source, carry the finding into the content in two places: the distractor itself
+(the value or statement the error produces) and the question's `explanation` (which names the
+error: "If you got $-96$, you dropped the sign when squaring"). A misconception you researched
+but can't trace into a specific wrong answer is also fair game for a
+`:::callout{kind="warning"}` in the lesson prose, or as the target of the lesson's opening
+prediction.
+
+## 4. Using WebSearch / WebFetch effectively for this
 
 When you need to check current UK-specification scope or a formula you're unsure of, you have
 `WebSearch` and `WebFetch` available. Use them like a skeptical researcher, not like autocomplete:
@@ -128,18 +179,19 @@ When you need to check current UK-specification scope or a formula you're unsure
 - **Go straight for the official specification/mark-scheme PDF when scope or depth precision
   matters** (e.g. "does this board's spec include the small-angle approximation at this stage?",
   "is this a Y12 or Y13 topic?"). Exam boards publish these publicly; they're the closest thing to
-  ground truth for "what does A-level actually cover here."
+  ground truth for "what does A-level actually cover here." Their sibling examiner reports are
+  the ground truth for §3's misconception research — fetch both while you're there.
 - **Never trust a single source for a formula or a scope claim you're not already confident about.**
   Fetch at least two independent pages (a specification PDF plus a maths/physics reference site, or
   two different exam boards' specs) and check they agree before writing the content. If they don't
-  agree, that's real signal — see §5 below.
+  agree, that's real signal — see §6 below.
 - **Be actively suspicious of well-worn textbook phrasings that "sound right."** A formula or
   convention can be repeated everywhere in a form that's subtly imprecise (wrong sign convention,
   a special case presented as the general rule, an approximation stated as exact). The fact that a
   phrasing is common in training data is not evidence it's correct — that's exactly why step 2's
   independent computation matters even when a formula feels completely familiar.
 
-## 4. Worked example: verifying a real assessment answer end to end
+## 5. Worked example: verifying a real assessment answer end to end
 
 Walk through what this looks like concretely, using
 `public/content/physics/alevel-physics/mechanics-and-energy/assessment.json` q5 as the case study
@@ -170,9 +222,11 @@ Walk through what this looks like concretely, using
 
 This is the standard to hold any new formula-driven question to: state the formula, confirm its
 applicability conditions, compute it independently, and only then write it into the lesson or
-`assessment.json`.
+`assessment.json`. And if the question is an mcq, one more step now applies: for each distractor,
+state which §3 misconception produces it and verify that performing that error on these numbers
+really yields the distractor's value.
 
-## 5. When to flag ambiguity instead of guessing
+## 6. When to flag ambiguity instead of guessing
 
 §8.1's "specification-informed, not exam-board-branded" wording is a deliberate release valve: if
 Edexcel and AQA phrase or scope a topic slightly differently (e.g. minor notational differences, or
