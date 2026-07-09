@@ -104,6 +104,7 @@ function makeValidators() {
     quiz: ajv.compile(loadSchema('quiz.schema.json')),
     contentIndex: ajv.compile(loadSchema('content-index.schema.json')),
     searchIndex: ajv.compile(loadSchema('search-index.schema.json')),
+    screenSequence: ajv.compile(loadSchema('screen-sequence.schema.json')),
   };
 }
 
@@ -340,6 +341,27 @@ function checkLessonMarkdown(file, moduleDir, widgetKeys, validators, reporter) 
 }
 
 // ---------------------------------------------------------------------------
+// Screen-sequence lesson validation (Brilliant rewrite Phase 1,
+// docs/BRILLIANT_REWRITE_PLAN.md; Lesson.kind === "screens")
+
+/** Validate one `*.screens.json` file against schemas/screen-sequence.schema.json + screen-id uniqueness. */
+function checkScreenSequence(file, validators, reporter) {
+  const data = readJson(file, reporter);
+  if (data === undefined) return;
+  if (!validators.screenSequence(data)) {
+    reporter.schemaErrors(file, validators.screenSequence.errors);
+    return;
+  }
+  const ids = new Set();
+  data.screens.forEach((screen, i) => {
+    if (ids.has(screen.id)) {
+      reporter.atPointer(file, `/screens/${i}/id`, `duplicate screen id "${screen.id}" within sequence`);
+    }
+    ids.add(screen.id);
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Tree walk
 
 function listDirs(dir) {
@@ -500,6 +522,9 @@ function validateTree(root, strict, validators, widgetKeys, reporter) {
       if ((lesson.kind ?? 'markdown') === 'markdown') {
         const facts = checkLessonMarkdown(lessonFile, moduleDir, widgetKeys, validators, reporter);
         if (facts.interactive) interactive = true;
+      } else if (lesson.kind === 'screens') {
+        checkScreenSequence(lessonFile, validators, reporter);
+        interactive = true; // every screen gates on interaction by construction
       } else {
         interactive = true; // full-page Python item lesson
       }

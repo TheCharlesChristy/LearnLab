@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "screen-sequence.schema.json",
+  "title": "LearnLab screen-sequence lesson (Lesson.kind = \"screens\")",
+  "description": "Brilliant-rewrite Phase 1 (docs/BRILLIANT_REWRITE_PLAN.md): an ordered sequence of gated interactive screens. Every screen type requires the fields it needs to gate advancement — there is no screen shape that is prose plus a bare Next button.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "title", "screens"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "id": { "$ref": "#/$defs/id" },
+    "title": { "type": "string", "minLength": 1 },
+    "screens": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/screen" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 64
+    },
+    "hints": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "maxItems": 3,
+      "description": "Ladder shown on repeated wrong attempts: nudge -> subgoal -> setup. Never the answer."
+    },
+    "screen": {
+      "type": "object",
+      "discriminator": { "propertyName": "type" },
+      "required": ["type"],
+      "oneOf": [
+        { "$ref": "#/$defs/predict" },
+        { "$ref": "#/$defs/tapChoice" },
+        { "$ref": "#/$defs/entry" },
+        { "$ref": "#/$defs/manipulableTarget" }
+      ]
+    },
+    "predict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "prompt", "choices", "reveal"],
+      "properties": {
+        "type": { "const": "predict" },
+        "id": { "$ref": "#/$defs/id" },
+        "prompt": { "type": "string", "minLength": 1 },
+        "choices": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 2,
+          "maxItems": 4
+        },
+        "correctChoiceIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Omit for an open prediction with no single 'right' guess to mark."
+        },
+        "reveal": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Markdown shown immediately after commit: the mechanism, never worded as pass/fail."
+        }
+      }
+    },
+    "tapChoice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "prompt", "choices", "correctIndex"],
+      "properties": {
+        "type": { "const": "tap-choice" },
+        "id": { "$ref": "#/$defs/id" },
+        "prompt": { "type": "string", "minLength": 1 },
+        "choices": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["text"],
+            "properties": {
+              "text": { "type": "string", "minLength": 1 },
+              "feedback": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Misconception-targeted: names the specific error this choice represents."
+              }
+            }
+          }
+        },
+        "correctIndex": { "type": "integer", "minimum": 0 },
+        "successFeedback": { "type": "string", "minLength": 1 },
+        "hints": { "$ref": "#/$defs/hints" }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "prompt", "inputMode"],
+      "properties": {
+        "type": { "const": "entry" },
+        "id": { "$ref": "#/$defs/id" },
+        "prompt": { "type": "string", "minLength": 1 },
+        "inputMode": { "enum": ["numeric", "text"] },
+        "answer": { "type": "number" },
+        "tolerance": { "type": "number", "minimum": 0 },
+        "unit": { "type": "string" },
+        "accept": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "caseSensitive": { "type": "boolean" },
+        "successFeedback": { "type": "string", "minLength": 1 },
+        "hints": { "$ref": "#/$defs/hints" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "inputMode": { "const": "numeric" } } },
+          "then": { "required": ["answer", "tolerance"] }
+        },
+        {
+          "if": { "properties": { "inputMode": { "const": "text" } } },
+          "then": { "required": ["accept"] }
+        }
+      ]
+    },
+    "manipulableTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id", "prompt", "widget", "widgetProps", "goal"],
+      "properties": {
+        "type": { "const": "manipulable-target" },
+        "id": { "$ref": "#/$defs/id" },
+        "prompt": { "type": "string", "minLength": 1 },
+        "widget": {
+          "enum": ["function-grapher"],
+          "description": "Phase 1 supports one explorable; more join as later phases wrap them (docs/BRILLIANT_REWRITE_PLAN.md)."
+        },
+        "widgetProps": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["expr"],
+          "properties": {
+            "expr": { "type": "string", "minLength": 1 },
+            "xmin": { "type": "number" },
+            "xmax": { "type": "number" },
+            "ymin": { "type": "number" },
+            "ymax": { "type": "number" },
+            "tangent": { "type": "boolean" },
+            "grid": { "type": "boolean" }
+          }
+        },
+        "goal": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "min", "max", "description"],
+          "properties": {
+            "kind": { "const": "tangent-gradient-in-range" },
+            "min": { "type": "number" },
+            "max": { "type": "number" },
+            "description": { "type": "string", "minLength": 1 }
+          }
+        },
+        "successFeedback": { "type": "string", "minLength": 1 },
+        "hints": { "$ref": "#/$defs/hints" }
+      }
+    }
+  }
+}

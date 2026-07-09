@@ -18,6 +18,7 @@
 import type { ValidateFunction } from 'ajv';
 
 import type { Quiz } from '../quiz/types';
+import type { ScreenSequence } from '../screens/types';
 import type { ContentIndex, Course, Module, ModuleRef, SubjectId, CourseRef } from './types';
 
 /** The schemaVersion this reader understands (NFR-MAINT-002). */
@@ -132,7 +133,7 @@ function checkSchemaVersion(data: unknown, url: string): void {
 // Dev-only Ajv revalidation (FR-CONT-003)
 // ---------------------------------------------------------------------------
 
-type SchemaKind = 'content-index' | 'course' | 'module' | 'quiz';
+type SchemaKind = 'content-index' | 'course' | 'module' | 'quiz' | 'screen-sequence';
 
 let devValidatorsPromise: Promise<Record<SchemaKind, ValidateFunction>> | null = null;
 
@@ -141,15 +142,23 @@ function getDevValidators(): Promise<Record<SchemaKind, ValidateFunction>> {
     // Dynamic imports inside this dev-gated function keep Ajv and the schema
     // JSONs out of the production bundle (NFR-PERF-001): the only call site is
     // behind `if (import.meta.env.DEV)`, which Vite dead-code-eliminates.
-    const [ajvModule, formatsModule, indexSchema, courseSchema, moduleSchema, quizSchema] =
-      await Promise.all([
-        import('ajv/dist/2020'),
-        import('ajv-formats'),
-        import('../../schemas/content-index.schema.json'),
-        import('../../schemas/course.schema.json'),
-        import('../../schemas/module.schema.json'),
-        import('../../schemas/quiz.schema.json'),
-      ]);
+    const [
+      ajvModule,
+      formatsModule,
+      indexSchema,
+      courseSchema,
+      moduleSchema,
+      quizSchema,
+      screenSequenceSchema,
+    ] = await Promise.all([
+      import('ajv/dist/2020'),
+      import('ajv-formats'),
+      import('../../schemas/content-index.schema.json'),
+      import('../../schemas/course.schema.json'),
+      import('../../schemas/module.schema.json'),
+      import('../../schemas/quiz.schema.json'),
+      import('../../schemas/screen-sequence.schema.json'),
+    ]);
     const Ajv2020 = ajvModule.default;
     const addFormats = formatsModule.default;
     const ajv = new Ajv2020({ allErrors: true, discriminator: true });
@@ -159,6 +168,7 @@ function getDevValidators(): Promise<Record<SchemaKind, ValidateFunction>> {
       course: ajv.compile(courseSchema.default),
       module: ajv.compile(moduleSchema.default),
       quiz: ajv.compile(quizSchema.default),
+      'screen-sequence': ajv.compile(screenSequenceSchema.default),
     };
   })();
   return devValidatorsPromise;
@@ -226,6 +236,11 @@ export function loadLessonMarkdown(coursePath: string, dir: string, file: string
 
 export function loadQuiz(coursePath: string, dir: string, file: string): Promise<Quiz> {
   return loadJson<Quiz>(contentUrl(`${coursePath}/${dir}/${file}`), 'quiz');
+}
+
+/** `Lesson.kind: "screens"` (docs/BRILLIANT_REWRITE_PLAN.md). */
+export function loadScreenSequence(coursePath: string, dir: string, file: string): Promise<ScreenSequence> {
+  return loadJson<ScreenSequence>(contentUrl(`${coursePath}/${dir}/${file}`), 'screen-sequence');
 }
 
 // ---------------------------------------------------------------------------
