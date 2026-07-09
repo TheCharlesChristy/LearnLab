@@ -1,7 +1,7 @@
 // App shell layout: header (app name → home, nav, offline chip), skip link,
 // unsupported-browser banner (§2.3), main landmark, routed outlet.
 
-import { BarChart3, RotateCcw, Search as SearchIcon, Settings as SettingsIcon, WifiOff, X } from 'lucide-react';
+import { BarChart3, Blocks, RotateCcw, Search as SearchIcon, Settings as SettingsIcon, WifiOff, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
 
@@ -123,6 +123,10 @@ export default function AppLayout() {
             <NavLink to="/progress" aria-label="Progress" className={navLinkClass}>
               <BarChart3 aria-hidden className="h-4 w-4 shrink-0" />
               <span className="hidden sm:inline">Progress</span>
+            </NavLink>
+            <NavLink to="/widgets" aria-label="Widgets" className={navLinkClass}>
+              <Blocks aria-hidden className="h-4 w-4 shrink-0" />
+              <span className="hidden sm:inline">Widgets</span>
             </NavLink>
             <NavLink to="/settings" aria-label="Settings" className={navLinkClass}>
               <SettingsIcon aria-hidden className="h-4 w-4 shrink-0" />
