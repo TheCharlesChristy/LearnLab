@@ -92,6 +92,43 @@ Positional rules, checkable by eye against the `screens` array:
   screen — and must return to the hook's prediction by name: "You predicted X at the top. Now you
   can see it's Y, and you can say exactly why."
 
+## Pick one throughline and keep it running
+
+A hook can do everything right — an approved pattern, a real commitment, a clean payoff — and the
+lesson can still read like a worksheet wearing a costume, if the concrete scenario it opens with
+gets abandoned the moment the maths starts. That's the specific failure mode to design against: not
+a missing hook, but a hook that doesn't survive contact with the first equation.
+
+The fix is cheap and mechanical: **before writing any screen, pick one concrete thing the lesson is
+secretly about, and let every screen's prose refer back to it.** Not a character, not a plot — just
+a real object or situation the abstract maths is a model *of*, stated once at the hook and then
+never dropped. A curve isn't "$y=x^2$" in every subsequent `prompt`; it's still the thing the hook
+introduced, referred to the same way a person would refer to it in conversation. The shipped
+illustration is `differentiation-1`: the whole module is one running model — a toy car's
+distance-time graph — introduced by the classic speedometer paradox (a genuinely puzzling question:
+what *is* a speedometer measuring, if speed needs two points in time and an instant only has one?),
+and every one of its thirteen screens still talks about the car, or a named variant of it (a
+faster-accelerating vehicle, a parked car, a delivery drone), never reverting to bare unlabelled
+$x$/$y$ once the story has started. The final screen resolves the paradox by name, three lessons
+after it was opened — the payoff doesn't have to land in the same lesson it started in, provided
+each lesson also closes its own local prediction along the way.
+
+This is compatible with everything else in this skill, not an addition on top of it — it *is* the
+deletion test's positive form. The deletion test asks you to cut anything that isn't load-bearing;
+this asks you to keep exactly one thing that is, and use it everywhere. A scenario that's still
+present in every screen but never does any conceptual work (a car that's only ever mentioned, never
+actually the thing being measured) is decoration and fails the deletion test the normal way. A
+scenario that quietly disappears after the hook was never really the lesson's throughline to begin
+with — it was garnish on the opening screen. Neither is what this section is asking for: one
+concrete referent, doing real work, present from the first screen to the last.
+
+At Setting B (`differentiation-1`'s own setting), this stays at "problem-frame," not characters —
+no dialogue, no protagonist, just a situation with a name you keep returning to. The maths itself
+doesn't change to make room for it: every number in `differentiation-1`'s screens is exactly what it
+would have been without the car, because the car is a label on an already-correct curve, not a
+rewritten problem. That's what makes this cheap: you are not inventing new content or new numbers to
+verify, only choosing which words wrap the content you already have.
+
 ## Hooks: open with an attempt, not an announcement
 
 Attempting a question *before* instruction improves later retention even when the attempt fails —
@@ -373,7 +410,9 @@ Go through this literally, screen by screen:
 1. Screen 1 (or very close to it) is a `predict` screen using an approved hook pattern, and no
    banned opener appears in any `prompt`.
 2. Deletion test passed on every sentence of every `prompt`/`body`/`reveal` — nothing decorative
-   survived.
+   survived. Separately: the hook's concrete scenario is still the one every later screen refers
+   back to — re-read the last screen and confirm it isn't talking about bare, unlabelled
+   $x$/$y$ again.
 3. The `manipulable-target` centerpiece sits in the middle third of the `screens` array; nothing
    interactive is introduced for the first time in the final sixth (trivially true once you've
    followed the skeleton, but check anyway).

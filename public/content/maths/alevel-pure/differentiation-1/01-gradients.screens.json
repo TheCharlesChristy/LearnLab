@@ -6,74 +6,74 @@
     {
       "type": "predict",
       "id": "predict-steepness",
-      "prompt": "A straight line has the exact same steepness everywhere along it. Does a curve like $y = x^2$ have the same steepness everywhere too?",
+      "prompt": "Your car's speedometer gives a single number for your speed *right now*. But speed is distance divided by time — and at a single instant, no time passes at all. So what is the speedometer actually measuring? Here's a toy version of the same puzzle: a toy car rolls down a ramp so that after $x$ seconds it has covered $y = x^2$ metres. Does the car's speed stay the same throughout the roll, the way a car cruising at a constant speed on a straight road would?",
       "choices": [
-        "Yes — a curve's steepness is the same everywhere, just like a line's",
-        "No — a curve's steepness changes from point to point"
+        "Yes — the car's speed is the same at every instant, just like cruising at a constant speed",
+        "No — the car's speed changes from instant to instant"
       ],
       "correctChoiceIndex": 1,
-      "reveal": "Near $x = 0$ the curve $y = x^2$ is almost flat; further out it rises steeply. We define the **gradient at a point** as the gradient of the *tangent* — the straight line that just touches the curve at that exact point. Unlike a line, a curve needs a different tangent (and so a different gradient) at every point."
+      "reveal": "Near $x = 0$ the car has barely started rolling and is almost stationary; further down the ramp it's moving fast. We define the car's **speed at an instant** as the gradient of the *tangent* to its distance-time graph — the straight line that just touches the curve at that exact moment. Unlike cruising at a constant speed, the car needs a different tangent (and so a different speed) at every instant. That's the resolution to the speedometer paradox: it's reading the gradient of your distance-time graph at this exact instant, not an average over any stretch of time."
     },
     {
       "type": "manipulable-target",
       "id": "find-gradient-4",
-      "prompt": "Drag the point along $y = x^2$ until the tangent line's gradient reads **4**.",
+      "prompt": "Drag the point along the car's distance-time graph until its speed at that instant reads **4 m/s**.",
       "widget": "function-grapher",
       "widgetProps": { "expr": "x^2", "xmin": -4, "xmax": 4, "tangent": true, "grid": true },
       "goal": {
         "kind": "tangent-gradient-in-range",
         "min": 3.6,
         "max": 4.4,
-        "description": "Target: tangent gradient = 4."
+        "description": "Target: instantaneous speed = 4 m/s."
       },
-      "successFeedback": "That's it — the tangent gradient is 4 right around $x = 2$.",
+      "successFeedback": "That's it — the car is moving at exactly 4 m/s right around $x = 2$ seconds.",
       "hints": [
-        "Try moving the point toward the right-hand side of the curve, where it's steeper.",
-        "You're looking for the point where $x = 2$.",
-        "At $x = 2$, $y = x^2 = 4$ — land the point there and read the gradient."
+        "Try moving the point further down the ramp, where the car has picked up more speed.",
+        "You're looking for the instant $x = 2$ seconds.",
+        "At $x = 2$ s, the car has rolled $y = x^2 = 4$ m — land the point there and read its speed."
       ]
     },
     {
       "type": "tap-choice",
       "id": "meaning-of-gradient",
-      "prompt": "You just found the point where the tangent's gradient is 4. What does that number actually tell you?",
+      "prompt": "You just found the instant the car is moving at 4 m/s. What does that number actually tell you?",
       "choices": [
-        { "text": "The curve's steepness at that exact point" },
+        { "text": "The car's exact speed at that one instant" },
         {
-          "text": "The average steepness over the whole curve",
-          "feedback": "That's closer to what a chord between two far-apart points gives you — not the gradient at one exact point."
+          "text": "The car's average speed over the whole roll",
+          "feedback": "That's closer to what a chord between two far-apart points on the graph gives you — an average speed over a stretch of time, not the speed at one instant."
         },
         {
-          "text": "The $y$-value of the curve at that point",
-          "feedback": "That's just $y = x^2$ evaluated there — the gradient measures how $y$ changes, not what $y$ equals."
+          "text": "How far the car has rolled by that instant",
+          "feedback": "That's just $y = x^2$ evaluated there — the distance travelled, not how fast that distance is changing."
         }
       ],
       "correctIndex": 0,
-      "successFeedback": "Exactly — the derivative gives the curve's steepness at one exact point, never an average."
+      "successFeedback": "Exactly — the derivative gives the car's exact speed at one instant, never an average over a stretch of time. That's the speedometer paradox resolved: 'instantaneous speed' means the gradient of the distance-time graph at that exact point."
     },
     {
       "type": "predict",
       "id": "predict-chord-limit",
-      "prompt": "To calculate that exact tangent gradient (not just drag to it), take a second point $Q$ on the curve, close to your point $P$, and slide $Q$ toward $P$. As $Q$ gets closer and closer to $P$, what happens to the gradient of the chord (straight line) $PQ$?",
+      "prompt": "To calculate that exact instantaneous speed (not just drag to it), take a second instant $Q$ on the graph, close to your instant $P$, and slide $Q$ toward $P$. As $Q$ gets closer and closer to $P$, what happens to the average speed between $P$ and $Q$ — the gradient of the chord (straight line) $PQ$?",
       "choices": [
-        "It gets closer and closer to the tangent's gradient",
+        "It gets closer and closer to the car's instantaneous speed at $P$",
         "It stays the same, however close $Q$ gets",
         "It becomes impossible to calculate"
       ],
       "correctChoiceIndex": 0,
-      "reveal": "Take $P = (2, 4)$ on $y = x^2$ and a nearby point $Q = (2+h, (2+h)^2)$. The chord's gradient is\n\n$$\nm_{PQ} = \\frac{(2+h)^2 - 4}{(2+h)-2} = \\frac{4h + h^2}{h} = 4 + h.\n$$\n\nAs $h \\to 0$, $4 + h \\to 4$ — exactly the tangent gradient you found by dragging. The same idea at $P = (1, 1)$ gives $m_{PQ} = 2 + h \\to 2$. Both match a pattern: the gradient of $y = x^2$ at $x$ is $2x$."
+      "reveal": "Take $P = (2, 4)$ on the car's graph $y = x^2$ — 2 seconds in, 4 metres rolled — and a nearby instant $Q = (2+h, (2+h)^2)$. The average speed between them is\n\n$$\nm_{PQ} = \\frac{(2+h)^2 - 4}{(2+h)-2} = \\frac{4h + h^2}{h} = 4 + h.\n$$\n\nAs $h \\to 0$, $4 + h \\to 4$ — exactly the instantaneous speed you found by dragging. The same idea at $P = (1, 1)$ — 1 second in, 1 metre rolled — gives $m_{PQ} = 2 + h \\to 2$. Both match a pattern: the car's speed at $x$ seconds is $2x$ m/s."
     },
     {
       "type": "entry",
       "id": "gradient-at-x3",
-      "prompt": "Using that pattern — gradient of $y = x^2$ at $x$ is $2x$ — what is the gradient at $x = 3$?",
+      "prompt": "Using that pattern — the car's speed at $x$ seconds is $2x$ m/s — how fast is it moving at $x = 3$ seconds?",
       "inputMode": "numeric",
       "answer": 6,
       "tolerance": 0.01,
-      "successFeedback": "Right — $2 \\times 3 = 6$. The next lesson makes this pattern exact and general, for any curve.",
+      "successFeedback": "Right — $2 \\times 3 = 6$ m/s. The next lesson makes this pattern exact and general, for any distance-time model, not just this one ramp.",
       "hints": [
-        "At $x = 2$ the gradient was $4 = 2 \\times 2$. At $x = 1$ it was $2 = 2 \\times 1$.",
-        "Apply the same rule at $x = 3$: gradient $= 2 \\times 3$."
+        "At $x = 2$ s the speed was $4 = 2 \\times 2$ m/s. At $x = 1$ s it was $2 = 2 \\times 1$ m/s.",
+        "Apply the same rule at $x = 3$: speed $= 2 \\times 3$."
       ]
     }
   ]

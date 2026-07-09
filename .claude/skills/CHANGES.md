@@ -1,5 +1,26 @@
 # LearnLab skill set: what changed and why
 
+## Follow-up: give the rewrite a narrative voice
+
+Post-merge feedback on the Brilliant rewrite: the mechanics landed well, but `differentiation-1`
+and `learnlab-lesson-pedagogy`'s own prose read "a bit robotic" — the skill's level dial already
+specified what story should look like for an A-level module (Setting B: problem-frame and
+throughline, no characters), but the flagship content never actually picked a concrete throughline,
+and the skill didn't call out that specific failure mode. Fix, in one pass, no `src/` or schema
+changes:
+
+- **`learnlab-lesson-pedagogy`** gains a new section, "Pick one throughline and keep it running" —
+  the concrete rule the flagship content was missing: choose one real object or situation the maths
+  models, state it at the hook, and refer back to it in every subsequent screen's prose, rather than
+  reverting to bare $x$/$y$ once the hook screen ends. Framed as the deletion test's positive form
+  (keep exactly one load-bearing thing, use it everywhere) so it doesn't read as a second, competing
+  rule. Final self-check gained a matching line.
+- **`differentiation-1`**'s three lessons rewritten prose-only (a toy car's distance-time graph,
+  opened by the skill's own canonical speedometer-paradox hook example, resolved by name in the
+  closing screen) — every screen `id`, `type`, `correctIndex`/`correctChoiceIndex`,
+  `answer`/`tolerance`, and `goal.min`/`max` is untouched, so this required zero re-verification of
+  the maths and zero risk to gating.
+
 ## The Brilliant rewrite (docs/BRILLIANT_REWRITE_PLAN.md)
 
 The platform's lesson format changed from a Markdown library (prose backbone, widgets embedded in
