@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "delete-hook",
+  "title": "Predict: deleting a node with two children",
+  "shuffleQuestions": false,
+  "shuffleChoices": false,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Take this tree: root 20, left subtree rooted at 10 (children 5 and 15), right subtree rooted at 30 (children 25, which has a right child 27, and 35). Deleting a leaf like 5 is just removing a pointer. But 20 itself has two children. If you delete 20, which single value could correctly take the root's place so the tree stays a valid BST?",
+      "choices": ["Either child, 10 or 30, picked arbitrarily", "25, the smallest value in the right subtree", "Any of 15, 25 or 27 would work equally well"],
+      "answer": 1,
+      "explanation": "Hold that thought. Work through the deletion rules below and you will see exactly why 25, the smallest value bigger than 20, keeps every node correctly ordered, and why 27 or a whole child subtree would not."
+    }
+  ]
+}

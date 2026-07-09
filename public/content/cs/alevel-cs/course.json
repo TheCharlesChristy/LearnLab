@@ -11,6 +11,7 @@
     { "id": "heaps", "dir": "heaps" },
     { "id": "algorithms-1-search-sort", "dir": "algorithms-1-search-sort" },
     { "id": "algorithms-2-complexity-graphs", "dir": "algorithms-2-complexity-graphs" },
+    { "id": "binary-search-trees", "dir": "binary-search-trees" },
     { "id": "boolean-algebra-and-logic", "dir": "boolean-algebra-and-logic" },
     { "id": "data-representation", "dir": "data-representation" },
     { "id": "computer-architecture", "dir": "computer-architecture" },

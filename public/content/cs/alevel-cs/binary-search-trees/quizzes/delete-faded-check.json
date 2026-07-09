@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "delete-faded-check",
+  "title": "Finish the trace: deleting 30",
+  "shuffleQuestions": false,
+  "shuffleChoices": false,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "Finish the trace above: what value replaces 30 in the tree?",
+      "answer": 35,
+      "tolerance": 0,
+      "explanation": "30's right subtree contains only 35, which has no left child, so 35 is already the leftmost node there and is the in-order successor. 30's value is overwritten with 35, and the now-duplicate leaf node holding 35 is removed."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "After deleting 30 this way, what happens to node 25 and its right child 27?",
+      "choices": ["Both move to become children of the new 35 node", "Neither moves; 25 stays exactly where it was, as the left child of the node now holding 35", "27 is deleted along with 30"],
+      "answer": 1,
+      "explanation": "Only the node holding 30's replacement value changes; the rest of the subtree is untouched. 25 (with its right child 27 still attached) stays as the left child of whichever node now holds the value 35."
+    }
+  ]
+}

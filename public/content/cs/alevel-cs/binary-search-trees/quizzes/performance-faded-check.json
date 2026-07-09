@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "performance-faded-check",
+  "title": "Finish the calculation: n = 63",
+  "shuffleQuestions": false,
+  "shuffleChoices": false,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "For n = 63 nodes, what is the best-case (perfectly balanced) height?",
+      "answer": 5,
+      "tolerance": 0,
+      "explanation": "63 sits just below 64 = 2^6, so a perfectly balanced tree of 63 nodes is a complete binary tree with 6 levels, root at depth 0 through the deepest leaves at depth 5. Height 5."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "For the same n = 63 nodes, what is the worst-case (degenerate) height?",
+      "answer": 62,
+      "tolerance": 0,
+      "explanation": "A degenerate tree is a single chain of all 63 nodes, so its height is n minus 1: 62."
+    }
+  ]
+}

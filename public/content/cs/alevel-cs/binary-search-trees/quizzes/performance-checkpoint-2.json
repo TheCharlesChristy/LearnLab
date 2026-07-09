@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "performance-checkpoint-2",
+  "title": "Quick check: worst case vs linear search",
+  "shuffleQuestions": false,
+  "shuffleChoices": false,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "In the worst case, a degenerate BST built from n sorted insertions has height n minus 1. How does searching it then compare, in Big-O terms, to linear search on an unsorted list of n items (from Algorithms 1)?",
+      "choices": ["Still O(log n), the BST is always faster", "The same order of growth, O(n)", "O(n^2), because both the tree and the search are affected"],
+      "answer": 1,
+      "explanation": "A degenerate BST is really just a linked list wearing tree vocabulary: every search may have to walk every node, exactly like linear search on an unsorted list. Both are O(n) in the worst case. The BST's O(log n) advantage only exists when the tree stays close to balanced."
+    }
+  ]
+}

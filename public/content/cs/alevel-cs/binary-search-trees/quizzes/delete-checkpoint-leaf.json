@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "delete-checkpoint-leaf",
+  "title": "Quick check: deleting a leaf",
+  "shuffleQuestions": false,
+  "shuffleChoices": false,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Delete the leaf node 5 from the tree (root 20, left subtree rooted at 10 with children 5 and 15, right subtree rooted at 30 with children 25, which has a right child 27, and 35). What happens to 10's left-child pointer?",
+      "choices": ["It still points at the old node 5", "It becomes None, since 10 now has no left child", "It is redirected to point at 15"],
+      "answer": 1,
+      "explanation": "A leaf has no children to reconnect, so deleting one is just removing the single pointer that led to it. 10's left pointer becomes None; nothing else in the tree changes."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "search-checkpoint-1",
+  "title": "Quick check: tracing a failed search",
+  "shuffleQuestions": false,
+  "shuffleChoices": false,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "Using the tree (root 5, left child 3 with children 1 and 4, right child 8 with children 7 and 9), how many comparisons does searching for the value 6 make before the algorithm concludes it is not in the tree?",
+      "answer": 3,
+      "tolerance": 0,
+      "explanation": "6 vs 5: 6 is bigger, go right (1). 6 vs 8: 6 is smaller, go left (2). 6 vs 7: 6 is smaller, go left (3), but 7 has no left child, so the search falls off the tree after 3 comparisons and reports 'not found'."
+    }
+  ]
+}

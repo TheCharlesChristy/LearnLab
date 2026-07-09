@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "search-checkpoint-3",
+  "title": "Quick check: what bounds a search",
+  "shuffleQuestions": false,
+  "shuffleChoices": false,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "text",
+      "text": "In one word, what property of the tree sets the maximum possible number of comparisons a BST search can make?",
+      "accept": ["(the )?height", "(tree )?height"],
+      "caseSensitive": false,
+      "explanation": "The height of the tree. Every step of a search moves one edge down, and the search stops (found or not found) at worst when it falls off the tree, so it can never take more comparisons than the tree is tall."
+    }
+  ]
+}
