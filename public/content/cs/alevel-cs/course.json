@@ -8,6 +8,7 @@
   "modules": [
     { "id": "programming-fundamentals", "dir": "programming-fundamentals" },
     { "id": "data-structures", "dir": "data-structures" },
+    { "id": "heaps", "dir": "heaps" },
     { "id": "algorithms-1-search-sort", "dir": "algorithms-1-search-sort" },
     { "id": "algorithms-2-complexity-graphs", "dir": "algorithms-2-complexity-graphs" },
     { "id": "boolean-algebra-and-logic", "dir": "boolean-algebra-and-logic" },

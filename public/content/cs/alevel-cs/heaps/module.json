@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "heaps",
+  "title": "Heaps",
+  "description": "Binary heaps: the heap property, array representation, insertion and extraction by sifting, building a heap in linear time, heapsort, and the priority queue ADT.",
+  "estMinutes": 130,
+  "prerequisites": ["data-structures"],
+  "objectives": [
+    "State the heap property for a min-heap and a max-heap, and explain why a heap is stored as a complete binary tree",
+    "Derive and use the array-index formulas for a node's parent and children",
+    "Trace insertion into a heap, including the sift-up (bubble-up) step, and state its time complexity",
+    "Trace extraction of the root from a heap, including the sift-down (bubble-down) step, and state its time complexity",
+    "Explain how build-heap (heapify) turns an arbitrary array into a heap in O(n), and how heapsort uses a heap to sort in place",
+    "Describe the priority queue ADT and identify heaps as its standard efficient implementation, with examples of its use"
+  ],
+  "tags": ["heaps", "binary-heap", "priority-queue", "heapsort", "data-structures"],
+  "lessons": [
+    { "id": "heap-property-and-array-representation", "title": "The heap property and array representation", "file": "01-heap-property-and-array-representation.md", "estMinutes": 30 },
+    { "id": "insertion-and-sift-up", "title": "Insertion and sift-up", "file": "02-insertion-and-sift-up.md", "estMinutes": 30 },
+    { "id": "extraction-and-sift-down", "title": "Extraction and sift-down", "file": "03-extraction-and-sift-down.md", "estMinutes": 30 },
+    { "id": "heapify-heapsort-and-priority-queues", "title": "Heapify, heapsort and priority queues", "file": "04-heapify-heapsort-and-priority-queues.md", "estMinutes": 35 }
+  ],
+  "assessment": { "file": "assessment.json", "passMark": 0.7 },
+  "version": "1.0.0",
+  "authors": ["charles"]
+}
