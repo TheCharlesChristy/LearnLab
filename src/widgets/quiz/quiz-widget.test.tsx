@@ -196,4 +196,28 @@ describe('QuizWidget fetch + engine wiring', () => {
     renderWidget(<QuizWidget src="bad.json" />);
     expect(await screen.findByRole('alert')).toHaveTextContent(/not a valid quiz/);
   });
+
+  it('typesets LaTeX in question text instead of showing raw source (regression)', async () => {
+    const mathQuiz: Quiz = {
+      ...quizJson,
+      questions: [
+        {
+          type: 'mcq',
+          id: 'q1',
+          text: 'A heater rated at $1000\\,\\text{W}$ runs. Pick a.',
+          choices: ['a', 'b'],
+          answer: 0,
+          explanation: 'a is right',
+        },
+      ],
+    };
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(okResponse(mathQuiz)));
+    renderWidget(<QuizWidget src="math-quiz.json" />);
+
+    await screen.findByText('Question 1 of 1');
+    // Raw, un-typeset LaTeX source must not appear as literal text…
+    expect(screen.queryByText(/\$1000\\,\\text\{W\}\$/)).not.toBeInTheDocument();
+    // …KaTeX should have rendered it into markup instead.
+    expect(document.querySelector('.katex')).not.toBeNull();
+  });
 });
