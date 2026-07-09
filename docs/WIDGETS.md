@@ -211,55 +211,6 @@ Screenshot: TODO
 
 ---
 
-## `logic-gate-sim`
-
-Interactive AND/OR/NOT/XOR/NAND/NOR circuit simulator. Fetches a module-relative JSON file describing input pins, gates, and declared outputs; renders one toggle per input, live gate/output values that update immediately on every toggle (no reload), and a truth-table side panel covering every input combination.
-
-Gate type is a **closed set** — `AND`, `OR`, `NOT`, `XOR`, `NAND`, `NOR` — any other value is a malformed-file error. A gate's `inputs` array may reference only input pin names or an **earlier** gate's `id` (array order = evaluation order), which makes the circuit acyclic by construction; a gate referencing a later gate, itself, or an unknown name is a malformed-file error caught at load time, not at click time. (§5.3 describes the source as "circuit JSON: nodes, wires" illustratively — the actual field names are `inputs`/`gates`/`outputs` as shown below.)
-
-Data file shape:
-
-```json
-{
-  "inputs": ["A", "B"],
-  "gates": [
-    { "id": "g1", "type": "AND", "inputs": ["A", "B"] },
-    { "id": "g2", "type": "NOT", "inputs": ["g1"] }
-  ],
-  "outputs": ["g2"]
-}
-```
-
-`inputs`: non-empty array of unique pin name strings. `gates`: non-empty array; `type` one of the six above; `inputs` has exactly 1 reference for `NOT`, exactly 2 for all others. `outputs`: non-empty array of gate ids or input names whose live values are displayed and used for the truth table.
-
-The truth table shows all 2^N rows (inputs capped at 6 — beyond that a message is shown instead of the table). Row and column order follows the `inputs` array order via standard binary counting (`inputs[0]` = most-significant bit): for `["A","B"]` the rows are `00, 01, 10, 11`. Columns are all input columns (in `inputs` order) followed by all output columns (in `outputs` order). The row matching the current live toggle state is visually highlighted.
-
-Toggles are real `role="switch"` elements — keyboard-operable, with visible focus and `prefers-reduced-motion`-aware transitions (NFR-A11Y-001).
-
-### Props
-
-| Prop  | Type   | Required | Default | Description                                       |
-| ----- | ------ | -------- | ------- | -------------------------------------------------- |
-| `src` | string | yes      | —       | Module-relative path to the circuit JSON file.      |
-
-### Example
-
-```markdown
-::widget{type="logic-gate-sim" src="circuits/xor-from-primitives.json"}
-```
-
-### Validation behaviour
-
-`parseProps` (`src/widgets/logic-gate-sim/index.ts`) errors:
-
-- missing/empty `src` → `src: required — a path to a circuit JSON file, e.g. src="circuits/and-or.json"`
-
-At render time, a fetched file that doesn't match the shape above shows an inline error card naming the exact problem, e.g. `gates[1].type: must be one of AND, OR, NOT, XOR, NAND, NOR (got "MAYBE")`, `gates[0].inputs[1]: references unknown pin/gate "x1"`, or `gates[0].inputs: NOT requires exactly 1 input (got 2)`. A fetch failure shows a retry card (FR-CONT-007 spirit).
-
-Screenshot: TODO
-
----
-
 ## `flashcards`
 
 Spaced-recall cards within a lesson: one card at a time, flip to reveal the back, then self-grade "Again" or "Good". Grades persist via the lesson's itemState (§5.5) so progress survives reloads — the widget never imports `src/progress` directly (§3.5); it goes through `LessonContext`'s `getItemState`/`setItemState` (D-012).
@@ -397,7 +348,7 @@ Screenshot: TODO
 
 ## `geometry-canvas`
 
-Interactive 2D geometry construction: points, lines and circles defined by a small JSON scene file, with `draggable` points that recompute any lines/circles defined in terms of them live. y-axis points up (maths convention, same as `vector-field`). Fetches a module-relative scene JSON file, resolved the same way as `flashcards`'/`logic-gate-sim`'s `src` prop.
+Interactive 2D geometry construction: points, lines and circles defined by a small JSON scene file, with `draggable` points that recompute any lines/circles defined in terms of them live. y-axis points up (maths convention, same as `vector-field`). Fetches a module-relative scene JSON file, resolved the same way as `flashcards`'s `src` prop.
 
 Data file shape:
 
@@ -445,64 +396,15 @@ Screenshot: TODO
 
 ---
 
-## `circuit-sim`
-
-A simple analog DC circuit calculator: one voltage source plus resistors wired in series and/or parallel, computing and displaying the current through and voltage across each resistor via Ohm's law, plus total circuit resistance and current. This is the analog counterpart to `logic-gate-sim`'s digital gate circuits — deliberately restricted to a series/parallel **tree** (not a general SPICE-like solver), so the maths stays exact and unambiguous.
-
-Data file shape (a recursive tree: a `"series"`/`"parallel"` node's `elements` are either resistor leaves or further nested `"series"`/`"parallel"` nodes):
-
-```json
-{
-  "voltage": 12,
-  "circuit": {
-    "type": "series",
-    "elements": [
-      { "type": "resistor", "id": "R1", "ohms": 10 },
-      {
-        "type": "parallel",
-        "elements": [
-          { "type": "resistor", "id": "R2", "ohms": 20 },
-          { "type": "resistor", "id": "R3", "ohms": 30 }
-        ]
-      }
-    ]
-  }
-}
-```
-
-`voltage`: required, `> 0`. Every resistor `id` must be a non-empty string, unique across the whole tree; `ohms > 0`; at least one resistor must exist in the circuit. A `"series"` node's combined resistance is the sum of its elements' combined resistances (recursively); a `"parallel"` node's is `1 / Σ(1/Rᵢ)` (recursively). Current is constant along a series path; a parallel group's branches all drop the same voltage (`incomingCurrent × combinedResistanceOfGroup`) and each branch's current is that voltage divided by the branch's own combined resistance. For the example above (V=12V): total resistance = 10 + 1/(1/20+1/30) = 22 Ω, total current ≈ 0.545 A (flowing entirely through R1); the parallel group drops ≈6.545 V, giving I(R2) ≈ 0.327 A and I(R3) ≈ 0.218 A (summing back to ≈0.545 A, as current conservation requires).
-
-### Props
-
-| Prop  | Type   | Required | Default | Description                                    |
-| ----- | ------ | -------- | ------- | ------------------------------------------------ |
-| `src` | string | yes      | —       | Module-relative path to a circuit JSON file.      |
-
-### Example
-
-```markdown
-::widget{type="circuit-sim" src="circuits/series-parallel.json"}
-```
-
-### Validation behaviour
-
-`parseProps` (`src/widgets/circuit-sim/index.ts`) errors:
-
-- missing/empty `src` → `src: required — a path to a circuit JSON file, e.g. src="circuits/series-parallel.json"`
-
-At render time, a fetched file that doesn't match the shape above shows an inline error card naming the exact problem (e.g. a non-positive `voltage`, a duplicate resistor id, an invalid node `type`, or an `elements` array that isn't a non-empty array); a fetch failure shows a retry card (FR-CONT-007 spirit). The results table (resistor id, ohms, current, voltage, plus a total-resistance/total-current summary line) is a real `<table>` with `<th>` headers (NFR-A11Y-001); an accompanying schematic-style diagram carries `role="img"` with a summarising `aria-label` (e.g. "R1 in series with R2 parallel R3").
-
-Screenshot: TODO
-
 ---
 
 ## `truth-table`
 
-Renders the full truth table for a boolean **expression string** typed by the content author — no circuit/diagram, no data file. Complementary to `logic-gate-sim` (which derives its truth table from a wired circuit JSON of gates and connections): this widget parses and evaluates a plain expression directly, e.g. `"A AND (B OR NOT C)"`.
+Renders the full truth table for a boolean **expression string** typed by the content author — no circuit/diagram, no data file. This widget parses and evaluates a plain expression directly, e.g. `"A AND (B OR NOT C)"`.
 
-Operators are a closed set, case-insensitive keywords, reusing `logic-gate-sim`'s gate vocabulary: `AND`, `OR`, `NOT`, `XOR`, `NAND`, `NOR`, plus parentheses for grouping and `NOT` as a unary prefix. Variables are identifiers matching `[A-Z][A-Z0-9]*` (uppercase only — lowercase is rejected with a clear error). Precedence, tightest to loosest: `NOT` > `AND`/`NAND` > `XOR` > `OR`/`NOR`; all binary operators are 2-operand and left-associative (`A XOR B XOR C` = `(A XOR B) XOR C`). No `eval`/`new Function` (NFR-SEC-002 spirit, same rationale as `logic-gate-sim`'s closed gate set) — a hand-written tokenizer, recursive-descent parser, and tree-walking evaluator.
+Operators are a closed set, case-insensitive keywords: `AND`, `OR`, `NOT`, `XOR`, `NAND`, `NOR`, plus parentheses for grouping and `NOT` as a unary prefix. Variables are identifiers matching `[A-Z][A-Z0-9]*` (uppercase only — lowercase is rejected with a clear error). Precedence, tightest to loosest: `NOT` > `AND`/`NAND` > `XOR` > `OR`/`NOR`; all binary operators are 2-operand and left-associative (`A XOR B XOR C` = `(A XOR B) XOR C`). No `eval`/`new Function` (NFR-SEC-002 spirit) — a hand-written tokenizer, recursive-descent parser, and tree-walking evaluator.
 
-The truth table shows all 2^N rows (variables capped at `maxInputs`, default 6 — mirrors `logic-gate-sim`'s own cap and rationale: row explosion beyond that). Row and column order follows the variables' first-appearance, left-to-right order in the expression via standard binary counting (the first variable encountered = most-significant bit) — the same convention as `logic-gate-sim`'s truth table. Columns are each variable (in that order) followed by a final "Result" column. Cells show `0`/`1`, matching `logic-gate-sim`'s convention.
+The truth table shows all 2^N rows (variables capped at `maxInputs`, default 6 — row explosion beyond that). Row and column order follows the variables' first-appearance, left-to-right order in the expression via standard binary counting (the first variable encountered = most-significant bit). Columns are each variable (in that order) followed by a final "Result" column. Cells show `0`/`1`.
 
 A real semantic `<table>` with `<th scope="col">` headers is the accessible representation of tabular data (NFR-A11Y-001) — no supplementary ARIA is needed.
 

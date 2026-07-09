@@ -89,15 +89,6 @@ export const SRC_JSON_SAMPLES: Partial<Record<string, string>> = {
     null,
     2,
   ),
-  'logic-gate-sim': JSON.stringify(
-    {
-      inputs: ['A', 'B'],
-      gates: [{ id: 'g1', type: 'AND', inputs: ['A', 'B'] }],
-      outputs: ['g1'],
-    },
-    null,
-    2,
-  ),
   'geometry-canvas': JSON.stringify(
     {
       bounds: { xmin: -5, xmax: 5, ymin: -5, ymax: 5 },
@@ -106,14 +97,6 @@ export const SRC_JSON_SAMPLES: Partial<Record<string, string>> = {
         { id: 'B', x: 3, y: 0, label: 'B', draggable: true },
       ],
       lines: [{ from: 'A', to: 'B' }],
-    },
-    null,
-    2,
-  ),
-  'circuit-sim': JSON.stringify(
-    {
-      voltage: 12,
-      circuit: { type: 'series', elements: [{ type: 'resistor', id: 'R1', ohms: 10 }] },
     },
     null,
     2,

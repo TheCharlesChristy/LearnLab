@@ -9,7 +9,6 @@
 // folder; the orchestrator adds the entry here.
 
 import type { WidgetDef } from './widget-def';
-import { def as circuitSim } from './circuit-sim';
 import { def as codeRunner } from './code-runner';
 import { def as dataPlot } from './data-plot';
 import { def as figure } from './figure';
@@ -17,7 +16,6 @@ import { def as flashcards } from './flashcards';
 import { def as functionGrapher } from './function-grapher';
 import { def as geometryCanvas } from './geometry-canvas';
 import keys from './keys.json';
-import { def as logicGateSim } from './logic-gate-sim';
 import { def as matchingPairs } from './matching-pairs';
 import { def as quiz } from './quiz';
 import { def as stepReveal } from './step-reveal';
@@ -33,12 +31,10 @@ export const widgetRegistry: Record<string, WidgetDef> = {
   'data-plot': dataPlot,
   'step-reveal': stepReveal,
   'code-runner': codeRunner,
-  'logic-gate-sim': logicGateSim,
   flashcards,
   'matching-pairs': matchingPairs,
   'vector-field': vectorField,
   'geometry-canvas': geometryCanvas,
-  'circuit-sim': circuitSim,
   'truth-table': truthTable,
 };
 

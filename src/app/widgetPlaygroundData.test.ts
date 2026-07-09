@@ -13,9 +13,7 @@ const SRC_WIDGETS = [
   'quiz',
   'step-reveal',
   'data-plot',
-  'logic-gate-sim',
   'geometry-canvas',
-  'circuit-sim',
 ];
 
 describe('parseExampleAttrs', () => {

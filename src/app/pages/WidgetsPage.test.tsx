@@ -12,7 +12,7 @@ import { renderRoute } from '../__tests__/helpers';
 describe('WidgetsPage', () => {
   it('redirects bare /widgets to the first widget, alphabetically', async () => {
     renderRoute('/widgets');
-    expect(await screen.findByRole('heading', { name: 'circuit-sim', level: 2 })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'code-runner', level: 2 })).toBeInTheDocument();
   });
 
   it('shows the selected widget\'s playground immediately, with documentation collapsed', async () => {
@@ -59,7 +59,7 @@ describe('WidgetsPage', () => {
     await userEvent.type(searchInput, 'flashcards');
 
     await waitFor(() => {
-      expect(screen.queryByRole('link', { name: 'circuit-sim' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('link', { name: 'code-runner' })).not.toBeInTheDocument();
     });
     // The already-open widget's playground is untouched by the sidebar filter.
     expect(screen.getByRole('heading', { name: 'truth-table', level: 2 })).toBeInTheDocument();

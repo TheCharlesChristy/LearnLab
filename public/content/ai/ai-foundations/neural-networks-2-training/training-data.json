@@ -1,9 +1,0 @@
-{
-  "kind": "scatter",
-  "xLabel": "input x1",
-  "yLabel": "input x2",
-  "series": [
-    { "name": "target 0", "points": [[0, 0], [1, 0]] },
-    { "name": "target 1", "points": [[2, 2], [3, 3]] }
-  ]
-}

@@ -5,11 +5,9 @@
   "data-plot",
   "step-reveal",
   "code-runner",
-  "logic-gate-sim",
   "flashcards",
   "matching-pairs",
   "vector-field",
   "geometry-canvas",
-  "circuit-sim",
   "truth-table"
 ]
