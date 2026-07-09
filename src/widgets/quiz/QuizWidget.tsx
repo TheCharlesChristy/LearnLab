@@ -4,10 +4,21 @@
 // (the engine uses quiz.id). Fetch failures show a retry card (FR-CONT-007).
 
 import { useContext, useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 
 import { LessonContext } from '../../content/lesson-context';
+import { MarkdownInline } from '../../markdown';
 import { QuizEngine } from '../../quiz';
 import type { Quiz } from '../../quiz';
+
+// Question text/explanations can contain Markdown + maths (§4.6); without
+// this the engine falls back to raw text, so authored LaTeX like
+// `$1000\,\text{W}$` renders literally instead of typeset (the bug this
+// widget was shipped with — AssessmentPage wires the equivalent renderer,
+// this embed didn't).
+function renderQuizMarkdown(md: string): ReactNode {
+  return <MarkdownInline markdown={md} />;
+}
 
 export interface QuizWidgetProps {
   /** Module-relative quiz JSON path (required). */
@@ -90,6 +101,7 @@ export default function QuizWidget({ src, pick }: QuizWidgetProps) {
       kind="inline-quiz"
       pickOverride={pick}
       onRetry={() => setAttemptNumber((n) => n + 1)}
+      renderMarkdown={renderQuizMarkdown}
     />
   );
 }
