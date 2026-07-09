@@ -1,5 +1,36 @@
 # LearnLab skill set: what changed and why
 
+## The Brilliant rewrite (docs/BRILLIANT_REWRITE_PLAN.md)
+
+The platform's lesson format changed from a Markdown library (prose backbone, widgets embedded in
+it) to a Brilliant.org-style screen-sequence engine (an ordered list of gated interactive screens —
+no screen type exists that isn't required to gate on a real interaction). This is a `src/`-level
+engine change, not a content wave, but it touches every content skill because the primary authoring
+format changed underneath them:
+
+- **`learnlab-author-content`**: the "three closed sets" became four (screen types join
+  directives/widgets/question types). Scaffold-first section, MVC section, and the assessment/
+  verification sections rewritten around screens as primary; the old directive-syntax content is
+  preserved verbatim but demoted to a "Legacy format" section. New: the tolerance/keyboard-step
+  trap for `manipulable-target` goals, caught in this format's own first shipped lesson.
+- **`learnlab-lesson-pedagogy`**: the lesson skeleton, hook patterns, worked-example pair,
+  checkpoint format-mix rule, and final self-check are all re-expressed as screen types
+  (`predict`/`tap-choice`/`entry`/`manipulable-target`/`faded-step`/`reveal-mechanism`/
+  `sort-match`/`flash-recall`) instead of directives + an inline-quiz workaround. New section:
+  fading depth as a property of the whole screen sequence, not just the worked-example pair
+  (target spec #6). The underlying evidence base (effect sizes, citations) is unchanged — only the
+  mechanical expression moved.
+- **`learnlab-adapt-resource`**: Step 4's source-element conversion table retargeted at screen
+  types; MVC section notes a screens-format lesson satisfies the interactivity requirement
+  automatically.
+- **`learnlab-research-content`**: one addition — verifying a `manipulable-target` goal is now
+  part of the same numeric-verification discipline as an assessment answer.
+
+`learnlab-extend-platform`'s capability backlog is unaffected by this entry (screens are a new
+closed set the same way widgets are, not a backlog item), but its extension procedure now has a
+screens-registration runbook mirroring the widget one (`docs/ARCHITECTURE.md` §4a).
+
+
 The skill set is now five skills. Two are new; three are revisions of the existing files.
 Every new rule traces to a replicated learning-science finding (meta-analytic where one
 exists); effect sizes below are orientation, not guarantees.

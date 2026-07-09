@@ -44,8 +44,9 @@ Why adding content scales without touching the app:
 | `src/config.ts`  | Single-point configuration (§10.2): `APP_NAME`, `REPO_NAME`, `PYODIDE_VERSION`, `PYODIDE_BASE_URL`. Renaming the app or moving Pyodide touches only this file (plus `package.json`). | built |
 | `src/app/`       | Shell: routes, layout, error boundaries.                                                                              | built (P0 scope) |
 | `src/content/`   | Content types, lesson context (`moduleBaseUrl` etc.), loaders + Ajv dev-mode guards.                                  | built (P0 scope) |
-| `src/markdown/`  | `MarkdownLesson` renderer: GFM, KaTeX maths, Shiki code blocks, and the four §4.5 directives (`::widget`, `::py`, `:::callout`, `:::reveal`) incl. the error cards for unknown widgets / bad props / nested containers. | built |
+| `src/markdown/`  | `MarkdownLesson` renderer: GFM, KaTeX maths, Shiki code blocks, and the four §4.5 directives (`::widget`, `::py`, `:::callout`, `:::reveal`) incl. the error cards for unknown widgets / bad props / nested containers. Legacy format (`docs/BRILLIANT_REWRITE_PLAN.md`) — still fully supported, no longer the default for new lessons. | built |
 | `src/widgets/`   | Native widgets + `registry.ts` + `keys.json` (plain-data twin of the registry for the Node validator) + `widget-def.ts` (the `WidgetDef` contract). Implemented: `function-grapher`, `figure`, `quiz`. | built |
+| `src/screens/`   | Screen-sequence engine (`docs/BRILLIANT_REWRITE_PLAN.md`, `docs/SCREENS.md`): `ScreenSequenceEngine` + `registry.ts` + `screen-def.ts` (the `ScreenDef` contract). The primary lesson format for new content — `Lesson.kind: "screens"`. | built (growing) |
 | `src/quiz/`      | Native quiz engine: §4.6 types, marking, seeded shuffle/pick (mulberry32), one-question-at-a-time flow.                | built |
 | `src/progress/`  | Dexie db (`learnlab`), hooks, export/import, persistence.                                                              | built |
 | `src/python/`    | `PyHost` worker management, §6.3 protocol types, `TreeRenderer`, `worker.ts`.                                          | TODO(P1) |
@@ -85,6 +86,19 @@ A "game" widget (like `matching-pairs`) is registered exactly per the runbook ab
 - **Persistence, if the game needs it** — `LessonContext.getItemState`/`setItemState`, pre-bound to the lesson's `moduleId`, exactly per `flashcards`' D-012 precedent (itemId your own namespaced string). Not every game needs this: `matching-pairs` deliberately doesn't persist, since a matching game is meant to be replayed rather than tracked for mastery — persist only when the game genuinely has state worth resuming (a high score, a partially-solved puzzle).
 - **On completion**, call `LessonContext.notifyEngagement({ kind: 'game-complete' })` (fire-and-forget) so the app can award points/streak progress and celebrate — this is how a game reports its milestone without importing `src/progress` directly, same boundary `QuizEngine`/`Flashcards` hold.
 - **Interaction model**: prefer click/tap-to-select over native HTML5 drag-and-drop unless you have a concrete plan for keyboard/screen-reader parity — drag-and-drop is not operable via `<button>` semantics, and this codebase holds a strict a11y bar (see D-028 for the `matching-pairs` precedent).
+
+## 4a. Runbook: add a screen type
+
+Screen types (`docs/SCREENS.md`, `docs/BRILLIANT_REWRITE_PLAN.md`) are the fourth closed set alongside directives/widgets/question types, and register the same way widgets do — no router changes, no engine changes beyond the two files below:
+
+1. **Add the shape** to `schemas/screen-sequence.schema.json`'s `$defs.screen.oneOf` (a new `$defs.<name>` branch with `type: {const: "<type>"}` and its own `required`/`properties`) — this is the entire closed-set enforcement for screens; there is no separate keys file to keep in sync the way widgets need `keys.json`, because a screen's `type` is a first-class Ajv-discriminated field, not a free-form Markdown attribute.
+2. **Create the component** `src/screens/<Name>Screen.tsx`: a component implementing `ScreenRunnerProps<YourScreenType>` (`src/screens/screen-def.ts`), rendered inside `ScreenShell` (`src/screens/ScreenShell.tsx`) for the shared chrome (prompt area, progress dots, the Continue/Finish button). The component owns all gating: `ScreenShell`'s `canAdvance` prop must come from real interaction state — there is no default that lets a screen advance without one. Export `def = defineScreen<YourScreenType>({component: YourScreenRunner})`.
+3. **Register it** in `src/screens/registry.ts`'s `screenRegistry` map, keyed by the same `type` string used in the schema.
+4. **Add the type** to the TypeScript union in `src/screens/types.ts`, and to `SCREEN_TYPES` in `scripts/build-content.mjs` (drives the `docs/SCREENS.md` coverage check, mirroring `checkWidgetDocs`/FR-WID-002).
+5. **Document it** in `docs/SCREENS.md` with a heading of the exact form `` ## `<type>` `` — CI string-matches every `SCREEN_TYPES` entry against the doc headings and fails if one is missing, exactly like widgets.
+6. **Update the content skills** (`learnlab-author-content`'s closed-set list, `learnlab-lesson-pedagogy`'s usage guidance if the type has a pedagogical placement rule) — a screen type content authors don't know about doesn't exist, same discipline as shipping a widget.
+
+If the new screen type wraps an existing widget (the `manipulable-target` precedent), reuse the widget's component directly rather than re-implementing its interaction — `manipulable-target` imports `FunctionGrapher` from `src/widgets/function-grapher` and adds an optional `onTangentChange` callback prop to observe live state, rather than forking the widget.
 
 ## 5. Runbook: change the Pyodide version or hosting
 

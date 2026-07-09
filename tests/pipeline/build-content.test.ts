@@ -259,3 +259,39 @@ describe('build-content.mjs — widget doc coverage (§7.3, FR-WID-002)', () => 
     TIMEOUT,
   );
 });
+
+describe('build-content.mjs — screen-type doc coverage (docs/BRILLIANT_REWRITE_PLAN.md)', () => {
+  // Screens equivalent of the widget-doc-coverage tests above — reads
+  // docs/SCREENS.md, overridable via --screen-docs-file for the same
+  // test-isolation reason.
+  const realScreenDocsFile = path.join(repoRoot, 'docs', 'SCREENS.md');
+
+  it(
+    'fails, naming the screen type, when a registered type has no matching heading',
+    () => {
+      const original = fs.readFileSync(realScreenDocsFile, 'utf8');
+      const mutated = original.replace('## `predict`', '## `predict-renamed`');
+      expect(mutated).not.toBe(original); // sanity: the replace actually matched
+      const scratchDocsFile = path.join(tempDir(), 'SCREENS.md');
+      fs.writeFileSync(scratchDocsFile, mutated);
+      const { status, output } = runBuild(
+        path.join(fixtures, 'valid'),
+        '--screen-docs-file',
+        scratchDocsFile,
+      );
+      expect(status, output).not.toBe(0);
+      expect(output).toContain('screen type "predict" is registered');
+      expect(output).toContain('## `predict`');
+    },
+    TIMEOUT,
+  );
+
+  it(
+    'passes for the real repo docs (regression guard: every registered screen type is documented)',
+    () => {
+      const { status, output } = runBuild(path.join(fixtures, 'valid'));
+      expect(status, output).toBe(0);
+    },
+    TIMEOUT,
+  );
+});

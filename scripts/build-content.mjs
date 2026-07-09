@@ -15,9 +15,14 @@
 //      resolve; Lesson.file / assessment.file / ::py src targets exist;
 //      ::widget types come from schemas/widget-keys.json; only the four §4.5
 //      directive forms; containers never nest containers; figure needs alt;
-//      callout kind ∈ {info,tip,warning,key}.
+//      callout kind ∈ {info,tip,warning,key}; Lesson.kind:"screens" files
+//      validate against schemas/screen-sequence.schema.json
+//      (docs/BRILLIANT_REWRITE_PLAN.md).
 //   5. python3 -m py_compile every .py under <root>/**/items/ and python/**.
 //   6. Emit <root>/index.json (§4.2) and validate it against its schema.
+//   Also unconditional (not gated on --strict): every widget key has a
+//   docs/WIDGETS.md section, and every screen type has a docs/SCREENS.md
+//   section.
 
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -45,6 +50,22 @@ const SUBJECT_TITLES = {
   ai: 'AI',
 };
 const CALLOUT_KINDS = ['info', 'tip', 'warning', 'key'];
+// Brilliant rewrite (docs/BRILLIANT_REWRITE_PLAN.md): the closed set of
+// screen `type` values, mirroring src/screens/registry.ts. Unlike widgets, a
+// screen's `type` is validated directly by the JSON Schema discriminator
+// (schemas/screen-sequence.schema.json), so there's no separate keys file to
+// dump — this list exists only to drive the docs/SCREENS.md coverage check
+// below, the screens equivalent of FR-WID-002.
+const SCREEN_TYPES = [
+  'predict',
+  'tap-choice',
+  'entry',
+  'manipulable-target',
+  'faded-step',
+  'sort-match',
+  'flash-recall',
+  'reveal-mechanism',
+];
 
 // ---------------------------------------------------------------------------
 // CLI
@@ -55,6 +76,7 @@ function parseCli(argv) {
     strict: false,
     watch: false,
     docsFile: path.join(repoRoot, 'docs', 'WIDGETS.md'),
+    screenDocsFile: path.join(repoRoot, 'docs', 'SCREENS.md'),
   };
   for (let i = 2; i < argv.length; i += 1) {
     const arg = argv[i];
@@ -75,6 +97,13 @@ function parseCli(argv) {
       const value = argv[i + 1];
       if (!value) fail('--docs-file requires a file argument');
       opts.docsFile = path.resolve(value);
+      i += 1;
+    } else if (arg === '--screen-docs-file') {
+      // Test-only seam, same rationale as --docs-file above (screens
+      // equivalent of the FR-WID-002 coverage test).
+      const value = argv[i + 1];
+      if (!value) fail('--screen-docs-file requires a file argument');
+      opts.screenDocsFile = path.resolve(value);
       i += 1;
     } else {
       fail(`unknown argument: ${arg}\nusage: build-content.mjs [--root <dir>] [--strict] [--watch]`);
@@ -754,6 +783,25 @@ function checkWidgetDocs(widgetKeys, docsFile, reporter) {
 }
 
 // ---------------------------------------------------------------------------
+// Screen-type doc coverage (docs/BRILLIANT_REWRITE_PLAN.md): every screen
+// type in SCREEN_TYPES must have a `## `<type>`` heading in docs/SCREENS.md.
+// Runs unconditionally, same always-on invariant as checkWidgetDocs above.
+
+function checkScreenDocs(screenTypes, docsFile, reporter) {
+  const docsText = fs.existsSync(docsFile) ? fs.readFileSync(docsFile, 'utf8') : '';
+  for (const type of screenTypes) {
+    const heading = `## \`${type}\``;
+    if (!docsText.includes(heading)) {
+      reporter.atFile(
+        docsFile,
+        `screen type "${type}" is registered (src/screens/registry.ts) but docs/SCREENS.md has ` +
+          `no "${heading}" section`,
+      );
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // One full pipeline run
 
 function runPipeline(opts) {
@@ -763,6 +811,7 @@ function runPipeline(opts) {
   // Step 1: regenerate + read the widget manifest.
   const widgetKeys = dumpWidgetKeys();
   checkWidgetDocs(widgetKeys, opts.docsFile, reporter);
+  checkScreenDocs(SCREEN_TYPES, opts.screenDocsFile, reporter);
 
   const validators = makeValidators();
   const { subjects, moduleIds } = validateTree(opts.root, opts.strict, validators, widgetKeys, reporter);
