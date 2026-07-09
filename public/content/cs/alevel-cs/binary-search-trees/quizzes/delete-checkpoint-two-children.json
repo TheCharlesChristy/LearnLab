@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "delete-checkpoint-two-children",
+  "title": "Quick check: finding the in-order successor",
+  "shuffleQuestions": false,
+  "shuffleChoices": false,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "In the original tree, node 10 has two children: 5 (a leaf) and 15 (a leaf). If you call delete(root, 10), what value is the in-order successor used to replace 10?",
+      "answer": 15,
+      "tolerance": 0,
+      "explanation": "The in-order successor is the smallest value in the right subtree: start at 10's right child, 15, and keep going left. 15 has no left child, so it is the smallest value there already, and it becomes the successor."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "To find the in-order successor of a node you are deleting, which node do you use?",
+      "choices": ["The node's direct right child", "The leftmost node in the node's right subtree", "The rightmost node in the node's left subtree"],
+      "answer": 1,
+      "explanation": "The leftmost node in the right subtree is correct: it is always guaranteed to have no left child of its own, so removing it never creates a second two-children case. Picking the direct right child (option 1) only happens to be correct when that child has no left child of its own; in general you must keep walking left. The rightmost node in the left subtree (option 3) is the in-order predecessor, a different but also valid node that this lesson does not use."
+    }
+  ]
+}

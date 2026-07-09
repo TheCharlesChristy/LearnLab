@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "id": "binary-search-trees-assessment",
+  "title": "End of module: Binary Search Trees",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Take the tree: root 15, left subtree rooted at 7 (children 3 and 10), right subtree rooted at 20 (children 17 and 25). Searching this tree for the value 10, how many comparisons does it take to find it?",
+      "choices": ["2", "3", "4"],
+      "answer": 1,
+      "explanation": "10 vs 15: smaller, go left (1). 10 vs 7: bigger, go right (2). 10 vs 10: equal, found (3). Three comparisons in total."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "Using the same tree (root 15, left subtree rooted at 7 with children 3 and 10, right subtree rooted at 20 with children 17 and 25), how many comparisons does searching for the value 12 make before the search concludes it is not in the tree?",
+      "answer": 3,
+      "tolerance": 0,
+      "explanation": "12 vs 15: smaller, go left (1). 12 vs 7: bigger, go right (2). 12 vs 10: bigger, go right (3), but 10 has no right child, so the search stops after 3 comparisons having never found 12."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "In the same tree, node 20 has two children: 17 and 25. If you delete 20, what is its correct in-order successor?",
+      "choices": ["17, the other child", "25, since walking left from it immediately finds no left child", "10, the largest value in the whole left subtree"],
+      "answer": 1,
+      "explanation": "The in-order successor is the leftmost node in the right subtree: start at 25 and try to go left. 25 has no left child, so 25 is already the leftmost node there, and it is the successor. It happens to equal 20's direct right child here only because that child has no left child of its own; that is not true in general."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "Using the same tree, if you delete the root, 15, what value replaces it (the in-order successor of 15)?",
+      "answer": 17,
+      "tolerance": 0,
+      "explanation": "15's right subtree is rooted at 20. Walk left from 20: 20 has a left child, 17. Does 17 have a left child? No, so 17 is the leftmost node in 15's right subtree, and is the in-order successor."
+    },
+    {
+      "id": "q5",
+      "type": "text",
+      "text": "When you delete a leaf node from a BST, what value does its parent's pointer (the one that used to lead to the deleted leaf) get set to?",
+      "accept": ["none|null"],
+      "caseSensitive": false,
+      "explanation": "A leaf has no children to reconnect, so its parent's pointer is simply set to None (or null): nothing else in the tree needs to change."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "If you insert 15 values into an empty BST in strictly increasing order, what is the height of the resulting tree (counting edges from the root)?",
+      "answer": 14,
+      "tolerance": 0,
+      "explanation": "Sorted insertion always attaches each new value as the right child of the current rightmost node, producing a single chain of all 15 nodes. A chain of n nodes has height n minus 1: 14."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "This one reaches back to Big-O notation from Algorithms 2. A balanced BST holding 1,000,000 nodes has a height of about 20, since 2^20 is roughly 1,000,000. Which Big-O complexity class best describes BST search in this best case?",
+      "choices": ["O(n)", "O(log n)", "O(n log n)"],
+      "answer": 1,
+      "explanation": "This is a spaced review of the complexity classes from Algorithms 2. Search cost is proportional to height, and a balanced tree's height grows as log2(n): doubling n only adds one more level, which is exactly the defining behaviour of O(log n)."
+    },
+    {
+      "id": "q8",
+      "type": "mcq",
+      "text": "What Big-O complexity class describes BST search in the worst case, when the tree is degenerate (a single chain)?",
+      "choices": ["O(log n)", "O(n)", "O(1)"],
+      "answer": 1,
+      "explanation": "A degenerate tree's height is n minus 1, so in the worst case a search may have to visit every node, exactly like walking a linked list: O(n)."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "This one reaches back to Algorithms 1. What single idea do binary search on a sorted array and BST search have in common?",
+      "choices": [
+        "Repeatedly compare against a middle value and discard the half of the search space that cannot contain the target",
+        "Check every element in turn until a match turns up",
+        "Randomly sample values until one happens to match"
+      ],
+      "answer": 0,
+      "explanation": "This is a spaced review of binary search from Algorithms 1. Both techniques work by comparing against one value and using the result to eliminate half of the remaining candidates, whether that half is a slice of an array (binary search) or a subtree (BST search)."
+    },
+    {
+      "id": "q10",
+      "type": "text",
+      "text": "This one reaches back to Data Structures. An in-order traversal of any BST always outputs the values in what order?",
+      "accept": ["(ascending|sorted|increasing)( order)?"],
+      "caseSensitive": false,
+      "explanation": "This is a spaced review of the traversal covered in Data Structures. Because in-order traversal visits left subtree, then node, then right subtree, and the BST property guarantees the left subtree is always smaller and the right subtree always bigger, the output always comes out in ascending, sorted order."
+    },
+    {
+      "id": "q11",
+      "type": "mcq",
+      "text": "What guarantee do self-balancing trees such as AVL trees provide that a plain BST does not?",
+      "choices": [
+        "The height stays proportional to log n regardless of the order values are inserted in",
+        "Search becomes O(1) instead of O(log n)",
+        "They no longer need the BST ordering property to be searched"
+      ],
+      "answer": 0,
+      "explanation": "A self-balancing tree restructures itself after insertions and deletions so its height can never degrade into the O(n) worst case, no matter what order values arrive in. It does not change search's underlying complexity class (still O(log n), never O(1)), and it still relies entirely on the BST ordering property."
+    }
+  ]
+}

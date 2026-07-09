@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "search-checkpoint-2",
+  "title": "Quick check: BST search vs array binary search",
+  "shuffleQuestions": false,
+  "shuffleChoices": false,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "A sorted array of 1023 values and a perfectly balanced BST of 1023 values are each searched for a target. How do the worst-case number of comparisons compare?",
+      "choices": [
+        "The array needs noticeably fewer comparisons",
+        "The BST needs noticeably fewer comparisons",
+        "Both need about the same number, around 10"
+      ],
+      "answer": 2,
+      "explanation": "Both are halving the remaining search space at every comparison, so both take about log2(1023), roughly 10, comparisons in the worst case. The BST's advantage isn't fewer comparisons, it's that you can insert and delete values without shifting every element along, which a sorted array requires."
+    }
+  ]
+}

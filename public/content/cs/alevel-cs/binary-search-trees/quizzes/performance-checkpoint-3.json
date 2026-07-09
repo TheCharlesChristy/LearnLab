@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "performance-checkpoint-3",
+  "title": "Quick check: self-balancing trees",
+  "shuffleQuestions": false,
+  "shuffleChoices": false,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Self-balancing trees, such as AVL trees, solve the degenerate-tree problem by...",
+      "choices": [
+        "Refusing to insert a value that would make the tree unbalanced",
+        "Periodically restructuring the tree, rotating nodes, after insertions and deletions to keep the height close to log n",
+        "Always inserting new values at the root instead of at a leaf"
+      ],
+      "answer": 1,
+      "explanation": "A self-balancing tree still accepts every value you insert, it just does extra work afterwards, rotating nodes around, to guarantee the height stays proportional to log n no matter what order the values arrive in. Refusing insertions or always rewriting the root are not how any standard self-balancing structure works."
+    }
+  ]
+}
