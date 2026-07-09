@@ -11,6 +11,7 @@ export {
   loadModule,
   loadLessonMarkdown,
   loadQuiz,
+  loadScreenSequence,
   findModule,
   findCourse,
   ContentLoadError,

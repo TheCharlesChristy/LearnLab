@@ -1,19 +1,20 @@
 ---
 name: learnlab-extend-platform
-description: Extend the LearnLab engine itself — new widgets, new question types, new game mechanics, spaced-repetition scheduling, hint systems, or any src/-level capability. Use whenever a task requires changing src/** rather than public/content/**, whenever a content-authoring task hits the "three closed sets" wall (a widget/directive/question type that doesn't exist yet), or whenever the user asks "what should we build next", "improve the platform", "add a widget", or anything about roadmap/engine features. Contains the evidence-ranked capability backlog and the registration/documentation procedure every extension must follow.
+description: Extend the LearnLab engine itself — new widgets, new screen types, new question types, new game mechanics, spaced-repetition scheduling, hint systems, or any src/-level capability. Use whenever a task requires changing src/** rather than public/content/**, whenever a content-authoring task hits the "four closed sets" wall (a widget/screen-type/directive/question type that doesn't exist yet), or whenever the user asks "what should we build next", "improve the platform", "add a widget", or anything about roadmap/engine features. Contains the evidence-ranked capability backlog and the registration/documentation procedure every extension must follow.
 ---
 
 # Extending the LearnLab platform
 
 This skill is the `src/`-side counterpart to the content skills. The content skills
 (learnlab-author-content, learnlab-lesson-pedagogy, learnlab-adapt-resource,
-learnlab-research-content) operate strictly inside three closed vocabularies — 4
+learnlab-research-content) operate strictly inside four closed vocabularies — the
+screen-type registry (`docs/BRILLIANT_REWRITE_PLAN.md`, the primary format), 4 legacy
 directives, 4 question types, the widget registry — and are instructed to *stop* when a
-task needs a fourth directive, a fifth question type, or an unregistered widget. This
-skill is where those stopped tasks land. The reverse boundary also holds: platform work
-never edits `public/content/**` except to add a demonstration module for a new
-capability, and a diff that mixes engine and content changes is a scoping error
-(invariant C-5).
+task needs a ninth screen type, a fifth directive, a fifth question type, or an
+unregistered widget. This skill is where those stopped tasks land. The reverse boundary
+also holds: platform work never edits `public/content/**` except to add a demonstration
+module for a new capability, and a diff that mixes engine and content changes is a
+scoping error (invariant C-5).
 
 ## The extension procedure — every new capability follows it
 
@@ -36,11 +37,34 @@ substitute for the architecture doc.
 4. Ship with at least one real usage in a demonstration lesson, validated with
    `--strict` and actually rendered in `npm run dev`.
 
+**Adding a screen type** (`docs/BRILLIANT_REWRITE_PLAN.md`, `docs/SCREENS.md`) — the primary-format
+counterpart to adding a widget, full runbook in `docs/ARCHITECTURE.md` §4a:
+1. Add the shape to `schemas/screen-sequence.schema.json`'s `$defs.screen.oneOf` — this is the
+   entire closed-set enforcement (unlike widgets, a screen's `type` is Ajv-discriminated directly,
+   no separate keys file).
+2. Create `src/screens/<Name>Screen.tsx` implementing `ScreenRunnerProps<YourType>`
+   (`src/screens/screen-def.ts`), rendered inside `ScreenShell` for the shared chrome. **The
+   non-negotiable invariant**: `ScreenShell`'s `canAdvance` prop must come from real interaction
+   state the component computes itself — there is no default that lets a screen advance without
+   one, and a screen type that violates this (prose + a bare enabled Continue) defeats the entire
+   point of the rewrite (target spec #2).
+3. Register in `src/screens/registry.ts`, add to the union in `src/screens/types.ts`, and add the
+   type string to `SCREEN_TYPES` in `scripts/build-content.mjs`.
+4. Add the matching `` ## `<type>` `` section to `docs/SCREENS.md` — CI-enforced the same way as
+   widget docs.
+5. Ship with at least one real usage in a demonstration lesson, validated with `--strict` and
+   actually driven end to end (not just rendered) in a production build — Ajv's schema-codegen
+   dev-mode revalidation path can collide with this app's CSP in some sandboxed environments;
+   `vite preview` against a production build sidesteps it if `npm run dev` shows a
+   "Refused to evaluate a string as JavaScript" error unrelated to your change.
+
 **Adding or changing a question type** touches `schemas/quiz.schema.json`, the marking
 engine, and the feedback UI together — never the schema alone. Marking semantics must
 be documented as precisely as the existing four (the content skills quote exact rules
 like "text answers full-match an ECMAScript regex"; a new type needs an equally exact
-sentence).
+sentence). `tap-choice`/`entry` screens already reuse this marking verbatim
+(`src/screens/marking-helpers.ts`), so a new question type should extend both surfaces together if
+it makes sense as a screen too.
 
 **The documentation-and-skills obligation.** A capability content agents don't know
 about doesn't exist. Every shipped extension must update, in the same change: the
@@ -85,7 +109,11 @@ gains a rule that flashcard decks and assessment questions should be written to 
 alone out of lesson context (a review-session item arrives without the lesson around
 it).
 
-### 2. Prediction-commit mode on explorable widgets
+### 2. Prediction-commit mode on explorable widgets — DELIVERED, generalised
+Shipped as the `predict` screen type sequenced immediately before a `manipulable-target` screen
+(`docs/BRILLIANT_REWRITE_PLAN.md`), rather than as a prop on the widget itself — more general,
+since the same `predict` screen also works standalone as a hook with no widget involved. Left below
+for the historical rationale (still the correct citation for *why* predict-then-interact matters).
 **What:** an optional `predict` prop on the explorables (function-grapher, circuit-sim,
 vector-field, data-plot, logic-gate-sim, geometry-canvas): the widget renders a
 question and choice chips (or a numeric field), locks interaction until the learner
@@ -112,7 +140,10 @@ for a wrong answer-tier should key off the chosen reason tier. **On shipping:**
 pedagogy and research skills' misconception sections gain the two-tier pattern as the
 preferred deep-diagnostic format.
 
-### 4. Faded worked-example widget
+### 4. Faded worked-example widget — DELIVERED, as a screen type
+Shipped as the `faded-step` screen type (`docs/SCREENS.md`), paired with `reveal-mechanism` for the
+full-example half. Left below for the historical rationale; note the "static `fadeDepth` prop"
+launch-scope caveat still applies — per-learner adaptive depth is still item 7's territory.
 **What:** a `faded-example` widget: an ordered list of solution steps where the last N
 are input slots (numeric or short-text) the learner completes, each slot carrying its
 own misconception-aware feedback, with an optional self-explanation prompt per revealed
@@ -166,7 +197,11 @@ easier variant + fuller example; aced it → harder variant + deeper fade") buil
 items 4+6 captures much of the value with no formal learner model, and the model can
 replace the rule once items 3/6 have generated response data. Depends on: 3, 4, 6.
 
-### 8. Scaffolded subgoal hints
+### 8. Scaffolded subgoal hints — DELIVERED, as a screen field
+Shipped as the `hints` array on `tap-choice`/`entry`/`faded-step`/`manipulable-target` screens
+(`docs/SCREENS.md`) — revealed one rung at a time on repeated wrong attempts, never the answer.
+Left below for the design rationale (bottom-out abuse and help avoidance still govern how any
+future revision of this UI should behave).
 **What:** an optional hint ladder on problems: hint 1 names the relevant principle,
 hint 2 names the next subgoal, hint 3 sets up the step — and the ladder *never*
 bottoms out in the answer; the learner always performs the final steps. **Why:**

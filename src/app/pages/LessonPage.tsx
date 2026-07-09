@@ -22,13 +22,14 @@ import {
 import type { ModuleMeta } from '../../progress';
 import { Button, ProgressBar, Spinner, celebrate } from '../../ui';
 import { describeEngagementEvent } from '../engagement-copy';
-import { LessonContext, loadLessonMarkdown, moduleBaseUrl } from '../content-api';
+import { LessonContext, loadLessonMarkdown, loadScreenSequence, moduleBaseUrl } from '../content-api';
 import type { LessonContextValue, ModuleLocation } from '../content-api';
 import { findModule } from '../content-api';
 import { PyItemHost } from '../py-item-host';
 import {
   Breadcrumb,
   LazyMarkdownLesson,
+  LazyScreenSequenceEngine,
   MissingContent,
   RetryCard,
   SUBJECT_LABELS,
@@ -94,12 +95,22 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
   useLessonActivity(moduleId, lessonId, lesson ? meta : null);
 
   const isPython = lesson?.kind === 'python';
+  const isScreens = lesson?.kind === 'screens';
   const markdown = useAsyncData(
     () =>
-      lesson && !isPython
+      lesson && !isPython && !isScreens
         ? loadLessonMarkdown(coursePath, moduleRef.dir, lesson.file)
         : Promise.resolve(''),
     `lesson-md:${moduleId}:${lessonId}:${lesson?.file ?? ''}`,
+  );
+  // Lesson.kind: "screens" (docs/BRILLIANT_REWRITE_PLAN.md) — a gated
+  // interactive sequence instead of Markdown.
+  const screenSeq = useAsyncData(
+    () =>
+      lesson && isScreens
+        ? loadScreenSequence(coursePath, moduleRef.dir, lesson.file)
+        : Promise.resolve(null),
+    `lesson-screens:${moduleId}:${lessonId}:${lesson?.file ?? ''}`,
   );
 
   // Was this lesson already completed before *this* render (a prior visit,
@@ -184,7 +195,17 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
       notifyEngagement: (event) => {
         void (async () => {
           const result = await recordEngagementEvent(event);
-          if (result) celebrate({ message: describeEngagementEvent(event, result) });
+          if (result) {
+            // Per-screen completion (docs/BRILLIANT_REWRITE_PLAN.md) is
+            // frequent within one lesson — a small toast per screen matches
+            // "immediate feedback on every interaction", but a confetti
+            // burst every 20-30s would be noise; confetti stays reserved
+            // for whole-artifact milestones (lesson/quiz/deck/game).
+            celebrate({
+              message: describeEngagementEvent(event, result),
+              confetti: event.kind !== 'screen-complete',
+            });
+          }
         })();
       },
     }),
@@ -238,6 +259,25 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
             src={lesson.file}
             title={lesson.title}
           />
+        ) : isScreens ? (
+          // Lesson.kind === "screens" (docs/BRILLIANT_REWRITE_PLAN.md): a
+          // gated interactive sequence. Completion is driven exclusively by
+          // finishing the sequence (below) — the scroll sentinel and manual
+          // "Mark lesson complete" button are suppressed for this kind so
+          // there is no path to completion that skips the interaction.
+          screenSeq.status === 'loading' ? (
+            <Spinner label="Loading lesson…" />
+          ) : screenSeq.status === 'error' ? (
+            <RetryCard what="this lesson" error={screenSeq.error} onRetry={screenSeq.retry} />
+          ) : screenSeq.data ? (
+            <Suspense fallback={<Spinner label="Preparing lesson…" />}>
+              <LazyScreenSequenceEngine
+                sequence={screenSeq.data}
+                lessonId={lessonId}
+                onSequenceComplete={() => void complete()}
+              />
+            </Suspense>
+          ) : null
         ) : markdown.status === 'loading' ? (
           <Spinner label="Loading lesson…" />
         ) : markdown.status === 'error' ? (
@@ -260,8 +300,11 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
         )}
       </article>
 
-      {/* End-of-content scroll sentinel (auto-complete). */}
-      <div ref={sentinelRef} data-testid="lesson-end-sentinel" aria-hidden className="h-px" />
+      {/* End-of-content scroll sentinel (auto-complete) — not for screens-kind
+          lessons, which complete only via the sequence engine above. */}
+      {!isScreens && (
+        <div ref={sentinelRef} data-testid="lesson-end-sentinel" aria-hidden className="h-px" />
+      )}
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-4 print:hidden dark:border-slate-700">
         {prev ? (
@@ -274,14 +317,20 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
         ) : (
           <span />
         )}
-        <div className="flex items-center gap-2">
-          <Button variant="secondary" onClick={() => window.print()}>
-            Print this lesson
-          </Button>
-          <Button onClick={() => void complete()} disabled={isComplete}>
-            {isComplete ? 'Lesson completed' : 'Mark lesson complete'}
-          </Button>
-        </div>
+        {isScreens ? (
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            {isComplete ? 'Lesson completed' : 'Complete every screen above to continue'}
+          </p>
+        ) : (
+          <div className="flex items-center gap-2">
+            <Button variant="secondary" onClick={() => window.print()}>
+              Print this lesson
+            </Button>
+            <Button onClick={() => void complete()} disabled={isComplete}>
+              {isComplete ? 'Lesson completed' : 'Mark lesson complete'}
+            </Button>
+          </div>
+        )}
         {next ? (
           <Link
             to={`/module/${moduleId}/lesson/${next.id}`}

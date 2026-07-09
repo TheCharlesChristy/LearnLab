@@ -14,9 +14,9 @@
   ],
   "tags": ["calculus", "derivative", "gradient", "first-principles", "power-rule"],
   "lessons": [
-    { "id": "gradients", "title": "Gradients of curves", "file": "01-gradients.md", "estMinutes": 20 },
-    { "id": "first-principles", "title": "Differentiation from first principles", "file": "02-first-principles.md", "estMinutes": 30 },
-    { "id": "power-rule", "title": "The power rule", "file": "03-power-rule.md", "estMinutes": 25 }
+    { "id": "gradients", "title": "Gradients of curves", "file": "01-gradients.screens.json", "kind": "screens", "estMinutes": 20 },
+    { "id": "first-principles", "title": "Differentiation from first principles", "file": "02-first-principles.screens.json", "kind": "screens", "estMinutes": 30 },
+    { "id": "power-rule", "title": "The power rule", "file": "03-power-rule.screens.json", "kind": "screens", "estMinutes": 25 }
   ],
   "assessment": { "file": "assessment.json", "passMark": 0.7 },
   "version": "1.0.0",

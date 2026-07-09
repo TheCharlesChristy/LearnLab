@@ -10,7 +10,8 @@
 //                    [--root <content-root>]
 //
 // Generates: the module folder with a valid module.json, a starter
-// 01-introduction.md (one commented example of every §4.5 directive), an
+// 01-introduction.screens.json (docs/BRILLIANT_REWRITE_PLAN.md — one
+// placeholder `predict` screen and one placeholder `tap-choice` screen), an
 // assessment.json with two placeholder questions, and appends the ModuleRef
 // to course.json (creating a valid course.json + subject folder if new).
 // The output passes `node scripts/build-content.mjs` immediately.
@@ -157,7 +158,8 @@ const moduleJson = {
     {
       id: 'introduction',
       title: 'Introduction',
-      file: '01-introduction.md',
+      file: '01-introduction.screens.json',
+      kind: 'screens',
       estMinutes,
     },
   ],
@@ -166,45 +168,36 @@ const moduleJson = {
   authors: ['TODO-your-name'],
 };
 
-// --- starter lesson with one commented example of every §4.5 directive -------
-const lessonMd = `# ${moduleTitle}
-
-Welcome to **${moduleTitle}**. Replace this scaffolded lesson with real
-teaching content. Inline maths works like $f(x) = x^2$, and display maths:
-
-$$
-f'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}
-$$
-
-<!--
-Directive 1 of 4 — native widget (leaf, §4.5). Mounts a widget from the
-registry (see docs/WIDGETS.md for the catalogue and props). Example:
-
-::widget{type="function-grapher" expr="x^2" tangent=true xmin=-4 xmax=4}
-
-A live example follows: the quiz widget embedding this module's assessment.
--->
-
-::widget{type="quiz" src="assessment.json"}
-
-:::callout{kind="info"}
-Directive 2 of 4 — callout (container, §4.5). \`kind\` is one of
-info | tip | warning | key. Containers may hold Markdown, maths and leaf
-directives, but never another container.
-:::
-
-:::reveal{title="Directive 3 of 4 — reveal (container, §4.5)"}
-Collapsed-by-default disclosure, ideal for worked solutions. Put the worked
-example here.
-:::
-
-<!--
-Directive 4 of 4 — Python item (leaf, §4.5). Uncomment once the .py file
-exists (scaffold one with \`npm run new:item -- --kind blank --name my-item\`):
-
-::py{src="items/my-item.py" params='{"questions": 4}' height=320}
--->
-`;
+// --- starter screen sequence (docs/BRILLIANT_REWRITE_PLAN.md, docs/SCREENS.md) ---
+// JSON has no comment syntax, so (unlike the old Markdown template) this
+// ships as two real, schema-valid placeholder screens rather than commented
+// examples — replace their TODO text with a real prediction hook and a real
+// checkpoint. See docs/SCREENS.md for the full screen-type reference.
+const screenSequence = {
+  schemaVersion: 1,
+  id: 'introduction',
+  title: 'Introduction',
+  screens: [
+    {
+      type: 'predict',
+      id: 'opening-prediction',
+      prompt:
+        'TODO: replace with a real prediction hook — a question the learner cannot yet confidently answer. Inline maths works like $f(x) = x^2$.',
+      choices: ['TODO: option A', 'TODO: option B'],
+      reveal: 'TODO: the mechanism/explanation that resolves the prediction, shown right after they commit.',
+    },
+    {
+      type: 'tap-choice',
+      id: 'first-checkpoint',
+      prompt: 'TODO: replace with a real checkpoint question.',
+      choices: [
+        { text: 'TODO: correct option' },
+        { text: 'TODO: wrong option', feedback: 'TODO: name the specific misconception this represents.' },
+      ],
+      correctIndex: 0,
+    },
+  ],
+};
 
 // --- assessment.json with two placeholder questions (mcq + numeric) ----------
 const assessmentId = `${moduleId.slice(0, 64 - '-assessment'.length)}-assessment`;
@@ -237,13 +230,13 @@ fs.mkdirSync(moduleDir, { recursive: true });
 const writeJson = (file, data) => fs.writeFileSync(file, `${JSON.stringify(data, null, 2)}\n`);
 writeJson(courseFile, course);
 writeJson(path.join(moduleDir, 'module.json'), moduleJson);
-fs.writeFileSync(path.join(moduleDir, '01-introduction.md'), lessonMd);
+writeJson(path.join(moduleDir, '01-introduction.screens.json'), screenSequence);
 writeJson(path.join(moduleDir, 'assessment.json'), assessment);
 
 const rel = (p) => path.relative(process.cwd(), p);
 console.log(`new-module: created ${rel(moduleDir)}/`);
 console.log(`  ${rel(courseFile)} ${course.modules.length === 1 ? '(new course)' : '(ModuleRef appended)'}`);
 console.log(`  ${rel(path.join(moduleDir, 'module.json'))}`);
-console.log(`  ${rel(path.join(moduleDir, '01-introduction.md'))}`);
+console.log(`  ${rel(path.join(moduleDir, '01-introduction.screens.json'))}`);
 console.log(`  ${rel(path.join(moduleDir, 'assessment.json'))}`);
-console.log('Next: edit the lesson, then run `npm run validate` (add --strict for the MVC gate).');
+console.log('Next: edit the lesson (docs/SCREENS.md has the screen-type reference), then run `npm run validate` (add --strict for the MVC gate).');

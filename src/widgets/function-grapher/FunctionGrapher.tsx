@@ -6,7 +6,7 @@
 // movable with arrow keys; gradient readout lives in an aria-live region
 // (NFR-A11Y-001).
 
-import { useId, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, PointerEvent } from 'react';
 
 import {
@@ -219,6 +219,7 @@ export default function FunctionGrapher({
   ymax,
   tangent,
   grid,
+  onTangentChange,
 }: FunctionGrapherProps) {
   const clipId = useId();
   const svgRef = useRef<SVGSVGElement>(null);
@@ -230,6 +231,26 @@ export default function FunctionGrapher({
     () => buildModel(expr, xmin, xmax, ymin, ymax),
     [expr, xmin, xmax, ymin, ymax],
   );
+
+  // Live gradient at the tangent point, computed before the early-return so
+  // the onTangentChange effect below runs unconditionally (rules-of-hooks).
+  // The render logic further down recomputes the same value from `model`
+  // (one central-difference, cheap) — keeping this hook self-contained beats
+  // threading a value through the early-return branch.
+  const liveTx = clamp(tangentX, xmin, xmax);
+  const liveGradient = useMemo(() => {
+    if (!model || !tangent) return null;
+    const h = (xmax - xmin) / 2000;
+    const ya = model.f(liveTx - h);
+    const yb = model.f(liveTx + h);
+    if (ya === null || yb === null || !Number.isFinite(ya) || !Number.isFinite(yb)) return null;
+    const g = (yb - ya) / (2 * h);
+    return Number.isFinite(g) ? g : null;
+  }, [model, tangent, liveTx, xmin, xmax]);
+
+  useEffect(() => {
+    if (tangent) onTangentChange?.({ x: liveTx, gradient: liveGradient });
+  }, [liveTx, liveGradient, tangent, onTangentChange]);
 
   if (!model) {
     // Inline error card naming the expression (SRS §5.3, FR-WID-003 style).

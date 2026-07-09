@@ -122,7 +122,13 @@ Apply the same discipline to your own authoring, not just to a mechanical orches
 
 Note that learnlab-lesson-pedagogy's patterns increase the number of values under this
 discipline: every backward-faded worked-example step and every prediction-quiz answer is a
-number you authored and must independently re-derive, exactly like an assessment answer.
+number you authored and must independently re-derive, exactly like an assessment answer. The
+screens format (`docs/BRILLIANT_REWRITE_PLAN.md`) adds one more: a `manipulable-target` screen's
+`goal.min`/`goal.max` window is a claim that the target is both mathematically correct *and*
+practically reachable — verify the value itself the same way you'd verify a `numeric` answer, and
+separately confirm the window is wide enough to be reachable given the wrapped widget's
+interaction granularity (see learnlab-author-content's tolerance/keyboard-step trap, caught in
+this format's own first shipped lesson).
 
 ## 3. Research the misconceptions, not just the facts
 

@@ -47,6 +47,10 @@ export const LazyMarkdownInline = lazy(() =>
 export const LazyQuizEngine = lazy(() =>
   import('../quiz').then((m) => ({ default: m.QuizEngine })),
 );
+/** Lazy screen-sequence engine (docs/BRILLIANT_REWRITE_PLAN.md). */
+export const LazyScreenSequenceEngine = lazy(() =>
+  import('../screens').then((m) => ({ default: m.ScreenSequenceEngine })),
+);
 
 /** Retry card for content fetch failures (FR-CONT-007). */
 export function RetryCard({

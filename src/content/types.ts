@@ -59,6 +59,12 @@ export interface LessonMeta {
   id: string;
   title: string;
   file: string;
-  kind?: 'markdown' | 'python';
+  /**
+   * `"screens"` (Brilliant rewrite, docs/BRILLIANT_REWRITE_PLAN.md): `file`
+   * points to a `*.screens.json` gated interactive sequence instead of
+   * Markdown. Additive alongside `"markdown"`/`"python"` — existing lessons
+   * are unaffected.
+   */
+  kind?: 'markdown' | 'python' | 'screens';
   estMinutes: number;
 }

@@ -56,6 +56,11 @@ export function pointsForEvent(event: EngagementEvent): number {
       return 10;
     case 'game-complete':
       return 15;
+    case 'screen-complete':
+      // Small and per-interaction, not per-artifact — a screen already gates
+      // on demonstrated correctness (never bare activity), but a whole
+      // lesson's worth of screens must not out-earn 'lesson-complete'.
+      return 2;
     case 'quiz-finished': {
       const pass = event.ratio >= 0.5;
       if (!pass) return 0;

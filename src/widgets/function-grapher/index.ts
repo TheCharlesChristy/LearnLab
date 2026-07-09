@@ -20,6 +20,14 @@ export interface FunctionGrapherProps {
   /** Draggable tangent point with gradient readout. */
   tangent: boolean;
   grid: boolean;
+  /**
+   * Screens engine hook (Brilliant rewrite Phase 1, docs/BRILLIANT_REWRITE_PLAN.md):
+   * fires with the live tangent position whenever it changes. Optional —
+   * content authored via the `::widget` directive never sets this; only the
+   * `manipulable-target` screen type (src/screens/ManipulableTargetScreen.tsx)
+   * passes it, to check a goal against the live gradient.
+   */
+  onTangentChange?: (info: { x: number; gradient: number | null }) => void;
 }
 
 /** Coerce a raw directive attribute to a finite number, else undefined. */

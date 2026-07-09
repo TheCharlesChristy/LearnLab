@@ -1,10 +1,10 @@
-# Authoring Guide (Tier 1: Markdown + JSON)
+# Authoring Guide (Tier 1: screens + JSON)
 
-This guide is everything you need to add learning content to LearnLab **without writing any application code**. Content is data: courses are folders of JSON, Markdown and (from P1) Python files under `public/content/`. Adding or editing content never requires changes under `src/` — that is the central architectural invariant (C-5).
+This guide is everything you need to add learning content to LearnLab **without writing any application code**. Content is data: courses are folders of JSON, screen-sequence JSON, Markdown, and (from P1) Python files under `public/content/`. Adding or editing content never requires changes under `src/` — that is the central architectural invariant (C-5).
 
-For Python items (Tier 2), see [`PYTHON_ITEMS.md`](PYTHON_ITEMS.md). For the native widget catalogue, see [`WIDGETS.md`](WIDGETS.md).
+**New lessons are authored as screen sequences** (`docs/BRILLIANT_REWRITE_PLAN.md`) — an ordered list of gated interactive screens, not a Markdown page you scroll. §3 below is the primary format; the full per-screen-type reference is [`SCREENS.md`](SCREENS.md). §3a covers the older Markdown + directives format, kept for lessons already written in it (planned deprecation — new authoring should not use it without a specific reason).
 
-> **P0 note:** the repository currently ships the engine only — no public course content yet. The folder layout below is the normative target (SRS §3.3/§4.1) and is what the scaffolder generates.
+For Python items (Tier 2), see [`PYTHON_ITEMS.md`](PYTHON_ITEMS.md). For the native widget catalogue, see [`WIDGETS.md`](WIDGETS.md) (still relevant: several screen types, like `manipulable-target`, wrap a native widget).
 
 ## 1. Folder anatomy
 
@@ -15,10 +15,10 @@ public/content/                      # ALL course content, shipped verbatim
 │       ├── course.json              # course metadata + ordered module list
 │       └── differentiation-1/       # one MODULE (the unit of progress)
 │           ├── module.json          # metadata, objectives, ordered lessons
-│           ├── 01-power-rule.md     # a LESSON (NN-slug.md, ordered pages)
-│           ├── 02-tangents.md
+│           ├── 01-gradients.screens.json  # a LESSON, screen-sequence format (primary)
+│           ├── 02-tangents.md             # a LESSON, legacy Markdown format
 │           ├── assessment.json      # end-of-module quiz (MVC-required)
-│           ├── images/              # figures referenced by lessons (optional)
+│           ├── images/              # figures referenced by legacy lessons (optional)
 │           └── items/
 │               └── power-rule-quiz.py   # Python items (Tier 2, P1)
 ├── physics/ …
@@ -31,7 +31,7 @@ Key facts:
 - `content/index.json` is **generated** by `scripts/build-content.mjs` — never hand-edit it.
 - **ID rules (normative):** all `id` fields are lowercase kebab-case (`^[a-z0-9]+(-[a-z0-9]+)*$`, ≤ 64 chars). Module IDs are globally unique across the whole content tree; lesson IDs are unique within their module; course IDs are unique within their subject.
 - `course.json` defines module display order; `module.json` defines lesson order.
-- Lessons are Markdown by default; a lesson may instead be a full-page Python item (`"kind": "python"` in `module.json` — P1).
+- A lesson's `kind` is `"screens"` (primary, §3), `"markdown"` (legacy, §3a, the default when `kind` is omitted), or `"python"` (a full-page Python item, P1). A single module can freely mix lesson kinds — nothing requires converting a whole module at once.
 
 ## 2. Add a module in 15 minutes
 
@@ -45,7 +45,7 @@ Key facts:
    It prompts for subject, course (existing or new), module id, title, description, time estimate, and prerequisites, then generates (FR-AUTH-001):
 
    - the module folder with a valid `module.json`;
-   - a starter lesson `01-introduction.md` containing one commented example of **every** directive;
+   - a starter lesson `01-introduction.screens.json` containing one placeholder `predict` screen and one placeholder `tap-choice` screen — real, schema-valid screens, not comments, since JSON has no comment syntax to hang a "here's how" example off (unlike the old Markdown template);
    - an `assessment.json` with two placeholder questions;
    - the `ModuleRef` appended to the course's `course.json` (creating a valid `course.json` first if the course is new).
 
@@ -56,8 +56,8 @@ Key facts:
    npm run dev
    ```
 
-   Edits to `.md`/`.json` refresh the affected view within ~2 s; the validator runs in watch mode and surfaces errors as an in-app toast plus console output (FR-AUTH-004).
-4. **Write your lessons.** Rename/duplicate the starter lesson (`NN-slug.md`), register each one in `module.json` under `lessons` (with `id`, `title`, `file`, `estMinutes`), and write. Use directives (§3 below) for interactivity.
+   Edits to `.screens.json`/`.md`/`.json` refresh the affected view within ~2 s; the validator runs in watch mode and surfaces errors as an in-app toast plus console output (FR-AUTH-004).
+4. **Write your lessons.** Replace the starter screens, or add more `NN-slug.screens.json` files and register each in `module.json` under `lessons` (with `id`, `title`, `file`, `"kind": "screens"`, `estMinutes`). See §3 for the screen-type reference; see `learnlab-lesson-pedagogy` for how to sequence them (hook → beats → centerpiece → worked-example pair → close, now expressed as screens).
 5. **Write the assessment.** Replace the placeholder questions in `assessment.json` — the MVC floor is ≥ 8 questions spanning ≥ 2 question types (see §6 below). Set `assessment.passMark` in `module.json` (e.g. `0.7`).
 6. **Validate strictly.**
 
@@ -68,11 +68,41 @@ Key facts:
    Fix anything it reports (it prints file paths and JSON pointers).
 7. **Open a PR.** Use the PR checklist in §7. Content-only PRs run a fast CI lane (validation + Python compile + smoke tests).
 
-## 3. Directive syntax (the full set)
+## 3. Screen-sequence lessons (the primary format)
+
+A screen-sequence lesson (`NN-slug.screens.json`, `"kind": "screens"` in `module.json`) is an ordered array of gated interactive screens — the learner sees one at a time, and the engine will not enable "Continue" until the screen reports genuine completion. There is no screen type that is prose plus a bare Next button. Full per-type field reference, examples, and gating rules: [`SCREENS.md`](SCREENS.md). Minimal shape:
+
+```json
+{
+  "schemaVersion": 1,
+  "id": "gradients",
+  "title": "Gradients of curves",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-steepness",
+      "prompt": "Does a curve like $y = x^2$ have the same steepness everywhere?",
+      "choices": ["Yes, always", "No, it changes from point to point"],
+      "correctChoiceIndex": 1,
+      "reveal": "We define the gradient at a point as the gradient of the tangent there…"
+    }
+  ]
+}
+```
+
+Eight screen types are registered (`predict`, `tap-choice`, `entry`, `manipulable-target`, `faded-step`, `sort-match`, `flash-recall`, `reveal-mechanism`) — this is a closed set exactly like the four legacy directives and the four question types; a ninth is a `src/`-level change (`learnlab-extend-platform`), not something to invent syntax for. Prose fields (`prompt`, `body`, `reveal`, …) are Markdown, rendered through the same KaTeX/GFM pipeline as everything else — write maths and formatting exactly as in a Markdown lesson.
+
+**How `learnlab-lesson-pedagogy`'s lesson skeleton maps onto screens:** the opening hook is a `predict` screen; each beat's checkpoint is a `tap-choice` or `entry` screen; the centerpiece widget is a `manipulable-target` screen; the worked-example pair is a `reveal-mechanism` screen (mandatory self-explanation) followed by a `faded-step` screen; the close folds into the last screen's `successFeedback`. Read `learnlab-lesson-pedagogy` for the full sequencing rules, fading guidance, and the format-mix requirement (generation-format screens — `entry`/`faded-step`/`manipulable-target` — for at least half of a lesson's checkpoints).
+
+**A real shipped example** worth reading end to end before writing your first screen sequence: `public/content/maths/alevel-pure/differentiation-1/01-gradients.screens.json` (and its two sibling lessons in the same module) — a complete 3-lesson module using six of the eight screen types.
+
+## 3a. Legacy format: Markdown + directives
+
+This is the format every module authored before the screens rewrite (`docs/BRILLIANT_REWRITE_PLAN.md`) uses, and it remains fully supported — old lessons are unaffected and do not need converting. **New lessons should use §3 instead**; only reach for this format to edit an existing Markdown lesson, or in the rare case a screen sequence genuinely doesn't fit (flag it rather than forcing one).
 
 Lessons are CommonMark + GFM, plus maths (§5) and **exactly four** directive forms (SRS §4.5). Anything else fails content validation.
 
-### 3.1 Native widget (leaf)
+### 3a.1 Native widget (leaf)
 
 ```markdown
 ::widget{type="function-grapher" expr="x^2" tangent=true xmin=-4 xmax=4}
@@ -80,7 +110,7 @@ Lessons are CommonMark + GFM, plus maths (§5) and **exactly four** directive fo
 
 Mounts a native widget by registry key. Props are strings/numbers/booleans; each widget validates its own props and shows an inline error card on bad props (details in dev, brief notice in prod). See [`WIDGETS.md`](WIDGETS.md) for every key and prop.
 
-### 3.2 Python item (leaf)
+### 3a.2 Python item (leaf)
 
 ```markdown
 ::py{src="items/power-rule-quiz.py" params='{"questions": 4}' height=320}
@@ -92,7 +122,7 @@ Mounts a native widget by registry key. Props are strings/numbers/booleans; each
 
 > **P0 note:** the Python runtime ships in P1. Today this directive renders a placeholder card that reserves the layout space; the syntax above is final.
 
-### 3.3 Callout (container)
+### 3a.3 Callout (container)
 
 ```markdown
 :::callout{kind="key"}
@@ -102,7 +132,7 @@ The derivative at a point is the gradient of the tangent at that point.
 
 `kind` must be one of `info`, `tip`, `warning`, `key`. A styled aside with an icon.
 
-### 3.4 Reveal (container)
+### 3a.4 Reveal (container)
 
 ```markdown
 :::reveal{title="Worked solution"}
@@ -112,7 +142,7 @@ Start from first principles: $f'(x) = \lim_{h \to 0} \frac{f(x+h)-f(x)}{h}$ …
 
 Collapsed-by-default disclosure; opening and closing is keyboard accessible. Every concept lesson SHOULD include one `:::reveal` worked example.
 
-### 3.5 The no-nesting rule
+### 3a.5 The no-nesting rule
 
 Containers (`:::callout`, `:::reveal`) MAY contain Markdown, maths, and **leaf** directives (`::widget`, `::py`). Containers SHALL NOT contain other containers. This is validated — a nested container fails CI and renders an error card:
 
@@ -220,16 +250,16 @@ Per SRS §8.6 — the ◆ rules are CI-checkable and enforced by `build-content.
 As a tick-list before you open a PR:
 
 - [ ] ◆ At least 3 lessons.
-- [ ] ◆ At least 1 interactive item (a native widget other than `figure`, or a Python item).
+- [ ] ◆ At least 1 interactive item (a native widget other than `figure`, or a Python item). A `"kind": "screens"` lesson satisfies this automatically — every screen gates on a real interaction by construction, so any module with at least one screens-format lesson clears this bar without a separate widget.
 - [ ] ◆ `assessment.json` with ≥ 8 questions spanning ≥ 2 question types.
 - [ ] ◆ `prerequisites` and `objectives` declared in `module.json` (prerequisites are advisory — they warn, never lock).
 - [ ] ◆ `estMinutes` set on the module and on every lesson.
-- [ ] Every concept lesson has a `:::reveal` worked example (SHOULD).
+- [ ] Every concept lesson has a full worked example with a faded companion (SHOULD) — a `:::reveal` in the legacy format, or a `reveal-mechanism` + `faded-step` screen pair in the primary format.
 
 ## 7. PR checklist
 
-- [ ] `npm run validate -- --strict` passes locally (schemas, IDs, file existence, widget keys, directive syntax, MVC ◆ rules).
-- [ ] All lessons render correctly in `npm run dev` — check every widget, callout, reveal, and maths block visually.
+- [ ] `npm run validate -- --strict` passes locally (schemas, IDs, file existence, widget/screen-type validity, directive syntax, MVC ◆ rules).
+- [ ] All lessons render correctly in `npm run dev` — check every widget, callout, reveal, and maths block visually (legacy), or drive every screen in a screens-format lesson and confirm each one actually gates (Continue stays disabled until you interact, wrong answers show hints not the answer).
 - [ ] Every quiz question has an `explanation`.
 - [ ] Every `figure` has meaningful `alt` text.
 - [ ] Images live in the module folder and are referenced relatively; no external origins (the CSP forbids them).

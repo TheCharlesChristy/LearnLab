@@ -54,14 +54,25 @@ describe('new-module.mjs (FR-AUTH-001)', () => {
 
       const moduleDir = path.join(root, 'cs', 'alevel-cs', 'data-structures');
       expect(fs.existsSync(path.join(moduleDir, 'module.json'))).toBe(true);
-      expect(fs.existsSync(path.join(moduleDir, '01-introduction.md'))).toBe(true);
+      expect(fs.existsSync(path.join(moduleDir, '01-introduction.screens.json'))).toBe(true);
       expect(fs.existsSync(path.join(moduleDir, 'assessment.json'))).toBe(true);
 
-      // The starter lesson documents all four §4.5 directive forms.
-      const lesson = fs.readFileSync(path.join(moduleDir, '01-introduction.md'), 'utf8');
-      for (const form of ['::widget{', '::py{', ':::callout{', ':::reveal{']) {
-        expect(lesson).toContain(form);
-      }
+      // The starter lesson is a real, schema-valid screen sequence
+      // (docs/BRILLIANT_REWRITE_PLAN.md): one placeholder predict screen,
+      // one placeholder tap-choice screen.
+      const lesson = JSON.parse(
+        fs.readFileSync(path.join(moduleDir, '01-introduction.screens.json'), 'utf8'),
+      );
+      expect(lesson.screens.map((s: { type: string }) => s.type)).toEqual([
+        'predict',
+        'tap-choice',
+      ]);
+
+      const moduleJson = JSON.parse(fs.readFileSync(path.join(moduleDir, 'module.json'), 'utf8'));
+      expect(moduleJson.lessons[0]).toMatchObject({
+        file: '01-introduction.screens.json',
+        kind: 'screens',
+      });
 
       // Placeholder assessment: one mcq + one numeric, each with explanation.
       const assessment = JSON.parse(

@@ -131,44 +131,44 @@ technique that review question should exercise.
 
 ## Step 4 — Rewrite in LearnLab's voice; never paste the source
 
-Read a couple of shipped lessons closely before drafting your own — e.g.
-`public/content/maths/alevel-pure/differentiation-1/02-first-principles.md` and
-`public/content/physics/alevel-physics/waves-and-optics/02-interference-diffraction.md`. Both
-show the same house style: a short framing paragraph connecting to the previous lesson, one or
-two `$$display$$` derivations worked in full prose-plus-algebra (not just a dropped formula), a
-`:::callout{kind="key"|"tip"}` pulling out the one fact worth memorising, worked examples the
-learner can attempt before opening, one embedded native widget or Python item placed where it
-earns its keep (right after the idea it illustrates, not bolted on at the end), and a closing
-line or two that hands off to the next lesson.
+Read a shipped screen-sequence lesson closely before drafting your own — e.g.
+`public/content/maths/alevel-pure/differentiation-1/01-gradients.screens.json` and its two
+sibling lessons in the same module. It shows the house style translated into screens: a `predict`
+screen opening each lesson, short framing text (1-4 sentences) inside each screen's `prompt`/`body`
+rather than paragraphs of prose, a `manipulable-target` centerpiece placed right after the idea it
+illustrates, and a `reveal-mechanism` + `faded-step` worked-example pair — never a single
+monolithic transcription of the source's derivation.
 
 **The pedagogy of the rewrite is governed by `learnlab-lesson-pedagogy` — read it now, before
 drafting.** In particular, a source rewrite must apply, not just the house shape above, but that
-skill's full design rules: a hook ending in a committed prediction (the four approved patterns;
-never the source's "this chapter covers…" register), 150–250 word beats with a checkpoint after
-each, at least half the checkpoints demanding generation rather than recognition, the worked
-example rebuilt as a full-plus-backward-faded pair with self-explanation prompts, the centerpiece
-widget in the middle third, and the close resolving the opening prediction. Its final self-check
-applies to every adapted lesson exactly as it does to lessons written from scratch. The dash rule
-(no em/en-dashes anywhere in user-facing text) lives in **`learnlab-author-content`** and applies
-here too.
+skill's full design rules, now expressed as screens: a hook that's a `predict` screen ending in a
+committed prediction (the four approved patterns; never the source's "this chapter covers…"
+register), short per-screen framing with a checkpoint built into every screen (not a separate
+step), at least half the screens demanding generation (`entry`/`faded-step`/`manipulable-target`)
+rather than recognition (`predict`/`tap-choice`), the worked example rebuilt as a
+`reveal-mechanism` + `faded-step` pair, the `manipulable-target` centerpiece in the middle third,
+and the close resolving the opening prediction. Its final self-check applies to every adapted
+lesson exactly as it does to lessons written from scratch. The dash rule (no em/en-dashes anywhere
+in user-facing text, including every screen field) lives in **`learnlab-author-content`** and
+applies here too.
 
-**Convert the source's static elements into LearnLab's native formats** (full catalogue and prop
-schemas in `docs/WIDGETS.md`) instead of describing them in prose or embedding a scanned image:
+**Convert the source's static elements into LearnLab's screen types** (full catalogue, field
+reference, and examples in `docs/SCREENS.md`) instead of describing them in prose or embedding a
+scanned image:
 
 | Source element | LearnLab target |
 |---|---|
-| A static graph/plot image | `::widget{type="function-grapher" ...}` (for `y=f(x)` shapes) or `::widget{type="data-plot" src="..."}` (for discrete/measured data) — with a predict/find-the-pattern task per learnlab-lesson-pedagogy |
-| A worked-example box / "solution" panel | A full `:::reveal` worked example **plus** a backward-faded companion with new numbers (see learnlab-lesson-pedagogy) — never a single monolithic transcription |
-| A "try these practice problems" section | Questions in `assessment.json` (or an inline `::widget{type="quiz" src="..."}`) — with **your own** new questions; see Step 5 |
-| Chapter-opening "preview questions" or objectives box | A prediction/prequestion hook the learner commits to before teaching — the strongest possible conversion, since attempting-before-instruction measurably improves retention |
+| A static graph/plot image | A `manipulable-target` screen wrapping `function-grapher` (for `y=f(x)` shapes), with a real `goal` to hit — not a bare plot |
+| A chapter-opening "preview question" or objectives box | A `predict` screen the learner commits to before teaching — the strongest possible conversion, since attempting-before-instruction measurably improves retention |
+| A worked-example box / "solution" panel | A `reveal-mechanism` screen (full example, mandatory self-explanation) **plus** a `faded-step` companion with new numbers — never a single monolithic transcription |
+| A "try these practice problems" section | A `tap-choice`/`entry` screen per problem worth gating on, or questions in `assessment.json` for end-of-module practice — with **your own** new questions; see Step 5 |
 | A chapter-opening anecdote, "did you know" box, historical aside, or fun-fact margin note | Apply learnlab-lesson-pedagogy's deletion test: keep only if load-bearing (it introduces the problem, carries the concept, or threads the sequence); otherwise **delete it** — do not port it out of loyalty to the source |
-| End-of-chapter review questions and mark schemes | Never copy them — but **mine them for misconception patterns** (what wrong answers do they anticipate?) to build your own distractors; see learnlab-research-content's misconception section |
-| A multi-step derivation the source shows all at once | `::widget{type="step-reveal" src="steps/....json"}` if you want the learner to reveal it one line at a time, rather than a reveal block if it should open all at once |
-| A key-terms glossary / vocabulary list | `::widget{type="flashcards" src="cards/....json"}` |
-| A term/definition matching exercise, or any paired-concepts list (term↔meaning, cause↔effect, symbol↔name) | `::widget{type="matching-pairs" src="cards/....json"}` — see `docs/WIDGETS.md` |
-| A circuit diagram (logic/boolean topics) | `::widget{type="logic-gate-sim" src="circuits/....json"}` |
-| "Try running this calculation yourself" | `::widget{type="code-runner" language="python" starter="..."}` |
-| A genuinely static diagram/photo with no data to plot | `::widget{type="figure" src="..." alt="..."}` (note: `figure` does **not** satisfy the MVC interactive-item requirement — see Step 5) |
+| End-of-chapter review questions and mark schemes | Never copy them — but **mine them for misconception patterns** (what wrong answers do they anticipate?) to build your own `tap-choice`/`mcq` distractors; see learnlab-research-content's misconception section |
+| A multi-step derivation the source shows all at once | A `faded-step` screen if the last step should be a checkpoint, or a `reveal-mechanism` screen if it should open in full with a self-explanation prompt |
+| A key-terms glossary / vocabulary list | A `flash-recall` screen per term (attempt-then-reveal), or the legacy `flashcards` widget for a large deck |
+| A term/definition matching exercise, or any paired-concepts list (term↔meaning, cause↔effect, symbol↔name) | A `sort-match` screen — see `docs/SCREENS.md` |
+| A circuit diagram (logic/boolean topics), or "try running this calculation yourself" | Not yet wrapped by a screen type — stays in a legacy Markdown lesson via `::widget{type="logic-gate-sim"...}` / `::widget{type="code-runner"...}` (`docs/WIDGETS.md`) until a later phase extends `manipulable-target`-style wrapping to more widgets |
+| A genuinely static diagram/photo with no data to plot | The legacy `figure` widget, in a Markdown lesson (note: a `figure` alone does **not** satisfy the MVC interactive-item requirement — see Step 5, and a screens-format lesson satisfies it automatically) |
 
 **A warning specific to adapting sources: textbooks are seductive-detail factories.** The
 margin boxes, historical vignettes, and "in the real world" asides that make a printed chapter
@@ -214,10 +214,11 @@ bar as hand-authored content (SRS §8.6, checklist in `docs/AUTHORING.md` §6) �
 source was a static PDF with no interactivity is not a reason to skip the interactive requirement:
 
 - ◆ ≥ 3 lessons (per Step 2's real granularity — usually exactly 3, occasionally 4).
-- ◆ ≥ 1 interactive item per module beyond `figure` — a native widget from the table above or a
-  Python item. If the source had zero interactivity, you must still *design* one: e.g. a static
-  graph becomes a `function-grapher` with a draggable tangent, a "try it yourself" aside becomes
-  a `code-runner`.
+- ◆ ≥ 1 interactive item per module beyond `figure` — automatically satisfied if any lesson is
+  screens-format (every screen gates on a real interaction by construction). If you're adapting
+  into the legacy Markdown format for some reason, you must still *design* one explicitly: e.g. a
+  static graph becomes a `function-grapher` with a draggable tangent, a "try it yourself" aside
+  becomes a `code-runner`.
 - ◆ `assessment.json` with ≥ 8 questions spanning ≥ 2 of the four question types (`mcq`, `multi`,
   `numeric`, `text`) — built from *your own* newly-constructed questions (Step 4's copyright
   point applies here too), each with an `explanation`.
