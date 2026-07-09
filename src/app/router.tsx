@@ -59,7 +59,11 @@ export function buildRoutes(): RouteObject[] {
         { path: 'review', element: page(<ReviewPage />), errorElement: <RouteErrorPage /> },
         { path: 'search', element: page(<SearchPage />), errorElement: <RouteErrorPage /> },
         { path: 'settings', element: page(<SettingsPage />), errorElement: <RouteErrorPage /> },
-        { path: 'widgets', element: page(<WidgetsPage />), errorElement: <RouteErrorPage /> },
+        {
+          path: 'widgets/:widgetKey?',
+          element: page(<WidgetsPage />),
+          errorElement: <RouteErrorPage />,
+        },
         { path: '*', element: page(<NotFoundPage />), errorElement: <RouteErrorPage /> },
       ],
     },
