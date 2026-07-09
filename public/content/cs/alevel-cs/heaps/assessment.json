@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "id": "heaps-assessment",
+  "title": "End of module: Heaps",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "In a min-heap, which relationship must hold between every node and its children?",
+      "choices": [
+        "The node's value is less than or equal to both children's values",
+        "The node's value is greater than or equal to both children's values",
+        "The node's value must equal both children's values",
+        "There is no required relationship — only the shape matters"
+      ],
+      "answer": 0,
+      "explanation": "The heap-order rule for a min-heap is: every node's value is $\\le$ the values of both its children. This is what keeps the overall smallest value pinned at the root."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "Using the standard 0-indexed array representation of a heap, what is the index of the parent of the node at index 7?",
+      "answer": 3,
+      "tolerance": 0,
+      "explanation": "Parent of index $i$ is $\\lfloor (i-1)/2 \\rfloor$. For $i = 7$: $(7-1)//2 = 3$."
+    },
+    {
+      "id": "q3",
+      "type": "text",
+      "text": "In the array representation, the node at index 3 has two children. Write their indices as comma-separated values, left child first, no spaces, e.g. \"1,2\".",
+      "accept": ["7,8"],
+      "caseSensitive": false,
+      "explanation": "Left child of index $i$ is $2i+1$, right child is $2i+2$. For $i = 3$: left $= 2(3)+1 = 7$, right $= 2(3)+2 = 8$."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "The heap shape rule requires the tree to be a \"complete binary tree\". What does that mean?",
+      "choices": [
+        "Every level is completely filled, except possibly the last, which fills left to right with no gaps",
+        "Every node has exactly two children, with no exceptions",
+        "The tree is also fully sorted, left to right",
+        "Every leaf sits at exactly the same depth"
+      ],
+      "answer": 0,
+      "explanation": "A complete binary tree fills every level fully except (possibly) the last, which is filled left to right leaving no gaps. This is exactly the property that lets a heap be packed into a plain array with no pointers."
+    },
+    {
+      "id": "q5",
+      "type": "multi",
+      "text": "Which of the following are true of a binary heap?",
+      "choices": [
+        "The root always holds the minimum value, in a min-heap",
+        "An in-order traversal of a min-heap always produces the values in sorted order",
+        "A heap can be stored efficiently as a plain array, with no left/right pointers",
+        "Every node's value must be less than every value in its right subtree"
+      ],
+      "answers": [0, 2],
+      "explanation": "The root is always the min (min-heap) or max (max-heap) — that's the whole point. But a heap is *not* a sorted structure like a BST: in-order traversal does not generally give sorted order, and the heap-order rule only constrains a node against its immediate children, not the whole subtree. Because the shape rule forces no gaps, the tree packs neatly into an array with no pointers needed."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "Starting from an empty min-heap, insert 6, 2, 9, 1 in that order (append, then sift up). What value ends up at index 0 of the final array?",
+      "answer": 1,
+      "tolerance": 0,
+      "explanation": "insert(6) → [6]. insert(2): append → [6,2]; parent of index 1 is index 0 ($6$); $2<6$, swap → [2,6]. insert(9): append → [2,6,9]; parent of index 2 is index 0 ($2$); $9<2$ is false, stop → [2,6,9]. insert(1): append → [2,6,9,1]; parent of index 3 is index 1 ($6$); $1<6$, swap → [2,1,9,6]; parent of index 1 is index 0 ($2$); $1<2$, swap → [1,2,9,6]. Final array: [1,2,9,6], so index 0 holds $1$."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "When extracting the root of a heap, which element is moved into the root position before sifting down?",
+      "choices": [
+        "The last element in the array",
+        "The root's left child",
+        "A freshly re-hashed value",
+        "The smallest leaf in the tree"
+      ],
+      "answer": 0,
+      "explanation": "Moving the last array element into the root keeps the tree's shape complete (one fewer node, still no gaps) with a single O(1) move; sift-down then restores the heap-order rule from the root downward."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Extract the minimum from the min-heap array [2, 5, 4, 8, 9, 7] (replace the root with the last element, 7, then sift down). What value ends up at index 0 of the resulting array?",
+      "answer": 4,
+      "tolerance": 0,
+      "explanation": "Move the last element, 7, into the root and shrink: [7,5,4,8,9]. Sift down from index 0: children are index 1 ($5$) and index 2 ($4$); the smaller is $4$, and $7>4$, so swap → [4,5,7,8,9]. Now at index 2, both potential children (indices 5, 6) are beyond the array (length 5), so sifting stops. Final array: [4,5,7,8,9], index 0 holds $4$."
+    },
+    {
+      "id": "q9",
+      "type": "text",
+      "text": "Repeatedly extracting the minimum from a min-heap until it is empty always returns the values in ______ order. (One word.)",
+      "accept": ["ascending", "sorted", "increasing"],
+      "caseSensitive": false,
+      "explanation": "Each extraction always returns whatever is currently smallest, so the sequence of extracted values is non-decreasing — ascending, sorted order. This is exactly the mechanism heapsort uses (with a max-heap, to build a list in ascending order by placing each maximum at the end)."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "What is the true (not the naive per-node) time complexity of heapify (build-heap) on n elements?",
+      "choices": [
+        "O(n)",
+        "O(n log n)",
+        "O(log n)",
+        "O(n^2)"
+      ],
+      "answer": 0,
+      "explanation": "Although each sift-down could naively be bounded at O(log n) and there are up to n of them, most nodes sit near the bottom of the tree with very little distance left to sift, so the total work sums to O(n), not O(n log n)."
+    },
+    {
+      "id": "q11",
+      "type": "multi",
+      "text": "Which of the following are true about heapsort?",
+      "choices": [
+        "It sorts in place, using only O(1) extra space",
+        "Its overall time complexity is O(n log n)",
+        "It always builds and uses a min-heap",
+        "It needs a separate auxiliary array the size of the input, like merge sort"
+      ],
+      "answers": [0, 1],
+      "explanation": "Heapsort repeatedly swaps the root with the end of the shrinking unsorted region and sifts down, all within the original array — O(1) extra space, unlike merge sort's O(n). Its n extractions each cost O(log n), giving O(n log n) overall. The version described in this lesson uses a max-heap to build ascending order (though a min-heap variant producing descending order is equally possible) — it is not restricted to a min-heap, and it needs no separate auxiliary array."
+    },
+    {
+      "id": "q12",
+      "type": "mcq",
+      "text": "Which abstract data type does a binary heap efficiently implement, giving O(log n) insertion and O(log n) removal of the highest-priority item?",
+      "choices": [
+        "Priority queue",
+        "Stack",
+        "FIFO queue",
+        "Hash table"
+      ],
+      "answer": 0,
+      "explanation": "A priority queue always serves the highest-priority item next, regardless of arrival order. A binary heap is the standard implementation because both insert and pop stay at O(log n) — better than the O(n) a plain sorted or unsorted list would need for one of the two operations."
+    }
+  ]
+}

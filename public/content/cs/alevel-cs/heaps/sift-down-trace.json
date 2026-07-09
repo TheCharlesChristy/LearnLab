@@ -1,0 +1,24 @@
+{
+  "steps": [
+    {
+      "title": "Starting heap",
+      "body": "We extract the minimum from the min-heap array $[2, 5, 3, 9, 8, 6, 4, 10, 11]$ (9 elements). As a check, every parent is already $\\le$ both of its children — it's a valid min-heap before we begin."
+    },
+    {
+      "title": "Remove the root, move the last element in",
+      "body": "The root, $2$, is remembered as the value to return. The **last** element, $11$, is moved into the root position and the array shrinks by one slot: $[11, 5, 3, 9, 8, 6, 4, 10]$. The tree is still complete (8 elements, no gaps), but the root, $11$, is almost certainly too big to belong there — sift-down will fix that."
+    },
+    {
+      "title": "Compare with children — first swap",
+      "body": "At index 0 ($11$), the children are index 1 ($5$) and index 2 ($3$). The **smaller** child is $3$. Since $11 > 3$, swap them: $[3, 5, 11, 9, 8, 6, 4, 10]$. The out-of-place value, $11$, has moved one level down, to index 2."
+    },
+    {
+      "title": "Compare with children — second swap",
+      "body": "Continue from index 2 ($11$). Its children are index 5 ($6$) and index 6 ($4$). The smaller child is $4$. Since $11 > 4$, swap them: $[3, 5, 4, 9, 8, 6, 11, 10]$. The value $11$ is now at index 6."
+    },
+    {
+      "title": "Stop — no children left",
+      "body": "Index 6 would have children at indices 13 and 14, both beyond the array's length (8 elements, indices 0–7) — there is nothing left to compare against, so sift-down stops. Final heap: $[3, 5, 4, 9, 8, 6, 11, 10]$, and the extracted minimum was $2$. Every parent is $\\le$ both children again: the heap property is restored after exactly two swaps, one per level — exactly the $O(\\log n)$ bound sift-down guarantees."
+    }
+  ]
+}
