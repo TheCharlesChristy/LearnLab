@@ -3,10 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- NFR-SEC-001: no other origins, ever. No analytics, no fonts CDN. -->
+    <!-- NFR-SEC-001: no other origins, ever. No analytics, no fonts CDN.
+         connect-src/img-src allow blob: for the same reason worker-src
+         already does (Pyodide) — the /widgets playground feeds a widget's
+         `src` prop from a same-origin URL.createObjectURL() blob so it can
+         preview user-edited JSON/images without a real hosted file. -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net; worker-src 'self' blob:; connect-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; style-src 'self' 'unsafe-inline'"
+      content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net; worker-src 'self' blob:; connect-src 'self' https://cdn.jsdelivr.net blob:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'"
     />
     <meta name="theme-color" content="#4f46e5" />
     <title>LearnLab</title>

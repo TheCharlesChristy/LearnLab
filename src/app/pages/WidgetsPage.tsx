@@ -2,13 +2,16 @@
 // src/widgets/registry.ts and shows its docs/WIDGETS.md documentation
 // (description, props, example). Adding a widget via the existing runbook
 // (docs/ARCHITECTURE.md §4) requires no changes here.
-import { Suspense } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 
 import { WIDGET_KEYS } from '../../widgets/registry';
 import { Card } from '../../ui';
 import { LazyMarkdownInline } from '../shared';
+import WidgetPlayground from '../WidgetPlayground';
 import type { WidgetDoc, WidgetPropRow } from '../widgetDocs';
 import { getWidgetDoc } from '../widgetDocs';
+
+const SEARCH_DEBOUNCE_MS = 200;
 
 function InlineMarkdown({ markdown }: { markdown: string }) {
   return (
@@ -93,25 +96,74 @@ function WidgetCard({ widgetKey, doc }: { widgetKey: string; doc: WidgetDoc | un
           <code>{doc.example}</code>
         </pre>
       )}
+      <WidgetPlayground widgetKey={doc.key} doc={doc} />
     </Card>
   );
 }
 
+/** Case-insensitive substring match against a widget's key, description and
+ * prop names — a small in-memory list, so no shared search infra is needed
+ * (src/search/query.ts is a closed subsystem for the lesson search index). */
+function matchesQuery(key: string, doc: WidgetDoc | undefined, query: string): boolean {
+  if (query === '') return true;
+  const haystack = [key, doc?.description ?? '', ...(doc?.props.map((p) => p.name) ?? [])]
+    .join(' ')
+    .toLowerCase();
+  return haystack.includes(query);
+}
+
 export default function WidgetsPage() {
-  const keys = [...WIDGET_KEYS].sort((a, b) => a.localeCompare(b));
+  const keys = useMemo(() => [...WIDGET_KEYS].sort((a, b) => a.localeCompare(b)), []);
+
+  const [raw, setRaw] = useState('');
+  const [debounced, setDebounced] = useState('');
+  useEffect(() => {
+    const id = setTimeout(() => setDebounced(raw), SEARCH_DEBOUNCE_MS);
+    return () => clearTimeout(id);
+  }, [raw]);
+
+  const query = debounced.trim().toLowerCase();
+  const visibleKeys = useMemo(
+    () => keys.filter((key) => matchesQuery(key, getWidgetDoc(key), query)),
+    [keys, query],
+  );
 
   return (
     <div>
       <h1 className="mb-1 text-2xl font-bold">Widgets</h1>
-      <p className="mb-6 text-sm text-slate-600 dark:text-slate-300">
+      <p className="mb-4 text-sm text-slate-600 dark:text-slate-300">
         Every native widget available in lesson content ({keys.length} total), read directly from
-        the widget registry and its documentation.
+        the widget registry and its documentation. Expand a card&rsquo;s &ldquo;Try it&rdquo;
+        panel to configure and preview it live.
       </p>
-      <div className="grid gap-4 sm:grid-cols-2">
-        {keys.map((key) => (
-          <WidgetCard key={key} widgetKey={key} doc={getWidgetDoc(key)} />
-        ))}
-      </div>
+
+      <label htmlFor="widget-search-input" className="block text-sm font-medium">
+        Search widgets
+      </label>
+      <input
+        id="widget-search-input"
+        type="search"
+        value={raw}
+        onChange={(e) => setRaw(e.target.value)}
+        placeholder="e.g. quiz, tangent, boolean"
+        className="mt-1 w-full max-w-md rounded border border-slate-300 px-3 py-2 focus-visible:outline-2 focus-visible:outline-indigo-600 dark:border-slate-600 dark:bg-slate-800"
+        autoComplete="off"
+      />
+      <p aria-live="polite" className="mb-4 mt-2 min-h-5 text-sm text-slate-600 dark:text-slate-300">
+        {`${visibleKeys.length} of ${keys.length} widgets`}
+      </p>
+
+      {visibleKeys.length === 0 ? (
+        <p className="text-slate-600 dark:text-slate-300">
+          No widgets matched &ldquo;{debounced.trim()}&rdquo;. Try a different word.
+        </p>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2">
+          {visibleKeys.map((key) => (
+            <WidgetCard key={key} widgetKey={key} doc={getWidgetDoc(key)} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
