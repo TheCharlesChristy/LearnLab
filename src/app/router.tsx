@@ -20,6 +20,7 @@ const ProgressPage = lazy(() => import('./pages/ProgressPage'));
 const ReviewPage = lazy(() => import('./pages/ReviewPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
+const WidgetsPage = lazy(() => import('./pages/WidgetsPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 function page(node: ReactNode): ReactNode {
@@ -58,6 +59,7 @@ export function buildRoutes(): RouteObject[] {
         { path: 'review', element: page(<ReviewPage />), errorElement: <RouteErrorPage /> },
         { path: 'search', element: page(<SearchPage />), errorElement: <RouteErrorPage /> },
         { path: 'settings', element: page(<SettingsPage />), errorElement: <RouteErrorPage /> },
+        { path: 'widgets', element: page(<WidgetsPage />), errorElement: <RouteErrorPage /> },
         { path: '*', element: page(<NotFoundPage />), errorElement: <RouteErrorPage /> },
       ],
     },
