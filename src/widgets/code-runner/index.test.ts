@@ -38,6 +38,19 @@ describe('code-runner parseProps — accept', () => {
       expect(result.props.solutionTest).toBe('assert True');
     }
   });
+
+  it('unescapes literal \\n/\\t/\\\\ in starter and solutionTest (leaf directive attrs are single-line)', () => {
+    const result = parseProps({
+      language: 'python',
+      starter: 'def f():\\n    return 1\\t# tab\\n\\\\ literal backslash',
+      solutionTest: 'assert f() == 1\\nassert True',
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.props.starter).toBe('def f():\n    return 1\t# tab\n\\ literal backslash');
+      expect(result.props.solutionTest).toBe('assert f() == 1\nassert True');
+    }
+  });
 });
 
 describe('code-runner parseProps — reject (errors name the prop, FR-WID-003)', () => {

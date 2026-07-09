@@ -34,6 +34,18 @@ export interface CodeRunnerProps {
 }
 
 /**
+ * Leaf directive attributes (§4.5) are single-line, so authors encode newlines
+ * in `starter`/`solutionTest` as literal `\n` (and `\t`/`\\`) escape sequences —
+ * see e.g. public/content/cs/alevel-cs/heaps/01-*.md. Without this step those
+ * escapes reach the editor/output verbatim as backslash-n characters instead
+ * of line breaks.
+ */
+const ESCAPES: Record<string, string> = { n: '\n', t: '\t', r: '\r', '\\': '\\' };
+function unescapeMultiline(s: string): string {
+  return s.replace(/\\(n|t|r|\\)/g, (_, c: string) => ESCAPES[c]!);
+}
+
+/**
  * Hand-rolled prop guard (no Zod, §5.3). Every error message names the offending
  * prop (FR-WID-003). Coerces `rows` from string→number; validates
  * language === "python" and rows as a positive integer.
@@ -53,7 +65,7 @@ export function parseProps(raw: RawWidgetProps): ParsedProps<CodeRunnerProps> {
   let starter: string | undefined;
   if (raw.starter !== undefined) {
     if (typeof raw.starter === 'string') {
-      starter = raw.starter;
+      starter = unescapeMultiline(raw.starter);
     } else {
       errors.push(`starter: must be a string if provided — got ${JSON.stringify(raw.starter)}`);
     }
@@ -63,7 +75,7 @@ export function parseProps(raw: RawWidgetProps): ParsedProps<CodeRunnerProps> {
   let solutionTest: string | undefined;
   if (raw.solutionTest !== undefined) {
     if (typeof raw.solutionTest === 'string') {
-      solutionTest = raw.solutionTest;
+      solutionTest = unescapeMultiline(raw.solutionTest);
     } else {
       errors.push(
         `solutionTest: must be a string if provided — got ${JSON.stringify(raw.solutionTest)}`,
