@@ -52,6 +52,11 @@ export function ScreenSequenceEngine({
   // to resolve, e.g. no LessonContext) — avoids a flash of screen 1 before
   // jumping to a resumed position.
   const [index, setIndex] = useState<number | null>(ctx ? null : 0);
+  // Set once the learner advances past the last screen. Guards against the
+  // last screen's "Finish" button staying mounted (and enabled) and firing
+  // advance() — and therefore notifyEngagement({kind:'screen-complete'}) and
+  // onSequenceComplete() — again on every repeat click.
+  const [finished, setFinished] = useState(false);
 
   useEffect(() => {
     if (!ctx) return;
@@ -69,11 +74,12 @@ export function ScreenSequenceEngine({
   }, [itemId]);
 
   function advance() {
-    if (index === null) return;
+    if (index === null || finished) return;
     ctx?.notifyEngagement({ kind: 'screen-complete' });
     const next = index + 1;
     void ctx?.setItemState(itemId, { screenIndex: Math.min(next, total - 1) } satisfies SavedPosition);
     if (next >= total) {
+      setFinished(true);
       onSequenceComplete();
       return;
     }
@@ -81,6 +87,11 @@ export function ScreenSequenceEngine({
   }
 
   if (index === null) return <Spinner label="Resuming…" />;
+  // Once finished, stop rendering the last screen's Runner entirely — its
+  // "Finish" button would otherwise stay mounted and enabled, letting
+  // repeat clicks re-fire advance(). The caller (LessonPage) swaps this out
+  // for its own completed-lesson view once onSequenceComplete resolves.
+  if (finished) return null;
 
   const screen = sequence.screens[index];
   if (!screen) return null;

@@ -278,7 +278,39 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
           // finishing the sequence (below) — the scroll sentinel and manual
           // "Mark lesson complete" button are suppressed for this kind so
           // there is no path to completion that skips the interaction.
-          screenSeq.status === 'loading' ? (
+          // Once complete, the engine (and its last screen's "Finish"
+          // button) is swapped out entirely for Home/Next-lesson actions —
+          // nothing stays mounted that could re-award completion points.
+          isComplete ? (
+            <div className="rounded-lg border border-slate-200 p-6 text-center dark:border-slate-700">
+              <p className="mb-4 text-lg font-semibold text-emerald-700 dark:text-emerald-400">
+                Lesson complete!
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <Link
+                  to="/"
+                  className="rounded-md bg-slate-200 px-3 py-1.5 text-sm font-medium text-slate-900 hover:bg-slate-300 dark:bg-slate-700 dark:text-slate-100 dark:hover:bg-slate-600"
+                >
+                  Home
+                </Link>
+                {next ? (
+                  <Link
+                    to={`/module/${moduleId}/lesson/${next.id}`}
+                    className="rounded-md bg-indigo-700 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-800 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+                  >
+                    Next Lesson
+                  </Link>
+                ) : mod.assessment ? (
+                  <Link
+                    to={`/module/${moduleId}/assessment`}
+                    className="rounded-md bg-indigo-700 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-800 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+                  >
+                    Take the assessment
+                  </Link>
+                ) : null}
+              </div>
+            </div>
+          ) : screenSeq.status === 'loading' ? (
             <Spinner label="Loading lesson…" />
           ) : screenSeq.status === 'error' ? (
             <RetryCard what="this lesson" error={screenSeq.error} onRetry={screenSeq.retry} />

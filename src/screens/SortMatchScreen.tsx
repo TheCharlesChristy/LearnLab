@@ -121,9 +121,9 @@ function SortMatchScreenRunner({
       </div>
       <div aria-live="polite" className="mt-3 min-h-6">
         {complete && (
-          <p className="font-semibold text-emerald-700 dark:text-emerald-400">
-            {screen.successFeedback ?? 'All matched!'}
-          </p>
+          <div className="font-semibold text-emerald-700 dark:text-emerald-400">
+            <MarkdownInline markdown={screen.successFeedback ?? 'All matched!'} />
+          </div>
         )}
       </div>
     </ScreenShell>

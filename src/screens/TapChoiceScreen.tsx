@@ -65,22 +65,28 @@ function TapChoiceScreenRunner({
                 isWrong && 'border-red-400 bg-red-50 dark:border-red-500 dark:bg-red-950/30',
               )}
             >
-              {choice.text}
+              <MarkdownInline markdown={choice.text} />
             </button>
           );
         })}
       </div>
       <div aria-live="polite" className="mt-3 min-h-6">
         {correct && (
-          <p className="font-semibold text-emerald-700 dark:text-emerald-400">
-            Correct!{screen.successFeedback ? ` ${screen.successFeedback}` : ''}
-          </p>
+          <div className="font-semibold text-emerald-700 dark:text-emerald-400">
+            <MarkdownInline
+              markdown={screen.successFeedback ? `Correct! ${screen.successFeedback}` : 'Correct!'}
+            />
+          </div>
         )}
         {!correct && selectedFeedback && (
-          <p className="text-sm text-red-700 dark:text-red-400">{selectedFeedback}</p>
+          <div className="text-sm text-red-700 dark:text-red-400">
+            <MarkdownInline markdown={selectedFeedback} />
+          </div>
         )}
         {!correct && activeHint && (
-          <p className="mt-1 text-sm italic opacity-80">Hint: {activeHint}</p>
+          <div className="mt-1 text-sm italic opacity-80">
+            <MarkdownInline markdown={`Hint: ${activeHint}`} />
+          </div>
         )}
       </div>
     </ScreenShell>
