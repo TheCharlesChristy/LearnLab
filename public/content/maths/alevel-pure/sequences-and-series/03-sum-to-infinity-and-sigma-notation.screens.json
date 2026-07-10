@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "id": "sum-to-infinity-and-sigma-notation",
+  "title": "Sum to infinity and sigma notation",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-infinite-sum",
+      "prompt": "The ball from last lesson keeps bouncing, in principle forever, each bounce reaching half the height of the one before (first bounce 3 m). If you added up the heights of every single bounce, all infinitely many of them, would the total come out as a fixed, finite number, or would it be infinite?",
+      "choices": [
+        "A fixed, finite number",
+        "Infinite, since there are infinitely many bounces to add",
+        "It depends on exactly how many bounces you count before stopping"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "Hold that thought. By the end of this lesson you'll have a formula that gives that total exactly, and you'll be able to check your prediction against it."
+    },
+    {
+      "type": "tap-choice",
+      "id": "convergence-condition",
+      "prompt": "For an infinite geometric series to settle down to a fixed total rather than growing forever, what must be true about the common ratio $r$?",
+      "choices": [
+        { "text": "$|r|<1$" },
+        {
+          "text": "$r>0$",
+          "feedback": "The sign of $r$ doesn't decide convergence on its own: a series with $r=-0.5$ still converges, while $r=2$ diverges even though it's positive. What matters is the size of $r$, not its sign."
+        },
+        {
+          "text": "$r$ must be a whole number",
+          "feedback": "$r$ can be any real number, including a fraction like $0.5$. Whether the series converges depends on the size of $r$, not on whether it's a whole number."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. A geometric series converges only when $|r|<1$: each term is then strictly smaller than the last, so the terms shrink toward zero and the running total settles down."
+    },
+    {
+      "type": "entry",
+      "id": "partial-sum-five",
+      "prompt": "Before going infinite: using $S_n=\\dfrac{a(1-r^n)}{1-r}$ with $a=3$, $r=0.5$, what is the total height of the first 5 bounces, $S_5$, in metres?",
+      "inputMode": "numeric",
+      "answer": 5.8125,
+      "tolerance": 0.001,
+      "hints": [
+        "$S_5=\\dfrac{3(1-0.5^5)}{1-0.5}$.",
+        "$0.5^5=0.03125$, so the numerator is $3\\times0.96875$."
+      ],
+      "successFeedback": "Right, $S_5=5.8125$ m, matching what you found last lesson."
+    },
+    {
+      "type": "tap-choice",
+      "id": "divergence-check",
+      "prompt": "Suppose a hypothetically bouncier ball had bounce heights following a geometric sequence with $r=1.2$, each bounce reaching higher than the last. What happens to the running total of bounce heights as you add more and more terms?",
+      "choices": [
+        { "text": "It grows without bound: the series diverges" },
+        {
+          "text": "It still settles down to a fixed value, just a larger one",
+          "feedback": "Settling down requires the terms themselves to shrink toward zero. With $r=1.2$, each bounce is larger than the last, so the terms never shrink; the running total keeps growing rather than settling."
+        },
+        {
+          "text": "It becomes undefined",
+          "feedback": "The running total isn't undefined; it's perfectly well-defined at every stage, it just keeps growing larger and larger without ever settling on a fixed value."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. With $|r|=1.2\\geq1$, the terms don't shrink, so the series diverges: it has no sum to infinity."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "derive-sum-to-infinity",
+      "body": "Start from $S_n=\\dfrac{a(1-r^n)}{1-r}$. If $|r|<1$, repeatedly multiplying $r$ by itself makes $r^n$ shrink toward $0$ as $n\\to\\infty$ (try it: $0.5^{10}\\approx0.001$, $0.5^{20}\\approx0.000001$). So as $n\\to\\infty$,\n\n$$\nS_\\infty=\\frac{a(1-0)}{1-r}=\\frac{a}{1-r}.\n$$\n\nFor the ball ($a=3$, $r=0.5$):\n\n$$\nS_\\infty=\\frac{3}{1-0.5}=\\frac{3}{0.5}=6\\text{ m}.\n$$",
+      "selfExplainPrompt": "The formula only lets you drop the $r^n$ term and write $S_\\infty=\\dfrac{a}{1-r}$ when $|r|<1$. Why would this step fail if $|r|\\geq1$?",
+      "selfExplainAnswer": "$r^n\\to0$ as $n\\to\\infty$ only when $|r|<1$, since repeatedly multiplying a number smaller than 1 by itself keeps shrinking it toward zero. If $|r|\\geq1$, $r^n$ either stays fixed (at $r=1$) or grows without bound, so it never vanishes, and the step that replaces $r^n$ with $0$ is no longer valid: there is no fixed value for $S_n$ to approach."
+    },
+    {
+      "type": "faded-step",
+      "id": "second-ball-infinity",
+      "worked": "A second ball has first bounce $a=2$ m and common ratio $r=0.8$. Since $|0.8|<1$, the series converges.",
+      "prompt": "Using $S_\\infty=\\dfrac{a}{1-r}$, find $S_\\infty$ for this ball, in metres.",
+      "inputMode": "numeric",
+      "answer": 10,
+      "tolerance": 0.01,
+      "hints": [
+        "$S_\\infty=\\dfrac{2}{1-0.8}$.",
+        "$2\\div0.2$."
+      ],
+      "successFeedback": "Right, $S_\\infty=10$ m."
+    },
+    {
+      "type": "sort-match",
+      "id": "match-sigma-notation",
+      "prompt": "Sigma notation, $\\sum$, is shorthand for a sum. Match each piece of sigma notation to what it means.",
+      "pairs": [
+        { "left": "$\\displaystyle\\sum_{n=1}^{5}u_n$", "right": "Add up the first 5 terms of the sequence, $u_1+u_2+u_3+u_4+u_5$" },
+        { "left": "$\\displaystyle\\sum_{n=1}^{\\infty}u_n$", "right": "Add up every term forever: the sum to infinity, if it converges" },
+        { "left": "The number under $\\sum$", "right": "The starting value of the index (often $n=1$)" },
+        { "left": "The number on top of $\\sum$", "right": "The last value of the index included in the sum" }
+      ]
+    },
+    {
+      "type": "entry",
+      "id": "sigma-partial-sum",
+      "prompt": "For the second ball ($a=2$, $r=0.8$), evaluate $\\displaystyle\\sum_{k=1}^{4}2(0.8)^{k-1}$, the total height of its first 4 bounces, in metres.",
+      "inputMode": "numeric",
+      "answer": 5.904,
+      "tolerance": 0.001,
+      "hints": [
+        "This is a geometric series with $a=2$, $r=0.8$, and $n=4$ terms: use $S_n=\\dfrac{a(1-r^n)}{1-r}$.",
+        "$0.8^4=0.4096$, so the numerator is $2\\times0.5904$."
+      ],
+      "successFeedback": "Right, the sum is $5.904$ m."
+    },
+    {
+      "type": "entry",
+      "id": "close-infinite-total",
+      "prompt": "Back to the very first ball: $a=3$, $r=0.5$. You predicted that the total of all its infinitely many bounce heights would be a fixed, finite number. Using $S_\\infty=\\dfrac{a}{1-r}$, what is that total, in metres?",
+      "inputMode": "numeric",
+      "answer": 6,
+      "tolerance": 0.01,
+      "hints": ["$S_\\infty=\\dfrac{3}{1-0.5}$."],
+      "successFeedback": "Right, $S_\\infty=6$ m: a fixed, finite total, exactly as you predicted, even though the ball bounces forever. You've now covered the nth term, sum, and sum to infinity for both arithmetic and geometric sequences, and sigma notation to write any of them compactly. You're ready for the end-of-module assessment."
+    }
+  ]
+}

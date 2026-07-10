@@ -20,19 +20,22 @@
     {
       "id": "arithmetic-sequences-and-series",
       "title": "Arithmetic sequences and series",
-      "file": "01-arithmetic-sequences-and-series.md",
+      "file": "01-arithmetic-sequences-and-series.screens.json",
+      "kind": "screens",
       "estMinutes": 35
     },
     {
       "id": "geometric-sequences-and-series",
       "title": "Geometric sequences and series",
-      "file": "02-geometric-sequences-and-series.md",
+      "file": "02-geometric-sequences-and-series.screens.json",
+      "kind": "screens",
       "estMinutes": 35
     },
     {
       "id": "sum-to-infinity-and-sigma-notation",
       "title": "Sum to infinity and sigma notation",
-      "file": "03-sum-to-infinity-and-sigma-notation.md",
+      "file": "03-sum-to-infinity-and-sigma-notation.screens.json",
+      "kind": "screens",
       "estMinutes": 30
     }
   ],

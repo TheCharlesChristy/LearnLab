@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "id": "adding-and-scaling",
+  "title": "Adding, subtracting and scaling vectors",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-combined-leg",
+      "prompt": "The hiker walks leg A: 2 km east, 5 km north. Then leg B: 3 km west, 1 km north (so $-3$ east, $1$ north). If a drone flew directly from the start of leg A to the end of leg B, would adding the two vectors component-wise, $\\begin{pmatrix} 2 \\\\ 5 \\end{pmatrix} + \\begin{pmatrix} -3 \\\\ 1 \\end{pmatrix}$, give exactly that direct displacement, or would you need to combine the two compass bearings some other way, like averaging them?",
+      "choices": ["Yes, component-wise addition gives the exact direct displacement", "No, you need to average the two compass bearings instead"],
+      "correctChoiceIndex": 0,
+      "reveal": "Component-wise addition is exactly right, and this lesson shows you why: add the top components together and the bottom components together, no angles or averaging required. By the end you'll compute the hiker's exact direct displacement for this route."
+    },
+    {
+      "type": "tap-choice",
+      "id": "add-components",
+      "prompt": "What is $\\mathbf{a} + \\mathbf{b}$ for $\\mathbf{a} = \\begin{pmatrix} 2 \\\\ 5 \\end{pmatrix}$ and $\\mathbf{b} = \\begin{pmatrix} -3 \\\\ 1 \\end{pmatrix}$?",
+      "choices": [
+        { "text": "$\\begin{pmatrix} -1 \\\\ 6 \\end{pmatrix}$" },
+        { "text": "$\\begin{pmatrix} 5 \\\\ 4 \\end{pmatrix}$", "feedback": "That's $\\mathbf{a} - \\mathbf{b}$, not $\\mathbf{a} + \\mathbf{b}$: subtracting flips the sign on $\\mathbf{b}$'s components, but here you need to add them." },
+        { "text": "$\\begin{pmatrix} 5 \\\\ 6 \\end{pmatrix}$", "feedback": "Check the top component: $\\mathbf{b}$'s $x$-value is $-3$ (3 km west), not $+3$, so $2 + (-3) = -1$, not $5$." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: add each pair of components separately, $(2+(-3), 5+1) = (-1, 6)$. Geometrically that's placing the tail of $\\mathbf{b}$ at the head of $\\mathbf{a}$: the triangle rule."
+    },
+    {
+      "type": "entry",
+      "id": "subtract-pegs",
+      "prompt": "Two survey pegs have position vectors $\\mathbf{p} = \\begin{pmatrix} 4 \\\\ -2 \\end{pmatrix}$ and $\\mathbf{q} = \\begin{pmatrix} 1 \\\\ -6 \\end{pmatrix}$ km from base camp. Find $|\\mathbf{p} - \\mathbf{q}|$, in km.",
+      "inputMode": "numeric",
+      "answer": 5,
+      "tolerance": 0.01,
+      "successFeedback": "Right: $\\mathbf{p} - \\mathbf{q} = (4-1, -2-(-6)) = (3, 4)$, and $|\\mathbf{p}-\\mathbf{q}| = \\sqrt{3^2+4^2} = \\sqrt{25} = 5$.",
+      "hints": ["Subtract component-wise: $(4-1,\\ -2-(-6))$.", "That gives $(3, 4)$.", "Magnitude: $\\sqrt{3^2+4^2} = \\sqrt{25}$."]
+    },
+    {
+      "type": "sort-match",
+      "id": "match-scaling-terms",
+      "prompt": "Match each term to what it means.",
+      "pairs": [
+        { "left": "Scalar multiplication $k\\mathbf{v}$", "right": "Multiply every component of $\\mathbf{v}$ by $k$" },
+        { "left": "Unit vector", "right": "A vector with magnitude exactly 1" },
+        { "left": "Parallel vectors", "right": "One vector equals a scalar multiple of the other" },
+        { "left": "Magnitude of $k\\mathbf{v}$", "right": "$|k|\\,|\\mathbf{v}|$" }
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "scaling-and-parallel-test",
+      "body": "Let $\\mathbf{a} = \\begin{pmatrix} 4 \\\\ -6 \\end{pmatrix}$ and $\\mathbf{b} = \\begin{pmatrix} -6 \\\\ 9 \\end{pmatrix}$. Show they're parallel: try to find a single scalar $k$ with $\\mathbf{b} = k\\mathbf{a}$. Comparing top components, $-6 = 4k \\Rightarrow k = -\\tfrac{3}{2}$. Check the bottom components: $-\\tfrac{3}{2} \\times (-6) = 9$, which matches $\\mathbf{b}$'s bottom component. Since $\\mathbf{b} = -\\tfrac{3}{2}\\mathbf{a}$ with one consistent scalar, $\\mathbf{a}$ and $\\mathbf{b}$ are parallel, pointing in opposite directions since $k < 0$.",
+      "selfExplainPrompt": "Why does a negative scalar $k$ reverse the vector's direction, but $\\mathbf{a}$ and $\\mathbf{b}$ are still called parallel even though they point opposite ways?",
+      "selfExplainAnswer": "Multiplying by a negative $k$ flips the sign of every component, which reverses which way along the line the vector points, but it doesn't move the vector onto a different line: every scalar multiple of $\\mathbf{a}$, positive or negative, still lies along the same direction as $\\mathbf{a}$. 'Parallel' means same or opposite direction, so both count."
+    },
+    {
+      "type": "entry",
+      "id": "unit-vector-component",
+      "prompt": "Find the unit vector in the direction of $\\mathbf{v} = \\begin{pmatrix} 3 \\\\ -4 \\end{pmatrix}$: what is its $y$-component?",
+      "inputMode": "numeric",
+      "answer": -0.8,
+      "tolerance": 0.01,
+      "successFeedback": "Right: $|\\mathbf{v}| = \\sqrt{3^2+(-4)^2} = 5$, so $\\hat{\\mathbf{v}} = \\frac{1}{5}\\begin{pmatrix} 3 \\\\ -4 \\end{pmatrix} = \\begin{pmatrix} 0.6 \\\\ -0.8 \\end{pmatrix}$. Check: $|\\hat{\\mathbf{v}}| = \\sqrt{0.6^2+0.8^2} = \\sqrt{1} = 1$, exactly magnitude 1, as a unit vector must be.",
+      "hints": ["First find $|\\mathbf{v}| = \\sqrt{3^2+(-4)^2}$.", "$|\\mathbf{v}| = 5$.", "Divide each component by 5: the $y$-component is $-4/5$."]
+    },
+    {
+      "type": "faded-step",
+      "id": "resolve-combined-leg",
+      "worked": "Leg A is $\\begin{pmatrix} 2 \\\\ 5 \\end{pmatrix}$ km and leg B is $\\begin{pmatrix} -3 \\\\ 1 \\end{pmatrix}$ km. Adding vectors is component-wise: top components together, bottom components together. The top (east-west) component of the sum is $2 + (-3) = -1$.",
+      "prompt": "What is the bottom (north-south) component of $\\mathbf{a} + \\mathbf{b}$, completing the direct crow-flies displacement?",
+      "inputMode": "numeric",
+      "answer": 6,
+      "tolerance": 0.01,
+      "successFeedback": "Right, 6. So the hiker's direct crow-flies displacement for the whole route is $\\begin{pmatrix} -1 \\\\ 6 \\end{pmatrix}$ km. You predicted at the start that adding the two leg vectors component-wise, with no averaging of bearings needed, would give exactly this direct displacement, and that's confirmed: $\\begin{pmatrix} 2 \\\\ 5 \\end{pmatrix} + \\begin{pmatrix} -3 \\\\ 1 \\end{pmatrix} = \\begin{pmatrix} -1 \\\\ 6 \\end{pmatrix}$.",
+      "hints": ["Add the bottom components: 5 and 1.", "$5 + 1 = 6$."]
+    }
+  ]
+}

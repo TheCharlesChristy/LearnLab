@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "id": "geometric-sequences-and-series",
+  "title": "Geometric sequences and series",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-sixth-bounce",
+      "prompt": "A ball is dropped and starts bouncing. Its first bounce reaches 3 m; each bounce after that reaches exactly half the height of the one before. Do you think the 6th bounce will still clear 10 cm, or will it have shrunk below that by then?",
+      "choices": [
+        "Yes, it'll still clear 10 cm easily",
+        "No, it'll have shrunk below 10 cm by the 6th bounce"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought. Halving repeatedly shrinks a value much faster than it looks at first glance. By the end of this lesson you'll have a formula that finds the height of any bounce exactly, and you can check your prediction against it."
+    },
+    {
+      "type": "tap-choice",
+      "id": "define-common-ratio",
+      "prompt": "The ball's bounce heights go $3, 1.5, 0.75, 0.375, \\ldots$ metres. What name does an A-level sequence give to the fixed number, $0.5$, that each term is multiplied by to get the next?",
+      "choices": [
+        { "text": "The common ratio" },
+        {
+          "text": "The common difference",
+          "feedback": "A common difference is a fixed amount you add each time, which is how an arithmetic sequence behaves. Here you multiply by a fixed number instead, so this sequence is geometric and the fixed number is the common ratio."
+        },
+        {
+          "text": "The first term",
+          "feedback": "The first term is the starting value, 3 m (the first bounce), not the fixed multiplier used to get from one bounce to the next."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. In a geometric sequence, the fixed multiplier is the common ratio, $r$. Here $a=3$ and $r=0.5$."
+    },
+    {
+      "type": "entry",
+      "id": "fourth-bounce",
+      "prompt": "The $n$th term formula for a geometric sequence is $u_n=ar^{n-1}$. For the ball, $a=3$ and $r=0.5$. What height does the 4th bounce reach, in metres?",
+      "inputMode": "numeric",
+      "answer": 0.375,
+      "tolerance": 0.001,
+      "hints": [
+        "Substitute $n=4$: $u_4=3(0.5)^3$.",
+        "$0.5^3=0.125$, so $u_4=3\\times0.125$."
+      ],
+      "successFeedback": "Right, $u_4=3(0.5)^3=3\\times0.125=0.375$ m."
+    },
+    {
+      "type": "flash-recall",
+      "id": "recall-geometric-nth-term",
+      "front": "State the $n$th term formula for a geometric sequence with first term $a$ and common ratio $r$.",
+      "back": "$u_n=ar^{n-1}$: multiply the first term by $r$ raised to one less than the term number."
+    },
+    {
+      "type": "sort-match",
+      "id": "match-geometric-terms",
+      "prompt": "Match each geometric sequence term to what it means.",
+      "pairs": [
+        { "left": "Common ratio ($r$)", "right": "The fixed number each term is multiplied by to get the next term" },
+        { "left": "First term ($a$)", "right": "The starting value of the sequence, $u_1$" },
+        { "left": "$n$th term ($u_n$)", "right": "$ar^{n-1}$, the value of the sequence at position $n$" },
+        { "left": "Sum of $n$ terms ($S_n$)", "right": "$\\dfrac{a(1-r^n)}{1-r}$, the total of the first $n$ terms added together" }
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "derive-geometric-sum",
+      "body": "$$\nS_n = a+ar+ar^2+\\cdots+ar^{n-1}.\n$$\n\nMultiply every term by $r$:\n\n$$\nrS_n = ar+ar^2+\\cdots+ar^{n-1}+ar^n.\n$$\n\nSubtracting cancels every middle term:\n\n$$\nS_n - rS_n = a - ar^n \\implies S_n(1-r) = a(1-r^n) \\implies S_n = \\frac{a(1-r^n)}{1-r}.\n$$\n\nFor the ball's bounce heights ($a=3$, $r=0.5$), the total height across the first 5 bounces is\n\n$$\nS_5=\\frac{3(1-0.5^5)}{1-0.5}=\\frac{3(1-0.03125)}{0.5}=\\frac{3\\times0.96875}{0.5}=5.8125\\text{ m}.\n$$",
+      "selfExplainPrompt": "Look at $S_n$ and $rS_n$ written out term by term. Why does subtracting one from the other leave only the first term of $S_n$ and the last term of $rS_n$, with everything else cancelling?",
+      "selfExplainAnswer": "Every term in $rS_n$ (from $ar$ to $ar^{n-1}$) also appears in $S_n$, since shifting a geometric sequence by one position just relabels the same terms. Subtracting removes every one of those shared terms, leaving only $S_n$'s very first term, $a$, and $rS_n$'s very last term, $ar^n$, which is exactly $S_n(1-r)=a-ar^n$."
+    },
+    {
+      "type": "faded-step",
+      "id": "second-ball-sum",
+      "worked": "A second ball's first bounce reaches $a=8$ m, with common ratio $r=0.25$. Using $S_n=\\dfrac{a(1-r^n)}{1-r}$, the total height across its first 4 bounces is\n\n$$\nS_4=\\frac{8(1-0.25^4)}{1-0.25}=\\frac{8(1-0.00390625)}{0.75}=\\frac{8\\times0.99609375}{0.75}.\n$$",
+      "prompt": "Finish the calculation. What is $S_4$, in metres?",
+      "inputMode": "numeric",
+      "answer": 10.625,
+      "tolerance": 0.01,
+      "hints": [
+        "$8\\times0.99609375 = 7.96875$.",
+        "$7.96875 \\div 0.75$."
+      ],
+      "successFeedback": "Right, $S_4=10.625$ m."
+    },
+    {
+      "type": "entry",
+      "id": "close-sixth-bounce",
+      "prompt": "Back to the first ball: $a=3$, $r=0.5$. You predicted the 6th bounce would have shrunk below 10 cm (0.1 m). Using $u_n=ar^{n-1}$, what height does the 6th bounce reach, in metres?",
+      "inputMode": "numeric",
+      "answer": 0.09375,
+      "tolerance": 0.001,
+      "hints": [
+        "Substitute $n=6$: $u_6=3(0.5)^5$.",
+        "$0.5^5=0.03125$, so $u_6=3\\times0.03125$."
+      ],
+      "successFeedback": "Right, $u_6=0.09375$ m, which is 9.375 cm: below 10 cm, exactly as you predicted. Next lesson asks what happens if you keep adding up bounce heights forever, not just the first few."
+    }
+  ]
+}

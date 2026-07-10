@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "position-vectors-and-proofs",
+  "title": "Position vectors and geometric proofs",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-straight-trail",
+      "prompt": "A ranger has logged GPS position vectors, measured from base camp (the origin), for three trail checkpoints: $A = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$, $B = \\begin{pmatrix} 3 \\\\ 5 \\end{pmatrix}$, $C = \\begin{pmatrix} 6 \\\\ 11 \\end{pmatrix}$ km. She wants to know if the trail from A to C runs perfectly straight through B, or bends at B, without walking it herself. Do you think comparing the vectors $\\overrightarrow{AB}$ and $\\overrightarrow{BC}$, checking if one is a scalar multiple of the other, is enough to answer that on its own, or does she need extra information, like the actual compass bearings?",
+      "choices": ["Comparing $\\overrightarrow{AB}$ and $\\overrightarrow{BC}$ as vectors is enough on its own", "No, extra information like the compass bearings is also needed"],
+      "correctChoiceIndex": 0,
+      "reveal": "Comparing the vectors is exactly enough. By the end of this lesson you'll run that exact check on these three checkpoints and settle whether the trail is straight."
+    },
+    {
+      "type": "tap-choice",
+      "id": "vector-between-points",
+      "prompt": "Checkpoints D and E have position vectors $\\mathbf{d} = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$ and $\\mathbf{e} = \\begin{pmatrix} 7 \\\\ -3 \\end{pmatrix}$ km. What is the vector from D to E, $\\overrightarrow{DE}$?",
+      "choices": [
+        { "text": "$\\begin{pmatrix} 6 \\\\ -5 \\end{pmatrix}$" },
+        { "text": "$\\begin{pmatrix} 8 \\\\ -1 \\end{pmatrix}$", "feedback": "That's $\\mathbf{d} + \\mathbf{e}$, not $\\mathbf{e} - \\mathbf{d}$. The vector from D to E is the end point's position vector minus the start point's, not their sum." },
+        { "text": "$\\begin{pmatrix} -6 \\\\ 5 \\end{pmatrix}$", "feedback": "That's $\\overrightarrow{ED}$ (from E back to D), the reverse direction. $\\overrightarrow{DE}$ goes from D to E, so it's $\\mathbf{e} - \\mathbf{d}$, end minus start, not $\\mathbf{d} - \\mathbf{e}$." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: $\\overrightarrow{DE} = \\mathbf{e} - \\mathbf{d} = (7-1,\\ -3-2) = (6, -5)$. End minus start, always."
+    },
+    {
+      "type": "entry",
+      "id": "magnitude-fg",
+      "prompt": "Checkpoints F and G have position vectors $\\mathbf{f} = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$ and $\\mathbf{g} = \\begin{pmatrix} 4 \\\\ 6 \\end{pmatrix}$ km. Find the magnitude of $\\overrightarrow{FG}$, in km.",
+      "inputMode": "numeric",
+      "answer": 5,
+      "tolerance": 0.01,
+      "successFeedback": "Right: $\\overrightarrow{FG} = \\mathbf{g} - \\mathbf{f} = (4-1, 6-2) = (3, 4)$, so $|\\overrightarrow{FG}| = \\sqrt{3^2+4^2} = \\sqrt{25} = 5$.",
+      "hints": ["$\\overrightarrow{FG} = \\mathbf{g} - \\mathbf{f} = (4-1,\\ 6-2)$.", "That's $(3, 4)$.", "$|\\overrightarrow{FG}| = \\sqrt{3^2+4^2} = \\sqrt{25}$."]
+    },
+    {
+      "type": "flash-recall",
+      "id": "recall-midpoint",
+      "front": "How do you find the position vector of the midpoint M of segment AB, from position vectors $\\mathbf{a}$ and $\\mathbf{b}$?",
+      "back": "$\\overrightarrow{OM} = \\frac{1}{2}(\\mathbf{a}+\\mathbf{b})$: average the two position vectors component-wise. It's the vector version of the coordinate midpoint formula $\\left(\\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2}\\right)$, one component at a time."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "collinearity-proof",
+      "body": "Back to the ranger's three checkpoints: $\\mathbf{a} = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$, $\\mathbf{b} = \\begin{pmatrix} 3 \\\\ 5 \\end{pmatrix}$, $\\mathbf{c} = \\begin{pmatrix} 6 \\\\ 11 \\end{pmatrix}$.\n\n$$\n\\overrightarrow{AB} = \\mathbf{b}-\\mathbf{a} = \\begin{pmatrix} 2 \\\\ 4 \\end{pmatrix}, \\qquad \\overrightarrow{BC} = \\mathbf{c}-\\mathbf{b} = \\begin{pmatrix} 3 \\\\ 6 \\end{pmatrix}.\n$$\n\n$\\overrightarrow{BC} = \\tfrac{3}{2}\\overrightarrow{AB}$ (check: $\\tfrac{3}{2}\\times2=3$ and $\\tfrac{3}{2}\\times4=6$), so $\\overrightarrow{AB}$ and $\\overrightarrow{BC}$ are parallel. Since they also share the point B, A, B, C lie on the same straight line: they are collinear.",
+      "selfExplainPrompt": "$\\overrightarrow{AB}$ and $\\overrightarrow{BC}$ being scalar multiples of each other means they're parallel. Why isn't that alone enough to prove A, B, C collinear, and what extra fact makes it enough here?",
+      "selfExplainAnswer": "Two vectors being parallel only means they point along the same or opposite direction; two parallel line segments can run alongside each other and never meet. $\\overrightarrow{AB}$ and $\\overrightarrow{BC}$ additionally share the point B, since B is the endpoint of $\\overrightarrow{AB}$ and the start point of $\\overrightarrow{BC}$, so a line through A and B and a line through B and C aren't just parallel: they're forced to be the very same line, because they pass through the same point in the same direction. Parallel plus a shared point is what proves collinearity."
+    },
+    {
+      "type": "faded-step",
+      "id": "parallel-not-collinear",
+      "worked": "Two separate trail segments: A(0,0) to B(2,3), and C(5,5) to D(9,11). $\\overrightarrow{AB} = \\begin{pmatrix} 2 \\\\ 3 \\end{pmatrix}$, and $\\overrightarrow{CD} = \\begin{pmatrix} 9-5 \\\\ 11-5 \\end{pmatrix} = \\begin{pmatrix} 4 \\\\ 6 \\end{pmatrix}$.",
+      "prompt": "Find the scalar $k$ such that $\\overrightarrow{CD} = k\\,\\overrightarrow{AB}$, confirming the two trail segments run parallel.",
+      "inputMode": "numeric",
+      "answer": 2,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $k=2$: $\\overrightarrow{CD} = 2\\overrightarrow{AB}$, so the two segments are parallel. But they're not the same trail: C(5,5) doesn't lie on line AB (that line satisfies $y=1.5x$, and at $x=5$ that's $y=7.5$, not 5), so these are parallel, distinct trails, not one collinear path. Back to the ranger's checkpoints: you predicted comparing $\\overrightarrow{AB}$ and $\\overrightarrow{BC}$, without needing compass bearings, would be enough to settle whether the trail through A, B, C is straight. It was: $\\overrightarrow{BC} = 1.5\\,\\overrightarrow{AB}$ with one consistent scalar, and B is shared by both, so A, B, C are collinear, and the trail runs straight through B.",
+      "hints": ["Compare $x$-components: $4 = 2k$.", "$k = 2$.", "Check the $y$-components too: $3 \\times 2 = 6$."]
+    }
+  ]
+}

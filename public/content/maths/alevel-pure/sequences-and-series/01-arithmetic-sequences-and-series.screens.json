@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "id": "arithmetic-sequences-and-series",
+  "title": "Arithmetic sequences and series",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-row-ten",
+      "prompt": "A theatre's raked seating starts with row 1 at the front, holding 18 seats. Each row behind it has 3 more seats than the row in front, so row 2 has 21, row 3 has 24, and so on. If that pattern keeps going all the way back, will row 10 have exactly three times as many seats as row 1, more than three times, or less than three times?",
+      "choices": [
+        "Exactly three times as many (54 seats)",
+        "Less than three times as many",
+        "More than three times as many"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought. By the end of this lesson you'll have a formula that finds row 10's seat count exactly, and you can check your prediction against it."
+    },
+    {
+      "type": "tap-choice",
+      "id": "define-common-difference",
+      "prompt": "Row 1 has 18 seats, row 2 has 21, row 3 has 24. What name does an A-level sequence give to the fixed amount, 3, that's added to get from one row to the next?",
+      "choices": [
+        { "text": "The common difference" },
+        {
+          "text": "The common ratio",
+          "feedback": "A common ratio is what you multiply by to move from term to term in a geometric sequence. Here you're adding a fixed amount, not multiplying, so this sequence is arithmetic and the fixed amount is called the common difference."
+        },
+        {
+          "text": "The first term",
+          "feedback": "The first term is the starting value, 18 (the seats in row 1), not the fixed amount added at each step."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. In an arithmetic sequence, the fixed amount added each time is the common difference, usually called $d$. Here $d = 3$."
+    },
+    {
+      "type": "entry",
+      "id": "row-five-seats",
+      "prompt": "The formula for the $n$th term of an arithmetic sequence is $u_n = a + (n-1)d$, where $a$ is the first term and $d$ is the common difference. For the theatre, $a = 18$ and $d = 3$. How many seats are in row 5?",
+      "inputMode": "numeric",
+      "answer": 30,
+      "tolerance": 0.01,
+      "hints": [
+        "Substitute $n=5$, $a=18$, $d=3$ into $u_n = a + (n-1)d$.",
+        "$u_5 = 18 + (5-1)(3) = 18 + 12$."
+      ],
+      "successFeedback": "Right. $u_5 = 18 + 4(3) = 18 + 12 = 30$ seats."
+    },
+    {
+      "type": "sort-match",
+      "id": "match-arithmetic-terms",
+      "prompt": "Match each arithmetic sequence term to what it means.",
+      "pairs": [
+        { "left": "Common difference ($d$)", "right": "The fixed amount added to get from one term to the next" },
+        { "left": "First term ($a$)", "right": "The starting value of the sequence, $u_1$" },
+        { "left": "$n$th term ($u_n$)", "right": "$a+(n-1)d$, the value of the sequence at position $n$" },
+        { "left": "Sum of $n$ terms ($S_n$)", "right": "The total when the first $n$ terms are added together" }
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "meaning-of-sn",
+      "prompt": "The theatre's manager doesn't just want row 5's seat count. She wants the total number of seats across all 20 rows, added together. In sequence notation, what is that total called?",
+      "choices": [
+        { "text": "The series, $S_n$" },
+        {
+          "text": "The $n$th term, $u_n$",
+          "feedback": "$u_n$ is the seat count in one single row. The manager wants every row's seats added together, which is the series total, $S_n$."
+        },
+        {
+          "text": "The common difference, $d$",
+          "feedback": "$d$ is just the fixed gap between consecutive rows' seat counts, 3 seats. It isn't a total at all."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. Adding up the terms of a sequence gives a series, and $S_n$ denotes the sum of its first $n$ terms."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "derive-arithmetic-sum",
+      "body": "Write $S_n$ forwards and backwards and add the two versions term by term (Gauss's trick):\n\n$$\nS_n = a + (a+d) + \\cdots + (a+(n-1)d)\n$$\n$$\nS_n = (a+(n-1)d) + \\cdots + (a+d) + a\n$$\n\nAdding these vertically, every pair sums to the same total, $2a+(n-1)d$, and there are $n$ such pairs, giving $2S_n = n\\big(2a+(n-1)d\\big)$, so\n\n$$\nS_n = \\frac{n}{2}\\big(2a+(n-1)d\\big).\n$$\n\nFor the theatre's main auditorium ($a=18$, $d=3$, $n=20$ rows):\n\n$$\nS_{20} = \\frac{20}{2}\\big(2(18)+(20-1)(3)\\big) = 10\\big(36+57\\big) = 10\\times93 = 930\\text{ seats}.\n$$",
+      "selfExplainPrompt": "Every paired row (first with last, second with second-last, and so on) adds up to the exact same total, $2a+(n-1)d$. Why does pairing rows this way always give the same sum, no matter which pair you pick?",
+      "selfExplainAnswer": "Moving one row in from the front adds $d$ to that row's seat count; moving one row in from the back subtracts $d$ from that row's seat count. Each pair loses on one side exactly what it gains on the other, so every pair's total stays fixed at $2a+(n-1)d$, however many rows there are."
+    },
+    {
+      "type": "faded-step",
+      "id": "balcony-sum",
+      "worked": "The theatre's balcony section works the same way: row 1 there has $a=10$ seats, and each row behind it has $d=2$ more, across $n=12$ rows. Using $S_n=\\dfrac{n}{2}\\big(2a+(n-1)d\\big)$:\n\n$$\nS_{12} = \\frac{12}{2}\\big(2(10)+(12-1)(2)\\big) = 6\\big(20+22\\big).\n$$",
+      "prompt": "Finish the calculation. What is $S_{12}$, the total number of seats in the balcony's 12 rows?",
+      "inputMode": "numeric",
+      "answer": 252,
+      "tolerance": 0.01,
+      "hints": ["$6\\times(20+22) = 6\\times42$."],
+      "successFeedback": "Right. $S_{12} = 6\\times42 = 252$ seats in the balcony."
+    },
+    {
+      "type": "entry",
+      "id": "close-row-ten",
+      "prompt": "Back to the main auditorium: $a=18$, $d=3$. You predicted row 10 would have less than three times row 1's seats. Using $u_n=a+(n-1)d$, what is $u_{10}$ exactly?",
+      "inputMode": "numeric",
+      "answer": 45,
+      "tolerance": 0.01,
+      "hints": [
+        "Substitute $n=10$: $u_{10} = 18+(10-1)(3)$.",
+        "$18 + 9\\times3 = 18+27$."
+      ],
+      "successFeedback": "Right, $u_{10}=45$ seats. Three times row 1 would be $3\\times18=54$, so your prediction was correct: row 10 has less than three times row 1's seats, even though the difference just keeps adding up steadily. Next lesson looks at sequences that multiply instead of add, where that comparison flips completely."
+    }
+  ]
+}
