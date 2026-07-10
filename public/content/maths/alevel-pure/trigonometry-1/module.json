@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "trigonometry-1",
-  "title": "Trigonometry I — Triangles, Radians and Trig Graphs",
+  "title": "Trigonometry I: Triangles, Radians and Trig Graphs",
   "description": "Solve non-right-angled triangles with the sine and cosine rules and the area formula, work with radian measure, arc length and sector area, and learn the shapes, periods and exact values of the sine, cosine and tangent graphs.",
   "estMinutes": 100,
   "prerequisites": [
@@ -17,9 +17,9 @@
   ],
   "tags": ["trigonometry", "sine-rule", "cosine-rule", "radians", "arc-length", "sector-area", "trig-graphs"],
   "lessons": [
-    { "id": "sine-cosine-rules-area", "title": "The sine rule, cosine rule and area of a triangle", "file": "01-sine-cosine-rules-area.md", "estMinutes": 35 },
-    { "id": "radians-arcs-sectors", "title": "Radians, arc length and sector area", "file": "02-radians-arcs-sectors.md", "estMinutes": 30 },
-    { "id": "trig-graphs-exact-values", "title": "Graphs of sin, cos and tan, and exact values", "file": "03-trig-graphs-exact-values.md", "estMinutes": 35 }
+    { "id": "sine-cosine-rules-area", "title": "The sine rule, cosine rule and area of a triangle", "file": "01-sine-cosine-rules-area.screens.json", "kind": "screens", "estMinutes": 35 },
+    { "id": "radians-arcs-sectors", "title": "Radians, arc length and sector area", "file": "02-radians-arcs-sectors.screens.json", "kind": "screens", "estMinutes": 30 },
+    { "id": "trig-graphs-exact-values", "title": "Graphs of sin, cos and tan, and exact values", "file": "03-trig-graphs-exact-values.screens.json", "kind": "screens", "estMinutes": 35 }
   ],
   "assessment": {
     "file": "assessment.json",

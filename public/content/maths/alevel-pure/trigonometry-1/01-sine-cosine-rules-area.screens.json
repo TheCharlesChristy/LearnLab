@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "id": "sine-cosine-rules-area",
+  "title": "The sine rule, cosine rule and area of a triangle",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-sohcahtoa-wall",
+      "prompt": "A sailing club wants the distance from its clubhouse ($A$) straight across open water to the race buoy ($C$). They can't measure it directly, but they know the angle at the clubhouse, $A = 40^\\circ$, the angle at a lookout tower on the headland, $B = 65^\\circ$, and the tower-to-buoy distance, $a = 8$ km. Triangle $ABC$ has no right angle anywhere in it. Can SOHCAHTOA alone solve for the missing distance?",
+      "choices": ["Yes, SOHCAHTOA works on any triangle", "No, a triangle with no right angle needs different tools"],
+      "correctChoiceIndex": 1,
+      "reveal": "Right, SOHCAHTOA only ever applies inside a right-angled triangle, and this one has none. For a general triangle like $ABC$, you need two new tools: the **sine rule** and the **cosine rule**. By the end of this lesson you'll have solved for that clubhouse-to-buoy distance exactly."
+    },
+    {
+      "type": "tap-choice",
+      "id": "sine-rule-setup",
+      "prompt": "The sine rule states $\\dfrac{a}{\\sin A}=\\dfrac{b}{\\sin B}=\\dfrac{c}{\\sin C}$. It needs one full opposite pair (a side and the angle directly across from it), plus one more piece of information. In the sailing triangle, which combination lets you start?",
+      "choices": [
+        { "text": "The tower-buoy distance $a=8$ km with its opposite angle $A=40^\\circ$, plus the tower angle $B=65^\\circ$" },
+        { "text": "The tower-buoy distance $a$ together with the clubhouse-buoy distance $b$, with no angles at all", "feedback": "Two sides alone, with no angle, can't get the sine rule started. You always need at least one full opposite (side, angle) pair." },
+        { "text": "All three angles, with no side lengths", "feedback": "Angles alone fix the triangle's shape but not its size. You need at least one known side to find actual distances." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly. $a$ and $A$ are a genuine opposite pair, and $B$ is the extra piece you need."
+    },
+    {
+      "type": "entry",
+      "id": "find-angle-c",
+      "prompt": "Angles in any triangle sum to $180^\\circ$. In the sailing triangle, $A=40^\\circ$ and $B=65^\\circ$. What is angle $C$ (at the buoy)?",
+      "inputMode": "numeric",
+      "answer": 75,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $180-40-65=75^\\circ$. You don't actually need $C$ for the sine rule here, but it's a useful check that the triangle closes properly.",
+      "hints": ["Angles in a triangle sum to $180^\\circ$.", "$180-40-65$."]
+    },
+    {
+      "type": "manipulable-target",
+      "id": "sin-symmetry",
+      "prompt": "Here's the graph of $y=\\sin\\theta$ with $\\theta$ in radians (so $\\theta=1.571$ means $90^\\circ$). Drag the point until the tangent is completely flat: gradient $=0$.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "sin(x)", "xmin": 0, "xmax": 3.14, "tangent": true, "grid": true },
+      "goal": { "kind": "tangent-gradient-in-range", "min": -0.15, "max": 0.15, "description": "Target: tangent gradient = 0 (the curve's peak)." },
+      "successFeedback": "That's it. The peak sits at $\\theta=\\pi/2\\approx1.571$ radians (90 degrees). Sine is symmetric about that peak: $\\sin\\theta=\\sin(180^\\circ-\\theta)$. That symmetry is exactly why solving $\\sin B=k$ for an angle can give two valid answers, not one, which is what makes the sine rule's angle-finding case ambiguous.",
+      "hints": ["Try moving the point toward the middle of the range shown.", "The peak of sine is at $\\theta=\\pi/2\\approx1.571$.", "Land the point as close to $x=1.571$ as you can."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "ambiguous-case",
+      "prompt": "Now the race committee has only SSA information for a different sighting: tower-buoy distance $a=7$ km, clubhouse-buoy distance $b=10$ km, and clubhouse angle $A=40^\\circ$. What does this tell you about the tower angle $B$?",
+      "choices": [
+        { "text": "There are two possible values of $B$: about $66.7^\\circ$ or $113.3^\\circ$" },
+        { "text": "There is exactly one possible value of $B$", "feedback": "SSA (two sides and a non-included angle) is exactly the ambiguous case: solving for $B$ can give two valid triangles, not one. Check both $B_1=\\sin^{-1}(k)$ and $B_2=180^\\circ-B_1$." },
+        { "text": "No triangle is possible", "feedback": "A triangle does exist here (in fact two): $\\sin B=\\dfrac{b\\sin A}{a}\\approx0.918$ is a valid sine value, well inside $[-1,1]$." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, $\\sin B=\\dfrac{10\\sin40^\\circ}{7}\\approx0.918$ gives $B_1\\approx66.7^\\circ$, and the second candidate $B_2=180^\\circ-66.7^\\circ=113.3^\\circ$ also fits, since $A+B_2=153.3^\\circ<180^\\circ$. Both triangles are genuinely valid, so the buoy sighting alone doesn't pin down one exact location."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "cosine-rule-derivation",
+      "body": "When you don't have any full opposite pair, the sine rule can't get started: for instance when you know two sides and the angle **between** them (SAS), or all three sides (SSS). The **cosine rule** covers exactly these cases:\n\n$$\na^2=b^2+c^2-2bc\\cos A\n$$\n\nSuppose the committee knows $a=7$ km, $b=9$ km, and the buoy angle $C=55^\\circ$, and wants the shore baseline $c=AB$:\n\n$$\nc^2=a^2+b^2-2ab\\cos C=7^2+9^2-2(7)(9)\\cos55^\\circ\\approx49+81-126(0.5736)\\approx57.73\n$$\n\nso $c\\approx\\sqrt{57.73}\\approx7.60$ km.",
+      "selfExplainPrompt": "The cosine rule's extra term is $-2bc\\cos A$. If angle $A$ were exactly $90^\\circ$, what would happen to that term, and which famous formula would you be left with?",
+      "selfExplainAnswer": "$\\cos90^\\circ=0$, so the whole $-2bc\\cos A$ term vanishes, leaving $a^2=b^2+c^2$: exactly Pythagoras' theorem. The cosine rule is really Pythagoras with a correction term added for when the angle between the two known sides isn't a right angle."
+    },
+    {
+      "type": "faded-step",
+      "id": "cosine-rule-sss-angle",
+      "worked": "A different triangular course has all three side lengths measured directly: $a=8$ km, $b=6$ km, $c=5$ km (SSS), and the harbourmaster wants the largest angle, which sits opposite the longest side, $a=8$ km:\n\n$$\n\\cos A=\\dfrac{b^2+c^2-a^2}{2bc}=\\dfrac{36+25-64}{2(6)(5)}=\\dfrac{-3}{60}=-0.05\n$$",
+      "prompt": "So $\\cos A=-0.05$. The negative value already tells you $A$ is obtuse. What is $A$ in degrees, to 1 decimal place?",
+      "inputMode": "numeric",
+      "answer": 92.9,
+      "tolerance": 0.15,
+      "successFeedback": "Right, $\\cos^{-1}(-0.05)\\approx92.9^\\circ$. Always check for the largest angle first when you're given SSS, since it's the one most likely to be obtuse, and inverse cosine (unlike inverse sine) returns obtuse angles correctly.",
+      "hints": ["Take $\\cos^{-1}(-0.05)$.", "A negative cosine means the angle is obtuse: somewhere just past $90^\\circ$."]
+    },
+    {
+      "type": "entry",
+      "id": "area-formula-close",
+      "prompt": "One more tool: when you know two sides and the included angle, the area is $\\text{Area}=\\frac12 ab\\sin C$, no height needed. For a course leg with $a=8$ km, $b=6$ km, and included angle $C=70^\\circ$, what's the area, to 2 decimal places (in km squared)?",
+      "inputMode": "numeric",
+      "answer": 22.55,
+      "tolerance": 0.05,
+      "successFeedback": "Right, about $22.55\\,\\text{km}^2$. That's all three tools now: the sine rule, the cosine rule, and this area formula. Remember the clubhouse-to-buoy distance from the start of the lesson? Using the sine rule, $b=\\dfrac{a\\sin B}{\\sin A}=\\dfrac{8\\sin65^\\circ}{\\sin40^\\circ}\\approx11.28$ km, solved without ever needing a right angle.",
+      "hints": ["$\\text{Area}=\\frac12(8)(6)\\sin70^\\circ$.", "$24\\times0.9397\\approx22.55$."]
+    }
+  ]
+}

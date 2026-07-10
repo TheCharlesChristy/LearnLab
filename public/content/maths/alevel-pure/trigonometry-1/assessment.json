@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "trigonometry-1-assessment",
-  "title": "End of module: Trigonometry I — Triangles, Radians and Trig Graphs",
+  "title": "End of module: Trigonometry I, Triangles, Radians and Trig Graphs",
   "questions": [
     {
       "id": "q1",
@@ -23,7 +23,7 @@
         "$B$ must be $90^\\circ$"
       ],
       "answer": 1,
-      "explanation": "This is SSA (two sides and a non-included angle) — the ambiguous case. Solving $\\sin B = \\dfrac{b \\sin A}{a} = \\dfrac{10 \\sin 40^\\circ}{7} \\approx 0.918$ gives $B_1 \\approx 66.7^\\circ$ and $B_2 = 180^\\circ - 66.7^\\circ = 113.3^\\circ$. Since $A + B_2 = 153.3^\\circ < 180^\\circ$, both are valid, so there are two possible triangles."
+      "explanation": "This is SSA (two sides and a non-included angle): the ambiguous case. Solving $\\sin B = \\dfrac{b \\sin A}{a} = \\dfrac{10 \\sin 40^\\circ}{7} \\approx 0.918$ gives $B_1 \\approx 66.7^\\circ$ and $B_2 = 180^\\circ - 66.7^\\circ = 113.3^\\circ$. Since $A + B_2 = 153.3^\\circ < 180^\\circ$, both are valid, so there are two possible triangles."
     },
     {
       "id": "q3",
@@ -94,7 +94,7 @@
         "$4\\pi$, double the period of $\\sin x$"
       ],
       "answer": 0,
-      "explanation": "$\\tan x$ repeats every $\\pi$ radians ($180^\\circ$), whereas $\\sin x$ and $\\cos x$ repeat every $2\\pi$ radians ($360^\\circ$) — so the tangent graph's period is half that of sine."
+      "explanation": "$\\tan x$ repeats every $\\pi$ radians ($180^\\circ$), whereas $\\sin x$ and $\\cos x$ repeat every $2\\pi$ radians ($360^\\circ$). So the tangent graph's period is half that of sine."
     },
     {
       "id": "q10",
@@ -107,7 +107,7 @@
         "$1$"
       ],
       "answer": 1,
-      "explanation": "From the $30$–$60$–$90$ triangle (sides $1$, $\\sqrt{3}$, $2$), the side adjacent to $60^\\circ$ has length $1$ and the hypotenuse is $2$, so $\\cos 60^\\circ = \\dfrac{1}{2}$."
+      "explanation": "From the $30$-$60$-$90$ triangle (sides $1$, $\\sqrt{3}$, $2$), the side adjacent to $60^\\circ$ has length $1$ and the hypotenuse is $2$, so $\\cos 60^\\circ = \\dfrac{1}{2}$."
     },
     {
       "id": "q11",
@@ -115,7 +115,7 @@
       "text": "Find the exact value of $\\tan 45^\\circ$.",
       "answer": 1,
       "tolerance": 0.0001,
-      "explanation": "In the $45$–$45$–$90$ triangle both legs equal $1$, so $\\tan 45^\\circ = \\dfrac{\\text{opposite}}{\\text{adjacent}} = \\dfrac{1}{1} = 1$."
+      "explanation": "In the $45$-$45$-$90$ triangle both legs equal $1$, so $\\tan 45^\\circ = \\dfrac{\\text{opposite}}{\\text{adjacent}} = \\dfrac{1}{1} = 1$."
     },
     {
       "id": "q12",
@@ -128,7 +128,15 @@
         "$\\tan x$ has no asymptotes"
       ],
       "answer": 1,
-      "explanation": "$\\tan x = \\dfrac{\\sin x}{\\cos x}$ is undefined wherever $\\cos x = 0$, which on $[0, 2\\pi]$ occurs at $x = \\dfrac{\\pi}{2}$ and $x = \\dfrac{3\\pi}{2}$ — exactly where the tangent graph has vertical asymptotes."
+      "explanation": "$\\tan x = \\dfrac{\\sin x}{\\cos x}$ is undefined wherever $\\cos x = 0$, which on $[0, 2\\pi]$ occurs at $x = \\dfrac{\\pi}{2}$ and $x = \\dfrac{3\\pi}{2}$. That's exactly where the tangent graph has vertical asymptotes."
+    },
+    {
+      "id": "q13",
+      "type": "numeric",
+      "text": "A point $P$ lies on a circle of radius $10$ centred at the origin, at an angle $\\theta = 60^\\circ$ measured from the positive $x$-axis, so $P = (10\\cos 60^\\circ, 10\\sin 60^\\circ)$. Using the distance formula, find the distance from $P$ to the point $Q = (10, 0)$.",
+      "answer": 10,
+      "tolerance": 0.05,
+      "explanation": "This is a review question reaching back to the distance formula from Coordinate Geometry (a declared prerequisite module). Using the exact values from this module, $P = (10 \\times \\tfrac{1}{2}, 10 \\times \\tfrac{\\sqrt{3}}{2}) = (5, 5\\sqrt{3})$. The distance formula gives $\\sqrt{(10-5)^2 + (0-5\\sqrt{3})^2} = \\sqrt{25 + 75} = \\sqrt{100} = 10$. Spaced returns like this, combining a new exact value with an older technique, are what make both stick."
     }
   ]
 }

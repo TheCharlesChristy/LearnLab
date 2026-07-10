@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "id": "radians-arcs-sectors",
+  "title": "Radians, arc length and sector area",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-radians-messy",
+      "prompt": "The sailing race committee wants to mark a $150^\\circ$ exclusion zone around the buoy, but the buoy's onboard marker computer only accepts angles in a unit called radians. Do you think $150^\\circ$ converts to a nice whole number of radians, or something messier?",
+      "choices": ["A nice whole number, like $1$ or $2$", "A messy value: some multiple of $\\pi$ that isn't a whole number"],
+      "correctChoiceIndex": 1,
+      "reveal": "Right, it's messy in general. A radian measures an angle by the length of arc it cuts on a circle of radius $1$, and a full turn measures exactly $2\\pi$ radians $=360^\\circ$, so $\\pi$ radians $=180^\\circ$. That gives $\\text{radians}=\\text{degrees}\\times\\dfrac{\\pi}{180}$, and most 'nice' degree values become fractions of $\\pi$, not whole numbers. By the end of this lesson you'll convert freely, and use radians directly in the arc length and sector area formulas."
+    },
+    {
+      "type": "entry",
+      "id": "convert-150-to-radians",
+      "prompt": "Convert $150^\\circ$ to radians. Give your answer as a decimal, to 2 decimal places.",
+      "inputMode": "numeric",
+      "answer": 2.62,
+      "tolerance": 0.02,
+      "successFeedback": "Right, $150^\\circ=\\dfrac{5\\pi}{6}\\approx2.62$ radians.",
+      "hints": ["$\\text{radians}=150\\times\\dfrac{\\pi}{180}$.", "$150\\times\\dfrac{\\pi}{180}=\\dfrac{5\\pi}{6}\\approx2.618$."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "convert-radians-to-degrees",
+      "prompt": "Now the other direction. The onboard computer reports a different exclusion zone's sweep as $\\dfrac{7\\pi}{6}$ radians. What is that in degrees?",
+      "choices": [
+        { "text": "$210^\\circ$" },
+        { "text": "$150^\\circ$", "feedback": "That's the conversion of $\\dfrac{5\\pi}{6}$ from the last screen, not $\\dfrac{7\\pi}{6}$. Recompute: $\\dfrac{7\\pi}{6}\\times\\dfrac{180}{\\pi}$." },
+        { "text": "$420^\\circ$", "feedback": "That's double the correct value. Check whether you multiplied by an extra factor of $2$ somewhere." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, $\\dfrac{7\\pi}{6}\\times\\dfrac{180}{\\pi}=\\dfrac{7\\times180}{6}=210^\\circ$."
+    },
+    {
+      "type": "manipulable-target",
+      "id": "period-2pi",
+      "prompt": "Here's $y=\\sin\\theta$ plotted with $\\theta$ in radians, from $0$ to $2\\pi\\approx6.28$. A full turn is exactly $2\\pi$ radians, half a turn is $\\pi$ radians. Drag the point to where the curve is falling at its steepest: tangent gradient $=-1$.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "sin(x)", "xmin": 0, "xmax": 6.28, "tangent": true, "grid": true },
+      "goal": { "kind": "tangent-gradient-in-range", "min": -1.05, "max": -0.75, "description": "Target: tangent gradient = -1 (steepest downward slope, at theta = pi radians, half a turn)." },
+      "successFeedback": "Right, the steepest downward point sits at $\\theta=\\pi\\approx3.14$, exactly half a turn. That's the same $\\pi$ from the degrees-to-radians formula: half of $2\\pi$.",
+      "hints": ["Try moving the point roughly a quarter of the way along the range.", "Look for $\\theta=\\pi\\approx3.14$.", "At $\\theta=\\pi$, the curve crosses zero heading downward: exactly where the slope is steepest and negative."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "formula-needs-radians",
+      "prompt": "Both the arc length formula and the sector area formula need $\\theta$ measured in a specific unit. Which one?",
+      "choices": [
+        { "text": "Radians" },
+        { "text": "Degrees", "feedback": "Plugging degrees straight into $s=r\\theta$ overshoots by a factor of about $57$ (since $1$ radian $\\approx57.3^\\circ$). Convert to radians first." },
+        { "text": "Either works interchangeably", "feedback": "The formulas $s=r\\theta$ and $\\text{Area}=\\frac12r^2\\theta$ are only exact when $\\theta$ is in radians; a degree value needs converting first." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, radians. That's exactly why the conversion you just practised matters before using either formula."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "arc-sector-derivation",
+      "body": "An arc's length, and a sector's area, are both the same fraction $\\dfrac{\\theta}{2\\pi}$ of the full circle. Multiplying that fraction by the circumference $2\\pi r$ gives arc length; by the full area $\\pi r^2$ gives sector area:\n\n$$\ns=\\dfrac{\\theta}{2\\pi}\\times2\\pi r=r\\theta,\\qquad\\text{Area}=\\dfrac{\\theta}{2\\pi}\\times\\pi r^2=\\dfrac12 r^2\\theta\n$$\n\nFor an exclusion zone of radius $12$ km swept through $\\theta=\\dfrac{2\\pi}{3}$ radians:\n\n$$\ns=12\\times\\dfrac{2\\pi}{3}=8\\pi\\,\\text{km},\\qquad\\text{Area}=\\dfrac12(144)\\left(\\dfrac{2\\pi}{3}\\right)=48\\pi\\,\\text{km}^2\n$$",
+      "selfExplainPrompt": "Neither formula has a $2\\pi$ anywhere in it once it's simplified to $s=r\\theta$. Where did the $2\\pi$ go?",
+      "selfExplainAnswer": "It cancelled. $\\theta$ measured in radians is already the fraction $\\dfrac{\\theta}{2\\pi}$ of a full turn, multiplied out by the $2\\pi$ in the circumference formula. So the $2\\pi$ in the fraction and the $2\\pi$ in the full circumference cancel each other, leaving the simple $r\\theta$. That is precisely why radians, not degrees, make these formulas clean."
+    },
+    {
+      "type": "faded-step",
+      "id": "sector-area-fade",
+      "worked": "A smaller exclusion zone has radius $5$ km and sweep $\\theta=1.2$ radians. Its arc length is:\n\n$$\ns=r\\theta=5\\times1.2=6\\,\\text{km}\n$$",
+      "prompt": "The harbourmaster also needs the zone's area. Using $\\text{Area}=\\frac12r^2\\theta$, what is the area (in km squared, to 1 decimal place)?",
+      "inputMode": "numeric",
+      "answer": 15,
+      "tolerance": 0.05,
+      "successFeedback": "Right, $15\\,\\text{km}^2$.",
+      "hints": ["$\\text{Area}=\\frac12(5^2)(1.2)$.", "$\\frac12\\times25\\times1.2=12.5\\times1.2$."]
+    },
+    {
+      "type": "entry",
+      "id": "exclusion-zone-close",
+      "prompt": "Back to the very first exclusion zone from the start of the lesson: $150^\\circ$, which you converted to about $2.62$ radians. If that zone has radius $10$ km, what is its arc length (in km, to 2 decimal places)?",
+      "inputMode": "numeric",
+      "answer": 26.18,
+      "tolerance": 0.05,
+      "successFeedback": "Right, about $26.18$ km. You predicted radians would look messy, and $150^\\circ=\\dfrac{5\\pi}{6}\\approx2.62$ radians certainly isn't a whole number, but it plugs directly into $s=r\\theta$ and $\\text{Area}=\\frac12r^2\\theta$ without any extra conversion once you're working in radians.",
+      "hints": ["$s=r\\theta=10\\times2.62$.", "Using the more precise value $2.61799$ gives $26.18$."]
+    }
+  ]
+}
