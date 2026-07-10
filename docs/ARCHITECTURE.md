@@ -1,5 +1,7 @@
 # Architecture (contributor's condensed view)
 
+The Experience Runtime v2 boundary is recorded in [`ADR-001-experience-runtime-v2.md`](ADR-001-experience-runtime-v2.md) and specified in [`EXPERIENCE_RUNTIME_V2_PLAN.md`](EXPERIENCE_RUNTIME_V2_PLAN.md). V2 is proposed and additive: the v1 routes, content formats, and progress contracts remain the supported learner path until the deprecation gates in SRS section 14.6 pass.
+
 This is SRS §3, condensed for contributors, plus the operational runbooks. The SRS (`SRS-LearnLab.md`) is normative; if this file and the SRS disagree, the SRS wins.
 
 ## 1. High-level view
@@ -36,6 +38,12 @@ Why adding content scales without touching the app:
 - **Widgets are a registry:** one map `widgetRegistry: Record<string, WidgetDef>` in `src/widgets/registry.ts`. A new native widget = one component folder + one registry entry + one `WIDGETS.md` section. Nothing else changes.
 - **Python items are files:** one `.py` per item, importing only `learnsdk` (stable, semver) and `courselib`. New interactivity usually costs zero host changes. (P1)
 - **Subsystem boundaries:** `content/`, `widgets/`, `quiz/`, `python/`, `progress/` are import-isolated (ESLint `import/no-restricted-paths`); each exposes a small `index.ts` API.
+
+### 2a. Experience Runtime v2 boundary
+
+The planned v2 flow is `course pack -> experience graph -> scene runner -> presentation/activity -> goal and feedback -> typed effects -> local run state/event log -> review and recommendations`. These are target contracts from the v2 plan, not claims that the corresponding runtime exists in the current checkout. Child issues must land the schemas and validation before runtime modules are introduced.
+
+V2 content remains data and uses only registered, pure operators. A v2 pack declares its format and required capability versions; unsupported data fails closed. The local Studio is developer-only tooling for editing local source, seeded preview, and state inspection. It is not learner editing, hosted collaboration, telemetry, or an implicit upload path. V1 Markdown and screen sequences remain available through adapters during the strangler migration.
 
 ## 3. Subsystem map of `src/`
 

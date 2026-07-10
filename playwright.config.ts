@@ -28,6 +28,10 @@ import path from 'node:path';
 import { chromium, defineConfig, devices } from '@playwright/test';
 
 const PORT = 4173;
+// Resolve Vite through the checked-in dependency tree. On Windows, spawning
+// the PowerShell `npx` shim from Playwright can produce ENOENT even when `npx`
+// works interactively, which makes the production e2e gate environment-dependent.
+const vitePreviewCommand = 'node node_modules/vite/bin/vite.js preview';
 
 /**
  * Sandbox fallback: if the chromium revision pinned by this Playwright
@@ -71,7 +75,7 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   webServer: {
-    command: `node scripts/e2e-prepare.mjs && npx vite preview --port ${PORT} --strictPort`,
+    command: `node scripts/e2e-prepare.mjs && ${vitePreviewCommand} --port ${PORT} --strictPort`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     // e2e-prepare runs a full vite build first; allow plenty of time.

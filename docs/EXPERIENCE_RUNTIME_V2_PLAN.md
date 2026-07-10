@@ -530,3 +530,10 @@ contract. The first engineering deliverable should be a schema-and-state spike e
 small fixture, followed immediately by a thin playable path through the chosen vertical slice.
 The programme should repeatedly alternate architecture and real content so abstractions are
 earned by use rather than designed in isolation.
+
+The A-series contract deliverables are now recorded in:
+
+- A1: `docs/ADR-001-experience-runtime-v2.md` and SRS section 14;
+- A2: `docs/EXPERIENCE_RUNTIME_V2_EVALUATION.md`;
+- A3: `docs/EXPERIENCE_RUNTIME_V2_VERTICAL_SLICE.md`;
+- A4: `docs/EXPERIENCE_RUNTIME_V2_ROLLOUT.md` and `src/v2/rollout.ts`.
