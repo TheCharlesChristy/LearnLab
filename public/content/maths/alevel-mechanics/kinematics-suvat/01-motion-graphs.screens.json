@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "id": "motion-graphs",
+  "title": "Motion graphs: displacement, velocity and acceleration",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-gradient-change",
+      "prompt": "A car accelerates uniformly from rest down a straight road, so its position follows $s = t^2$ (in metres, with $t$ in seconds). On the displacement-time graph, does the gradient (steepness) of this curve stay the same throughout the journey, or does it change?",
+      "choices": [
+        "The gradient stays the same (constant steepness)",
+        "The gradient changes (the curve gets steeper)"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "A displacement-time graph's gradient tells you the velocity at each instant. Since the car accelerates from rest, it's slow at the start and fast later on, so the gradient must increase. That changing gradient is the sign of acceleration at work."
+    },
+    {
+      "type": "tap-choice",
+      "id": "three-quantities",
+      "prompt": "Mechanics describes motion using three linked quantities. Match each to its description.",
+      "choices": [
+        {
+          "text": "Displacement ($s$) = the position of the object from a chosen origin, in metres (m). It is a vector: its sign shows the direction."
+        },
+        {
+          "text": "Velocity ($v$) = the rate of change of displacement, in metres per second (m s−1). Its sign tells you the direction of travel."
+        },
+        {
+          "text": "Acceleration ($a$) = the rate of change of velocity, in metres per second squared (m s−2). Negative acceleration while moving forwards means slowing down."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Good. All three are in the right order. Now you can think of velocity as the gradient of a displacement-time graph, and acceleration as the gradient of a velocity-time graph."
+    },
+    {
+      "type": "entry",
+      "id": "gradient-at-instant",
+      "prompt": "The car's position is $s = t^2$ metres. Its velocity (the gradient of this curve) at time $t$ is $v = 2t$ m/s. What is the car's velocity at $t = 3$ seconds?",
+      "inputMode": "numeric",
+      "answer": 6,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $v = 2 \\times 3 = 6$ m/s. The gradient at time 3 is steeper than at time 1, which had gradient $2 \\times 1 = 2$ m/s.",
+      "hints": [
+        "Substitute $t = 3$ into the formula $v = 2t$."
+      ]
+    },
+    {
+      "type": "manipulable-target",
+      "id": "explore-displacement-graph",
+      "prompt": "The car's displacement-time graph is shown below. Drag the point to read the velocity (the gradient of the tangent line) at any instant. Try a few different times and notice how the velocity grows with time.",
+      "widget": "function-grapher",
+      "widgetProps": {
+        "expr": "x^2",
+        "xmin": 0,
+        "xmax": 5,
+        "tangent": true,
+        "grid": true,
+        "ymin": 0,
+        "ymax": 26
+      },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": 3.6,
+        "max": 4.4,
+        "description": "Find the instant where the velocity is 4 m/s."
+      },
+      "successFeedback": "That's it, the velocity is 4 m/s at around $t = 2$ seconds. The car's acceleration is constant, and that's exactly what makes the gradient increase at a steady rate.",
+      "hints": [
+        "Look for where the gradient reads 4.",
+        "The gradient is $v = 2t$, so you need $2t = 4$, which gives $t = 2$."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "vt-graph-meaning",
+      "prompt": "On a velocity-time graph, the gradient of the line tells you something fundamental. What is it?",
+      "choices": [
+        {
+          "text": "The acceleration"
+        },
+        {
+          "text": "The displacement",
+          "feedback": "The displacement is actually the area under the velocity-time graph, not the gradient."
+        },
+        {
+          "text": "The distance travelled",
+          "feedback": "Distance is covered by the area under the line, not its gradient."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Correct. Acceleration is the rate of change of velocity, $a = \\mathrm{d}v/\\mathrm{d}t$, which is exactly the gradient of a velocity-time graph."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "tram-worked-example",
+      "body": "A tram accelerates uniformly from rest to 10 m/s over 5 seconds, maintains that speed for 5 seconds, then brakes uniformly back to rest over 5 seconds. On its velocity-time graph this is three straight line segments. From $t = 0$ to $t = 5$ s, the slope is $(10 - 0)/(5 - 0) = 2$ m s−2 (acceleration). From $t = 5$ to $t = 10$ s the line is flat, so the acceleration is 0. From $t = 10$ to $t = 15$ s, the slope is $(0 - 10)/(15 - 10) = −2$ m s−2 (braking).",
+      "selfExplainPrompt": "The tram's acceleration changes sign and magnitude during the journey. Which segment of the velocity-time graph has the steepest gradient, and what does that tell you about the tram's acceleration?",
+      "selfExplainAnswer": "The acceleration phase (first 5 seconds) has the steepest positive slope, and the braking phase has the steepest negative slope. Both have magnitude 2 m s−2, but opposite signs. The constant-velocity phase has zero slope because the acceleration is zero."
+    },
+    {
+      "type": "faded-step",
+      "id": "area-under-graph",
+      "worked": "To find the displacement, you calculate the area under the velocity-time graph. For the tram, the shape is a trapezium with a flat top (the constant velocity segment). Split it into three pieces: triangle (accelerating): $\\tfrac{1}{2} \\times 5 \\times 10 = 25$ m; rectangle (cruising): $5 \\times 10 = 50$ m; triangle (braking): $\\tfrac{1}{2} \\times 5 \\times 10 = 25$ m.",
+      "prompt": "What is the total displacement of the tram?",
+      "inputMode": "numeric",
+      "answer": 100,
+      "tolerance": 0.01,
+      "successFeedback": "Exactly, $25 + 50 + 25 = 100$ m. The area under a velocity-time graph gives the displacement. This is the key fact that connects the three quantities.",
+      "hints": [
+        "Add the three pieces: $25 + 50 + 25$."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "close-prediction",
+      "prompt": "You predicted at the start that the car's displacement-time curve would get steeper over time (because it's accelerating from rest). Now you've explored both displacement-time and velocity-time graphs. Is your prediction confirmed?",
+      "choices": [
+        {
+          "text": "Yes, and I now understand why: the gradient of a displacement-time graph is the velocity, which increases with time under constant acceleration."
+        },
+        {
+          "text": "No, the graphs show something different.",
+          "feedback": "Actually, the graphs do confirm the prediction. On a displacement-time graph for motion with constant acceleration, the curve gets steeper because the velocity (the gradient) increases."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Excellent. The gradient of a displacement-time graph is velocity, and the gradient of a velocity-time graph is acceleration. These two facts, plus the fact that the area under a velocity-time graph is displacement, are the foundation for everything that follows in this module."
+    }
+  ]
+}
