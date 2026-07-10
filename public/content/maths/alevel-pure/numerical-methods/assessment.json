@@ -81,7 +81,7 @@
         "This never causes a problem for Newton-Raphson"
       ],
       "answer": 0,
-      "explanation": "$x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$ requires dividing by $f'(x_n)$. If $f'(x_0) = 0$ the tangent is horizontal (never meets the $x$-axis at a finite point), so the next iterate is undefined — a known failure mode of the method."
+      "explanation": "$x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$ requires dividing by $f'(x_n)$. If $f'(x_0) = 0$ the tangent is horizontal (never meets the $x$-axis at a finite point), so the next iterate is undefined: a known failure mode of the method."
     },
     {
       "id": "q9",
@@ -118,7 +118,7 @@
         "Be unrelated to the curve's convexity"
       ],
       "answer": 0,
-      "explanation": "For a convex curve, the straight chord joining the endpoints of each strip lies above the curve, so the trapezium (using the chord as its top edge) has a larger area than the true region under the curve — an overestimate."
+      "explanation": "For a convex curve, the straight chord joining the endpoints of each strip lies above the curve, so the trapezium (using the chord as its top edge) has a larger area than the true region under the curve: an overestimate."
     },
     {
       "id": "q13",
@@ -140,6 +140,14 @@
       ],
       "answer": 0,
       "explanation": "Numerical methods like the trapezium rule are most useful when $f$ has no elementary antiderivative (e.g. $e^{-x^2}$), so *Integration I/II* techniques cannot give an exact closed-form answer, but a good numerical approximation is still needed."
+    },
+    {
+      "id": "q15",
+      "type": "numeric",
+      "text": "The equation $e^x = 3x$ has a root near $x = 0.6$. Writing $f(x) = e^x - 3x$ gives $f'(x) = e^x - 3$ (the standard derivative of $e^x$ from *Differentiation II*). Using $x_0 = 0.5$, apply one Newton-Raphson iteration to find $x_1$, correct to 4 decimal places.",
+      "answer": 0.6101,
+      "tolerance": 0.0005,
+      "explanation": "Review: this question reaches back to *Differentiation II*'s standard derivative of $e^x$, since Newton-Raphson always needs $f'(x)$, and here that's not just a power-rule derivative. $f(0.5) = e^{0.5} - 1.5 \\approx 0.1487$ and $f'(0.5) = e^{0.5} - 3 \\approx -1.3513$. So $x_1 = 0.5 - \\frac{0.1487}{-1.3513} \\approx 0.5 + 0.1101 = 0.6101$."
     }
   ]
 }

@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "id": "solving-quadratics",
+  "title": "Solving quadratics three ways",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-trail-crossing",
+      "prompt": "A stretch of hiking trail has height above a marker post, in metres, at position $x$ km given by $h(x) = x^2 - x - 6$. At the post itself ($x=0$) the trail is 6 m below the post's height, since $h(0)=-6$. Somewhere else along this stretch, in either direction from the post, does the trail ever come back up to exactly the post's height, $h(x)=0$?",
+      "choices": [
+        "Never - it only ever gets further below the post's height",
+        "Yes, at exactly one other position",
+        "Yes, at two different positions"
+      ],
+      "correctChoiceIndex": 2,
+      "reveal": "Hold that thought. Finding exactly where $h(x)=0$ means solving the quadratic equation $x^2-x-6=0$, and this lesson gives you three different ways to do that."
+    },
+    {
+      "type": "tap-choice",
+      "id": "factor-pair",
+      "prompt": "To solve $x^2 - x - 6 = 0$ by factorising, you need two numbers that multiply to $-6$ (the constant term) and add to $-1$ (the coefficient of $x$). Which pair is it?",
+      "choices": [
+        { "text": "$-3$ and $2$" },
+        { "text": "$3$ and $-2$", "feedback": "$3$ and $-2$ also multiply to $-6$, but they add to $1$, not $-1$ - check the sum as well as the product." },
+        { "text": "$-6$ and $1$", "feedback": "$-6$ and $1$ multiply to $-6$, but they add to $-5$, not $-1$." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right - $-3$ and $2$ multiply to $-6$ and add to $-1$, so $x^2-x-6=(x-3)(x+2)$."
+    },
+    {
+      "type": "entry",
+      "id": "solve-from-factors",
+      "prompt": "Using $(x-3)(x+2)=0$, one of the two factors must be zero. What is the positive solution for $x$?",
+      "inputMode": "numeric",
+      "answer": 3,
+      "tolerance": 0.01,
+      "successFeedback": "Right - $x=3$ (the other root is $x=-2$, matching the two crossing points you predicted).",
+      "hints": ["Either $x-3=0$ or $x+2=0$.", "$x-3=0$ gives the positive one."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "factorise-a-not-1",
+      "body": "Not every quadratic has $a=1$. A steeper stretch of trail is modelled by $h(x) = 2x^2+5x-3$. To factorise when $a\\neq1$, find two numbers that multiply to $a\\times c$ and add to $b$. Here $a=2$, $c=-3$, so $ac=-6$, and $b=5$: the numbers are $6$ and $-1$.\n\n$$\n2x^2+6x-x-3=0 \\implies 2x(x+3)-1(x+3)=0 \\implies (2x-1)(x+3)=0.\n$$\n\nSo $x=\\tfrac12$ or $x=-3$.",
+      "selfExplainPrompt": "Why does splitting $5x$ into $6x-x$ let you factorise, when you couldn't factorise $2x^2+5x-3$ the direct way you used for $a=1$?",
+      "selfExplainAnswer": "Splitting the middle term into two pieces whose coefficients still multiply to give $ac$ lets you group the expression into two pairs, each with its own common factor. Both pairs share the same bracket, $(x+3)$, which is exactly what lets the whole thing factorise. It's the same underlying idea as the $a=1$ case, just needing one extra grouping step because the $x^2$ coefficient isn't $1$."
+    },
+    {
+      "type": "faded-step",
+      "id": "factorise-a-not-1-companion",
+      "worked": "A different steep stretch is modelled by $h(x)=3x^2+5x-2$. Here $a=3$, $c=-2$, so $ac=-6$, and $b=5$: the required numbers are again $6$ and $-1$.\n\n$$\n3x^2+6x-x-2=0 \\implies 3x(x+2)-1(x+2)=0 \\implies (3x-1)(x+2)=0.\n$$",
+      "prompt": "So $3x-1=0$ or $x+2=0$. What is the positive solution for $x$, as a decimal to 2 d.p.?",
+      "inputMode": "numeric",
+      "answer": 0.33,
+      "tolerance": 0.01,
+      "successFeedback": "Right - $x=\\tfrac13\\approx0.33$ (the other root is $x=-2$).",
+      "hints": ["Solve $3x-1=0$.", "$x=\\tfrac13$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "completing-the-square",
+      "body": "Completing the square works for every quadratic, not just ones that factorise nicely, and it always reveals the trail's turning point directly. For $h(x)=x^2+6x+4$:\n\n$$\nx^2+6x+4=(x+3)^2-9+4=(x+3)^2-5.\n$$\n\nSetting this to zero: $(x+3)^2=5$, so $x+3=\\pm\\sqrt5$, giving\n\n$$\nx=-3\\pm\\sqrt5.\n$$\n\nThese are exact, surd-form answers rather than rounded decimals.",
+      "selfExplainPrompt": "Why does a $\\pm$ sign appear when you take the square root of both sides here, when nothing like it appeared in the factorising method?",
+      "selfExplainAnswer": "Both $+\\sqrt5$ and $-\\sqrt5$, when squared, give $5$, so both values genuinely satisfy $(x+3)^2=5$ - the square root operation can undo a square in two ways. Factorising doesn't need a separate $\\pm$ because its two solutions are already sitting in two separate brackets from the start; completing the square instead unpacks both solutions out of a single squared bracket in one step, so the $\\pm$ has to appear explicitly."
+    },
+    {
+      "type": "faded-step",
+      "id": "completing-the-square-companion",
+      "worked": "A different stretch is modelled by $h(x)=x^2+8x+10$.\n\n$$\nx^2+8x+10=(x+4)^2-16+10=(x+4)^2-6.\n$$\n\nSetting this to zero: $(x+4)^2=6$, so $x+4=\\pm\\sqrt6$.",
+      "prompt": "So $x=-4\\pm\\sqrt6$. Using $\\sqrt6\\approx2.449$, what is the larger of the two roots, to 2 decimal places?",
+      "inputMode": "numeric",
+      "answer": -1.55,
+      "tolerance": 0.01,
+      "successFeedback": "Right - the larger root is $x\\approx-1.55$ (the smaller root is $x\\approx-6.45$).",
+      "hints": ["The larger root is $-4+\\sqrt6$.", "$-4+2.449 = ?$"]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "quadratic-formula",
+      "body": "The quadratic formula comes from completing the square on the general equation $ax^2+bx+c=0$:\n\n$$\nx=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}.\n$$\n\nIt works for any quadratic, even ones with no nice factorisation. A fast-descending stretch is modelled by $h(x)=2x^2-3x-4$, where $a=2$, $b=-3$, $c=-4$:\n\n$$\nx=\\frac{-(-3)\\pm\\sqrt{(-3)^2-4(2)(-4)}}{2(2)}=\\frac{3\\pm\\sqrt{9+32}}{4}=\\frac{3\\pm\\sqrt{41}}{4}.\n$$\n\nSince $41$ has no square factors, $\\sqrt{41}$ can't be simplified, so the exact roots are $x=\\dfrac{3+\\sqrt{41}}{4}$ and $x=\\dfrac{3-\\sqrt{41}}{4}$.",
+      "selfExplainPrompt": "The quadratic formula always works, even when factorising doesn't. What is it about this method that makes that true?",
+      "selfExplainAnswer": "Factorising relies on spotting two numbers with a particular product and sum, and for many quadratics, like this one where $41$ isn't a perfect square, no such nice integer or simple-fraction pair exists. The quadratic formula is derived by completing the square on the general equation, a method that always produces a valid expression for $x$ regardless of whether the numbers involved are nice - it may just leave you with an unsimplifiable surd like $\\sqrt{41}$ instead of a whole number."
+    },
+    {
+      "type": "faded-step",
+      "id": "quadratic-formula-companion",
+      "worked": "A different stretch is modelled by $h(x)=x^2-2x-4$. Here $a=1$, $b=-2$, $c=-4$:\n\n$$\nx=\\frac{-(-2)\\pm\\sqrt{(-2)^2-4(1)(-4)}}{2(1)}=\\frac{2\\pm\\sqrt{4+16}}{2}=\\frac{2\\pm\\sqrt{20}}{2}.\n$$\n\nSince $\\sqrt{20}=\\sqrt{4\\times5}=2\\sqrt5$, this simplifies to\n\n$$\nx=\\frac{2\\pm2\\sqrt5}{2}=1\\pm\\sqrt5.\n$$",
+      "prompt": "Using $\\sqrt5\\approx2.236$, what is the larger root, to 2 decimal places?",
+      "inputMode": "numeric",
+      "answer": 3.24,
+      "tolerance": 0.01,
+      "successFeedback": "Right - the larger root is $x\\approx3.24$ (the smaller root is $x\\approx-1.24$).",
+      "hints": ["The larger root is $1+\\sqrt5$.", "$1+2.236 = ?$"]
+    },
+    {
+      "type": "entry",
+      "id": "close-resolve-prediction",
+      "prompt": "Back to the very first stretch, $h(x)=x^2-x-6$: you predicted it crosses the marker's height at two positions. You've now solved $x^2-x-6=0$ by factorising to get $x=-2$ and $x=3$. What is the positive one?",
+      "inputMode": "numeric",
+      "answer": 3,
+      "tolerance": 0.01,
+      "successFeedback": "Exactly - $x=3$, matching your prediction of two crossing points. All three methods, factorising, completing the square, and the quadratic formula, reach the same roots; which one is fastest just depends on whether the quadratic factorises nicely. Next lesson uses the discriminant to tell you that in advance, before you even try to factorise.",
+      "hints": ["You already found this earlier: $(x-3)(x+2)=0$.", "$x-3=0$ gives the positive root."]
+    }
+  ]
+}
