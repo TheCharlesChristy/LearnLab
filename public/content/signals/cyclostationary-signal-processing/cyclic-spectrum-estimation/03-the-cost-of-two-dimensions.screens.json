@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "the-cost-of-two-dimensions",
+  "title": "The cost of two dimensions",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-2d-cost",
+      "prompt": "An ordinary PSD estimate over N frequency bins costs roughly one FFT's worth of work. Estimating the SCF over the same N frequency bins and, say, M candidate cycle frequencies — does the cost scale the same way, or does the extra dimension make it noticeably more expensive?",
+      "choices": [
+        "Same order of cost — the α dimension is essentially free once you have the FFT",
+        "Noticeably more expensive — you're effectively repeating spectral-estimation work across many candidate α values"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Noticeably more expensive. Searching over M candidate cycle frequencies in addition to N frequency bins means the computation scales with both dimensions, not just one — real-time cyclic spectral estimation is a genuinely heavier computational load than an ordinary PSD, which is exactly why FAM/SSCA's efficient organization of the FFT work matters in practice, and why dedicated hardware (FPGA/ASIC) implementations of cyclic estimators are an active, legitimately useful engineering target rather than a solved problem."
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-hardware-relevance",
+      "prompt": "Why would an FPGA-accelerated implementation of FAM or SSCA be a meaningful engineering contribution rather than a solved, purely academic exercise?",
+      "choices": [
+        { "text": "Real-time cyclic spectral estimation is computationally heavy (searching over both f and α), and efficient hardware mappings of FAM/SSCA are still an active area rather than a finished, off-the-shelf solution" },
+        {
+          "text": "FPGAs cannot run FFT-based algorithms at all",
+          "feedback": "FPGAs are routinely used to accelerate FFT-based signal processing — that's precisely why hardware-accelerated FAM/SSCA is a sensible target, not an impossible one."
+        },
+        {
+          "text": "Cyclic spectral estimation has no real-time use cases",
+          "feedback": "Spectrum sensing, modulation classification, and non-cooperative signal detection (next module) are all naturally real-time or near-real-time tasks — the computational cost of cyclic estimation is exactly why efficient hardware matters for them."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right — this is the case's forward pointer to the research-frontiers module: the field's core theory is well established, but efficient real-time hardware implementation is still a genuinely open engineering problem, and one that plays directly to an FPGA/embedded background."
+    }
+  ]
+}

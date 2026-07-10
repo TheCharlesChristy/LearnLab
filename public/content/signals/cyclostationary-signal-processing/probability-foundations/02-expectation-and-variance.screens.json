@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "expectation-and-variance",
+  "title": "Expectation and variance",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-average-is-enough",
+      "prompt": "You compute the average amplitude across a thousand readings of the burst and get a single stable number. Does that one number — the average — tell you everything you need to know about how the readings behave?",
+      "choices": [
+        "Yes — once you know the average, you know how the signal behaves",
+        "No — two very different-looking signals can share the same average; you need a second number to describe how spread out the readings are"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "No — the average alone is badly incomplete. A signal that sits almost exactly at its average, and one that swings wildly above and below it, can have *identical* averages while looking nothing alike. The average is the **expectation** $E[X]$ (a weighted sum $\\sum_x x\\,P(X{=}x)$ for discrete $X$, or $\\int x f_X(x)\\,dx$ for continuous $X$) — a genuinely useful first number, but it needs a partner that measures spread."
+    },
+    {
+      "type": "entry",
+      "id": "compute-expectation",
+      "prompt": "A sensor reading only ever takes values 0, 1, or 2, with $P(X{=}0)=0.2$, $P(X{=}1)=0.5$, $P(X{=}2)=0.3$. What is $E[X]$?",
+      "inputMode": "numeric",
+      "answer": 1.1,
+      "tolerance": 0.01,
+      "successFeedback": "Right — E[X] = 0(0.2) + 1(0.5) + 2(0.3) = 0 + 0.5 + 0.6 = 1.1.",
+      "hints": [
+        "E[X] = Σ x · P(X=x) over every possible value of x.",
+        "0×0.2 + 1×0.5 + 2×0.3 = ?"
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-variance-definition",
+      "prompt": "Variance is defined as $\\text{Var}(X) = E[(X - E[X])^2]$ — the expected squared distance from the mean. Which statement about it is correct?",
+      "choices": [
+        { "text": "A larger variance means readings typically sit farther from the average; variance is always ≥ 0" },
+        {
+          "text": "Variance can be negative if the signal swings below its average often enough",
+          "feedback": "Variance is an expectation of a squared quantity, (X − E[X])², which can never be negative — so Var(X) itself can never be negative, regardless of how the signal swings."
+        },
+        {
+          "text": "Variance and expectation always have the same numerical value",
+          "feedback": "They measure completely different things — expectation is a central location (the average), variance is a spread around that location. Two random variables with the same expectation can have wildly different variances."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — variance is always non-negative, and it's precisely the missing second number that distinguishes a steady signal from a wildly swinging one, even when both share the same average."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "variance-shortcut-mechanism",
+      "body": "Expanding $(X - E[X])^2 = X^2 - 2X\\,E[X] + (E[X])^2$ and taking the expectation of each term (using linearity, $E[aX + b] = aE[X] + b$, which holds regardless of independence): $\\text{Var}(X) = E[X^2] - 2E[X]\\,E[X] + (E[X])^2 = E[X^2] - (E[X])^2$. This is the standard computational shortcut — compute $E[X^2]$ and $E[X]$ separately, then subtract the square of the second from the first, instead of working with $(X - E[X])^2$ directly.",
+      "selfExplainPrompt": "In your own words: why is E[X²] − (E[X])² usually easier to compute than E[(X − E[X])²] directly, even though they're mathematically identical?",
+      "selfExplainAnswer": "A strong answer notes that E[X²] and E[X] can each be computed as one weighted sum/integral over the distribution independently, whereas E[(X − E[X])²] requires first knowing E[X], then re-weighting a shifted, squared quantity — the shortcut just reorganizes the same algebra so you only ever need two straightforward expectations, X and X², rather than working with the centered variable directly."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-variance-computation",
+      "worked": "Case data: a sensor's readings have $E[X] = 3$ and $E[X^2] = 11$. Using the shortcut, $\\text{Var}(X) = E[X^2] - (E[X])^2 = 11 - 3^2 = 11 - 9 = 2$: the readings' spread around their average of 3 has a variance of 2.",
+      "prompt": "A different sensor's readings have $E[X] = 4$ and $E[X^2] = 20$. What is $\\text{Var}(X)$?",
+      "inputMode": "numeric",
+      "answer": 4,
+      "tolerance": 0.01,
+      "successFeedback": "Right — Var(X) = 20 − 4² = 20 − 16 = 4. This sensor's readings are more spread out around their average than the worked example's — exactly the kind of comparison variance is built for.",
+      "hints": [
+        "Var(X) = E[X²] − (E[X])².",
+        "20 − 4² = 20 − 16 = ?"
+      ]
+    }
+  ]
+}

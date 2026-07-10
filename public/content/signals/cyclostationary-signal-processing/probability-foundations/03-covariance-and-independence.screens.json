@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "covariance-and-independence",
+  "title": "Covariance and independence",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-zero-covariance-means-unrelated",
+      "prompt": "You compute $\\text{Cov}(A,B) = 0$ for your two sensors' readings — no *linear* tendency for one to rise when the other does. Does that guarantee the two sensors are picking up completely unrelated signals (independent), with no relationship of any kind?",
+      "choices": [
+        "Yes — zero covariance means no relationship at all",
+        "No — zero covariance only rules out a linear relationship; a nonlinear dependence can still exist"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "No — this is one of the most common traps in the whole field. **Covariance** is defined as $\\text{Cov}(X,Y) = E[(X-E[X])(Y-E[Y])] = E[XY] - E[X]E[Y]$, and it only measures *linear* co-movement. Independence is a much stronger statement (knowing one tells you *nothing whatsoever* about the other, linear or not) and it *implies* zero covariance — but the reverse fails. A classic example: if $Y = X^2$ for a symmetric $X$ centered at zero, $X$ and $Y$ are strongly (nonlinearly) related, yet $\\text{Cov}(X,Y) = 0$. \"Uncorrelated\" and \"independent\" are not the same claim."
+    },
+    {
+      "type": "entry",
+      "id": "compute-covariance",
+      "prompt": "Two sensors have $E[AB] = 8$, $E[A] = 2$, $E[B] = 3$. What is $\\text{Cov}(A,B)$?",
+      "inputMode": "numeric",
+      "answer": 2,
+      "tolerance": 0.01,
+      "successFeedback": "Right — Cov(A,B) = E[AB] − E[A]E[B] = 8 − (2)(3) = 8 − 6 = 2. A positive covariance means the two sensors tend to rise and fall together.",
+      "hints": [
+        "Cov(A,B) = E[AB] − E[A]·E[B].",
+        "8 − (2)(3) = ?"
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-variance-is-self-covariance",
+      "prompt": "What is $\\text{Cov}(X, X)$, the covariance of a random variable with itself?",
+      "choices": [
+        { "text": "Var(X) — covariance of a variable with itself is exactly its variance" },
+        {
+          "text": "Always zero, since a variable can't be correlated with itself",
+          "feedback": "The opposite is true — a variable is perfectly (linearly) related to itself, and Cov(X,X) = E[(X−E[X])²] = Var(X), which is generally nonzero."
+        },
+        {
+          "text": "Always equal to E[X]",
+          "feedback": "Cov(X,X) = E[X²] − (E[X])², which is Var(X), not E[X] — these are two different quantities in general."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — variance is just the special case of covariance where both variables are the same one. This single fact is exactly why the autocorrelation function you'll meet soon (covariance between a signal and a time-shifted copy of itself) reduces to variance at zero shift."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "correlation-vs-covariance-mechanism",
+      "body": "Covariance's numerical size depends on the units and scale of $X$ and $Y$ — doubling every reading of $A$ doubles $\\text{Cov}(A,B)$ even though the *strength* of the relationship hasn't changed. The **correlation coefficient** $\\rho_{XY} = \\dfrac{\\text{Cov}(X,Y)}{\\sqrt{\\text{Var}(X)\\text{Var}(Y)}}$ fixes this by normalizing covariance against each variable's own spread, always landing in $[-1, 1]$ — $\\pm 1$ meaning a perfect linear relationship, $0$ meaning no linear relationship. This normalized, scale-free view of \"how strongly related\" is exactly the tool you'll need once amplitude units differ between sensors, or between a recording and its own time-shifted copy.",
+      "selfExplainPrompt": "In your own words: why can't you compare two covariance values directly to say which pair of sensors is 'more related' unless you normalize them first?",
+      "selfExplainAnswer": "A strong answer notes that covariance's raw numerical size depends on the units/scale of the variables involved — a covariance of 50 between two large-amplitude sensors might represent a weaker relationship than a covariance of 2 between two small-amplitude sensors. Normalizing by each variable's own standard deviation (the correlation coefficient) removes that scale-dependence, making values directly comparable across different pairs of variables."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-correlation-computation",
+      "worked": "Case data: two sensors have $\\text{Cov}(A,B) = 6$, $\\text{Var}(A) = 9$, $\\text{Var}(B) = 4$. The correlation coefficient is $\\rho_{AB} = \\dfrac{6}{\\sqrt{9 \\times 4}} = \\dfrac{6}{\\sqrt{36}} = \\dfrac{6}{6} = 1$: a perfect linear relationship — strong evidence these two sensors are recording the exact same underlying signal (up to scale), not two coincidentally similar but separate ones.",
+      "prompt": "A different sensor pair has $\\text{Cov}(A,B) = 3$, $\\text{Var}(A) = 9$, $\\text{Var}(B) = 1$. What is $\\rho_{AB}$?",
+      "inputMode": "numeric",
+      "answer": 1,
+      "tolerance": 0.01,
+      "successFeedback": "Right — ρ = 3 / √(9×1) = 3/3 = 1. Another perfect linear relationship, this time between sensors with very different individual variances (9 versus 1) — exactly the kind of case where comparing raw covariance numbers would have been misleading without normalizing first.",
+      "hints": [
+        "ρ_AB = Cov(A,B) / √(Var(A)·Var(B)).",
+        "3 / √(9×1) = 3/3 = ?"
+      ]
+    }
+  ]
+}

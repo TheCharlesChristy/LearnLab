@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "research-frontiers",
+  "title": "Research Frontiers in CSP",
+  "description": "Orientation to the primary CSP literature and open research directions, including efficient real-time hardware implementation of cyclic spectral estimators.",
+  "estMinutes": 60,
+  "prerequisites": [
+    "csp-applications"
+  ],
+  "objectives": [
+    "Identify the primary CSP literature (Gardner, Napolitano, Spooner) and how it fits together as a reading path",
+    "Identify legitimately open research directions in CSP, including hardware-efficient real-time cyclic spectral estimation",
+    "Describe how to move from textbook-level understanding to reproducing and eventually extending published results"
+  ],
+  "lessons": [
+    {
+      "id": "the-literature-map",
+      "title": "The literature map",
+      "file": "01-the-literature-map.screens.json",
+      "kind": "screens",
+      "estMinutes": 20
+    },
+    {
+      "id": "open-problems",
+      "title": "Open problems",
+      "file": "02-open-problems.screens.json",
+      "kind": "screens",
+      "estMinutes": 20
+    },
+    {
+      "id": "case-closed",
+      "title": "Case closed",
+      "file": "03-case-closed.screens.json",
+      "kind": "screens",
+      "estMinutes": 20
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "learnlab"
+  ]
+}

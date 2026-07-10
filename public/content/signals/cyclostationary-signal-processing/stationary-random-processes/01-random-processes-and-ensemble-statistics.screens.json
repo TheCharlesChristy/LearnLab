@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "random-processes-and-ensemble-statistics",
+  "title": "Random processes and ensemble statistics",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-one-recording-is-enough",
+      "prompt": "You record the burst once, capturing one long timeline of amplitude readings. Have you now captured everything there is to know about the random process generating it — or is your single recording just one possible outcome among many the same process could have produced?",
+      "choices": [
+        "One recording is the whole story — the process is whatever that recording shows",
+        "One recording is just one realization; the process itself is the whole collection of realizations it could have produced"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "One recording is just a single **realization** (or *sample path*) of the underlying **random process**. Formally, a random process $X(t)$ is a family of random variables, one for every time $t$ — at each instant, $X(t)$ has some distribution, and a full realization is one particular outcome drawn simultaneously across all of those instants. Your recording is one thread through an entire fabric of equally-possible timelines; the statistics you actually want (mean, autocorrelation) are properties of the whole fabric, called **ensemble statistics**, not just properties you can read off a single thread."
+    },
+    {
+      "type": "entry",
+      "id": "compute-ensemble-mean",
+      "prompt": "You imagine re-running the burst's recording five separate times (five realizations), and at exactly $t = 2$s the five readings are $1, 3, 2, 3, 1$. What is the ensemble average $E[X(2)]$ at that instant?",
+      "inputMode": "numeric",
+      "answer": 2,
+      "tolerance": 0.01,
+      "successFeedback": "Right — (1+3+2+3+1)/5 = 10/5 = 2. This is exactly what 'ensemble average at time t' means: average across many parallel realizations at one fixed instant, not across time within a single realization.",
+      "hints": [
+        "Add up all five readings, then divide by the number of realizations (5).",
+        "1+3+2+3+1 = 10; 10/5 = ?"
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-ensemble-vs-time-average",
+      "prompt": "Which statement correctly distinguishes an ensemble average from a time average?",
+      "choices": [
+        { "text": "An ensemble average is across many separate realizations at one fixed time; a time average is across many time samples within one single realization" },
+        {
+          "text": "They are just two names for the exact same computation",
+          "feedback": "They generally compute different things: one averages 'across parallel universes' at a fixed instant, the other averages 'along one timeline' over many instants. They only coincide under a special property called ergodicity — the next lesson."
+        },
+        {
+          "text": "Ensemble averages only apply to discrete-time processes",
+          "feedback": "Ensemble averaging applies equally to continuous-time and discrete-time processes — the distinction is about averaging across realizations versus across time, not about the time axis being discrete or continuous."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — and you only ever actually have one realization (your one recording), so you'll need a very good reason to trust that a time average computed from it stands in for the true ensemble average. That reason is exactly what the ergodicity lesson supplies."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "mean-and-autocorrelation-functions-mechanism",
+      "body": "Two ensemble statistics matter most: the **mean function** $\\mu_X(t) = E[X(t)]$ (the ensemble average at each instant $t$, which can in general be different at every $t$), and the **autocorrelation function** $R_X(t_1, t_2) = E[X(t_1)X(t_2)]$ (how the process at one instant relates, on average across the ensemble, to the process at another instant). Notice both are defined with two full arguments in general — $\\mu_X$ depending on $t$, and $R_X$ depending on *both* $t_1$ and $t_2$ separately, not just their difference. That generality is deliberate: nothing so far assumes these functions simplify to anything nicer. The next lesson introduces exactly the special case where they do.",
+      "selfExplainPrompt": "In your own words: why does the autocorrelation function need two separate time arguments, t₁ and t₂, rather than just one?",
+      "selfExplainAnswer": "A strong answer notes that R_X(t₁,t₂) = E[X(t₁)X(t₂)] measures how the process's values at two potentially different instants relate to each other on average — that's inherently a comparison between two points in time, so it needs two independent time arguments to express fully, unlike the mean function μ_X(t) which only ever looks at one instant at a time."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-autocorrelation-computation",
+      "worked": "Across four realizations, at $t_1=1$s the readings are $2, 4, 2, 4$ and at $t_2=3$s (same four realizations, matched up) the readings are $3, 1, 3, 1$. The autocorrelation $R_X(1,3) = E[X(1)X(3)]$ is computed realization by realization then averaged: $\\frac{(2)(3)+(4)(1)+(2)(3)+(4)(1)}{4} = \\frac{6+4+6+4}{4} = \\frac{20}{4} = 5$.",
+      "prompt": "Across four realizations, at $t_1=0$s the readings are $1, 2, 1, 2$ and at $t_2=5$s (same four realizations) the readings are $3, 3, 5, 5$. What is $R_X(0,5)$?",
+      "inputMode": "numeric",
+      "answer": 6,
+      "tolerance": 0.01,
+      "successFeedback": "Right — pairing matched realizations: (1)(3)+(2)(3)+(1)(5)+(2)(5) = 3+6+5+10 = 24, divided by 4 realizations gives 6.",
+      "hints": [
+        "Multiply the matched pair from each realization together, then average all four products.",
+        "Realization pairs: (1,3), (2,3), (1,5), (2,5). Multiply each pair, sum, divide by 4."
+      ]
+    }
+  ]
+}

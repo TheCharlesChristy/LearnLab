@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "deriving-wiener-khinchin",
+  "title": "Deriving the Wiener–Khinchin theorem",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-fourier-transform-of-autocorrelation",
+      "prompt": "You now have $R_X(\\tau)$, a purely time-domain object built from correlations — nothing about frequency has entered yet. If you Fourier-transform $R_X(\\tau)$ over $\\tau$, do you expect the result to be some new, unrelated quantity, or something you'd recognize as meaningful in the frequency domain?",
+      "choices": [
+        "Some new, unrelated quantity with no particular physical meaning",
+        "Something directly meaningful — specifically, the process's power spectral density"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Meaningful, and this is the **Wiener–Khinchin theorem**: for a WSS process, the power spectral density is exactly the Fourier transform of the autocorrelation function, $S_X(f) = \\int_{-\\infty}^{\\infty} R_X(\\tau)\\,e^{-j2\\pi f\\tau}\\,d\\tau$. This isn't an approximation or a modeling choice — it's an exact identity, connecting the time-domain description you just spent a full module building (autocorrelation) to a frequency-domain description (power spectral density) using nothing but the plain Fourier transform machinery from two modules ago."
+    },
+    {
+      "type": "entry",
+      "id": "check-inverse-relationship",
+      "prompt": "Since S_X(f) is the Fourier transform of R_X(τ), the *inverse* Fourier transform must recover R_X(τ) from S_X(f). Setting τ = 0 in that inverse relationship gives R_X(0) = ∫S_X(f)df — integrating the PSD over all frequency recovers the process's average power. If ∫S_X(f)df = 25 for some process, what is R_X(0)?",
+      "inputMode": "numeric",
+      "answer": 25,
+      "tolerance": 0.01,
+      "successFeedback": "Right — R_X(0) = ∫S_X(f)df = 25. This is a genuinely useful sanity check: the total area under a correctly computed PSD must equal the signal's average power, exactly the R_X(0) value from the previous module.",
+      "hints": [
+        "The inverse Fourier transform relationship at τ = 0 gives R_X(0) = ∫S_X(f) df directly.",
+        "Just read off the given integral value — no further computation needed."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-psd-realness",
+      "prompt": "R_X(τ) is real and even (from the previous module). Given the duality/symmetry properties of the Fourier transform, what does that imply about S_X(f)?",
+      "choices": [
+        { "text": "S_X(f) is also real and even — the Fourier transform of a real, even function is itself real and even" },
+        {
+          "text": "S_X(f) must be purely imaginary",
+          "feedback": "A real, even time-domain function transforms to a real, even frequency-domain function — not an imaginary one. Imaginary output would arise specifically from an odd (or complex, non-even) input function."
+        },
+        {
+          "text": "Nothing can be inferred about S_X(f) from R_X(τ)'s symmetry",
+          "feedback": "The symmetry does carry over directly — R_X(τ) being real and even is exactly what guarantees S_X(f) comes out real and even too, which is itself a useful property (a PSD should be a real-valued function of frequency, never complex)."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right — and this matters practically: since S_X(f) is guaranteed real, any complex-valued result your own PSD computation produces (beyond harmless floating-point rounding) is a sign something went wrong upstream."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "why-psd-nonnegative-mechanism",
+      "body": "There's one more property S_X(f) must have, beyond being real and even: it must be **non-negative** at every frequency, $S_X(f) \\geq 0$. This has to hold because $S_X(f)$ is a *power density* — negative power at some frequency band would be physically meaningless, the frequency-domain equivalent of a variance coming out negative (which you already know from the linear-algebra module can never happen for a genuine covariance-derived quantity). A full rigorous proof requires machinery beyond this course's scope, but the intuition rhymes directly with the positive-semi-definiteness result from two modules ago: just as every real covariance matrix's quadratic form is forced non-negative because it represents a variance, every genuine PSD is forced non-negative because it represents power in an infinitesimal frequency band — and power, like variance, is never negative.",
+      "selfExplainPrompt": "In your own words: why would a negative value of S_X(f) at some frequency be just as much of a red flag as a negative variance?",
+      "selfExplainAnswer": "A strong answer connects the two ideas directly: S_X(f) represents how much of the signal's total power sits in an infinitesimal band around frequency f, and power (like variance) is a fundamentally non-negative physical quantity — you can't have 'less than none' of it. A negative S_X(f) at some frequency would claim that band is somehow removing power from the signal, which doesn't correspond to anything physically meaningful, exactly like a negative variance would claim a random variable's spread is somehow less than perfectly constant."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-psd-sanity-check",
+      "worked": "A computed PSD estimate gives $S_X(2) = -3$ at some frequency. Is this a valid PSD? No — a genuine PSD must satisfy $S_X(f) \\geq 0$ everywhere, and $-3 < 0$ violates that directly. Something in the computation (or the input data) is wrong.",
+      "prompt": "A different PSD estimate gives real values everywhere, with $S_X(4) = 3+2j$ (a nonzero imaginary part, not just floating-point noise). Is this consistent with the theorem's guarantee that a genuine PSD must be real-valued? Enter 1 for yes or 0 for no.",
+      "inputMode": "numeric",
+      "answer": 0,
+      "tolerance": 0,
+      "successFeedback": "Right — 0 (no). A genuine PSD, being the Fourier transform of a real, even autocorrelation function, must come out real everywhere. A meaningfully nonzero imaginary part signals a computational error upstream, not a property of the true PSD.",
+      "hints": [
+        "The theorem guarantees S_X(f) is real (and non-negative) everywhere for a genuine autocorrelation function.",
+        "3+2j has a nonzero imaginary part — is that consistent with 'always real'?"
+      ]
+    }
+  ]
+}

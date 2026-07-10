@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "id": "cyclostationarity-core-theory-assessment",
+  "title": "End of module: Cyclostationarity: Core Theory",
+  "shuffleQuestions": true,
+  "shuffleChoices": true,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "A cyclostationary process is one whose statistics (e.g. R_x(t,τ)) are:",
+      "choices": [
+        "Periodic in t, rather than constant",
+        "Always exactly zero for all t",
+        "Independent of τ but dependent on t"
+      ],
+      "answer": 0,
+      "explanation": "Cyclostationarity generalizes wide-sense stationarity: instead of R_x(t,τ) being constant in t (WSS), it's periodic in t with some period T_0 — the formal signature of an underlying clocked/periodic mechanism."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "Why are digitally modulated signals (symbol clocking, carrier, framing) cyclostationary?",
+      "choices": [
+        "The periodic clocking of symbols makes the signal's statistics, not just the raw waveform, repeat periodically in time",
+        "All modulated signals happen to be strictly periodic waveforms",
+        "Modulation always removes any correlation between samples"
+      ],
+      "answer": 0,
+      "explanation": "Clocking symbols at a fixed rate imposes periodicity on the signal's second-order statistics R_x(t,τ), even for a signal whose raw waveform (carrying random bits) never repeats exactly."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "The cyclic autocorrelation function R_x^α(τ) is obtained from R_x(t,τ) by:",
+      "choices": [
+        "Taking the Fourier series coefficients of R_x(t,τ) as a function of t",
+        "Averaging R_x(t,τ) over τ instead of t",
+        "Taking the derivative of R_x(t,τ) with respect to t"
+      ],
+      "answer": 0,
+      "explanation": "Because R_x(t,τ) is periodic in t, it has a Fourier series in t for each fixed τ; the coefficients of that series, indexed by cycle frequency α, are exactly the cyclic autocorrelation function R_x^α(τ)."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "The α = 0 cyclic autocorrelation term R_x^0(τ) equals:",
+      "choices": [
+        "The ordinary (non-cyclic) time-averaged autocorrelation function",
+        "Zero, always",
+        "The process's mean value"
+      ],
+      "answer": 0,
+      "explanation": "Setting α = 0 in the Fourier-series formula makes the complex exponential equal to 1, so R_x^0(τ) is just the plain time-average of R_x(t,τ) — the same autocorrelation function used for WSS processes."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "The spectral correlation function (SCF) S_x^α(f) is defined as:",
+      "choices": [
+        "The Fourier transform, over τ, of the cyclic autocorrelation function R_x^α(τ)",
+        "The Fourier transform, over t, of the ordinary PSD",
+        "The inverse Fourier transform of the process's mean function"
+      ],
+      "answer": 0,
+      "explanation": "The SCF generalizes Wiener–Khinchin to every cycle frequency: it's the Fourier transform over the lag variable τ of R_x^α(τ), producing a two-dimensional function of ordinary frequency f and cycle frequency α."
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "text": "Why can a modulated signal's ordinary PSD look exactly like filtered noise while its SCF reveals clear structure?",
+      "choices": [
+        "The PSD is only the α = 0 slice of the SCF — all the symbol-rate structure can sit at α ≠ 0, which the PSD cannot see at all",
+        "PSD and SCF are computed from unrelated data, so they can disagree for any reason",
+        "The PSD always overestimates the true signal power compared to the SCF"
+      ],
+      "answer": 0,
+      "explanation": "Since the PSD is structurally restricted to the α = 0 slice of the full SCF surface, cyclostationary structure living at nonzero cycle frequencies (like the symbol rate) is completely invisible to it — this is exactly Gardner's spectral redundancy insight."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "A recording's cyclic statistics repeat with period T_0 = 0.5 ms. What is the fundamental cycle frequency α = 1/T_0, in Hz?",
+      "answer": 2000,
+      "tolerance": 1,
+      "explanation": "α = 1/T_0 = 1/0.0005 s = 2000 Hz."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "A signal's symbol rate is 8000 symbols/second. What is the fundamental cycle frequency, in Hz, that its cyclic autocorrelation function should show a nonzero coefficient at?",
+      "answer": 8000,
+      "tolerance": 1,
+      "explanation": "The fundamental cycle frequency equals the symbol rate itself (1/T_0 where T_0 is the symbol period), so a symbol rate of 8000 symbols/second gives α = 8000 Hz (plus its integer-multiple harmonics)."
+    },
+    {
+      "id": "q9",
+      "type": "text",
+      "text": "One phrase (two words): Gardner's term for the phenomenon where a cyclostationary signal has correlated spectral components spaced α apart, which noise generically lacks, is spectral ___.",
+      "accept": ["redundancy"],
+      "caseSensitive": false,
+      "explanation": "Gardner's \"spectral redundancy\" describes exactly this correlation between spectral components separated by the cycle frequency — the property a cyclostationary detector exploits and that unstructured noise does not exhibit."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "Cumulative review: back in spectral-estimation, why couldn't a single raw periodogram of a long recording reliably reveal fine spectral structure like this?",
+      "choices": [
+        "Its variance at a fixed frequency doesn't shrink with recording length, so fine structure is drowned in noisy fluctuation unless variance is reduced (e.g. Welch averaging)",
+        "The periodogram cannot be computed for cyclostationary signals at all",
+        "Periodograms only work for signals with a single frequency component"
+      ],
+      "answer": 0,
+      "explanation": "From spectral-estimation: the raw periodogram is an inconsistent estimator, so any real spectral structure — cyclostationary or not — needs variance-reduction techniques like Welch's method before it can be trusted, on top of the α-dimension work this module adds."
+    }
+  ]
+}

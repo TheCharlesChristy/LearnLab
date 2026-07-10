@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "id": "probability-foundations",
+  "title": "Probability Foundations",
+  "description": "Random variables, joint and conditional distributions, expectation, variance, and covariance — the probabilistic vocabulary every later phase of this course is built from.",
+  "estMinutes": 100,
+  "prerequisites": [],
+  "objectives": [
+    "Define a random variable and its distribution, and distinguish discrete pmfs from continuous pdfs",
+    "Compute expectation and variance, and explain why both are needed to describe a signal's behaviour",
+    "Compute covariance and correlation, and explain why zero covariance does not imply independence",
+    "Verify numerically that a signal's autocorrelation computed directly matches the value recovered via the discrete Fourier transform"
+  ],
+  "lessons": [
+    {
+      "id": "random-variables-and-distributions",
+      "title": "Random variables and distributions",
+      "file": "01-random-variables-and-distributions.screens.json",
+      "kind": "screens",
+      "estMinutes": 25
+    },
+    {
+      "id": "expectation-and-variance",
+      "title": "Expectation and variance",
+      "file": "02-expectation-and-variance.screens.json",
+      "kind": "screens",
+      "estMinutes": 25
+    },
+    {
+      "id": "covariance-and-independence",
+      "title": "Covariance and independence",
+      "file": "03-covariance-and-independence.screens.json",
+      "kind": "screens",
+      "estMinutes": 25
+    },
+    {
+      "id": "checkpoint-autocorrelation-two-ways",
+      "title": "Checkpoint: autocorrelation, two ways",
+      "file": "04-checkpoint-autocorrelation-two-ways.md",
+      "estMinutes": 25
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "learnlab"
+  ]
+}

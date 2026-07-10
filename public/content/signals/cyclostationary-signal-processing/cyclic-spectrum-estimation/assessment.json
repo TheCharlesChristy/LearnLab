@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "id": "cyclic-spectrum-estimation-assessment",
+  "title": "End of module: Estimating the Cyclic Spectrum in Practice",
+  "shuffleQuestions": true,
+  "shuffleChoices": true,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "A raw 'cyclic periodogram' computed from one finite recording:",
+      "choices": [
+        "Is just as inconsistent an estimator of the true SCF as the raw periodogram was for the ordinary PSD",
+        "Is automatically a consistent estimator, unlike the ordinary periodogram",
+        "Cannot be computed at all without infinite data"
+      ],
+      "answer": 0,
+      "explanation": "The same variance problem that afflicts the raw periodogram afflicts a raw cyclic periodogram — finite data gives an inconsistent estimate whose variance doesn't shrink with recording length alone."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "Time-smoothing cyclic spectral estimators are the direct analogue of which ordinary spectral-estimation technique?",
+      "choices": [
+        "Welch's/Bartlett's method — averaging periodograms across shifted or overlapping segments",
+        "Zero-padding the FFT before computing a spectrum",
+        "Increasing the sample rate of the recording"
+      ],
+      "answer": 0,
+      "explanation": "Time-smoothing generalizes Welch/Bartlett segment-averaging into the two-dimensional (f, α) plane, applying the same variance-reduction idea over an extra dimension."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "FAM (FFT Accumulation Method) and SSCA (Strip Spectral Correlation Algorithm) both:",
+      "choices": [
+        "Are FFT-based algorithms that efficiently estimate the SCF over frequency and cycle frequency, organized differently for computational efficiency",
+        "Compute unrelated quantities to each other",
+        "Require noise-free input data to function"
+      ],
+      "answer": 0,
+      "explanation": "FAM and SSCA both compute the same underlying quantity — a smoothed SCF estimate — using different organizations of FFT-based computation, each suited to different implementation tradeoffs."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "Compared to estimating an ordinary PSD, estimating the SCF over N frequency bins and M candidate cycle frequencies is:",
+      "choices": [
+        "Noticeably more computationally expensive, since the search now spans both dimensions",
+        "Exactly the same cost, since α comes for free once you have an FFT",
+        "Cheaper, because fewer frequency bins are needed"
+      ],
+      "answer": 0,
+      "explanation": "Searching over both f and α means the computation scales with both dimensions rather than one, making real-time cyclic spectral estimation genuinely more demanding than an ordinary PSD."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "Why is efficient hardware (e.g. FPGA-accelerated) implementation of FAM/SSCA considered a legitimately open engineering area rather than a solved problem?",
+      "choices": [
+        "Real-time cyclic spectral estimation is computationally heavy, and efficient hardware mappings of these algorithms are still actively developed",
+        "FPGAs cannot implement FFT-based algorithms",
+        "There are no real-time applications that need cyclic spectral estimation"
+      ],
+      "answer": 0,
+      "explanation": "The two-dimensional search over f and α makes cyclic spectral estimation computationally demanding, and mapping FAM/SSCA efficiently onto real hardware for real-time use (spectrum sensing, modulation classification) remains an active area, not a finished textbook exercise."
+    },
+    {
+      "id": "q6",
+      "type": "text",
+      "text": "One acronym: the algorithm that organizes cyclic spectral estimation around narrow frequency 'strips' is called the ___.",
+      "accept": ["ssca"],
+      "caseSensitive": false,
+      "explanation": "SSCA (Strip Spectral Correlation Algorithm) organizes its computation around narrow frequency strips, distinct from FAM's time-block-based organization."
+    },
+    {
+      "id": "q7",
+      "type": "text",
+      "text": "One acronym: the algorithm that builds up the (f, α) surface from banks of short-time FFTs across overlapping time blocks is called the ___.",
+      "accept": ["fam"],
+      "caseSensitive": false,
+      "explanation": "FAM (FFT Accumulation Method) computes overlapping short-time FFTs across time blocks and combines them to estimate the spectral correlation function."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "If searching one candidate cycle frequency costs roughly the same as one ordinary PSD estimate, and your case needs to search M = 40 candidate cycle frequencies, roughly how many times more expensive is a naive (non-FAM/SSCA) cyclic spectral search than a single ordinary PSD estimate?",
+      "answer": 40,
+      "tolerance": 2,
+      "explanation": "A naive search repeats roughly one PSD-estimate's worth of work per candidate cycle frequency, so 40 candidates costs roughly 40x an ordinary single-frequency-axis PSD estimate — precisely the cost that FAM/SSCA's smarter computational organization is designed to reduce."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "Cumulative review: the reason estimating the cyclic spectrum needs variance-reduction techniques at all traces back to which earlier result?",
+      "choices": [
+        "The raw periodogram (and by extension the raw cyclic periodogram) is an inconsistent estimator whose variance doesn't shrink with recording length alone",
+        "The Wiener–Khinchin theorem only applies to noise-free signals",
+        "Eigenvalues of a covariance matrix are always negative for real signals"
+      ],
+      "answer": 0,
+      "explanation": "From spectral-estimation: the periodogram's core pathology (inconsistency) is exactly what motivates Bartlett/Welch averaging there, and the same pathology — now in two dimensions — motivates time-smoothing and frequency-smoothing for the SCF here."
+    }
+  ]
+}

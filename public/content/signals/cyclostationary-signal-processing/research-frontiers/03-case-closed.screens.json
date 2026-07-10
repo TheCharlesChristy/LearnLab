@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "case-closed",
+  "title": "Case closed",
+  "screens": [
+    {
+      "type": "reveal-mechanism",
+      "id": "case-closed-mechanism",
+      "body": "Case resolution: back at the start of this course, the recurring burst was invisible to an energy detector and looked like unremarkable filtered noise to a plain FFT and even to a properly variance-reduced Welch PSD. None of that was a tooling failure — it was because every one of those tools is structurally restricted to α = 0, the one slice of the spectral correlation function that a clocked, modulated signal doesn't have to reveal itself in. Estimating the full SCF (time-smoothed, via FAM) turned up a sharp, unmistakable peak at the burst's true symbol rate — the fingerprint no amount of ordinary spectral analysis could have found. That's the whole arc of this course in one sentence: probability and linear algebra gave you the vocabulary, stationarity and Wiener–Khinchin gave you the one-dimensional theory, spectral estimation gave you honest tools for finite noisy data, and cyclostationarity gave you the second dimension — cycle frequency — where the signal was hiding the entire time.",
+      "selfExplainPrompt": "In your own words: what is the single conceptual reason every earlier, purely-PSD-based analysis in this case missed the burst's structure?",
+      "selfExplainAnswer": "A strong answer identifies that the ordinary PSD (and any energy detector or plain FFT built on it) only reports the α = 0 slice of the full spectral correlation function — the burst's clocked, modulated structure showed up specifically at nonzero cycle frequencies tied to its symbol rate, a dimension those tools have no way to represent at all, regardless of how carefully they estimate the one dimension they do have."
+    },
+    {
+      "type": "flash-recall",
+      "id": "recall-course-arc",
+      "front": "In one sentence: why did cyclostationary analysis succeed where ordinary PSD analysis failed on this course's recurring signal?",
+      "back": "Because the signal's structure lived at nonzero cycle frequencies (α ≠ 0) — a dimension the ordinary PSD, being only the α = 0 slice of the full spectral correlation function, is structurally unable to see, no matter how well-estimated it is."
+    }
+  ]
+}

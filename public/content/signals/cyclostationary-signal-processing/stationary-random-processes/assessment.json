@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "id": "stationary-random-processes-assessment",
+  "title": "End of module: Stationary Random Processes",
+  "shuffleQuestions": true,
+  "shuffleChoices": true,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "A random process X(t) is best described as:",
+      "choices": [
+        "A family of random variables, one for every time t",
+        "A single fixed function of time with no randomness",
+        "A random variable that only takes one value regardless of t"
+      ],
+      "answer": 0,
+      "explanation": "A random process assigns a random variable to every instant t; a single realization (one recording) is just one outcome drawn simultaneously across all those instants."
+    },
+    {
+      "id": "q2",
+      "type": "numeric",
+      "text": "Across five realizations, at a fixed time t the readings are 2, 2, 4, 4, 3. What is the ensemble average E[X(t)] at that instant?",
+      "answer": 3,
+      "tolerance": 0.01,
+      "explanation": "(2+2+4+4+3)/5 = 15/5 = 3."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "A process is wide-sense stationary (WSS) when:",
+      "choices": [
+        "Its mean function is constant, and its autocorrelation depends only on the lag τ = t₁ − t₂",
+        "Every joint distribution of any collection of samples is exactly shift-invariant",
+        "It has zero variance at every time"
+      ],
+      "answer": 0,
+      "explanation": "WSS is the weaker second-order condition: constant mean and lag-only autocorrelation. Full shift-invariance of every joint distribution is the stronger condition, strict-sense stationarity (SSS)."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "Does WSS generally imply SSS?",
+      "choices": [
+        "No — WSS only controls first and second moments; higher-order structure could still change over time",
+        "Yes — WSS and SSS are always equivalent",
+        "Yes, but only for discrete-time processes"
+      ],
+      "answer": 0,
+      "explanation": "WSS is a strictly weaker condition than SSS in general. The one major exception is a jointly Gaussian process, whose distribution is fully determined by its mean and covariance alone."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "For a jointly Gaussian process, why does WSS imply SSS?",
+      "choices": [
+        "A Gaussian joint distribution is fully determined by its mean and covariance, so shift-invariance of those (WSS) forces shift-invariance of the entire distribution",
+        "Gaussian processes have no autocorrelation function",
+        "SSS and WSS are unrelated concepts for Gaussian processes specifically"
+      ],
+      "answer": 0,
+      "explanation": "A Gaussian distribution carries no information beyond its mean and covariance, so if those are already shift-invariant (WSS), the entire distribution built from them must be too (SSS)."
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "text": "Ergodicity is the property that:",
+      "choices": [
+        "A single realization's time average converges to the true ensemble average",
+        "Every realization of the process is identical",
+        "The process's mean must be exactly zero"
+      ],
+      "answer": 0,
+      "explanation": "A process is (mean-)ergodic when the time average computed from one sufficiently long realization converges to the ensemble mean — the property that justifies estimating ensemble statistics from a single recording."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "Why is X(t) = A (A drawn once per realization, then frozen for all t) a WSS process that fails to be ergodic?",
+      "choices": [
+        "A single realization never explores A's other possible values, so its time average only reflects the one value A happened to take, not the true ensemble average",
+        "Because X(t) = A isn't actually a valid random process",
+        "Because its autocorrelation function isn't symmetric"
+      ],
+      "answer": 0,
+      "explanation": "Within one realization, A is fixed forever — a time average of that realization just reports A's frozen value, never converging to the true ensemble mean E[A], since it never samples A's other possible outcomes."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "A zero-mean WSS process has R_X(0) = 12 and R_X(3) = 15. Since |R_X(τ)| ≤ R_X(0) must hold for a genuine autocorrelation function, is this candidate valid? Enter 1 for valid, 0 for invalid.",
+      "answer": 0,
+      "tolerance": 0,
+      "explanation": "R_X(3) = 15 exceeds R_X(0) = 12, violating |R_X(τ)| ≤ R_X(0) — this candidate cannot be a genuine autocorrelation function."
+    },
+    {
+      "id": "q9",
+      "type": "text",
+      "text": "One word: for a real WSS process, R_X(τ) is always symmetric about τ = 0 — mathematicians call a function with this property ___.",
+      "accept": ["even"],
+      "caseSensitive": false,
+      "explanation": "R_X(−τ) = R_X(τ) for any real WSS process is exactly the definition of an even function."
+    },
+    {
+      "id": "q10",
+      "type": "mcq",
+      "text": "Cumulative review: from probability-foundations, Cov(X,X) equals Var(X). How does this relate to R_X(0) for a zero-mean WSS process?",
+      "choices": [
+        "R_X(0) = E[X(t)²] = Var(X) for zero-mean X, exactly the Cov(X,X) = Var(X) fact applied at zero lag",
+        "They are unrelated quantities computed from different formulas",
+        "R_X(0) is always zero regardless of Var(X)"
+      ],
+      "answer": 0,
+      "explanation": "From probability-foundations: Cov(X,X) = Var(X). R_X(0) = E[X(t)X(t)] = E[X(t)²], which for a zero-mean process equals Var(X) directly — the same identity, just applied to a signal's autocorrelation at zero lag."
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "autocorrelation-for-wss-processes",
+  "title": "Autocorrelation for WSS processes",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-autocorrelation-peak",
+      "prompt": "For a WSS process, the autocorrelation collapses to a single-argument function $R_X(\\tau) = E[X(t)X^*(t-\\tau)]$ (real signals: no conjugate needed). As you slide the lag $\\tau$ away from zero, comparing the signal to a more and more shifted copy of itself, would you expect $|R_X(\\tau)|$ to ever exceed $R_X(0)$?",
+      "choices": [
+        "Yes — a shifted copy could correlate even more strongly than the signal does with itself",
+        "No — R_X(0) (comparing the signal to an unshifted copy of itself) is always the largest possible value of |R_X(τ)|"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "No — $R_X(0)$ is always the peak. $R_X(0) = E[X(t)^2]$ is the process's **average power** (mean-square value), and no shifted comparison can ever correlate more strongly than the signal correlates with an *exact*, unshifted copy of itself. Formally, $|R_X(\\tau)| \\leq R_X(0)$ for every $\\tau$ — a direct consequence of the Cauchy–Schwarz inequality applied to $X(t)$ and $X(t-\\tau)$. This single fact is your first sanity check on any autocorrelation you ever compute: if your estimate ever peaks somewhere *other* than $\\tau = 0$, or exceeds its own $\\tau=0$ value, something in your computation is wrong."
+    },
+    {
+      "type": "entry",
+      "id": "compute-average-power",
+      "prompt": "A zero-mean WSS process has variance $\\text{Var}(X) = 9$. Since $R_X(0) = E[X(t)^2]$ and $\\text{Var}(X) = E[X^2] - (E[X])^2$ with zero mean, what is $R_X(0)$?",
+      "inputMode": "numeric",
+      "answer": 9,
+      "tolerance": 0.01,
+      "successFeedback": "Right — for a zero-mean process, R_X(0) = E[X²] = Var(X) directly (since (E[X])² = 0). This is exactly the Cov(X,X) = Var(X) fact from probability-foundations, now applied at zero lag.",
+      "hints": [
+        "For zero-mean X, Var(X) = E[X²] − 0 = E[X²].",
+        "R_X(0) = E[X(t)X(t)] = E[X(t)²], which for zero mean equals Var(X) directly."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-symmetry-property",
+      "prompt": "For a real-valued WSS process, how does R_X(−τ) relate to R_X(τ)?",
+      "choices": [
+        { "text": "R_X(−τ) = R_X(τ) — the autocorrelation function is even (symmetric about τ = 0)" },
+        {
+          "text": "R_X(−τ) = −R_X(τ) — it's odd",
+          "feedback": "Autocorrelation of a real WSS process is even, not odd. R_X(−τ) = E[X(t)X(t+τ)] = E[X(t')X(t'−τ)] after relabeling t' = t+τ, which is exactly R_X(τ) again by the WSS lag-only property — the same value, not its negative."
+        },
+        {
+          "text": "There's no fixed relationship between R_X(−τ) and R_X(τ)",
+          "feedback": "There is a fixed relationship for any real WSS process — the function is always symmetric (even) about τ = 0, a direct consequence of the WSS definition itself."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right — R_X(τ) is always even for a real WSS process. This symmetry, together with the τ = 0 peak, is exactly the shape you should expect to see whenever you plot a correctly computed autocorrelation function."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "wss-autocorrelation-recap-mechanism",
+      "body": "Collecting everything about $R_X(\\tau)$ for a real WSS process: it's a single-argument function of lag only (from the WSS definition itself); it peaks at $\\tau=0$ with value $R_X(0) = E[X(t)^2]$, the average power; it's symmetric, $R_X(-\\tau)=R_X(\\tau)$; and $|R_X(\\tau)| \\leq R_X(0)$ everywhere. None of this has said anything yet about *frequency* — you've built $R_X(\\tau)$ purely as a time-domain, correlation-based object. That's precisely the gap the next module closes: the **Wiener–Khinchin theorem** shows that Fourier-transforming $R_X(\\tau)$ over $\\tau$ produces the process's power spectral density — turning this time-domain correlation function into a frequency-domain description, using exactly the Fourier machinery you built two modules ago.",
+      "selfExplainPrompt": "In your own words: given everything covered in this module so far, why would it even be plausible that Fourier-transforming R_X(τ) produces something meaningful about frequency content, rather than nonsense?",
+      "selfExplainAnswer": "A strong answer connects the two threads directly: R_X(τ) measures how strongly a signal resembles time-shifted copies of itself at each lag τ — and periodic or oscillatory structure in a signal is exactly what makes it resemble certain time-shifts of itself strongly (e.g. a sinusoid resembles a copy of itself shifted by a full period almost perfectly). Since the Fourier transform is specifically built to detect oscillatory/periodic structure in a function, transforming R_X(τ) — a function already encoding self-similarity at every possible shift — is a natural place to expect frequency information to fall out."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-property-check",
+      "worked": "You're handed a candidate autocorrelation estimate that gives $R_X(0) = 4$, $R_X(1) = 5$. Is this a valid autocorrelation function for a real WSS process? No — it violates $|R_X(\\tau)| \\leq R_X(0)$, since $R_X(1) = 5 > R_X(0) = 4$. Something is wrong with the estimate (or the data it came from), because a genuine autocorrelation function can never exceed its own zero-lag value.",
+      "prompt": "A different candidate gives $R_X(0) = 6$, $R_X(2) = -4$, $R_X(-2) = 3$. Setting aside the peak condition for a moment, is this consistent with the symmetry property $R_X(-\\tau)=R_X(\\tau)$? Enter 1 for yes or 0 for no.",
+      "inputMode": "numeric",
+      "answer": 0,
+      "tolerance": 0,
+      "successFeedback": "Right — 0 (no). R_X(2) = −4 and R_X(−2) = 3 are different values, but symmetry requires R_X(−2) to equal R_X(2) exactly. This candidate fails the symmetry check on top of anything else — a genuine red flag that something in its computation is wrong.",
+      "hints": [
+        "Symmetry requires R_X(−τ) to equal R_X(τ) exactly, for every τ.",
+        "Compare R_X(2) = −4 against R_X(−2) = 3 — are they the same number?"
+      ]
+    }
+  ]
+}

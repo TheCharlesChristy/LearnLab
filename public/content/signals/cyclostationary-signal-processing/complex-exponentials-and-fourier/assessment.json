@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "id": "complex-exponentials-and-fourier-assessment",
+  "title": "End of module: Complex Exponentials and Fourier Analysis",
+  "shuffleQuestions": true,
+  "shuffleChoices": true,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "numeric",
+      "text": "Using Euler's formula e^{jθ} = cos θ + j sin θ, what is the real part of e^{j·(π/2)}?",
+      "answer": 0,
+      "tolerance": 0.01,
+      "explanation": "e^{j(π/2)} = cos(π/2) + j·sin(π/2) = 0 + j·1, so its real part is 0."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "Why does a real signal's spectrum always come in mirror-symmetric pairs (a component at +f matched by one at −f)?",
+      "choices": [
+        "Because any real oscillation is built from complex exponentials in conjugate pairs, e.g. cos(ωt) = ½e^{jωt} + ½e^{-jωt}",
+        "Because all real signals have zero mean",
+        "Because negative frequencies aren't physically meaningful and are simply discarded"
+      ],
+      "answer": 0,
+      "explanation": "Building a real-valued oscillation from complex exponentials always requires pairing a positive-frequency term with its complex conjugate at the corresponding negative frequency — this mirror symmetry is an unavoidable consequence of requiring the result to be real."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "A periodic signal repeats every T₀ = 0.04 s. What is its fundamental frequency f₀ = 1/T₀, in Hz?",
+      "answer": 25,
+      "tolerance": 0.5,
+      "explanation": "f₀ = 1/T₀ = 1/0.04 = 25 Hz."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "The Fourier series coefficient formula c_k = (1/T₀)∫x(t)e^{-j2πkf₀t}dt is derived using which key property?",
+      "choices": [
+        "Orthogonality: complex exponentials at different integer harmonics integrate to zero over one period, isolating a single term",
+        "The fact that all periodic signals are sinusoids",
+        "Integration by parts applied repeatedly"
+      ],
+      "answer": 0,
+      "explanation": "Multiplying the Fourier series by e^{-j2πkf₀t} and integrating over one period kills every term except k (by orthogonality of complex exponentials at different harmonics), isolating c_k·T₀."
+    },
+    {
+      "id": "q5",
+      "type": "numeric",
+      "text": "For x(t) = 7 + 6cos(2πf₀t), what is c₁ (the coefficient of e^{j2πf₀t})?",
+      "answer": 3,
+      "tolerance": 0.01,
+      "explanation": "6cos(θ) = 3e^{jθ} + 3e^{-jθ}, so c₁ = 3 (and c₋₁ = 3, c₀ = 7)."
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "text": "The Fourier transform is best understood as:",
+      "choices": [
+        "The continuous-frequency limit of the Fourier series, as the period T₀ grows without bound",
+        "A completely different tool unrelated to the Fourier series",
+        "A special case that only applies to signals with zero mean"
+      ],
+      "answer": 0,
+      "explanation": "As T₀ → ∞, the fundamental frequency spacing f₀ = 1/T₀ shrinks to zero, and the discrete sum of harmonics becomes a continuous integral over frequency — the Fourier transform."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "Duality implies that a signal narrow in time will have a spectrum that is:",
+      "choices": [
+        "Wide/spread out in frequency",
+        "Also narrow in frequency",
+        "Undefined in frequency"
+      ],
+      "answer": 0,
+      "explanation": "You cannot simultaneously localize a signal tightly in both time and frequency — a narrow time-domain pulse (like a rectangle) requires a wide range of frequency components (like a sinc) to represent its sharp edges."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Filtering a signal x(t) with impulse response h(t) gives y(t) = x(t)*h(t), so Y(f) = X(f)H(f). At some frequency, X(f) = 3 and H(f) = 4. What is Y(f) at that frequency?",
+      "answer": 12,
+      "tolerance": 0.01,
+      "explanation": "By the convolution theorem, convolution in time becomes multiplication in frequency: Y(f) = X(f)·H(f) = 3×4 = 12."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "A pure cosine at frequency f₀ transforms into:",
+      "choices": [
+        "Two spikes, at +f₀ and −f₀",
+        "A single spike at f₀ only",
+        "A flat spectrum across all frequencies"
+      ],
+      "answer": 0,
+      "explanation": "cos(ωt) = ½e^{jωt} + ½e^{-jωt} contributes one spike at +f₀ and one at −f₀ — the standard real-signal mirror-symmetry from earlier in this module."
+    }
+  ]
+}

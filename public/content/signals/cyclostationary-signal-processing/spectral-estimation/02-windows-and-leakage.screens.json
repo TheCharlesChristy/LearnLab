@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "windows-and-leakage",
+  "title": "Windows and spectral leakage",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-truncation-effect",
+      "prompt": "Every recording is finite — you can only ever feed the periodogram a chopped-off piece of the burst, as if you'd multiplied the true (infinite) signal by a rectangular \"on/off\" window. Does that truncation itself distort the spectrum, even before any noise is involved?",
+      "choices": [
+        "No — cutting a clean sinusoid off after a few cycles still gives a clean spectral line",
+        "Yes — energy that should sit at one frequency spreads into nearby frequencies"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Truncating a signal in time is multiplication by a rectangular window, and multiplication in time is *convolution* in frequency. Convolving a single spectral line with the rectangular window's own spectrum (a wide, ringing sinc) smears that line's energy across neighboring frequencies — **spectral leakage**. It happens to a perfectly clean tone with zero noise, purely because the recording has a start and an end."
+    },
+    {
+      "type": "tap-choice",
+      "id": "window-tradeoff",
+      "prompt": "A smoother taper (e.g. a Hann window) instead of a hard rectangular cutoff reduces leakage into distant frequencies. What's the cost?",
+      "choices": [
+        { "text": "The main spectral peak gets wider — you trade frequency resolution for lower leakage" },
+        {
+          "text": "Nothing — smoother windows are strictly better with no downside",
+          "feedback": "Every window is a tradeoff. A Hann window's main lobe is roughly twice as wide as the rectangular window's, which is exactly the resolution you're giving up."
+        },
+        {
+          "text": "It removes the need for averaging multiple segments later",
+          "feedback": "Windowing addresses leakage, not the periodogram's fundamental variance problem from the previous lesson — those are two separate issues, and Bartlett/Welch averaging (next lesson) is still needed for the variance."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — every window shape trades main-lobe width (resolution) against side-lobe height (leakage suppression). There's no free lunch, only a choice of where on that tradeoff you sit."
+    }
+  ]
+}

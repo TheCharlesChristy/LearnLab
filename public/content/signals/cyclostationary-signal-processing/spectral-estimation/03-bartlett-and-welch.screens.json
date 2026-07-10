@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "bartlett-and-welch",
+  "title": "Bartlett and Welch averaging",
+  "screens": [
+    {
+      "type": "reveal-mechanism",
+      "id": "welch-mechanism",
+      "body": "Bartlett's fix: chop one long recording into $K$ shorter, non-overlapping segments, compute a raw periodogram for each, and **average the $K$ periodograms together** pointwise. Each segment's periodogram is a roughly independent noisy estimate of the same true PSD, so averaging $K$ of them divides the variance by about $K$ — the same reason averaging $K$ independent noisy measurements of anything reduces variance. Welch's method is the refinement your case files will actually use: let the segments **overlap** (typically 50%) and apply a taper (Hann, previous lesson) to each one before its periodogram, which recovers some of the samples \"wasted\" at each segment's tapered edges. You pay for the variance reduction with coarser frequency resolution — each segment is shorter than the full recording, so each segment's periodogram is blurrier to start with. That's the whole game: total samples get split between *resolution* (long segments) and *variance reduction* (many segments).",
+      "selfExplainPrompt": "In your own words: why does averaging $K$ segment periodograms reduce variance compared to one periodogram over the whole recording, when both use the same total number of samples?",
+      "selfExplainAnswer": "A strong answer notes that one long periodogram is a single (inconsistent) estimate no matter how long it is — variance doesn't shrink with length. Splitting into $K$ segments turns it into $K$ separate, roughly independent estimates of the same PSD, and averaging independent estimates is what actually reduces variance — the same statistical reason a sample mean of $K$ independent measurements has smaller variance than any single measurement."
+    },
+    {
+      "type": "entry",
+      "id": "variance-reduction-factor",
+      "prompt": "You split a recording into $K = 8$ non-overlapping segments and average their periodograms (Bartlett's method, ignoring Welch's overlap refinement for this estimate). Roughly by what factor does the variance of the averaged estimate shrink relative to a single periodogram over one segment?",
+      "inputMode": "numeric",
+      "answer": 8,
+      "tolerance": 0.5,
+      "successFeedback": "Right — averaging $K$ roughly independent estimates divides variance by about $K$, so 8 segments give roughly an 8x variance reduction (at the cost of each segment's periodogram having 8x coarser frequency resolution than the full recording).",
+      "hints": [
+        "This is the same rule as averaging K independent noisy measurements of any quantity.",
+        "If one measurement has variance σ², what's the variance of the mean of K independent copies?"
+      ]
+    }
+  ]
+}

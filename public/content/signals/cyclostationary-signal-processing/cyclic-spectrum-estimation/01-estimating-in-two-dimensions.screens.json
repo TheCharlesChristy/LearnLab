@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "estimating-in-two-dimensions",
+  "title": "Estimating in two dimensions",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-scf-estimator-problems",
+      "prompt": "The SCF is a theoretical quantity defined from an infinite-time average. You only ever have a finite, noisy recording of the burst. Do you expect a raw, finite-data estimate of the SCF to suffer from the same kind of problem the raw periodogram had for the ordinary PSD?",
+      "choices": [
+        "No — the extra cycle-frequency dimension somehow avoids the periodogram's variance problem",
+        "Yes — a raw 'cyclic periodogram' from finite data is just as inconsistent an estimator as the ordinary periodogram was"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Yes — the same disease, in a bigger space. A raw cyclic periodogram computed from one finite recording is every bit as inconsistent as the ordinary periodogram: its variance doesn't shrink just because the recording is long. The fix is the same idea generalized to two dimensions: **time-smoothing** (averaging over shifted short-time cyclic periodograms — the direct 2D cousin of Bartlett/Welch segment-averaging) and **frequency-smoothing** (averaging over nearby frequency bins in f). Both trade resolution — now in *two* dimensions, f and α — for reduced variance."
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-smoothing-analogy",
+      "prompt": "Time-smoothing cyclic spectral estimators are the direct two-dimensional analogue of which technique from the ordinary spectral-estimation module?",
+      "choices": [
+        { "text": "Welch's method — averaging periodograms of shifted/overlapping segments" },
+        {
+          "text": "Zero-padding the FFT",
+          "feedback": "Zero-padding only interpolates an existing spectrum's samples more finely — it doesn't reduce variance at all, which is the actual problem time-smoothing solves."
+        },
+        {
+          "text": "Choosing a higher sample rate",
+          "feedback": "Sample rate sets the Nyquist bandwidth you can observe, not the variance of the spectral estimate — a higher sample rate alone doesn't fix the periodogram's inconsistency."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — time-smoothing generalizes Welch/Bartlett segment-averaging into the (f, α) plane, and frequency-smoothing generalizes windowed/smoothed periodogram estimation the same way. Same statistical fix, one more axis to apply it over."
+    }
+  ]
+}

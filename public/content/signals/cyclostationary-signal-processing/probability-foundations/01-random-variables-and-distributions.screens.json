@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "random-variables-and-distributions",
+  "title": "Random variables and distributions",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-just-random",
+      "prompt": "Day one on the case: a recurring burst has shown up on your monitoring post for weeks, and nobody can classify it. A colleague shrugs it off: \"the amplitude readings are just random — there's nothing more to say about them mathematically.\" Is that actually a complete description, or is there a precise object that captures more than just \"random\"?",
+      "choices": [
+        "It's complete — 'random' is the end of the analysis",
+        "There's a precise mathematical object (a random variable and its distribution) that says a lot more than just 'random'"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "There's much more to say. A **random variable** $X$ is a function assigning a real number to every possible outcome of some random experiment — here, one amplitude reading from the burst. What makes it useful isn't the individual unpredictable value, it's the **distribution**: the precise rule for how likely each value (or range of values) is. \"Random\" isn't the absence of structure — it's a specific, describable kind of structure, and everything in this course is built on nailing that structure down precisely."
+    },
+    {
+      "type": "entry",
+      "id": "check-pmf-sums-to-one",
+      "prompt": "Your first recording session gives amplitude readings that only ever take 3 discrete values, with probabilities $P(X{=}1) = 0.5$, $P(X{=}2) = 0.3$, and $P(X{=}3) = p$. Since a valid probability mass function's probabilities must sum to 1, what is $p$?",
+      "inputMode": "numeric",
+      "answer": 0.2,
+      "tolerance": 0.001,
+      "successFeedback": "Right — 0.5 + 0.3 + 0.2 = 1. Every valid discrete distribution (a probability mass function, or pmf) must assign probabilities that sum to exactly 1 across all possible outcomes.",
+      "hints": [
+        "All probabilities in a pmf must add up to exactly 1.",
+        "p = 1 − 0.5 − 0.3."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-discrete-vs-continuous",
+      "prompt": "Your recording equipment actually reports amplitude as a continuous voltage, not one of a few discrete levels. For a continuous random variable, what does $f_X(x)$ (its probability density function, or pdf) represent, given that $P(X = x)$ is exactly zero for any single point $x$?",
+      "choices": [
+        { "text": "A density: $P(a \\le X \\le b) = \\int_a^b f_X(x)\\,dx$ — probability comes from area under the curve, not a value at a point" },
+        {
+          "text": "The exact probability of X taking the value x",
+          "feedback": "That's the discrete pmf's meaning — for a continuous random variable, the probability of hitting any single exact point is zero. f_X(x) is a density, not a probability itself, and only integrates up to a probability over a range."
+        },
+        {
+          "text": "The largest value X can possibly take",
+          "feedback": "f_X(x) isn't a bound on X's range — it's a density function whose area over an interval gives the probability X falls in that interval."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — this is why continuous distributions always work in terms of intervals and integrals, never a single exact point."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "conditional-probability-mechanism",
+      "body": "Two sensors are recording the same burst from different antennas. Sensor A flags a strong reading; does that change what you should expect from Sensor B, recorded at the same instant? **Joint distributions** describe two random variables together — $P(A, B)$ for discrete variables, $f_{A,B}(a,b)$ for continuous ones. **Conditional probability** answers exactly the question above: $P(A \\mid B) = \\dfrac{P(A, B)}{P(B)}$ (with the density version $f_{A\\mid B}(a\\mid b) = f_{A,B}(a,b)/f_B(b)$) — the distribution of $A$ once you already know $B$'s value. If knowing $B$ changes nothing about $A$'s distribution, i.e. $P(A\\mid B) = P(A)$, the two are **independent**; anything else means the two sensors are telling you correlated information about the same underlying burst.",
+      "selfExplainPrompt": "In your own words: what would it mean, physically, for the two sensors' readings to be independent versus strongly dependent?",
+      "selfExplainAnswer": "A strong answer says independence would mean knowing Sensor A's reading tells you nothing about what Sensor B will show at that instant — as if they were watching two unrelated signals. Strong dependence means the two readings move together in a predictable way once you condition on one of them, which is exactly what you'd expect from two antennas both picking up the same physical burst."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-conditional-computation",
+      "worked": "Case data: across many recording sessions, Sensor A reads \"strong\" 40% of the time ($P(A) = 0.4$), and Sensor A and Sensor B both read \"strong\" simultaneously 30% of the time ($P(A,B) = 0.3$). Using $P(B\\mid A) = \\dfrac{P(A,B)}{P(A)}$, that gives $P(B\\mid A) = 0.3 / 0.4 = 0.75$: given Sensor A reads strong, there's a 75% chance Sensor B does too at the same instant — well above what you'd expect from two independent, unrelated sensors, which is itself early evidence the two are picking up the same real signal.",
+      "prompt": "Same case, different session: now $P(A) = 0.5$ and $P(A, B) = 0.2$. What is $P(B \\mid A)$?",
+      "inputMode": "numeric",
+      "answer": 0.4,
+      "tolerance": 0.01,
+      "successFeedback": "Right — 0.2 / 0.5 = 0.4. A 40% conditional rate is much closer to what independent sensors would show, which is exactly the kind of number this case will need covariance (next lesson) to interpret precisely rather than just eyeballing.",
+      "hints": [
+        "P(B|A) = P(A,B) / P(A), same formula as the worked example.",
+        "0.2 / 0.5 = ?"
+      ]
+    }
+  ]
+}

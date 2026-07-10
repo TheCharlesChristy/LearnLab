@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "principal-directions",
+  "title": "Principal directions of variance",
+  "screens": [
+    {
+      "type": "reveal-mechanism",
+      "id": "eigenstructure-mechanism",
+      "body": "Back in the linear-algebra module, you saw that a symmetric matrix's eigenvectors are orthogonal directions and its eigenvalues are non-negative when the matrix is positive semi-definite — exactly the shape of a covariance matrix. Applied here: $\\Sigma$'s **eigenvectors point along the directions the lag vector $\\mathbf{x}(n)$ varies most and least**, and its **eigenvalues are the variances along those directions**. The eigenvector with the larger eigenvalue is the direction the recording's samples are most spread out along when you plot $x(n)$ against $x(n-1)$ — literally the long axis of the scatter cloud you dragged in the eigen-playground earlier.",
+      "selfExplainPrompt": "In your own words: if a covariance matrix's larger eigenvalue is much bigger than its smaller one, what does that say about the shape of the sample cloud in that 2D lag-vector plot?",
+      "selfExplainAnswer": "A strong answer says the cloud is a thin, elongated ellipse rather than a round blob — most of the variability lives along the principal eigenvector's direction, with comparatively little spread perpendicular to it. A large ratio between the eigenvalues means the samples are strongly, near-linearly correlated along that one axis."
+    },
+    {
+      "type": "entry",
+      "id": "eigenvalue-sum-check",
+      "prompt": "A lag-vector covariance matrix has diagonal entries $R_x(0) = 5$ and $R_x(0) = 5$ (both samples have the same variance) and off-diagonal entries $R_x(1) = 3$. One eigenvalue works out to $8$. Using the fact that a matrix's eigenvalues always sum to its trace (the sum of its diagonal entries), what is the other eigenvalue?",
+      "inputMode": "numeric",
+      "answer": 2,
+      "tolerance": 0.01,
+      "successFeedback": "Right — trace = 5 + 5 = 10, and eigenvalues sum to the trace, so the second eigenvalue is 10 − 8 = 2. (You can check: for [[5,3],[3,5]], the eigenvalues are 5±3 = 8 and 2, exactly matching the mid ± spread formula from the eigen-playground.)",
+      "hints": [
+        "The trace of this matrix is R_x(0) + R_x(0) = 5 + 5 = 10.",
+        "Eigenvalues always sum to the trace for any square matrix."
+      ]
+    }
+  ]
+}

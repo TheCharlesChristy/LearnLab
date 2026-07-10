@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "id": "spectral-estimation-assessment",
+  "title": "End of module: Spectral Estimation",
+  "shuffleQuestions": true,
+  "shuffleChoices": true,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Why is the raw periodogram called an inconsistent estimator of the true PSD?",
+      "choices": [
+        "Its variance at a fixed frequency does not shrink as the recording length grows",
+        "It cannot be computed for signals longer than a few thousand samples",
+        "It only works for signals with zero mean"
+      ],
+      "answer": 0,
+      "explanation": "Consistency means variance shrinks to zero as sample size grows. The raw periodogram's variance at a fixed frequency stays roughly the same size as the PSD it's estimating no matter how long the recording is — recording longer only sharpens resolution, it doesn't steady the estimate."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "Truncating a signal to a finite recording window, before any noise is even considered, causes:",
+      "choices": [
+        "Spectral leakage — energy at one frequency smears into neighbouring frequencies",
+        "No distortion at all, since truncation only removes samples you didn't have anyway",
+        "A shift in the true frequency of every spectral component"
+      ],
+      "answer": 0,
+      "explanation": "Truncation is multiplication by a rectangular window in time, which is convolution by that window's spectrum in frequency — this smears a clean spectral line into a lobe, purely from the recording having a start and an end."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "Choosing a smoother taper (e.g. Hann) instead of a rectangular window mainly trades:",
+      "choices": [
+        "Lower spectral leakage for a wider main lobe (coarser resolution)",
+        "Lower computational cost for slightly more leakage",
+        "Nothing — smoother windows dominate rectangular windows with no tradeoff"
+      ],
+      "answer": 0,
+      "explanation": "Every window shape trades main-lobe width (resolution) against side-lobe height (leakage). A Hann window's main lobe is roughly twice as wide as a rectangular window's, in exchange for much lower leakage into distant frequencies."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "Bartlett's method reduces periodogram variance by:",
+      "choices": [
+        "Averaging the periodograms of several non-overlapping segments of the recording",
+        "Applying a single very long FFT to the entire recording at once",
+        "Discarding every other sample before computing one periodogram"
+      ],
+      "answer": 0,
+      "explanation": "Splitting the recording into K segments and averaging their periodograms turns one inconsistent estimate into K roughly independent estimates of the same PSD — averaging independent estimates is what actually reduces variance."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "Welch's method refines Bartlett's by:",
+      "choices": [
+        "Overlapping the segments (typically 50%) and tapering each one before its periodogram",
+        "Using segments that grow longer over the course of the recording",
+        "Replacing averaging with taking the maximum periodogram value at each frequency"
+      ],
+      "answer": 0,
+      "explanation": "Welch's method overlaps segments to recover samples that a taper would otherwise down-weight at each segment's edges, on top of Bartlett's segment-averaging idea."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "You split a recording into K = 16 non-overlapping segments and average their periodograms. Roughly by what factor does the variance shrink compared to one periodogram over a single segment?",
+      "answer": 16,
+      "tolerance": 1,
+      "explanation": "Averaging K roughly independent estimates divides variance by about K, so 16 segments give roughly a 16x variance reduction — at the cost of 16x coarser frequency resolution per segment than the full recording."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "A 32-second recording is split into 8 equal, non-overlapping segments for Bartlett's method. How many seconds long is each segment?",
+      "answer": 4,
+      "tolerance": 0,
+      "explanation": "32 seconds split into 8 equal segments gives 4 seconds each — the frequency resolution of each segment's periodogram is set by this shorter length, not the full 32 seconds."
+    },
+    {
+      "id": "q8",
+      "type": "text",
+      "text": "One word: splitting a long recording into more, shorter segments to average their periodograms improves variance but costs you frequency ___.",
+      "accept": ["resolution"],
+      "caseSensitive": false,
+      "explanation": "Shorter segments mean coarser frequency resolution — the bias-variance tradeoff at the heart of Bartlett/Welch averaging."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "Cumulative review: the power spectral density these estimators are all trying to approximate is defined (via Wiener–Khinchin) as:",
+      "choices": [
+        "The Fourier transform of the autocorrelation function of a wide-sense stationary process",
+        "The Fourier transform of the process's mean value",
+        "The variance of the process at a single instant in time"
+      ],
+      "answer": 0,
+      "explanation": "From the Wiener–Khinchin theorem (wiener-khinchin-and-psd module): for a WSS process, the PSD is the Fourier transform of the autocorrelation function R_x(τ). Every estimator in this module — periodogram, Bartlett, Welch — is an attempt to approximate that same quantity from finite, noisy data."
+    }
+  ]
+}

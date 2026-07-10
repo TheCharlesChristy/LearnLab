@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "id": "eigenanalysis-of-covariance",
+  "title": "Eigenanalysis of Covariance Matrices",
+  "description": "Sample covariance matrices from vectors of correlated samples, their eigenstructure, and the Karhunen-Loeve bridge between random processes and eigendecomposition.",
+  "estMinutes": 80,
+  "prerequisites": [
+    "linear-algebra-for-signals",
+    "stationary-random-processes"
+  ],
+  "objectives": [
+    "Explain how a sample covariance matrix arises from a vector of lagged or multi-channel samples",
+    "Interpret a covariance matrix's eigenvectors and eigenvalues as its principal directions and the variances along them",
+    "Describe the Karhunen-Loeve expansion as the bridge between random processes and eigendecomposition, and why eigenvalue problems show up in subspace-based detectors"
+  ],
+  "lessons": [
+    {
+      "id": "the-lag-vector",
+      "title": "From a signal to a covariance matrix",
+      "file": "01-the-lag-vector.screens.json",
+      "kind": "screens",
+      "estMinutes": 25
+    },
+    {
+      "id": "principal-directions",
+      "title": "Principal directions of variance",
+      "file": "02-principal-directions.screens.json",
+      "kind": "screens",
+      "estMinutes": 30
+    },
+    {
+      "id": "karhunen-loeve-bridge",
+      "title": "The Karhunen-Loeve bridge",
+      "file": "03-karhunen-loeve-bridge.screens.json",
+      "kind": "screens",
+      "estMinutes": 25
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "learnlab"
+  ]
+}

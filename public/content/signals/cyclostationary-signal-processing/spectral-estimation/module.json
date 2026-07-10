@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "spectral-estimation",
+  "title": "Spectral Estimation",
+  "description": "Why a single raw FFT is a poor PSD estimator: bias/variance tradeoffs, windowing and spectral leakage, and Bartlett/Welch periodogram averaging.",
+  "estMinutes": 90,
+  "prerequisites": [
+    "wiener-khinchin-and-psd"
+  ],
+  "objectives": [
+    "Explain why the raw periodogram is a biased, inconsistent estimator of the true power spectral density",
+    "Describe the bias-variance tradeoff that windowing and segment-averaging navigate",
+    "Explain how Bartlett's and Welch's methods average segment periodograms to reduce variance"
+  ],
+  "lessons": [
+    {
+      "id": "the-jittery-periodogram",
+      "title": "The jittery periodogram",
+      "file": "01-the-jittery-periodogram.screens.json",
+      "kind": "screens",
+      "estMinutes": 30
+    },
+    {
+      "id": "windows-and-leakage",
+      "title": "Windows and spectral leakage",
+      "file": "02-windows-and-leakage.screens.json",
+      "kind": "screens",
+      "estMinutes": 30
+    },
+    {
+      "id": "bartlett-and-welch",
+      "title": "Bartlett and Welch averaging",
+      "file": "03-bartlett-and-welch.screens.json",
+      "kind": "screens",
+      "estMinutes": 30
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "learnlab"
+  ]
+}

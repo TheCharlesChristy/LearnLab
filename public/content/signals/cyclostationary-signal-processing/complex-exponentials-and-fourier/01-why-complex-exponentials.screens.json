@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "why-complex-exponentials",
+  "title": "Why complex exponentials",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-imaginary-but-real-signal",
+      "prompt": "Your recorded burst is a real, physically measurable voltage — nothing imaginary about it. Yet every serious signal-processing treatment of it will lean on complex numbers, $e^{j\\theta} = \\cos\\theta + j\\sin\\theta$. Does bringing in complex numbers mean you're no longer describing the real, physical signal?",
+      "choices": [
+        "Yes — once complex numbers appear, you've left the physical signal behind",
+        "No — complex exponentials are a bookkeeping tool that makes real, physical oscillations far easier to manipulate algebraically"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "No — the physical signal stays exactly as real as it always was. What changes is how conveniently you can *describe* it. $\\cos(\\omega t) = \\tfrac12\\big(e^{j\\omega t} + e^{-j\\omega t}\\big)$ — a real cosine is literally the sum of two complex exponentials spinning in opposite directions, and their imaginary parts cancel exactly. Complex exponentials let you replace trigonometric identity-juggling (product-to-sum formulas, phase-shift headaches) with plain exponent algebra: multiplying exponentials just adds their exponents. Nothing about the underlying physical voltage becomes imaginary — you've just chosen a more convenient set of building blocks to describe it with."
+    },
+    {
+      "type": "entry",
+      "id": "check-eulers-formula",
+      "prompt": "Using Euler's formula $e^{j\\theta} = \\cos\\theta + j\\sin\\theta$, what is the real part of $e^{j\\pi}$?",
+      "inputMode": "numeric",
+      "answer": -1,
+      "tolerance": 0.01,
+      "successFeedback": "Right — e^{jπ} = cos(π) + j·sin(π) = −1 + j·0 = −1. This is Euler's identity in its famous form: e^{jπ} + 1 = 0.",
+      "hints": [
+        "cos(π) and sin(π) are two values you likely already know.",
+        "cos(π) = −1, sin(π) = 0."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-phasor-picture",
+      "prompt": "Geometrically, what does e^{jωt} represent as t increases?",
+      "choices": [
+        { "text": "A unit-length vector (phasor) in the complex plane, rotating counterclockwise at angular rate ω" },
+        {
+          "text": "A vector that grows longer over time",
+          "feedback": "e^{jωt} always has magnitude exactly 1 for real ω and t — it rotates, but its length never changes. Growth/decay would require a real exponential factor like e^{σt} multiplied in separately."
+        },
+        {
+          "text": "A fixed point that doesn't move",
+          "feedback": "It moves continuously — that's the whole point of the exponential having an imaginary argument that grows with t. A fixed, non-moving point would just be a constant, not e^{jωt}."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — this rotating-phasor picture is the geometric heart of every Fourier-based technique in this course: a signal built from complex exponentials is built from combinations of these constant-speed rotating arrows."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "analytic-signal-mechanism",
+      "body": "$\\cos(\\omega t)$ is built from *two* phasors spinning in opposite directions (at $+\\omega$ and $-\\omega$) — redundant information, since for a real signal the negative-frequency half is always just the mirror image (complex conjugate) of the positive-frequency half. The **analytic signal** keeps only the positive-frequency phasor, discarding the redundant negative-frequency copy, giving a genuinely complex-valued signal whose magnitude tracks the original signal's envelope and whose phase tracks its instantaneous frequency directly. Constructing it from a real signal uses the **Hilbert transform** (a 90° phase shift applied to every frequency component) to build the correct imaginary part. You won't need the Hilbert transform's mechanics for the rest of this course, but the core idea — a real signal's spectrum is inherently mirror-symmetric, so half of it is redundant — is exactly the kind of structural symmetry you'll be watching for throughout.",
+      "selfExplainPrompt": "In your own words: why does a real-valued signal always have a mirror-symmetric spectrum (paired positive and negative frequency components)?",
+      "selfExplainAnswer": "A strong answer notes that any real signal can be written as a sum of terms like cos(ωt) = ½(e^{jωt} + e^{-jωt}), which always contributes equally to both +ω and −ω. There's no way to build a genuinely real-valued oscillation from complex exponentials without pairing up a positive-frequency term with its conjugate at the corresponding negative frequency — so the mirror symmetry is a direct, unavoidable consequence of requiring the final signal to be real."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-cosine-decomposition",
+      "worked": "Write $\\cos(2\\pi \\times 5t)$ as a sum of two complex exponentials: using $\\cos(\\omega t) = \\tfrac12(e^{j\\omega t}+e^{-j\\omega t})$ with $\\omega = 2\\pi\\times5 = 10\\pi$, this is $\\tfrac12 e^{j10\\pi t} + \\tfrac12 e^{-j10\\pi t}$ — two phasors, each with amplitude $\\tfrac12$, spinning at $+5$ Hz and $-5$ Hz respectively.",
+      "prompt": "Write $\\cos(2\\pi\\times 8t)$ as $\\tfrac12 e^{j\\omega t} + \\tfrac12 e^{-j\\omega t}$ for the correct value of $\\omega$. Enter $\\omega$ (in rad/s, i.e. $2\\pi\\times 8$).",
+      "inputMode": "numeric",
+      "answer": 50.27,
+      "tolerance": 0.1,
+      "successFeedback": "Right — ω = 2π×8 ≈ 50.27 rad/s. Same pattern as the worked example: an 8 Hz cosine splits into two ±8 Hz phasors, each with amplitude ½.",
+      "hints": [
+        "ω = 2πf where f is the frequency in Hz.",
+        "2 × π × 8 ≈ 50.27."
+      ]
+    }
+  ]
+}

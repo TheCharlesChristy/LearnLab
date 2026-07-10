@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "the-lag-vector",
+  "title": "From a signal to a covariance matrix",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-lag-vector-correlated",
+      "prompt": "Case update: instead of one number at a time, you now stack each sample of the recording with its neighbour into a 2D vector $\\mathbf{x}(n) = [x(n), x(n-1)]^T$. If the underlying process has a slowly-varying envelope (like your recurring burst), are the two entries of $\\mathbf{x}(n)$ independent of each other?",
+      "choices": [
+        "Yes — x(n) and x(n-1) are separate samples, so they're independent",
+        "No — a slowly-varying signal makes neighbouring samples correlated"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "They're correlated — that's exactly what \"slowly varying\" means: knowing $x(n-1)$ tells you something about $x(n)$. That correlation is captured by the **covariance matrix** of the vector $\\mathbf{x}(n)$: $\\Sigma = E[\\mathbf{x}(n)\\mathbf{x}(n)^T]$, a 2x2 symmetric matrix whose off-diagonal entry is exactly $R_x(1)$, the autocorrelation at lag 1 from an earlier phase of this case."
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-covariance-entries",
+      "prompt": "For $\\mathbf{x}(n) = [x(n), x(n-1)]^T$ from a zero-mean wide-sense stationary process, what are the entries of $\\Sigma = E[\\mathbf{x}(n)\\mathbf{x}(n)^T]$?",
+      "choices": [
+        { "text": "Diagonal entries $R_x(0)$; off-diagonal entries $R_x(1)$" },
+        {
+          "text": "Diagonal entries $R_x(1)$; off-diagonal entries $R_x(0)$",
+          "feedback": "The diagonal entries are E[x(n)x(n)] and E[x(n-1)x(n-1)] — both lag-0 autocorrelations, R_x(0). The off-diagonal is the lag-1 cross term."
+        },
+        {
+          "text": "All four entries equal the process variance",
+          "feedback": "Only the diagonal entries equal R_x(0) (the variance, for zero-mean); the off-diagonal entries carry the lag-1 correlation, which is generally different unless the process has no memory at lag 1."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — stacking any WSS process into a lag vector always produces a symmetric covariance matrix built entirely out of the autocorrelation function values you already know how to compute."
+    }
+  ]
+}

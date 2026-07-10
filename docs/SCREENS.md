@@ -142,15 +142,25 @@ Wraps an existing explorable widget with a goal to hit, instead of a bare manipu
 | --- | --- | --- | --- |
 | `id` | string | yes | |
 | `prompt` | string (Markdown) | yes | The task — what to make happen. |
-| `widget` | `"function-grapher"` | yes | Currently the only wrapped widget. |
-| `widgetProps` | object | yes | `{ expr (required), xmin?, xmax?, ymin?, ymax?, grid? }` — same meanings as the `function-grapher` widget's own props (`docs/WIDGETS.md`). `tangent` is forced on by the screen; don't set it. |
-| `goal` | object | yes | `{ kind: "tangent-gradient-in-range", min, max, description }`. |
+| `widget` | `"function-grapher" \| "signal-scope" \| "eigen-playground"` | yes | Each widget pairs with exactly one `goal.kind` (schema-enforced via `allOf`). |
+| `widgetProps` | object | yes | Shape depends on `widget` — see below. Same field meanings as that widget's own props (`docs/WIDGETS.md`). |
+| `goal` | object | yes | `{ kind, min, max, description }`; `kind` must match the widget (see below). |
 | `successFeedback` | string | no | |
 | `hints` | string[] | no | ≤ 3. Shown via a manual "Need a hint?" affordance (there's no discrete submit to gate the ladder on, unlike `tap-choice`/`entry`). |
 
+### Widget/goal pairs
+
+| `widget` | required `widgetProps` | `goal.kind` | live value checked against `[min, max]` |
+| --- | --- | --- | --- |
+| `function-grapher` | `expr` (`tangent` is forced on by the screen; don't set it) | `tangent-gradient-in-range` | the tangent's instantaneous gradient |
+| `signal-scope` | `expr` | `match-frequency-in-range` | the FFT's detected spectral-peak frequency (Hz) |
+| `eigen-playground` | `bMin`, `bMax` | `eigenvector-angle-in-range` | the principal eigenvector's angle (degrees) |
+
 ### Validation behaviour — the tolerance/keyboard-step trap
 
-`function-grapher`'s keyboard control moves the tangent point in fixed steps of `(xmax - xmin) / 50`. **`goal.max - goal.min` must be comfortably wider than that step** (at least 2× it), or a keyboard-only learner may never be able to land inside the window at all — the achievable keyboard positions are spaced `step` apart, so a goal window narrower than `step` can fall entirely *between* two reachable points. This is not a hypothetical: the first shipped screens lesson (`differentiation-1/01-gradients.screens.json`) originally used a ±0.1 gradient tolerance on a range where the keyboard step corresponded to a gradient step of ~0.32, and had to be widened to ±0.4 after testing. Compute the step for your `xmin`/`xmax` before picking `min`/`max`, and test with the keyboard, not just a mouse.
+Every wrapped widget's keyboard control moves its live value in fixed steps of `(max - min) / 50` for the relevant range (`xmax - xmin` for `function-grapher`, `freqMax - freqMin` for `signal-scope`, `bMax - bMin` for `eigen-playground`). **`goal.max - goal.min` must be comfortably wider than that step** (at least 2× it), or a keyboard-only learner may never be able to land inside the window at all — the achievable keyboard positions are spaced `step` apart, so a goal window narrower than `step` can fall entirely *between* two reachable points. This is not a hypothetical: the first shipped screens lesson (`differentiation-1/01-gradients.screens.json`) originally used a ±0.1 gradient tolerance on a range where the keyboard step corresponded to a gradient step of ~0.32, and had to be widened to ±0.4 after testing. Compute the step for your widget's range before picking `min`/`max`, and test with the keyboard, not just a mouse.
+
+For `signal-scope`, the achievable spectral-peak frequencies are additionally quantized to FFT bins (`sampleRate / nfft` Hz apart, where `nfft` is `duration * sampleRate` rounded up to the next power of two) — the goal window should be comfortably wider than one bin, not just wider than the keyboard step. For `eigen-playground`, avoid goal windows that straddle the ±90° wrap point, since the reported angle is always in `(-90, 90]`.
 
 ### Example
 
@@ -162,6 +172,28 @@ Wraps an existing explorable widget with a goal to hit, instead of a bare manipu
   "widget": "function-grapher",
   "widgetProps": { "expr": "x^2", "xmin": -4, "xmax": 4, "grid": true },
   "goal": { "kind": "tangent-gradient-in-range", "min": 3.6, "max": 4.4, "description": "Target: tangent gradient = 4." }
+}
+```
+
+```json
+{
+  "type": "manipulable-target",
+  "id": "tune-hidden-carrier",
+  "prompt": "Sweep the frequency dial until the spectrum's peak lands on 4 Hz.",
+  "widget": "signal-scope",
+  "widgetProps": { "expr": "sin(2*pi*f*t)", "sampleRate": 64, "duration": 4, "noiseAmount": 0.5, "freqMin": 0.5, "freqMax": 8 },
+  "goal": { "kind": "match-frequency-in-range", "min": 3.6, "max": 4.4, "description": "Target: spectral peak at 4 Hz." }
+}
+```
+
+```json
+{
+  "type": "manipulable-target",
+  "id": "rotate-to-30-degrees",
+  "prompt": "Drag b until the red principal eigenvector points at 30° above the x-axis.",
+  "widget": "eigen-playground",
+  "widgetProps": { "a": 2, "c": 1, "bMin": -1.3, "bMax": 1.3 },
+  "goal": { "kind": "eigenvector-angle-in-range", "min": 25, "max": 35, "description": "Target: principal eigenvector at 30°." }
 }
 ```
 

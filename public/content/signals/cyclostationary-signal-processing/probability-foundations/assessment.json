@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "id": "probability-foundations-assessment",
+  "title": "End of module: Probability Foundations",
+  "shuffleQuestions": true,
+  "shuffleChoices": true,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "For a continuous random variable X with density f_X(x), what does f_X(x) represent?",
+      "choices": [
+        "A density: probability over an interval is the area under f_X between its endpoints",
+        "The exact probability that X equals x",
+        "The maximum value X can take"
+      ],
+      "answer": 0,
+      "explanation": "For continuous random variables, P(X = x) is exactly zero for any single point; f_X(x) is a density whose integral over an interval gives the probability of X landing in that interval."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "Two random variables A and B satisfy P(A|B) = P(A). What does this mean?",
+      "choices": [
+        "A and B are independent — knowing B changes nothing about A's distribution",
+        "A and B are perfectly correlated",
+        "A and B cannot both be measured at the same time"
+      ],
+      "answer": 0,
+      "explanation": "Independence is exactly the statement that conditioning on one variable leaves the other's distribution unchanged: P(A|B) = P(A)."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "A discrete random variable takes values 1, 2, 3 with P(X=1)=0.3, P(X=2)=0.4, P(X=3)=p. What is p?",
+      "answer": 0.3,
+      "tolerance": 0.001,
+      "explanation": "Probabilities in a valid pmf sum to 1: p = 1 − 0.3 − 0.4 = 0.3."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "A random variable has E[X] = 5 and E[X^2] = 34. What is Var(X)?",
+      "answer": 9,
+      "tolerance": 0.01,
+      "explanation": "Var(X) = E[X^2] − (E[X])^2 = 34 − 25 = 9."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "Which statement about variance is correct?",
+      "choices": [
+        "Var(X) is always ≥ 0, since it's an expectation of a squared quantity",
+        "Var(X) can be negative if X swings below its mean often enough",
+        "Var(X) always equals E[X]"
+      ],
+      "answer": 0,
+      "explanation": "Variance is E[(X − E[X])²], the expectation of a squared (hence non-negative) quantity, so it can never be negative."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "Two variables have E[AB] = 10, E[A] = 2, E[B] = 4. What is Cov(A,B)?",
+      "answer": 2,
+      "tolerance": 0.01,
+      "explanation": "Cov(A,B) = E[AB] − E[A]E[B] = 10 − (2)(4) = 2."
+    },
+    {
+      "id": "q7",
+      "type": "mcq",
+      "text": "If Cov(X,Y) = 0 (X and Y are uncorrelated), can you conclude X and Y are independent?",
+      "choices": [
+        "No — zero covariance only rules out a linear relationship; a nonlinear dependence can still exist",
+        "Yes — zero covariance always means independence",
+        "Only if X and Y are both discrete"
+      ],
+      "answer": 0,
+      "explanation": "Covariance measures only linear co-movement. Independence is stronger and implies zero covariance, but the converse fails — a classic counterexample is Y = X² for a symmetric X centered at zero."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Two variables have Cov(A,B) = 8, Var(A) = 16, Var(B) = 4. What is the correlation coefficient ρ_AB?",
+      "answer": 1,
+      "tolerance": 0.01,
+      "explanation": "ρ_AB = Cov(A,B) / √(Var(A)·Var(B)) = 8 / √(16×4) = 8/8 = 1 — a perfect linear relationship."
+    },
+    {
+      "id": "q9",
+      "type": "text",
+      "text": "One word: Cov(X, X), the covariance of a random variable with itself, is exactly the random variable's ___.",
+      "accept": ["variance"],
+      "caseSensitive": false,
+      "explanation": "Cov(X,X) = E[(X−E[X])²] = Var(X) — variance is the special case of covariance where both variables are the same one."
+    }
+  ]
+}

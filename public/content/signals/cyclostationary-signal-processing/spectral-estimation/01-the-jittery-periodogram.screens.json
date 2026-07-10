@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "the-jittery-periodogram",
+  "title": "The jittery periodogram",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-more-data-helps",
+      "prompt": "Case update: you now know the recurring burst's autocorrelation implies a power spectral density via Wiener–Khinchin. You record two separate 4-second snapshots of it on different nights and compute the raw periodogram $\\hat{S}(f) = \\frac{1}{N}|X(f)|^2$ for each. Zooming into the same frequency bin on both nights — will the two values roughly agree?",
+      "choices": [
+        "Yes — more samples per snapshot means the estimate has settled down",
+        "No — they'll disagree by roughly as much as any single noisy measurement would"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "They disagree — and this doesn't go away no matter how long either snapshot is. The raw periodogram's variance at a fixed frequency stays roughly the same size as the quantity it's estimating, however large $N$ gets: it's an **inconsistent** estimator. Longer snapshots buy you finer frequency resolution, not a steadier answer at a given frequency. That's the periodogram's defining pathology, and it's exactly why your case notes from two nights of the burst won't stack cleanly on top of each other."
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-consistency",
+      "prompt": "You double the snapshot length $N$, keeping the sample rate fixed, and recompute the periodogram at the same frequency bin. What happens to the variance of the estimate at that bin?",
+      "choices": [
+        { "text": "It stays roughly the same size" },
+        {
+          "text": "It halves",
+          "feedback": "That's what you'd expect from averaging two independent estimates — but a longer single periodogram isn't an average of independent estimates, it's one estimate with finer resolution."
+        },
+        {
+          "text": "It shrinks toward zero as $N \\to \\infty$",
+          "feedback": "That's the behavior of a consistent estimator, like a sample mean over independent draws. The raw periodogram doesn't have it — this is precisely the problem this module exists to fix."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right — doubling $N$ sharpens frequency resolution but does not reduce the periodogram's variance at a fixed frequency. Fixing that requires spending samples differently, which is where Bartlett and Welch come in."
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 // Content model types — normative per SRS §4.2–§4.4.
 // Pinned by the orchestrator (T0.C). Do not add fields not present in the SRS.
 
-export type SubjectId = 'maths' | 'physics' | 'cs' | 'ai';
-export type CourseLevel = 'gcse' | 'as' | 'a2' | 'alevel' | 'foundation';
+export type SubjectId = 'maths' | 'physics' | 'cs' | 'ai' | 'signals';
+export type CourseLevel = 'gcse' | 'as' | 'a2' | 'alevel' | 'foundation' | 'postgrad';
 
 // §4.2 content/index.json (generated — never hand-edited)
 export interface ContentIndex {

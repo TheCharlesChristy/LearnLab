@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "csp-applications",
+  "title": "CSP Applications",
+  "description": "Modulation classification, low-SNR signal detection, and signal separation using cyclostationary features rather than raw PSD.",
+  "estMinutes": 110,
+  "prerequisites": [
+    "cyclic-spectrum-estimation"
+  ],
+  "objectives": [
+    "Explain how cyclic features (cycle-frequency location, SCF shape) support blind modulation classification",
+    "Explain why cyclostationary detectors can find signals in low SNR where energy detectors fail",
+    "Explain how distinct cycle frequencies let overlapping same-band signals be separated"
+  ],
+  "lessons": [
+    {
+      "id": "fingerprinting-modulation",
+      "title": "Fingerprinting the modulation",
+      "file": "01-fingerprinting-modulation.screens.json",
+      "kind": "screens",
+      "estMinutes": 40
+    },
+    {
+      "id": "finding-signals-in-noise",
+      "title": "Finding signals buried in noise",
+      "file": "02-finding-signals-in-noise.screens.json",
+      "kind": "screens",
+      "estMinutes": 35
+    },
+    {
+      "id": "separating-overlapping-signals",
+      "title": "Separating overlapping signals",
+      "file": "03-separating-overlapping-signals.screens.json",
+      "kind": "screens",
+      "estMinutes": 35
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "learnlab"
+  ]
+}

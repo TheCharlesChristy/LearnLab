@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "id": "cyclostationarity-core-theory",
+  "title": "Cyclostationarity: Core Theory",
+  "description": "Cyclostationary processes, why modulated signals exhibit periodic statistics, the cyclic autocorrelation function, and the spectral correlation function (SCF).",
+  "estMinutes": 140,
+  "prerequisites": [
+    "spectral-estimation",
+    "eigenanalysis-of-covariance"
+  ],
+  "objectives": [
+    "Define cyclostationarity: a process whose statistics are periodic in time rather than constant",
+    "Explain why modulated signals (symbol clocking, carrier frequency, framing) are cyclostationary even when a naive PSD estimate makes them look plain stationary",
+    "Define the cyclic autocorrelation function and cycle frequency via the Fourier series expansion of R_x(t,τ) over t",
+    "Define the spectral correlation function (SCF) and explain why the ordinary PSD is blind to structure at nonzero cycle frequencies"
+  ],
+  "lessons": [
+    {
+      "id": "statistics-with-a-heartbeat",
+      "title": "Statistics with a heartbeat",
+      "file": "01-statistics-with-a-heartbeat.screens.json",
+      "kind": "screens",
+      "estMinutes": 45
+    },
+    {
+      "id": "cyclic-autocorrelation-and-cycle-frequency",
+      "title": "Cyclic autocorrelation and cycle frequency",
+      "file": "02-cyclic-autocorrelation-and-cycle-frequency.screens.json",
+      "kind": "screens",
+      "estMinutes": 50
+    },
+    {
+      "id": "the-spectral-correlation-function",
+      "title": "The spectral correlation function",
+      "file": "03-the-spectral-correlation-function.screens.json",
+      "kind": "screens",
+      "estMinutes": 45
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "learnlab"
+  ]
+}

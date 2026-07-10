@@ -529,3 +529,79 @@ A real semantic `<table>` with `<th scope="col">` headers is the accessible repr
 At render time, `expr` is parsed by `src/widgets/truth-table/expression.ts`; a malformed expression shows an inline error card naming the exact problem (e.g. an empty expression, an unbalanced parenthesis, an unknown token, a lowercase/invalid variable name, or more than `maxInputs` distinct variables).
 
 Screenshot: TODO
+
+---
+
+## `eigen-playground`
+
+Interactive eigen-decomposition of a symmetric 2x2 matrix `[[a,b],[b,c]]` (a covariance-matrix shape). `a` and `c` are fixed per-instance (the axis variances); the learner drags a single scalar `b` (the off-diagonal/covariance term) along a slider and watches the principal eigenvector's angle, both eigenvalues, and the 1-standard-deviation ellipse update live. Solved in closed form (the exact formula for a symmetric 2x2 matrix) — no iterative eigensolver (NFR-PERF-001). The `b` handle is a focusable `role="slider"`, draggable by pointer and movable with arrow keys, mirroring `function-grapher`'s tangent-point pattern; the angle/eigenvalue readout lives in an `aria-live` region (NFR-A11Y-001).
+
+### Props
+
+| Prop         | Type    | Required | Default              | Description                                                                 |
+| ------------ | ------- | -------- | --------------------- | ---------------------------------------------------------------------------- |
+| `a`          | number  | no       | `2`                    | Fixed variance along x (diagonal entry). Must be `> 0`.                      |
+| `c`          | number  | no       | `1`                    | Fixed variance along y (diagonal entry). Must be `> 0`.                      |
+| `bMin`       | number  | no       | `-1.5`                 | Lower bound of the draggable off-diagonal term `b`. Must be `< bMax`.        |
+| `bMax`       | number  | no       | `1.5`                  | Upper bound of the draggable off-diagonal term `b`.                          |
+| `bInit`      | number  | no       | midpoint of `[bMin,bMax]` | Starting value of `b`. Must lie within `[bMin, bMax]`.                    |
+| `showPoints` | boolean | no       | `true`                 | Show a scatter cloud of sample points drawn from the implied covariance.     |
+
+### Example
+
+```markdown
+::widget{type="eigen-playground" a=2 c=1 bMin=-1.3 bMax=1.3 bInit=0}
+```
+
+### Validation behaviour
+
+`parseProps` (`src/widgets/eigen-playground/index.ts`) collects **all** errors before failing:
+
+- non-numeric `a`/`c`/`bMin`/`bMax`/`bInit` → `<name>: must be a finite number (got <value>)`
+- `a <= 0` or `c <= 0` → `<name>: must be greater than 0 (got <value>)`
+- `bMin >= bMax` → `bMin: must be less than bMax (got bMin=…, bMax=…)`
+- `bInit` outside `[bMin, bMax]` → `bInit: must be within [bMin, bMax] (got bInit=…, range=[…, …])`
+
+At render time, a `b` value that makes the matrix indefinite (`a·c < b²`, not a valid covariance matrix) shows the slider readout naming the problem instead of drawing the ellipse/eigenvectors — authors should choose `bMin`/`bMax` inside `(-√(a·c), √(a·c))` so every reachable position stays valid.
+
+Screenshot: TODO
+
+---
+
+## `signal-scope`
+
+Time-domain + frequency-domain signal viewer. Samples a mathjs-compiled expression in `t` (seconds) and a learner-adjustable parameter `f` (e.g. a hidden carrier frequency), optionally adds deterministic pseudo-random Gaussian noise, and renders the waveform alongside its magnitude spectrum. The spectrum is computed with an in-repo iterative radix-2 FFT (the sampled window is zero-padded to the next power of two) — no new runtime dependency (NFR-PERF-001). The `f` handle is a focusable `role="slider"`, draggable by pointer and movable with arrow keys, mirroring `function-grapher`'s tangent-point pattern; the frequency/spectral-peak readout lives in an `aria-live` region (NFR-A11Y-001).
+
+### Props
+
+| Prop            | Type    | Required | Default                  | Description                                                                    |
+| --------------- | ------- | -------- | -------------------------- | --------------------------------------------------------------------------------- |
+| `expr`          | string  | yes      | —                          | Expression in `t` and `f`, e.g. `"sin(2*pi*f*t)"`. Parsed by mathjs `compile`.     |
+| `sampleRate`    | number  | no       | `64`                        | Samples per second. Must be `> 0`.                                                |
+| `duration`      | number  | no       | `4`                         | Window length in seconds. Must be `> 0`.                                          |
+| `noiseAmount`   | number  | no       | `0`                         | Standard deviation of additive Gaussian noise (`0` = none). Must be `>= 0`.       |
+| `freqMin`       | number  | no       | `0.5`                       | Lower bound of the draggable frequency parameter `f`. Must be `< freqMax`.        |
+| `freqMax`       | number  | no       | `8`                         | Upper bound of the draggable frequency parameter `f`.                            |
+| `freqInit`      | number  | no       | midpoint of `[freqMin,freqMax]` | Starting value of `f`. Must lie within `[freqMin, freqMax]`.               |
+| `showSpectrum`  | boolean | no       | `true`                      | Show the magnitude-spectrum panel alongside the waveform.                        |
+
+### Example
+
+```markdown
+::widget{type="signal-scope" expr="sin(2*pi*f*t)" sampleRate=64 duration=4 noiseAmount=0.6 freqMin=0.5 freqMax=8}
+```
+
+### Validation behaviour
+
+`parseProps` (`src/widgets/signal-scope/index.ts`) collects **all** errors before failing:
+
+- missing/empty `expr` → `expr: required — a non-empty expression in t and f, e.g. expr="sin(2*pi*f*t)"`
+- non-numeric numeric props → `<name>: must be a finite number (got <value>)`
+- `sampleRate <= 0` / `duration <= 0` → `<name>: must be greater than 0 (got <value>)`
+- `noiseAmount < 0` → `noiseAmount: must be zero or greater (got <value>)`
+- `freqMin >= freqMax` → `freqMin: must be less than freqMax (got freqMin=…, freqMax=…)`
+- `freqInit` outside `[freqMin, freqMax]` → `freqInit: must be within [freqMin, freqMax] (got freqInit=…, range=[…, …])`
+
+An `expr` that passes the prop guard but fails to compile, or never evaluates to a number across the sampled window, renders an inline error card naming the expression at render time.
+
+Screenshot: TODO

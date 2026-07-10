@@ -1,0 +1,17 @@
+## Checkpoint: autocorrelation, two ways
+
+Case file, closing this module: every later phase of this course leans on one specific quantity — the **autocorrelation function** — computed two completely different ways that had better agree. This checkpoint is the first time you'll compute it yourself, from nothing but the definitions you've just built: expectation, and covariance of a signal with a shifted copy of itself.
+
+:::callout{kind="key"}
+Autocorrelation of a signal $x[n]$ (treated as periodic/circular over $N$ samples for this exercise) is $R[k] = \sum_{n} x[n]\,x[(n-k) \bmod N]$ — literally "multiply the signal by a shifted copy of itself and sum." Later in this course, the **Wiener–Khinchin theorem** will show that the same quantity can be recovered from the signal's frequency-domain representation instead: $R = \text{IDFT}\big(|\text{DFT}(x)|^2\big)$. Right now, you don't need to understand *why* that works — you just need to see, empirically, that it's true.
+:::
+
+Run the code below as-is first, then try changing the sample values in `x` and re-running — the two rows of numbers should keep matching no matter what you put in.
+
+::widget{type="code-runner" language="python" rows=22 starter="import cmath\n\nx = [1, 2, -1, 0, 3, -2, 1, 0]\nN = len(x)\n\n# Method 1: direct definition\ndef direct_autocorr(x):\n    N = len(x)\n    R = []\n    for k in range(N):\n        s = 0\n        for n in range(N):\n            s += x[n] * x[(n - k) % N]\n        R.append(s)\n    return R\n\n# Method 2: via the discrete Fourier transform (Wiener-Khinchin)\ndef dft(x):\n    N = len(x)\n    return [sum(x[n] * cmath.exp(-2j * cmath.pi * k * n / N) for n in range(N)) for k in range(N)]\n\ndef idft(X):\n    N = len(X)\n    return [sum(X[k] * cmath.exp(2j * cmath.pi * k * n / N) for k in range(N)) / N for n in range(N)]\n\nX = dft(x)\npower = [abs(v) ** 2 for v in X]\nR_via_fft = idft(power)\nR_direct = direct_autocorr(x)\n\nprint('Direct definition:   ', [round(v, 4) for v in R_direct])\nprint('Via Wiener-Khinchin: ', [round(v.real, 4) for v in R_via_fft])\n"}
+
+:::reveal{title="Why these two columns of numbers are the same claim, twice"}
+The direct method is literally the definition: slide a copy of the signal against itself by $k$ samples and sum the products. The Fourier-based method takes a detour through frequency: transform the signal, square its magnitude at every frequency (that's the **power spectrum**), then transform back. That these produce identical numbers isn't a coincidence or a numerical fluke — it's an exact algebraic identity (a short proof by substitution shows the Fourier transform of the autocorrelation is exactly the power spectrum). You'll derive *why* this holds properly in the Wiener–Khinchin module later in this course; for now, the point is that you've verified with your own hands that the claim is true, on data you chose yourself.
+:::
+
+Case log: your instruments are calibrated. You can now describe a single amplitude reading precisely (random variables and distributions), summarize a whole run of readings with two honest numbers (expectation and variance), and quantify how two sensors relate to each other (covariance) — including the trap of mistaking "uncorrelated" for "unrelated." None of that is specific to any one signal yet. The next module gives you the other half of the toolkit you'll need before touching the case again: the linear algebra that turns a covariance number into a picture.

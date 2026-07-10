@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "id": "eigenanalysis-of-covariance-assessment",
+  "title": "End of module: Eigenanalysis of Covariance Matrices",
+  "shuffleQuestions": true,
+  "shuffleChoices": true,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Stacking a WSS process into a lag vector $\\mathbf{x}(n) = [x(n), x(n-1)]^T$, the entries of its covariance matrix $\\Sigma = E[\\mathbf{x}(n)\\mathbf{x}(n)^T]$ are:",
+      "choices": [
+        "Autocorrelation values: diagonal entries R_x(0), off-diagonal entries R_x(1)",
+        "Always exactly the identity matrix regardless of the process",
+        "The process's mean value repeated in every entry"
+      ],
+      "answer": 0,
+      "explanation": "The diagonal entries are E[x(n)x(n)] and E[x(n-1)x(n-1)], both equal to R_x(0); the off-diagonal entries are E[x(n)x(n-1)] = R_x(1). Any WSS process's lag-vector covariance matrix is built directly from its autocorrelation function."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "A covariance matrix's eigenvectors and eigenvalues represent:",
+      "choices": [
+        "The directions the data varies along, and the variances along those directions",
+        "The mean value of the data along each axis",
+        "The sample rate the data was recorded at"
+      ],
+      "answer": 0,
+      "explanation": "Eigenvectors of a covariance matrix are its principal directions; the corresponding eigenvalues are the variances along those directions — the eigenvector with the largest eigenvalue is the long axis of the sample cloud's shape."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "If a covariance matrix's larger eigenvalue is much bigger than its smaller one, the sample cloud (plotting x(n) against x(n-1)) looks like:",
+      "choices": [
+        "A thin, elongated ellipse along the principal eigenvector's direction",
+        "A perfect circle with no preferred direction",
+        "Two separate, disconnected clusters"
+      ],
+      "answer": 0,
+      "explanation": "A large ratio between the eigenvalues means most of the variability is concentrated along one direction (the principal eigenvector), producing a thin, elongated ellipse rather than a round, isotropic cloud."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "The Karhunen-Loeve expansion represents a random process as:",
+      "choices": [
+        "A sum of its covariance matrix's eigenvectors, each weighted by an uncorrelated random coefficient",
+        "A single deterministic formula with no randomness",
+        "The Fourier transform of its mean function"
+      ],
+      "answer": 0,
+      "explanation": "Karhunen-Loeve is the formal bridge between random processes and eigendecomposition: the process is rebuilt from its covariance matrix's own eigenbasis, with uncorrelated random weights on each eigenvector."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "Why do structured, correlated signals tend to concentrate energy into a few large covariance-matrix eigenvalues, while unstructured noise doesn't?",
+      "choices": [
+        "Structure means strong correlation along a few directions; unstructured noise spreads its variance roughly evenly across every direction",
+        "Noise always has a larger total variance than any real signal",
+        "Eigenvalues are undefined for noisy data"
+      ],
+      "answer": 0,
+      "explanation": "A structured signal's samples are strongly correlated along a low-dimensional subspace, pushing most of the covariance matrix's energy into a handful of large eigenvalues. Unstructured noise has no such preferred direction, so its energy spreads roughly evenly across all eigenvalues — the basis of subspace-based detection."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "A 2x2 covariance matrix has diagonal entries both equal to 6 and one eigenvalue equal to 9. Using the fact that eigenvalues sum to the matrix's trace, what is the other eigenvalue?",
+      "answer": 3,
+      "tolerance": 0.01,
+      "explanation": "Trace = 6 + 6 = 12. Eigenvalues sum to the trace, so the second eigenvalue is 12 − 9 = 3."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "A 2x2 covariance matrix has diagonal entries both equal to 4 and off-diagonal entries equal to 0 (uncorrelated equal-variance samples). What are both eigenvalues equal to?",
+      "answer": 4,
+      "tolerance": 0.01,
+      "explanation": "With zero off-diagonal entries the matrix is already diagonal, so its eigenvalues are just the diagonal entries themselves: both equal to 4. Zero correlation means no preferred direction — the sample cloud is a circle, not an ellipse."
+    },
+    {
+      "id": "q8",
+      "type": "text",
+      "text": "One phrase: eigenvalue-ranked detectors that separate a few large eigenvalues (signal) from a noise floor of small, roughly equal eigenvalues are called ___-based detectors.",
+      "accept": ["subspace"],
+      "caseSensitive": false,
+      "explanation": "Subspace-based detectors exploit exactly this eigenvalue separation — a low-dimensional signal subspace of large eigenvalues sitting above a noise floor of small, roughly equal ones."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "Cumulative review: for the eigendecomposition ideas in this module to apply, the covariance matrix must be symmetric and positive semi-definite. Which property from the linear-algebra module guarantees a symmetric matrix's eigenvalues are real (not complex)?",
+      "choices": [
+        "The spectral theorem for symmetric (Hermitian, for real matrices) matrices",
+        "The fact that all 2x2 matrices have real eigenvalues",
+        "The requirement that the matrix be invertible"
+      ],
+      "answer": 0,
+      "explanation": "From linear-algebra-for-signals: the spectral theorem guarantees that any real symmetric (or complex Hermitian) matrix has real eigenvalues and an orthogonal (unitary) eigenbasis — exactly the property that makes 'variance along a direction' a meaningful, real-valued idea for covariance matrices."
+    }
+  ]
+}

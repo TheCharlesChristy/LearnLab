@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "fingerprinting-modulation",
+  "title": "Fingerprinting the modulation",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-modulation-fingerprint",
+      "prompt": "You now have an SCF estimate of the burst with clear peaks at specific (f, α) locations. Two different modulation schemes (say, BPSK vs. QPSK) transmitting at the same symbol rate and carrier — would you expect their SCFs to show peaks at the same cycle frequencies, the same shape, both, or neither?",
+      "choices": [
+        "Same cycle-frequency locations, but different SCF shape/strength at those locations",
+        "Completely unrelated cycle frequencies for each modulation type"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "Same locations, different shape. The cycle frequencies where the SCF peaks are set mainly by *timing* parameters — symbol rate, carrier frequency, framing — so two schemes sharing those parameters share peak locations. But *which* cycle frequencies carry strong peaks, and the detailed shape of the SCF at each one, depends on the modulation's actual symbol constellation and pulse shaping. That combination of peak locations plus shape is a **fingerprint**: classifying a signal's modulation blindly (without knowing in advance what it is) is largely a matter of matching an observed SCF fingerprint against known modulation signatures."
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-fingerprint-basis",
+      "prompt": "Blind modulation classification using cyclic features works by:",
+      "choices": [
+        { "text": "Comparing the observed SCF's cycle-frequency locations and shape against known signatures for different modulation types" },
+        {
+          "text": "Measuring only the signal's total received power",
+          "feedback": "Total power (an energy-detector-style measurement) says nothing about modulation type — that's exactly the limitation cyclic features are designed to overcome."
+        },
+        {
+          "text": "Requiring the receiver to already know which modulation was used",
+          "feedback": "The point of blind classification is precisely that the receiver does *not* know the modulation in advance — it infers it from the observed cyclic fingerprint."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — cyclic-feature-based classification turns \"what modulation is this?\" into a pattern-matching problem over the SCF's peak locations and shapes, without needing prior knowledge of the transmission scheme."
+    }
+  ]
+}

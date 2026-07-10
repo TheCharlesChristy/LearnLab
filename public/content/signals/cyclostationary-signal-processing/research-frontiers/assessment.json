@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "id": "research-frontiers-assessment",
+  "title": "End of module: Research Frontiers in CSP",
+  "shuffleQuestions": true,
+  "shuffleChoices": true,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Which source is recommended as the first thing to read, before Gardner's dense 1987 foundational text?",
+      "choices": [
+        "Gardner, Napolitano & Paura's 2006 survey paper, \"Cyclostationarity: Half a Century of Research\"",
+        "Roberts, Brown & Loomis's 1991 FAM/SSCA paper",
+        "Napolitano's 2020 \"New Trends and Applications\" book"
+      ],
+      "answer": 0,
+      "explanation": "The 2006 survey paper orients a reader across the whole field's history and structure at a gentler pace before committing to Gardner's denser 1987 book, which is the standard recommended reading order."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "Which paper is the reference for the FAM and SSCA cyclic-spectrum-estimation algorithms?",
+      "choices": [
+        "Roberts, Brown & Loomis, \"Computationally Efficient Algorithms for Cyclic Spectral Analysis\" (1991)",
+        "Gardner's \"Statistical Spectral Analysis: A Nonprobabilistic Theory\" (1987)",
+        "Napolitano's \"Cyclostationarity: New Trends and Applications\" (2020)"
+      ],
+      "answer": 0,
+      "explanation": "Roberts, Brown & Loomis (1991, IEEE Signal Processing Magazine) is the standard reference for the FAM and SSCA algorithms covered in the cyclic-spectrum-estimation module."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "Why is efficient real-time hardware implementation of cyclic spectral estimators considered a legitimately open research area, despite the underlying theory being decades old?",
+      "choices": [
+        "A field's theory being mature doesn't make the engineering of computing it efficiently on real hardware, in real time, equally settled",
+        "The theory itself is still actively disputed and unsettled",
+        "No practical application actually needs real-time cyclic spectral estimation"
+      ],
+      "answer": 0,
+      "explanation": "Theory maturity and engineering-implementation maturity are separate axes — CSP's core theory dates to the 1980s, but efficiently mapping FAM/SSCA-style algorithms onto real hardware for real-time use remains an active area, not a finished exercise."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "The recommended way to start engaging with CSP research, given an existing SDR/GNU Radio background, is to:",
+      "choices": [
+        "Reproduce 2-3 published results computationally first, using the existing pipeline as a testbed, before attempting to extend them",
+        "Attempt a fully novel cycle-frequency estimator immediately",
+        "Avoid writing any code until every recommended text has been read twice"
+      ],
+      "answer": 0,
+      "explanation": "Reproducing established results first validates your tooling and understanding before attempting anything original — the same working-code checkpoint-project philosophy used throughout this course."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "Who writes an active CSP blog described as a useful bridge between textbook derivations and applied, worked examples?",
+      "choices": [
+        "Chad Spooner",
+        "William A. Gardner",
+        "Antonio Napolitano"
+      ],
+      "answer": 0,
+      "explanation": "Chad Spooner's CSP blog is specifically called out as a good bridge between the denser textbook material (Gardner, Napolitano) and applied, worked examples once the fundamentals have landed."
+    },
+    {
+      "id": "q6",
+      "type": "numeric",
+      "text": "In what year was William A. Gardner's foundational text \"Statistical Spectral Analysis: A Nonprobabilistic Theory\" published?",
+      "answer": 1987,
+      "tolerance": 0,
+      "explanation": "Gardner's foundational text was published in 1987, and remains the source most later CSP work (including the survey paper and Napolitano's 2020 follow-up) builds on and cites."
+    },
+    {
+      "id": "q7",
+      "type": "text",
+      "text": "One surname: the author of the 2020 book \"Cyclostationarity: New Trends and Applications\", the modern follow-up filling gaps in Gardner's older book, is ___.",
+      "accept": ["napolitano"],
+      "caseSensitive": false,
+      "explanation": "Antonio Napolitano's 2020 book is the modern follow-up to Gardner's 1987 foundational text, filling gaps the older book leaves."
+    },
+    {
+      "id": "q8",
+      "type": "text",
+      "text": "One word: efficient real-time implementation of cyclic spectral estimators on dedicated hardware (e.g. FPGAs) is flagged as a legitimately under-served research ___.",
+      "accept": ["area"],
+      "caseSensitive": false,
+      "explanation": "The module explicitly frames hardware-efficient real-time CSP estimation as an under-served research area — a natural fit for a background in FPGA/embedded signal processing."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "Cumulative review: across this whole course's case, the single reason every purely PSD-based tool missed the recurring signal's structure was:",
+      "choices": [
+        "The ordinary PSD is only the α = 0 slice of the full spectral correlation function, and the signal's structure lived at nonzero cycle frequencies",
+        "The recording was simply too short to reveal any spectral structure at all",
+        "PSD-based tools cannot be applied to real recorded data, only to simulations"
+      ],
+      "answer": 0,
+      "explanation": "From cyclostationarity-core-theory: the ordinary PSD is structurally restricted to α = 0. The signal's clocked, modulated structure lived at nonzero cycle frequencies tied to its symbol rate — a dimension no amount of careful PSD estimation could ever reveal, which is exactly why the course's case needed the cyclic-spectrum tools built up across the later modules."
+    }
+  ]
+}

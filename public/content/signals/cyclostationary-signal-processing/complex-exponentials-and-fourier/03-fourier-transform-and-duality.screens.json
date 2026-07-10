@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "id": "fourier-transform-and-duality",
+  "title": "The Fourier transform, and duality",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-aperiodic-signal",
+      "prompt": "The Fourier series needs a genuinely periodic signal — repeating exactly forever. Your recorded burst is a one-off finite recording, not a repeating waveform. Does the machinery from the last lesson become useless here, or can it be extended?",
+      "choices": [
+        "Useless — Fourier series only applies to strictly periodic signals",
+        "It extends — let the period T₀ grow toward infinity, and the discrete harmonics blur into a continuum, giving the Fourier transform"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "It extends, and this is exactly how the **Fourier transform** is built. As $T_0 \\to \\infty$, the fundamental frequency $f_0 = 1/T_0 \\to 0$ — the discrete harmonics $0, \\pm f_0, \\pm 2f_0, \\ldots$ pack infinitely close together and become a continuous frequency variable $f$. The Fourier series sum turns into an integral: $X(f) = \\int_{-\\infty}^{\\infty} x(t)\\,e^{-j2\\pi ft}\\,dt$, with the inverse $x(t) = \\int_{-\\infty}^{\\infty} X(f)\\,e^{j2\\pi ft}\\,df$. Same underlying idea (project onto complex exponentials, one frequency at a time), now covering signals — including a one-off finite recording — that never repeat at all."
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-transform-pair-relationship",
+      "prompt": "How does the Fourier transform X(f) relate to the Fourier series coefficients c_k, conceptually?",
+      "choices": [
+        { "text": "X(f) is the continuous-frequency limit of c_k, as the period T₀ grows without bound and the discrete harmonic spacing shrinks to zero" },
+        {
+          "text": "They are unrelated formulas that happen to share notation",
+          "feedback": "They're directly related by a limiting process — the Fourier transform is literally what the Fourier series coefficients become as the assumption of exact periodicity is relaxed toward T₀ → ∞."
+        },
+        {
+          "text": "X(f) only applies to signals with zero mean",
+          "feedback": "There's no such restriction — the Fourier transform applies (subject to the usual convergence conditions) regardless of whether the signal has zero mean or not; a nonzero mean just shows up as structure at f = 0."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — same conceptual object (frequency content), generalized from a discrete list of harmonics to a continuous function of frequency."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "duality-mechanism",
+      "body": "**Duality** is the observation that the forward and inverse Fourier transforms look almost identical — swap $t \\leftrightarrow f$ and flip one sign, and one formula becomes the other. This symmetry has real consequences you'll use directly: a signal that's *narrow* in time has a spectrum that's *wide* in frequency, and vice versa (you cannot simultaneously localize a signal tightly in both domains — the same tension you'll meet again as the resolution/leakage tradeoff in spectral estimation). Multiplication in one domain becomes **convolution** in the other: multiplying two time-domain signals corresponds to convolving their spectra, and — critically for what's coming — convolving two time-domain signals corresponds to simply *multiplying* their spectra together. That single fact is why frequency-domain analysis is often so much easier than working directly in time: an operation that's messy convolution in one domain can become plain multiplication in the other.",
+      "selfExplainPrompt": "In your own words: why does a signal that's very short/narrow in time necessarily have a spectrum that's spread out/wide in frequency?",
+      "selfExplainAnswer": "A strong answer connects this to duality directly: since the forward and inverse transforms are nearly the same operation with t and f swapped, whatever squeezing happens to a function in one domain must correspond to spreading in the other domain by the same underlying mathematical symmetry — a narrow pulse needs many different frequency components, closely spaced in phase, to cancel out everywhere except in that narrow time window, and that need for many frequencies is exactly what 'wide in frequency' means."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-convolution-theorem",
+      "worked": "Suppose you filter a recorded signal $x(t)$ by convolving it with a filter's impulse response $h(t)$, giving output $y(t) = x(t) * h(t)$. Using the convolution theorem (convolution in time = multiplication in frequency): $Y(f) = X(f)\\,H(f)$. If at some frequency $f_1$, $X(f_1) = 4$ and $H(f_1) = 0.5$, then $Y(f_1) = 4 \\times 0.5 = 2$.",
+      "prompt": "At a different frequency $f_2$, $X(f_2) = 6$ and $H(f_2) = 1.5$. What is $Y(f_2)$?",
+      "inputMode": "numeric",
+      "answer": 9,
+      "tolerance": 0.01,
+      "successFeedback": "Right — Y(f₂) = X(f₂)·H(f₂) = 6 × 1.5 = 9. Filtering, which is a convolution in time, reduces to plain multiplication frequency-by-frequency — the whole reason filter design is usually done by reasoning about frequency response rather than the time-domain impulse response directly.",
+      "hints": [
+        "The convolution theorem says Y(f) = X(f) · H(f) at every frequency.",
+        "6 × 1.5 = ?"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "fam-and-ssca",
+  "title": "FAM and SSCA",
+  "screens": [
+    {
+      "type": "reveal-mechanism",
+      "id": "fam-ssca-mechanism",
+      "body": "Directly computing a smoothed cyclic periodogram by brute force means searching over every candidate cycle frequency α *and* every frequency f — a search space far bigger than the ordinary PSD's single frequency axis. Two algorithms make this tractable in practice, and both are built entirely from ordinary FFTs (no exotic new transform): the **FFT Accumulation Method (FAM)** computes a bank of short-time FFTs across overlapping time blocks and combines them across blocks to build up the (f, α) surface; the **Strip Spectral Correlation Algorithm (SSCA)** instead organizes the computation around narrow frequency \"strips\", trading some structure in how the work is laid out for a different, often more hardware-friendly, computational pattern. Both compute the same underlying quantity (a smoothed SCF estimate) — they differ in how the FFT work is organized and how efficiently that organization maps onto real hardware, which is exactly why your FPGA background is relevant to this corner of the field.",
+      "selfExplainPrompt": "In your own words: why does estimating the cyclic spectrum need dedicated algorithms like FAM/SSCA, when the ordinary PSD can just be estimated with a single FFT-based Welch method?",
+      "selfExplainAnswer": "A strong answer notes that the ordinary PSD only needs a search over one frequency axis, while the SCF needs a search over both frequency f and cycle frequency α simultaneously — a much larger computation. FAM and SSCA are specifically organized (using banks of FFTs across time blocks, or frequency-strip decompositions) to compute that two-dimensional surface efficiently, rather than repeating a brute-force 1D estimator once per candidate α."
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-fam-ssca-purpose",
+      "prompt": "What do FAM and SSCA have in common?",
+      "choices": [
+        { "text": "Both are FFT-based algorithms for efficiently estimating the SCF over both f and α, organized differently for computational efficiency" },
+        {
+          "text": "Both compute a completely different quantity than the SCF",
+          "feedback": "They compute the same underlying quantity — a smoothed spectral correlation function estimate. The difference between them is algorithmic organization, not what they're estimating."
+        },
+        {
+          "text": "Both require the data to already be free of noise",
+          "feedback": "Neither algorithm assumes noise-free data — cyclic spectral estimation from noisy, finite recordings is exactly the problem they exist to solve efficiently."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right — same target quantity, different efficient computational organizations, both built from ordinary FFTs rather than any new transform."
+    }
+  ]
+}

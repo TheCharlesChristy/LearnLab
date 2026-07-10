@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "id": "covariance-matrices-as-geometric-objects",
+  "title": "Covariance matrices as geometric objects",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-correlation-shape",
+      "prompt": "Two sensors' readings, plotted against each other as a scatter cloud, currently look like a round, formless blob — the two sensors seem unrelated. If the sensors became more strongly correlated over time, would you expect the *shape* of that cloud to change, or just its size?",
+      "choices": [
+        "Just its size — a round blob just gets bigger or smaller",
+        "Its shape — stronger correlation should stretch the cloud into an elongated ellipse along a specific direction"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Its shape. A covariance matrix isn't just a table of numbers — it's a geometric object. Its eigenvectors are the ellipse's axes, and its eigenvalues are how long each axis is (in squared-length/variance terms). Zero correlation gives a circle (no preferred direction); strong correlation stretches that circle into a thin ellipse tilted along the correlated direction. You're about to watch this happen live."
+    },
+    {
+      "type": "manipulable-target",
+      "id": "drag-to-target-angle",
+      "prompt": "Drag the handle below (or use arrow keys) to change the covariance term $b$ until the red principal eigenvector points at $30°$ above the x-axis.",
+      "widget": "eigen-playground",
+      "widgetProps": { "a": 2, "c": 1, "bMin": -1.3, "bMax": 1.3, "showPoints": true },
+      "goal": {
+        "kind": "eigenvector-angle-in-range",
+        "min": 25,
+        "max": 35,
+        "description": "Target: principal eigenvector at 30° above the x-axis."
+      },
+      "successFeedback": "That's it — watch how the point cloud itself tilted to match the eigenvector direction as you dragged. The ellipse's long axis and the cloud's actual shape are the same geometric fact, just visualized two ways.",
+      "hints": [
+        "Positive b tilts the ellipse toward the upper-right; try dragging right from the middle.",
+        "The readout below the widget tells you the current angle live — aim for it to read close to 30°."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-what-changed",
+      "prompt": "As you dragged $b$ toward the target, what specifically was changing in the widget?",
+      "choices": [
+        { "text": "The off-diagonal covariance term b, which rotates the ellipse and tilts the sample cloud without touching the fixed variances a and c" },
+        {
+          "text": "The variances a and c themselves",
+          "feedback": "a and c were held fixed in this widget — only b (the covariance term) was under your control, and it's exactly b's value that determines the tilt angle."
+        },
+        {
+          "text": "The number of sample points shown",
+          "feedback": "The point count didn't change — what changed was where those same underlying points landed once the covariance matrix (and hence the transformation applied to them) changed."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right — b alone controls the tilt. This is the direct geometric meaning of the off-diagonal covariance entry: it's not just a number in a matrix, it's literally the rotation of the data's natural axes."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "principal-component-mechanism",
+      "body": "The direction you just aimed for — the principal eigenvector — is the same object statisticians call the **first principal component** when this idea is applied to real, multi-dimensional data (Principal Component Analysis, PCA, is exactly covariance-matrix eigendecomposition under a different name). It's the single direction that captures the most variance in the data; the second eigenvector, perpendicular to it, captures what's left. For a signal's lag vector specifically (stacking a sample with its neighbours, as you'll do properly in a later module), the principal eigenvector tells you the dominant way the signal's nearby samples move together — a first hint at structure that a single amplitude reading, taken alone, could never reveal.",
+      "selfExplainPrompt": "In your own words: why is 'the direction of most variance' a meaningful thing to look for in a dataset, rather than an arbitrary geometric curiosity?",
+      "selfExplainAnswer": "A strong answer notes that the direction of most variance is where the data actually varies/carries the most information — projecting onto it loses the least detail compared to projecting onto any other single direction. It's a principled way to summarize high-dimensional, correlated data with fewer numbers while keeping as much of the real structure as possible, which is exactly the intuition behind PCA and, later in this course, subspace-based signal detectors."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-ellipse-orientation",
+      "worked": "For $\\Sigma = \\begin{pmatrix}2 & 0\\\\0 & 1\\end{pmatrix}$ (zero covariance term), the eigenvector angle formula $\\theta = \\tfrac{1}{2}\\arctan\\!\\big(\\tfrac{2b}{a-c}\\big)$ gives $\\theta = \\tfrac{1}{2}\\arctan(0) = 0°$: the ellipse's axes align exactly with the x and y axes — no tilt, because zero covariance means no correlation to tilt toward.",
+      "prompt": "For $\\Sigma = \\begin{pmatrix}2 & 1\\\\1 & 2\\end{pmatrix}$ (equal variances, nonzero covariance), using $\\theta = \\tfrac12\\arctan\\!\\big(\\tfrac{2b}{a-c}\\big)$ with $a=c$ giving a vertical asymptote at exactly 45°: what is the tilt angle $\\theta$, in degrees?",
+      "inputMode": "numeric",
+      "answer": 45,
+      "tolerance": 1,
+      "unit": "degrees",
+      "successFeedback": "Right — when a = c (equal variances) and b ≠ 0, the ellipse always tilts to exactly 45°, regardless of b's exact size (only the eigenvalues' spread, not the angle, depends on how large b is in this equal-variance case).",
+      "hints": [
+        "When a = c, the denominator (a − c) in the arctan formula is zero, which corresponds to the arctan's vertical asymptote.",
+        "arctan approaching a vertical asymptote from the positive side corresponds to an angle of 90°, and θ is half of that."
+      ]
+    }
+  ]
+}

@@ -24,8 +24,8 @@ import { parseArgs } from 'node:util';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-const SUBJECTS = ['maths', 'physics', 'cs', 'ai'];
-const LEVELS = ['gcse', 'as', 'a2', 'alevel', 'foundation'];
+const SUBJECTS = ['maths', 'physics', 'cs', 'ai', 'signals'];
+const LEVELS = ['gcse', 'as', 'a2', 'alevel', 'foundation', 'postgrad'];
 const ID_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
 const { values: flags } = parseArgs({

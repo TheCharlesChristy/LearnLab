@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "id": "stationary-random-processes",
+  "title": "Stationary Random Processes",
+  "description": "Random processes as families of random variables indexed by time, strict-sense and wide-sense stationarity, ergodicity, and the autocorrelation function.",
+  "estMinutes": 100,
+  "prerequisites": [
+    "probability-foundations"
+  ],
+  "objectives": [
+    "Define a random process as an indexed family of random variables, and distinguish ensemble statistics from time statistics",
+    "State the strict-sense and wide-sense definitions of stationarity, and explain why WSS does not generally imply SSS",
+    "Explain ergodicity and why it is required to justify estimating ensemble statistics from a single realization",
+    "State and apply the key properties of the autocorrelation function for a real WSS process"
+  ],
+  "lessons": [
+    {
+      "id": "random-processes-and-ensemble-statistics",
+      "title": "Random processes and ensemble statistics",
+      "file": "01-random-processes-and-ensemble-statistics.screens.json",
+      "kind": "screens",
+      "estMinutes": 25
+    },
+    {
+      "id": "strict-sense-vs-wide-sense-stationarity",
+      "title": "Strict-sense vs. wide-sense stationarity",
+      "file": "02-strict-sense-vs-wide-sense-stationarity.screens.json",
+      "kind": "screens",
+      "estMinutes": 25
+    },
+    {
+      "id": "ergodicity",
+      "title": "Ergodicity",
+      "file": "03-ergodicity.screens.json",
+      "kind": "screens",
+      "estMinutes": 25
+    },
+    {
+      "id": "autocorrelation-for-wss-processes",
+      "title": "Autocorrelation for WSS processes",
+      "file": "04-autocorrelation-for-wss-processes.screens.json",
+      "kind": "screens",
+      "estMinutes": 25
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "learnlab"
+  ]
+}
