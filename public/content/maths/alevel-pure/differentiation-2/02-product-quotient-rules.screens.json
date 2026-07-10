@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "product-quotient-rules",
+  "title": "The product and quotient rules",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-panel-area-rate",
+      "prompt": "The car's roof-mounted solar panel unfolds as it drives: its width is $w(x)=x^2$ metres and its height is $h(x)=(2x+1)^3$ metres, $x$ seconds after starting to unfold. The panel's area is $A(x)=w(x)h(x)$. Is the rate the area grows, $\\frac{dA}{dx}$, just $w'(x)h'(x)$, the two separate rates multiplied together?",
+      "choices": [
+        "Yes, multiply the two separate rates of change together",
+        "No, that's not how a product's rate of change works"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "If $y=uv$ with $u$ and $v$ both functions of $x$, the **product rule** says $\\frac{dy}{dx}=u'v+uv'$, the derivative of the first times the second, plus the first times the derivative of the second. Multiplying $u'$ and $v'$ together isn't part of it at all; both terms in the sum keep one factor un-differentiated."
+    },
+    {
+      "type": "entry",
+      "id": "product-rule-apply",
+      "prompt": "For the panel, $u=x^2$ and $v=(2x+1)^3$. Then $u'=2x$ and, by the chain rule, $v'=3(2x+1)^2\\times2=6(2x+1)^2$. At $x=0$: $u=0,v=1,u'=0,v'=6$. What is $\\frac{dA}{dx}$ at $x=0$, using $u'v+uv'$?",
+      "inputMode": "numeric",
+      "answer": 0,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $0$. At the very start ($x=0$) the panel hasn't started unfolding in width yet ($u=x^2=0$), so despite the height changing, the area's rate of growth is momentarily zero.",
+      "hints": [
+        "Substitute each value into u'v + uv'.",
+        "0x1 + 0x6 = ?"
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "choose-the-rule",
+      "prompt": "The panel's efficiency ratio is $r(x)=\\dfrac{x}{x+1}$, output per degree of unfolding. Which rule differentiates this?",
+      "choices": [
+        { "text": "The quotient rule" },
+        {
+          "text": "The product rule",
+          "feedback": "A quotient like x/(x+1) is division, not multiplication of two separate factors, so the product rule doesn't apply directly here."
+        },
+        {
+          "text": "The power rule alone",
+          "feedback": "x/(x+1) doesn't simplify to a single power of x, the numerator and denominator each depend on x independently, so the power rule alone can't handle it."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly. If $y=\\dfrac{u}{v}$, the quotient rule gives $\\dfrac{dy}{dx}=\\dfrac{u'v-uv'}{v^2}$, note the subtraction, and the order matters (it isn't symmetric)."
+    },
+    {
+      "type": "manipulable-target",
+      "id": "confirm-quotient-gradient",
+      "prompt": "Drag the point along the panel's efficiency curve $y=\\dfrac{x}{x+1}$ until the tangent's gradient reads **0.25**.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "x/(x+1)", "xmin": -6, "xmax": 6, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": 0.15,
+        "max": 0.35,
+        "description": "Target: tangent gradient = 0.25 (matches the quotient rule: 1/(x+1)^2 = 0.25 at x=1 or x=-3)."
+      },
+      "successFeedback": "Nice, at $x=1$ (or $x=-3$), $\\dfrac{1}{(x+1)^2}=\\dfrac{1}{4}=0.25$, exactly matching the quotient rule.",
+      "hints": [
+        "The quotient rule predicts the gradient is 1/(x+1)^2, where does that equal 0.25?",
+        "Solve (x+1)^2 = 4.",
+        "Try landing near x = 1 (or x = -3)."
+      ]
+    },
+    {
+      "type": "entry",
+      "id": "quotient-rule-second-example",
+      "prompt": "The panel also reports a charge ratio $y=\\dfrac{x^2}{x+1}$. Using $u=x^2, v=x+1$ so $u'=2x, v'=1$: what is $\\dfrac{dy}{dx}$ at $x=1$?",
+      "inputMode": "numeric",
+      "answer": 0.75,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $\\dfrac{3}{4}=0.75$. Same quotient rule, new function.",
+      "hints": [
+        "dy/dx = (u'v - uv')/v^2 = (2x(x+1) - x^2)/(x+1)^2.",
+        "At x=1: (2(2) - 1)/4 = 3/4."
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "quotient-rule-worked-full",
+      "body": "The panel's controller also tracks a signal ratio $y=\\dfrac{2x-1}{x^2+3}$. Let $u=2x-1$ and $v=x^2+3$, so $u'=2$ and $v'=2x$.\n\n$$\n\\frac{dy}{dx}=\\frac{(2)(x^2+3)-(2x-1)(2x)}{(x^2+3)^2}.\n$$\n\nExpand the numerator carefully:\n\n$$\n2(x^2+3)=2x^2+6,\\qquad(2x-1)(2x)=4x^2-2x.\n$$\n\n$$\n\\text{Numerator}=(2x^2+6)-(4x^2-2x)=-2x^2+2x+6.\n$$\n\nSo $\\dfrac{dy}{dx}=\\dfrac{-2x^2+2x+6}{(x^2+3)^2}$. At $x=0$: numerator $=6$, denominator $=9$, so $\\dfrac{dy}{dx}\\Big|_{x=0}=\\dfrac{6}{9}=\\dfrac{2}{3}$.",
+      "selfExplainPrompt": "The quotient rule's numerator subtracts $uv'$ from $u'v$, in that specific order. What would go wrong here if you subtracted the other way round, $uv'-u'v$?",
+      "selfExplainAnswer": "You'd get the negative of the correct numerator every time, here $2x^2-2x-6$ instead of $-2x^2+2x+6$, which flips the sign of the whole derivative. Since $\\dfrac{u}{v}$ isn't symmetric in $u$ and $v$ the way a product is, the order in the quotient rule's numerator is not optional; getting it backwards silently flips every sign."
+    },
+    {
+      "type": "faded-step",
+      "id": "quotient-rule-faded",
+      "worked": "One more signal from the panel: $y=\\dfrac{x+2}{x-1}$. Let $u=x+2, v=x-1$, so $u'=1, v'=1$. By the quotient rule, $\\dfrac{dy}{dx}=\\dfrac{u'v-uv'}{v^2}=\\dfrac{(x-1)-(x+2)}{(x-1)^2}=\\dfrac{-3}{(x-1)^2}$.",
+      "prompt": "So $\\dfrac{dy}{dx}=\\dfrac{-3}{(x-1)^2}$. What is $\\dfrac{dy}{dx}$ at $x=2$?",
+      "inputMode": "numeric",
+      "answer": -3,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $-3$. Back at the start of this lesson you predicted whether multiplying the two separate rates together would give a product's rate of change, now you've used the real product rule and its quotient-rule partner on four different panel signals. Next lesson adds the standard derivatives for trig, exponential and log functions, plus connected rates of change, to the same toolkit.",
+      "hints": [
+        "Substitute x=2 into (x-1)^2 first.",
+        "(2-1)^2 = 1, then -3/1."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "id": "proof-by-deduction",
+  "title": "Proof by deduction",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-sum-of-odds",
+      "prompt": "Pick any two odd numbers, say 7 and 13. Add them: 20, even. Try 9 and 11: 20, even again. Will the sum of any two odd numbers always be even, or does it just work out for the pairs you happen to try?",
+      "choices": [
+        "Always even, no matter which two odd numbers you pick",
+        "It depends on the specific pair"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "Hold that thought. You're about to build a deductive proof that nails this down for every possible pair of odd numbers, not just the ones you tried."
+    },
+    {
+      "type": "tap-choice",
+      "id": "algebraic-form-even",
+      "prompt": "To prove something about every even number, you can't use one specific number like 6. Which algebraic form correctly represents 'a general even integer'?",
+      "choices": [
+        { "text": "$2n$, for some integer $n$" },
+        { "text": "$n + 2$, for some integer $n$", "feedback": "$n+2$ is just two more than $n$; it isn't guaranteed to be even. If $n=3$, $n+2=5$, which is odd." },
+        { "text": "$n^2$, for some integer $n$", "feedback": "Squaring $n$ doesn't guarantee an even result. If $n=3$, $n^2=9$, which is odd." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. $2n$ is a multiple of 2 for every integer $n$, so it stands for any even integer at once."
+    },
+    {
+      "type": "entry",
+      "id": "algebraic-form-odd",
+      "prompt": "An even integer is written $2n$. What is the standard algebraic form for an odd integer, using the same $n$?",
+      "inputMode": "text",
+      "accept": ["2n\\s*\\+\\s*1", "2n\\s*-\\s*1"],
+      "caseSensitive": false,
+      "hints": ["Odd numbers are one more, or one less, than an even number.", "Add 1 to $2n$."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "completing-square-argument",
+      "prompt": "To prove $x^2 - 6x + 11 > 0$ for every real $x$, we complete the square: $x^2 - 6x + 11 = (x-3)^2 + 2$. Since a real square can never be negative, what can we conclude?",
+      "choices": [
+        { "text": "$(x-3)^2 + 2 \\ge 2 > 0$ for every real $x$, so the claim is proved" },
+        { "text": "$(x-3)^2 + 2$ could still be negative for some $x$", "feedback": "A real square $(x-3)^2$ is never negative, so adding 2 keeps the whole expression at least 2. It can never dip below zero." },
+        { "text": "This only proves the claim for $x = 3$", "feedback": "The argument uses $(x-3)^2 \\ge 0$, which holds for every real $x$, not just $x=3$. That's exactly what makes it a general deductive proof rather than a single example." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly. Because $(x-3)^2 \\ge 0$ holds for every real $x$, the whole chain of reasoning applies to every real $x$ at once."
+    },
+    {
+      "type": "entry",
+      "id": "consecutive-product-check",
+      "prompt": "Consecutive integers can be written $n$ and $n+1$. Using $n = 9$: what is $9 \\times 10$?",
+      "inputMode": "numeric",
+      "answer": 90,
+      "tolerance": 0,
+      "hints": ["Multiply 9 by 10."],
+      "successFeedback": "90 is even, consistent with the deduction that $n(n+1)$ is always even: whichever of $n$, $n+1$ is even contributes the needed factor of 2."
+    },
+    {
+      "type": "sort-match",
+      "id": "match-algebraic-forms",
+      "prompt": "Match each algebraic form to what it represents in a general deductive proof.",
+      "pairs": [
+        { "left": "$2n$", "right": "A general even integer" },
+        { "left": "$2n+1$", "right": "A general odd integer" },
+        { "left": "$n$ and $n+1$", "right": "Two consecutive integers" },
+        { "left": "$3n$", "right": "A general multiple of 3" }
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "sum-of-two-odds",
+      "body": "Let the two odd numbers be $2m+1$ and $2n+1$, for integers $m$ and $n$. Their sum is\n\n$$\n(2m+1) + (2n+1) = 2m + 2n + 2 = 2(m+n+1).\n$$\n\nSince $m+n+1$ is an integer, the sum is $2 \\times (\\text{an integer})$, which is even by definition, for every possible choice of $m$ and $n$.",
+      "selfExplainPrompt": "The proof never picks specific values for $m$ and $n$. Why does that matter for the conclusion 'this holds for every pair of odd numbers'?",
+      "selfExplainAnswer": "Because $m$ and $n$ stand for any integers, the same three lines of algebra work no matter which two odd numbers you started with. A specific example only shows the result for one pair; keeping $m$ and $n$ general shows it for all of them at once."
+    },
+    {
+      "type": "faded-step",
+      "id": "sum-of-two-evens",
+      "worked": "Let the two even numbers be $2m$ and $2n$, for integers $m$ and $n$. Their sum is $2m + 2n$.",
+      "prompt": "Factor out the common factor of 2: $2m + 2n = 2 \\times (\\_\\_\\_)$. What single expression, in terms of $m$ and $n$, goes in the blank?",
+      "inputMode": "text",
+      "accept": ["m\\s*\\+\\s*n"],
+      "caseSensitive": false,
+      "hints": ["Factor the 2 out of both terms.", "$2m + 2n = 2(m+n)$."],
+      "successFeedback": "$m+n$. So the sum of any two even numbers is $2(m+n)$, even for every choice of $m$ and $n$. You predicted the sum of two odd numbers is always even, and the deduction confirms it: because $m$ and $n$ stood for any integers, the argument covers every pair at once, not just the ones you tried. Next up: proof by exhaustion, for statements over a small finite set."
+    }
+  ]
+}

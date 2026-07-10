@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "id": "locating-roots-and-iteration",
+  "title": "Locating roots and fixed-point iteration",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-cant-solve",
+      "prompt": "Try to solve $x^3 - x - 2 = 0$ using the methods you already know: factorising, or a formula. Neither works directly here, this cubic has no nice integer roots to factor out, and there's no simple formula for cubics at this level. Does that mean we're stuck, unable to say anything useful about where the solution is?",
+      "choices": [
+        "Yes, without an algebraic method we can't say anything useful about the root",
+        "No, we can locate the root and approximate it as closely as we like, without ever solving the equation exactly"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "That's exactly what numerical methods do. Let $f(x) = x^3 - x - 2$. We can't solve $f(x) = 0$ by factorising, but we can still pin the root down: watch what happens to the sign of $f$ as $x$ increases."
+    },
+    {
+      "type": "tap-choice",
+      "id": "meaning-of-sign-change",
+      "prompt": "$f(1) = 1 - 1 - 2 = -2$ and $f(2) = 8 - 2 - 2 = 4$ for $f(x) = x^3 - x - 2$, and $f$ is continuous everywhere (it's a polynomial). What can you conclude?",
+      "choices": [
+        { "text": "A root of $f(x) = 0$ lies somewhere in $(1, 2)$" },
+        {
+          "text": "There is no root in $(1, 2)$",
+          "feedback": "A sign change across a continuous function is exactly the signal that a root exists between the two points, the graph can't jump from negative to positive without crossing zero somewhere in between."
+        },
+        {
+          "text": "$f$ must have a maximum at $x = 1$",
+          "feedback": "The sign change tells you about a root, not about turning points. $f(1)$ and $f(2)$ having different signs says nothing about whether either point is a maximum or minimum."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly, a continuous function can't jump from negative to positive without crossing zero, so a root must lie in $(1, 2)$."
+    },
+    {
+      "type": "entry",
+      "id": "compute-f-1-5",
+      "prompt": "Narrow the interval by testing the midpoint. What is $f(1.5) = 1.5^3 - 1.5 - 2$?",
+      "inputMode": "numeric",
+      "answer": -0.125,
+      "tolerance": 0.001,
+      "successFeedback": "Right, $f(1.5) = -0.125 < 0$, and $f(2) = 4 > 0$, so the root lies in the tighter interval $(1.5, 2)$.",
+      "hints": ["$1.5^3 = 3.375$.", "$3.375 - 1.5 - 2 = ?$"]
+    },
+    {
+      "type": "predict",
+      "id": "predict-rearrangement-always-works",
+      "prompt": "The equation $x^3 - x - 2 = 0$ can be rearranged into the form $x = g(x)$, for example $x^3 = x + 2$ gives $x = (x+2)^{1/3} = g(x)$. Starting from $x_0 = 1.5$ and repeatedly computing $x_{n+1} = g(x_n)$ generates $1.5,\\ 1.518294,\\ 1.520935,\\ldots$, closing in on the root. Do you think every possible rearrangement of the same equation, iterated this way, will converge to the root?",
+      "choices": [
+        "Yes, any valid rearrangement will eventually converge to the root",
+        "No, some rearrangements converge to the root and others run away from it, even from the same starting value"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "It depends entirely on the rearrangement you pick. The one above, $g(x) = (x+2)^{1/3}$, does converge. What decides whether a rearrangement converges is the size of the tangent gradient of $y = g(x)$ near the root: keep that in mind for the next screen."
+    },
+    {
+      "type": "manipulable-target",
+      "id": "explore-g-gradient",
+      "prompt": "This is $y = (x+2)^{1/3} = g(x)$, the rearrangement that converges. Drag the point until the tangent gradient reads somewhere between about 0.05 and 0.4.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "cbrt(x+2)", "xmin": -1.5, "xmax": 5, "tangent": true, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": 0.05,
+        "max": 0.4,
+        "description": "Target: tangent gradient of g(x) = cbrt(x+2) between 0.05 and 0.4."
+      },
+      "successFeedback": "That's it, and notice the gradient never comes close to 1 anywhere on this curve. That's exactly why iterating this rearrangement converges: near the root ($x \\approx 1.52$) the gradient is about 0.14, comfortably below 1 in size.",
+      "hints": [
+        "Try dragging the point anywhere in the middle of the visible curve.",
+        "The gradient of this curve is always below 0.6 across the whole window, so almost anywhere works.",
+        "Near $x = 1.5$ the gradient reads about 0.14, well inside the target range."
+      ]
+    },
+    {
+      "type": "entry",
+      "id": "compute-x2-given-x1",
+      "prompt": "Continuing the iteration $x_{n+1} = (x_n + 2)^{1/3}$ from $x_1 \\approx 1.518294$, what is $x_2$, correct to 4 decimal places?",
+      "inputMode": "numeric",
+      "answer": 1.5209,
+      "tolerance": 0.0005,
+      "successFeedback": "Right, $x_2 = (1.518294 + 2)^{1/3} \\approx 1.5209$. Each iterate gets closer to the true root, about $1.5214$ to 4 decimal places.",
+      "hints": ["Substitute $x_1 = 1.518294$ into $(x_1+2)^{1/3}$.", "$(1.518294 + 2)^{1/3} = 3.518294^{1/3}$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "why-other-rearrangement-diverges",
+      "body": "The same equation $x^3 - x - 2 = 0$ can also be rearranged as $x = x^3 - 2 = g(x)$ (just move $x$ to the other side). Starting again from $x_0 = 1.5$:\n\n$$\nx_1 = 1.5^3 - 2 = 1.375, \\quad x_2 = 1.375^3 - 2 = 0.5996, \\quad x_3 = 0.5996^3 - 2 = -1.7844,\\ldots\n$$\n\nInstead of closing in on the root near $1.5214$, the iterates shoot away from it and grow in size. The reason lies in $g'(x) = 3x^2$: at the root, $g'(1.5214) \\approx 3(1.5214)^2 \\approx 6.94$, far bigger than 1 in size. Compare that with $g(x) = (x+2)^{1/3}$ from before, where $g'(1.5214) \\approx 0.14$.",
+      "selfExplainPrompt": "This rearrangement's iterates move further from the root each time, unlike the $(x+2)^{1/3}$ version's iterates, which closed in on it. What's different about the size of $g'(x)$ near the root for the two rearrangements that explains this?",
+      "selfExplainAnswer": "For $g(x) = x^3 - 2$, $g'(\\alpha) \\approx 6.94$, much bigger than 1, so each step's error gets amplified by roughly that factor and the iterates shoot away. For $g(x) = (x+2)^{1/3}$, $g'(\\alpha) \\approx 0.14$, much smaller than 1, so each step's error shrinks instead, and the iterates converge. In general, a rearrangement converges near a root $\\alpha$ when $|g'(\\alpha)| < 1$, and diverges when $|g'(\\alpha)| > 1$."
+    },
+    {
+      "type": "faded-step",
+      "id": "converging-from-x0-2",
+      "worked": "Using the converging rearrangement $x_{n+1} = (x_n+2)^{1/3}$ again, but starting further away this time, from $x_0 = 2$:\n\n$$\nx_1 = (2+2)^{1/3} = 4^{1/3} = 1.5874 \\text{ (4 d.p.)}\n$$",
+      "prompt": "Continue the iteration: what is $x_2 = (x_1 + 2)^{1/3}$, using $x_1 = 1.5874$, correct to 4 decimal places?",
+      "inputMode": "numeric",
+      "answer": 1.5308,
+      "tolerance": 0.001,
+      "successFeedback": "Right, $x_2 = (1.5874 + 2)^{1/3} \\approx 1.5308$. Even from a starting value further away, this rearrangement keeps closing in on the same root near $1.5214$, exactly what a converging rearrangement guarantees. Next lesson builds a method that converges even faster: Newton-Raphson.",
+      "hints": ["Substitute $x_1 = 1.5874$ into $(x_1+2)^{1/3}$.", "$(1.5874+2)^{1/3} = 3.5874^{1/3}$."]
+    }
+  ]
+}

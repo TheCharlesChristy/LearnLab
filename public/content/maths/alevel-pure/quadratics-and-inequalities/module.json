@@ -16,9 +16,9 @@
   ],
   "tags": ["algebra", "quadratics", "discriminant", "inequalities", "simultaneous-equations"],
   "lessons": [
-    { "id": "solving-quadratics", "title": "Solving quadratics three ways", "file": "01-solving-quadratics.md", "estMinutes": 35 },
-    { "id": "discriminant-and-graphs", "title": "The discriminant and sketching quadratic graphs", "file": "02-discriminant-and-graphs.md", "estMinutes": 30 },
-    { "id": "inequalities-and-simultaneous", "title": "Quadratic inequalities and linear-quadratic simultaneous equations", "file": "03-inequalities-and-simultaneous.md", "estMinutes": 35 }
+    { "id": "solving-quadratics", "title": "Solving quadratics three ways", "file": "01-solving-quadratics.screens.json", "kind": "screens", "estMinutes": 35 },
+    { "id": "discriminant-and-graphs", "title": "The discriminant and sketching quadratic graphs", "file": "02-discriminant-and-graphs.screens.json", "kind": "screens", "estMinutes": 30 },
+    { "id": "inequalities-and-simultaneous", "title": "Quadratic inequalities and linear-quadratic simultaneous equations", "file": "03-inequalities-and-simultaneous.screens.json", "kind": "screens", "estMinutes": 35 }
   ],
   "assessment": { "file": "assessment.json", "passMark": 0.7 },
   "version": "1.0.0",

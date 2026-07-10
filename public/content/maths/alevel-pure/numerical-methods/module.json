@@ -3,7 +3,7 @@
   "id": "numerical-methods",
   "title": "Numerical Methods",
   "description": "Locating roots by sign change, fixed-point iteration, the Newton-Raphson method, and the trapezium rule for approximating definite integrals.",
-  "estMinutes": 100,
+  "estMinutes": 85,
   "prerequisites": [
     "differentiation-2",
     "integration-1"
@@ -18,9 +18,9 @@
   ],
   "tags": ["numerical-methods", "iteration", "newton-raphson", "trapezium-rule", "roots"],
   "lessons": [
-    { "id": "locating-roots-and-iteration", "title": "Locating roots and fixed-point iteration", "file": "01-locating-roots-and-iteration.md", "estMinutes": 35 },
-    { "id": "newton-raphson", "title": "The Newton-Raphson method", "file": "02-newton-raphson.md", "estMinutes": 35 },
-    { "id": "trapezium-rule", "title": "The trapezium rule", "file": "03-trapezium-rule.md", "estMinutes": 30 }
+    { "id": "locating-roots-and-iteration", "title": "Locating roots and fixed-point iteration", "file": "01-locating-roots-and-iteration.screens.json", "kind": "screens", "estMinutes": 30 },
+    { "id": "newton-raphson", "title": "The Newton-Raphson method", "file": "02-newton-raphson.screens.json", "kind": "screens", "estMinutes": 30 },
+    { "id": "trapezium-rule", "title": "The trapezium rule", "file": "03-trapezium-rule.screens.json", "kind": "screens", "estMinutes": 25 }
   ],
   "assessment": { "file": "assessment.json", "passMark": 0.7 },
   "version": "1.0.0",

@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "id": "equations-and-harmonic-form",
+  "title": "Solving trig equations and the harmonic form",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-mixed-equation-wall",
+      "prompt": "A signal is built from two components: $V(x)=3\\sin x+4\\cos x$. You know how to solve $\\sin x=k$ or $\\cos x=k$ on their own by inverting one function. Can you solve $V(x)=2$ for $0°\\le x\\le360°$ the same way, just by isolating a single trig ratio?",
+      "choices": [
+        "Yes, isolate sinx or cosx and invert as usual",
+        "No, mixing sinx and cosx with different coefficients blocks that shortcut"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Correct, you can't isolate a single ratio here because two different functions are tangled together with different coefficients. This lesson gives you two tools: finding every solution of an equation in a given interval, and the harmonic form, which rewrites a mixed equation like this one as a single sinusoid you can solve directly."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "worked-quadratic-in-sinx",
+      "body": "Solve $2\\sin^2x-\\sin x-1=0$ for $0°\\le x\\le360°$. Let $s=\\sin x$:\n\n$$\n2s^2-s-1=0 \\implies (2s+1)(s-1)=0 \\implies s=-\\tfrac12 \\text{ or } s=1.\n$$\n\n**Case $\\sin x=1$:** only $x=90°$ lies in the interval.\n\n**Case $\\sin x=-\\tfrac12$:** the principal value is $-30°$ (outside the interval), and sine is negative in quadrants 3 and 4, so the solutions are $180°+30°=210°$ and $360°-30°=330°$.\n\n**Full solution set:** $x=90°,\\ 210°,\\ 330°$.",
+      "selfExplainPrompt": "The principal value for $\\sin x=-\\tfrac12$ was $-30°$, which isn't even inside $[0°,360°]$. Why does that not mean 'no solutions', and how did $210°$ and $330°$ come from it?",
+      "selfExplainAnswer": "The principal value is just the calculator's one output, not the full picture, sine is periodic and repeats its pattern every $360°$, and within one period it's negative in exactly two quadrants (the 3rd and 4th). The symmetry of the sine graph converts the out-of-range principal value $-30°$ into the two genuine in-range solutions: $180°-(-30°)=210°$ and $360°+(-30°)=330°$, both of which really do satisfy $\\sin x=-\\tfrac12$ inside $[0°,360°]$."
+    },
+    {
+      "type": "entry",
+      "id": "quadratic-in-cosx",
+      "prompt": "Using the same method: solve $2\\cos^2x+\\cos x-1=0$ for $0°\\le x\\le360°$. Enter the smallest positive solution, in degrees.",
+      "inputMode": "numeric",
+      "answer": 60,
+      "tolerance": 0.5,
+      "successFeedback": "Right, the smallest solution is $60°$ (full set: $60°, 180°, 300°$). Same factor-then-use-symmetry method as the worked example, just with cosine's quadrant pattern instead of sine's.",
+      "hints": [
+        "Factorise as a quadratic in $\\cos x$: $(2\\cos x-1)(\\cos x+1)=0$.",
+        "$\\cos x=\\tfrac12$ gives $x=60°$ or $300°$; $\\cos x=-1$ gives $x=180°$.",
+        "The smallest of $\\{60°,180°,300°\\}$ is $60°$."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "choose-identity-cos2x-sinx",
+      "prompt": "To solve $\\cos(2x)=\\sin x$, you need everything in terms of one function. Which form of the double angle formula should you substitute for $\\cos(2x)$?",
+      "choices": [
+        { "text": "$1-2\\sin^2x$" },
+        {
+          "text": "$2\\cos^2x-1$",
+          "feedback": "That's written purely in cosine, it would leave both $\\cos x$ and $\\sin x$ in the equation, not a single-function equation."
+        },
+        {
+          "text": "$\\cos^2x-\\sin^2x$",
+          "feedback": "That still has both $\\sin x$ and $\\cos x$ in it, so it doesn't reduce the equation to one function either."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, $1-2\\sin^2x$ is written purely in $\\sin x$, matching the $\\sin x$ already on the right-hand side, so substituting it turns the equation into a single-function quadratic."
+    },
+    {
+      "type": "faded-step",
+      "id": "solve-cos2x-sinx",
+      "worked": "Substitute $\\cos(2x)=1-2\\sin^2x$:\n\n$$\n1-2\\sin^2x=\\sin x \\implies 2\\sin^2x+\\sin x-1=0 \\implies (2\\sin x-1)(\\sin x+1)=0.\n$$\n\nSo $\\sin x=\\tfrac12$ or $\\sin x=-1$.\n\n**Case $\\sin x=-1$:** only $x=270°$.\n\n**Case $\\sin x=\\tfrac12$:** principal value $30°$, sine positive in quadrants 1 and 2, so $x=30°$ or $x=150°$.",
+      "prompt": "Full solution set: $x=30°,\\ 150°,\\ 270°$. Enter the smallest positive solution, in degrees.",
+      "inputMode": "numeric",
+      "answer": 30,
+      "tolerance": 0.5,
+      "successFeedback": "Right, the smallest solution is $30°$. Finding every solution, not just the calculator's principal value, was the whole point here, this equation has three solutions in the interval, and stopping after one would cost two-thirds of the marks.",
+      "hints": [
+        "$\\sin x=\\tfrac12$ has principal value $30°$.",
+        "The smallest of $\\{30°,150°,270°\\}$ is $30°$."
+      ]
+    },
+    {
+      "type": "manipulable-target",
+      "id": "find-signal-peak",
+      "prompt": "The graph below shows the signal $V(x)=3\\sin x+4\\cos x$. Drag the point until the tangent is (almost) horizontal, gradient $0$, to locate where the signal peaks.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "3*sin(x)+4*cos(x)", "xmin": -6.5, "xmax": 6.5, "ymin": -6, "ymax": 6, "tangent": true, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": -1.5,
+        "max": 1.5,
+        "description": "Target: tangent gradient ≈ 0 (this is the signal's peak)."
+      },
+      "successFeedback": "That's the peak, right around $x\\approx0.64$ rad ($36.9°$), where the signal reaches its maximum value of $5$. The next screens show exactly why the maximum is $5$, using the harmonic form.",
+      "hints": [
+        "The peak of a smooth curve is exactly where its tangent is momentarily flat, gradient $0$.",
+        "Try landing the point somewhere between $x=0$ and $x=1$ (in radians).",
+        "The exact peak is at $x=\\arctan(3/4)\\approx0.64$ rad, about $36.9°$."
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "derive-harmonic-form",
+      "body": "Write $3\\sin x+4\\cos x\\equiv R\\sin(x+\\alpha)$ for suitable $R>0$, $0°<\\alpha<90°$. Expanding the right-hand side:\n\n$$\nR\\sin(x+\\alpha)=R\\cos\\alpha\\sin x+R\\sin\\alpha\\cos x.\n$$\n\nMatching coefficients of $\\sin x$ and $\\cos x$:\n\n$$\nR\\cos\\alpha=3,\\qquad R\\sin\\alpha=4.\n$$\n\nSquaring and adding uses $\\sin^2\\alpha+\\cos^2\\alpha=1$:\n\n$$\nR^2=3^2+4^2=25 \\implies R=5.\n$$\n\nDividing the two equations:\n\n$$\n\\tan\\alpha=\\frac43\\implies\\alpha=\\arctan\\left(\\frac43\\right)=53.1°\\ (\\text{1 d.p.}).\n$$\n\nSo $3\\sin x+4\\cos x\\equiv5\\sin(x+53.1°)$, and its maximum value is $5$ (matching what you just found by dragging), occurring when $x+53.1°=90°$, i.e. $x=36.9°\\approx0.64$ rad.",
+      "selfExplainPrompt": "R turned out to be exactly $5$, the same peak height you found by dragging the tangent to gradient $0$. Why must the maximum of $3\\sin x+4\\cos x$ equal R, the amplitude of the equivalent single sine wave?",
+      "selfExplainAnswer": "Once you know $3\\sin x+4\\cos x\\equiv R\\sin(x+\\alpha)$, the whole expression is just a single sine wave with amplitude $R$, and any sine wave $R\\sin(\\text{anything})$ oscillates between $-R$ and $+R$, hitting its maximum, $+R$, exactly when the bracket equals $90°$. So the maximum of the mixed expression has to equal the amplitude of its harmonic form, $R$, which is exactly the peak height you located by finding where the gradient was $0$."
+    },
+    {
+      "type": "entry",
+      "id": "new-pair-r",
+      "prompt": "Using the same method: express $5\\sin x+12\\cos x$ in the form $R\\sin(x+\\alpha)$. What is the exact value of $R$?",
+      "inputMode": "numeric",
+      "answer": 13,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $R=13$ (a 5-12-13 triangle, just like 3-4-5 scaled up). The same matching-coefficients method gives $\\tan\\alpha=\\tfrac{12}{5}$, so $\\alpha=\\arctan(2.4)=67.4°$ (1 d.p.), and $R$ alone already tells you the maximum possible value of $5\\sin x+12\\cos x$ is $13$.",
+      "hints": [
+        "$R=\\sqrt{5^2+12^2}$.",
+        "$\\sqrt{25+144}=\\sqrt{169}$."
+      ]
+    },
+    {
+      "type": "faded-step",
+      "id": "solve-harmonic-equation",
+      "worked": "Using $3\\sin x+4\\cos x\\equiv5\\sin(x+53.1°)$:\n\n$$\n5\\sin(x+53.1°)=2\\implies\\sin(x+53.1°)=0.4.\n$$\n\nLet $u=x+53.1°$; since $0°\\le x\\le360°$, $u$ ranges over $53.1°\\le u\\le413.1°$. Solving $\\sin u=0.4$ gives principal value $u_1=\\arcsin(0.4)=23.6°$ (out of range), so use the periodic solutions instead: $u=23.6°,\\ 156.4°,\\ 383.6°,\\ 516.4°,\\dots$. Keeping only values inside $[53.1°,413.1°]$: $u=156.4°$ and $u=383.6°$.",
+      "prompt": "Converting back with $x=u-53.1°$ gives two solutions. Enter the smaller one, in degrees to 1 decimal place.",
+      "inputMode": "numeric",
+      "answer": 103.3,
+      "tolerance": 0.2,
+      "successFeedback": "Right, $x=103.3°$ (the other solution is $383.6°-53.1°=330.4°$). At the start of this lesson, you predicted $V(x)=3\\sin x+4\\cos x=2$ couldn't be solved by isolating a single ratio, and that's exactly right, but the harmonic form sidesteps the problem entirely by rewriting the mixed expression as one single sine wave first. That's the wall from the hook, cleared.",
+      "hints": [
+        "$x=156.4°-53.1°$.",
+        "That's $103.3°$."
+      ]
+    }
+  ]
+}

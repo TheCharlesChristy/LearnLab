@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "standard-derivatives",
+  "title": "Standard derivatives and connected rates of change",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-wheel-height-rate",
+      "prompt": "A Ferris wheel of radius 10 m has its centre 12 m above the ground, and rotates at a constant angular rate. A rider's height above the ground is $h(\\theta)=12+10\\sin\\theta$, where $\\theta$ is the angle turned through. Since $\\theta$ increases at a constant rate, does the rider's height also increase at a constant rate?",
+      "choices": [
+        "Yes, height increases at a constant rate too",
+        "No, the height's rate of change varies with theta"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "The standard derivative $\\frac{d}{d\\theta}(\\sin\\theta)=\\cos\\theta$ tells you why: $\\frac{dh}{d\\theta}=10\\cos\\theta$, and $\\cos\\theta$ itself changes as $\\theta$ does, it's largest (rider rising fastest) near the bottom and top of the ride and momentarily zero at the very top and bottom of the swing arc. A constant angular rate does *not* mean a constant vertical rate."
+    },
+    {
+      "type": "entry",
+      "id": "apply-cos-derivative",
+      "prompt": "Using $\\frac{d}{d\\theta}(\\cos\\theta)=-\\sin\\theta$: if a rider's horizontal distance from the wheel's centre is $x(\\theta)=10\\cos\\theta$, what is $\\frac{dx}{d\\theta}$ at $\\theta=0$ (the rider level with the centre, moving purely vertically)?",
+      "inputMode": "numeric",
+      "answer": 0,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $0$. At $\\theta=0$ the rider is momentarily moving purely vertically, not horizontally, so their horizontal rate of change is zero there.",
+      "hints": [
+        "dx/d(theta) = -10 sin(theta).",
+        "sin(0) = 0."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "angle-of-elevation-rule",
+      "prompt": "A bench sits 20 m from the wheel's base. The angle of elevation $\\phi$ from the bench to a rider satisfies $\\tan\\phi=\\dfrac{h}{20}$ (height over horizontal distance). Which standard derivative do you differentiate $\\tan\\phi$ with?",
+      "choices": [
+        { "text": "d/d(phi) [tan(phi)] = sec^2(phi)" },
+        {
+          "text": "d/d(phi) [tan(phi)] = cos^2(phi)",
+          "feedback": "That inverts and mislabels the identity, the correct standard derivative of tan is sec squared, not cos squared."
+        },
+        {
+          "text": "d/d(phi) [tan(phi)] = -sec^2(phi)",
+          "feedback": "Close, but tan's derivative has no minus sign, that minus belongs to cos's derivative, not tan's."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly, $\\dfrac{d}{d\\phi}(\\tan\\phi)=\\sec^2\\phi$, one of the five standard results worth memorising alongside sin, cos, $e^x$ and $\\ln x$."
+    },
+    {
+      "type": "manipulable-target",
+      "id": "confirm-exp-gradient",
+      "prompt": "The wheel's motor brakes after closing, and its temperature above ambient decays like $y=e^x$ for a rescaled cooling-time variable $x$ (negative $x$ = before braking finished). Since $\\dfrac{d}{dx}(e^x)=e^x$, the tangent gradient always equals the curve's own height. Drag the point until the tangent's gradient reads **2**.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "e^x", "xmin": -3, "xmax": 3, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": 1.7,
+        "max": 2.3,
+        "description": "Target: tangent gradient = 2 (equals the curve's height there too, since d/dx(e^x)=e^x)."
+      },
+      "successFeedback": "That's it, right around $x=\\ln2\\approx0.69$, both the curve's height and its gradient equal 2, exactly as $\\frac{d}{dx}(e^x)=e^x$ predicts.",
+      "hints": [
+        "Since gradient = height here, look for where the curve's height itself is about 2.",
+        "Try x a little past 0.5.",
+        "ln(2) is approximately 0.69, that's the exact spot."
+      ]
+    },
+    {
+      "type": "entry",
+      "id": "apply-ln-derivative",
+      "prompt": "The motor's sound level follows $L(x)=\\ln(4x)$ decibels above baseline, $x$ minutes after startup. Using $\\dfrac{d}{dx}[\\ln(g(x))]=\\dfrac{g'(x)}{g(x)}$ with $g(x)=4x$: what is $\\dfrac{dL}{dx}$ at $x=2$?",
+      "inputMode": "numeric",
+      "answer": 0.5,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $0.5$. The 4s cancel, leaving the simple $1/x$ pattern.",
+      "hints": [
+        "g'(x) = 4 and g(x) = 4x, so dL/dx = 4/(4x) = 1/x.",
+        "1/2 = 0.5."
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "connected-rates-worked-full",
+      "body": "The wheel actually rotates at a constant angular rate $\\dfrac{d\\theta}{dt}=0.5$ rad/s. Since $h(\\theta)=12+10\\sin\\theta$, the chain rule connects the two rates:\n\n$$\n\\frac{dh}{dt}=\\frac{dh}{d\\theta}\\times\\frac{d\\theta}{dt}=10\\cos\\theta\\times0.5=5\\cos\\theta.\n$$\n\nAt $\\theta=0$ (rider level with the centre, on the way up): $\\dfrac{dh}{dt}=5\\cos(0)=5\\times1=5$ m/s, the rider's fastest vertical speed all ride.",
+      "selfExplainPrompt": "At the very top of the ride ($\\theta=\\pi/2$), $\\cos\\theta=0$, so $\\dfrac{dh}{dt}=0$ even though the wheel is still turning at a steady 0.5 rad/s. Why does the rider's vertical speed hit zero there, if the wheel itself never stops turning?",
+      "selfExplainAnswer": "At the very top, the rider's motion is momentarily purely horizontal, they're moving sideways across the top of the arc, not up or down, even though the wheel keeps turning at the same steady rate. It's the same idea as a ball thrown straight up: at the peak, its vertical velocity is momentarily zero even though gravity is still acting, because the direction of motion is passing through purely horizontal at that instant."
+    },
+    {
+      "type": "faded-step",
+      "id": "connected-rates-faded",
+      "worked": "A second rider's cabin swings independently, adding a small wobble: total height $H(\\theta)=h(\\theta)+2\\cos(2\\theta)=12+10\\sin\\theta+2\\cos(2\\theta)$. Differentiating term by term with the chain rule on the wobble term ($u=2\\theta$, $\\dfrac{du}{d\\theta}=2$):\n\n$$\n\\frac{dH}{d\\theta}=10\\cos\\theta-2\\times2\\sin(2\\theta)=10\\cos\\theta-4\\sin(2\\theta).\n$$",
+      "prompt": "So $\\dfrac{dH}{d\\theta}=10\\cos\\theta-4\\sin(2\\theta)$. What is $\\dfrac{dH}{d\\theta}$ at $\\theta=0$?",
+      "inputMode": "numeric",
+      "answer": 10,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $10$. Back at the top of this lesson, you predicted the rider's height wouldn't rise at a constant rate, now you've confirmed exactly how it varies, with $\\cos\\theta$, and even added a second wobbling motion on top using the exact same standard derivatives and chain rule. Next lesson uses all of this, including stationary points, where the rate of change is exactly zero, to sketch a curve's full shape.",
+      "hints": [
+        "cos(0)=1 and sin(0)=0.",
+        "10x1 - 4x0 = 10."
+      ]
+    }
+  ]
+}

@@ -82,6 +82,14 @@
       "accept": ["(the )?factor theorem"],
       "caseSensitive": false,
       "explanation": "This is the **factor theorem**: $f(a)=0 \\iff (x-a)$ is a factor of $f(x)$."
+    },
+    {
+      "id": "q11",
+      "type": "numeric",
+      "text": "Dividing a cubic by one known linear factor leaves the quadratic quotient $x^2 - 2x - 3 = 0$. Find its positive root.",
+      "answer": 3,
+      "tolerance": 0.001,
+      "explanation": "This question reaches back to the Quadratics and Inequalities module: $x^2-2x-3=0$ factorises as $(x-3)(x+1)=0$, giving roots $x=3$ and $x=-1$, so the positive root is $3$. Solving the leftover quadratic by factorising is exactly the prerequisite skill this module assumes, spaced back in as a review."
     }
   ]
 }

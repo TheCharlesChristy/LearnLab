@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "id": "straight-lines",
+  "title": "Straight lines: gradient, equations, parallel and perpendicular",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-steepness-constant",
+      "prompt": "The Ridgeway cable car runs in a dead straight line from the base station to the summit station. Last module, a toy car's distance-time curve had a different steepness (gradient) at every instant. Do you think the steepness of this dead-straight cable line also changes depending on which two points you use to measure it, or does it stay exactly the same number wherever you check?",
+      "choices": [
+        "It changes from point to point, just like a curve",
+        "It stays exactly the same number wherever you check it"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "It stays exactly the same: a straight line has one single gradient, full stop, unlike a curve, which needs a different tangent gradient at every point. That's the first big difference between lines and curves, and it's what makes every formula in this lesson work."
+    },
+    {
+      "type": "tap-choice",
+      "id": "meaning-of-gradient",
+      "prompt": "For a line through $(x_1, y_1)$ and $(x_2, y_2)$, the gradient is $m = \\dfrac{y_2 - y_1}{x_2 - x_1}$. What does this number actually represent about the line?",
+      "choices": [
+        { "text": "How many units $y$ increases for every one unit $x$ increases" },
+        {
+          "text": "How far apart the two points are",
+          "feedback": "That's the distance formula's job, not the gradient's. Distance also uses the differences $x_2-x_1$ and $y_2-y_1$, but squares and adds them under a square root instead of dividing them."
+        },
+        {
+          "text": "The angle the line makes with the $x$-axis, in degrees",
+          "feedback": "Gradient is related to that angle through $\\tan$, but the gradient itself is not the angle in degrees: a gradient of 3 does not mean 3 degrees."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly: gradient is the rate of change of $y$ with respect to $x$. A gradient of 3 means $y$ increases by 3 units for every 1 unit $x$ increases."
+    },
+    {
+      "type": "entry",
+      "id": "compute-gradient-ab",
+      "prompt": "The cable car's base station is at $A(1, 2)$ and its summit station is at $B(4, 11)$ on the map grid. Find the gradient of the cable line $AB$.",
+      "inputMode": "numeric",
+      "answer": 3,
+      "tolerance": 0.01,
+      "hints": [
+        "$m = \\dfrac{y_2-y_1}{x_2-x_1}$.",
+        "$m = \\dfrac{11-2}{4-1} = \\dfrac{9}{3}$."
+      ],
+      "successFeedback": "Right, $m=3$: the cable rises 3 grid units for every 1 grid unit moved horizontally. That number is exactly the same wherever along the cable you measure it."
+    },
+    {
+      "type": "entry",
+      "id": "midpoint-x",
+      "prompt": "A relay tower needs to sit exactly halfway between two site markers, $P(-2, 3)$ and $Q(6, -1)$. Find the $x$-coordinate of the relay tower's position.",
+      "inputMode": "numeric",
+      "answer": 2,
+      "tolerance": 0.01,
+      "hints": [
+        "The midpoint's $x$-coordinate is $\\dfrac{x_1+x_2}{2}$.",
+        "$\\dfrac{-2+6}{2} = \\dfrac{4}{2}$."
+      ],
+      "successFeedback": "Right, $x=2$. By the same formula the $y$-coordinate is $\\dfrac{3+(-1)}{2}=1$, so the relay tower sits at $(2,1)$: the average of the two markers in each coordinate."
+    },
+    {
+      "type": "tap-choice",
+      "id": "parallel-condition",
+      "prompt": "The cable line has gradient 3, so its equation can be written $y = 3x + c$ for some intercept $c$. A new maintenance road is designed to run alongside the cable line, staying the same distance from it the whole way, never converging or diverging. What must be true about the maintenance road's gradient?",
+      "choices": [
+        { "text": "It must also equal 3" },
+        {
+          "text": "It must be the negative reciprocal of 3",
+          "feedback": "That's the condition for two lines to be perpendicular, not parallel. A road perpendicular to the cable would cross it, not run alongside it."
+        },
+        {
+          "text": "It can be any value, as long as the road doesn't touch the cable line",
+          "feedback": "Two lines with different gradients always meet somewhere eventually; only equal gradients guarantee the gap between them never closes."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: parallel lines share the same gradient. Two lines are parallel exactly when $m_1 = m_2$."
+    },
+    {
+      "type": "manipulable-target",
+      "id": "confirm-constant-gradient",
+      "prompt": "Here's the maintenance road as a graph: $y = 3x - 7$. Drag the point to several very different places along it and check the gradient readout each time, until you're convinced it never changes.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "3*x - 7", "xmin": -4, "xmax": 6, "tangent": true, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": 2.6,
+        "max": 3.4,
+        "description": "Target: gradient reads 3, wherever you place the point."
+      },
+      "successFeedback": "It read exactly 3 no matter where you put the point. That's what makes it a straight line: one single gradient everywhere, not a different one at each instant the way the toy car's curve was.",
+      "hints": [
+        "Try the far left end of the line, then the far right end.",
+        "A straight line $y = mx + c$ has gradient $m$ at every single point, by definition.",
+        "It should read 3 everywhere. If it doesn't, check you're reading the gradient readout, not the $y$-value."
+      ]
+    },
+    {
+      "type": "predict",
+      "id": "predict-perpendicular-sign",
+      "prompt": "A support strut for the cable car's tower needs to be built at right angles (perpendicular) to the cable line, which has gradient 3. Do you think the strut's gradient will be another positive number, or will it flip sign?",
+      "choices": [
+        "Another positive number",
+        "It flips to a negative number"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "It flips sign. Perpendicular gradients always multiply together to give exactly $-1$, so a positive gradient always pairs with a negative one (and vice versa). Next you'll practise the exact rule."
+    },
+    {
+      "type": "entry",
+      "id": "perpendicular-gradient-practice",
+      "prompt": "A line has gradient 5. What is the gradient of a line perpendicular to it?",
+      "inputMode": "numeric",
+      "answer": -0.2,
+      "tolerance": 0.01,
+      "hints": [
+        "Perpendicular gradients satisfy $m_1 m_2 = -1$.",
+        "$m_2 = -\\dfrac{1}{m_1} = -\\dfrac{1}{5}$."
+      ],
+      "successFeedback": "Right, $-0.2$: flip the fraction ($5 = \\tfrac{5}{1} \\to \\tfrac{1}{5}$) and change the sign."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "perpendicular-strut-worked",
+      "body": "Perpendicular lines satisfy $m_1 m_2 = -1$. The cable line has gradient $m_1 = 3$, so the support strut's gradient is $m_2 = -\\dfrac{1}{3}$ (flip the fraction, change the sign). The strut must pass through the anchor point $(6, 1)$. Using $y - y_1 = m(x - x_1)$:\n\n$$\ny - 1 = -\\frac{1}{3}(x - 6) \\implies y = -\\frac{1}{3}x + 2 + 1 = -\\frac{1}{3}x + 3.\n$$\n\nCheck: at $x = 6$, $y = -2 + 3 = 1$, which matches the anchor point exactly.",
+      "selfExplainPrompt": "Why does $m_1 m_2 = -1$ guarantee the two lines are exactly perpendicular, rather than just roughly at right angles?",
+      "selfExplainAnswer": "Because perpendicularity is defined precisely by $m_1 m_2 = -1$: given $m_1 = 3$, the equation $3m_2 = -1$ has exactly one solution, $m_2 = -\\tfrac{1}{3}$. Any other gradient, however close, would make the two lines cross at some angle other than exactly 90 degrees."
+    },
+    {
+      "type": "faded-step",
+      "id": "cable-distance",
+      "worked": "The site's two markers are $P(-2, 3)$ and $Q(6, -1)$. The distance $PQ$ comes from Pythagoras applied to the horizontal and vertical gaps between them:\n\n$$\nd = \\sqrt{(6-(-2))^2 + (-1-3)^2} = \\sqrt{8^2 + (-4)^2} = \\sqrt{64+16} = \\sqrt{80}.\n$$",
+      "prompt": "So $d = \\sqrt{80}$. Give this distance as a decimal, to 2 decimal places (grid units).",
+      "inputMode": "numeric",
+      "answer": 8.94,
+      "tolerance": 0.01,
+      "hints": [
+        "$8.9^2 = 79.21$ and $8.95^2 = 80.10$, so the answer is between those.",
+        "$\\sqrt{80} = 4\\sqrt{5} \\approx 8.944$."
+      ],
+      "successFeedback": "Right, $d \\approx 8.94$ grid units (exactly $4\\sqrt{5}$). Back at the start of this lesson you predicted that a straight line's steepness never changes, however you measure it, and every tool since then, the constant gradient, the negative-reciprocal perpendicular rule, the midpoint and distance formulas, all depended on that one fact being true. The next lesson turns to a shape where it stops being true: circles."
+    }
+  ]
+}

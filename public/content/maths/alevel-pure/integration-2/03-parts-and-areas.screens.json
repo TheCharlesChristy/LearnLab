@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "id": "parts-and-areas",
+  "title": "Integration by parts and the area between two curves",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-no-substitution",
+      "prompt": "A valve's flow rate is $r(t) = t\\,e^t$ litres per minute: the valve opens wider (factor $t$) while the pressure driving it grows exponentially (factor $e^t$). Try to spot a substitution here the way you did last lesson, where some factor's derivative sits right next to it. Is there a clean inner-function-and-derivative pair hiding in $t\\,e^t$?",
+      "choices": ["Yes, there's a clean inner-function-and-derivative pair here", "No, neither factor is the derivative of the other, so substitution alone won't crack this one"],
+      "correctChoiceIndex": 1,
+      "reveal": "Right, substitution needs an inner function and its own derivative sitting together; here you just have two unrelated factors multiplied. That calls for a different tool: **integration by parts**, which reverses the product rule instead of the chain rule."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "by-parts-formula",
+      "body": "The product rule says $\\frac{d}{dt}(uv) = u\\frac{dv}{dt} + v\\frac{du}{dt}$. Integrating both sides with respect to $t$ gives $uv = \\int u\\frac{dv}{dt}\\,dt + \\int v\\frac{du}{dt}\\,dt$. Rearranging:\n\n$$\n\\int u\\,\\frac{dv}{dt}\\,dt = uv - \\int v\\,\\frac{du}{dt}\\,dt.\n$$\n\nYou choose which factor is $u$ and which is $\\frac{dv}{dt}$. A good choice makes $\\frac{du}{dt}$ **simpler** than $u$, while $\\frac{dv}{dt}$ must still be something you can integrate.",
+      "selfExplainPrompt": "The formula swaps $\\int u \\frac{dv}{dt}\\,dt$ for a different integral, $\\int v \\frac{du}{dt}\\,dt$, rather than solving it outright. Why is that still progress?",
+      "selfExplainAnswer": "It's progress whenever the new integral is easier than the one you started with, for example because differentiating $u$ made it simpler (an algebraic factor like $t$ becomes the constant $1$). The formula doesn't solve the integral directly; it trades a hard product for a hopefully easier one, exactly the way substitution trades a hard integral for a standard one in $u$."
+    },
+    {
+      "type": "tap-choice",
+      "id": "choose-u-and-dv",
+      "prompt": "For $\\displaystyle\\int t\\,e^t\\,dt$, which choice of $u$ and $\\frac{dv}{dt}$ is best?",
+      "choices": [
+        { "text": "$u = t$, $\\frac{dv}{dt} = e^t$" },
+        { "text": "$u = e^t$, $\\frac{dv}{dt} = t$", "feedback": "Differentiating $e^t$ never simplifies it, and the remaining integral $\\int \\frac{t^2}{2}e^t\\,dt$ is harder than the one you started with, not easier." },
+        { "text": "$u = t\\,e^t$, $\\frac{dv}{dt} = 1$", "feedback": "That's algebraically valid, but differentiating $t\\,e^t$ needs the product rule again and gives something just as complicated, so it defeats the point of splitting the product into two simpler factors." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: $u=t$ gives $\\frac{du}{dt}=1$ (as simple as it gets), and $\\frac{dv}{dt}=e^t$ integrates easily to $v=e^t$. This mnemonic, LATE (Logarithmic, Algebraic, Trigonometric, Exponential), favours choosing $u$ from earlier in that list."
+    },
+    {
+      "type": "entry",
+      "id": "t-cos-t-check",
+      "prompt": "Using the same method with $u=t$ and $\\frac{dv}{dt}=\\cos(t)$ (so $\\frac{du}{dt}=1$, $v=\\sin(t)$), work out $\\int t\\cos(t)\\,dt = t\\sin(t) - \\int \\sin(t)\\,dt = t\\sin(t) + \\cos(t) + C$. Now evaluate $\\displaystyle\\int_0^{\\pi/2} t\\cos(t)\\,dt$ to 3 decimal places.",
+      "inputMode": "numeric",
+      "answer": 0.571,
+      "tolerance": 0.01,
+      "successFeedback": "Right: at $t=\\frac{\\pi}{2}$, $t\\sin(t)+\\cos(t) = \\frac{\\pi}{2}(1) + 0 = \\frac{\\pi}{2}$; at $t=0$, it's $0 + 1 = 1$. So the integral is $\\frac{\\pi}{2} - 1 \\approx 0.571$.",
+      "hints": ["Evaluate $t\\sin(t)+\\cos(t)$ at $t=\\frac{\\pi}{2}$ and at $t=0$.", "$\\frac{\\pi}{2}(1)+0 = \\frac{\\pi}{2} \\approx 1.5708$; at $t=0$ it's $0+1=1$."]
+    },
+    {
+      "type": "faded-step",
+      "id": "t-exp-t-final",
+      "worked": "For the original valve, $\\displaystyle\\int t\\,e^t\\,dt$: take $u=t$ and $\\frac{dv}{dt}=e^t$, so $\\frac{du}{dt}=1$ and $v=e^t$. By parts:\n\n$$\n\\int t\\,e^t\\,dt = t\\,e^t - \\int e^t \\cdot 1\\,dt.\n$$",
+      "prompt": "Finish the remaining integral to get the antiderivative, then evaluate $\\displaystyle\\int_0^1 t\\,e^t\\,dt$.",
+      "inputMode": "numeric",
+      "answer": 1,
+      "tolerance": 0.01,
+      "successFeedback": "Right: $\\int e^t\\,dt = e^t$, so the antiderivative is $t\\,e^t - e^t + C = (t-1)e^t + C$. At $t=1$: $(0)e = 0$. At $t=0$: $(-1)(1) = -1$. So the definite integral is $0-(-1)=1$ litre.",
+      "hints": ["Complete the antiderivative: $t\\,e^t - e^t + C = (t-1)e^t + C$.", "Evaluate at $t=1$ and $t=0$, then subtract."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "area-between-rate-curves",
+      "body": "Pipe A fills its barrel at rate $a(t)=2t$ litres per minute; pipe B fills its own barrel at rate $b(t)=t^2$ litres per minute, both starting empty at $t=0$. The rates meet where $2t=t^2 \\Rightarrow t(t-2)=0$, so $t=0$ or $t=2$; checking $t=1$ shows $a(1)=2 > b(1)=1$, so pipe A stays ahead throughout $0<t<2$. The **extra** volume pipe A has collected by $t=2$ is found by integrating the difference of the rates, not by integrating each pipe separately and subtracting at the end:\n\n$$\n\\text{Extra volume} = \\int_0^2 \\big(a(t)-b(t)\\big)\\,dt = \\int_0^2 (2t-t^2)\\,dt = \\left[t^2-\\frac{t^3}{3}\\right]_0^2 = \\left(4-\\frac{8}{3}\\right)-0 = \\frac{4}{3} \\approx 1.333 \\text{ litres.}\n$$\n\nThis is exactly the **area between the two rate curves** from their first intersection to their second.",
+      "selfExplainPrompt": "Why does subtracting $b(t)$ from $a(t)$ before integrating give the same extra volume as integrating each pipe's total separately and subtracting the two results at the end?",
+      "selfExplainAnswer": "Integration is linear, so $\\int a(t)\\,dt - \\int b(t)\\,dt$ is exactly the same quantity as $\\int (a(t)-b(t))\\,dt$; combining the rates first and integrating once is just the more direct route to the identical total, since linearity guarantees both orders agree."
+    },
+    {
+      "type": "entry",
+      "id": "area-check-4t",
+      "prompt": "Pipe A now runs at $a(t)=4t$ litres per minute and pipe B at $b(t)=t^2$. They meet at $t=0$ and $t=4$ (solve $4t=t^2$), and A stays ahead throughout. Find the extra volume A has collected by $t=4$: $\\displaystyle\\int_0^4 (4t-t^2)\\,dt$, to 3 decimal places.",
+      "inputMode": "numeric",
+      "answer": 10.667,
+      "tolerance": 0.05,
+      "successFeedback": "Right: $\\left[2t^2-\\frac{t^3}{3}\\right]_0^4 = \\left(32-\\frac{64}{3}\\right)-0 = \\frac{32}{3} \\approx 10.667$ litres.",
+      "hints": ["Antiderivative: $2t^2 - \\frac{t^3}{3}$.", "At $t=4$: $2(16)-\\frac{64}{3} = 32-\\frac{64}{3} = \\frac{32}{3}$."]
+    },
+    {
+      "type": "faded-step",
+      "id": "area-final-pipes",
+      "worked": "Pipe A now runs at $a(t)=6t$ litres per minute and pipe B at $b(t)=t^2$. They meet where $6t=t^2 \\implies t^2-6t=0 \\implies t(t-6)=0$, so $t=0$ or $t=6$. Between these, checking $t=3$ gives $a(3)=18 > b(3)=9$, so pipe A is ahead throughout. The extra volume collected is $\\displaystyle\\int_0^6 (6t-t^2)\\,dt$.",
+      "prompt": "Find the antiderivative, apply the limits, and evaluate $\\displaystyle\\int_0^6 (6t-t^2)\\,dt$.",
+      "inputMode": "numeric",
+      "answer": 36,
+      "tolerance": 0.1,
+      "successFeedback": "Right: antiderivative $3t^2-\\frac{t^3}{3}$, so $\\left[3t^2-\\frac{t^3}{3}\\right]_0^6 = \\left(3(36)-\\frac{216}{3}\\right)-0 = 108-72 = 36$ litres. Back at the top of this lesson you correctly predicted that $t$ and $e^t$ share no substitution-friendly relationship, so integration by parts was exactly the tool needed, and you've now used the same subtract-then-integrate idea to measure how far ahead one rate curve gets from another. That completes every technique in this module: standard integrals, substitution, integration by parts, and the area between two curves. You're ready for the end-of-module assessment.",
+      "hints": ["Antiderivative: $3t^2 - \\frac{t^3}{3}$.", "At $t=6$: $3(36)-\\frac{216}{3} = 108-72$."]
+    }
+  ]
+}

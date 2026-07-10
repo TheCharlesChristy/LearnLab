@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "id": "trapezium-rule",
+  "title": "The trapezium rule",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-no-formula-needed",
+      "prompt": "A boat's onboard GPS logs its speed every 1 minute during a short trip: $2, 3, 5, 4, 2$ m/s at $t = 0, 1, 2, 3, 4$ minutes. There's no formula for speed as a function of time, just these five readings. The distance travelled is the area under the speed-time graph. Can you still estimate that area without ever having a formula for the curve?",
+      "choices": [
+        "No, finding an area under a curve always needs an algebraic formula for the function",
+        "Yes, you can approximate the area from the readings alone, without ever needing a formula"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "You can, by joining consecutive points with straight lines and adding up the areas of the shapes those lines create. That's the idea behind the **trapezium rule**."
+    },
+    {
+      "type": "entry",
+      "id": "first-strip-estimate",
+      "prompt": "Over the first minute ($t=0$ to $t=1$), the boat's speed goes from 2 m/s to 3 m/s. Approximating that strip as a trapezium, average the two speed readings and multiply by the strip's width (1 minute). What distance does that give for the first minute?",
+      "inputMode": "numeric",
+      "answer": 2.5,
+      "tolerance": 0.01,
+      "successFeedback": "Right, the average of 2 and 3 is 2.5, times a width of 1 minute gives 2.5 m as the estimate for that first strip.",
+      "hints": ["Average height $= \\frac{2+3}{2}$.", "Distance $\\approx$ average height $\\times$ width $= 2.5 \\times 1$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "general-trapezium-formula",
+      "body": "Divide $[a,b]$ into $n$ equal-width strips, each of width $h = \\dfrac{b-a}{n}$, giving ordinates $y_0, y_1, \\ldots, y_n$. Each strip's trapezium has area $\\dfrac{h}{2}(y_i + y_{i+1})$. Adding up all $n$ strips and collecting terms:\n\n$$\n\\int_a^b f(x)\\,\\mathrm{d}x \\approx \\frac{h}{2}\\Big[(y_0 + y_n) + 2(y_1 + y_2 + \\cdots + y_{n-1})\\Big].\n$$\n\nThe two end ordinates $y_0, y_n$ are counted once each; every ordinate strictly between them is counted twice.",
+      "selfExplainPrompt": "Every interior reading ($y_1$, $y_2$, $y_3$, and so on) gets multiplied by 2 in this formula, but the two end readings $y_0$ and $y_n$ don't. Why the difference?",
+      "selfExplainAnswer": "Each interior ordinate is shared by two neighbouring trapezia, it's the right-hand edge of one strip and the left-hand edge of the next, so it contributes to both of their areas. When you add every strip's own $\\frac{h}{2}(y_i+y_{i+1})$ formula together, each interior $y_i$ appears in exactly two of those sums and so ends up doubled. The two end ordinates, $y_0$ and $y_n$, only ever belong to one strip each, so they're counted once."
+    },
+    {
+      "type": "entry",
+      "id": "boat-total-distance",
+      "prompt": "Now apply the full formula to all five of the boat's readings ($h=1$, $y_0,\\ldots,y_4 = 2, 3, 5, 4, 2$) to estimate the total distance travelled over the 4 minutes.",
+      "inputMode": "numeric",
+      "answer": 14,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $\\frac{1}{2}\\big[(2+2) + 2(3+5+4)\\big] = \\frac{1}{2}[4 + 24] = 14$ m, an estimate built entirely from the sensor readings, no formula needed at all.",
+      "hints": ["Estimate $= \\frac{h}{2}\\big[(y_0+y_4) + 2(y_1+y_2+y_3)\\big]$.", "$\\frac{1}{2}\\big[(2+2) + 2(3+5+4)\\big]$."]
+    },
+    {
+      "type": "entry",
+      "id": "strip-width-fluency",
+      "prompt": "Quick fluency check: to estimate $\\displaystyle\\int_2^{10} f(x)\\,\\mathrm{d}x$ using the trapezium rule with $n=4$ strips, what is the strip width $h$?",
+      "inputMode": "numeric",
+      "answer": 2,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $h = \\frac{10-2}{4} = 2$.",
+      "hints": ["$h = \\frac{b-a}{n}$."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "convexity-direction",
+      "prompt": "For a curve like $y=x^2$, which bends upward (convex) across $[a,b]$, does the trapezium rule over- or under-estimate the true integral?",
+      "choices": [
+        { "text": "It overestimates, because each straight chord lies above the curve" },
+        {
+          "text": "It underestimates, because each straight chord lies below the curve",
+          "feedback": "That's the concave case, a curve bending downward. For a convex curve like $y=x^2$ the chord sits above the curve instead, not below it."
+        },
+        {
+          "text": "It's always exactly equal to the true integral, whatever the curve's shape",
+          "feedback": "The trapezium rule is only exact for straight lines. Any curved (non-linear) function has a chord that departs from the curve somewhere, giving either an over- or under-estimate."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly, on a convex curve every chord bows away from the curve on the upper side, so the trapezium's area, using that chord as its slanted top, comes out larger than the true area underneath."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "x-squared-worked",
+      "body": "Estimate $\\displaystyle\\int_0^4 x^2\\,\\mathrm{d}x$ with $n=4$ strips. Here $h = \\frac{4-0}{4} = 1$, with ordinates at $x=0,1,2,3,4$ giving $y=0,1,4,9,16$:\n\n$$\n\\int_0^4 x^2\\,\\mathrm{d}x \\approx \\frac{1}{2}\\big[(0+16) + 2(1+4+9)\\big] = \\frac{1}{2}[16+28] = 22.\n$$\n\nThe exact value (from *Integration I*) is $\\left[\\frac{x^3}{3}\\right]_0^4 = \\frac{64}{3} \\approx 21.33$.",
+      "selfExplainPrompt": "The trapezium estimate (22) is bigger than the exact value ($\\approx 21.33$). Why does $y=x^2$ being convex make the trapezium rule overestimate here specifically, rather than underestimate?",
+      "selfExplainAnswer": "$y=x^2$ curves upward (convex) on $[0,4]$, so every straight chord joining two points on the curve lies entirely above the curve between them. The trapezium rule uses that chord as the slanted top edge of each strip, so each trapezium's area is a little bigger than the true area under the curve, giving an overestimate overall. A concave curve bows the other way and would give an underestimate instead."
+    },
+    {
+      "type": "faded-step",
+      "id": "one-over-x-final-value",
+      "worked": "Estimate $\\displaystyle\\int_1^3 \\frac{1}{x}\\,\\mathrm{d}x$ with $n=4$ strips. Here $h = \\frac{3-1}{4} = 0.5$, with ordinates at $x=1,1.5,2,2.5,3$ giving $y = 1, 0.6667, 0.5, 0.4, 0.3333$:\n\n$$\n\\int_1^3 \\frac{1}{x}\\,\\mathrm{d}x \\approx \\frac{0.5}{2}\\Big[(1+0.3333) + 2(0.6667+0.5+0.4)\\Big] = 0.25\\big[1.3333 + 3.1334\\big].\n$$",
+      "prompt": "Finish the calculation: what does $0.25 \\times [1.3333 + 3.1334]$ give as the trapezium estimate, correct to 3 decimal places?",
+      "inputMode": "numeric",
+      "answer": 1.117,
+      "tolerance": 0.002,
+      "successFeedback": "Right, the estimate is about $1.117$ (the exact value is $\\ln 3 \\approx 1.099$, another overestimate, since $y=1/x$ is convex for $x>0$). Remember the boat with no formula for its speed at the start of this lesson? You now have a general tool: whenever all you have is sample readings, or a function too awkward to integrate exactly, the trapezium rule turns those numbers into a solid area estimate. You're ready for the end-of-module assessment.",
+      "hints": ["$1.3333 + 3.1334 = 4.4667$.", "$0.25 \\times 4.4667$."]
+    }
+  ]
+}

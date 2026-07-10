@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "id": "fractions-and-partial-fractions",
+  "title": "Algebraic fractions and basic partial fractions",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-fraction-simplifies",
+      "prompt": "Loop City's efficiency team writes a ratio comparing two production lines as $\\dfrac{x^2-4}{x^2+5x+6}$. Just like $\\dfrac{6}{9}$ simplifies to $\\dfrac{2}{3}$ by cancelling a common factor, do you think this quadratic-over-quadratic ratio simplifies to something much plainer once you factorise it?",
+      "choices": [
+        "Yes, it simplifies to a linear-over-linear fraction",
+        "No, quadratics can never be simplified this way",
+        "Only for specific values of $x$, not in general"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "It does simplify, exactly the way a numeric fraction does: factorise the top and bottom, then cancel whatever factor they share."
+    },
+    {
+      "type": "entry",
+      "id": "simplify-fraction-k",
+      "prompt": "Factorise $x^2-4$ and $x^2+5x+6$, then cancel the common factor to write $\\dfrac{x^2-4}{x^2+5x+6}$ as $\\dfrac{x-2}{x+k}$ (for $x \\ne -2,-3$). What is $k$?",
+      "inputMode": "numeric",
+      "answer": 3,
+      "tolerance": 0.01,
+      "hints": [
+        "$x^2-4=(x-2)(x+2)$ and $x^2+5x+6=(x+2)(x+3)$.",
+        "Cancel the shared factor $(x+2)$ from top and bottom."
+      ],
+      "successFeedback": "$\\dfrac{x^2-4}{x^2+5x+6} = \\dfrac{(x-2)(x+2)}{(x+2)(x+3)} = \\dfrac{x-2}{x+3}$, so $k=3$."
+    },
+    {
+      "type": "tap-choice",
+      "id": "cancel-factors-not-terms",
+      "prompt": "Once simplified to $\\dfrac{x-2}{x+3}$, which of these can you legitimately do next?",
+      "choices": [
+        { "text": "Nothing further; only whole common factors can be cancelled, and there are none left" },
+        {
+          "text": "Cancel the $x$ from top and bottom, since it appears in both",
+          "feedback": "$x$ is a term inside each expression, not a factor of the whole numerator or the whole denominator. Cancelling it would change the value of the fraction."
+        },
+        {
+          "text": "Cancel the $2$ and the $3$, since they're both just numbers",
+          "feedback": "$2$ and $3$ are terms added inside brackets, not factors multiplying the whole numerator or denominator, so they can't be cancelled independently."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. Only whole factors of the entire numerator and the entire denominator can ever be cancelled, never individual terms picked out of a sum."
+    },
+    {
+      "type": "entry",
+      "id": "partial-fraction-find-b",
+      "prompt": "Loop City splits a shared delivery cost between two warehouses using $\\dfrac{5x+7}{(x+1)(x+2)} \\equiv \\dfrac{A}{x+1}+\\dfrac{B}{x+2}$. Multiplying both sides by $(x+1)(x+2)$ gives $5x+7 \\equiv A(x+2)+B(x+1)$. Substitute $x=-2$ (making the $A$ term vanish) to find $B$.",
+      "inputMode": "numeric",
+      "answer": 3,
+      "tolerance": 0.01,
+      "hints": [
+        "At $x=-2$: $5(-2)+7 = A(0) + B(-2+1)$.",
+        "$-10+7=-3$, and $-2+1=-1$, so $-3 = B\\times(-1)$."
+      ],
+      "successFeedback": "$B=3$: substituting $x=-2$ made the $(x+2)$ factor, and hence the whole $A$ term, vanish."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "partial-fraction-full-worked",
+      "body": "Finish the split by substituting $x=-1$ (making the $B$ term vanish this time):\n\n$$\n5(-1)+7 = A(-1+2) + B(0) \\;\\Rightarrow\\; 2 = A(1) \\;\\Rightarrow\\; A=2.\n$$\n\nSo $\\dfrac{5x+7}{(x+1)(x+2)} \\equiv \\dfrac{2}{x+1} + \\dfrac{3}{x+2}$. Check: $\\dfrac{2(x+2)+3(x+1)}{(x+1)(x+2)} = \\dfrac{2x+4+3x+3}{(x+1)(x+2)} = \\dfrac{5x+7}{(x+1)(x+2)}$, which matches the original.",
+      "selfExplainPrompt": "Why does substituting $x=-1$ let you find $A$ directly, without ever needing to already know $B$?",
+      "selfExplainAnswer": "Substituting $x=-1$ makes the bracket $(x+1)$ equal to zero, so the whole $B(x+1)$ term vanishes regardless of what $B$ is. That leaves an equation containing only $A$, which you can solve immediately, and the same trick with the other root isolates $B$ instead."
+    },
+    {
+      "type": "faded-step",
+      "id": "partial-fraction-companion",
+      "worked": "Split a second shared cost, $\\dfrac{5x+1}{(x+1)(x-2)} \\equiv \\dfrac{A}{x+1}+\\dfrac{B}{x-2}$. Clearing denominators: $5x+1 \\equiv A(x-2)+B(x+1)$. Substituting $x=2$ (vanishing the $A$ term): $5(2)+1=11=A(0)+B(3)$, so $B=\\dfrac{11}{3}$.",
+      "prompt": "Now substitute $x=-1$ (vanishing the $B$ term) to find $A$: $5(-1)+1 = A(-1-2) + B(0)$. What is $A$?",
+      "inputMode": "numeric",
+      "answer": 1.333333,
+      "tolerance": 0.01,
+      "hints": ["$5(-1)+1=-4$, and $-1-2=-3$, so $-4=A(-3)$."],
+      "successFeedback": "$A = \\dfrac{4}{3} \\approx 1.33$. Back at the top of this lesson you predicted that $\\dfrac{x^2-4}{x^2+5x+6}$ really does simplify, and it did, exactly the way $\\dfrac{5x+7}{(x+1)(x+2)}$ and $\\dfrac{5x+1}{(x+1)(x-2)}$ both split cleanly into partial fractions once you spot the shared factor structure. That is the whole toolkit built across this module: divide, test with the factor and remainder theorems, factorise completely, and now simplify or split algebraic fractions using exactly the same eye for common factors."
+    }
+  ]
+}

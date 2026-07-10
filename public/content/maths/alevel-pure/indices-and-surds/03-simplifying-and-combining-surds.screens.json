@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "simplifying-and-combining-surds",
+  "title": "Simplifying and combining surds",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-garden-diagonal",
+      "prompt": "A square garden has side length 5 m. Its exact diagonal path length is $\\sqrt{50}$ m, an irrational number, not a whole number of metres. Can an expression like $\\sqrt{50}$ always be rewritten exactly as a whole number times a smaller square root, or is it stuck in that form forever?",
+      "choices": [
+        "It can always be rewritten as $k\\sqrt{n}$ with a smaller $n$, whenever $n$ has a perfect-square factor",
+        "No, once a number is under a square root sign, that's its simplest form"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "$50 = 25 \\times 2$, and $25$ is a perfect square, so $\\sqrt{50} = \\sqrt{25}\\times\\sqrt{2} = 5\\sqrt{2}$ exactly. Working with surds like this, rather than a rounded decimal, is what lets you order exact materials, like fencing, without rounding error."
+    },
+    {
+      "type": "tap-choice",
+      "id": "largest-square-factor",
+      "prompt": "To fully simplify $\\sqrt{72}$, you should split off the *largest* perfect-square factor of 72. Which split gives the fully simplified form?",
+      "choices": [
+        { "text": "$72 = 36 \\times 2$, giving $6\\sqrt{2}$" },
+        {
+          "text": "$72 = 4 \\times 18$, giving $2\\sqrt{18}$",
+          "feedback": "$4$ is a perfect-square factor, but not the largest one. $2\\sqrt{18}$ is true but not fully simplified, since $\\sqrt{18} = 3\\sqrt{2}$ can be pulled apart further, giving $2 \\times 3\\sqrt{2} = 6\\sqrt{2}$."
+        },
+        {
+          "text": "$72 = 9 \\times 8$, giving $3\\sqrt{8}$",
+          "feedback": "$9$ is a perfect-square factor, but not the largest one. $\\sqrt{8} = 2\\sqrt{2}$ can still be simplified further, giving $3 \\times 2\\sqrt{2} = 6\\sqrt{2}$."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: $36$ is the largest perfect-square factor of 72, so $\\sqrt{72} = \\sqrt{36}\\times\\sqrt{2} = 6\\sqrt{2}$, and there is no perfect-square factor left inside the root."
+    },
+    {
+      "type": "entry",
+      "id": "simplify-98",
+      "prompt": "Another garden's diagonal comes out to $\\sqrt{98}$ m. Simplify it into the form $k\\sqrt{n}$ with $n$ as small as possible. Write your answer like `7√2` (or `7sqrt2`).",
+      "inputMode": "text",
+      "accept": ["7\\s*(√|sqrt)\\s*2", "7\\s*(√|sqrt)\\(?2\\)?"],
+      "caseSensitive": false,
+      "successFeedback": "$98 = 49 \\times 2$, and $49$ is a perfect square, so $\\sqrt{98} = \\sqrt{49}\\times\\sqrt{2} = 7\\sqrt{2}$.",
+      "hints": ["Find the largest perfect-square factor of 98.", "$98 = 49 \\times 2$, and $\\sqrt{49} = 7$."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "like-surds",
+      "prompt": "You've laid two edging strips, one $3\\sqrt{5}$ m long and one $2\\sqrt{5}$ m long. Which pair of surd lengths can be added directly, just by adding their whole-number parts?",
+      "choices": [
+        { "text": "$3\\sqrt{5}$ and $2\\sqrt{5}$, since they're like surds" },
+        {
+          "text": "$3\\sqrt{5}$ and $2\\sqrt{3}$, since both have a coefficient",
+          "feedback": "Only surds with the *same* number under the root can be combined this way. $\\sqrt{5}$ and $\\sqrt{3}$ are unlike surds, so $3\\sqrt{5}+2\\sqrt{3}$ cannot be simplified any further."
+        },
+        {
+          "text": "$3\\sqrt{5}$ and $\\sqrt{15}$, since $15$ contains a 5",
+          "feedback": "Sharing a factor inside the root isn't the same as being the same surd. $\\sqrt{5}$ and $\\sqrt{15}$ are unlike surds and can't be combined by adding coefficients."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: only like surds, ones with the same number under the root, combine like this. $3\\sqrt{5}+2\\sqrt{5} = (3+2)\\sqrt{5} = 5\\sqrt{5}$, exactly like collecting like terms in algebra."
+    },
+    {
+      "type": "entry",
+      "id": "add-like-surds",
+      "prompt": "Two more edging strips measure $3\\sqrt{2}$ m and $5\\sqrt{2}$ m. Simplify $3\\sqrt{2}+5\\sqrt{2}$ as $k\\sqrt{n}$. Write your answer like `8√2` (or `8sqrt2`).",
+      "inputMode": "text",
+      "accept": ["8\\s*(√|sqrt)\\s*2", "8\\s*(√|sqrt)\\(?2\\)?"],
+      "caseSensitive": false,
+      "successFeedback": "$3\\sqrt{2}+5\\sqrt{2} = (3+5)\\sqrt{2} = 8\\sqrt{2}$.",
+      "hints": ["Both terms already share the surd $\\sqrt{2}$.", "Add the whole-number coefficients: $3+5$."]
+    },
+    {
+      "type": "entry",
+      "id": "simplify-then-combine",
+      "prompt": "A trickier pair of paths measures $\\sqrt{8}$ m and $\\sqrt{18}$ m. These don't look like like surds yet, so simplify each one first, then combine $\\sqrt{8}+\\sqrt{18}$ as $k\\sqrt{n}$. Write your answer like `5√2` (or `5sqrt2`).",
+      "inputMode": "text",
+      "accept": ["5\\s*(√|sqrt)\\s*2", "5\\s*(√|sqrt)\\(?2\\)?"],
+      "caseSensitive": false,
+      "successFeedback": "$\\sqrt{8} = 2\\sqrt{2}$ and $\\sqrt{18} = 3\\sqrt{2}$. Once simplified, they turn out to be like surds after all: $2\\sqrt{2}+3\\sqrt{2} = 5\\sqrt{2}$.",
+      "hints": ["Simplify $\\sqrt{8} = \\sqrt{4\\times2}$ and $\\sqrt{18} = \\sqrt{9\\times2}$ separately.", "Once both are written as $k\\sqrt{2}$, add the coefficients."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "multiply-surds-mechanism",
+      "body": "For paving, one panel measures $2\\sqrt{3}$ m by $5\\sqrt{6}$ m. Its area is $2\\sqrt{3} \\times 5\\sqrt{6}$. Multiply the whole-number parts and the surd parts separately: $2 \\times 5 = 10$, and $\\sqrt{3}\\times\\sqrt{6} = \\sqrt{18}$, giving $10\\sqrt{18}$. Then simplify the surd: $\\sqrt{18} = 3\\sqrt{2}$, so the area is $10 \\times 3\\sqrt{2} = 30\\sqrt{2}$ m$^2$.",
+      "selfExplainPrompt": "Why is it valid to multiply the whole-number parts and the parts under the root separately, rather than multiplying the whole expressions some other way?",
+      "selfExplainAnswer": "$2\\sqrt{3}$ really means $2 \\times \\sqrt{3}$, so $(2\\sqrt{3})\\times(5\\sqrt{6}) = (2\\times5) \\times (\\sqrt{3}\\times\\sqrt{6})$ just by regrouping the multiplication, since multiplication can be reordered freely. The surd rule $\\sqrt{a}\\times\\sqrt{b}=\\sqrt{ab}$ then handles the root parts, giving one combined surd that can be simplified as usual."
+    },
+    {
+      "type": "faded-step",
+      "id": "multiply-and-simplify-surds",
+      "worked": "Another panel measures $3\\sqrt{2}$ m by $4\\sqrt{6}$ m. Multiply whole-number parts and surd parts separately: $3\\times4=12$, and $\\sqrt{2}\\times\\sqrt{6}=\\sqrt{12}$, giving an area of $12\\sqrt{12}$ m$^2$. But $\\sqrt{12}$ isn't fully simplified: $\\sqrt{12} = \\sqrt{4\\times3} = 2\\sqrt{3}$.",
+      "prompt": "So the area is $12 \\times 2\\sqrt{3}$. Simplify this fully as $k\\sqrt{n}$. Write your answer like `24√3` (or `24sqrt3`).",
+      "inputMode": "text",
+      "accept": ["24\\s*(√|sqrt)\\s*3", "24\\s*(√|sqrt)\\(?3\\)?"],
+      "caseSensitive": false,
+      "successFeedback": "$12 \\times 2\\sqrt{3} = 24\\sqrt{3}$ m$^2$. And back to the opening question: yes, $\\sqrt{50}$, and every surd like it, can always be broken down into $k\\sqrt{n}$ form once you pull out the largest perfect-square factor, which is exactly why the garden's diagonal simplified cleanly to $5\\sqrt{2}$ m.",
+      "hints": ["Multiply the whole-number coefficient by the simplified surd's coefficient: $12 \\times 2$.", "$12 \\times 2 = 24$."]
+    }
+  ]
+}

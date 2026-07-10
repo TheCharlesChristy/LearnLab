@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "id": "binomial-theorem",
+  "title": "The binomial theorem and full expansions",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-term-count",
+      "prompt": "Expanding $(a+b)^5$ means multiplying five brackets together and collecting like terms. Multiplying the brackets out with no collecting gives $2^5 = 32$ individual products. How many *distinct* terms remain once you collect the like ones together, grouping by the power of $b$?",
+      "choices": ["5", "6", "32"],
+      "correctChoiceIndex": 1,
+      "reveal": "Right, 6, one for each value of $r$ from $0$ to $5$, matching row 5 of Pascal's triangle from last lesson. This lesson turns that observation into the full binomial theorem."
+    },
+    {
+      "type": "tap-choice",
+      "id": "power-of-a",
+      "prompt": "In the binomial theorem $(a+b)^n = \\sum_{r=0}^{n}\\binom{n}{r}a^{n-r}b^r$, what is the power of $a$ in the term where $r=4$ and $n=9$?",
+      "choices": [
+        { "text": "$5$" },
+        {
+          "text": "$4$",
+          "feedback": "$4$ is the power of $b$ here (it's $r$), not the power of $a$. The power of $a$ is $n-r$, not $r$ itself."
+        },
+        {
+          "text": "$9$",
+          "feedback": "$9$ is the total power $n$, shared between $a$ and $b$. Only the term where $r=0$ has $a$ raised to the full power $n$; here $r=4$, so some of that power has gone to $b$."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, $5$. The power of $a$ is always $n-r$, since the powers of $a$ and $b$ in every term add up to $n$: here $9-4=5$."
+    },
+    {
+      "type": "entry",
+      "id": "verify-total-power",
+      "prompt": "In the expansion of $(a+b)^9$, the term where $r=4$ has $b^4$. What power of $a$ accompanies it?",
+      "inputMode": "numeric",
+      "answer": 5,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $5$, since $n-r = 9-4=5$ and the two powers must add to $n=9$.",
+      "hints": ["The power of $a$ plus the power of $b$ must equal $n=9$.", "$9-4=5$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "expand-a-plus-b-5",
+      "body": "Expand $(a+b)^5$ using the binomial theorem. First, the coefficients (row $n=5$ of Pascal's triangle): $\\binom{5}{0}{=}1,\\ \\binom{5}{1}{=}5,\\ \\binom{5}{2}{=}10,\\ \\binom{5}{3}{=}10,\\ \\binom{5}{4}{=}5,\\ \\binom{5}{5}{=}1$. Next, the powers: $a$ falls from $5$ to $0$ while $b$ rises from $0$ to $5$, so every term has total power $5$. Pairing coefficients with power pairs and adding gives\n\n$$\n(a+b)^5 = a^5 + 5a^4b + 10a^3b^2 + 10a^2b^3 + 5ab^4 + b^5.\n$$\n\nCheck: setting $a=b=1$ gives $2^5=32$ on the left, and $1+5+10+10+5+1=32$ on the right. It matches.",
+      "selfExplainPrompt": "Why is the coefficient of the $a^3b^2$ term exactly $\\binom{5}{2}=10$, and not some other row-5 entry?",
+      "selfExplainAnswer": "The term $a^3b^2$ is the one where $r=2$ (the power of $b$), so its coefficient is $\\binom{5}{r}=\\binom{5}{2}$. Because $\\binom{5}{r}$ counts how many of the 5 multiplied brackets contributed a $b$ (with the rest contributing $a$), and here exactly 2 brackets contributed $b$, the coefficient has to be $\\binom{5}{2}=10$, the same number that counted 2-South routes out of 5 moves last lesson."
+    },
+    {
+      "type": "faded-step",
+      "id": "expand-2x-plus-3-4",
+      "worked": "Expand $(2x+3)^4$: here $a=2x$, $b=3$, $n=4$, and row $n=4$ of Pascal's triangle is $1,4,6,4,1$. Evaluating each term:\n\n- $r=0$: $1 \\times (2x)^4 \\times 1 = 16x^4$\n- $r=1$: $4 \\times (2x)^3 \\times 3 = 96x^3$\n- $r=2$: $6 \\times (2x)^2 \\times 3^2 = 216x^2$\n- $r=3$: $4 \\times (2x) \\times 3^3 = 216x$",
+      "prompt": "One term remains: $r=4$, the constant term. $$\\binom{4}{4}(2x)^0(3)^4 = 1 \\times 1 \\times 3^4 = ?$$",
+      "inputMode": "numeric",
+      "answer": 81,
+      "tolerance": 0.5,
+      "successFeedback": "Right, $81$, since $3^4=81$. So $(2x+3)^4 = 16x^4+96x^3+216x^2+216x+81$. Check: at $x=1$, $16+96+216+216+81=625=5^4=(2+3)^4$. It matches.",
+      "hints": ["$3^4 = 3\\times3\\times3\\times3$.", "$3^2=9$, so $3^4=9\\times9$."]
+    },
+    {
+      "type": "entry",
+      "id": "coefficient-1-minus-2x-6",
+      "prompt": "Expanding $(1-2x)^6$: here $a=1$, $b=-2x$, $n=6$, and row $n=6$ is $1,6,15,20,15,6,1$. The $x^3$ term has $r=3$: $\\binom{6}{3}(1)^3(-2x)^3 = 20 \\times (-8)x^3$. What is the coefficient of $x^3$?",
+      "inputMode": "numeric",
+      "answer": -160,
+      "tolerance": 0.5,
+      "successFeedback": "Right, $-160$. $\\binom{6}{3}=20$ and $(-2)^3=-8$, so $20\\times(-8)=-160$.",
+      "hints": ["Multiply $20 \\times (-8)$.", "Remember the sign: a negative number cubed stays negative."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "alternating-sign",
+      "prompt": "In the expansion of $(1-2x)^6$, why do the coefficients alternate in sign as $r$ increases?",
+      "choices": [
+        { "text": "Because $b=-2x$ is negative, so $b^r=(-2x)^r$ alternates sign as $r$ increases" },
+        {
+          "text": "Because the binomial coefficients $\\binom{6}{r}$ themselves are alternately negative",
+          "feedback": "Binomial coefficients $\\binom{n}{r}$ are always positive whole numbers (counts of routes), never negative. The sign comes entirely from $b$ being negative, not from $\\binom{6}{r}$."
+        },
+        {
+          "text": "Because $a=1$ is being raised to a falling power",
+          "feedback": "$a=1$ raised to any power is always $1$, so it contributes no sign at all. The alternation comes from $b=-2x$, not from $a$."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. Each term's sign comes from $(-2)^r$: positive when $r$ is even, negative when $r$ is odd, since a negative number raised to an odd power stays negative."
+    },
+    {
+      "type": "faded-step",
+      "id": "resolve-hook-term-count",
+      "worked": "You predicted 6 distinct terms earlier for $(a+b)^5$, matching $n+1=6$. The same rule, $n+1$ terms, holds for any positive integer $n$.",
+      "prompt": "For $(a+b)^9$, how many distinct terms will the full expansion have?",
+      "inputMode": "numeric",
+      "answer": 10,
+      "tolerance": 0.5,
+      "successFeedback": "Right, $10$ terms, since $n+1=9+1=10$, confirming what you predicted earlier for $(a+b)^5$. Next lesson shows you how to jump straight to one specific term of an expansion without writing out all the others.",
+      "hints": ["The number of terms is always $n+1$.", "$n=9$, so $n+1=10$."]
+    }
+  ]
+}

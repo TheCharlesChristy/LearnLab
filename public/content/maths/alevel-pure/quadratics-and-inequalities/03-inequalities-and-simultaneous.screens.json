@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "id": "inequalities-and-simultaneous",
+  "title": "Quadratic inequalities and linear-quadratic simultaneous equations",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-above-marker",
+      "prompt": "Back to the first stretch, $h(x)=x^2-x-6$, which crosses height $0$ at $x=-2$ and $x=3$. For which positions $x$ is the trail strictly above the marker's height, $h(x)>0$?",
+      "choices": [
+        "Only between $x=-2$ and $x=3$",
+        "Only outside $x=-2$ and $x=3$ (i.e. $x<-2$ or $x>3$)",
+        "Everywhere except exactly at $x=-2$ and $x=3$"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought. Solving a quadratic inequality means combining the roots you already know how to find with the shape of the curve, and this lesson makes that method precise."
+    },
+    {
+      "type": "tap-choice",
+      "id": "sign-rule",
+      "prompt": "The curve $y=(x-p)(x-q)$, with $p<q$, is an upward parabola (since $a=1>0$) crossing zero at $x=p$ and $x=q$. Between the roots, the curve dips below zero. What is true outside the roots, where $x<p$ or $x>q$?",
+      "choices": [
+        { "text": "The curve is above zero (positive)" },
+        { "text": "The curve is also below zero", "feedback": "An upward parabola only dips below zero in one connected region, between its two roots - outside them it's climbing back up, above zero." },
+        { "text": "The curve is exactly zero", "feedback": "The curve is exactly zero only at the two roots themselves - everywhere else it's strictly positive or strictly negative." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right - for an upward parabola, the curve is positive outside its roots and negative between them. For a downward parabola, it's the reverse."
+    },
+    {
+      "type": "entry",
+      "id": "smaller-critical-value",
+      "prompt": "For $x^2-x-6>0$, the critical values are the roots of $x^2-x-6=0$, i.e. $(x-3)(x+2)=0$. What is the smaller (more negative) critical value?",
+      "inputMode": "numeric",
+      "answer": -2,
+      "tolerance": 0.01,
+      "successFeedback": "Right - the critical values are $x=-2$ and $x=3$.",
+      "hints": ["Either $x-3=0$ or $x+2=0$.", "$x+2=0$ gives the more negative one."]
+    },
+    {
+      "type": "entry",
+      "id": "write-solution-region",
+      "prompt": "Using the critical values $-2$ and $3$, and the rule that an upward parabola is positive outside its roots, write the solution set of $x^2-x-6>0$. Use the form `x<-2 or x>3`.",
+      "inputMode": "text",
+      "accept": ["x\\s*<\\s*-2\\s*or\\s*x\\s*>\\s*3", "x\\s*>\\s*3\\s*or\\s*x\\s*<\\s*-2"],
+      "caseSensitive": false,
+      "successFeedback": "Right - $x<-2$ or $x>3$, matching your prediction that the trail is above the marker only outside those two positions.",
+      "hints": ["The curve is positive outside its roots, $-2$ and $3$.", "Write it as two separate conditions joined by 'or': $x<-2$ or $x>3$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "inclusive-boundary",
+      "body": "Some inequalities aren't strict. Solve $x^2 \\le 9$: rearrange to $x^2-9\\le0$, i.e. $(x-3)(x+3)\\le0$. The critical values are $x=\\pm3$. This is an upward parabola, so it is $\\le0$ between (and including) the roots:\n\n$$\n-3\\le x\\le3.\n$$",
+      "selfExplainPrompt": "Why are the boundary values $x=-3$ and $x=3$ included here, with $\\le$, when the critical values $-2$ and $3$ weren't included in the strict inequality $x^2-x-6>0$ from earlier?",
+      "selfExplainAnswer": "At exactly $x=-3$ and $x=3$, $(x-3)(x+3)$ equals exactly $0$, which does satisfy '$\\le0$' since zero is less than or equal to zero. It would not satisfy a strict '$<0$' or the earlier '$>0$'. Whenever the inequality symbol includes 'or equal to', the critical values themselves belong to the solution; a strict inequality always excludes them."
+    },
+    {
+      "type": "faded-step",
+      "id": "strict-inequality-companion",
+      "worked": "Solve $2x^2-5x-3<0$. Factorise: $2x^2-5x-3=(2x+1)(x-3)$, so the critical values are $x=-\\tfrac12$ and $x=3$. This is an upward parabola, so it is negative between the roots.",
+      "prompt": "What is the smaller critical value, as a decimal?",
+      "inputMode": "numeric",
+      "answer": -0.5,
+      "tolerance": 0.01,
+      "successFeedback": "Right - the smaller critical value is $-0.5$, so the solution is $-0.5<x<3$.",
+      "hints": ["Set $2x+1=0$.", "$x=-\\tfrac12=-0.5$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "simultaneous-method",
+      "body": "When one equation is linear and the other quadratic, substitute the linear one into the quadratic to reduce to a single quadratic in one variable. Solve simultaneously: a straight path $y=x+1$ crosses the trail model $y=x^2-5$. Setting them equal:\n\n$$\nx+1=x^2-5 \\implies x^2-x-6=0 \\implies (x-3)(x+2)=0,\n$$\n\nso $x=3$ or $x=-2$. Substituting back into the linear equation $y=x+1$ (easier than the quadratic): $x=3$ gives $y=4$, and $x=-2$ gives $y=-1$. The two crossing points are $(3,4)$ and $(-2,-1)$.",
+      "selfExplainPrompt": "Why substitute the linear equation into the quadratic one, rather than the other way round?",
+      "selfExplainAnswer": "Substituting the linear expression for $y$ into the quadratic equation leaves a single quadratic in one unknown, which you already know three ways to solve. Substituting the quadratic into the linear equation doesn't simplify anything, since the linear equation only has degree-one terms to begin with - there's nothing for the quadratic expression to combine with."
+    },
+    {
+      "type": "faded-step",
+      "id": "simultaneous-companion",
+      "worked": "A different straight path, $y=3x-2$, crosses the trail model $y=x^2$. Setting them equal:\n\n$$\n3x-2=x^2 \\implies x^2-3x+2=0 \\implies (x-1)(x-2)=0,\n$$\n\nso $x=1$ or $x=2$. Substituting into $y=3x-2$: $x=1$ gives $y=1$.",
+      "prompt": "What is the $y$-coordinate of the crossing point at $x=2$?",
+      "inputMode": "numeric",
+      "answer": 4,
+      "tolerance": 0.01,
+      "successFeedback": "Right - the crossing point is $(2,4)$ (matching $y=x^2=2^2=4$ too).",
+      "hints": ["Substitute $x=2$ into $y=3x-2$.", "$3(2)-2 = ?$"]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "tangent-case",
+      "body": "Sometimes a straight path just grazes the trail without crossing it, a tangent. Solve simultaneously: $y=2x-1$ and $y=x^2-4x+8$.\n\n$$\n2x-1=x^2-4x+8 \\implies x^2-6x+9=0 \\implies (x-3)^2=0,\n$$\n\nso $x=3$ (repeated), giving $y=2(3)-1=5$. There is only one crossing point, $(3,5)$, because the discriminant of $x^2-6x+9$ is $(-6)^2-4(1)(9)=36-36=0$. This straight path is a **tangent** to the curve at $(3,5)$, exactly the repeated-root idea from earlier in the module.",
+      "selfExplainPrompt": "What would it mean instead if the discriminant of the resulting quadratic had come out negative?",
+      "selfExplainAnswer": "A negative discriminant would mean that quadratic has no real roots at all, which here would mean the straight path and the trail model never meet anywhere: the line passes entirely above or entirely below the curve. A positive discriminant, by contrast, would mean two distinct crossing points, the ordinary case from the two previous screens."
+    },
+    {
+      "type": "entry",
+      "id": "close-resolve-prediction",
+      "prompt": "Back to the opening prediction: for $x^2-x-6>0$, you predicted the trail is above the marker's height only outside $x=-2$ and $x=3$. Confirm it: what is $h(10)$ for $h(x)=x^2-x-6$, a position well outside that range?",
+      "inputMode": "numeric",
+      "answer": 84,
+      "tolerance": 0.01,
+      "successFeedback": "Right - $h(10)=84$, comfortably positive, confirming your prediction that the trail sits above the marker's height outside $x=-2$ and $x=3$. You now have every tool from this module: factorise, complete the square, or use the quadratic formula to find roots; the discriminant to know how many roots exist before you even solve; and sign diagrams or substitution to handle inequalities and simultaneous equations built from the same quadratics.",
+      "hints": ["$h(10)=10^2-10-6$.", "$100-10-6 = ?$"]
+    }
+  ]
+}

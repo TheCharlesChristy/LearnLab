@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "magnitude-and-components",
+  "title": "Vectors, magnitude and component form",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-crow-flies",
+      "prompt": "A hiker sets off from base camp and walks 3 km east, then 4 km north, to reach Checkpoint 1: 7 km walked in total. Their GPS also logs the straight-line, 'as the crow flies', distance from base camp to Checkpoint 1. Do you think that straight-line distance comes out to exactly 7 km too, or something else?",
+      "choices": ["Exactly 7 km, the same as the distance walked", "Less than 7 km", "More than 7 km"],
+      "correctChoiceIndex": 1,
+      "reveal": "It's less than 7 km. The straight-line distance is the magnitude of the displacement vector from base camp to Checkpoint 1, written as a column of two components (3 east, 4 north). Walking 7 km along two separate legs and displacing some shorter straight-line distance are two different things: one is a scalar (total distance walked), the other comes from a vector (net displacement). By the end of this lesson you'll calculate that exact straight-line distance and confirm it."
+    },
+    {
+      "type": "tap-choice",
+      "id": "component-form",
+      "prompt": "A vector is written as a column $\\begin{pmatrix} x \\\\ y \\end{pmatrix}$, where $x$ is the horizontal (east-west) displacement and $y$ is the vertical (north-south) displacement. For the hiker's first leg, 3 km east and 4 km north, which column vector represents it?",
+      "choices": [
+        { "text": "$\\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$" },
+        { "text": "$\\begin{pmatrix} 4 \\\\ 3 \\end{pmatrix}$", "feedback": "That swaps the two components. The top entry is the east-west displacement (3 km east) and the bottom is the north-south displacement (4 km north), not the other way round." },
+        { "text": "$\\begin{pmatrix} 7 \\\\ 0 \\end{pmatrix}$", "feedback": "That treats the total 7 km walked as if it were a single displacement in one direction. The two legs point in different directions, so their lengths can't just be added like that." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: top is east-west, bottom is north-south. This vector also equals $3\\mathbf{i} + 4\\mathbf{j}$ in $\\mathbf{i}$-$\\mathbf{j}$ notation, where $\\mathbf{i} = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$ is one unit east and $\\mathbf{j} = \\begin{pmatrix} 0 \\\\ 1 \\end{pmatrix}$ is one unit north. In three dimensions you add a third component and unit vector $\\mathbf{k}$ for height."
+    },
+    {
+      "type": "entry",
+      "id": "magnitude-3d",
+      "prompt": "A ranger's drone logs its displacement from base camp as $\\begin{pmatrix} 2 \\\\ -3 \\\\ 6 \\end{pmatrix}$ km (east, north, height gained). In 3D the magnitude formula extends to $|\\mathbf{v}| = \\sqrt{x^2+y^2+z^2}$. What is the drone's straight-line distance from base camp, in km?",
+      "inputMode": "numeric",
+      "answer": 7,
+      "tolerance": 0.01,
+      "successFeedback": "Right: $\\sqrt{2^2+(-3)^2+6^2} = \\sqrt{4+9+36} = \\sqrt{49} = 7$ km. Exactly the same idea as 2D, just with one more term under the square root.",
+      "hints": ["Square each component: $2^2=4$, $(-3)^2=9$, $6^2=36$.", "Add them: $4+9+36=49$.", "Take the square root of 49."]
+    },
+    {
+      "type": "flash-recall",
+      "id": "vector-vs-scalar",
+      "front": "What's the difference between a vector and a scalar?",
+      "back": "A vector has both magnitude and direction, like a displacement. A scalar has magnitude only, like the total distance walked, temperature, or time. That's why 7 km walked (a scalar sum of two leg-lengths) and the 5 km straight-line displacement (a vector's magnitude) can genuinely be different numbers for the same trip."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "why-square-removes-sign",
+      "body": "Find the magnitude of $\\mathbf{a} = \\begin{pmatrix} 5 \\\\ -12 \\end{pmatrix}$ using Pythagoras' theorem, since the components form the two shorter sides of a right-angled triangle:\n\n$$\n|\\mathbf{a}| = \\sqrt{5^2 + (-12)^2} = \\sqrt{25 + 144} = \\sqrt{169} = 13.\n$$",
+      "selfExplainPrompt": "The component $-12$ is negative, yet it still contributes $144$, exactly what $+12$ would contribute. Why does squaring remove the effect of the negative sign, and why is a vector's magnitude itself never negative?",
+      "selfExplainAnswer": "Squaring any real number, positive or negative, gives a non-negative result: $(-12)^2 = 144$, the same as $12^2$. So a negative component contributes exactly as much to the sum of squares as its positive counterpart would. Magnitude is then defined as the square root of that non-negative sum, and a square root is taken to be non-negative by convention, so $|\\mathbf{v}|$ can never come out negative, whatever signs the components have."
+    },
+    {
+      "type": "faded-step",
+      "id": "resolve-checkpoint-distance",
+      "worked": "Back to the hiker's first leg: 3 km east and 4 km north is the vector $\\begin{pmatrix} 3 \\\\ 4 \\end{pmatrix}$. Its magnitude is\n\n$$\n|\\mathbf{v}| = \\sqrt{3^2 + 4^2} = \\sqrt{9 + 16} = \\sqrt{25}.\n$$",
+      "prompt": "So what is the straight-line, 'as the crow flies', distance from base camp to Checkpoint 1, in km?",
+      "inputMode": "numeric",
+      "answer": 5,
+      "tolerance": 0.01,
+      "successFeedback": "Right, 5 km. You predicted the straight-line distance would be less than the 7 km actually walked, and now you can see exactly why: $\\sqrt{25} = 5$, well under the 7 km total of the two legs. That's the difference between a vector's magnitude and the scalar total distance travelled, resolved with the same Pythagoras step you'll use for every vector in this module.",
+      "hints": ["$\\sqrt{9+16} = \\sqrt{25}$.", "What number, squared, gives 25?"]
+    }
+  ]
+}

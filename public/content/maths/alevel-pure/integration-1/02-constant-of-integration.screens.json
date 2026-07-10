@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "id": "constant-of-integration",
+  "title": "Finding the constant of integration",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-pin-down-c",
+      "prompt": "A delivery van has speed function $v(x) = 6x^2 - 4x$ m/s. Integrating gives the distance function $y = 2x^3 - 2x^2 + C$ for some unknown constant $C$. Does knowing the speed function alone tell you exactly how far the van has travelled at any given time?",
+      "choices": [
+        "Yes, integrating gives the exact distance function on its own",
+        "No, you need one extra piece of information, like the distance at some known instant"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "You need more information. The constant $C$ represents the van's unknown starting position: every value of $C$ gives a curve with exactly the same shape, just shifted vertically. Knowing one point the van actually passed through pins the shape down to a single curve."
+    },
+    {
+      "type": "tap-choice",
+      "id": "where-to-substitute",
+      "prompt": "To find $C$, you substitute a known point $(x_0, y_0)$ into which function?",
+      "choices": [
+        { "text": "The integrated function, $y = F(x) + C$" },
+        {
+          "text": "The original gradient function, $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x}$",
+          "feedback": "The gradient function has no $C$ in it at all, so there is nothing to solve for there. Substituting a point checks the gradient, but it can never fix the constant of integration."
+        },
+        {
+          "text": "Both functions, then average the two results for $C$",
+          "feedback": "There's no such averaging step. Only the integrated function $F(x) + C$ contains an unknown $C$ to solve for; the gradient function doesn't involve $C$ at all."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, substitute the known point into the integrated function, where $C$ actually appears, then solve the resulting equation for $C$."
+    },
+    {
+      "type": "entry",
+      "id": "quick-solve-c",
+      "prompt": "A curve has gradient function $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 4x^3$ and passes through $(1, 1)$. Integrating gives $y = x^4 + C$. Substituting $x=1, y=1$: $1 = 1 + C$. What is $C$?",
+      "inputMode": "numeric",
+      "answer": 0,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $1 = 1 + C$ gives $C = 0$, so the curve is simply $y = x^4$.",
+      "hints": [
+        "Rearrange $1 = 1 + C$ to isolate $C$.",
+        "$1 - 1 = 0$."
+      ]
+    },
+    {
+      "type": "manipulable-target",
+      "id": "verify-vans-curve",
+      "prompt": "Back to the delivery van, whose distance function turns out to be $y = 2x^3 - 2x^2 + 5$ (passing through $(1,5)$). Verify this is consistent with the speed function $v(x) = 6x^2 - 4x$: drag the point until the tangent gradient reads **2**, matching $v(1) = 6(1)^2 - 4(1) = 2$. There's more than one instant where this is true; either one works.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "2x^3 - 2x^2 + 5", "xmin": -2, "xmax": 2, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": 1.8,
+        "max": 2.2,
+        "description": "Target: tangent gradient = 2, matching v(x) = 6x^2 - 4x evaluated at x = 1 (or x = -1/3)."
+      },
+      "successFeedback": "Right, at $x=1$ the tangent gradient is 2, exactly matching $v(1) = 6(1)^2-4(1) = 2$. That confirms $y = 2x^3-2x^2+5$ is a correct antiderivative of the van's speed function.",
+      "hints": [
+        "Try landing the point near $x = 1$.",
+        "At $x=1$: $6(1)^2 - 4(1) = 6 - 4 = 2$.",
+        "There's a second valid spot further left, near $x = -1/3$, if you'd rather try that one."
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "worked-full-solve-c",
+      "body": "The van has gradient function $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 6x^2 - 4x$ and passes through $(1, 5)$.\n\n**Integrate:**\n\n$$\ny = \\int (6x^2 - 4x)\\,\\mathrm{d}x = 2x^3 - 2x^2 + C.\n$$\n\n**Substitute $(1,5)$:**\n\n$$\n5 = 2(1)^3 - 2(1)^2 + C = 2 - 2 + C = C.\n$$\n\nSo $C = 5$, giving $y = 2x^3 - 2x^2 + 5$. **Check:** differentiating this back gives $6x^2-4x$, matching the gradient function, and $y(1) = 2-2+5=5$, matching the given point.",
+      "selfExplainPrompt": "Suppose you had substituted $(1,5)$ into the original gradient function $6x^2-4x$ instead of into $y = 2x^3-2x^2+C$. Why would that attempt fail to find $C$?",
+      "selfExplainAnswer": "The gradient function $6x^2-4x$ doesn't contain $C$ anywhere, so substituting a point into it just checks whether the gradient at $x=1$ comes out to some number; there's no $C$ term in that equation to solve for. Only the integrated function carries a $+C$, so that's the only place substituting a known point can pin the constant down."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-solve-c",
+      "worked": "A different curve has gradient function $\\dfrac{\\mathrm{d}y}{\\mathrm{d}x} = 3x^2 + 2$ and passes through $(0, 4)$. Integrating: $y = x^3 + 2x + C$. Substituting $(0,4)$: $4 = 0 + 0 + C$, so $C = 4$, giving $y = x^3 + 2x + 4$.",
+      "prompt": "Using that curve, $y = x^3 + 2x + 4$, what is $y$ when $x = 2$?",
+      "inputMode": "numeric",
+      "answer": 16,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $y(2) = 2^3 + 2(2) + 4 = 8 + 4 + 4 = 16$. You predicted at the start of this lesson that one extra piece of information, a known point, was needed to pin the curve down exactly: that's exactly what solving for $C$ does. Next lesson uses this same integration machinery to compute an exact area, where the constant vanishes entirely.",
+      "hints": [
+        "Substitute $x=2$ into $x^3 + 2x + 4$.",
+        "$2^3 = 8$, and $2 \\times 2 = 4$."
+      ]
+    }
+  ]
+}

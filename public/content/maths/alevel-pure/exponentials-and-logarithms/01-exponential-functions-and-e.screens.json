@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "id": "exponential-functions-and-e",
+  "title": "Exponential functions and the number e",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-colony-growth",
+      "prompt": "A lab culture starts with 100 bacteria and doubles every hour, so its population is $N(t) = 100 \\times 2^t$. After 10 hours, do you think the colony has grown to about 1,000 cells, or to over 100,000?",
+      "choices": ["About 1,000 cells", "Over 100,000 cells", "Still about 100 cells"],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought. $N(t) = 100 \\times 2^t$ is an **exponential function**: the variable $t$ sits in the exponent, not the base. That single difference from a function like $t^2$ is what makes exponential growth explosive. By the end of this lesson you'll be able to check your prediction exactly."
+    },
+    {
+      "type": "tap-choice",
+      "id": "spot-the-exponential",
+      "prompt": "Which of these could model the colony, given that it doubles every hour starting from 100 cells?",
+      "choices": [
+        { "text": "$N(t) = 100 \\times 2^t$" },
+        {
+          "text": "$N(t) = 100t^2$",
+          "feedback": "Here the variable $t$ is the base and the power is fixed at 2. That's a power function, not an exponential: it doesn't have the constant-ratio doubling pattern an exponential model needs."
+        },
+        {
+          "text": "$N(t) = 2 \\times 100^t$",
+          "feedback": "Check $t=2$: this gives $2\\times100^2=20{,}000$, wildly overshooting the real doubling pattern (the real colony has only reached $100\\times2^2=400$ by then). Swapping which number is the base and which is the exponent changes the model completely."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, $N(t) = 100 \\times 2^t$: the base (2, the growth factor) stays fixed and the exponent $t$ (time) is what varies. That's the signature shape of an exponential function, $f(x) = a^x$ with $a>0$, $a\\ne1$."
+    },
+    {
+      "type": "entry",
+      "id": "shared-point",
+      "prompt": "Every curve $y = a^x$ (for any valid base $a > 0$) passes through the exact same point on the $y$-axis, because $a^0 = 1$ for any such $a$. What is $y$ when $x = 0$?",
+      "inputMode": "numeric",
+      "answer": 1,
+      "tolerance": 0.001,
+      "successFeedback": "Right, $y=1$: whatever the base, $a^0=1$, so every exponential curve threads through $(0,1)$.",
+      "hints": ["Try a couple of bases: $2^0$ and $5^0$.", "Any nonzero number raised to the power 0 is 1."]
+    },
+    {
+      "type": "manipulable-target",
+      "id": "find-gradient-2",
+      "prompt": "Among all possible bases, $e \\approx 2.71828$ is special: $y=e^x$ is its **own derivative**, so the tangent gradient at any point equals the curve's height there. Drag the point along $y=e^x$ until the tangent gradient reads about 2.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "e^x", "xmin": -2, "xmax": 4, "tangent": true, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": 1.7,
+        "max": 2.3,
+        "description": "Target: tangent gradient ≈ 2 (which also means the curve's height there is ≈ 2)."
+      },
+      "successFeedback": "That's it, right around $x \\approx 0.69$. Since $e^x$ is its own derivative, wherever the gradient reads 2, the height $e^x$ also reads 2 there.",
+      "hints": [
+        "Try moving the point to the right of $x=0$, where $e^x$ is bigger than 1.",
+        "You're looking for the point somewhere between $x=0.5$ and $x=1$.",
+        "At $x \\approx 0.69$, $e^x \\approx 2$, and since $e^x$ is its own derivative, the gradient there is also $\\approx 2$."
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "why-exponential-outgrows-power",
+      "body": "Compare a fixed power against an exponential with a smaller base:\n\n$$\n10^2 = 100, \\qquad 2^{10} = 1024.\n$$\n\nEven though 10 is a bigger number than 2, $2^{10}$ ends up more than ten times bigger than $10^2$. This is the pattern behind the colony's explosive growth: for a fixed base $a>1$, $a^x$ eventually outgrows *any* fixed power $x^n$, no matter how large $n$ is, as $x$ keeps growing.",
+      "selfExplainPrompt": "Why does $2^{10}$ end up bigger than $10^2$, even though 10 is a bigger number than 2?",
+      "selfExplainAnswer": "In $10^2$, the exponent is fixed at 2 while only the base is large. In $2^{10}$, the exponent itself grows, so the base 2 gets multiplied by itself again and again, ten times over. That repeated multiplication compounds: each extra multiplication by 2 doubles the previous result, and ten doublings eventually crush any single fixed power, however large its base."
+    },
+    {
+      "type": "faded-step",
+      "id": "estimate-e-squared",
+      "worked": "Using the decimal approximation $e \\approx 2.71828$: $e^1 = e \\approx 2.71828$ and $e^0 = 1$.",
+      "prompt": "Using $e \\approx 2.71828$, what is $e^2$, to 3 decimal places?",
+      "inputMode": "numeric",
+      "answer": 7.389,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $e^2 = e \\times e \\approx 2.71828 \\times 2.71828 \\approx 7.389$. Notice how much bigger $e^2$ is than $e^1$: the same explosive pattern as the colony.",
+      "hints": ["$e^2 = e \\times e$.", "$2.71828 \\times 2.71828 \\approx 7.389$."]
+    },
+    {
+      "type": "entry",
+      "id": "close-colony-check",
+      "prompt": "You predicted whether the colony would reach about 1,000 cells or over 100,000 after 10 hours. Using $N(t) = 100 \\times 2^t$, what is $N(10)$?",
+      "inputMode": "numeric",
+      "answer": 102400,
+      "tolerance": 1,
+      "successFeedback": "Right, 102,400 cells: comfortably over the 100,000 mark you predicted. That's exponential growth's signature: the exponent does the work, not the base, exactly as the last two screens showed. Next lesson introduces logarithms, the tool that reverses this and lets you solve for the time instead of the population.",
+      "hints": ["$N(10) = 100 \\times 2^{10}$.", "$2^{10} = 1024$, so $N(10) = 100 \\times 1024$."]
+    }
+  ]
+}

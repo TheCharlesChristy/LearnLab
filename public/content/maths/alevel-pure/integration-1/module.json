@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "integration-1",
-  "title": "Integration I — Reversing Differentiation",
+  "title": "Integration I: Reversing Differentiation",
   "description": "Integration as the reverse process of differentiation: finding indefinite integrals of powers of x, the constant of integration, and evaluating definite integrals to find the area under a curve.",
-  "estMinutes": 90,
+  "estMinutes": 70,
   "prerequisites": [
     "differentiation-1",
     "differentiation-2"
@@ -17,9 +17,9 @@
   ],
   "tags": ["calculus", "integration", "antiderivative", "area-under-a-curve", "definite-integral"],
   "lessons": [
-    { "id": "reverse-differentiation", "title": "Integration as reverse differentiation", "file": "01-reverse-differentiation.md", "estMinutes": 30 },
-    { "id": "constant-of-integration", "title": "Finding the constant of integration", "file": "02-constant-of-integration.md", "estMinutes": 25 },
-    { "id": "definite-integrals-and-area", "title": "Definite integrals and the area under a curve", "file": "03-definite-integrals-and-area.md", "estMinutes": 35 }
+    { "id": "reverse-differentiation", "title": "Integration as reverse differentiation", "file": "01-reverse-differentiation.screens.json", "kind": "screens", "estMinutes": 20 },
+    { "id": "constant-of-integration", "title": "Finding the constant of integration", "file": "02-constant-of-integration.screens.json", "kind": "screens", "estMinutes": 25 },
+    { "id": "definite-integrals-and-area", "title": "Definite integrals and the area under a curve", "file": "03-definite-integrals-and-area.screens.json", "kind": "screens", "estMinutes": 25 }
   ],
   "assessment": { "file": "assessment.json", "passMark": 0.7 },
   "version": "1.0.0",

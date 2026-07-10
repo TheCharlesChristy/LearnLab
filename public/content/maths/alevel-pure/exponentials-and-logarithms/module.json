@@ -19,19 +19,22 @@
     {
       "id": "exponential-functions-and-e",
       "title": "Exponential functions and the number e",
-      "file": "01-exponential-functions-and-e.md",
+      "file": "01-exponential-functions-and-e.screens.json",
+      "kind": "screens",
       "estMinutes": 30
     },
     {
       "id": "logarithms-and-laws",
       "title": "Logarithms and the laws of logs",
-      "file": "02-logarithms-and-laws.md",
+      "file": "02-logarithms-and-laws.screens.json",
+      "kind": "screens",
       "estMinutes": 35
     },
     {
       "id": "solving-equations-and-growth-decay",
       "title": "Solving exponential/log equations and growth-decay models",
-      "file": "03-solving-equations-and-growth-decay.md",
+      "file": "03-solving-equations-and-growth-decay.screens.json",
+      "kind": "screens",
       "estMinutes": 35
     }
   ],

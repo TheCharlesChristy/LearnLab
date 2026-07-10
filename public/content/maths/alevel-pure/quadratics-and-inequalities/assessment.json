@@ -30,7 +30,7 @@
         "It passes through the origin"
       ],
       "answer": 2,
-      "explanation": "$b^2-4ac = 1^2 - 4(1)(1) = 1-4=-3 < 0$, so there are no real roots — the upward parabola stays entirely above the x-axis."
+      "explanation": "$b^2-4ac = 1^2 - 4(1)(1) = 1-4=-3 < 0$, so there are no real roots: the upward parabola stays entirely above the x-axis."
     },
     {
       "id": "q4",
@@ -97,6 +97,14 @@
       ],
       "answer": 0,
       "explanation": "$x=1 \\Rightarrow y=x^2=1$ (check with the line: $3(1)-2=1$ ✓); $x=2 \\Rightarrow y=x^2=4$ (check: $3(2)-2=4$ ✓). So the points are $(1,1)$ and $(2,4)$."
+    },
+    {
+      "id": "q11",
+      "type": "numeric",
+      "text": "Solving $x^2 - 2x - 4 = 0$ with the quadratic formula gives $x = \\dfrac{2 \\pm \\sqrt{20}}{2}$. Using the surd-simplifying skills from Indices and Surds, write $\\sqrt{20}$ as $k\\sqrt{5}$. What is $k$?",
+      "answer": 2,
+      "tolerance": 0.001,
+      "explanation": "$\\sqrt{20} = \\sqrt{4 \\times 5} = \\sqrt{4} \\times \\sqrt{5} = 2\\sqrt{5}$, so $k = 2$. This is a review question: it reaches back to simplifying surds into $k\\sqrt{n}$ form from the prerequisite module Indices and Surds, and shows that skill is exactly what turns the quadratic formula's raw output into a clean exact answer."
     }
   ]
 }

@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "id": "trig-graphs-exact-values",
+  "title": "Graphs of sin, cos and tan, and exact values",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-wheel-60",
+      "prompt": "A giant observation wheel has radius $R$. As it turns through angle $\\theta$ from the boarding point, a rider's height above the wheel's centre (as a fraction of $R$) is exactly $y=\\sin\\theta$. After the wheel has turned through $60^\\circ$, is the rider more than $90\\%$ of the way up to the very top, exactly $90\\%$, or less than $90\\%$?",
+      "choices": ["More than 90% of the way up", "Exactly 90%", "Less than 90%, around 87%"],
+      "correctChoiceIndex": 2,
+      "reveal": "Less than 90% is right, though not by much: $\\sin60^\\circ=\\dfrac{\\sqrt3}{2}\\approx0.866$, about $86.6\\%$ of the way up. You'll derive that exact fraction later in this lesson and confirm it. First, the shapes of the three graphs $\\sin$, $\\cos$ and $\\tan$."
+    },
+    {
+      "type": "tap-choice",
+      "id": "tan-asymptote",
+      "prompt": "$\\tan\\theta$ measures the slope of the sightline from an observer standing at the wheel's base up to the rider's cabin. Right at $\\theta=0$, $\\tan0=0$ (the cabin is level with the observer). What happens to $\\tan\\theta$ as $\\theta$ approaches $90^\\circ$ ($\\dfrac{\\pi}{2}$ radians), the cabin directly overhead?",
+      "choices": [
+        { "text": "It shoots off toward infinity: an asymptote" },
+        { "text": "It settles at $0$, the same as at $\\theta=0$", "feedback": "That's the value at $\\theta=0$, not near $90^\\circ$. As the cabin passes overhead, the sightline becomes vertical, not level." },
+        { "text": "It settles at $1$", "feedback": "$\\tan45^\\circ=1$, a completely different angle. Near $90^\\circ$ the sightline is nearly vertical, which is far steeper than a slope of $1$." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, an asymptote. $\\tan\\theta=\\dfrac{\\sin\\theta}{\\cos\\theta}$, and $\\cos90^\\circ=0$, so the ratio blows up. This happens again every $180^\\circ$ ($\\pi$ radians) after that, since $\\tan$'s period is half that of $\\sin$ and $\\cos$."
+    },
+    {
+      "type": "entry",
+      "id": "sin-half-turn",
+      "prompt": "Meanwhile $\\sin$ and $\\cos$ never blow up: they stay between $-1$ and $1$ the whole way round. At the boarding point, $\\sin0=0$ and $\\cos0=1$ (the rider starts level with the centre, at the wheel's rim). What is $\\sin\\theta$ a half turn later, at $\\theta=\\pi$ (180 degrees)?",
+      "inputMode": "numeric",
+      "answer": 0,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $\\sin\\pi=0$. The rider is back at centre height, exactly opposite the boarding point.",
+      "hints": ["A half turn brings the rider back to centre height, on the opposite side of the wheel.", "$\\sin\\pi=0$, the same height as the start, just on the other side."]
+    },
+    {
+      "type": "manipulable-target",
+      "id": "cos-turning-point",
+      "prompt": "Here's $y=\\cos\\theta$, the rider's horizontal offset from the centre (as a fraction of $R$), with $\\theta$ in radians. Drag the point until the rider is momentarily not moving sideways at all: tangent gradient $=0$.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "cos(x)", "xmin": -3.14, "xmax": 3.14, "tangent": true, "grid": true },
+      "goal": { "kind": "tangent-gradient-in-range", "min": -0.15, "max": 0.15, "description": "Target: tangent gradient = 0 (rider at the extreme left or right of the wheel)." },
+      "successFeedback": "Right, at $\\theta=0$ (and again at $\\theta=\\pm\\pi$) the rider is at the extreme side of the wheel, momentarily stationary sideways before swinging back. That's a turning point of $\\cos$, just like the peak of $\\sin$ is a turning point of the height.",
+      "hints": ["Try the middle of the range shown.", "Look for $\\theta=0$.", "At $\\theta=0$, $\\cos\\theta$ is at its maximum value, $1$, and momentarily flat."]
+    },
+    {
+      "type": "entry",
+      "id": "tan-period",
+      "prompt": "$\\sin$ and $\\cos$ both repeat every $2\\pi\\approx6.283$ radians: one full turn of the wheel. $\\tan$ repeats twice as often. What is $\\tan$'s period, in radians, as a decimal to 2 decimal places?",
+      "inputMode": "numeric",
+      "answer": 3.14,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $\\pi\\approx3.14$. Each asymptote-to-asymptote branch of $\\tan$ repeats twice as fast as a full cycle of $\\sin$ or $\\cos$.",
+      "hints": ["Half of $2\\pi$.", "$2\\pi\\approx6.283$, so half of that is..."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "exact-values-45",
+      "body": "Exact values come from two special right-angled triangles, memorised rather than looked up. Take a right-angled isosceles triangle with both legs of length $1$. By Pythagoras its hypotenuse is $\\sqrt{1^2+1^2}=\\sqrt2$, and each of the two equal angles is $45^\\circ$:\n\n$$\n\\sin45^\\circ=\\cos45^\\circ=\\dfrac{1}{\\sqrt2}=\\dfrac{\\sqrt2}{2}\\approx0.707,\\qquad\\tan45^\\circ=\\dfrac11=1\n$$",
+      "selfExplainPrompt": "Why are $\\sin45^\\circ$ and $\\cos45^\\circ$ exactly equal to each other, when for most angles sine and cosine are different?",
+      "selfExplainAnswer": "The triangle is isosceles: both legs equal $1$, so the side opposite $45^\\circ$ and the side adjacent to it are the same length. Since $\\sin$ uses the opposite side and $\\cos$ uses the adjacent side over the same hypotenuse, they come out identical exactly at $45^\\circ$, the one angle where opposite and adjacent are interchangeable."
+    },
+    {
+      "type": "faded-step",
+      "id": "exact-values-30-60",
+      "worked": "Take an equilateral triangle with side length $2$ and drop a perpendicular from one vertex to the midpoint of the opposite side. That splits it into two right-angled triangles with hypotenuse $2$, one leg $1$ (half the base), and the other leg $\\sqrt{2^2-1^2}=\\sqrt3$ (Pythagoras again). The angles are $30^\\circ$ and $60^\\circ$:\n\n$$\n\\sin30^\\circ=\\dfrac12,\\quad\\cos30^\\circ=\\dfrac{\\sqrt3}{2},\\quad\\tan30^\\circ=\\dfrac{1}{\\sqrt3}=\\dfrac{\\sqrt3}{3}\\approx0.577\n$$\n\n$$\n\\sin60^\\circ=\\dfrac{\\sqrt3}{2},\\quad\\cos60^\\circ=\\dfrac12\n$$",
+      "prompt": "So the same triangle gives $\\tan60^\\circ=\\dfrac{\\sqrt3}{1}=\\sqrt3$. What is $\\sqrt3$ as a decimal, to 3 decimal places?",
+      "inputMode": "numeric",
+      "answer": 1.732,
+      "tolerance": 0.001,
+      "successFeedback": "Right, $\\tan60^\\circ=\\sqrt3\\approx1.732$.",
+      "hints": ["$\\sqrt3\\approx1.732$.", "Square your answer: it should come out very close to $3$."]
+    },
+    {
+      "type": "entry",
+      "id": "wheel-close-sin60",
+      "prompt": "Back to the very start: the rider's height fraction after a $60^\\circ$ turn is $\\sin60^\\circ$. Using $\\sin60^\\circ=\\dfrac{\\sqrt3}{2}$, what is that as a decimal, to 3 decimal places?",
+      "inputMode": "numeric",
+      "answer": 0.866,
+      "tolerance": 0.001,
+      "successFeedback": "Right, $\\sin60^\\circ=\\dfrac{\\sqrt3}{2}\\approx0.866$, just under 90%, exactly matching your prediction at the start of the lesson. You now have the shapes, periods and exact values of all three graphs ready for the assessment.",
+      "hints": ["$\\sqrt3\\approx1.732$, so $\\dfrac{\\sqrt3}{2}\\approx?$", "$1.732\\div2=0.866$."]
+    }
+  ]
+}

@@ -14,7 +14,7 @@
         "It cannot be determined"
       ],
       "answer": 0,
-      "explanation": "$2m + 2n = 2(m+n)$, and $m + n$ is an integer, so $2m+2n$ is $2 \\times (\\text{an integer})$ — always even, by definition, for every choice of integers $m, n$."
+      "explanation": "$2m + 2n = 2(m+n)$, and $m + n$ is an integer, so $2m+2n$ is $2 \\times (\\text{an integer})$: always even, by definition, for every choice of integers $m, n$."
     },
     {
       "id": "q2",
@@ -22,7 +22,7 @@
       "text": "A statement claims $n^2 + n$ is even for every integer $n$ with $1 \\le n \\le 6$. Which proof technique is most appropriate to establish this claim, given the range is finite and small?",
       "accept": ["(proof( by)? )?exhaustion"],
       "caseSensitive": false,
-      "explanation": "Since $n$ only ranges over the six values $1, \\ldots, 6$, every case can be checked individually — this is **proof by exhaustion**."
+      "explanation": "Since $n$ only ranges over the six values $1, \\ldots, 6$, every case can be checked individually: this is **proof by exhaustion**."
     },
     {
       "id": "q3",
@@ -46,7 +46,7 @@
       "text": "Which of the following values of $x$ are counter-examples to the claim \"$x^2 > x$ for every real number $x$\"?",
       "choices": ["$x = 0.5$", "$x = 2$", "$x = 0$", "$x = -3$"],
       "answers": [0, 2],
-      "explanation": "A counter-example must make $x^2 > x$ false, i.e. $x^2 \\le x$. For $x=0.5$: $x^2 = 0.25 \\le 0.5$ ✓ counter-example. For $x=0$: $x^2 = 0 \\le 0$ ✓ counter-example (not strictly greater). For $x=2$: $x^2 = 4 > 2$, so the claim holds — not a counter-example. For $x=-3$: $x^2 = 9 > -3$, so the claim holds — not a counter-example."
+      "explanation": "A counter-example must make $x^2 > x$ false, i.e. $x^2 \\le x$. For $x=0.5$: $x^2 = 0.25 \\le 0.5$, a counter-example. For $x=0$: $x^2 = 0 \\le 0$, a counter-example (not strictly greater). For $x=2$: $x^2 = 4 > 2$, so the claim holds: not a counter-example. For $x=-3$: $x^2 = 9 > -3$, so the claim holds: not a counter-example."
     },
     {
       "id": "q6",
@@ -54,7 +54,7 @@
       "text": "Write the standard algebraic form used to represent two consecutive integers, in terms of a single integer $n$.",
       "accept": ["n\\s*(and|,)\\s*n\\s*\\+\\s*1", "n\\s*&\\s*n\\s*\\+\\s*1"],
       "caseSensitive": false,
-      "explanation": "Two consecutive integers are written as $n$ and $n+1$, where $n$ is an integer — this general form covers every possible consecutive pair."
+      "explanation": "Two consecutive integers are written as $n$ and $n+1$, where $n$ is an integer: this general form covers every possible consecutive pair."
     },
     {
       "id": "q7",
@@ -69,7 +69,7 @@
       "type": "mcq",
       "text": "A student checks that a statement is true for $n = 1, 2, 3, 4, 5$ and concludes it is true for all positive integers $n$. Under what circumstance is this reasoning actually a valid proof?",
       "choices": [
-        "Never — checking examples is never a valid proof",
+        "Never, checking examples is never a valid proof",
         "Only if the statement explicitly restricts $n$ to the finite set $\\{1,2,3,4,5\\}$, so these five cases are exhaustive",
         "Always, provided at least 5 examples are checked",
         "Only if $n = 5$ is prime"
@@ -97,6 +97,14 @@
       "accept": ["true", "yes", "true[.,]?\\s*it'?s a valid counter-?example"],
       "caseSensitive": false,
       "explanation": "True. $n=2$ satisfies the hypothesis ($n^2 = 4$ is divisible by $4$) but not the conclusion ($2$ is not divisible by $4$), so it is a genuine counter-example and the original claim is false."
+    },
+    {
+      "id": "q11",
+      "type": "text",
+      "text": "This module's deductive proofs relied throughout on the expanding-brackets skill from Algebra Essentials. Expand and simplify $(n+1)^2 - n^2$ as a single expression in $n$.",
+      "accept": ["2n\\s*\\+\\s*1"],
+      "caseSensitive": false,
+      "explanation": "This is a review question reaching back to the expanding-brackets technique from the prerequisite module Algebra Essentials. $(n+1)^2 - n^2 = (n^2+2n+1) - n^2 = 2n+1$. Notice the result, $2n+1$, is exactly the algebraic form for an odd integer used throughout this module's deductive proofs."
     }
   ]
 }

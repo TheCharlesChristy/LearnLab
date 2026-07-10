@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "integration-1-assessment",
-  "title": "End of module: Integration I — Reversing Differentiation",
+  "title": "End of module: Integration I: Reversing Differentiation",
   "questions": [
     {
       "id": "q1",
@@ -78,7 +78,7 @@
         "Differentiating the result should give back the original integrand $ax^n$"
       ],
       "answers": [0, 1, 3],
-      "explanation": "The rule $\\int ax^n\\,\\mathrm{d}x = \\dfrac{a}{n+1}x^{n+1}+C$ requires $n \\neq -1$ (dividing by $n+1$ would be dividing by zero when $n=-1$), so the third statement is false. The other three are correct: $C$ is needed because constants vanish under differentiation, and differentiating the antiderivative must reproduce $ax^n$ — this is the standard verification method."
+      "explanation": "The rule $\\int ax^n\\,\\mathrm{d}x = \\dfrac{a}{n+1}x^{n+1}+C$ requires $n \\neq -1$ (dividing by $n+1$ would be dividing by zero when $n=-1$), so the third statement is false. The other three are correct: $C$ is needed because constants vanish under differentiation, and differentiating the antiderivative must reproduce $ax^n$: this is the standard verification method."
     },
     {
       "id": "q10",
@@ -86,7 +86,15 @@
       "text": "The constant of integration cancels out when evaluating this type of integral, because it appears in both $F(b)$ and $F(a)$ and subtracts away. What is this type of integral called?",
       "accept": ["(a |the )?definite integral", "definite"],
       "caseSensitive": false,
-      "explanation": "This is a **definite integral**, $\\int_a^b f(x)\\,\\mathrm{d}x = F(b) - F(a)$. Because both $F(b)+C$ and $F(a)+C$ contain the same $C$, it cancels in the subtraction — unlike an indefinite integral, which must keep $+C$."
+      "explanation": "This is a **definite integral**, $\\int_a^b f(x)\\,\\mathrm{d}x = F(b) - F(a)$. Because both $F(b)+C$ and $F(a)+C$ contain the same $C$, it cancels in the subtraction, unlike an indefinite integral, which must keep $+C$."
+    },
+    {
+      "id": "q11",
+      "type": "numeric",
+      "text": "Cumulative review: first use the power rule from Differentiation I to differentiate $g(x) = 4x^3 - 2x + 1$, giving $g'(x)$. Then integrate $g'(x)$ back up. What is the coefficient of $x^3$ in the result (ignore the constant of integration)?",
+      "answer": 4,
+      "tolerance": 0.001,
+      "explanation": "This reaches back to the power rule from Differentiation I: differentiating $g(x) = 4x^3 - 2x + 1$ gives $g'(x) = 12x^2 - 2$. Integrating that back up: $\\int (12x^2 - 2)\\,\\mathrm{d}x = 4x^3 - 2x + C$, so the coefficient of $x^3$ is $4$, exactly matching the original function's coefficient. Integration really does undo differentiation. Spaced returns to earlier techniques like this are what make them stick."
     }
   ]
 }

@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "id": "solving-equations-and-growth-decay",
+  "title": "Solving exponential and log equations, and growth-decay models",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-crossing-time",
+      "prompt": "The lab colony $N(t) = 100 \\times 2^t$ reached 102,400 cells at $t=10$ hours. The exact time it first crosses 100,000 cells doesn't have to land on a whole number of hours. Does it cross 100,000 before the 10-hour mark, or after?",
+      "choices": ["Before 10 hours", "After 10 hours", "Exactly at 10 hours"],
+      "correctChoiceIndex": 0,
+      "reveal": "Hold that thought. To find the exact crossing time you need to solve $100\\times2^t=100{,}000$ for $t$, and $t$ won't be a whole number. This lesson gives you the tool: take logarithms of both sides."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "solve-3x-20",
+      "body": "When the unknown is in the exponent and the two sides can't easily share a base, take $\\ln$ of both sides and use the power law to bring the exponent down. Solve $3^x = 20$:\n\n$$\n\\ln(3^x) = \\ln(20) \\implies x\\ln3 = \\ln20 \\implies x = \\frac{\\ln20}{\\ln3} = \\frac{2.99573\\ldots}{1.09861\\ldots} \\approx 2.727.\n$$",
+      "selfExplainPrompt": "Why is taking $\\ln$ of both sides a valid move, and why does the power law let $x$ drop out of the exponent?",
+      "selfExplainAnswer": "$\\ln$ is a function, so applying it to both sides of a true equation keeps the equation true: equal inputs to the same function give equal outputs. Then the power law, $\\log_a(A^n) = n\\log_a A$, turns $\\ln(3^x)$ into $x\\ln3$, moving $x$ down out of the exponent and into an ordinary multiplier you can divide by."
+    },
+    {
+      "type": "faded-step",
+      "id": "solve-colony-crossing",
+      "worked": "The colony crosses 100,000 when $100\\times2^t = 100{,}000$, i.e. when $2^t = 1000$ (dividing both sides by 100).",
+      "prompt": "Take $\\ln$ of both sides of $2^t = 1000$ and solve for $t$, to 3 decimal places.",
+      "inputMode": "numeric",
+      "answer": 9.966,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $t = \\dfrac{\\ln1000}{\\ln2} \\approx \\dfrac{6.90776}{0.69315} \\approx 9.966$ hours, just under 10. Your prediction was right: the colony crosses 100,000 a little before the 10-hour mark.",
+      "hints": ["Take $\\ln$ of both sides: $t\\ln2 = \\ln1000$.", "$t = \\dfrac{\\ln1000}{\\ln2}$."]
+    },
+    {
+      "type": "manipulable-target",
+      "id": "antibiotic-decline-rate",
+      "prompt": "A second culture is being treated with an antibiotic and shrinks according to $A = 500e^{-0.2t}$ (cells, $t$ in hours). Drag the point until the tangent reads a decline of about 40 cells per hour (a gradient of about $-40$).",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "500*e^(-0.2*x)", "xmin": 0, "xmax": 20, "tangent": true, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": -44,
+        "max": -36,
+        "description": "Target: culture declining at about 40 cells per hour (tangent gradient ≈ -40)."
+      },
+      "successFeedback": "That's around $t \\approx 4.6$ hours. The decline is steepest (most negative) near $t=0$, right after treatment starts, and eases off as $t$ grows: there are simply fewer cells left to lose, so the absolute rate of decline shrinks even though the culture keeps shrinking.",
+      "hints": [
+        "Try somewhere between $t=4$ and $t=5$ hours, early in the treatment.",
+        "The decline is fastest near $t=0$ and eases off as $t$ grows.",
+        "At $t \\approx 4.6$, the population is declining at about 40 cells per hour."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "log-equation-domain",
+      "prompt": "A faulty sensor logs two related readings, $x$ and $x-2$ (in thousands of cells), satisfying $\\log_2(x) + \\log_2(x-2) = 3$. Combining with the product law gives $\\log_2\\big(x(x-2)\\big)=3$, so $x(x-2)=8$, i.e. $x^2-2x-8=0$, i.e. $(x-4)(x+2)=0$. Which root is the valid reading $x$?",
+      "choices": [
+        { "text": "$x = 4$" },
+        {
+          "text": "$x = -2$",
+          "feedback": "This root solves the polynomial, but $\\log_2(x-2)$ needs $x>2$ and $\\log_2(x)$ needs $x>0$: $x=-2$ satisfies neither, so both logs would be undefined. It must be rejected."
+        },
+        {
+          "text": "Both $x=4$ and $x=-2$",
+          "feedback": "The polynomial has two roots, but a logarithm's argument must stay positive. Only $x=4$ keeps every log term in the original equation defined, so only one of the two algebraic roots actually survives."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, $x=4$: check it in the original equation ($\\log_2(4)+\\log_2(2)=2+1=3$), while $x=-2$ makes both logs undefined. Always check candidate solutions to a log equation against the domain of the original logs, not just the resulting polynomial."
+    },
+    {
+      "type": "entry",
+      "id": "half-life-close",
+      "prompt": "Using $A = 500e^{-0.2t}$ for the treated culture, find its half-life: the time for the population to fall to 250, to 2 decimal places.",
+      "inputMode": "numeric",
+      "answer": 3.47,
+      "tolerance": 0.02,
+      "successFeedback": "Right, about 3.47 hours: $250=500e^{-0.2t} \\implies 0.5=e^{-0.2t} \\implies \\ln0.5=-0.2t \\implies t=\\dfrac{\\ln0.5}{-0.2}\\approx3.47$. And recall your prediction from the start of this lesson: the growing colony crossed 100,000 cells at about $t\\approx9.966$ hours, just before the 10-hour mark, exactly as you guessed. Whether a population is growing or shrinking, the same technique, isolate the exponential, take $\\ln$ of both sides, solve the resulting linear equation, gets you there every time. You're ready for the end-of-module assessment covering all three lessons.",
+      "hints": ["Set $A=250$: $250=500e^{-0.2t}$.", "Divide by 500, then take $\\ln$ of both sides."]
+    }
+  ]
+}

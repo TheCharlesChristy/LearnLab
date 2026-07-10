@@ -112,6 +112,14 @@
       "choices": ["$\\sqrt{20}$", "$3\\sqrt{5} - \\sqrt{5}$", "$\\dfrac{\\sqrt{80}}{2}$", "$\\sqrt{8}$"],
       "answers": [0, 1, 2],
       "explanation": "$\\sqrt{20} = \\sqrt{4\\times5} = 2\\sqrt{5}$. $3\\sqrt{5}-\\sqrt{5} = 2\\sqrt{5}$ by collecting like surds. $\\sqrt{80} = \\sqrt{16\\times5} = 4\\sqrt{5}$, so $\\sqrt{80}/2 = 2\\sqrt{5}$. But $\\sqrt{8} = 2\\sqrt{2}$, an unlike surd, so it is not equal to $2\\sqrt{5}$."
+    },
+    {
+      "id": "q13",
+      "type": "numeric",
+      "text": "This reaches back to expanding brackets from Algebra Essentials. Expand and simplify $(\\sqrt{5}+3)(\\sqrt{5}-3)$.",
+      "answer": -4,
+      "tolerance": 0.001,
+      "explanation": "This is a review of expanding a pair of brackets from Algebra Essentials, here applied to surds: $(\\sqrt{5}+3)(\\sqrt{5}-3) = (\\sqrt{5})^2 - 3^2 = 5 - 9 = -4$, the same difference-of-two-squares pattern used on ordinary algebraic brackets."
     }
   ]
 }

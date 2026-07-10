@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "id": "identities-and-compound-angles",
+  "title": "Trig identities and compound angle formulas",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-exact-value-wall",
+      "prompt": "Your exact-value toolkit only covers the special angles $0°, 30°, 45°, 60°, 90°$. Can you find the exact value of $\\sin(75°)$ using nothing but those, with no new formula?",
+      "choices": [
+        "Yes, 75° is already one of the special angles in disguise",
+        "No, you need a formula that combines two known angles"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought: $75°$ isn't a special angle, but it is $45°+30°$, a sum of two you know. This lesson gives you the formula that turns that sum into an exact value: the compound angle formulas."
+    },
+    {
+      "type": "tap-choice",
+      "id": "pythagorean-refresher",
+      "prompt": "Before the new formulas, a quick refresher from Trigonometry I. If $\\sin\\theta=\\tfrac{3}{5}$ and $\\theta$ is acute, what is $\\cos\\theta$?",
+      "choices": [
+        { "text": "$\\dfrac{4}{5}$" },
+        {
+          "text": "$\\dfrac{2}{5}$",
+          "feedback": "That comes from doing $1-\\sin\\theta$ directly. The identity is $\\sin^2\\theta+\\cos^2\\theta=1$, so you need $1-\\sin^2\\theta$, not $1-\\sin\\theta$."
+        },
+        {
+          "text": "$\\dfrac{16}{25}$",
+          "feedback": "That's $\\cos^2\\theta=1-\\sin^2\\theta$, correctly computed, but you stopped one step early: you still need to take the square root to get $\\cos\\theta$ itself."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, $\\sin^2\\theta+\\cos^2\\theta=1$ gives $\\cos^2\\theta=1-\\tfrac{9}{25}=\\tfrac{16}{25}$, and since $\\theta$ is acute, $\\cos\\theta$ is positive: $\\cos\\theta=\\tfrac{4}{5}$. This identity from Trigonometry I underlies everything in this module."
+    },
+    {
+      "type": "entry",
+      "id": "quotient-identity-check",
+      "prompt": "Using $\\tan\\theta=\\dfrac{\\sin\\theta}{\\cos\\theta}$: for the same acute angle, $\\sin\\theta=\\tfrac{3}{5}$ and $\\cos\\theta=\\tfrac{4}{5}$. What is $\\tan\\theta$, as a decimal?",
+      "inputMode": "numeric",
+      "answer": 0.75,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $\\tan\\theta=\\left(\\tfrac{3}{5}\\right)\\div\\left(\\tfrac{4}{5}\\right)=\\tfrac{3}{4}=0.75$. Same identity as always, now applied to real numbers.",
+      "hints": [
+        "$\\tan\\theta = \\sin\\theta \\div \\cos\\theta$.",
+        "That's $\\tfrac{3}{5} \\div \\tfrac{4}{5} = \\tfrac{3}{4}$."
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "compound-angle-formulas",
+      "body": "The compound angle formulas expand $\\sin$ or $\\cos$ of a sum or difference of two angles:\n\n$$\n\\sin(A+B)=\\sin A\\cos B+\\cos A\\sin B, \\qquad \\sin(A-B)=\\sin A\\cos B-\\cos A\\sin B\n$$\n\n$$\n\\cos(A+B)=\\cos A\\cos B-\\sin A\\sin B, \\qquad \\cos(A-B)=\\cos A\\cos B+\\sin A\\sin B\n$$\n\nYou're given these; you don't need to derive them from scratch, but you must be able to apply them fluently.",
+      "selfExplainPrompt": "Compare the sign in the middle of each formula with the sign inside the brackets on the left. What pattern connects the sin formulas to the cos formulas?",
+      "selfExplainAnswer": "In $\\sin(A\\pm B)$ the sign in the middle of the formula matches the sign inside the brackets. In $\\cos(A\\pm B)$ it flips: a $+$ inside the brackets produces a $-$ in the formula, and a $-$ inside produces a $+$. Holding onto that contrast, sin matches, cos flips, is the fastest way to recall all four formulas correctly under exam pressure."
+    },
+    {
+      "type": "faded-step",
+      "id": "sin75-exact-value",
+      "worked": "Write $75°=45°+30°$ and apply the compound angle formula:\n\n$$\n\\sin(75°)=\\sin(45°+30°)=\\sin45°\\cos30°+\\cos45°\\sin30°.\n$$\n\nUsing the exact values $\\sin45°=\\cos45°=\\tfrac{\\sqrt2}{2}$, $\\cos30°=\\tfrac{\\sqrt3}{2}$, $\\sin30°=\\tfrac12$:\n\n$$\n\\sin(75°)=\\frac{\\sqrt2}{2}\\cdot\\frac{\\sqrt3}{2}+\\frac{\\sqrt2}{2}\\cdot\\frac12=\\frac{\\sqrt6}{4}+\\frac{\\sqrt2}{4}=\\frac{\\sqrt6+\\sqrt2}{4}.\n$$",
+      "prompt": "Evaluate $\\dfrac{\\sqrt6+\\sqrt2}{4}$ as a decimal, to 4 decimal places, to check it against a calculator's $\\sin(75°)$.",
+      "inputMode": "numeric",
+      "answer": 0.9659,
+      "tolerance": 0.0005,
+      "successFeedback": "Right, $\\dfrac{\\sqrt6+\\sqrt2}{4}\\approx\\dfrac{2.4495+1.4142}{4}\\approx0.9659$, exactly matching a calculator's $\\sin(75°)$. The compound angle formula gives you an exact surd value that a calculator only approximates.",
+      "hints": [
+        "$\\sqrt6 \\approx 2.4495$ and $\\sqrt2 \\approx 1.4142$.",
+        "Add those two approximations, then divide by 4."
+      ]
+    },
+    {
+      "type": "entry",
+      "id": "cos75-close",
+      "prompt": "You've now cracked $\\sin(75°)$. Using $\\cos(A+B)=\\cos A\\cos B-\\sin A\\sin B$ with $A=45°, B=30°$, find $\\cos(75°)$ as a decimal, to 4 decimal places. This resolves the wall from the start of the lesson: you can now reach any angle that's a sum or difference of two special angles.",
+      "inputMode": "numeric",
+      "answer": 0.2588,
+      "tolerance": 0.0005,
+      "successFeedback": "Right, $\\cos(75°)=\\dfrac{\\sqrt6-\\sqrt2}{4}\\approx0.2588$. You predicted at the start that finding $\\sin(75°)$ exactly required a new formula, not a special-angle lookup, and you've now used that same compound angle formula to reach both $\\sin(75°)$ and $\\cos(75°)$ exactly. Next lesson pushes this further: the double angle formulas, the special case where the two angles being combined are equal.",
+      "hints": [
+        "$\\cos(75°)=\\cos45°\\cos30°-\\sin45°\\sin30°$.",
+        "$=\\dfrac{\\sqrt6}{4}-\\dfrac{\\sqrt2}{4}=\\dfrac{\\sqrt6-\\sqrt2}{4}\\approx\\dfrac{2.4495-1.4142}{4}$."
+      ]
+    }
+  ]
+}

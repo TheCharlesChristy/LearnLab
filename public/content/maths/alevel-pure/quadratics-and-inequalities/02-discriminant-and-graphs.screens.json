@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "discriminant-and-graphs",
+  "title": "The discriminant and sketching quadratic graphs",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-no-crossing",
+      "prompt": "A different stretch of trail is modelled by $h(x) = 2x^2-4x+5$ (height above the marker post, in metres, at position $x$ km). Does this stretch ever return to the post's exact height, $h(x)=0$, anywhere?",
+      "choices": [
+        "No, it never reaches $h(x)=0$",
+        "Yes, at exactly one position",
+        "Yes, at two different positions"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "Hold that thought. You can tell how many times a quadratic reaches zero without solving it at all, using a single expression called the discriminant. By the end of this lesson you'll be able to check this prediction directly."
+    },
+    {
+      "type": "tap-choice",
+      "id": "discriminant-meaning",
+      "prompt": "Inside the quadratic formula sits $b^2-4ac$, the discriminant. If $b^2-4ac>0$, what does that tell you about how many times the model $y=ax^2+bx+c$ crosses height $0$?",
+      "choices": [
+        { "text": "It crosses twice, at two distinct positions" },
+        { "text": "It touches zero exactly once, without crossing", "feedback": "That's the case when the discriminant equals $0$ exactly, not when it's positive." },
+        { "text": "It never reaches zero", "feedback": "That's the case when the discriminant is negative - a positive discriminant means real, distinct roots do exist." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right - a positive discriminant means two distinct real roots: the curve crosses zero twice."
+    },
+    {
+      "type": "entry",
+      "id": "compute-discriminant",
+      "prompt": "Compute the discriminant $b^2-4ac$ for $h(x)=2x^2-4x+5$ (so $a=2$, $b=-4$, $c=5$).",
+      "inputMode": "numeric",
+      "answer": -24,
+      "tolerance": 0.01,
+      "successFeedback": "Right - the discriminant is $-24$, which is negative. That already tells you this stretch never reaches height $0$, confirming your prediction without solving anything further.",
+      "hints": ["$b^2-4ac = (-4)^2-4(2)(5)$.", "$16-40 = ?$"]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "repeated-root",
+      "body": "When the discriminant equals exactly zero, the trail just touches height $0$ at a single position rather than crossing it. For $h(x)=x^2-6x+9$:\n\n$$\nb^2-4ac=(-6)^2-4(1)(9)=36-36=0.\n$$\n\nFactorising confirms it: $x^2-6x+9=(x-3)^2=0$, so $x=3$ is a repeated root - the trail just grazes height $0$ at $x=3$ km rather than crossing through it.",
+      "selfExplainPrompt": "Why does a repeated root mean the trail touches height $0$ without crossing it, rather than passing straight through?",
+      "selfExplainAnswer": "A repeated root means both 'copies' of the root sit at exactly the same position, so the two crossing points from the discriminant-positive case have merged into one. Graphically, that happens exactly at the very bottom (or top) of the parabola: the curve touches the x-axis at its turning point and turns back the way it came, rather than crossing through to the other side."
+    },
+    {
+      "type": "faded-step",
+      "id": "unknown-coefficient",
+      "worked": "The discriminant also finds unknown coefficients. Suppose a stretch is modelled by $h(x)=x^2+kx+9$ and it's known to have a repeated root (it just touches height $0$ once). Setting the discriminant to zero:\n\n$$\nk^2-4(1)(9)=0 \\implies k^2=36.\n$$",
+      "prompt": "So $k=\\pm6$. What is the positive value of $k$?",
+      "inputMode": "numeric",
+      "answer": 6,
+      "tolerance": 0.01,
+      "successFeedback": "Right - $k=6$ (or $k=-6$, which also gives a repeated root).",
+      "hints": ["$k^2=36$ has two solutions.", "The positive square root of $36$ is $6$."]
+    },
+    {
+      "type": "manipulable-target",
+      "id": "find-turning-point",
+      "prompt": "Back to the stretch $h(x)=x^2-2x-3$: drag the point along the curve until the tangent line is as flat as possible, a gradient reading of $0$. That flattest point is the trail's turning point.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "x^2-2x-3", "xmin": -4, "xmax": 6, "tangent": true, "grid": true },
+      "goal": { "kind": "tangent-gradient-in-range", "min": -0.5, "max": 0.5, "description": "Target: tangent gradient = 0 (the flattest point on the curve)." },
+      "successFeedback": "That's it - the tangent is flat right at $x=1$, the bottom of the dip in this stretch of trail.",
+      "hints": [
+        "A gradient of $0$ means the tangent is horizontal - look for the lowest point of the dip.",
+        "Try landing the point near $x=1$.",
+        "At $x=1$, the curve reaches its minimum value of $-4$."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "name-turning-point",
+      "prompt": "The flattest point you just found, at $x=1$ where $h(x)=-4$, has a special name. What is it called?",
+      "choices": [
+        { "text": "The turning point" },
+        { "text": "The $y$-intercept", "feedback": "The $y$-intercept is where the curve crosses $x=0$, i.e. $h(0)$ - a different, fixed point from the flattest point of the curve." },
+        { "text": "A root", "feedback": "A root is a position where $h(x)=0$ - the turning point here is at $h(x)=-4$, not a root." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right - the turning point is where the curve changes from decreasing to increasing (or vice versa), and the tangent there is exactly horizontal."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "downward-parabola",
+      "body": "Not every trail stretch curves upward. A hill-crossing stretch is modelled by $h(x)=-x^2+2x+8$. Completing the square:\n\n$$\n-x^2+2x+8=-(x^2-2x)+8=-\\left[(x-1)^2-1\\right]+8=-(x-1)^2+9.\n$$\n\nBecause the coefficient of $(x-1)^2$ is negative, the turning point at $(1,9)$ is a maximum, not a minimum, the highest point as you cross the hill. Factorising confirms the roots: $-x^2+2x+8=-(x-4)(x+2)$, so the trail meets height $0$ at $x=4$ and $x=-2$.",
+      "selfExplainPrompt": "Why does the sign of the coefficient in front of $(x-p)^2$ decide whether the turning point is a maximum or a minimum?",
+      "selfExplainAnswer": "$(x-p)^2$ is never negative, so adding a positive multiple of it to $q$ can only push the value up from $q$, making $q$ the smallest value reached: a minimum. Multiplying by a negative coefficient flips that: now the term can only pull the value down from $q$, making $q$ the largest value reached: a maximum. The sign of $a$ in $a(x-p)^2+q$ is exactly the sign of the coefficient of $x^2$ once you expand back out."
+    },
+    {
+      "type": "faded-step",
+      "id": "downward-parabola-companion",
+      "worked": "A different hill-crossing stretch is modelled by $h(x)=-x^2+4x+5$. Factorising: $-x^2+4x+5=-(x^2-4x-5)=-(x-5)(x+1)$, so roots at $x=5$ and $x=-1$. Completing the square: $-x^2+4x+5=-(x^2-4x)+5=-\\left[(x-2)^2-4\\right]+5=-(x-2)^2+9$, so the turning point is at $x=2$.",
+      "prompt": "What is the height $h$ at that turning point, the maximum height of this hill?",
+      "inputMode": "numeric",
+      "answer": 9,
+      "tolerance": 0.01,
+      "successFeedback": "Right - the maximum height is $9$ m, at $x=2$.",
+      "hints": ["The completed-square form is $-(x-2)^2+9$.", "At the turning point, $(x-2)^2=0$, so $h=9$."]
+    },
+    {
+      "type": "entry",
+      "id": "close-resolve-prediction",
+      "prompt": "Back to the opening stretch, $h(x)=2x^2-4x+5$, whose discriminant you found was $-24$ (never reaching height $0$, as you correctly predicted). Completing the square, $2x^2-4x+5=2(x-1)^2+3$. What is the minimum height of this stretch, at its turning point?",
+      "inputMode": "numeric",
+      "answer": 3,
+      "tolerance": 0.01,
+      "successFeedback": "Right - the minimum height is $3$ m, always above the marker post. That's exactly why this stretch's discriminant is negative: even at its lowest point it never reaches height $0$. Next lesson uses this same picture, above or below zero, to solve quadratic inequalities.",
+      "hints": ["At the turning point, $(x-1)^2=0$.", "So the minimum height is just the $+3$ left over."]
+    }
+  ]
+}

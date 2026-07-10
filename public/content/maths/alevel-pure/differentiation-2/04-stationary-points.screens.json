@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "stationary-points",
+  "title": "Stationary points and curve sketching",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-coaster-peaks",
+      "prompt": "A roller coaster's height profile along the track is modelled by $h(x)=x^3-3x^2-9x+2$ (metres, $x$ = horizontal distance in a scaled unit). Looking just at the shape of a cubic, do you think this ride has exactly one turning point (one peak or trough), or could it have both a peak and a trough?",
+      "choices": [
+        "Exactly one turning point",
+        "It could have both a peak and a trough"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "A cubic can have up to two **stationary points**, places where the gradient $h'(x)=0$, so the track is momentarily flat (a peak or a trough). Finding them means solving $h'(x)=0$, the job of this lesson."
+    },
+    {
+      "type": "entry",
+      "id": "find-derivative-coaster",
+      "prompt": "Differentiate $h(x)=x^3-3x^2-9x+2$ term by term with the power rule to get $h'(x)=3x^2-6x-9$, which factors as $h'(x)=3(x-3)(x+1)$. What is $h'(0)$, the track's gradient at the very start, $x=0$?",
+      "inputMode": "numeric",
+      "answer": -9,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $-9$. The track starts by dropping steeply (negative gradient) before it reaches its first turning point.",
+      "hints": [
+        "Substitute x=0 into 3x^2 - 6x - 9.",
+        "3(0) - 6(0) - 9 = -9."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "solve-stationary-points",
+      "prompt": "Setting $h'(x)=3(x-3)(x+1)=0$ gives the stationary points' $x$-values. What are they?",
+      "choices": [
+        { "text": "x = 3 and x = -1" },
+        {
+          "text": "x = 3 and x = 1",
+          "feedback": "Check the sign inside the second bracket: (x+1)=0 gives x=-1, not x=1."
+        },
+        {
+          "text": "x = -3 and x = 1",
+          "feedback": "That flips both signs, the factors are (x-3) and (x+1), giving x=3 and x=-1, not their negatives."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly. Substituting back: $h(3)=27-27-27+2=-25$ and $h(-1)=-1-3+9+2=7$, so the stationary points are $(3,-25)$ and $(-1,7)$."
+    },
+    {
+      "type": "manipulable-target",
+      "id": "find-flat-point",
+      "prompt": "Drag the point along the track $y=x^3-3x^2-9x+2$ until you find a spot in view where the tangent's gradient reads **0**, a stationary point of the ride.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "x^3 - 3*x^2 - 9*x + 2", "xmin": 1, "xmax": 5, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": -1.2,
+        "max": 1.2,
+        "description": "Target: tangent gradient = 0 (the ride's stationary point at x=3, visible in this window)."
+      },
+      "successFeedback": "That's it, at $x=3$ the gradient is exactly 0, one of the ride's two stationary points (the other, a local maximum, sits off to the left at $x=-1$).",
+      "hints": [
+        "The gradient formula is 3x^2-6x-9, where does that equal 0 inside this view?",
+        "Solve 3(x-3)(x+1)=0 for the root between x=1 and x=5.",
+        "Try landing right at x = 3."
+      ]
+    },
+    {
+      "type": "entry",
+      "id": "classify-with-second-derivative",
+      "prompt": "The second derivative is $h''(x)=6x-6$. At the stationary point $x=3$, what is $h''(3)$?",
+      "inputMode": "numeric",
+      "answer": 12,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $h''(3)=12>0$, so the track is concave up there: $(3,-25)$ is a **local minimum**, the lowest dip of the ride.",
+      "hints": [
+        "Substitute x=3 into 6x - 6.",
+        "6x3 - 6 = 18 - 6."
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "classify-max-worked-full",
+      "body": "At the other stationary point, $x=-1$: $h''(-1)=6(-1)-6=-12$. Since $h''(-1)<0$, the track is concave down there, so $(-1,7)$ is a **local maximum**, the highest point of the ride, before it drops away to the minimum at $(3,-25)$.",
+      "selfExplainPrompt": "Both stationary points have $h'(x)=0$, but one has $h''(x)>0$ and the other $h''(x)<0$. What does the sign of $h''(x)$ actually tell you about the shape of the track that the sign of $h'(x)$ alone can't?",
+      "selfExplainAnswer": "$h'(x)=0$ only tells you the track is momentarily flat, it can't distinguish a peak from a trough. $h''(x)$ measures how the gradient itself is changing: $h''>0$ means the gradient is increasing through zero (from negative to positive), which is exactly the shape of a trough (minimum); $h''<0$ means the gradient is decreasing through zero (from positive to negative), the shape of a peak (maximum)."
+    },
+    {
+      "type": "faded-step",
+      "id": "curve-sketch-faded",
+      "worked": "Putting the whole ride together: the $y$-intercept is $h(0)=2$; the stationary points are a local maximum at $(-1,7)$ and a local minimum at $(3,-25)$; and since the leading term is $x^3$ with a positive coefficient, $h(x)\\to-\\infty$ as $x\\to-\\infty$ and $h(x)\\to\\infty$ as $x\\to\\infty$. Between the two stationary points the track must be falling from the peak toward the trough.",
+      "prompt": "Confirm the fall: using $h(x)=x^3-3x^2-9x+2$, what is $h(2)$, a point partway between the peak at $x=-1$ and the trough at $x=3$?",
+      "inputMode": "numeric",
+      "answer": -20,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $h(2)=-20$, sitting between the peak's height of 7 and the trough's height of -25, confirming the track really is falling through that stretch, just as the sketch predicts. Right at the start of this lesson you predicted whether the ride could have both a peak and a trough, now you've found both exactly, classified each with the second derivative, and sketched the whole ride. You're ready for the end-of-module assessment, which also reaches back to the power rule from Differentiation I.",
+      "hints": [
+        "Substitute x=2 into x^3 - 3x^2 - 9x + 2.",
+        "8 - 12 - 18 + 2 = -20."
+      ]
+    }
+  ]
+}

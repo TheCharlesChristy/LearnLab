@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "id": "newtons-laws",
+  "title": "Newton's three laws of motion",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-third-law",
+      "prompt": "You stand on the floor and push downward with force. The floor pushes back up on you with an equal and opposite force. By Newton's third law, when you sit down on a chair, does the chair push back up on you with a force equal to your weight, or different?",
+      "choices": [
+        "Equal to your weight, always",
+        "Different, because the chair is lighter than you",
+        "It depends on whether you're accelerating up or down"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "The floor pushes back on you with whatever force is needed at that instant, and by Newton's third law, you push back on the floor with an equal and opposite force. As you'll see in this lesson, this action-reaction pair is just one of three laws that underpin all of mechanics. Hold onto your prediction: by the end of this lesson you'll be able to explain exactly why the chair pushes with the force it does."
+    },
+    {
+      "type": "tap-choice",
+      "id": "first-law-meaning",
+      "prompt": "Newton's first law says a body remains at rest or moves with constant velocity unless a resultant force acts on it. This means an object needs a force to start moving, but does it also need a force to keep moving?",
+      "choices": [
+        {
+          "text": "Yes, a constant force is needed to maintain motion"
+        },
+        {
+          "text": "No, once moving at constant velocity no net force is needed",
+          "feedback": "That's exactly right. A hockey puck sliding on frictionless ice continues at constant velocity forever without any force acting on it (the ice applies zero net force)."
+        },
+        {
+          "text": "It depends on how heavy the object is"
+        }
+      ],
+      "correctIndex": 1,
+      "successFeedback": "Exactly: motion at constant velocity requires zero net force. It's a change in velocity (acceleration or deceleration) that demands a resultant force. This single idea resolves a 2000-year-old misconception about motion and is the foundation of everything that follows."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "second-law-derivation",
+      "body": "Newton's second law connects force to acceleration. The resultant force on a body is proportional to its rate of change of momentum; for constant mass this becomes the equation you will use countless times:\n\n$$\nF = ma\n$$\n\nHere $F$ is the resultant (net) force in newtons, $m$ is the mass in kilograms, and $a$ is the acceleration in $\\text{m s}^{-2}$. Force and acceleration point in the same direction; if the net force is zero, acceleration is zero and velocity stays constant (confirming the first law).",
+      "selfExplainPrompt": "Why must the force $F$ and acceleration $a$ point in the same direction? What happens if they point in opposite directions?",
+      "selfExplainAnswer": "If $F$ and $a$ point in the same direction, the equation $F = ma$ is satisfied. If they pointed in opposite directions, the equation would not hold. In practice: if you push a car forward (positive force), the car accelerates forward (positive acceleration), matching $F = ma$. If the car is moving forward but you brake (force backward, negative), the acceleration is backward (negative), again matching the equation's direction."
+    },
+    {
+      "type": "entry",
+      "id": "apply-fma",
+      "prompt": "A resultant force of $20\\,\\text{N}$ acts on a particle of mass $4\\,\\text{kg}$. What is its acceleration?",
+      "inputMode": "numeric",
+      "answer": 5,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $a = \\frac{F}{m} = \\frac{20}{4} = 5\\,\\text{m s}^{-2}$. You've just used F = ma, the single most useful equation in mechanics.",
+      "hints": [
+        "Rearrange $F = ma$ to solve for $a$: $a = \\frac{F}{m}$.",
+        "Substitute $F = 20$ and $m = 4$."
+      ]
+    },
+    {
+      "type": "manipulable-target",
+      "id": "fma-ratio",
+      "prompt": "Drag the blue point to find a point on the graph where a force of $F = 32\\,\\text{N}$ produces an acceleration of $a = 4\\,\\text{m s}^{-2}$. This represents a particle of what mass?",
+      "widget": "function-grapher",
+      "widgetProps": {
+        "expr": "x/8",
+        "xmin": 0,
+        "xmax": 40,
+        "ymin": 0,
+        "ymax": 5,
+        "grid": true,
+        "xlabel": "Force (N)",
+        "ylabel": "Acceleration (m/s^2)"
+      },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": 3.5,
+        "max": 4.5,
+        "description": "Target: $F = 32\\,\\text{N}$ when $a = 4\\,\\text{m s}^{-2}$."
+      },
+      "successFeedback": "You found $(32, 4)$ on the line $a = \\frac{F}{m}$, confirming $m = 8\\,\\text{kg}$. The gradient of this line is $\\frac{1}{m}$, the reciprocal of mass: steeper lines mean smaller masses (lighter objects accelerate more easily).",
+      "hints": [
+        "You need the point where $F = 32\\,\\text{N}$ on the horizontal axis and $a = 4\\,\\text{m s}^{-2}$ on the vertical axis.",
+        "From $F = ma$, if $F = 32$ and $a = 4$, then $m = \\frac{F}{a} = \\frac{32}{4} = 8\\,\\text{kg}$.",
+        "Drag to the point $(32, 4)$ and read the mass from the equation."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "third-law-pairs",
+      "prompt": "Your weight is the gravitational pull of Earth on you. What is the true Newton's third law pair to your weight?",
+      "choices": [
+        {
+          "text": "The normal reaction from the floor pushing up on you"
+        },
+        {
+          "text": "The gravitational pull you exert on Earth",
+          "feedback": "Exactly: your weight pulls you toward Earth, and by Newton's third law you pull Earth toward you with an equal and opposite force. These two forces act on different bodies (you and Earth respectively) and are the true action-reaction pair."
+        },
+        {
+          "text": "There is no pair; weight is a single force"
+        }
+      ],
+      "correctIndex": 1,
+      "successFeedback": "Right. The floor's normal reaction and your weight act on the *same* body (you) and balance only when you are stationary or moving at constant velocity. They are not a Newton's third law pair. The true pairs are: your weight (Earth pulls you) and you pull on Earth, and the floor's push (floor pushes you) and your push back (you push on floor)."
+    },
+    {
+      "type": "faded-step",
+      "id": "fma-on-slope",
+      "worked": "Suppose you apply Newton's second law to a particle of mass $5\\,\\text{kg}$ with a resultant force of $10\\,\\text{N}$ acting on it. The acceleration is $a = \\frac{F}{m} = \\frac{10}{5} = 2\\,\\text{m s}^{-2}$. If instead the mass were $10\\,\\text{kg}$ with the same $10\\,\\text{N}$ force applied, the acceleration becomes $a = \\frac{10}{10} = 1\\,\\text{m s}^{-2}$. Notice that doubling the mass halves the acceleration for the same force.",
+      "prompt": "A different particle of mass $20\\,\\text{kg}$ experiences a resultant force of $80\\,\\text{N}$. What is its acceleration?",
+      "inputMode": "numeric",
+      "answer": 4,
+      "tolerance": 0.01,
+      "successFeedback": "Correct, $a = \\frac{80}{20} = 4\\,\\text{m s}^{-2}$. This pattern is at the heart of F = ma: for a fixed force, doubling the mass halves the acceleration. The next lesson applies this equation to real forces like weight and normal reaction."
+    },
+    {
+      "type": "predict",
+      "id": "predict-normal-reaction",
+      "prompt": "You stand still on the floor. Your weight (downward) is balanced by the floor's push (upward). Now think back to your opening prediction: when you sit on a chair and then accelerate the chair upward with your legs, does the chair's normal reaction increase, decrease, or stay the same?",
+      "choices": [
+        "The normal reaction stays equal to your weight, no matter what",
+        "The normal reaction increases when you accelerate upward and decreases when you accelerate downward",
+        "The normal reaction always decreases when you sit down"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "By Newton's second law, when you accelerate upward, your weight alone cannot produce that upward acceleration. The chair must push harder than your weight to provide the extra upward force. Conversely, if you accelerate downward, the chair pushes less hard. The next lesson makes this concrete and shows you how to calculate exactly how much the normal reaction changes."
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "id": "division-and-theorems",
+  "title": "Algebraic division and the factor and remainder theorems",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-cubic-wall",
+      "prompt": "Loop City Skateboards models its monthly profit (in thousands of pounds) when it makes $x$ hundred boards as $P(x) = x^3 - 4x^2 + x + 6$. To plan production, the shop needs every break-even level: where $P(x) = 0$. You already have a formula that instantly solves any quadratic break-even equation. Does an equivalent formula let you solve this cubic just as directly?",
+      "choices": [
+        "Yes, there's a formula just like the quadratic one",
+        "No, cubics need a different way in",
+        "It depends on the particular numbers involved"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "There is a cubic formula, but it is far too unwieldy to use here, and you're not expected to. Instead, this lesson builds two tools, the factor theorem and the remainder theorem, that let you test and find $P(x)$'s break-even levels using only substitution and division, no cubic formula required."
+    },
+    {
+      "type": "entry",
+      "id": "divide-find-quotient-constant",
+      "prompt": "Divide $P(x) = x^3 - 4x^2 + x + 6$ by $(x-2)$ using long division: $P(x) = (x-2)(x^2+bx+c)$. Work through the division (bring down each term, multiply back, subtract) to find $c$, the constant term of the quotient.",
+      "inputMode": "numeric",
+      "answer": -3,
+      "tolerance": 0.01,
+      "hints": [
+        "Divide the leading term first: $x^3 \\div x = x^2$, then multiply back $x^2(x-2)=x^3-2x^2$ and subtract to get $-2x^2+x+6$.",
+        "Keep repeating: divide, multiply back, subtract, until nothing of degree 1 or more remains: $-2x^2\\div x=-2x$, then $-3x\\div x=-3$."
+      ],
+      "successFeedback": "The quotient is $x^2-2x-3$, so $P(x) = (x-2)(x^2-2x-3)$ with remainder $0$."
+    },
+    {
+      "type": "tap-choice",
+      "id": "meaning-of-zero-remainder",
+      "prompt": "Dividing $P(x)$ by $(x-2)$ left remainder $0$. What does that tell you about $(x-2)$?",
+      "choices": [
+        { "text": "It is an exact factor of $P(x)$" },
+        {
+          "text": "It is the only factor of $P(x)$",
+          "feedback": "A cubic can have up to three linear factors. A zero remainder from one division only confirms that one factor, it says nothing about whether there are others."
+        },
+        {
+          "text": "$P(2)$ must be undefined",
+          "feedback": "$P(2)$ is perfectly well defined here: it equals zero, which is exactly why $(x-2)$ divides in with no remainder."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly. Remainder $0$ means $(x-2)$ divides in exactly: this is the factor theorem in action, and it's about to save you from ever dividing just to test a guess."
+    },
+    {
+      "type": "entry",
+      "id": "factor-theorem-test-negative-one",
+      "prompt": "Before dividing at all, you can test whether $(x+1)$ is a factor of $P(x)=x^3-4x^2+x+6$ just by substituting $x=-1$ (a purely algebraic test point, it doesn't need to correspond to a sensible production level). What is $P(-1)$?",
+      "inputMode": "numeric",
+      "answer": 0,
+      "tolerance": 0.01,
+      "hints": [
+        "$P(-1) = (-1)^3 - 4(-1)^2 + (-1) + 6$.",
+        "$(-1)^3=-1$ and $(-1)^2=1$, so this is $-1-4(1)-1+6$."
+      ],
+      "successFeedback": "$P(-1)=0$, so by the factor theorem $(x+1)$ is also an exact factor of $P(x)$, found without a single division."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "remainder-theorem-worked",
+      "body": "The remainder theorem generalises this: dividing any polynomial $f(x)$ by $(x-a)$ always leaves remainder $f(a)$, whether or not that remainder is zero. Check it on Loop City's model: dividing $P(x)=x^3-4x^2+x+6$ by $(x-1)$ should leave remainder $P(1)$.\n\n$$\nP(1) = 1 - 4 + 1 + 6 = 4.\n$$\n\nSo dividing $P(x)$ by $(x-1)$ leaves remainder $4$, meaning $(x-1)$ is not an exact factor, without ever setting up the long division.",
+      "selfExplainPrompt": "Why does substituting $x=1$ into $P(x)$ give you the same number as the remainder of the full long division by $(x-1)$, without doing the division?",
+      "selfExplainAnswer": "Division means $P(x) = (x-1)q(x) + r$ for some quotient $q(x)$ and constant remainder $r$. Substituting $x=1$ makes the whole $(x-1)q(x)$ term zero, whatever $q(x)$ turns out to be, leaving $P(1) = r$. So the remainder is always just $P(x)$ evaluated at the root of the divisor, no division required."
+    },
+    {
+      "type": "faded-step",
+      "id": "remainder-theorem-companion",
+      "worked": "Try the same idea on a new divisor. Dividing $P(x)=x^3-4x^2+x+6$ by $(x+2)$ leaves remainder $P(-2)$, by the remainder theorem. Set up the substitution:\n\n$$\nP(-2) = (-2)^3 - 4(-2)^2 + (-2) + 6 = -8 - 16 - 2 + 6.\n$$",
+      "prompt": "Complete the calculation $-8-16-2+6$. What is the remainder?",
+      "inputMode": "numeric",
+      "answer": -20,
+      "tolerance": 0.01,
+      "hints": ["Add left to right: $-8-16=-24$, then $-24-2=-26$, then $-26+6$."],
+      "successFeedback": "The remainder is $-20$, so $(x+2)$ is not a factor of $P(x)$, confirmed without dividing. Back to the top of this lesson: you predicted a cubic needs a different way in than the quadratic formula, and you were right. You now have two of Loop City's three break-even factors, $(x-2)$ and $(x+1)$; next lesson finds the third and extends the method to a quartic."
+    }
+  ]
+}

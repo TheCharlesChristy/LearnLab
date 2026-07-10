@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "id": "reverse-differentiation",
+  "title": "Integration as reverse differentiation",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-reverse",
+      "prompt": "Differentiation turns a distance function into a speed function: differentiate $y = x^2$ and you get the speed function $2x$. Now flip the question: suppose all you're given is the speed function $v(x) = 2x$ m/s. Can you recover a distance function whose derivative is exactly $2x$, or does differentiating destroy information that can never be recovered?",
+      "choices": [
+        "Yes, you can undo it and recover a distance function",
+        "No, once you differentiate, the original information is gone for good"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "You can undo it. Since differentiating $x^2$ gives $2x$, one distance function is $y = x^2$. This reverse process is called **integration**. But hold that thought: as you'll see in a moment, $y = x^2$ isn't the *only* function with derivative $2x$, so there's a subtlety still to resolve."
+    },
+    {
+      "type": "tap-choice",
+      "id": "constant-ambiguity",
+      "prompt": "Both $y = x^2$ and $y = x^2 + 7$ differentiate to $2x$ (a constant always differentiates to $0$). If all you know about a car is that its speed is $v(x) = 2x$ m/s, which distance function is the correct one?",
+      "choices": [
+        {
+          "text": "It could be either, or infinitely many others, since they all share the same derivative"
+        },
+        {
+          "text": "$y = x^2$, because that's the simplest one integration naturally produces",
+          "feedback": "Integration doesn't prefer the simplest option: $x^2 + 7$ is exactly as valid a distance function as $x^2$, since both differentiate to $2x$. Simplicity isn't the deciding factor."
+        },
+        {
+          "text": "$y = x^2 + 7$, because a real distance can't start at exactly zero",
+          "feedback": "There's nothing wrong with a car starting at distance $0$, and nothing here rules out $x^2 + 7$ either. The real issue is that the speed function alone can't distinguish between any of these possibilities."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly right. Differentiating destroys any constant that was there, so undoing it can never tell you which constant to put back. That's why every integral needs an unknown constant, $C$: $y = x^2 + C$ covers every function whose derivative is $2x$."
+    },
+    {
+      "type": "entry",
+      "id": "integrate-power-term",
+      "prompt": "The rule for reversing the power rule: **raise the power by one, then divide by the new power**. Apply it to $5x^4$: what is the coefficient of $x^5$ in $\\int 5x^4 \\, \\mathrm{d}x$ (ignore $+C$)?",
+      "inputMode": "numeric",
+      "answer": 1,
+      "tolerance": 0.01,
+      "successFeedback": "Right, raise the power from 4 to 5, then divide by the new power, 5: $\\dfrac{5}{5}x^5 = x^5$. Coefficient is 1.",
+      "hints": [
+        "Raise the power on $x$ from 4 to 5 first.",
+        "Then divide the coefficient 5 by that new power, 5."
+      ]
+    },
+    {
+      "type": "manipulable-target",
+      "id": "verify-antiderivative",
+      "prompt": "We claim $y = x^2$ is a valid antiderivative of the speed function $v(x) = 2x$. Verify this the standard way: drag the point until the tangent gradient reads **6** (checking that the speed really is $6$ m/s at the instant where $2x = 6$).",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "x^2", "xmin": -4, "xmax": 4, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": 5.6,
+        "max": 6.4,
+        "description": "Target: tangent gradient = 6, confirming v(x) = 2x at that instant."
+      },
+      "successFeedback": "That's it, the tangent gradient is 6 right around $x = 3$, confirming $y = x^2$ really does have derivative $2x$ there. This is the standard integration self-check: differentiate your answer back and see if you recover the original function.",
+      "hints": [
+        "Try the right-hand side of the curve, where the gradient is positive and steep.",
+        "You're looking for $x = 3$.",
+        "At $x = 3$, $2x = 6$."
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "worked-full-integral",
+      "body": "Integrate $3x^4 - 5x^2 + 2$ term by term, using $\\displaystyle\\int ax^n\\,\\mathrm{d}x = \\frac{a}{n+1}x^{n+1} + C$ on each term:\n\n$$\n\\int (3x^4 - 5x^2 + 2) \\, \\mathrm{d}x = \\frac{3}{5}x^5 - \\frac{5}{3}x^3 + 2x + C.\n$$\n\n**Check by differentiating back:**\n\n$$\n\\frac{\\mathrm{d}}{\\mathrm{d}x}\\left(\\frac{3}{5}x^5 - \\frac{5}{3}x^3 + 2x + C\\right) = \\frac{3}{5}\\cdot 5x^4 - \\frac{5}{3}\\cdot 3x^2 + 2 = 3x^4 - 5x^2 + 2.$$\n\nThis matches the original integrand exactly, so the integral is correct.",
+      "selfExplainPrompt": "Each of the three terms was integrated separately, and each one, in principle, could have hidden its own unknown constant. Why does the whole expression only end up with a single $+C$ at the very end, not three separate constants added together?",
+      "selfExplainAnswer": "Three separate unknown constants added together, $C_1 + C_2 + C_3$, is still just some unknown fixed number: it collapses into a single unknown constant. Writing one $+C$ at the end already captures every possibility that three separate constants could have produced, so there is nothing gained by keeping them apart."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-integrate-vehicle",
+      "worked": "A different vehicle's speed function is $v(x) = 8x^3 - 6x$ m/s. Integrating the first term: $\\displaystyle\\int 8x^3\\,\\mathrm{d}x = \\frac{8}{4}x^4 = 2x^4$ (raise the power to 4, divide by the new power, 4).",
+      "prompt": "Now apply the same rule to the second term, $-6x = -6x^1$: raise the power to 2 and divide by the new power. What is the resulting coefficient of $x^2$ (include the sign)?",
+      "inputMode": "numeric",
+      "answer": -3,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $\\dfrac{-6}{2} = -3$, so $\\int (-6x)\\,\\mathrm{d}x = -3x^2$. The full distance function is $x(t) = 2x^4 - 3x^2 + C$. You predicted at the start of this lesson that reversing differentiation was possible: it is, term by term, but as you saw, the unknown constant $C$ is a genuine gap. Next lesson closes that gap using one extra piece of information.",
+      "hints": [
+        "Raise the power on $x$ from 1 to 2.",
+        "Divide the coefficient, $-6$, by the new power, 2."
+      ]
+    }
+  ]
+}
