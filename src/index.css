@@ -90,6 +90,20 @@
   padding-block: 0.25rem;
 }
 
+/* Read-aloud word highlight (src/tts/highlight.ts) — the CSS Custom
+   Highlight API needs a real stylesheet rule to render anything; registering
+   a Highlight object via CSS.highlights alone is invisible without this.
+   `::highlight()` can't be reached by Tailwind's `dark:` custom variant (it
+   isn't a normal element selector), so the class-strategy dark-mode override
+   is written by hand here, matching the same `.dark` toggle
+   src/app/theme.tsx applies to <html>. */
+::highlight(learnlab-read-aloud) {
+  background-color: oklch(85% 0.15 85 / 60%);
+}
+:root.dark ::highlight(learnlab-read-aloud) {
+  background-color: oklch(75% 0.15 85 / 45%);
+}
+
 /* Printable lesson view (SRS §13 roadmap, D-026). LessonPage.tsx marks its
    own chrome (breadcrumb, progress bar, prev/complete/print/next row) with
    the `print:hidden` Tailwind variant; the rules below cover everything that
