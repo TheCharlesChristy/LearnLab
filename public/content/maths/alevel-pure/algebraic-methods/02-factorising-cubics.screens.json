@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "id": "factorising-cubics",
+  "title": "Factorising and solving cubic and quartic equations",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-third-root",
+      "prompt": "You've now shown that both $(x-2)$ and $(x+1)$ are exact factors of Loop City's profit cubic $P(x) = x^3-4x^2+x+6$. A cubic has at most three roots. Can you find the third break-even level directly, without any further guess-and-check testing?",
+      "choices": [
+        "Yes, dividing out a known factor leaves a quadratic (or simpler) you can solve directly",
+        "No, you'd have to test every possible number until one works",
+        "No, a cubic can only ever have two real roots"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "You already did the hard part last lesson: dividing $P(x)$ by $(x-2)$ gave quotient $x^2-2x-3$. That quotient is just a quadratic, and you already know how to solve those directly."
+    },
+    {
+      "type": "entry",
+      "id": "find-third-root",
+      "prompt": "Factorise the quadratic quotient $x^2-2x-3$ from last lesson's division (two numbers that multiply to $-3$ and add to $-2$). This gives $P(x) = (x-2)(x-3)(x+1)$. What is the largest of Loop City's three break-even levels?",
+      "inputMode": "numeric",
+      "answer": 3,
+      "tolerance": 0.01,
+      "hints": [
+        "$x^2-2x-3 = (x-3)(x+1)$: check $-3 \\times 1 = -3$ and $-3+1=-2$, both match.",
+        "The three roots are $x=2$, $x=3$ and $x=-1$."
+      ],
+      "successFeedback": "The largest break-even level is $x=3$ (300 boards): $P(x) = (x-2)(x-3)(x+1)$ has roots $2$, $3$ and $-1$."
+    },
+    {
+      "type": "tap-choice",
+      "id": "confirm-full-factorisation",
+      "prompt": "Which of these is the full factorisation of $P(x) = x^3-4x^2+x+6$?",
+      "choices": [
+        { "text": "$(x-2)(x-3)(x+1)$" },
+        {
+          "text": "$(x-2)(x+3)(x-1)$",
+          "feedback": "Check the signs against the roots directly: if $(x+3)$ were a factor then $P(-3)$ should be $0$, but $P(-3) = -27-36-3+6=-60$, so $(x+3)$ isn't a factor here."
+        },
+        {
+          "text": "$(x+2)(x-3)(x+1)$",
+          "feedback": "Check $x=-2$: $P(-2) = -8-16-2+6=-20 \\ne 0$, so $(x+2)$ is not a factor."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Correct. $P(x) = (x-2)(x-3)(x+1)$, so Loop City breaks even at $x = -1, 2, 3$ (only $x=2$ and $x=3$ correspond to a sensible positive production level)."
+    },
+    {
+      "type": "entry",
+      "id": "quartic-root-test",
+      "prompt": "Loop City adds a second product line. Combined break-even behaviour across both lines is modelled by the quartic $Q(x) = x^4-2x^3-7x^2+8x+12$. Test whether $x=-1$ is a root by evaluating $Q(-1)$.",
+      "inputMode": "numeric",
+      "answer": 0,
+      "tolerance": 0.01,
+      "hints": [
+        "$Q(-1) = (-1)^4 -2(-1)^3 -7(-1)^2+8(-1)+12$.",
+        "$(-1)^4=1$, $-2(-1)^3 = 2$, $-7(-1)^2=-7$, $8(-1)=-8$."
+      ],
+      "successFeedback": "$Q(-1)=0$, so $(x+1)$ is a factor of $Q(x)$ too, exactly the same test you used on $P(x)$ last lesson."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "quartic-full-factorisation",
+      "body": "Divide $Q(x)$ by $(x+1)$ to get the cubic quotient $x^3-3x^2-4x+12$. Testing further, $x=2$ gives $2^3-3(2)^2-4(2)+12 = 8-12-8+12=0$, so $(x-2)$ is a factor of that cubic. Dividing again leaves the quadratic $x^2-x-6=(x-3)(x+2)$. Putting every factor together:\n\n$$\nQ(x) = (x+1)(x-2)(x-3)(x+2).\n$$\n\nSo the combined model breaks even at $x=-1,\\,2,\\,3,\\,-2$.",
+      "selfExplainPrompt": "You only ever tested two roots by trial for a degree 4 polynomial. Why does that turn out to be enough to finish the factorisation completely?",
+      "selfExplainAnswer": "Each factor-theorem test and division reduces the degree by one: quartic to cubic to quadratic. Once you're down to a quadratic, you can factorise it directly using prerequisite skills instead of continuing to guess, so only two roots' worth of trial testing was ever needed to reach that point."
+    },
+    {
+      "type": "faded-step",
+      "id": "fourth-line-quartic",
+      "worked": "A cleaner combined model turns out to be $R(x) = x^4-5x^3+5x^2+5x-6$. Testing $x=1$: $1-5+5+5-6=0$, so $(x-1)$ is a factor. Dividing $R(x)$ by $(x-1)$ gives the cubic quotient\n\n$$\nx^3 - 4x^2 + x + 6,\n$$\n\nwhich is exactly $P(x)$, Loop City's original profit cubic from lesson one, whose roots you already know: $2$, $-1$, and $3$.",
+      "prompt": "So $R(x)$ has four roots in total: $1$ (just found) plus the three roots of $P(x)$ you already know. What is the largest root of $R(x)$?",
+      "inputMode": "numeric",
+      "answer": 3,
+      "tolerance": 0.01,
+      "hints": ["The four roots are $1, 2, -1, 3$."],
+      "successFeedback": "The largest root is $3$. Back at the top of this lesson you predicted you could find a cubic's remaining root directly, by dividing out a known factor rather than guessing blindly, and that same one-factor-at-a-time method scaled straight up to a quartic, and would keep scaling to any degree."
+    }
+  ]
+}

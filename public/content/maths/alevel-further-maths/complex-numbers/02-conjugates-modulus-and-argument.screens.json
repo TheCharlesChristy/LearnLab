@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "id": "conjugates-modulus-and-argument",
+  "title": "Conjugates, division, and modulus-argument form",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-same-distance",
+      "prompt": "$z_1 = 3 + 4i$ and $z_2 = 4 + 3i$ are different points on the Argand diagram: their real and imaginary parts are swapped. Are they the same distance from the origin?",
+      "choices": ["Yes, exactly the same distance", "No, different distances"],
+      "correctChoiceIndex": 0,
+      "reveal": "They are both distance $5$ from the origin. Swapping which part is real and which is imaginary doesn't change $a^2 + b^2$, so the two points sit as mirror images across the diagonal line $y = x$, always the same distance out. That distance has a name, and this lesson builds it, along with the direction to go with it."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "define-modulus",
+      "body": "Plotting $a + bi$ as the point $(a, b)$ means its distance from the origin is exactly the Pythagorean distance from $(0,0)$ to $(a,b)$. That distance is called the **modulus** of $z$, written $|z|$: $$|z| = \\sqrt{a^2 + b^2}.$$ For $z = 3 + 4i$, $|z| = \\sqrt{9 + 16} = \\sqrt{25} = 5$, matching what the hook just showed you.",
+      "selfExplainPrompt": "Why does finding $|z|$ use exactly the same formula as the distance formula between two points on a graph?",
+      "selfExplainAnswer": "A complex number $a+bi$ is plotted as the point $(a,b)$, so its distance from the origin $(0,0)$ is exactly the Pythagorean distance $\\sqrt{a^2+b^2}$. Modulus is just distance from the origin, wearing complex-number notation."
+    },
+    {
+      "type": "entry",
+      "id": "compute-modulus",
+      "prompt": "What is $|z|$ for $z = 6 + 8i$?",
+      "inputMode": "numeric",
+      "answer": 10,
+      "tolerance": 0.01,
+      "hints": ["$|z| = \\sqrt{a^2 + b^2}$.", "$6^2 + 8^2 = 36 + 64 = 100$.", "$\\sqrt{100} = 10$."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "quadrant-check",
+      "prompt": "A complex number's **argument**, $\\arg(z)$, is the angle its point makes with the positive real axis, and getting it right depends on knowing which quadrant the point sits in first. Which quadrant of the Argand diagram does $z = -1 + i$ lie in?",
+      "choices": [
+        { "text": "First quadrant", "feedback": "First quadrant means both parts are positive. Here the real part is $-1$, which is negative, so this can't be right." },
+        { "text": "Second quadrant" },
+        { "text": "Fourth quadrant", "feedback": "Fourth quadrant means a positive real part and a negative imaginary part, the opposite pairing of signs to $z = -1 + i$, which has a negative real part and a positive imaginary part." }
+      ],
+      "correctIndex": 1,
+      "successFeedback": "Right: real part $-1$ (negative) and imaginary part $1$ (positive) puts the point up and to the left of the origin, the second quadrant."
+    },
+    {
+      "type": "entry",
+      "id": "compute-argument",
+      "prompt": "For $z = 1 + i$, both the real and imaginary parts are positive, so the point sits in the first quadrant and no adjustment is needed. What is $\\arg(z)$, in degrees, given $\\tan(\\arg z) = \\frac{\\operatorname{Im}(z)}{\\operatorname{Re}(z)}$?",
+      "inputMode": "numeric",
+      "answer": 45,
+      "tolerance": 0.5,
+      "hints": ["$\\tan(\\arg z) = \\frac{1}{1} = 1$.", "Which angle has a tangent of exactly $1$?", "$\\arctan(1) = 45^\\circ$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "division-mechanism",
+      "body": "Multiplying by a number's conjugate always produces a real number: for $a + bi$, the conjugate is $a - bi$, and $(a+bi)(a-bi) = a^2 + b^2$. Dividing complex numbers uses exactly this to clear $i$ out of the denominator: multiply top and bottom by the denominator's conjugate.\n\nDivide $z = 2 + 3i$ by $w = 1 - 2i$. The conjugate of $w$ is $1 + 2i$. Numerator: $$(2+3i)(1+2i) = 2 + 4i + 3i + 6i^2 = 2 + 7i + 6i^2.$$ Substituting $i^2=-1$: $6i^2 = -6$, so the numerator is $2 + 7i - 6 = -4 + 7i$. Denominator: $$(1-2i)(1+2i) = 1^2 + 2^2 = 5.$$ So $$\\frac{z}{w} = \\frac{-4+7i}{5} = -0.8 + 1.4i.$$",
+      "selfExplainPrompt": "Why multiply top and bottom by the conjugate of the denominator specifically, rather than the conjugate of the numerator?",
+      "selfExplainAnswer": "Only the denominator's conjugate cancels the $i$ out of the denominator, because $(a-bi)(a+bi) = a^2+b^2$ is real precisely when the two factors are a number and its own conjugate. Using the numerator's conjugate instead would leave the denominator exactly as complex as it started."
+    },
+    {
+      "type": "faded-step",
+      "id": "division-faded",
+      "worked": "Divide $z = 4 + 3i$ by $w = 1 - i$. The conjugate of $w$ is $1+i$. Numerator: $$(4+3i)(1+i) = 4 + 4i + 3i + 3i^2 = 4 + 7i + 3i^2.$$ Denominator: $$(1-i)(1+i) = 1^2 + 1^2 = 2.$$",
+      "prompt": "Substitute $i^2 = -1$ into the numerator, simplify, then divide by $2$. What is the imaginary part of $\\frac{z}{w}$?",
+      "inputMode": "numeric",
+      "answer": 3.5,
+      "tolerance": 0.05,
+      "hints": ["$3i^2$ becomes $3 \\times (-1) = -3$, so the numerator simplifies to $1 + 7i$.", "Divide both parts of $1+7i$ by the denominator, $2$.", "$\\frac{7}{2} = 3.5$."]
+    },
+    {
+      "type": "entry",
+      "id": "polar-form-close",
+      "prompt": "Put the two new ideas together for $z = 1 + i$ (the same number whose argument you already found is $45^\\circ$). What is its modulus, $|z|$, to 2 decimal places?",
+      "inputMode": "numeric",
+      "answer": 1.4142,
+      "tolerance": 0.01,
+      "hints": ["$|z| = \\sqrt{1^2 + 1^2}$.", "$\\sqrt{2} \\approx 1.41$."],
+      "successFeedback": "$|z| = \\sqrt{2} \\approx 1.41$. You predicted that $3+4i$ and $4+3i$ sit at the same distance from the origin, and they do, both modulus $5$, because modulus only depends on $a^2+b^2$, never on which part is real. Every complex number now has both halves of a polar description: a modulus (distance) and an argument (direction), for example $1+i$ is modulus $\\sqrt{2}$ at $45^\\circ$. Next lesson uses exactly this pair to make multiplying and raising complex numbers to powers far simpler than expanding brackets."
+    }
+  ]
+}

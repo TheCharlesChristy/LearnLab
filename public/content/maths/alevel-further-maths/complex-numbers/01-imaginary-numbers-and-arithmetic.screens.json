@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "id": "imaginary-numbers-and-arithmetic",
+  "title": "Imaginary numbers, complex arithmetic, and the Argand diagram",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-wall",
+      "prompt": "Solve $x^2 = -1$. Go on, try every real number you like, positive, negative, whole, or fractional. Does any real number actually work?",
+      "choices": ["Yes, there is a real number I'm missing", "No, no real number solves this equation"],
+      "correctChoiceIndex": 1,
+      "reveal": "You're right: no real number squares to give a negative number, so for centuries this equation was simply marked 'no solution.' This lesson invents the number that gets past that wall, teaches you to calculate with it, and by the end draws an actual map of where it lives."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "define-i",
+      "body": "Call the new number $i$, defined by exactly one property: $$i^2 = -1.$$ That's the whole definition. Everything else follows from ordinary algebra plus this one substitution rule, applied wherever a stray $i^2$ turns up.\n\nWith $i$ in hand, you can build **complex numbers**: numbers of the form $a + bi$, where $a$ and $b$ are ordinary real numbers. $a$ is the **real part**, written $\\operatorname{Re}(z)$, and $b$ is the **imaginary part**, written $\\operatorname{Im}(z)$ (note: the imaginary part is the real number $b$ itself, not $bi$). For $z = 3 - 4i$, the real part is $3$ and the imaginary part is $-4$.",
+      "selfExplainPrompt": "A real number like $7$ has no $i$ in it at all. Explain why $7$ still counts as a complex number.",
+      "selfExplainAnswer": "Because $7 = 7 + 0i$: its imaginary part is just $0$. Nothing you already knew got thrown away when $i$ was invented. Every real number is a complex number with imaginary part zero, it's just one that never needed the new machinery."
+    },
+    {
+      "type": "entry",
+      "id": "identify-imaginary-part",
+      "prompt": "For $z = 3 - 4i$, what is the imaginary part of $z$ (the coefficient of $i$, as a signed number)?",
+      "inputMode": "numeric",
+      "answer": -4,
+      "tolerance": 0.001,
+      "hints": ["The imaginary part is the real number multiplying $i$, not $bi$ itself.", "Write $z$ as $3 + (-4)i$ and read off the second number.", "The coefficient of $i$ is $-4$."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "addition-rule",
+      "prompt": "Addition and subtraction work exactly like collecting like terms: real parts with real parts, imaginary parts with imaginary parts, so $(a+bi) + (c+di) = (a+c) + (b+d)i$. Using that rule, what is $(5 - 2i) + (3 + 7i)$?",
+      "choices": [
+        { "text": "$8 + 5i$" },
+        { "text": "$2 - 9i$", "feedback": "This is what you get if you subtract instead of add: $5-3=2$ and $-2-7=-9$. Check the operation, not just the sign." },
+        { "text": "$13$", "feedback": "This treats every number as real and adds all four together ($5-2+3+7=13$), losing track of which numbers carry an $i$. Real parts and imaginary parts stay in separate columns." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly: real parts collect with real parts, $(5+3) = 8$, and imaginary parts collect with imaginary parts, $(-2+7) = 5$, giving $8 + 5i$."
+    },
+    {
+      "type": "entry",
+      "id": "subtract-complex",
+      "prompt": "Subtraction follows the same pattern. For $(2 + 3i) - (5 - i)$, what is the real part of the result?",
+      "inputMode": "numeric",
+      "answer": -3,
+      "tolerance": 0.001,
+      "hints": ["Subtract real from real, and imaginary from imaginary, separately.", "The real parts are $2$ and $5$: compute $2 - 5$.", "$2 - 5 = -3$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "multiplication-mechanism",
+      "body": "Addition never really needed $i^2 = -1$. Multiplication is where that rule finally earns its keep: expand two complex numbers exactly as you would any two brackets, then substitute $i^2 = -1$ the moment it appears.\n\nLet $z = 2 + i$ and $w = 1 - i$. Expand term by term: $$zw = (2)(1) + (2)(-i) + (i)(1) + (i)(-i) = 2 - 2i + i - i^2 = 2 - i - i^2.$$ Substitute $i^2 = -1$, so $-i^2 = 1$: $$zw = 2 - i + 1 = 3 - i.$$ (Notice that $(1+i)(1-i) = 1 - i^2 = 1 + 1 = 2$, a real number with no $i$ left at all. That trick, multiplying by a partner built to cancel the $i$, is the complex conjugate, and it's waiting for you in the next lesson.)",
+      "selfExplainPrompt": "Which single term in the expansion of $zw$ came from multiplying $i$ by $i$, and what happened to it once you substituted $i^2 = -1$?",
+      "selfExplainAnswer": "The term $(i)(-i) = -i^2$ is the one. Substituting $i^2 = -1$ turns $-i^2$ into $+1$, a purely real number. That's why an $i^2$ term always folds back into the real part instead of staying separate."
+    },
+    {
+      "type": "faded-step",
+      "id": "multiplication-faded",
+      "worked": "Let $z = 3 + 2i$ and $w = 1 + i$. Expanding term by term: $$zw = 3 + 3i + 2i + 2i^2 = 3 + 5i + 2i^2.$$",
+      "prompt": "Substitute $i^2 = -1$ into $2i^2$ and simplify. What is the real part of the fully simplified result?",
+      "inputMode": "numeric",
+      "answer": 1,
+      "tolerance": 0.001,
+      "hints": ["$2i^2$ becomes $2 \\times (-1)$.", "$3 + 2 \\times (-1) = 3 - 2$.", "The real part is $1$; the imaginary part stays $5$, giving $1 + 5i$."]
+    },
+    {
+      "type": "entry",
+      "id": "plot-argand",
+      "prompt": "Because $a + bi$ is really just a pair of real numbers $(a, b)$, you can plot it on the **Argand diagram**: $a$ along a horizontal real axis, $b$ along a vertical imaginary axis. For $z = 4 - i$, what is the $y$-coordinate of its point?",
+      "inputMode": "numeric",
+      "answer": -1,
+      "tolerance": 0.001,
+      "hints": ["The $y$-coordinate is the imaginary part of $z$.", "Write $z = 4 - i$ as $4 + (-1)i$.", "The imaginary part, and so the $y$-coordinate, is $-1$."],
+      "successFeedback": "That's $Z = (4, -1)$ plotted exactly. You started this lesson stuck at $x^2 = -1$ with no real solution in sight. Now every complex number, including the solutions to that equation, has an exact home on the Argand diagram: a real axis, an imaginary axis, and a point where they meet. Next lesson gives every one of those points a distance and a direction of its own."
+    }
+  ]
+}

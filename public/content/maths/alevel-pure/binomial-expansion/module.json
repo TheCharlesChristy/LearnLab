@@ -17,10 +17,10 @@
   ],
   "tags": ["binomial", "pascals-triangle", "combinatorics", "series", "approximation"],
   "lessons": [
-    { "id": "pascals-triangle", "title": "Pascal's triangle and binomial coefficients", "file": "01-pascals-triangle.md", "estMinutes": 25 },
-    { "id": "binomial-theorem", "title": "The binomial theorem and full expansions", "file": "02-binomial-theorem.md", "estMinutes": 30 },
-    { "id": "specific-terms", "title": "Finding specific terms and coefficients", "file": "03-specific-terms.md", "estMinutes": 25 },
-    { "id": "approximations", "title": "Approximations using the binomial expansion", "file": "04-approximations.md", "estMinutes": 20 }
+    { "id": "pascals-triangle", "title": "Pascal's triangle and binomial coefficients", "file": "01-pascals-triangle.screens.json", "kind": "screens", "estMinutes": 25 },
+    { "id": "binomial-theorem", "title": "The binomial theorem and full expansions", "file": "02-binomial-theorem.screens.json", "kind": "screens", "estMinutes": 30 },
+    { "id": "specific-terms", "title": "Finding specific terms and coefficients", "file": "03-specific-terms.screens.json", "kind": "screens", "estMinutes": 25 },
+    { "id": "approximations", "title": "Approximations using the binomial expansion", "file": "04-approximations.screens.json", "kind": "screens", "estMinutes": 20 }
   ],
   "assessment": { "file": "assessment.json", "passMark": 0.7 },
   "version": "1.0.0",

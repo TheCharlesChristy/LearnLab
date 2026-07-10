@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "id": "lines-and-circles",
+  "title": "Lines and circles: tangents, chords and intersections",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-tangent-possibility",
+      "prompt": "A ship sailing in a straight line either misses Beacon Point's exclusion circle completely, or its course cuts across the boundary at two points. Do you think there's a third possibility: a straight-line course that touches the circle at exactly one point, without ever crossing inside it?",
+      "choices": [
+        "No, a line only ever misses a circle entirely or crosses it at two points",
+        "Yes, a straight line can touch a circle at exactly one point"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Yes: that one-point-contact case is a tangent, and it's exactly perpendicular to the circle's radius at the point of contact. That single fact is enough to find a tangent's equation directly, without any extra machinery."
+    },
+    {
+      "type": "entry",
+      "id": "radius-tangent-relation",
+      "prompt": "A tangent line touches a circle at point $P$. In one word, how does the tangent relate to the radius drawn to $P$?",
+      "inputMode": "text",
+      "accept": ["perpendicular", "at right angles"],
+      "caseSensitive": false,
+      "hints": ["Think back to the support strut in the straight-lines lesson: it met the cable line at a right angle."],
+      "successFeedback": "Right: perpendicular. The tangent always meets the radius to the point of contact at exactly 90 degrees."
+    },
+    {
+      "type": "entry",
+      "id": "radius-gradient-34",
+      "prompt": "Beacon Point's simpler exclusion zone, centred on the origin, has equation $x^2+y^2=25$. Find the gradient of the radius drawn to the boundary point $(3,4)$.",
+      "inputMode": "numeric",
+      "answer": 1.3333,
+      "tolerance": 0.01,
+      "hints": [
+        "The centre is $(0,0)$, since the circle is $x^2+y^2=5^2$.",
+        "$m_{\\text{radius}} = \\dfrac{4-0}{3-0}$."
+      ],
+      "successFeedback": "Right, $\\dfrac{4}{3} \\approx 1.33$. The tangent at $(3,4)$ will be perpendicular to this."
+    },
+    {
+      "type": "manipulable-target",
+      "id": "find-tangent-gradient",
+      "prompt": "Here's the upper half of that same zone: $y=\\sqrt{25-x^2}$. Drag the point until the tangent gradient reads about $-0.75$, confirming it's the negative reciprocal of the radius gradient $\\tfrac{4}{3}$ you just found at $(3,4)$.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "sqrt(25 - x^2)", "xmin": -5, "xmax": 5, "tangent": true, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": -1.0,
+        "max": -0.5,
+        "description": "Target: tangent gradient = -3/4 (matches the point (3,4))."
+      },
+      "successFeedback": "That's the point $(3,4)$ (or very close to it): the tangent gradient there is exactly $-\\tfrac34$, the negative reciprocal of the radius gradient $\\tfrac43$, exactly as the perpendicularity rule predicts.",
+      "hints": [
+        "You're aiming for the right-hand side of the curve, not too close to the top or the far edge.",
+        "You're looking for $x=3$.",
+        "At $x=3$, $y=\\sqrt{25-9}=4$, matching the point $(3,4)$."
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "tangent-worked",
+      "body": "The radius to $(3,4)$ has gradient $m_{\\text{radius}} = \\dfrac{4-0}{3-0} = \\dfrac{4}{3}$. The tangent is perpendicular to this radius, so its gradient is the negative reciprocal:\n\n$$\nm_{\\text{tangent}} = -\\frac{3}{4}.\n$$\n\nUsing $y-y_1=m(x-x_1)$ at $(3,4)$:\n\n$$\ny-4 = -\\frac{3}{4}(x-3) \\implies 4y-16=-3x+9 \\implies 3x+4y=25.\n$$\n\nCheck: substituting $(3,4)$ gives $3(3)+4(4)=9+16=25$.",
+      "selfExplainPrompt": "Why does substituting the point $(3,4)$ back into $3x+4y=25$ act as a genuine check on the algebra, rather than just confirming something obvious?",
+      "selfExplainAnswer": "The point $(3,4)$ was used to derive the equation, so it's not automatic that it still satisfies the final rearranged form unless every algebraic step (multiplying out, moving terms across the equals sign) was done correctly. If a sign or a term had been dropped anywhere along the way, substituting $(3,4)$ back in would reveal it by failing to equal 25."
+    },
+    {
+      "type": "faded-step",
+      "id": "tangent-faded-43",
+      "worked": "Following the same method at the boundary point $(4,3)$ on the same circle $x^2+y^2=25$: the radius gradient is $\\dfrac{3-0}{4-0}=\\dfrac{3}{4}$, so the tangent gradient is the negative reciprocal, $-\\dfrac{4}{3}$. Using $y-y_1=m(x-x_1)$ at $(4,3)$:\n\n$$\ny-3=-\\frac{4}{3}(x-4) \\implies 3y-9=-4x+16 \\implies 4x+3y=9+16.\n$$",
+      "prompt": "So the tangent at $(4,3)$ simplifies to $4x+3y=c$ for some constant $c$. What is $c$?",
+      "inputMode": "numeric",
+      "answer": 25,
+      "tolerance": 0.01,
+      "hints": [
+        "$c = 9+16$.",
+        "Or check directly: substitute $(4,3)$ into $4x+3y$: $4(4)+3(3)$."
+      ],
+      "successFeedback": "Right, $c=25$: the tangent at $(4,3)$ is $4x+3y=25$, matching what substituting $(4,3)$ into $4x+3y$ gives directly."
+    },
+    {
+      "type": "predict",
+      "id": "predict-course-intersects",
+      "prompt": "A ship's course is modelled by the line $y=x+1$. Do you think this course enters Beacon Point's exclusion zone $x^2+y^2=25$, stays outside it entirely, or just grazes it at exactly one point?",
+      "choices": [
+        "It enters the zone, crossing the boundary at two points",
+        "It stays outside, never touching the zone",
+        "It just grazes the zone at exactly one point, a tangent course"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "You're about to find out by substituting the line into the circle's equation, exactly the way you found tangent points earlier, except this time solving for where the two curves genuinely cross."
+    },
+    {
+      "type": "entry",
+      "id": "intersection-larger-x",
+      "prompt": "Substitute $y=x+1$ into $x^2+y^2=25$: this gives $x^2+(x+1)^2=25$, which expands and simplifies to $2x^2+2x-24=0$, or $x^2+x-12=0$. Factorising, $(x+4)(x-3)=0$. What is the larger of the two possible $x$-coordinates where the ship's course meets the boundary?",
+      "inputMode": "numeric",
+      "answer": 3,
+      "tolerance": 0.01,
+      "hints": [
+        "$(x+4)(x-3)=0$ means $x=-4$ or $x=3$.",
+        "The larger value is the positive one."
+      ],
+      "successFeedback": "Right, $x=3$ (giving the point $(3,4)$, the very same point whose tangent you found earlier in this lesson). The other crossing is at $x=-4$, giving $(-4,-3)$."
+    },
+    {
+      "type": "tap-choice",
+      "id": "discriminant-close",
+      "prompt": "A different course, $y=x+10$, is tested against the same exclusion circle by the same substitution method, giving $2x^2+20x+75=0$. Its discriminant is $20^2-4(2)(75)=400-600=-200$. What does that negative discriminant tell you about this course, and how many real solutions the quadratic has?",
+      "choices": [
+        { "text": "It misses the exclusion zone entirely" },
+        {
+          "text": "It crosses the boundary at two points",
+          "feedback": "That would need a positive discriminant, giving two distinct real roots. A negative discriminant means no real roots at all, so the substituted quadratic has no solutions."
+        },
+        {
+          "text": "It just touches the boundary at exactly one point, a tangent course",
+          "feedback": "A tangent corresponds to a discriminant of exactly zero, one repeated root. Here the discriminant is negative, which is a different case: no real roots at all."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: a negative discriminant means the quadratic has no real roots, so this course misses the exclusion zone entirely. That's the third case promised at the start of this lesson: a line and a circle can cross at two points, touch at exactly one (a tangent, discriminant zero), or miss completely (discriminant negative), and the discriminant of the substituted quadratic, the same quadratics-and-inequalities technique from the prerequisite module, tells you which, every time. That resolves the prediction you made about tangency at the very start of this lesson: yes, a straight line really can touch a circle at exactly one point, and now you can prove it either way, by calculation, for any line and any circle."
+    }
+  ]
+}

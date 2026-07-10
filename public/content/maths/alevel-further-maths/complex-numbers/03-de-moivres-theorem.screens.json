@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "id": "de-moivres-theorem",
+  "title": "Multiplying, dividing, and de Moivre's theorem",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-polar-multiply",
+      "prompt": "Two complex numbers in modulus-argument form have moduli $2$ and $3$, and arguments $20^\\circ$ and $40^\\circ$. When you multiply them, what happens to the modulus and the argument of the product?",
+      "choices": [
+        "Modulus adds ($2+3=5$), argument adds ($20+40=60^\\circ$)",
+        "Modulus multiplies ($2\\times3=6$), argument adds ($20+40=60^\\circ$)",
+        "Modulus multiplies ($2\\times3=6$), argument multiplies ($20\\times40=800^\\circ$)"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought, you'll prove it algebraically over the next few screens, and come back to check it by name at the end of this lesson."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "polar-multiplication-mechanism",
+      "body": "Let $z_1 = r_1(\\cos\\theta_1 + i\\sin\\theta_1)$ and $z_2 = r_2(\\cos\\theta_2 + i\\sin\\theta_2)$. Multiplying and expanding: $$z_1 z_2 = r_1 r_2 \\big[(\\cos\\theta_1\\cos\\theta_2 - \\sin\\theta_1\\sin\\theta_2) + i(\\sin\\theta_1\\cos\\theta_2 + \\cos\\theta_1\\sin\\theta_2)\\big].$$ The compound angle identities say $\\cos(\\theta_1+\\theta_2) = \\cos\\theta_1\\cos\\theta_2 - \\sin\\theta_1\\sin\\theta_2$ and $\\sin(\\theta_1+\\theta_2) = \\sin\\theta_1\\cos\\theta_2 + \\cos\\theta_1\\sin\\theta_2$, so $$z_1 z_2 = r_1 r_2\\big[\\cos(\\theta_1+\\theta_2) + i\\sin(\\theta_1+\\theta_2)\\big].$$ Moduli multiply, arguments add.",
+      "selfExplainPrompt": "Which two trig identities did substituting into the expansion actually use, and which part of the expanded product does each one match?",
+      "selfExplainAnswer": "The real part of the expansion, $\\cos\\theta_1\\cos\\theta_2 - \\sin\\theta_1\\sin\\theta_2$, matches the compound angle formula for $\\cos(\\theta_1+\\theta_2)$ exactly. The imaginary part, $\\sin\\theta_1\\cos\\theta_2 + \\cos\\theta_1\\sin\\theta_2$, matches the compound angle formula for $\\sin(\\theta_1+\\theta_2)$ exactly. That's why the product collapses to a single angle, $\\theta_1 + \\theta_2$."
+    },
+    {
+      "type": "entry",
+      "id": "apply-polar-multiplication",
+      "prompt": "$z_1$ has modulus $2$ and argument $30^\\circ$; $z_2$ has modulus $5$ and argument $50^\\circ$. What is the argument of $z_1 z_2$, in degrees?",
+      "inputMode": "numeric",
+      "answer": 80,
+      "tolerance": 0.5,
+      "hints": ["Arguments add when you multiply.", "$30^\\circ + 50^\\circ$.", "$30 + 50 = 80$."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "polar-division-check",
+      "prompt": "Division works the other way round: moduli divide and arguments subtract, $\\frac{z_1}{z_2} = \\frac{r_1}{r_2}\\big[\\cos(\\theta_1-\\theta_2) + i\\sin(\\theta_1-\\theta_2)\\big]$. $z_1$ has modulus $12$ and argument $70^\\circ$; $z_2$ has modulus $3$ and argument $25^\\circ$. What is the argument of $\\frac{z_1}{z_2}$?",
+      "choices": [
+        { "text": "$45^\\circ$" },
+        { "text": "$95^\\circ$", "feedback": "This adds the arguments ($70+25$) instead of subtracting. Multiplication adds arguments; division subtracts them." },
+        { "text": "$4^\\circ$", "feedback": "This is $12 \\div 3$, the calculation for the modulus of the quotient, not its argument. The argument still subtracts: $70 - 25$." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: $70^\\circ - 25^\\circ = 45^\\circ$."
+    },
+    {
+      "type": "entry",
+      "id": "apply-polar-division",
+      "prompt": "Using the same $z_1$ (modulus $12$) and $z_2$ (modulus $3$), what is the modulus of $\\frac{z_1}{z_2}$?",
+      "inputMode": "numeric",
+      "answer": 4,
+      "tolerance": 0.01,
+      "hints": ["Moduli divide.", "$12 \\div 3$.", "$12 \\div 3 = 4$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "de-moivre-intro",
+      "body": "Multiplying $z$ by itself $n$ times adds its argument to itself $n$ times, and multiplies its modulus by itself $n$ times. That pattern is **de Moivre's theorem**: for $z = r(\\cos\\theta + i\\sin\\theta)$ and a positive integer $n$, $$z^n = r^n(\\cos n\\theta + i\\sin n\\theta).$$\n\nLet $z = 2(\\cos30^\\circ + i\\sin30^\\circ)$. Then $z^3 = 2^3\\big(\\cos(3\\times30^\\circ) + i\\sin(3\\times30^\\circ)\\big) = 8(\\cos90^\\circ + i\\sin90^\\circ) = 8(0 + i\\times1) = 8i$.",
+      "selfExplainPrompt": "Why does raising $z$ to the power $n$ multiply the argument by $n$, rather than adding $n$ to it?",
+      "selfExplainAnswer": "$z^n$ means multiplying $z$ by itself $n$ times, and each multiplication adds one more copy of $\\theta$ to the running total, giving $\\theta + \\theta + \\dots + \\theta$ ($n$ copies), which is exactly $n\\theta$. The modulus multiplies by itself $n$ times for the same reason, giving $r^n$."
+    },
+    {
+      "type": "faded-step",
+      "id": "de-moivre-faded",
+      "worked": "By de Moivre's theorem, $z^n = r^n(\\cos n\\theta + i\\sin n\\theta)$. Here $z = 3(\\cos40^\\circ + i\\sin40^\\circ)$ and $n = 2$.",
+      "prompt": "Using de Moivre's theorem, what is the imaginary part of $z^2$? Give your answer to 2 decimal places.",
+      "inputMode": "numeric",
+      "answer": 8.86,
+      "tolerance": 0.05,
+      "hints": ["First find $r^2 = 3^2$.", "Then double the argument: $2 \\times 40^\\circ = 80^\\circ$.", "$\\operatorname{Im}(z^2) = r^2 \\times \\sin(80^\\circ) = 9 \\times \\sin(80^\\circ)$."]
+    },
+    {
+      "type": "entry",
+      "id": "de-moivre-close",
+      "prompt": "Back to the hook: $z_1$ has modulus $2$ and argument $20^\\circ$, $z_2$ has modulus $3$ and argument $40^\\circ$. What is the argument of $z_1 z_2$, in degrees?",
+      "inputMode": "numeric",
+      "answer": 60,
+      "tolerance": 0.5,
+      "hints": ["Arguments add on multiplication.", "$20^\\circ + 40^\\circ$.", "$20+40=60$."],
+      "successFeedback": "You predicted modulus $6$ and argument $60^\\circ$ for exactly this product, and that's exactly de Moivre's multiplication rule at work: moduli multiply, arguments add. What used to mean expanding brackets full of $i$ is now simple arithmetic on $r$ and $\\theta$, including raising a complex number to a whole power in one line."
+    }
+  ]
+}

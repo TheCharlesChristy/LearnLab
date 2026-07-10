@@ -97,7 +97,7 @@
         "There is no fixed relationship"
       ],
       "answer": 1,
-      "explanation": "A tangent to a circle is always perpendicular to the radius drawn to the point of contact — this is the key property used to find tangent equations."
+      "explanation": "A tangent to a circle is always perpendicular to the radius drawn to the point of contact: this is the key property used to find tangent equations."
     },
     {
       "id": "q11",
@@ -126,7 +126,28 @@
         "The discriminant cannot be used to answer this question"
       ],
       "answer": 2,
-      "explanation": "The discriminant is $20^2 - 4(2)(75) = 400 - 600 = -200$, which is negative, so the quadratic has no real roots and the line does not intersect the circle at all."
+      "explanation": "The discriminant is $20^2 - 4(2)(75) = 400 - 600 = -200$, which is negative, so the quadratic has no real roots and the line does not intersect the circle at all. This is a cumulative review question: reading the number of roots off the discriminant $b^2-4ac$ is exactly the technique from the prerequisite module, Quadratics and Inequalities, applied here to a new problem: classifying how a line meets a circle."
+    },
+    {
+      "id": "q14",
+      "type": "multi",
+      "text": "Which of the following statements are true?",
+      "choices": [
+        "The perpendicular bisector of a chord always passes through the circle's centre",
+        "A tangent to a circle is always perpendicular to the radius at the point of contact",
+        "Two lines with gradients $2$ and $-2$ are perpendicular",
+        "A straight line can meet a circle at exactly three points"
+      ],
+      "answers": [0, 1],
+      "explanation": "The perpendicular-bisector and tangent-radius properties are both true (they're the two key circle facts from this module). Gradients $2$ and $-2$ multiply to give $-4$, not $-1$, so those lines are not perpendicular. Substituting a line into a circle's equation always reduces to a quadratic, which has at most 2 roots, so a line can meet a circle at 0, 1, or 2 points, never 3."
+    },
+    {
+      "id": "q15",
+      "type": "text",
+      "text": "What term describes a straight line that touches a circle at exactly one point, without crossing into its interior?",
+      "accept": ["(a |the )?tangent"],
+      "caseSensitive": false,
+      "explanation": "This is a **tangent**. It touches the circle at exactly one point (the point of contact) and is always perpendicular to the radius drawn to that point."
     }
   ]
 }

@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "id": "specific-terms",
+  "title": "Finding specific terms and coefficients",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-shortcut",
+      "prompt": "To find the coefficient of $x^3$ in $(2+x)^7$, would you need to expand all 8 terms of the full binomial expansion first, or can you jump straight to the one term you need?",
+      "choices": [
+        "You must expand all 8 terms first, then pick out the $x^3$ one",
+        "You can jump straight to the $x^3$ term without expanding the rest"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought. This lesson shows you exactly how to identify and evaluate just the one term you need, using the general term formula."
+    },
+    {
+      "type": "tap-choice",
+      "id": "identify-r",
+      "prompt": "To find the coefficient of $x^4$ in $(2+3x)^9$, the general term is $T_{r+1}=\\binom{9}{r}(2)^{9-r}(3x)^r$, so the power of $x$ in each term is $r$. Which value of $r$ gives the $x^4$ term?",
+      "choices": [
+        { "text": "$r=4$" },
+        {
+          "text": "$r=5$",
+          "feedback": "$5$ would be the power of $2$ (i.e. $n-r$) if $r=4$, not the value of $r$ itself. The power of $x$ is $r$, not $n-r$, so you want $r=4$ directly."
+        },
+        {
+          "text": "$r=9$",
+          "feedback": "$r=9$ would give the very last term, where the power of $x$ is $9$, not $4$. Set $r$ equal to the target power of $x$, not to $n$."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, $r=4$. Since $b=3x$ contributes $x^r$ to each term, matching the target power of $x$ to $r$ is all you need."
+    },
+    {
+      "type": "entry",
+      "id": "identify-r-generation",
+      "prompt": "In the expansion of $(5+2x)^{10}$, which value of $r$ gives the term in $x^6$?",
+      "inputMode": "numeric",
+      "answer": 6,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $r=6$, since the power of $x$ in the general term is always $r$.",
+      "hints": ["The power of $x$ contributed by $(2x)^r$ is just $r$.", "Match $r$ to the target power directly: $r=6$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "coefficient-x3-2-plus-x-7",
+      "body": "Find the coefficient of $x^3$ in $(2+x)^7$. Here $a=2$, $b=x$, $n=7$, and the general term is $T_{r+1}=\\binom{7}{r}(2)^{7-r}(x)^r$. We want the power of $x$ to be $3$, so $r=3$:\n\n$$\nT_4 = \\binom{7}{3}(2)^{4}(x)^3 = 35 \\times 16 \\times x^3 = 560x^3.\n$$\n\nSo the coefficient of $x^3$ is $560$.",
+      "selfExplainPrompt": "Why do you need to pin down the value of $r$ *before* evaluating $\\binom{7}{r}(2)^{7-r}$, rather than evaluating the general term formula first?",
+      "selfExplainAnswer": "$\\binom{7}{r}$ and the power $2^{7-r}$ both depend on $r$, so until $r$ is fixed, the formula is a whole family of terms, not one number. Matching the target power of $x$ to $r$ first (here $r=3$) tells you exactly which single term of that family to evaluate, so you only ever compute the one term you actually need, never the other seven."
+    },
+    {
+      "type": "faded-step",
+      "id": "term-x5-3-minus-x-8",
+      "worked": "Find the term in $x^5$ of $(3-x)^8$. Here $a=3$, $b=-x$, $n=8$. We want the power of $x$ (of $b$) to be $5$, so $r=5$: $\\binom{8}{5}=56$ and $(3)^{8-5}=3^3=27$.",
+      "prompt": "$$T_6 = 56 \\times 27 \\times (-1)^5 x^5 = ?\\,x^5$$\n\nWhat is the coefficient (include the sign)?",
+      "inputMode": "numeric",
+      "answer": -1512,
+      "tolerance": 0.5,
+      "successFeedback": "Right, $-1512$. $56 \\times 27 = 1512$, and $(-1)^5=-1$ (odd power keeps the sign negative), so the coefficient is $-1512$.",
+      "hints": ["$56 \\times 27 = 1512$.", "$(-x)^5$ has an odd power, so the sign stays negative."]
+    },
+    {
+      "type": "entry",
+      "id": "find-k-negative",
+      "prompt": "In the expansion of $(1+kx)^5$, the coefficient of $x^2$ is $90$. The general term with $r=2$ gives $\\binom{5}{2}k^2x^2=10k^2x^2$, so $10k^2=90$, meaning $k^2=9$. There are two possible values of $k$, equal in size but opposite in sign. What is the negative one?",
+      "inputMode": "numeric",
+      "answer": -3,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $k=-3$ (and $k=3$ is the other solution, since $(-3)^2=3^2=9$).",
+      "hints": ["$k^2=9$ has two square roots.", "The positive one is $3$; the negative one has the same size."]
+    },
+    {
+      "type": "flash-recall",
+      "id": "recall-general-term",
+      "front": "State the general term formula $T_{r+1}$ for the expansion of $(a+b)^n$.",
+      "back": "$T_{r+1} = \\binom{n}{r}a^{n-r}b^r$, the term containing $b^r$."
+    },
+    {
+      "type": "faded-step",
+      "id": "resolve-hook-jump-straight",
+      "worked": "Earlier you predicted you could jump straight to one term of an expansion without writing out the rest. Try it on $(4+x)^6$: find the coefficient of $x^2$. Here $a=4$, $b=x$, $n=6$, and the power of $x$ is $r$, so $r=2$: $\\binom{6}{2}=15$ and $4^{6-2}=4^4=256$.",
+      "prompt": "$$T_3 = 15 \\times 256 \\times x^2 = ?\\,x^2$$",
+      "inputMode": "numeric",
+      "answer": 3840,
+      "tolerance": 5,
+      "successFeedback": "Right, $3840$: $15\\times256=3840$. Exactly what you predicted: one target term, one calculation, no full expansion needed. Finally, we look at a different use of the expansion: approximating numbers close to $1$.",
+      "hints": ["$4^4 = 256$.", "$15 \\times 256$: try $15\\times250 + 15\\times6$."]
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "id": "approximations",
+  "title": "Approximations using the binomial expansion",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-savings-growth",
+      "prompt": "Your savings grow by exactly 2% each month. After 10 months, has your balance grown by exactly 20%, a bit more than 20%, or a bit less than 20%?",
+      "choices": ["Exactly 20% more", "A bit more than 20% more", "A bit less than 20% more"],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought. Your balance after 10 months is $1.02^{10}$ times the start, and by the end of this lesson you'll be able to estimate that quickly, and see exactly why it's more than 20%."
+    },
+    {
+      "type": "tap-choice",
+      "id": "why-negligible",
+      "prompt": "The full expansion $(1+x)^n = 1+nx+\\binom{n}{2}x^2+\\binom{n}{3}x^3+\\cdots$ has infinitely many terms after the first two. Why can we usually ignore everything from $x^2$ onward when $x$ is small, say $x=0.02$?",
+      "choices": [
+        { "text": "Because higher powers of a small $x$ shrink increasingly fast, so those terms become tiny" },
+        {
+          "text": "Because $n$ is always small in these problems",
+          "feedback": "$n$ can be large ($n=10$ or more works fine here). What makes the later terms negligible is $x$ being small, not $n$."
+        },
+        {
+          "text": "Because the coefficients $\\binom{n}{2}, \\binom{n}{3}, \\ldots$ are always negative",
+          "feedback": "Binomial coefficients are always positive whole numbers. The terms become negligible because $x^2, x^3, \\ldots$ shrink toward zero, not because of the sign of the coefficients."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. If $x=0.02$, then $x^2=0.0004$ and $x^3=0.000008$: each extra power of a small $x$ shrinks the term by roughly another factor of 50, so the tail beyond the first two terms barely matters."
+    },
+    {
+      "type": "entry",
+      "id": "compute-x-cubed",
+      "prompt": "With $x=0.02$, what is $x^3$?",
+      "inputMode": "numeric",
+      "answer": 0.000008,
+      "tolerance": 0.000001,
+      "successFeedback": "Right, $0.000008$. Compare that to the first two terms of a typical expansion, which are usually of order $1$ and $nx$: a term this small is easy to ignore for a quick estimate.",
+      "hints": ["$x^3 = 0.02 \\times 0.02 \\times 0.02$.", "$0.02\\times0.02=0.0004$, then $0.0004\\times0.02=0.000008$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "two-term-approx-1-02-10",
+      "body": "Write $1.02 = 1+0.02$, so we want $(1+x)^n$ with $x=0.02$ and $n=10$. Keeping just the first two terms:\n\n$$\n1.02^{10} = (1+0.02)^{10} \\approx 1 + 10(0.02) = 1+0.2 = 1.2.\n$$\n\nThe true value (to 5 d.p.) is $1.02^{10}=1.21899\\ldots$, so the two-term estimate $1.2$ is close, but not exact.",
+      "selfExplainPrompt": "The two-term estimate $1.2$ is a little below the true value $1.21899\\ldots$. Which ignored term is responsible for that gap, and what sign does it have?",
+      "selfExplainAnswer": "The next term in the full expansion is $\\binom{10}{2}x^2 = 45\\times(0.02)^2 = 0.018$, and every term in the expansion of $(1+0.02)^{10}$ is positive (since $x=0.02>0$). Adding that positive $0.018$ (plus the smaller positive terms after it) to the two-term estimate $1.2$ pushes it up toward the true value $1.21899\\ldots$, which is exactly why the true value is a bit *more* than the two-term estimate, not less."
+    },
+    {
+      "type": "faded-step",
+      "id": "two-term-approx-098-5",
+      "worked": "Write $0.98 = 1-0.02$, so $x=-0.02$ and $n=5$.",
+      "prompt": "$$0.98^5 = (1+(-0.02))^5 \\approx 1+5(-0.02) = ?$$",
+      "inputMode": "numeric",
+      "answer": 0.9,
+      "tolerance": 0.001,
+      "successFeedback": "Right, $0.9$. The true value is $0.98^5=0.90392\\ldots$, close to the estimate. Here $x$ is negative, so the ignored $x^2$ term (which is still positive, since $x^2\\ge0$ always) pushes the true value *above* this two-term estimate, the opposite direction from the constant-sign argument you just made.",
+      "hints": ["$5\\times(-0.02) = -0.1$.", "$1+(-0.1) = 0.9$."]
+    },
+    {
+      "type": "entry",
+      "id": "two-term-approx-1005-20",
+      "prompt": "Using $(1+x)^n \\approx 1+nx$, estimate $1.005^{20}$ (so $n=20$, $x=0.005$).",
+      "inputMode": "numeric",
+      "answer": 1.1,
+      "tolerance": 0.001,
+      "successFeedback": "Right, $1.1$. $1+20(0.005) = 1+0.1 = 1.1$, a quick estimate of just over 10% growth from twenty 0.5% steps.",
+      "hints": ["$20\\times0.005 = 0.1$.", "$1+0.1 = 1.1$."]
+    },
+    {
+      "type": "flash-recall",
+      "id": "recall-three-term",
+      "front": "State the three-term approximation for $(1+x)^n$ when $x$ is small.",
+      "back": "$(1+x)^n \\approx 1+nx+\\binom{n}{2}x^2 = 1+nx+\\dfrac{n(n-1)}{2}x^2$, keeping one more term than the two-term version for extra accuracy."
+    },
+    {
+      "type": "faded-step",
+      "id": "resolve-hook-three-term",
+      "worked": "Back to the savings account: with $n=8$, $x=0.01$, the three-term approximation is $1+nx+\\binom{n}{2}x^2$. The first part is $nx = 8(0.01) = 0.08$.",
+      "prompt": "$$1.01^8 \\approx 1 + 0.08 + \\binom{8}{2}(0.01)^2 = 1+0.08+28(0.0001) = ?$$",
+      "inputMode": "numeric",
+      "answer": 1.0828,
+      "tolerance": 0.0001,
+      "successFeedback": "Right, $1.0828$. The true value is $1.01^8=1.082857\\ldots$, so the three-term estimate is accurate to 3 d.p., closer than the two-term version alone. Earlier you predicted your savings would grow by a bit more than 20% after 10 months at 2% a month: the true value $1.02^{10}\\approx1.21899$ is indeed a bit above the two-term estimate $1.2$, exactly because the ignored terms are all positive. You've now met all four core ideas of this module: Pascal's triangle and $\\binom{n}{r}$, the full binomial theorem, finding specific terms, and approximation. Test your understanding with the end-of-module assessment.",
+      "hints": ["$28\\times0.0001=0.0028$.", "$1+0.08+0.0028$."]
+    }
+  ]
+}

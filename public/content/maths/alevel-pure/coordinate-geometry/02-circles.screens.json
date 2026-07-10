@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "circles",
+  "title": "The equation of a circle",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-boundary-steepness",
+      "prompt": "Beacon Point lighthouse warns ships to stay outside a circular exclusion zone centred on the lighthouse. Last lesson, a straight cable line had one constant gradient everywhere. Do you think the steepness of this circular boundary is also the same number everywhere around it, or does it change from point to point around the circle?",
+      "choices": [
+        "The same number everywhere, like a straight line",
+        "It changes from point to point around the circle"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "It changes continuously: at the top of the zone the boundary is momentarily flat (gradient 0), and at the sides it's vertical (gradient undefined). Unlike a straight line, a circle can't be described by one single gradient, but as you'll see, it can still be described by one single equation."
+    },
+    {
+      "type": "tap-choice",
+      "id": "circle-equation-derivation",
+      "prompt": "A circle is the set of every point at a fixed distance $r$ from a fixed centre $(a,b)$. Using the distance formula from last lesson, which equation describes every point $(x,y)$ on the boundary of a circle with centre $(a,b)$ and radius $r$?",
+      "choices": [
+        { "text": "$(x-a)^2 + (y-b)^2 = r^2$" },
+        {
+          "text": "$(x-a) + (y-b) = r$",
+          "feedback": "That's missing the squares entirely. Distance comes from Pythagoras, so the coordinate differences must be squared before they're added."
+        },
+        {
+          "text": "$(x-a)^2 + (y-b)^2 = r$",
+          "feedback": "Close, but the right-hand side should be $r^2$, not $r$: squaring both sides of $\\sqrt{(x-a)^2+(y-b)^2}=r$ squares the right-hand side too."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: squaring $\\sqrt{(x-a)^2+(y-b)^2}=r$ removes the square root and gives the standard form of a circle's equation."
+    },
+    {
+      "type": "entry",
+      "id": "read-radius-standard-form",
+      "prompt": "Beacon Point's exclusion zone has equation $(x-3)^2 + (y+2)^2 = 25$. What is its radius, in nautical miles?",
+      "inputMode": "numeric",
+      "answer": 5,
+      "tolerance": 0.01,
+      "hints": [
+        "Compare with $(x-a)^2+(y-b)^2=r^2$: here $r^2=25$.",
+        "$r = \\sqrt{25}$."
+      ],
+      "successFeedback": "Right, $r=5$. And reading $(y+2)^2$ as $(y-(-2))^2$, the centre is $(3,-2)$."
+    },
+    {
+      "type": "manipulable-target",
+      "id": "find-flat-point",
+      "prompt": "Here's the upper half of a simpler exclusion zone, centred directly on the lighthouse at the origin, radius 5: $y=\\sqrt{25-x^2}$. Drag the point until the boundary is momentarily flat, that is, until the tangent gradient reads 0.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "sqrt(25 - x^2)", "xmin": -5, "xmax": 5, "tangent": true, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": -0.5,
+        "max": 0.5,
+        "description": "Target: tangent gradient = 0, the flat point at the top of the zone."
+      },
+      "successFeedback": "That's the top of the zone, directly above the lighthouse, where the boundary is momentarily flat. Everywhere else on this semicircle the gradient is some other value, which is exactly why a circle needs a full equation rather than a single gradient.",
+      "hints": [
+        "Try the very middle of the curve, roughly halfway between the left and right ends.",
+        "You're looking for $x=0$, the top of the circle.",
+        "At $x=0$ the boundary is horizontal for an instant, directly above the centre."
+      ]
+    },
+    {
+      "type": "predict",
+      "id": "predict-general-form",
+      "prompt": "A radar log gives Beacon Point's zone in an expanded form instead: $x^2+y^2-6x+4y-12=0$. Do you think you can read the centre and radius straight off an equation written like this, or do you need to do some algebra first?",
+      "choices": [
+        "You can read them straight off, the same as the standard form",
+        "You need to do some algebra first to get it into standard form"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "You need to complete the square on the $x$-terms and the $y$-terms separately to turn this expanded, general form back into the standard form $(x-a)^2+(y-b)^2=r^2$."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "complete-the-square-worked",
+      "body": "Starting from $x^2+y^2-6x+4y-12=0$, group the $x$-terms and $y$-terms, moving the constant to the other side:\n\n$$\n(x^2-6x) + (y^2+4y) = 12.\n$$\n\nComplete the square on each bracket ($x^2-6x=(x-3)^2-9$ and $y^2+4y=(y+2)^2-4$):\n\n$$\n(x-3)^2 - 9 + (y+2)^2 - 4 = 12 \\implies (x-3)^2 + (y+2)^2 = 12+9+4 = 25.\n$$\n\nSo the centre is $(3,-2)$ and the radius is $\\sqrt{25}=5$, matching the standard-form equation from earlier in this lesson.",
+      "selfExplainPrompt": "Why do the numbers 9 and 4 get added back on the right-hand side, instead of the equation just staying as $(x-3)^2-9+(y+2)^2-4=12$?",
+      "selfExplainAnswer": "Completing the square on $x^2-6x$ produces $(x-3)^2-9$, which is only equal to the original $x^2-6x$, not to $x^2-6x$ plus something extra. To keep the equation balanced, the $-9$ and $-4$ that were introduced have to be moved to the other side of the equation, where they combine with the 12 already there to give $12+9+4=25$."
+    },
+    {
+      "type": "faded-step",
+      "id": "complete-the-square-faded",
+      "worked": "A second zone's radar log reads $x^2+y^2+8x-2y+8=0$. Group and complete the square:\n\n$$\n(x^2+8x) + (y^2-2y) = -8 \\implies (x+4)^2 - 16 + (y-1)^2 - 1 = -8 \\implies (x+4)^2 + (y-1)^2 = -8+16+1 = 9.\n$$",
+      "prompt": "So $(x+4)^2+(y-1)^2=9$. What is this zone's radius?",
+      "inputMode": "numeric",
+      "answer": 3,
+      "tolerance": 0.01,
+      "hints": [
+        "Compare with $(x-a)^2+(y-b)^2=r^2$: here $r^2=9$.",
+        "$r=\\sqrt{9}$."
+      ],
+      "successFeedback": "Right, $r=3$ (and the centre is $(-4,1)$)."
+    },
+    {
+      "type": "entry",
+      "id": "perpendicular-bisector-centre",
+      "prompt": "A third zone is known to pass through two boundary sightings, $A(1,5)$ and $B(7,5)$, and its centre is known to lie on the line $y=x-1$. The centre also always lies on the perpendicular bisector of any chord, so it lies on the perpendicular bisector of $AB$ too. Since $AB$ is horizontal, that perpendicular bisector is the vertical line through $AB$'s midpoint. Find the $x$-coordinate of the centre.",
+      "inputMode": "numeric",
+      "answer": 4,
+      "tolerance": 0.01,
+      "hints": [
+        "The midpoint of $A(1,5)$ and $B(7,5)$ has $x$-coordinate $\\dfrac{1+7}{2}$.",
+        "A perpendicular bisector of a horizontal chord is a vertical line through that midpoint, so the centre's $x$-coordinate equals the midpoint's $x$-coordinate."
+      ],
+      "successFeedback": "Right, $x=4$. Combined with $y=x-1$, the centre is $(4,3)$. Back at the start of this lesson you predicted that a circle's boundary steepness changes from point to point, and you confirmed it directly by dragging to find the one flat point at the top of the zone. Unlike a straight line, a circle can't be pinned down by a single gradient, but it can always be pinned down by a single equation, whether you're handed it in standard form, expanded form, or three points on its boundary. The next lesson brings lines and circles together: tangents and intersections."
+    }
+  ]
+}

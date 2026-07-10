@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "id": "logarithms-and-laws",
+  "title": "Logarithms and the laws of logs",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-doublings",
+      "prompt": "The lab colony from last lesson doubles every hour. How many hours does it take to become exactly 8 times its starting size?",
+      "choices": ["2 hours", "3 hours", "4 hours"],
+      "correctChoiceIndex": 1,
+      "reveal": "Right, 3 hours: $2^3 = 8$. The question \"how many times do I multiply by 2 to reach 8?\" is exactly what a **logarithm** answers. A logarithm is the inverse of an exponential, and this lesson makes that idea precise and general."
+    },
+    {
+      "type": "tap-choice",
+      "id": "log-definition",
+      "prompt": "$\\log_2(8) = 3$ means the same thing as which statement?",
+      "choices": [
+        { "text": "$2^3 = 8$" },
+        {
+          "text": "$3^2 = 8$",
+          "feedback": "This swaps the base and the exponent. The log's base (2) becomes the power's base, and the log's value (3) becomes the exponent: $2^3=8$, not $3^2$."
+        },
+        {
+          "text": "$8^3 = 2$",
+          "feedback": "This puts the argument of the log (8) in the wrong place. $\\log_2(8)=3$ unpacks to base$^{\\text{value}}=$argument, i.e. $2^3=8$."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. In general, $\\log_a(x) = y$ means exactly $a^y = x$: the log's base becomes the power's base, and the log's value becomes the exponent."
+    },
+    {
+      "type": "entry",
+      "id": "evaluate-log2-32",
+      "prompt": "Evaluate $\\log_2(32)$ without a calculator. (Write 32 as a power of 2 first.)",
+      "inputMode": "numeric",
+      "answer": 5,
+      "tolerance": 0.001,
+      "successFeedback": "Right, $32 = 2^5$, so $\\log_2(32) = \\log_2(2^5) = 5$.",
+      "hints": ["$32 = 2^{?}$", "$2^5 = 32$."]
+    },
+    {
+      "type": "manipulable-target",
+      "id": "graphical-log-of-5",
+      "prompt": "Because $e^x$ is its own derivative, the tangent gradient at any point equals the curve's height $e^x$ there. So the point where the gradient reads 5 is exactly the point where $e^x=5$, which is $x=\\ln 5$. Drag along $y=e^x$ until the tangent gradient reads about 5.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "e^x", "xmin": -2, "xmax": 4, "tangent": true, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": 4.2,
+        "max": 5.8,
+        "description": "Target: tangent gradient ≈ 5, i.e. e^x ≈ 5, i.e. x ≈ ln 5."
+      },
+      "successFeedback": "That's $x \\approx 1.61$, which is exactly $\\ln 5$. You just located a logarithm by dragging, not by pressing a log button, that's the geometric meaning of $\\ln 5$: the point where $e^x$ (and its own gradient) equals 5.",
+      "hints": [
+        "Move the point to the right, past $x=1$, where $e^x$ climbs above 4.",
+        "You're looking for somewhere between $x=1.5$ and $x=1.7$.",
+        "At $x \\approx 1.61$, $e^x \\approx 5$, so the gradient there is also $\\approx 5$."
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "laws-of-logs-worked",
+      "body": "The laws of logs follow from the laws of indices. Simplify $2\\ln3 + \\ln5 - \\ln15$ into a single logarithm:\n\n$$\n2\\ln3 + \\ln5 - \\ln15 = \\ln(3^2) + \\ln5 - \\ln15 = \\ln(9\\times5) - \\ln15 = \\ln45 - \\ln15 = \\ln\\!\\left(\\frac{45}{15}\\right) = \\ln3.\n$$",
+      "selfExplainPrompt": "Which law turned $2\\ln3$ into $\\ln9$, and which law then combined $\\ln9+\\ln5$ into $\\ln45$?",
+      "selfExplainAnswer": "The power law, $n\\log_a A = \\log_a(A^n)$, turns $2\\ln3$ into $\\ln(3^2)=\\ln9$. Then the product law, $\\log_a A+\\log_a B=\\log_a(AB)$, combines $\\ln9+\\ln5$ into $\\ln(9\\times5)=\\ln45$. Finally the quotient law, $\\log_a A-\\log_a B=\\log_a(A/B)$, turns $\\ln45-\\ln15$ into $\\ln(45/15)=\\ln3$."
+    },
+    {
+      "type": "faded-step",
+      "id": "laws-faded",
+      "worked": "Using the power law then the product law: $3\\ln2 + \\ln5 = \\ln(2^3) + \\ln5 = \\ln8 + \\ln5 = \\ln40$.",
+      "prompt": "Using the power law then the quotient law, simplify $2\\ln4 - \\ln2$ to $\\ln(\\text{some whole number})$. Give that whole number.",
+      "inputMode": "numeric",
+      "answer": 8,
+      "tolerance": 0.001,
+      "successFeedback": "Right: $2\\ln4 = \\ln(4^2) = \\ln16$, and $\\ln16 - \\ln2 = \\ln(16/2) = \\ln8$. So the whole number is 8.",
+      "hints": ["$2\\ln4 = \\ln(4^{?})$.", "$\\ln16 - \\ln2 = \\ln(16 \\div 2)$."]
+    },
+    {
+      "type": "entry",
+      "id": "change-of-base-close",
+      "prompt": "You predicted the colony takes 3 hours to reach 8 times its size, since $2^3=8$. Calculators usually only have $\\log_{10}$ and $\\ln$ buttons, so to evaluate a log in another base, use the change of base formula $\\log_a(x) = \\dfrac{\\ln x}{\\ln a}$. Use it to evaluate $\\log_5(20)$, to 3 decimal places.",
+      "inputMode": "numeric",
+      "answer": 1.861,
+      "tolerance": 0.005,
+      "successFeedback": "Right, $\\log_5(20) = \\dfrac{\\ln20}{\\ln5} \\approx \\dfrac{2.9957}{1.6094} \\approx 1.861$. Counting doublings and reading logs off a graph both give the exact same kind of answer; change of base just lets any calculator reach it. Next lesson puts logs to work solving equations you can't just count your way to, plus growth and decay models.",
+      "hints": ["$\\log_5(20) = \\dfrac{\\ln20}{\\ln5}$.", "$\\ln20 \\approx 2.9957$ and $\\ln5 \\approx 1.6094$."]
+    }
+  ]
+}

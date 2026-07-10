@@ -72,7 +72,7 @@
         "$\\log_a\\left(\\dfrac{1}{A}\\right) = -\\log_a A$"
       ],
       "answers": [0, 1, 3],
-      "explanation": "The power law gives $\\log_a(A^n)=n\\log_a A$ (true) and the quotient law gives $\\log_a A - \\log_a B = \\log_a(A/B)$ (true). $\\log_a\\left(\\frac{1}{A}\\right) = \\log_a(A^{-1}) = -\\log_a A$ (true, a special case of the power law). However $\\log_a A + \\log_a B = \\log_a(AB)$, **not** $\\log_a(A+B)$ — logs turn multiplication into addition, not addition into addition, so the third statement is false."
+      "explanation": "The power law gives $\\log_a(A^n)=n\\log_a A$ (true) and the quotient law gives $\\log_a A - \\log_a B = \\log_a(A/B)$ (true). $\\log_a\\left(\\frac{1}{A}\\right) = \\log_a(A^{-1}) = -\\log_a A$ (true, a special case of the power law). However $\\log_a A + \\log_a B = \\log_a(AB)$, **not** $\\log_a(A+B)$. Logs turn multiplication into addition, not addition into addition, so the third statement is false."
     },
     {
       "id": "q8",
@@ -118,6 +118,14 @@
       ],
       "answer": 2,
       "explanation": "Since $a^x > 0$ for every real $x$ (an exponential function never reaches zero or goes negative), the equation $a^x = k$ has no real solution when $k \\le 0$."
+    },
+    {
+      "id": "q13",
+      "type": "numeric",
+      "text": "Evaluate $\\log_2(8\\sqrt{2})$.",
+      "answer": 3.5,
+      "tolerance": 0.01,
+      "explanation": "This one reaches back to fractional indices from the prerequisite module Indices and Surds: rewrite $8\\sqrt{2}$ as a single power of 2 before applying the log. Since $8=2^3$ and $\\sqrt{2}=2^{1/2}$, we get $8\\sqrt{2}=2^3\\times2^{1/2}=2^{3.5}$, so $\\log_2(8\\sqrt{2})=\\log_2(2^{3.5})=3.5$. Spaced returns like this to earlier skills are what make them stick."
     }
   ]
 }

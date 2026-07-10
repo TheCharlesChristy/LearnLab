@@ -3,7 +3,7 @@
   "id": "algebraic-methods",
   "title": "Algebraic Methods",
   "description": "Divide polynomials and use the factor and remainder theorems to factorise and solve cubic and quartic equations, then simplify algebraic fractions and split them into partial fractions.",
-  "estMinutes": 100,
+  "estMinutes": 70,
   "prerequisites": [
     "quadratics-and-inequalities"
   ],
@@ -17,9 +17,9 @@
   ],
   "tags": ["algebra", "polynomials", "factor-theorem", "remainder-theorem", "partial-fractions"],
   "lessons": [
-    { "id": "division-and-theorems", "title": "Algebraic division and the factor and remainder theorems", "file": "01-division-and-theorems.md", "estMinutes": 35 },
-    { "id": "factorising-cubics", "title": "Factorising and solving cubic and quartic equations", "file": "02-factorising-cubics.md", "estMinutes": 35 },
-    { "id": "fractions-and-partial-fractions", "title": "Algebraic fractions and basic partial fractions", "file": "03-fractions-and-partial-fractions.md", "estMinutes": 30 }
+    { "id": "division-and-theorems", "title": "Algebraic division and the factor and remainder theorems", "file": "01-division-and-theorems.screens.json", "kind": "screens", "estMinutes": 25 },
+    { "id": "factorising-cubics", "title": "Factorising and solving cubic and quartic equations", "file": "02-factorising-cubics.screens.json", "kind": "screens", "estMinutes": 25 },
+    { "id": "fractions-and-partial-fractions", "title": "Algebraic fractions and basic partial fractions", "file": "03-fractions-and-partial-fractions.screens.json", "kind": "screens", "estMinutes": 20 }
   ],
   "assessment": {
     "file": "assessment.json",

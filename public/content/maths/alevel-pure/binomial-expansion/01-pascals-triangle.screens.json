@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "id": "pascals-triangle",
+  "title": "Pascal's triangle and binomial coefficients",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-routes",
+      "prompt": "A delivery robot starts at one corner of a warehouse grid. It needs to reach a point 2 blocks east and 2 blocks south away, moving only East or South at each step (never backtracking). How many different routes could it take?",
+      "choices": ["4", "6", "8"],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought. By the end of this lesson you'll have a formula that finds this number instantly, for any grid size, without listing every route by hand."
+    },
+    {
+      "type": "tap-choice",
+      "id": "pascals-rule",
+      "prompt": "Row $n$ of Pascal's triangle counts routes for a robot making $n$ moves in total. Which rule builds the next row from the previous one?",
+      "choices": [
+        { "text": "Each entry is the sum of the two entries diagonally above it" },
+        {
+          "text": "Each entry is double the entry directly above it",
+          "feedback": "Doubling only happens to work for the very first interior entry of some rows by coincidence. The real rule adds the *two* entries diagonally above, which usually aren't equal."
+        },
+        {
+          "text": "Each entry is the product of the two entries diagonally above it",
+          "feedback": "Multiplying grows the triangle far too fast. Building row 4 from row 3's $1,3,3,1$ by multiplying would give $3, 9, 3$ in the middle, not the correct $1,4,6,4,1$. The rule is addition, not multiplication."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. Row $n=4$ is $1,4,6,4,1$, built from row $n=3$'s $1,3,3,1$ by adding neighbours: $1,\\ (1{+}3){=}4,\\ (3{+}3){=}6,\\ (3{+}1){=}4,\\ 1$."
+    },
+    {
+      "type": "entry",
+      "id": "row5-entry",
+      "prompt": "Row $n=4$ of Pascal's triangle is $1, 4, 6, 4, 1$. Using the sum rule, what is the second entry (at position $r=1$, counting from $r=0$) of row $n=5$?",
+      "inputMode": "numeric",
+      "answer": 5,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $5$. Row $n=5$'s entry at $r=1$ is row $4$'s entries at $r=0$ and $r=1$ added together: $1+4=5$.",
+      "hints": [
+        "The entry at $r=1$ in row 5 comes from adding two neighbouring entries in row 4.",
+        "Those two entries are row 4's $r=0$ entry and its $r=1$ entry: $1$ and $4$."
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "compute-6c2",
+      "body": "Back to the robot: for a route with 6 total moves, where 2 of them are South, the number of distinct routes is written $\\binom{6}{2}$ (also $^6C_2$), computed by\n\n$$\n\\binom{6}{2} = \\frac{6!}{2!\\,4!} = \\frac{6 \\times 5 \\times 4!}{2! \\times 4!} = \\frac{6 \\times 5}{2 \\times 1} = \\frac{30}{2} = 15.\n$$\n\nCheck against Pascal's triangle: row $n=6$ is $1, 6, 15, 20, 15, 6, 1$, and entry $r=2$ is indeed $15$.",
+      "selfExplainPrompt": "The formula divides $n!$ by both $r!$ and $(n-r)!$. Why do we need to divide at all, rather than just counting all $n!$ arrangements of the moves?",
+      "selfExplainAnswer": "$n!$ counts arrangements as if every one of the $n$ moves were distinguishable from every other. But the $r$ South moves are identical to each other, so any reordering among just the South moves doesn't create a new route, and dividing by $r!$ removes that overcounting. The same is true for the $(n-r)$ East moves, which is why we also divide by $(n-r)!$."
+    },
+    {
+      "type": "faded-step",
+      "id": "compute-9c2",
+      "worked": "For a robot route with 8 total moves, where 3 of them are South, the number of routes is\n\n$$\n\\binom{8}{3} = \\frac{8!}{3!\\,5!} = \\frac{8 \\times 7 \\times 6}{3 \\times 2 \\times 1} = \\frac{336}{6} = 56.\n$$",
+      "prompt": "Following the same method: for a robot route with 9 total moves, where 2 of them are South,\n\n$$\n\\binom{9}{2} = \\frac{9!}{2!\\,7!} = \\frac{9 \\times 8}{2 \\times 1} = ?\n$$",
+      "inputMode": "numeric",
+      "answer": 36,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $36$. $\\dfrac{9\\times8}{2\\times1} = \\dfrac{72}{2} = 36$.",
+      "hints": ["Multiply $9 \\times 8$ first, then divide by $2 \\times 1$.", "$9\\times8=72$, and $72\\div2=36$."]
+    },
+    {
+      "type": "entry",
+      "id": "compute-10c4",
+      "prompt": "A robot makes 10 moves in total, 4 of them South. How many distinct routes are possible? Use $\\binom{10}{4} = \\dfrac{10!}{4!\\,6!}$.",
+      "inputMode": "numeric",
+      "answer": 210,
+      "tolerance": 0.5,
+      "successFeedback": "Right, $210$. $\\binom{10}{4} = \\dfrac{10\\times9\\times8\\times7}{4\\times3\\times2\\times1} = \\dfrac{5040}{24} = 210$.",
+      "hints": [
+        "$\\binom{10}{4} = \\dfrac{10\\times9\\times8\\times7}{4\\times3\\times2\\times1}$.",
+        "The top multiplies to $5040$; the bottom multiplies to $24$."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "symmetry-property",
+      "prompt": "Which of these is guaranteed to equal $\\binom{10}{4}$?",
+      "choices": [
+        { "text": "$\\binom{10}{6}$" },
+        {
+          "text": "$\\binom{6}{4}$",
+          "feedback": "This mixes up the symmetry rule. The rule is $\\binom{n}{r}=\\binom{n}{n-r}$, keeping $n$ fixed at 10 and swapping $r$ for $n-r$, not swapping $n$ itself for $n-r$."
+        },
+        {
+          "text": "$\\binom{4}{10}$",
+          "feedback": "This isn't even defined: you can't choose 10 items from a group of only 4. This swaps $n$ and $r$ outright, rather than applying the symmetry rule $\\binom{n}{r}=\\binom{n}{n-r}$."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. $\\binom{n}{r}=\\binom{n}{n-r}$, and here $n-r=10-4=6$, so $\\binom{10}{4}=\\binom{10}{6}$. Choosing which 4 moves are South is the same count as choosing which 6 moves are East."
+    },
+    {
+      "type": "faded-step",
+      "id": "resolve-hook",
+      "worked": "Back to the opening puzzle: a robot needs 2 blocks east and 2 blocks south, so 4 moves in total, 2 of them South. That's exactly $\\binom{n}{r}$ with $n=4$, $r=2$.",
+      "prompt": "$$\n\\binom{4}{2} = \\frac{4!}{2!\\,2!} = \\frac{4\\times3}{2\\times1} = ?\n$$",
+      "inputMode": "numeric",
+      "answer": 6,
+      "tolerance": 0.01,
+      "successFeedback": "Exactly. You predicted 6 routes at the start, and now you have the formula that gets you there directly: $\\binom{4}{2}=6$, matching Pascal's triangle row $n=4$, entry $r=2$. Next lesson turns this counting idea into a full formula for expanding $(a+b)^n$: the binomial theorem.",
+      "hints": ["Multiply $4\\times3$, then divide by $2\\times1$.", "$4\\times3=12$, and $12\\div2=6$."]
+    }
+  ]
+}

@@ -57,7 +57,7 @@
       "text": "In the expansion of $(1+kx)^5$, the coefficient of $x^2$ is $90$. Which of the following gives all possible value(s) of $k$?",
       "choices": ["$k = 3$ only", "$k = 9$ only", "$k = 3$ or $k = -3$", "$k = 9$ or $k = -9$"],
       "answer": 2,
-      "explanation": "The $x^2$ term ($r=2$) is $\\binom{5}{2}k^2x^2 = 10k^2x^2$. Setting $10k^2 = 90$ gives $k^2 = 9$, so $k = 3$ or $k = -3$ — both square to give the same coefficient."
+      "explanation": "The $x^2$ term ($r=2$) is $\\binom{5}{2}k^2x^2 = 10k^2x^2$. Setting $10k^2 = 90$ gives $k^2 = 9$, so $k = 3$ or $k = -3$, since both square to give the same coefficient."
     },
     {
       "id": "q8",
@@ -98,6 +98,35 @@
       "answer": 60,
       "tolerance": 0,
       "explanation": "With $a=2$, $b=-x$, $n=6$: for the $x^4$ term, $r=4$, so $T_5 = \\binom{6}{4}(2)^2(-x)^4 = 15 \\times 4 \\times x^4 = 60x^4$ (note $(-1)^4 = 1$, so the sign stays positive). The coefficient is $60$."
+    },
+    {
+      "id": "q13",
+      "type": "numeric",
+      "text": "Evaluating terms in a binomial expansion often means multiplying powers of the same base, using the law of indices $a^m \\times a^n = a^{m+n}$ from Indices and Surds. Using that law, what is $2^3 \\times 2^4$ as a single number?",
+      "answer": 128,
+      "tolerance": 0,
+      "explanation": "This reaches back to the laws of indices from the prerequisite module Indices and Surds: $2^3 \\times 2^4 = 2^{3+4} = 2^7 = 128$. Spotting that you can add the exponents (rather than multiplying $2^3$ and $2^4$ out separately) is exactly the skill that keeps binomial expansion arithmetic manageable."
+    },
+    {
+      "id": "q14",
+      "type": "text",
+      "text": "Name the theorem that gives a formula for expanding $(a+b)^n$ as a sum of terms $\\binom{n}{r}a^{n-r}b^r$.",
+      "accept": ["(the )?binomial theorem"],
+      "caseSensitive": false,
+      "explanation": "This is the **binomial theorem**: $(a+b)^n = \\sum_{r=0}^{n}\\binom{n}{r}a^{n-r}b^r$."
+    },
+    {
+      "id": "q15",
+      "type": "multi",
+      "text": "Which of the following are true about $\\binom{n}{r}$ for a positive integer $n$ and $0 \\le r \\le n$?",
+      "choices": [
+        "$\\binom{n}{0} = 1$ for every $n$",
+        "$\\binom{n}{r} = \\binom{n}{n-r}$",
+        "$\\binom{n}{r}$ is always an odd number",
+        "$\\binom{n}{n} = n$"
+      ],
+      "answers": [0, 1],
+      "explanation": "$\\binom{n}{0}=1$ (there is exactly one way to choose nothing) and $\\binom{n}{r}=\\binom{n}{n-r}$ (Pascal's triangle is symmetric) are both always true. $\\binom{n}{r}$ is frequently even, for example $\\binom{4}{2}=6$, so it is not always odd. And $\\binom{n}{n}=1$, not $n$: there is exactly one way to choose everything, not $n$ ways."
     }
   ]
 }

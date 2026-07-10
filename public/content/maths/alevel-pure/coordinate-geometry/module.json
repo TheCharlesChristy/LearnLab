@@ -3,7 +3,7 @@
   "id": "coordinate-geometry",
   "title": "Coordinate Geometry",
   "description": "Straight lines and circles in the coordinate plane: gradients, equations of lines, parallel and perpendicular lines, midpoints and distances, the equation of a circle, and how lines and circles intersect.",
-  "estMinutes": 100,
+  "estMinutes": 75,
   "prerequisites": ["quadratics-and-inequalities"],
   "objectives": [
     "Calculate the gradient of a line joining two points and use it to test whether lines are parallel or perpendicular",
@@ -15,9 +15,9 @@
   ],
   "tags": ["coordinate-geometry", "straight-lines", "circles", "gradient", "tangents"],
   "lessons": [
-    { "id": "straight-lines", "title": "Straight lines: gradient, equations, parallel and perpendicular", "file": "01-straight-lines.md", "estMinutes": 35 },
-    { "id": "circles", "title": "The equation of a circle", "file": "02-circles.md", "estMinutes": 30 },
-    { "id": "lines-and-circles", "title": "Lines and circles: tangents, chords and intersections", "file": "03-lines-and-circles.md", "estMinutes": 35 }
+    { "id": "straight-lines", "title": "Straight lines: gradient, equations, parallel and perpendicular", "file": "01-straight-lines.screens.json", "kind": "screens", "estMinutes": 25 },
+    { "id": "circles", "title": "The equation of a circle", "file": "02-circles.screens.json", "kind": "screens", "estMinutes": 25 },
+    { "id": "lines-and-circles", "title": "Lines and circles: tangents, chords and intersections", "file": "03-lines-and-circles.screens.json", "kind": "screens", "estMinutes": 25 }
   ],
   "assessment": { "file": "assessment.json", "passMark": 0.7 },
   "version": "1.0.0",

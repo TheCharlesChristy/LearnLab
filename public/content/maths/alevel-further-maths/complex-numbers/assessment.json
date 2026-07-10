@@ -6,23 +6,99 @@
     {
       "id": "q1",
       "type": "mcq",
-      "text": "Which of the following is the standard form of a complex number?",
+      "text": "Which of these is the standard form of a complex number?",
       "choices": [
         "$a + bi$, where $a$ and $b$ are real numbers",
-        "$a \\times b$, where $a$ and $b$ are integers",
-        "$\\sqrt{a}$ for a negative number $a$",
-        "$a / b$ in lowest terms"
+        "$a \\times bi$, where $a$ and $b$ are integers",
+        "$\\sqrt{a}$ for a negative real number $a$"
       ],
       "answer": 0,
-      "explanation": "A complex number is written $a + bi$, where $a$ is the real part and $b$ is the imaginary part (the coefficient of $i$)."
+      "explanation": "A complex number is written $a + bi$, where $a$ is the real part and $b$ is the imaginary part (the real coefficient of $i$). The other options describe an integer product and an unevaluated square root, neither of which is the standard $a+bi$ form."
     },
     {
       "id": "q2",
       "type": "numeric",
-      "text": "If $z = 4 + 3i$, what is the real part of $z$?",
+      "text": "If $z = -5 + 9i$, what is the imaginary part of $z$?",
+      "answer": 9,
+      "tolerance": 0,
+      "explanation": "The imaginary part is the real coefficient of $i$: for $z = -5 + 9i$, that is $9$."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "What is $(2+3i)(2-3i)$?",
+      "choices": [
+        "$13$",
+        "$-5$",
+        "$4 - 6i$"
+      ],
+      "answer": 0,
+      "explanation": "Expand fully: $(2+3i)(2-3i) = 4 - 6i + 6i - 9i^2 = 4 - 9i^2$. The $-6i$ and $6i$ cancel, as they always do for a number times its own conjugate. Substituting $i^2 = -1$ gives $4 + 9 = 13$, a real number. Getting $-5$ comes from substituting $i^2 = +1$ instead of $-1$, a sign slip on the defining rule. Getting $4 - 6i$ comes from multiplying only the first two terms and forgetting the $(3i)(2)$ and $(3i)(-3i)$ terms entirely."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "If $z = 7 - 2i$ and $w = -3 + 5i$, what is the real part of $z + w$?",
       "answer": 4,
       "tolerance": 0,
-      "explanation": "The real part is the term without $i$: for $z = 4 + 3i$, that is $4$."
+      "explanation": "Add real parts and imaginary parts separately: $z + w = (7-3) + (-2+5)i = 4 + 3i$, so the real part is $4$."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "If $z = 4 + 6i$ and $w = 1 - 2i$, what is $z - w$?",
+      "choices": [
+        "$3 + 8i$",
+        "$3 + 4i$",
+        "$5 + 4i$"
+      ],
+      "answer": 0,
+      "explanation": "Subtract real from real and imaginary from imaginary: $z - w = (4-1) + (6-(-2))i = 3 + 8i$. Getting $3 + 4i$ comes from computing $6 - 2$ instead of $6 - (-2)$, treating $w$'s $-2i$ as if it were $+2i$. Getting $5 + 4i$ repeats that same sign slip and also adds the real parts instead of subtracting them."
+    },
+    {
+      "id": "q6",
+      "type": "multi",
+      "text": "Which of the following are equal to $(3+4i)+(1-2i)$?",
+      "choices": [
+        "$4 + 2i$",
+        "$2 + 4i$",
+        "$(1-2i)+(3+4i)$",
+        "$4 - 2i$"
+      ],
+      "answers": [0, 2],
+      "explanation": "$(3+4i)+(1-2i) = (3+1) + (4-2)i = 4+2i$, so the first choice matches directly. Addition is commutative, so reordering the sum as $(1-2i)+(3+4i)$ still gives $4+2i$. The other two choices swap or flip a sign and so give different complex numbers, $2+4i$ and $4-2i$."
+    },
+    {
+      "id": "q7",
+      "type": "text",
+      "text": "What do you multiply the numerator and denominator by, in order to divide by a complex number and clear i out of the denominator?",
+      "accept": ["(the )?(complex )?conjugate( trick)?"],
+      "caseSensitive": false,
+      "explanation": "Multiplying top and bottom by the denominator's complex conjugate works because $(a-bi)(a+bi) = a^2+b^2$, always a real number, which clears $i$ out of the denominator completely."
+    },
+    {
+      "id": "q8",
+      "type": "numeric",
+      "text": "Find the modulus of $z = 5 + 12i$.",
+      "answer": 13,
+      "tolerance": 0.01,
+      "explanation": "$|z| = \\sqrt{a^2+b^2} = \\sqrt{5^2+12^2} = \\sqrt{25+144} = \\sqrt{169} = 13$."
+    },
+    {
+      "id": "q9",
+      "type": "numeric",
+      "text": "If $z = 2(\\cos25^\\circ + i\\sin25^\\circ)$, what is the argument of $z^4$, in degrees, using de Moivre's theorem?",
+      "answer": 100,
+      "tolerance": 0.5,
+      "explanation": "De Moivre's theorem gives $z^n = r^n(\\cos n\\theta + i\\sin n\\theta)$, so the argument multiplies by $n$: $25^\\circ \\times 4 = 100^\\circ$."
+    },
+    {
+      "id": "q10",
+      "type": "numeric",
+      "text": "Solve $x^2 - 2x + 5 = 0$ using the quadratic formula. What is the imaginary part of the root with positive imaginary part?",
+      "answer": 2,
+      "tolerance": 0,
+      "explanation": "This reaches back to the quadratic formula from Quadratics and Inequalities: the discriminant is $(-2)^2 - 4(1)(5) = 4 - 20 = -16$. Since $\\sqrt{-16} = 4i$, $x = \\frac{2 \\pm 4i}{2} = 1 \\pm 2i$, so the root with positive imaginary part is $1+2i$ and its imaginary part is $2$. Spaced review like this, reusing a technique from an earlier module, is what makes it stick."
     }
   ]
 }

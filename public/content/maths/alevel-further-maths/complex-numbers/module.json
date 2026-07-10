@@ -2,23 +2,24 @@
   "schemaVersion": 1,
   "id": "complex-numbers",
   "title": "Complex Numbers",
-  "description": "The imaginary unit, complex arithmetic, and the Argand diagram.",
-  "estMinutes": 25,
+  "description": "The imaginary unit, complex arithmetic, the Argand diagram, conjugates and division, modulus-argument (polar) form, and de Moivre's theorem.",
+  "estMinutes": 75,
   "prerequisites": [
     "quadratics-and-inequalities"
   ],
   "objectives": [
     "Explain why the imaginary unit i is introduced, and write complex numbers in the standard form a + bi",
     "Add, subtract, and multiply complex numbers, simplifying using i^2 = -1",
-    "Represent a complex number as a point on the Argand diagram"
+    "Represent a complex number as a point on the Argand diagram",
+    "Find the complex conjugate of a complex number and use it to divide complex numbers",
+    "Calculate the modulus and argument of a complex number and convert between Cartesian and modulus-argument (polar) form",
+    "Multiply and divide complex numbers in modulus-argument form, and apply de Moivre's theorem to find integer powers of a complex number"
   ],
+  "tags": ["complex-numbers", "imaginary-unit", "argand-diagram", "modulus-argument", "de-moivre"],
   "lessons": [
-    {
-      "id": "imaginary-numbers-and-arithmetic",
-      "title": "Imaginary numbers, complex arithmetic, and the Argand diagram",
-      "file": "01-imaginary-numbers-and-arithmetic.md",
-      "estMinutes": 25
-    }
+    { "id": "imaginary-numbers-and-arithmetic", "title": "Imaginary numbers, complex arithmetic, and the Argand diagram", "file": "01-imaginary-numbers-and-arithmetic.screens.json", "kind": "screens", "estMinutes": 25 },
+    { "id": "conjugates-modulus-and-argument", "title": "Conjugates, division, and modulus-argument form", "file": "02-conjugates-modulus-and-argument.screens.json", "kind": "screens", "estMinutes": 25 },
+    { "id": "de-moivres-theorem", "title": "Multiplying, dividing, and de Moivre's theorem", "file": "03-de-moivres-theorem.screens.json", "kind": "screens", "estMinutes": 25 }
   ],
   "assessment": {
     "file": "assessment.json",
