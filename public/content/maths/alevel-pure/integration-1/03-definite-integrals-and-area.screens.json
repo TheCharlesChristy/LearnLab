@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "id": "definite-integrals-and-area",
+  "title": "Definite integrals and the area under a curve",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-c-cancels",
+      "prompt": "A cyclist's speed is $v(x) = 2x+1$ m/s for the first 3 seconds, but you don't know her exact starting position, so her distance function carries an unknown constant $C$. Can you still find exactly how far she travelled between $x=1$ and $x=3$ seconds, without ever knowing $C$?",
+      "choices": [
+        "Yes, the unknown $C$ cancels out when you compare two positions",
+        "No, without knowing $C$ you can't find any distance at all"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "You can. Her distance function is $F(x) + C$ for some antiderivative $F$. The distance travelled is $\\big(F(3)+C\\big) - \\big(F(1)+C\\big)$, and the two $C$'s cancel exactly, leaving $F(3)-F(1)$. This is called a **definite integral**."
+    },
+    {
+      "type": "tap-choice",
+      "id": "why-c-cancels",
+      "prompt": "Why doesn't the constant of integration $C$ need to be found for a definite integral?",
+      "choices": [
+        { "text": "Because $C$ appears in both $F(b)$ and $F(a)$ and cancels in the subtraction" },
+        {
+          "text": "Because definite integrals never have a constant of integration to begin with",
+          "feedback": "They do, at the intermediate antiderivative step; it just cancels once you subtract $F(a)$ from $F(b)$, so you never have to solve for its value."
+        },
+        {
+          "text": "Because $C$ is always equal to zero for definite integrals",
+          "feedback": "$C$ isn't zero here, it's simply unknown and irrelevant: whatever value $C$ has, it cancels in the subtraction $F(b)+C - (F(a)+C)$."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly, $\\big(F(b)+C\\big) - \\big(F(a)+C\\big) = F(b)-F(a)$, so you can drop $C$ entirely and just use any one antiderivative."
+    },
+    {
+      "type": "entry",
+      "id": "quick-definite-integral",
+      "prompt": "Evaluate $\\displaystyle\\int_0^2 3x^2 \\, \\mathrm{d}x$.",
+      "inputMode": "numeric",
+      "answer": 8,
+      "tolerance": 0.01,
+      "successFeedback": "Right, an antiderivative is $F(x)=x^3$, so $\\int_0^2 3x^2\\,\\mathrm{d}x = F(2)-F(0) = 8-0=8$.",
+      "hints": [
+        "An antiderivative of $3x^2$ is $x^3$.",
+        "Compute $F(2) - F(0) = 2^3 - 0^3$."
+      ]
+    },
+    {
+      "type": "manipulable-target",
+      "id": "verify-cyclist-antiderivative",
+      "prompt": "Confirm $x(t) = x^2+x$ is a valid antiderivative of the cyclist's speed $v(x)=2x+1$: drag the point until the tangent gradient reads **7**, matching $v(3) = 2(3)+1=7$.",
+      "widget": "function-grapher",
+      "widgetProps": { "expr": "x^2 + x", "xmin": -2, "xmax": 4, "grid": true },
+      "goal": {
+        "kind": "tangent-gradient-in-range",
+        "min": 6.7,
+        "max": 7.3,
+        "description": "Target: tangent gradient = 7, confirming v(x) = 2x+1 at x=3."
+      },
+      "successFeedback": "Right, the tangent gradient is 7 right around $x=3$, confirming $x(t)=x^2+x$ really does have derivative $2x+1$ there. That's the same differentiate-back check you'll rely on before trusting any definite-integral calculation.",
+      "hints": [
+        "Try the right-hand side of the range, where the curve is climbing steeply.",
+        "You're looking for $x=3$.",
+        "At $x=3$: $2(3)+1=7$."
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "worked-full-definite-integral",
+      "body": "Evaluate $\\displaystyle\\int_1^3 (2x+1) \\, \\mathrm{d}x$, the cyclist's distance travelled between $x=1$ and $x=3$ seconds.\n\nAn antiderivative (constant omitted, since it will cancel): $F(x) = x^2+x$.\n\n$$\n\\int_1^3 (2x+1)\\,\\mathrm{d}x = \\Big[x^2+x\\Big]_1^3 = (3^2+3)-(1^2+1) = 12-2 = 10.\n$$\n\n**Check by differentiating back:** $\\dfrac{\\mathrm{d}}{\\mathrm{d}x}(x^2+x) = 2x+1$, matching the integrand, so $F$ was a correct antiderivative.",
+      "selfExplainPrompt": "Notice $F(x)=x^2+x$ was used with no $+C$ at all, not even a placeholder. Why is it safe to drop $C$ completely here, rather than writing $F(x)+C$ and carrying it through both substitutions?",
+      "selfExplainAnswer": "If you did carry it through, you'd compute $\\big(F(3)+C\\big) - \\big(F(1)+C\\big)$, and the two identical $C$ terms would cancel regardless of what value $C$ actually has. Since the answer comes out the same whether $C=0$, $C=5$, or anything else, there's no need to write it at all: any single antiderivative gives the correct definite integral."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-area-calc",
+      "worked": "Find the area between $y = 3x^2-2x+1$, the $x$-axis, and the lines $x=0$ and $x=2$. Since $3x^2-2x+1>0$ for all $x$ (its minimum value is positive), the curve stays above the $x$-axis on $[0,2]$, so the definite integral gives the area directly. An antiderivative is $F(x) = x^3-x^2+x$ (check: differentiating back gives $3x^2-2x+1$, confirming this is correct).",
+      "prompt": "Using $F(x)=x^3-x^2+x$, compute the area $F(2)-F(0)$. What is the area, in square units?",
+      "inputMode": "numeric",
+      "answer": 6,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $F(2) = 8-4+2=6$ and $F(0)=0$, so the area is $6-0=6$ square units. Right at the start of this lesson you predicted that not knowing the cyclist's exact starting position wouldn't stop you finding her exact distance travelled: that's exactly what happened here too. The unknown constant cancels, and a definite integral of a non-negative function gives you the area under the curve, full stop.",
+      "hints": [
+        "$F(2) = 2^3 - 2^2 + 2$.",
+        "$F(0) = 0^3 - 0^2 + 0 = 0$."
+      ]
+    }
+  ]
+}
