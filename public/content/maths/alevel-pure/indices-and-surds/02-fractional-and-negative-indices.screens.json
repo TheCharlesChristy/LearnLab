@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "id": "fractional-and-negative-indices",
+  "title": "Fractional and negative indices",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-colony-before-now",
+      "prompt": "A bacteria colony doubles every hour, so its population after $t$ hours is $100 \\times 2^t$ (starting from 100 right now, at $t=0$). What was the population 2 hours *before* now, at $t=-2$?",
+      "choices": [
+        "Bigger than 100",
+        "Smaller than 100",
+        "Exactly 100, negative time doesn't change anything"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that answer. $t=-2$ uses a negative index, $2^{-2}$, and by the end of this lesson you'll be able to evaluate it exactly and see whether your guess was right."
+    },
+    {
+      "type": "tap-choice",
+      "id": "negative-index-meaning",
+      "prompt": "What does a negative index like $a^{-n}$ mean?",
+      "choices": [
+        { "text": "The reciprocal of the positive power: $\\dfrac{1}{a^n}$" },
+        {
+          "text": "The positive power made negative: $-a^n$",
+          "feedback": "A negative index never makes the whole value negative; it takes a reciprocal instead. $a^{-n} = \\dfrac{1}{a^n}$, which stays positive whenever $a$ is positive."
+        },
+        {
+          "text": "The same as $a^n$, the sign is just decorative",
+          "feedback": "The sign changes the value: $a^{-n}$ is the reciprocal of $a^n$, not $a^n$ itself. For example $2^{-3} = \\dfrac{1}{8}$, not $8$."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: $a^{-n} = \\dfrac{1}{a^n}$. This follows from the division law, $\\dfrac{a^0}{a^n} = a^{0-n} = a^{-n}$, and $a^0=1$, so $a^{-n} = \\dfrac{1}{a^n}$."
+    },
+    {
+      "type": "entry",
+      "id": "apply-negative-index",
+      "prompt": "Using $a^{-n} = \\dfrac{1}{a^n}$, what was the colony's population 2 hours before now, $100 \\times 2^{-2}$?",
+      "inputMode": "numeric",
+      "answer": 25,
+      "tolerance": 0.5,
+      "successFeedback": "25. Since $2^{-2} = \\dfrac{1}{4}$, the population was a quarter of today's 100, exactly as your negative-index prediction should have suggested: smaller than 100.",
+      "hints": ["$2^{-2} = \\dfrac{1}{2^2}$.", "$100 \\times \\dfrac{1}{4} = ?$"]
+    },
+    {
+      "type": "tap-choice",
+      "id": "fractional-index-meaning",
+      "prompt": "What does a fractional index like $a^{1/n}$ mean?",
+      "choices": [
+        { "text": "The $n$th root of $a$: $\\sqrt[n]{a}$" },
+        {
+          "text": "$a$ divided by $n$",
+          "feedback": "Dividing by $n$ would be $a/n$, a completely different operation. $a^{1/n}$ is a root: $\\sqrt[n]{a}$, the number which, raised to the power $n$, gives back $a$."
+        },
+        {
+          "text": "$a$ multiplied by $\\dfrac{1}{n}$",
+          "feedback": "That would again be ordinary division, $a/n$. An index of $\\dfrac{1}{n}$ means take the $n$th root, not multiply by the fraction."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: $a^{1/n} = \\sqrt[n]{a}$. So $a^{1/2}$ is a square root and $a^{1/3}$ is a cube root."
+    },
+    {
+      "type": "entry",
+      "id": "apply-fractional-index-half",
+      "prompt": "A different colony multiplies its population by 9 every generation, so after $g$ generations it has been multiplied by $9^g$. After exactly half a generation ($g=\\tfrac{1}{2}$), what is the multiplier $9^{1/2}$?",
+      "inputMode": "numeric",
+      "answer": 3,
+      "tolerance": 0.05,
+      "successFeedback": "3, since $9^{1/2} = \\sqrt{9} = 3$.",
+      "hints": ["$9^{1/2}$ is the square root of 9.", "What number, squared, gives 9?"]
+    },
+    {
+      "type": "entry",
+      "id": "apply-general-fractional-index",
+      "prompt": "A colony that multiplies by 8 every generation reaches a multiplier of $8^{2/3}$ after two-thirds of a generation. Take the cube root first, then square it: $8^{1/3} = 2$, so $8^{2/3} = 2^2$. Evaluate $8^{2/3}$.",
+      "inputMode": "numeric",
+      "answer": 4,
+      "tolerance": 0.05,
+      "successFeedback": "4. Root first, then power, keeps the numbers small: $8^{2/3} = \\left(\\sqrt[3]{8}\\right)^2 = 2^2 = 4$.",
+      "hints": ["$8^{1/3} = \\sqrt[3]{8} = 2$.", "Now square that result: $2^2$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "why-negative-fraction-reciprocal-last",
+      "body": "Combine both rules to evaluate $27^{-2/3}$. Step 1, cube root ($n=3$): $27^{1/3} = \\sqrt[3]{27} = 3$. Step 2, square it ($m=2$): $3^2 = 9$. Step 3, apply the negative sign as a reciprocal: $27^{-2/3} = \\dfrac{1}{9}$.",
+      "selfExplainPrompt": "Why is the reciprocal step done last, after the root and the power, rather than first?",
+      "selfExplainAnswer": "The negative sign only ever means 'take the reciprocal of whatever positive power you end up with'. Doing the root and the power first keeps the intermediate numbers small and simple (3, then 9); flipping to a reciprocal at the very start would just mean working with the fraction $\\frac{1}{27}$ throughout, which makes both the root and the power messier for no benefit."
+    },
+    {
+      "type": "faded-step",
+      "id": "evaluate-16-to-neg-three-quarters",
+      "worked": "Evaluate $16^{-3/4}$. Take the 4th root first: $16^{1/4} = \\sqrt[4]{16} = 2$. Then cube it: $2^3 = 8$.",
+      "prompt": "So $16^{3/4} = 8$, and applying the negative sign as a reciprocal gives $16^{-3/4} = \\dfrac{1}{8}$. Give $16^{-3/4}$ as a decimal.",
+      "inputMode": "numeric",
+      "answer": 0.125,
+      "tolerance": 0.001,
+      "successFeedback": "0.125, since $\\dfrac{1}{8} = 0.125$. And back to the opening prediction: the colony's population 2 hours before now really was smaller than today's, a quarter of it, because a negative index is always a reciprocal, and a reciprocal of a number bigger than 1 is always less than 1.",
+      "hints": ["$16^{-3/4} = \\dfrac{1}{16^{3/4}} = \\dfrac{1}{8}$.", "Convert the fraction $\\dfrac{1}{8}$ to a decimal."]
+    }
+  ]
+}

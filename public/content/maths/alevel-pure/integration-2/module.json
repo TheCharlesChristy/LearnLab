@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "integration-2",
-  "title": "Integration II — Standard Functions, Substitution and by Parts",
+  "title": "Integration II: Standard Functions, Substitution and by Parts",
   "description": "Integrate exponential, trigonometric and reciprocal functions, reverse the chain rule by substitution, apply integration by parts, and find the area between two curves.",
   "estMinutes": 100,
   "prerequisites": [
@@ -17,9 +17,9 @@
   ],
   "tags": ["calculus", "integration", "substitution", "integration-by-parts", "area-between-curves"],
   "lessons": [
-    { "id": "standard-functions", "title": "Integrating standard functions", "file": "01-standard-functions.md", "estMinutes": 30 },
-    { "id": "substitution", "title": "Integration by substitution", "file": "02-substitution.md", "estMinutes": 35 },
-    { "id": "parts-and-areas", "title": "Integration by parts and the area between two curves", "file": "03-parts-and-areas.md", "estMinutes": 35 }
+    { "id": "standard-functions", "title": "Integrating standard functions", "file": "01-standard-functions.screens.json", "kind": "screens", "estMinutes": 30 },
+    { "id": "substitution", "title": "Integration by substitution", "file": "02-substitution.screens.json", "kind": "screens", "estMinutes": 35 },
+    { "id": "parts-and-areas", "title": "Integration by parts and the area between two curves", "file": "03-parts-and-areas.screens.json", "kind": "screens", "estMinutes": 35 }
   ],
   "assessment": { "file": "assessment.json", "passMark": 0.7 },
   "version": "1.0.0",

@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "id": "disproof-by-counter-example",
+  "title": "Disproof by counter-example",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-square-greater",
+      "prompt": "You've now seen deduction prove things true for every case, and exhaustion prove things true over a small, complete list. Here's a claim: for every real number $x$, $x^2 > x$. Try $x=2$: $4>2$, true. Try $x=3$: $9>3$, true. Is this true for every real number $x$?",
+      "choices": [
+        "Yes, true for every real $x$",
+        "No, it fails for at least one real $x$"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought. Proving a claim about every case false only takes one failing case, and you're about to see exactly how much easier that is than proving one true."
+    },
+    {
+      "type": "tap-choice",
+      "id": "asymmetry-of-disproof",
+      "prompt": "To prove a claim true for every case, you generally need deduction or a complete exhaustion. What does it take to prove such a claim FALSE?",
+      "choices": [
+        { "text": "Exactly one counter-example: a single case where it fails" },
+        { "text": "The same amount of work as proving it true: checking every case fails", "feedback": "Disproof doesn't need every case to fail. A claim about every case is false the moment even one case fails, so a single counter-example is always sufficient." },
+        { "text": "At least half of all possible cases must fail", "feedback": "Even one failing case is enough, no matter how many other cases the claim happens to hold for." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly. Proving false is fundamentally cheaper than proving true, because 'not true for every case' only needs one exception."
+    },
+    {
+      "type": "entry",
+      "id": "test-half",
+      "prompt": "Test $x = 0.5$ in the claim $x^2 > x$. What is $0.5^2$?",
+      "inputMode": "numeric",
+      "answer": 0.25,
+      "tolerance": 0.001,
+      "hints": ["Multiply 0.5 by 0.5."],
+      "successFeedback": "0.25, and $0.25 < 0.5$, so $x=0.5$ fails the claim: it's a counter-example."
+    },
+    {
+      "type": "entry",
+      "id": "name-the-technique",
+      "prompt": "You've just found a value that breaks the claim $x^2 > x$. What is this kind of value called?",
+      "inputMode": "text",
+      "accept": ["counter-?example"],
+      "caseSensitive": false,
+      "hints": ["It's the term for a single case that disproves a general claim."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "identify-counterexample-primes",
+      "prompt": "Which value disproves the claim 'every prime number is odd'?",
+      "choices": [
+        { "text": "$n = 2$" },
+        { "text": "$n = 3$", "feedback": "3 is prime and odd, so it satisfies the claim rather than breaking it. It isn't a counter-example." },
+        { "text": "$n = 9$", "feedback": "9 isn't prime at all ($9 = 3^2$), so it doesn't even test the claim, since it fails to satisfy the hypothesis 'prime' in the first place." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "$n=2$: it's prime but even, so it satisfies the hypothesis (prime) but not the conclusion (odd). One such case is enough to disprove the whole claim."
+    },
+    {
+      "type": "sort-match",
+      "id": "match-claims-to-counterexamples",
+      "prompt": "Match each false claim to a value that disproves it.",
+      "pairs": [
+        { "left": "Every prime number is odd", "right": "$n = 2$" },
+        { "left": "$x^2 > x$ for every real $x$", "right": "$x = 0.5$" },
+        { "left": "If $n^2$ is divisible by 4 then $n$ is divisible by 4", "right": "$n = 2$" }
+      ]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "n-squared-plus-n-plus-1",
+      "body": "Claim: $n^2+n+1$ is prime for every positive integer $n$. Check $n=1,2,3$: the values are $3$, $7$, $13$, all prime. Check $n=4$:\n\n$$\n4^2+4+1 = 16+4+1 = 21 = 3 \\times 7,\n$$\n\nwhich is not prime. So $n=4$ is a counter-example, and the claim is false.",
+      "selfExplainPrompt": "Three correct examples in a row ($n=1,2,3$) might tempt you to believe the claim. Why doesn't finding a fourth case that fails ($n=4$) need to 'catch up' on those three successes before the claim is declared false?",
+      "selfExplainAnswer": "The claim says the expression is prime for every positive integer. One failing case, $n=4$, directly contradicts 'every', regardless of how many other cases succeed. Disproving a claim about every case only ever needs one counter-example, not a majority."
+    },
+    {
+      "type": "faded-step",
+      "id": "check-n5",
+      "worked": "We showed $n=4$ gives $4^2+4+1=21=3\\times7$, not prime, so it's a counter-example to '$n^2+n+1$ is always prime'.",
+      "prompt": "Using the same claim, check $n=5$: what is $5^2+5+1$?",
+      "inputMode": "numeric",
+      "answer": 31,
+      "tolerance": 0,
+      "hints": ["Work out $5^2$ first, then add 5, then add 1.", "$25+5+1$."],
+      "successFeedback": "31, which is prime, so $n=5$ doesn't break the claim. But that doesn't matter: you already found $n=4$ breaks it, and that's all a disproof ever needs. You predicted $x^2>x$ would fail somewhere, and it does, at $x=0.5$ among others: one counter-example is always enough to bring a claim about every case down, no matter how many other cases hold, and no matter how convincing the first forty examples looked back at the very start of this module."
+    }
+  ]
+}

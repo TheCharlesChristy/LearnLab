@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "id": "what-is-proof",
+  "title": "What is a mathematical proof?",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-euler-formula",
+      "prompt": "The expression $n^2 - n + 41$ gives a prime number at $n=1$ (41), $n=2$ (43), and $n=3$ (47). In fact it gives a prime for every integer from $n=1$ to $n=40$ in a row. Based on that run of forty correct examples, is $n^2 - n + 41$ prime for every positive integer $n$?",
+      "choices": [
+        "Yes, forty correct examples in a row is enough to prove it",
+        "No, no number of examples can prove a claim about every positive integer"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought. By the end of this lesson you'll know exactly why examples alone never settle a claim about every case, and by the end of this module you'll see precisely where this particular pattern breaks."
+    },
+    {
+      "type": "tap-choice",
+      "id": "define-statement-proof",
+      "prompt": "In maths, a **statement** is a sentence that is either true or false. Which of these best describes what a **proof** actually needs to do?",
+      "choices": [
+        { "text": "Show the statement is true in every case it claims to cover, starting from definitions and known facts" },
+        { "text": "Show the statement works for a large number of examples", "feedback": "A large number of working examples is strong evidence, but it isn't a proof: as the Euler formula shows, forty correct examples in a row can still be followed by a failure." },
+        { "text": "Show the statement isn't obviously false", "feedback": "'Not obviously false' is a much weaker bar than proof. A proof must positively establish truth in every case, not just survive a quick glance." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right. A proof is a watertight argument covering every case a statement claims, built from definitions and previously known facts, not a tally of examples."
+    },
+    {
+      "type": "entry",
+      "id": "compute-euler-at-6",
+      "prompt": "Using $n^2 - n + 41$, compute the value at $n = 6$.",
+      "inputMode": "numeric",
+      "answer": 71,
+      "tolerance": 0,
+      "hints": ["Work out $6^2$ first, then subtract 6, then add 41.", "$36 - 6 + 41$."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "why-examples-insufficient",
+      "prompt": "$n^2 - n + 41$ is prime for every integer $n$ from 1 to 40. Why doesn't that run of forty correct examples prove the statement 'true for every positive integer $n$'?",
+      "choices": [
+        { "text": "Because there could always be an untried case beyond the ones checked, and the claim covers infinitely many of them" },
+        { "text": "Because 40 examples is too small a sample; a few hundred would settle it", "feedback": "No number of examples settles a claim about every positive integer. It isn't about sample size: infinitely many cases remain unchecked no matter how many examples you try." },
+        { "text": "Because prime numbers get rarer as numbers get bigger, so the pattern was bound to fail anyway", "feedback": "That's true of primes in general, but it isn't the logical reason the proof fails: the issue is that checking examples never proves a claim about every case in an infinite set, whatever primes happen to do." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly. An infinite claim always has untried cases left over. The moment we find one that fails, the pattern breaks, but the logical gap was there in the reasoning even before we knew that."
+    },
+    {
+      "type": "sort-match",
+      "id": "match-techniques",
+      "prompt": "Match each proof technique to what it actually does. You'll use all three across this module.",
+      "pairs": [
+        { "left": "Proof by deduction", "right": "Build a chain of algebraic or logical steps from known facts to the conclusion" },
+        { "left": "Proof by exhaustion", "right": "Check every case in a small, genuinely complete, finite list" },
+        { "left": "Disproof by counter-example", "right": "Find one case where a claim about every case fails" }
+      ],
+      "successFeedback": "Notice the asymmetry: proving a claim true generally needs deduction or a complete exhaustion, but disproving one only ever needs a single counter-example."
+    },
+    {
+      "type": "flash-recall",
+      "id": "recall-counterexample-def",
+      "front": "What is a counter-example, and how many do you need to disprove a claim about every case?",
+      "back": "A single case where the claim fails. Exactly one is enough to disprove it, however many other cases the claim happens to hold for."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "why-pattern-breaks-41",
+      "body": "Substitute $n = 41$ into $n^2 - n + 41$:\n\n$$\n41^2 - 41 + 41.\n$$\n\nThe $-41$ and $+41$ cancel exactly, leaving\n\n$$\n41^2 - 41 + 41 = 41^2.\n$$\n\nSo the value is $41 \\times 41$, which is divisible by $41$ and bigger than $41$, so it cannot be prime.",
+      "selfExplainPrompt": "Why does substituting exactly $n = 41$ make the $-n + 41$ part vanish, when it doesn't vanish for smaller values of $n$?",
+      "selfExplainAnswer": "The term is $-n + 41$. This equals zero exactly when $n = 41$, since $-41 + 41 = 0$. For any other value of $n$, $-n + 41$ is some nonzero number, so it doesn't cancel and the expression isn't forced to share a factor of $41$."
+    },
+    {
+      "type": "faded-step",
+      "id": "compute-41-squared",
+      "worked": "We've shown $41^2 - 41 + 41 = 41^2$, so the expression at $n=41$ collapses to a single square number.",
+      "prompt": "What is $41^2$ as a single number?",
+      "inputMode": "numeric",
+      "answer": 1681,
+      "tolerance": 0,
+      "hints": ["Multiply 41 by 41.", "$40 \\times 41 = 1640$, then add one more 41."],
+      "successFeedback": "1681, which is $41 \\times 41$: confirmed not prime. You predicted that forty correct examples couldn't prove the claim for every positive integer, and you were right: $n = 41$ is exactly where it fails. Next up: the three real proof techniques, starting with deduction."
+    }
+  ]
+}

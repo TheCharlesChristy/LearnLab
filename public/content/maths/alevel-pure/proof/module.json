@@ -4,7 +4,7 @@
   "title": "Proof",
   "description": "The core methods of mathematical proof used throughout A-level: proof by deduction, proof by exhaustion, and disproof by counter-example.",
   "estMinutes": 80,
-  "prerequisites": [],
+  "prerequisites": ["algebra-essentials"],
   "objectives": [
     "Explain what it means to prove a mathematical statement, and distinguish a proof from a check of examples",
     "Construct a proof by deduction: a chain of algebraic or logical steps from agreed definitions to a conclusion",
@@ -15,10 +15,10 @@
   ],
   "tags": ["proof", "deduction", "exhaustion", "counter-example", "logic", "foundations"],
   "lessons": [
-    { "id": "what-is-proof", "title": "What is a mathematical proof?", "file": "01-what-is-proof.md", "estMinutes": 15 },
-    { "id": "proof-by-deduction", "title": "Proof by deduction", "file": "02-proof-by-deduction.md", "estMinutes": 25 },
-    { "id": "proof-by-exhaustion", "title": "Proof by exhaustion", "file": "03-proof-by-exhaustion.md", "estMinutes": 20 },
-    { "id": "disproof-by-counter-example", "title": "Disproof by counter-example", "file": "04-disproof-by-counter-example.md", "estMinutes": 20 }
+    { "id": "what-is-proof", "title": "What is a mathematical proof?", "file": "01-what-is-proof.screens.json", "kind": "screens", "estMinutes": 15 },
+    { "id": "proof-by-deduction", "title": "Proof by deduction", "file": "02-proof-by-deduction.screens.json", "kind": "screens", "estMinutes": 25 },
+    { "id": "proof-by-exhaustion", "title": "Proof by exhaustion", "file": "03-proof-by-exhaustion.screens.json", "kind": "screens", "estMinutes": 20 },
+    { "id": "disproof-by-counter-example", "title": "Disproof by counter-example", "file": "04-disproof-by-counter-example.screens.json", "kind": "screens", "estMinutes": 20 }
   ],
   "assessment": { "file": "assessment.json", "passMark": 0.7 },
   "version": "1.0.0",

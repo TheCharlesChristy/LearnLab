@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "id": "standard-functions",
+  "title": "Integrating standard functions",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-e-to-the-t",
+      "prompt": "A rain barrel fills at rate $r(t) = e^t$ litres per minute. Every integral you've met so far has been a power of $t$, handled with the power rule. But $e^t$ is famous for one thing: it is its own derivative. Given that integration undoes differentiation, what do you think the volume-collected function (the antiderivative of $r(t)$) turns out to be?",
+      "choices": ["$e^t + C$: also its own antiderivative", "$\\frac{t \\cdot e^t}{2} + C$", "$e^{t+1} + C$"],
+      "correctChoiceIndex": 0,
+      "reveal": "Exactly right. Because $\\frac{d}{dt}e^t = e^t$, undoing that derivative just hands $e^t$ straight back, plus a constant of integration. This lesson turns every derivative you already know from Differentiation II into a ready-made integral: four standard results do almost all of the work."
+    },
+    {
+      "type": "tap-choice",
+      "id": "reciprocal-antiderivative",
+      "prompt": "Now suppose the barrel drains slowly, at rate $r(t) = \\frac{1}{t}$ litres per minute (for $t>0$). Which of these is the antiderivative of $\\frac{1}{t}$?",
+      "choices": [
+        { "text": "$\\ln|t| + C$" },
+        { "text": "$-\\frac{1}{t^2} + C$", "feedback": "That's the derivative of $\\frac{1}{t}$, not its antiderivative. You differentiated when the barrel problem asked you to integrate." },
+        { "text": "$\\frac{t^0}{0} + C$, from the power rule with $n=-1$", "feedback": "The power rule needs $n+1$ in a denominator; for $n=-1$ that's zero, so the power rule genuinely breaks down right here. That's exactly why $\\ln|t|$ has to exist as its own separate standard result." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: $\\int \\frac{1}{t}\\,dt = \\ln|t| + C$. This is the one case the power rule can never reach, since $n=-1$ would force a division by zero, so it earns its own standard result."
+    },
+    {
+      "type": "entry",
+      "id": "cos-quick-check",
+      "prompt": "The barrel's rate switches to $r(t) = \\cos(t)$ litres per minute. Using the same undo-the-derivative logic (recall $\\frac{d}{dt}\\sin(t) = \\cos(t)$), evaluate the volume collected from $t=0$ to $t=\\frac{\\pi}{2}$: $\\displaystyle\\int_0^{\\pi/2} \\cos(t)\\,dt$.",
+      "inputMode": "numeric",
+      "answer": 1,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $\\big[\\sin(t)\\big]_0^{\\pi/2} = \\sin(\\frac{\\pi}{2}) - \\sin(0) = 1 - 0 = 1$ litre.",
+      "hints": ["The antiderivative of $\\cos(t)$ is $\\sin(t)$.", "Evaluate $\\sin(\\frac{\\pi}{2}) - \\sin(0)$."]
+    },
+    {
+      "type": "entry",
+      "id": "ln-modulus-check",
+      "prompt": "Back to the slow drain $r(t) = \\frac{1}{t}$. Evaluate the volume lost from $t=1$ to $t=2$: $\\displaystyle\\int_1^2 \\frac{1}{t}\\,dt$, to 3 decimal places.",
+      "inputMode": "numeric",
+      "answer": 0.693,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $\\big[\\ln|t|\\big]_1^2 = \\ln(2) - \\ln(1) = \\ln(2) - 0 \\approx 0.693$ litres.",
+      "hints": ["The antiderivative is $\\ln|t|$.", "$\\ln(2) - \\ln(1) = \\ln(2)$, since $\\ln(1) = 0$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "linearity-mixed-rate",
+      "body": "Undoing each of the four derivatives you already know from Differentiation II gives four standard integrals:\n\n$$\n\\int e^t\\,dt = e^t + C, \\quad \\int \\frac{1}{t}\\,dt = \\ln|t| + C \\;(t\\ne 0), \\quad \\int \\sin(t)\\,dt = -\\cos(t) + C, \\quad \\int \\cos(t)\\,dt = \\sin(t) + C.\n$$\n\nBecause integration is linear, a mixed rate like $r(t) = 2\\sin(t) - \\frac{3}{t} + 5e^t$ integrates term by term, each scaled by its own coefficient:\n\n$$\n\\int r(t)\\,dt = -2\\cos(t) - 3\\ln|t| + 5e^t + C.\n$$",
+      "selfExplainPrompt": "Check this antiderivative by differentiating it back. Which term produces the $-\\frac{3}{t}$ piece of the original rate, and why does it come out negative?",
+      "selfExplainAnswer": "Differentiating $-3\\ln|t|$ gives $-3 \\times \\frac{1}{t} = -\\frac{3}{t}$. The derivative of $\\ln|t|$ itself is always $\\frac{1}{t}$, with no sign change; it's the $-3$ coefficient, carried over unchanged from the original rate, that supplies the minus sign."
+    },
+    {
+      "type": "faded-step",
+      "id": "barrel-total-volume",
+      "worked": "The barrel's rate is $r(t) = 3\\cos(t) + 2e^t$ litres per minute for $0 \\le t \\le \\frac{\\pi}{2}$. Its antiderivative is $3\\sin(t) + 2e^t + C$, so the total volume collected is\n\n$$\n\\Big[3\\sin(t) + 2e^t\\Big]_0^{\\pi/2} = \\big(3\\sin(\\tfrac{\\pi}{2}) + 2e^{\\pi/2}\\big) - \\big(3\\sin(0) + 2e^0\\big) = (3 + 2e^{\\pi/2}) - (0 + 2) = 1 + 2e^{\\pi/2}.\n$$",
+      "prompt": "So the total volume collected is $1 + 2e^{\\pi/2}$ litres. Evaluate this to 3 decimal places.",
+      "inputMode": "numeric",
+      "answer": 10.621,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $e^{\\pi/2} \\approx 4.8105$, so $1 + 2(4.8105) \\approx 10.621$ litres. You predicted right back at the top of this lesson: $e^t$ really is its own antiderivative, and you've now combined it with $\\sin$, $\\cos$ and $\\frac{1}{t}$ to work out a full barrel volume. Next lesson tackles rates that aren't quite one of these four standard forms outright, like a valve whose flow depends on a squared time factor, using substitution.",
+      "hints": ["$e^{\\pi/2} \\approx 4.8105$.", "$1 + 2 \\times 4.8105$."]
+    }
+  ]
+}

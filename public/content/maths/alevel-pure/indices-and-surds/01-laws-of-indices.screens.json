@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "laws-of-indices",
+  "title": "The laws of indices",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-chessboard",
+      "prompt": "Legend has it a vizier asked his king for a reward: 1 grain of wheat on square 1 of a chessboard, 2 grains on square 2, 4 on square 3, doubling every square, all the way to square 64. The king thought this sounded modest. Was he right?",
+      "choices": [
+        "Yes, doubling a single grain 64 times still lands on a modest sack or two of wheat",
+        "No, the final total is far more wheat than has ever existed on Earth"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought. Each square holds $2^{n-1}$ grains, where $n$ is the square number, so working out the full board means working fluently with powers of the same base. That's exactly what this lesson's laws let you do, and by the end you'll be able to size up just how big that final pile really gets."
+    },
+    {
+      "type": "tap-choice",
+      "id": "multiplication-law",
+      "prompt": "Square 5 holds $2^4$ grains and square 7 holds $2^6$ grains. Which of these correctly rewrites $2^4 \\times 2^6$ as a single power of 2?",
+      "choices": [
+        { "text": "$2^{10}$" },
+        {
+          "text": "$2^{24}$",
+          "feedback": "That comes from multiplying the exponents ($4 \\times 6$) instead of adding them. When the bases already match, combining two powers by multiplication means adding the indices: $a^m \\times a^n = a^{m+n}$."
+        },
+        {
+          "text": "$4^{10}$",
+          "feedback": "The base changed from 2 to 4, but multiplying same-base powers never changes the base, only the index. It should stay $2^{4+6} = 2^{10}$."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, $2^4 \\times 2^6 = 2^{4+6} = 2^{10}$. Multiplying same-base powers means adding the indices: $a^m \\times a^n = a^{m+n}$."
+    },
+    {
+      "type": "entry",
+      "id": "apply-multiplication-law",
+      "prompt": "So $2^4 \\times 2^6 = 2^{10}$ grains. That's the grain count on square 11. Evaluate $2^{10}$.",
+      "inputMode": "numeric",
+      "answer": 1024,
+      "tolerance": 0.5,
+      "successFeedback": "1024 grains, exactly matching square 11's count of $2^{11-1} = 2^{10}$.",
+      "hints": ["$2^{10} = 2^5 \\times 2^5$.", "$2^5 = 32$, so $2^{10} = 32 \\times 32$."]
+    },
+    {
+      "type": "entry",
+      "id": "apply-division-law",
+      "prompt": "Square 15 holds $2^{14}$ grains and square 6 holds $2^5$ grains. Dividing same-base powers subtracts the indices: $\\dfrac{a^m}{a^n} = a^{m-n}$. Evaluate $2^{14} \\div 2^5$.",
+      "inputMode": "numeric",
+      "answer": 512,
+      "tolerance": 0.5,
+      "successFeedback": "512, which is $2^9$, exactly the grain count on square 10 ($2^{10-1}=2^9$).",
+      "hints": ["$2^{14} \\div 2^5 = 2^{14-5}$.", "That's $2^9$."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "power-of-a-power-law",
+      "prompt": "Now raise a power to a further power. Which of these equals $(2^3)^2$?",
+      "choices": [
+        { "text": "$2^6$" },
+        {
+          "text": "$2^5$",
+          "feedback": "Adding the exponents ($3+2$) is the rule for multiplying two separate powers, $a^m \\times a^n$. Raising a power to a further power multiplies the exponents instead: $(a^m)^n = a^{mn}$."
+        },
+        {
+          "text": "$2^9$",
+          "feedback": "That comes from treating the outer exponent as a tower ($3^2 = 9$) rather than multiplying it with the inner exponent. The rule is $(a^m)^n = a^{mn} = a^{3 \\times 2}$, not $a^{m^n}$."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, $(2^3)^2 = 2^{3 \\times 2} = 2^6$. Raising a power to a power multiplies the indices: $(a^m)^n = a^{mn}$."
+    },
+    {
+      "type": "entry",
+      "id": "apply-power-of-a-power",
+      "prompt": "So $(2^3)^2 = 2^6$ grains, matching square 7's count. Evaluate $2^6$.",
+      "inputMode": "numeric",
+      "answer": 64,
+      "tolerance": 0.5,
+      "successFeedback": "64 grains, exactly square 7's count of $2^{7-1} = 2^6$.",
+      "hints": ["$2^6 = 2^3 \\times 2^3$.", "$2^3 = 8$, so $2^6 = 8 \\times 8$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "why-zero-index-is-one",
+      "body": "Square 1 holds just $2^0$ grains, and the legend says that's 1 grain. Is that consistent with the other laws, or a separate assumption? Use the division law with matching exponents: $\\dfrac{2^n}{2^n} = 2^{n-n} = 2^0$. But any non-zero number divided by itself is $1$, so $2^0$ must equal $1$. In general, $a^0 = 1$ for any $a \\neq 0$.",
+      "selfExplainPrompt": "In your own words: why does the division law force $a^0$ to equal 1, rather than 0 or some other value?",
+      "selfExplainAnswer": "The division law says $a^n \\div a^n = a^{n-n} = a^0$. But dividing any non-zero number by itself always gives exactly $1$, whatever $n$ is. Since both descriptions must agree, $a^0$ has to equal $1$. It isn't a new rule bolted on; it's forced by the division law already in place."
+    },
+    {
+      "type": "faded-step",
+      "id": "vizier-square-9",
+      "worked": "To check square 9's grain count without listing every square in between, the vizier combines three known counts: $2^7 \\times 2^4 \\div 2^3$. Combine the exponents in one go: $7 + 4 - 3 = 8$, so this is $2^8$ grains.",
+      "prompt": "Square 9 holds $2^8$ grains ($2^{9-1}=2^8$, confirming the combined calculation). What is $2^8$?",
+      "inputMode": "numeric",
+      "answer": 256,
+      "tolerance": 0.5,
+      "successFeedback": "256 grains on square 9. Notice the whole board just keeps doubling: by square 64 the count is $2^{63}$, and the full board totals $2^{64}-1$, over 18 quintillion grains. So the king was wrong at the top of this lesson: that 'modest' doubling request would have bankrupted every wheat farm on the planet many times over, and the laws of indices are exactly what let you see that coming without writing out 64 lines of doubling by hand.",
+      "hints": ["$7 + 4 - 3 = 8$.", "$2^8 = 2^4 \\times 2^4 = 16 \\times 16$."]
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "id": "substitution",
+  "title": "Integration by substitution",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-clue-or-coincidence",
+      "prompt": "The barrel's valve now delivers $r(t) = 2t(t^2+1)^5$ litres per minute. That's not a sum of the four standard forms from last lesson. But notice: the derivative of the bracket $t^2+1$ is $2t$, and $2t$ is exactly the factor sitting right next to the bracket. Is that a clue for how to integrate this, or just a coincidence you should ignore?",
+      "choices": ["A clue: substituting $u = t^2+1$ should simplify the integral", "A coincidence: you have to expand the bracket into a polynomial and integrate term by term"],
+      "correctChoiceIndex": 0,
+      "reveal": "It's exactly the clue you need. Integration by substitution is the systematic way to reverse the chain rule: whenever an integrand contains an inner function together with (a multiple of) its own derivative, substituting $u = $ the inner function usually turns the integral into something standard."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "substitution-mechanism",
+      "body": "Let $u = t^2 + 1$. Then $\\frac{du}{dt} = 2t$, so $du = 2t\\,dt$, which is exactly the factor multiplying $(t^2+1)^5$ in the barrel's rate. Substituting:\n\n$$\n\\int 2t(t^2+1)^5\\,dt = \\int u^5\\,du = \\frac{u^6}{6} + C = \\frac{(t^2+1)^6}{6} + C.\n$$",
+      "selfExplainPrompt": "Check this by differentiating $\\frac{(t^2+1)^6}{6}$ back using the chain rule. Which two factors multiply together to reproduce the original $2t(t^2+1)^5$?",
+      "selfExplainAnswer": "By the chain rule, $\\frac{d}{dt}\\left[\\frac{(t^2+1)^6}{6}\\right] = \\frac{6(t^2+1)^5}{6} \\times 2t = (t^2+1)^5 \\times 2t$, which is exactly the original rate. The outer power rule contributes $(t^2+1)^5$, and the chain rule's inner-derivative factor contributes the $2t$."
+    },
+    {
+      "type": "tap-choice",
+      "id": "choose-substitution",
+      "prompt": "A different valve delivers rate $r(t) = 3t^2\\cos(t^3)$. Which substitution fits the same pattern?",
+      "choices": [
+        { "text": "$u = t^3$" },
+        { "text": "$u = \\cos(t^3)$", "feedback": "$\\cos(t^3)$ is the outer function itself, not an inner function whose derivative you can already see sitting in the integral." },
+        { "text": "$u = 3t^2$", "feedback": "$3t^2$ is exactly the factor you'd use to build $du$, not the substitution $u$ itself. Look at what's inside the cosine instead." }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, $u = t^3$ gives $du = 3t^2\\,dt$, exactly the factor sitting next to $\\cos(t^3)$, turning the integral into $\\int \\cos(u)\\,du$."
+    },
+    {
+      "type": "entry",
+      "id": "definite-substitution-check",
+      "prompt": "Evaluate $\\displaystyle\\int_0^1 2t(t^2+1)^5\\,dt$ by substitution, converting the limits into $u$ as you go (there's no need to substitute back to $t$ afterwards).",
+      "inputMode": "numeric",
+      "answer": 10.5,
+      "tolerance": 0.01,
+      "successFeedback": "Right: with $u = t^2+1$, when $t=0$, $u=1$; when $t=1$, $u=2$. So $\\int_0^1 2t(t^2+1)^5\\,dt = \\int_1^2 u^5\\,du = \\left[\\frac{u^6}{6}\\right]_1^2 = \\frac{64-1}{6} = 10.5$ litres.",
+      "hints": ["$u = t^2+1$: when $t=0$, $u=1$; when $t=1$, $u=2$.", "$\\int_1^2 u^5\\,du = \\left[\\frac{u^6}{6}\\right]_1^2 = \\frac{64-1}{6}$."]
+    },
+    {
+      "type": "entry",
+      "id": "reciprocal-substitution-check",
+      "prompt": "Another valve delivers rate $r(t) = \\frac{\\cos(t)}{\\sin(t)}$. Evaluate $\\displaystyle\\int_{\\pi/6}^{\\pi/2} \\frac{\\cos(t)}{\\sin(t)}\\,dt$ to 3 decimal places, using $u=\\sin(t)$.",
+      "inputMode": "numeric",
+      "answer": 0.693,
+      "tolerance": 0.01,
+      "successFeedback": "Right: with $u=\\sin(t)$, $du=\\cos(t)\\,dt$, and $t=\\frac{\\pi}{6}\\Rightarrow u=\\frac12$, $t=\\frac{\\pi}{2}\\Rightarrow u=1$. So the integral is $\\int_{1/2}^1 \\frac{1}{u}\\,du = \\big[\\ln|u|\\big]_{1/2}^1 = \\ln(1)-\\ln(\\tfrac12) = \\ln(2) \\approx 0.693$ litres.",
+      "hints": ["$u=\\sin(t)$, $du=\\cos(t)\\,dt$: limits become $u=\\frac12$ and $u=1$.", "$\\int \\frac{1}{u}\\,du = \\ln|u|$, so evaluate $\\ln(1)-\\ln(\\frac12)$."]
+    },
+    {
+      "type": "faded-step",
+      "id": "exponential-substitution-final",
+      "worked": "The valve now delivers $r(t) = \\cos(t)e^{\\sin(t)}$ litres per minute for $0 \\le t \\le \\frac{\\pi}{2}$. Let $u = \\sin(t)$, so $du = \\cos(t)\\,dt$. When $t=0$, $u=0$; when $t=\\frac{\\pi}{2}$, $u=1$. So\n\n$$\n\\int_0^{\\pi/2} \\cos(t)e^{\\sin(t)}\\,dt = \\int_0^1 e^u\\,du = \\Big[e^u\\Big]_0^1 = e^1 - e^0 = e - 1.\n$$",
+      "prompt": "So the total volume collected is $e - 1$ litres. Evaluate this to 3 decimal places.",
+      "inputMode": "numeric",
+      "answer": 1.718,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $e - 1 \\approx 1.718$ litres. Back at the top of this lesson, spotting that '$2t$' sitting next to '$(t^2+1)^5$' really was the clue, not a coincidence, and you've now used the same idea for trig-exponential rates and converted limits for a definite integral. Next lesson tackles genuine products of two unlike functions, like $t\\cdot e^t$, using integration by parts, plus how to measure the area between two rate curves.",
+      "hints": ["$e \\approx 2.71828$.", "$e - 1$."]
+    }
+  ]
+}

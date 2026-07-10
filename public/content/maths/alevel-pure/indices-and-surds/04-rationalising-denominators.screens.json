@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "rationalising-denominators",
+  "title": "Rationalising denominators",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-register-error",
+      "prompt": "An old cash register can only store a price as a fraction with a whole-number denominator; it errors on anything else. A price tag reads $\\dfrac{3}{\\sqrt{5}}$ pounds. Can this price always be rewritten in a form the register accepts, without changing its value?",
+      "choices": [
+        "Yes, any fraction with a surd in the denominator can be rewritten with a whole-number denominator",
+        "No, once a surd is in the denominator it's stuck there"
+      ],
+      "correctChoiceIndex": 0,
+      "reveal": "It can. Multiplying the price by $\\dfrac{\\sqrt{5}}{\\sqrt{5}}$ changes nothing about its value, since that fraction equals $1$, but it does move the surd out of the denominator. That process is called rationalising, and this lesson covers it for both single-surd and binomial denominators."
+    },
+    {
+      "type": "tap-choice",
+      "id": "single-surd-method",
+      "prompt": "To rationalise $\\dfrac{a}{\\sqrt{b}}$ without changing its value, what should you multiply top and bottom by?",
+      "choices": [
+        { "text": "$\\sqrt{b}$" },
+        {
+          "text": "$b$",
+          "feedback": "Multiplying by $b$ (not $\\sqrt{b}$) would change the value of the fraction, since $\\dfrac{b}{b}=1$ only helps if $b$ itself is already what's in the denominator. Here the denominator is $\\sqrt{b}$, so you need $\\dfrac{\\sqrt{b}}{\\sqrt{b}}$."
+        },
+        {
+          "text": "$\\sqrt{a}$",
+          "feedback": "Multiplying by something built from $a$ does nothing to clear the surd in the denominator, which is built from $b$. You need $\\dfrac{\\sqrt{b}}{\\sqrt{b}}$, matching the denominator itself."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: $\\dfrac{a}{\\sqrt{b}} \\times \\dfrac{\\sqrt{b}}{\\sqrt{b}} = \\dfrac{a\\sqrt{b}}{b}$. Multiplying by $\\dfrac{\\sqrt{b}}{\\sqrt{b}}$ is really just multiplying by 1, so the value never changes, only its form."
+    },
+    {
+      "type": "entry",
+      "id": "rationalise-single-surd",
+      "prompt": "Rationalise the price tag $\\dfrac{3}{\\sqrt{5}}$. Write your answer like `3√5/5` (or `3sqrt5/5`).",
+      "inputMode": "text",
+      "accept": ["3\\s*(√|sqrt)\\s*5\\s*/\\s*5", "3\\s*(√|sqrt)\\(?5\\)?\\s*/\\s*5"],
+      "caseSensitive": false,
+      "successFeedback": "$\\dfrac{3}{\\sqrt{5}} \\times \\dfrac{\\sqrt{5}}{\\sqrt{5}} = \\dfrac{3\\sqrt{5}}{5}$. The register can now store this: a whole-number denominator, same value as before.",
+      "hints": ["Multiply top and bottom by $\\sqrt{5}$.", "$\\sqrt{5}\\times\\sqrt{5}=5$ on the bottom; $3\\times\\sqrt{5}$ on top."]
+    },
+    {
+      "type": "tap-choice",
+      "id": "conjugate-concept",
+      "prompt": "Another price tag reads $\\dfrac{1}{2+\\sqrt{3}}$. Multiplying by $\\dfrac{\\sqrt{3}}{\\sqrt{3}}$ won't clear this denominator, since the surd isn't alone. What should you multiply by instead?",
+      "choices": [
+        { "text": "The conjugate, $2-\\sqrt{3}$, flipping the middle sign" },
+        {
+          "text": "$2+\\sqrt{3}$ again, squaring the denominator",
+          "feedback": "Squaring $(2+\\sqrt{3})^2$ actually introduces a new surd term ($4\\sqrt{3}$) rather than removing one. You need the conjugate, which flips the sign so the surd terms cancel via difference of two squares."
+        },
+        {
+          "text": "$\\sqrt{3}$ alone",
+          "feedback": "Multiplying only by $\\sqrt{3}$ leaves the whole-number 2 multiplied by a surd, and doesn't clear the root from a binomial denominator. You need the full conjugate $2-\\sqrt{3}$."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right: the conjugate of $2+\\sqrt{3}$ is $2-\\sqrt{3}$. Multiplying $(2+\\sqrt{3})(2-\\sqrt{3})$ uses the difference-of-two-squares identity, $(x+y)(x-y)=x^2-y^2$, so the surd term cancels out."
+    },
+    {
+      "type": "entry",
+      "id": "evaluate-conjugate-product",
+      "prompt": "Evaluate the new denominator: $(2+\\sqrt{3})(2-\\sqrt{3})$.",
+      "inputMode": "numeric",
+      "answer": 1,
+      "tolerance": 0.01,
+      "successFeedback": "1, since $(2+\\sqrt{3})(2-\\sqrt{3}) = 2^2 - (\\sqrt{3})^2 = 4-3 = 1$. The surd is gone and the denominator is now the whole number 1.",
+      "hints": ["Use $(x+y)(x-y)=x^2-y^2$ with $x=2$, $y=\\sqrt{3}$.", "$2^2 - (\\sqrt{3})^2 = 4 - 3$."]
+    },
+    {
+      "type": "entry",
+      "id": "rationalise-binomial",
+      "prompt": "So $\\dfrac{1}{2+\\sqrt{3}} \\times \\dfrac{2-\\sqrt{3}}{2-\\sqrt{3}} = \\dfrac{2-\\sqrt{3}}{1}$. Write the fully rationalised price. Write your answer like `2-√3` (or `2-sqrt3`).",
+      "inputMode": "text",
+      "accept": ["2\\s*-\\s*(√|sqrt)\\s*3", "2\\s*-\\s*(√|sqrt)\\(?3\\)?"],
+      "caseSensitive": false,
+      "successFeedback": "$2-\\sqrt{3}$. The register happily stores this: no surd in a denominator at all, since the denominator simplified straight to 1.",
+      "hints": ["The denominator is 1, so the fraction just equals its numerator.", "The numerator is $2-\\sqrt{3}$."]
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "rationalise-bigger-binomial",
+      "body": "A pricier tag reads $\\dfrac{5+\\sqrt{2}}{3-\\sqrt{2}}$. Multiply top and bottom by the conjugate of the denominator, $3+\\sqrt{2}$. Denominator: $(3-\\sqrt{2})(3+\\sqrt{2}) = 9-2 = 7$. Numerator: $(5+\\sqrt{2})(3+\\sqrt{2}) = 15+5\\sqrt{2}+3\\sqrt{2}+2 = 17+8\\sqrt{2}$. So the rationalised price is $\\dfrac{17+8\\sqrt{2}}{7}$.",
+      "selfExplainPrompt": "Why does multiplying by the conjugate of the denominator always turn a binomial surd denominator into a whole number, whatever the numerator is doing?",
+      "selfExplainAnswer": "The conjugate only changes the sign between the two terms of the denominator, $3-\\sqrt{2}$ becomes $3+\\sqrt{2}$. Multiplying $(3-\\sqrt{2})(3+\\sqrt{2})$ is exactly the pattern $(x-y)(x+y)=x^2-y^2$, and squaring removes the root sign from $y=\\sqrt{2}$, leaving $9-2=7$. The numerator is a completely separate calculation and doesn't affect whether the denominator becomes rational; that's controlled purely by the denominator and its conjugate."
+    },
+    {
+      "type": "faded-step",
+      "id": "rationalise-final-binomial",
+      "worked": "One last price tag: $\\dfrac{4+\\sqrt{3}}{2-\\sqrt{3}}$. Multiply top and bottom by the conjugate $2+\\sqrt{3}$. Denominator: $(2-\\sqrt{3})(2+\\sqrt{3}) = 4-3 = 1$. Numerator: $(4+\\sqrt{3})(2+\\sqrt{3}) = 8+4\\sqrt{3}+2\\sqrt{3}+3 = 11+6\\sqrt{3}$.",
+      "prompt": "Since the denominator came out to 1, the rationalised price is just the numerator. Write it. Write your answer like `11+6√3` (or `11+6sqrt3`).",
+      "inputMode": "text",
+      "accept": ["11\\s*\\+\\s*6\\s*(√|sqrt)\\s*3", "11\\s*\\+\\s*6\\s*(√|sqrt)\\(?3\\)?"],
+      "caseSensitive": false,
+      "successFeedback": "$11+6\\sqrt{3}$. And that resolves the register's problem from the top of this lesson for good: multiplying by the right conjugate (or the right single surd) always turns a surd denominator into a whole number, so any such price can always be rewritten in a form the register accepts.",
+      "hints": ["The denominator worked out to 1, so the answer is just the expanded numerator.", "$8+4\\sqrt{3}+2\\sqrt{3}+3 = 11+6\\sqrt{3}$."]
+    }
+  ]
+}

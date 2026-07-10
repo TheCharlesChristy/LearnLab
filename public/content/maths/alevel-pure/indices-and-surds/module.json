@@ -4,7 +4,7 @@
   "title": "Indices and Surds",
   "description": "The laws of indices for integer, negative and fractional powers, and the algebra of surds: simplifying, combining, and rationalising denominators.",
   "estMinutes": 80,
-  "prerequisites": [],
+  "prerequisites": ["algebra-essentials"],
   "objectives": [
     "Apply the laws of indices, including a^0 = 1 and negative exponents, to simplify expressions",
     "Evaluate and manipulate fractional (root) indices such as a^(1/n) and a^(m/n)",
@@ -14,10 +14,10 @@
   ],
   "tags": ["indices", "surds", "exponents", "roots", "rationalising", "algebra"],
   "lessons": [
-    { "id": "laws-of-indices", "title": "The laws of indices", "file": "01-laws-of-indices.md", "estMinutes": 20 },
-    { "id": "fractional-and-negative-indices", "title": "Fractional and negative indices", "file": "02-fractional-and-negative-indices.md", "estMinutes": 20 },
-    { "id": "simplifying-and-combining-surds", "title": "Simplifying and combining surds", "file": "03-simplifying-and-combining-surds.md", "estMinutes": 20 },
-    { "id": "rationalising-denominators", "title": "Rationalising denominators", "file": "04-rationalising-denominators.md", "estMinutes": 20 }
+    { "id": "laws-of-indices", "title": "The laws of indices", "file": "01-laws-of-indices.screens.json", "kind": "screens", "estMinutes": 20 },
+    { "id": "fractional-and-negative-indices", "title": "Fractional and negative indices", "file": "02-fractional-and-negative-indices.screens.json", "kind": "screens", "estMinutes": 20 },
+    { "id": "simplifying-and-combining-surds", "title": "Simplifying and combining surds", "file": "03-simplifying-and-combining-surds.screens.json", "kind": "screens", "estMinutes": 20 },
+    { "id": "rationalising-denominators", "title": "Rationalising denominators", "file": "04-rationalising-denominators.screens.json", "kind": "screens", "estMinutes": 20 }
   ],
   "assessment": { "file": "assessment.json", "passMark": 0.7 },
   "version": "1.0.0",
