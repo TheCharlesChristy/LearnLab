@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "trigonometry-2",
-  "title": "Trigonometry II — Identities, Compound Angles and Equations",
+  "title": "Trigonometry II: Identities, Compound Angles and Equations",
   "description": "Trigonometric identities, compound angle and double angle formulas, solving trigonometric equations over a given interval, and the R sin(x+alpha) harmonic form for a sinx + b cosx.",
   "estMinutes": 100,
   "prerequisites": [
@@ -16,9 +16,9 @@
   ],
   "tags": ["trigonometry", "identities", "compound-angle", "double-angle", "harmonic-form", "trig-equations"],
   "lessons": [
-    { "id": "identities-and-compound-angles", "title": "Trig identities and compound angle formulas", "file": "01-identities-and-compound-angles.md", "estMinutes": 30 },
-    { "id": "double-angle-formulas", "title": "Double angle formulas", "file": "02-double-angle-formulas.md", "estMinutes": 30 },
-    { "id": "equations-and-harmonic-form", "title": "Solving trig equations and the harmonic form", "file": "03-equations-and-harmonic-form.md", "estMinutes": 40 }
+    { "id": "identities-and-compound-angles", "title": "Trig identities and compound angle formulas", "file": "01-identities-and-compound-angles.screens.json", "kind": "screens", "estMinutes": 30 },
+    { "id": "double-angle-formulas", "title": "Double angle formulas", "file": "02-double-angle-formulas.screens.json", "kind": "screens", "estMinutes": 30 },
+    { "id": "equations-and-harmonic-form", "title": "Solving trig equations and the harmonic form", "file": "03-equations-and-harmonic-form.screens.json", "kind": "screens", "estMinutes": 40 }
   ],
   "assessment": {
     "file": "assessment.json",

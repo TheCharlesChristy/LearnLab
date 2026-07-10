@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "id": "double-angle-formulas",
+  "title": "Double angle formulas",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-sin2a",
+      "prompt": "Last lesson you met $\\sin(A+B)=\\sin A\\cos B+\\cos A\\sin B$. If $B$ is set equal to $A$, this becomes a formula for $\\sin(2A)$. Before deriving it properly: what do you think $\\sin(2A)$ equals?",
+      "choices": ["$2\\sin A$", "$2\\sin A\\cos A$", "$\\sin^2A+\\cos^2A$"],
+      "correctChoiceIndex": 1,
+      "reveal": "Hold that thought, you'll derive it on the next screen and see exactly why the tempting first guess, $2\\sin A$, is a common but wrong shortcut."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "derive-double-angle",
+      "body": "Setting $B=A$ in $\\sin(A+B)=\\sin A\\cos B+\\cos A\\sin B$:\n\n$$\n\\sin(2A)=\\sin A\\cos A+\\cos A\\sin A=2\\sin A\\cos A.\n$$\n\nSetting $B=A$ in $\\cos(A+B)=\\cos A\\cos B-\\sin A\\sin B$:\n\n$$\n\\cos(2A)=\\cos^2A-\\sin^2A.\n$$\n\nUsing $\\sin^2A=1-\\cos^2A$ or $\\cos^2A=1-\\sin^2A$ gives two more equivalent forms:\n\n$$\n\\cos(2A)=2\\cos^2A-1=1-2\\sin^2A.\n$$",
+      "selfExplainPrompt": "Your first guess for $\\sin(2A)$ was probably $2\\sin A$, just doubling the angle inside. Why is that wrong, given what $\\sin(A+B)$ actually says?",
+      "selfExplainAnswer": "$\\sin(2A)$ means $\\sin(A+A)$, and the compound angle formula for a sum doesn't just double the function's value, it mixes $\\sin A$ with $\\cos A$: $\\sin(A+A)=\\sin A\\cos A+\\cos A\\sin A=2\\sin A\\cos A$. The extra $\\cos A$ factor is exactly what $2\\sin A$ is missing. Doubling the angle inside a curved function is never as simple as doubling the value outside it, that shortcut only works for straight-line functions."
+    },
+    {
+      "type": "tap-choice",
+      "id": "choose-cos2a-form",
+      "prompt": "You want to solve an equation that only involves $\\sin x$, no $\\cos x$. Which form of $\\cos(2A)$ should you substitute?",
+      "choices": [
+        { "text": "$1-2\\sin^2A$" },
+        {
+          "text": "$\\cos^2A-\\sin^2A$",
+          "feedback": "This form still has both $\\sin A$ and $\\cos A$ in it, so it doesn't get you to a $\\sin x$-only equation."
+        },
+        {
+          "text": "$2\\cos^2A-1$",
+          "feedback": "This form is written purely in cosine, the opposite of what you want here, it's useful when the equation is in terms of $\\cos x$ instead."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right, $1-2\\sin^2A$ is the only form written purely in $\\sin A$, so it's the one to reach for when converting a mixed equation into a single variable, $\\sin x$."
+    },
+    {
+      "type": "entry",
+      "id": "cosa-from-triangle",
+      "prompt": "Back to the triangle from last lesson: $\\sin A=\\tfrac{3}{5}$ with $A$ acute. What is $\\cos A$, as a decimal?",
+      "inputMode": "numeric",
+      "answer": 0.8,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $\\cos A=\\tfrac{4}{5}=0.8$ (positive since $A$ is acute), the same result as last lesson, now put to work in the double angle formulas.",
+      "hints": [
+        "$\\cos^2A=1-\\sin^2A=1-\\left(\\tfrac35\\right)^2$.",
+        "$1-\\tfrac{9}{25}=\\tfrac{16}{25}$, and its square root is $\\tfrac45$."
+      ]
+    },
+    {
+      "type": "faded-step",
+      "id": "cos2a-from-triangle",
+      "worked": "With $\\sin A=\\tfrac35$ and $\\cos A=\\tfrac45$:\n\n$$\n\\sin(2A)=2\\sin A\\cos A=2\\cdot\\frac35\\cdot\\frac45=\\frac{24}{25}=0.96.\n$$",
+      "prompt": "Using $\\cos(2A)=1-2\\sin^2A$, find $\\cos(2A)$ as a decimal.",
+      "inputMode": "numeric",
+      "answer": 0.28,
+      "tolerance": 0.01,
+      "successFeedback": "Right, $\\cos(2A)=\\tfrac{7}{25}=0.28$. Check with the other form: $2\\cos^2A-1=2\\left(\\tfrac{16}{25}\\right)-1=\\tfrac{32}{25}-1=\\tfrac{7}{25}$, the same answer, confirming the three forms of $\\cos(2A)$ really do agree.",
+      "hints": [
+        "$\\sin^2A=\\left(\\tfrac35\\right)^2=\\tfrac{9}{25}$.",
+        "$1-2\\left(\\tfrac{9}{25}\\right)=1-\\tfrac{18}{25}=\\tfrac{7}{25}=0.28$."
+      ]
+    },
+    {
+      "type": "entry",
+      "id": "tan2a-close",
+      "prompt": "You predicted $\\sin(2A)$ might just be $2\\sin A$. Check: for this triangle, $2\\sin A=2\\times0.6=1.2$, but you just found $\\sin(2A)=0.96$, already proving that guess wrong. Now use $\\tan(2A)=\\dfrac{2\\tan A}{1-\\tan^2A}$ with $\\tan A=0.75$ (from last lesson) to find $\\tan(2A)$, as a decimal to 2 d.p.",
+      "inputMode": "numeric",
+      "answer": 3.43,
+      "tolerance": 0.02,
+      "successFeedback": "Right, $\\tan(2A)\\approx3.43$. That confirms the prediction from the top: doubling the angle inside sin, cos, or tan is never as simple as doubling the value outside, the compound angle formula with $B=A$ is genuinely needed every time. Next lesson uses these double angle formulas to solve trig equations and meet the harmonic form.",
+      "hints": [
+        "$\\tan^2A=0.75^2=0.5625$.",
+        "$\\dfrac{2(0.75)}{1-0.5625}=\\dfrac{1.5}{0.4375}$."
+      ]
+    }
+  ]
+}
