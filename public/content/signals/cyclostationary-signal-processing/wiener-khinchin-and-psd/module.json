@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "id": "wiener-khinchin-and-psd",
+  "title": "The Wiener–Khinchin Theorem and Power Spectral Density",
+  "description": "Deriving the power spectral density as the Fourier transform of the autocorrelation function, and extending it to cross-correlation and cross-spectral density.",
+  "estMinutes": 110,
+  "prerequisites": [
+    "stationary-random-processes",
+    "complex-exponentials-and-fourier"
+  ],
+  "objectives": [
+    "Derive the Wiener–Khinchin theorem and state the key properties (real, even, non-negative) of the resulting power spectral density",
+    "Interpret the PSD as power per unit frequency, and apply the filtering relation S_Y(f) = |H(f)|^2 S_X(f)",
+    "Define cross-correlation and cross-spectral density, and use them to estimate a time delay between two related signals",
+    "Verify numerically, from a finite noisy realization, that a directly-computed autocorrelation matches the periodogram-based estimate"
+  ],
+  "lessons": [
+    {
+      "id": "deriving-wiener-khinchin",
+      "title": "Deriving the Wiener–Khinchin theorem",
+      "file": "01-deriving-wiener-khinchin.screens.json",
+      "kind": "screens",
+      "estMinutes": 30
+    },
+    {
+      "id": "psd-interpretation",
+      "title": "Interpreting the power spectral density",
+      "file": "02-psd-interpretation.screens.json",
+      "kind": "screens",
+      "estMinutes": 25
+    },
+    {
+      "id": "cross-correlation-and-cross-spectral-density",
+      "title": "Cross-correlation and cross-spectral density",
+      "file": "03-cross-correlation-and-cross-spectral-density.screens.json",
+      "kind": "screens",
+      "estMinutes": 30
+    },
+    {
+      "id": "checkpoint-filtered-noise-verification",
+      "title": "Checkpoint: filtered noise, verified",
+      "file": "04-checkpoint-filtered-noise-verification.md",
+      "estMinutes": 25
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "learnlab"
+  ]
+}

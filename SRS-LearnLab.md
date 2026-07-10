@@ -30,7 +30,7 @@ LearnLab:
 - **Tier 1 (declarative):** Markdown lessons + JSON quizzes embedding pre-built native widgets. No programming required.
 - **Tier 2 (Python):** bespoke interactive learning items written as single Python files against a stable Python SDK (`learnsdk`), executed in-browser via Pyodide (WebAssembly). No JavaScript required.
 1. Stores all learner progress locally in the browser (IndexedDB), with JSON export/import. There is **no backend, no accounts, no telemetry**.
-1. Ships with initial course content up to and including A-level standard in **Mathematics, Physics, Computer Science, and AI**.
+1. Ships with initial course content up to and including A-level standard in **Mathematics, Physics, Computer Science, and AI**, plus a postgrad-level elective in **Signal Processing**.
 1. Includes complete in-repo authoring documentation and scaffolding tooling so that adding content requires **zero changes to application source code**.
 
 Out of scope for v1: user accounts, server-side sync, multi-user features, analytics, native mobile apps, internationalisation (English only). See §13.
@@ -259,7 +259,7 @@ learnlab/
 ### 4.1 Content hierarchy
 
 ```
-Subject (folder: maths | physics | cs | ai)
+Subject (folder: maths | physics | cs | ai | signals)
 └── Course        (folder + course.json)         e.g. alevel-pure
     └── Module    (folder + module.json)         e.g. differentiation-1
         ├── Lessons (NN-slug.md or NN-slug.py)   ordered teaching pages
@@ -277,14 +277,14 @@ Produced by `scripts/build-content.mjs` by scanning `public/content/**`. Schema:
 |---------------------------|-----------------|---|----------------------------------------------------|
 |`schemaVersion`            |integer          |✔  |`1`.                                                |
 |`generatedAt`              |string (ISO 8601)|✔  |Build timestamp.                                    |
-|`subjects`                 |Subject[]        |✔  |Ordered as: maths, physics, cs, ai.                 |
-|`Subject.id`               |string           |✔  |`"maths" | "physics" | "cs" | "ai"`.                |
+|`subjects`                 |Subject[]        |✔  |Ordered as: maths, physics, cs, ai, signals.         |
+|`Subject.id`               |string           |✔  |`"maths" | "physics" | "cs" | "ai" | "signals"`.    |
 |`Subject.title`            |string           |✔  |Display name.                                       |
 |`Subject.courses`          |CourseRef[]      |✔  |                                                    |
 |`CourseRef.id`             |string           |✔  |Course id.                                          |
 |`CourseRef.path`           |string           |✔  |e.g. `"maths/alevel-pure"` (relative to `content/`).|
 |`CourseRef.title`          |string           |✔  |Copied from `course.json`.                          |
-|`CourseRef.level`          |string           |✔  |`"gcse" | "as" | "a2" | "alevel" | "foundation"`.   |
+|`CourseRef.level`          |string           |✔  |`"gcse" | "as" | "a2" | "alevel" | "foundation" | "postgrad"`.|
 |`CourseRef.moduleCount`    |integer          |✔  |                                                    |
 |`CourseRef.totalEstMinutes`|integer          |✔  |Sum of module estimates.                            |
 
@@ -295,7 +295,7 @@ Produced by `scripts/build-content.mjs` by scanning `public/content/**`. Schema:
 |`schemaVersion`|integer    |✔  |`1`.                                                     |
 |`id`           |string     |✔  |Course id.                                               |
 |`title`        |string     |✔  |e.g. `"A-level Pure Mathematics"`.                       |
-|`subject`      |string     |✔  |One of the four subject ids. Must match parent folder.   |
+|`subject`      |string     |✔  |One of the subject ids. Must match parent folder.        |
 |`level`        |string     |✔  |As in §4.2.                                              |
 |`description`  |string     |✔  |1–3 sentences, plain text.                               |
 |`accent`       |string     |✖  |Hex colour for course theming, default per-subject token.|

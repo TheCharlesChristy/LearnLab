@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "eigenvectors-and-eigenvalues",
+  "title": "Eigenvectors and eigenvalues, refreshed",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-special-direction",
+      "prompt": "A 2x2 matrix $M$ generally rotates *and* stretches any vector you multiply it by, mixing the two axes together. Is there ever a direction where $M$ just stretches — no rotation at all — so that $M\\mathbf{v}$ points exactly along the same line as $\\mathbf{v}$?",
+      "choices": [
+        "No — every matrix rotates every vector at least a little",
+        "Yes — for many matrices there exist special directions where multiplication is pure scaling: $M\\mathbf{v} = \\lambda\\mathbf{v}$"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Yes. A vector $\\mathbf{v} \\neq \\mathbf{0}$ satisfying $M\\mathbf{v} = \\lambda\\mathbf{v}$ for some scalar $\\lambda$ is an **eigenvector** of $M$, and $\\lambda$ is its **eigenvalue** — the direction is preserved (up to sign), only the length changes, by a factor of $\\lambda$. Not every direction has this property; eigenvectors are the special ones that do, and for an $n \\times n$ matrix there are at most $n$ independent such directions."
+    },
+    {
+      "type": "entry",
+      "id": "check-eigenvalue-from-eigenvector",
+      "prompt": "For $M = \\begin{pmatrix}3 & 0\\\\0 & 5\\end{pmatrix}$, the vector $\\mathbf{v} = (0,1)$ satisfies $M\\mathbf{v} = \\lambda\\mathbf{v}$. What is $\\lambda$?",
+      "inputMode": "numeric",
+      "answer": 5,
+      "tolerance": 0.01,
+      "successFeedback": "Right — M(0,1) = (0, 5) = 5·(0,1), so λ = 5. For a diagonal matrix, the eigenvectors are just the coordinate axes and the eigenvalues are the diagonal entries themselves — the simplest possible case.",
+      "hints": [
+        "Compute M applied to the vector (0,1) directly: multiply each row of M by the vector.",
+        "M(0,1) = (3·0 + 0·1, 0·0 + 5·1) = (0, 5)."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-symmetric-guarantee",
+      "prompt": "$M$ is symmetric (equal to its own transpose). Which guarantee does the spectral theorem give you about its eigenvalues and eigenvectors?",
+      "choices": [
+        { "text": "Its eigenvalues are always real, and it has an orthogonal set of eigenvectors" },
+        {
+          "text": "Its eigenvalues are always complex",
+          "feedback": "The opposite is true: symmetry is exactly the property that guarantees real eigenvalues. A general (non-symmetric) matrix can have complex eigenvalues, but a real symmetric matrix never does."
+        },
+        {
+          "text": "It has no eigenvectors at all",
+          "feedback": "Symmetric matrices are actually the best-behaved case for eigendecomposition — they always have a full set of eigenvectors, forming an orthogonal basis."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — this is the single fact this whole module exists to unpack: every covariance matrix you'll meet in this course is symmetric, so this guarantee is why 'variance along a direction' is always a meaningful, real, comparable number."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "characteristic-equation-mechanism",
+      "body": "Eigenvalues are found by rearranging $M\\mathbf{v} = \\lambda\\mathbf{v}$ into $(M - \\lambda I)\\mathbf{v} = \\mathbf{0}$. For a nonzero $\\mathbf{v}$ to solve this, $(M - \\lambda I)$ must be singular (non-invertible) — its determinant must be zero. Setting $\\det(M - \\lambda I) = 0$ gives the **characteristic equation**, a polynomial in $\\lambda$ whose roots are exactly $M$'s eigenvalues. For a 2x2 matrix $\\begin{pmatrix}a & b\\\\ c& d\\end{pmatrix}$, this works out to $\\lambda^2 - (a+d)\\lambda + (ad - bc) = 0$ — a quadratic whose two roots are the two eigenvalues, and whose sum ($a+d$, the trace) and product ($ad-bc$, the determinant) give a quick sanity check on any eigenvalues you compute.",
+      "selfExplainPrompt": "In your own words: why does finding eigenvalues reduce to finding where det(M − λI) = 0, rather than solving Mv = λv directly for both v and λ at once?",
+      "selfExplainAnswer": "A strong answer notes that Mv = λv rearranges to (M − λI)v = 0, and for this to have a nonzero solution v, the matrix (M − λI) must fail to be invertible (otherwise v = 0 would be the only solution). A matrix fails to be invertible exactly when its determinant is zero, so solving det(M − λI) = 0 for λ first isolates the eigenvalues, and each one can then be plugged back in to solve for its eigenvector."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-characteristic-equation",
+      "worked": "For $M = \\begin{pmatrix}4 & 1\\\\1 & 4\\end{pmatrix}$: trace $= 4+4=8$, determinant $= 16-1=15$. The characteristic equation is $\\lambda^2 - 8\\lambda + 15 = 0$, factoring as $(\\lambda-3)(\\lambda-5)=0$, giving eigenvalues $\\lambda = 3$ and $\\lambda = 5$. Check: $3+5=8$ (trace) and $3\\times5=15$ (determinant) — both match, confirming the roots.",
+      "prompt": "For $M = \\begin{pmatrix}5 & 2\\\\2 & 5\\end{pmatrix}$, what is the larger of the two eigenvalues?",
+      "inputMode": "numeric",
+      "answer": 7,
+      "tolerance": 0.01,
+      "successFeedback": "Right — trace = 10, determinant = 25 − 4 = 21, so λ² − 10λ + 21 = 0 factors as (λ−3)(λ−7) = 0, giving eigenvalues 3 and 7. The larger one is 7.",
+      "hints": [
+        "Trace = 5 + 5 = 10; determinant = 5×5 − 2×2 = 21.",
+        "Solve λ² − 10λ + 21 = 0, or check which factor pair of 21 sums to 10 (3 and 7)."
+      ]
+    }
+  ]
+}

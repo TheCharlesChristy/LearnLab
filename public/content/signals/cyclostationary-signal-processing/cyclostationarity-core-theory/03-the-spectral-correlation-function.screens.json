@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "the-spectral-correlation-function",
+  "title": "The spectral correlation function",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-psd-blindness",
+      "prompt": "You already ran Welch's method on the burst (spectral-estimation module) and got a smooth, unremarkable-looking PSD — nothing that screamed \"this is a clocked digital signal\" rather than filtered noise. Given that the ordinary PSD is the α = 0 slice of a much richer object, does that smooth PSD mean the signal genuinely has no cyclostationary structure?",
+      "choices": [
+        "Yes — if the PSD looks like plain noise, there's nothing more to find",
+        "No — the PSD only reports the α = 0 term; all the symbol-rate structure could be sitting at α ≠ 0, completely invisible to it"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "No — and this is the reveal the whole case has been building to. The **spectral correlation function (SCF)**, $S_x^\\alpha(f)$, is defined as the Fourier transform *over τ* of the cyclic autocorrelation function $R_x^\\alpha(\\tau)$ — the direct generalization of the Wiener–Khinchin PSD to every cycle frequency at once. The ordinary PSD is just $S_x^0(f)$, the $\\alpha=0$ slice of the SCF. A modulated signal can have a PSD that looks exactly like filtered noise while its SCF lights up sharply at $\\alpha = \\pm 1/T_0$ and its harmonics — energy correlated across frequencies spaced $\\alpha$ apart, a phenomenon Gardner called **spectral redundancy**. Background noise, lacking any clocked structure, generically has *no* such redundancy: its SCF is essentially flat away from $\\alpha=0$. That asymmetry is precisely how a cyclostationary detector can find your burst where an energy detector or a plain PSD cannot."
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-scf-relationship",
+      "prompt": "How does the ordinary power spectral density relate to the spectral correlation function $S_x^\\alpha(f)$?",
+      "choices": [
+        { "text": "The PSD is the α = 0 slice of the SCF: PSD(f) = S_x^0(f)" },
+        {
+          "text": "The PSD is the average of the SCF over all cycle frequencies α",
+          "feedback": "It isn't an average — it's specifically the single slice at α = 0. Averaging over α would mix in information the PSD structurally cannot see."
+        },
+        {
+          "text": "The PSD and SCF are unrelated quantities computed from different data",
+          "feedback": "They come from the same underlying process and the same cyclic autocorrelation function — the SCF is a strict generalization of the PSD, not a separate, unrelated quantity."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — the PSD is one slice (α = 0) of the full two-dimensional SCF surface (frequency f and cycle frequency α). Every other slice is invisible to ordinary spectral analysis, which is exactly why your case needs the next module: actually estimating the SCF from real, finite, noisy data."
+    }
+  ]
+}

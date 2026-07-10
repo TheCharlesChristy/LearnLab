@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "id": "linear-algebra-for-signals",
+  "title": "Linear Algebra for Signals",
+  "description": "Eigendecomposition of symmetric matrices, quadratic forms, and positive semi-definiteness — the geometry behind every covariance matrix you'll meet later in this course.",
+  "estMinutes": 110,
+  "prerequisites": [],
+  "objectives": [
+    "Define eigenvectors and eigenvalues, and state the spectral theorem's guarantee for real symmetric matrices",
+    "Compute quadratic forms and determine positive semi-definiteness from a matrix's eigenvalues",
+    "Interpret a covariance matrix's eigenvectors and eigenvalues as the axes and spread of its geometric ellipse",
+    "Eigendecompose a small sample covariance matrix by hand and interpret the result"
+  ],
+  "lessons": [
+    {
+      "id": "eigenvectors-and-eigenvalues",
+      "title": "Eigenvectors and eigenvalues, refreshed",
+      "file": "01-eigenvectors-and-eigenvalues.screens.json",
+      "kind": "screens",
+      "estMinutes": 30
+    },
+    {
+      "id": "quadratic-forms-and-psd",
+      "title": "Quadratic forms and positive semi-definiteness",
+      "file": "02-quadratic-forms-and-psd.screens.json",
+      "kind": "screens",
+      "estMinutes": 30
+    },
+    {
+      "id": "covariance-matrices-as-geometric-objects",
+      "title": "Covariance matrices as geometric objects",
+      "file": "03-covariance-matrices-as-geometric-objects.screens.json",
+      "kind": "screens",
+      "estMinutes": 25
+    },
+    {
+      "id": "checkpoint-eigendecomposing-a-covariance-matrix",
+      "title": "Checkpoint: eigendecomposing a covariance matrix",
+      "file": "04-checkpoint-eigendecomposing-a-covariance-matrix.screens.json",
+      "kind": "screens",
+      "estMinutes": 25
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "learnlab"
+  ]
+}

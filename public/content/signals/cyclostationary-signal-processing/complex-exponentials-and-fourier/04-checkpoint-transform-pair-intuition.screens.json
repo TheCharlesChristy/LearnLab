@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "checkpoint-transform-pair-intuition",
+  "title": "Checkpoint: transform-pair intuition",
+  "screens": [
+    {
+      "type": "sort-match",
+      "id": "match-transform-pairs",
+      "prompt": "Match each time-domain shape to its Fourier transform — the case will lean on your ability to recognize these on sight, not re-derive them from scratch every time.",
+      "pairs": [
+        { "left": "A single sharp spike (impulse) at t = 0", "right": "A perfectly flat spectrum — every frequency present, equally" },
+        { "left": "A constant signal for all time", "right": "A single spike at f = 0 (all the 'content' is at zero frequency)" },
+        { "left": "A rectangular pulse (on for a while, then off)", "right": "A sinc function — a central lobe with decaying ripples on either side" },
+        { "left": "A pure cosine at frequency f₀", "right": "Two spikes, at +f₀ and −f₀" }
+      ],
+      "successFeedback": "These four pairs cover most of the building-block intuition you'll draw on for the rest of this course — in particular, notice that both the impulse/flat-spectrum pair and the rectangle/sinc pair are duality in action: narrow in one domain, wide in the other."
+    },
+    {
+      "type": "flash-recall",
+      "id": "recall-rect-sinc-duality",
+      "front": "Why does a *rectangular pulse* in time have a *sinc*-shaped spectrum, rather than something narrow and tidy?",
+      "back": "Duality: a signal that's narrow/sharply bounded in one domain must be spread out in the other. A rectangular pulse has a sharp, sudden start and end in time — representing that abruptness requires contributions from a very wide range of frequencies, which is exactly what the sinc function's spread-out, rippling shape encodes."
+    },
+    {
+      "type": "flash-recall",
+      "id": "recall-cosine-pair",
+      "front": "Why does a pure cosine at frequency f₀ transform into *two* spikes rather than one?",
+      "back": "A real cosine is built from two complex exponentials spinning in opposite directions, at +f₀ and −f₀ (cos(ωt) = ½e^{jωt} + ½e^{-jωt}) — the mirror-symmetric spectrum of any real signal. Each phasor contributes its own spike, one at each frequency."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "checkpoint-close-mechanism",
+      "body": "Case log: you now have the full first-principles machinery — complex exponentials as the natural building block for real oscillations, the Fourier series for periodic signals, and the Fourier transform (with its duality) for signals that never repeat, including your one-off recorded burst. Every one of these tools has so far been used on signals treated as fixed, known quantities — nothing random about them. That changes starting with the next module: the burst's amplitude readings really are random from moment to moment, and describing *that* rigorously is what stationary random processes and, soon after, the Wiener–Khinchin theorem are built to handle.",
+      "selfExplainPrompt": "In your own words: what's missing from everything covered in this module, that a genuinely random signal (like the recorded burst) will need on top of it?",
+      "selfExplainAnswer": "A strong answer notes that every tool in this module — Fourier series, Fourier transform, duality, convolution — has been applied to a signal treated as a single, fixed, deterministic function of time. A genuinely random signal doesn't have one fixed waveform to transform; its amplitude at any instant is a random variable, so a proper treatment needs the probability machinery from probability-foundations combined with this module's Fourier machinery — which is exactly the combination the random-processes module builds next."
+    }
+  ]
+}

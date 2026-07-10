@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "statistics-with-a-heartbeat",
+  "title": "Statistics with a heartbeat",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-clocked-signal-stationary",
+      "prompt": "Case breakthrough: the burst is almost certainly a digitally modulated transmission — bits clocked out at a fixed symbol rate onto a carrier. If you estimate its mean and autocorrelation using a plain time-average (treating it as if it were an ordinary WSS process), do you expect those quantities to come out constant in time, or to visibly pulse with the symbol clock?",
+      "choices": [
+        "Constant — modulated signals still look wide-sense stationary once you average enough",
+        "Pulsing — the act of clocking symbols out at a fixed rate makes the *statistics themselves* periodic in time"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "They pulse. A digitally modulated signal is built by multiplying (or convolving) a random bit/symbol sequence against a periodic pulse shape and carrier, clocked at a fixed rate $1/T_0$. That periodic clocking doesn't just repeat in the raw waveform — it repeats in the waveform's **statistics**: $R_x(t,\\tau) = E[x(t)x^*(t-\\tau)]$ is periodic in $t$ with period $T_0$, not constant. A process whose statistics are periodic in time like this, rather than constant, is called **cyclostationary** — the formal generalization of stationarity you've been building toward since the random-processes module."
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-cyclostationary-definition",
+      "prompt": "Which statement correctly distinguishes a cyclostationary process from a wide-sense stationary one?",
+      "choices": [
+        { "text": "WSS: R_x(t,τ) depends only on τ. Cyclostationary: R_x(t,τ) is periodic in t (for fixed τ), not constant." },
+        {
+          "text": "WSS processes have zero mean; cyclostationary processes don't",
+          "feedback": "Mean value has nothing to do with the distinction — both classes can have zero or nonzero mean. The distinction is entirely about how R_x(t,τ) behaves as a function of t."
+        },
+        {
+          "text": "Cyclostationary processes are just WSS processes measured over a longer window",
+          "feedback": "It isn't a measurement-window issue — no amount of averaging removes the periodicity in t for a genuinely cyclostationary process, because the periodicity is a property of the underlying random mechanism (the symbol clock), not an artifact of a short recording."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — cyclostationarity is a strict generalization of stationarity: WSS is the special case where the period in t happens to be irrelevant (constant statistics), and cyclostationary is the case where it isn't."
+    }
+  ]
+}

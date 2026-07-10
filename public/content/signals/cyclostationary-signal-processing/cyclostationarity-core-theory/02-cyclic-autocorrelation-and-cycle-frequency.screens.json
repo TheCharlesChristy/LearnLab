@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "cyclic-autocorrelation-and-cycle-frequency",
+  "title": "Cyclic autocorrelation and cycle frequency",
+  "screens": [
+    {
+      "type": "reveal-mechanism",
+      "id": "cyclic-autocorrelation-mechanism",
+      "body": "Since $R_x(t,\\tau)$ is periodic in $t$ with period $T_0$ (previous lesson), it has its own Fourier series in $t$, for each fixed lag $\\tau$: $R_x(t,\\tau) = \\sum_\\alpha R_x^\\alpha(\\tau)\\, e^{j2\\pi\\alpha t}$, where the sum runs over $\\alpha \\in \\{k/T_0 : k \\in \\mathbb{Z}\\}$. Each coefficient $R_x^\\alpha(\\tau)$ is called the **cyclic autocorrelation function** at **cycle frequency** $\\alpha$, and it's extracted exactly like any Fourier series coefficient: $R_x^\\alpha(\\tau) = \\lim_{T\\to\\infty}\\frac{1}{T}\\int_{-T/2}^{T/2} R_x(t,\\tau)\\,e^{-j2\\pi\\alpha t}\\,dt$. The $\\alpha=0$ term is just the ordinary time-averaged autocorrelation you already know — cyclostationarity's *new* information lives entirely in the $\\alpha \\neq 0$ terms, at cycle frequencies tied to the symbol rate, carrier frequency, and framing rate of your burst.",
+      "selfExplainPrompt": "In your own words: why is the α = 0 cyclic autocorrelation term the same thing as the ordinary (non-cyclic) autocorrelation you studied for WSS processes?",
+      "selfExplainAnswer": "A strong answer notes that setting α = 0 in the Fourier-series formula for R_x^α(τ) makes the exponential e^{-j2π·0·t} = 1, so R_x^0(τ) is just the plain time-average of R_x(t,τ) over t — exactly the definition used for a WSS process's (t-independent) autocorrelation. All the cycle frequencies α ≠ 0 are extra structure that a WSS analysis has no way to represent at all."
+    },
+    {
+      "type": "entry",
+      "id": "cycle-frequency-from-symbol-rate",
+      "prompt": "Your recording's demodulated bursts repeat their statistical pattern with period $T_0 = 0.25$ ms (the case file's estimated symbol period). What is the fundamental cycle frequency $\\alpha = 1/T_0$, in Hz?",
+      "inputMode": "numeric",
+      "answer": 4000,
+      "tolerance": 1,
+      "unit": "Hz",
+      "successFeedback": "Right — 1 / 0.00025 s = 4000 Hz. That's the cycle frequency your cyclic autocorrelation function should show a nonzero coefficient at (along with its integer multiples) — exactly the symbol-rate fingerprint the case has been chasing.",
+      "hints": [
+        "Cycle frequency is the reciprocal of the period in t: α = 1/T₀.",
+        "0.25 ms = 0.00025 s."
+      ]
+    }
+  ]
+}

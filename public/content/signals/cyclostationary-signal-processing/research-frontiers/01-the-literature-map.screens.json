@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "the-literature-map",
+  "title": "The literature map",
+  "screens": [
+    {
+      "type": "reveal-mechanism",
+      "id": "literature-map-mechanism",
+      "body": "Every technique in this course traces back to a small set of primary sources, and reading them in the right order matters. Start with **Gardner, Napolitano & Paura's \"Cyclostationarity: Half a Century of Research\" (2006, Signal Processing)** — a survey paper that orients you across the whole field before you commit to anything denser. From there, **William A. Gardner's \"Statistical Spectral Analysis: A Nonprobabilistic Theory\" (1987)** is the foundational text this course's core-theory module is built from — dense, but the source everything else cites. **Antonio Napolitano's \"Cyclostationarity: New Trends and Applications\" (2020)** is the modern follow-up, filling gaps Gardner's older book leaves. For the practical estimation algorithms (FAM/SSCA), **Roberts, Brown & Loomis, \"Computationally Efficient Algorithms for Cyclic Spectral Analysis\" (1991, IEEE SP Magazine)** is the reference. And ongoing: **Chad Spooner's CSP blog** is a genuinely useful bridge between textbook derivations and applied, worked examples — a good habit to build once the textbook material has landed.",
+      "selfExplainPrompt": "In your own words: why read the Gardner/Napolitano/Paura survey paper before attempting Gardner's 1987 book?",
+      "selfExplainAnswer": "A strong answer notes that the survey paper is written to orient a reader across the whole field's history and structure at a much gentler pace, before diving into a dense foundational text — reading it first means Gardner's book is filling in depth on a map you already roughly have, rather than being your first exposure to the field's shape at all."
+    },
+    {
+      "type": "flash-recall",
+      "id": "recall-fam-ssca-source",
+      "front": "Which paper is the reference for the FAM and SSCA cyclic-spectrum-estimation algorithms?",
+      "back": "Roberts, Brown & Loomis, \"Computationally Efficient Algorithms for Cyclic Spectral Analysis\" (1991, IEEE Signal Processing Magazine)."
+    }
+  ]
+}

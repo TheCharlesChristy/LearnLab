@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "finding-signals-in-noise",
+  "title": "Finding signals buried in noise",
+  "screens": [
+    {
+      "type": "reveal-mechanism",
+      "id": "low-snr-detection-mechanism",
+      "body": "An energy detector just asks \"is there more power here than the expected noise floor?\" — at low enough SNR, the burst's power is genuinely indistinguishable from a noise fluctuation, and the energy detector misses it. A cyclostationary detector asks a fundamentally different question: \"is there significant correlation between spectral components separated by a candidate cycle frequency α?\" (spectral redundancy, from the core-theory module). Thermal noise and most interference are well-modeled as stationary — they have essentially **no** spectral redundancy at any α ≠ 0. So even when the burst's *power* is buried under the noise floor, its *cyclic correlation* at the right α can still stand out clearly, because noise contributes almost nothing there for the detector to compete against. This is why cyclostationary detectors are the standard tool for non-cooperative spectrum sensing at SNRs where energy detection has already given up.",
+      "selfExplainPrompt": "In your own words: why can a cyclostationary detector succeed at an SNR where an energy detector fails, even though both are looking at the same noisy recording?",
+      "selfExplainAnswer": "A strong answer notes that the two detectors are testing different things: the energy detector compares total power to a noise floor, and at low SNR the signal's power addition is too small to distinguish from noise fluctuations. The cyclostationary detector instead tests for correlation between spectral components at a specific cycle-frequency offset — a property that stationary noise essentially never has, so even a very weak signal's tiny nonzero cyclic correlation can still be statistically distinguishable from the near-zero cyclic correlation of noise alone."
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-detector-comparison",
+      "prompt": "Why does noise being 'stationary' (rather than cyclostationary) matter for detector performance?",
+      "choices": [
+        { "text": "Stationary noise has essentially no spectral redundancy at any nonzero cycle frequency, so a cyclic detector sees very little to compete against there" },
+        {
+          "text": "Stationary noise has more power than cyclostationary signals, always",
+          "feedback": "Stationarity is about statistical structure, not about how much power the noise carries — a stationary process can have any power level."
+        },
+        {
+          "text": "It means energy detectors and cyclic detectors always give identical results",
+          "feedback": "They generally give different results precisely because they test different properties (total power vs. cyclic correlation) — that difference is the whole reason cyclic detection helps at low SNR."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right — the near-total absence of cyclic correlation in stationary noise, at any α ≠ 0, is exactly what lets a cyclic detector pull a weak structured signal out where an energy detector cannot."
+    }
+  ]
+}

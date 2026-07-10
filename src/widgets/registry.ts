@@ -12,6 +12,7 @@ import type { WidgetDef } from './widget-def';
 import { def as circuitSim } from './circuit-sim';
 import { def as codeRunner } from './code-runner';
 import { def as dataPlot } from './data-plot';
+import { def as eigenPlayground } from './eigen-playground';
 import { def as figure } from './figure';
 import { def as flashcards } from './flashcards';
 import { def as functionGrapher } from './function-grapher';
@@ -20,6 +21,7 @@ import keys from './keys.json';
 import { def as logicGateSim } from './logic-gate-sim';
 import { def as matchingPairs } from './matching-pairs';
 import { def as quiz } from './quiz';
+import { def as signalScope } from './signal-scope';
 import { def as stepReveal } from './step-reveal';
 import { def as truthTable } from './truth-table';
 import { def as vectorField } from './vector-field';
@@ -40,6 +42,8 @@ export const widgetRegistry: Record<string, WidgetDef> = {
   'geometry-canvas': geometryCanvas,
   'circuit-sim': circuitSim,
   'truth-table': truthTable,
+  'eigen-playground': eigenPlayground,
+  'signal-scope': signalScope,
 };
 
 export const WIDGET_KEYS: readonly string[] = keys;

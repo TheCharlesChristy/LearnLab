@@ -141,13 +141,12 @@
         "id": { "$ref": "#/$defs/id" },
         "prompt": { "type": "string", "minLength": 1 },
         "widget": {
-          "enum": ["function-grapher"],
-          "description": "Phase 1 supports one explorable; more join as later phases wrap them (docs/BRILLIANT_REWRITE_PLAN.md)."
+          "enum": ["function-grapher", "signal-scope", "eigen-playground"],
+          "description": "The explorable this screen wraps; each widget pairs with exactly one goal.kind (see the allOf below)."
         },
         "widgetProps": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["expr"],
           "properties": {
             "expr": { "type": "string", "minLength": 1 },
             "xmin": { "type": "number" },
@@ -155,23 +154,98 @@
             "ymin": { "type": "number" },
             "ymax": { "type": "number" },
             "tangent": { "type": "boolean" },
-            "grid": { "type": "boolean" }
+            "grid": { "type": "boolean" },
+            "sampleRate": { "type": "number", "exclusiveMinimum": 0 },
+            "duration": { "type": "number", "exclusiveMinimum": 0 },
+            "noiseAmount": { "type": "number", "minimum": 0 },
+            "freqMin": { "type": "number" },
+            "freqMax": { "type": "number" },
+            "freqInit": { "type": "number" },
+            "showSpectrum": { "type": "boolean" },
+            "a": { "type": "number", "exclusiveMinimum": 0 },
+            "c": { "type": "number", "exclusiveMinimum": 0 },
+            "bMin": { "type": "number" },
+            "bMax": { "type": "number" },
+            "bInit": { "type": "number" },
+            "showPoints": { "type": "boolean" }
           }
         },
         "goal": {
           "type": "object",
-          "additionalProperties": false,
-          "required": ["kind", "min", "max", "description"],
-          "properties": {
-            "kind": { "const": "tangent-gradient-in-range" },
-            "min": { "type": "number" },
-            "max": { "type": "number" },
-            "description": { "type": "string", "minLength": 1 }
-          }
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "required": ["kind", "min", "max", "description"],
+              "properties": {
+                "kind": { "const": "tangent-gradient-in-range" },
+                "min": { "type": "number" },
+                "max": { "type": "number" },
+                "description": { "type": "string", "minLength": 1 }
+              }
+            },
+            {
+              "additionalProperties": false,
+              "required": ["kind", "min", "max", "description"],
+              "properties": {
+                "kind": { "const": "match-frequency-in-range" },
+                "min": { "type": "number" },
+                "max": { "type": "number" },
+                "description": { "type": "string", "minLength": 1 }
+              }
+            },
+            {
+              "additionalProperties": false,
+              "required": ["kind", "min", "max", "description"],
+              "properties": {
+                "kind": { "const": "eigenvector-angle-in-range" },
+                "min": { "type": "number" },
+                "max": { "type": "number" },
+                "description": { "type": "string", "minLength": 1 }
+              }
+            }
+          ]
         },
         "successFeedback": { "type": "string", "minLength": 1 },
         "hints": { "$ref": "#/$defs/hints" }
-      }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "widget": { "const": "function-grapher" } } },
+          "then": {
+            "properties": {
+              "widgetProps": { "type": "object", "required": ["expr"] },
+              "goal": {
+                "type": "object",
+                "properties": { "kind": { "const": "tangent-gradient-in-range" } }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "widget": { "const": "signal-scope" } } },
+          "then": {
+            "properties": {
+              "widgetProps": { "type": "object", "required": ["expr"] },
+              "goal": {
+                "type": "object",
+                "properties": { "kind": { "const": "match-frequency-in-range" } }
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "widget": { "const": "eigen-playground" } } },
+          "then": {
+            "properties": {
+              "widgetProps": { "type": "object", "required": ["bMin", "bMax"] },
+              "goal": {
+                "type": "object",
+                "properties": { "kind": { "const": "eigenvector-angle-in-range" } }
+              }
+            }
+          }
+        }
+      ]
     },
     "fadedStep": {
       "type": "object",

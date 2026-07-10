@@ -9,8 +9,8 @@
     "schemaVersion": { "const": 1 },
     "id": { "$ref": "#/$defs/id" },
     "title": { "type": "string", "minLength": 1 },
-    "subject": { "enum": ["maths", "physics", "cs", "ai"] },
-    "level": { "enum": ["gcse", "as", "a2", "alevel", "foundation"] },
+    "subject": { "enum": ["maths", "physics", "cs", "ai", "signals"] },
+    "level": { "enum": ["gcse", "as", "a2", "alevel", "foundation", "postgrad"] },
     "description": { "type": "string", "minLength": 1 },
     "accent": { "type": "string" },
     "modules": {

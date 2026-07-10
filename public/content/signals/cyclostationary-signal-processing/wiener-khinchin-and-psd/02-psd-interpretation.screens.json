@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "psd-interpretation",
+  "title": "Interpreting the power spectral density",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-filtered-noise-psd",
+      "prompt": "You pass flat, white noise (equal power at every frequency) through a filter with frequency response $H(f)$. What shape would you expect the *output* signal's PSD to take?",
+      "choices": [
+        "Still perfectly flat — filtering a random signal doesn't reshape its PSD",
+        "Shaped by |H(f)|² — frequencies the filter passes strongly show more output power, frequencies it suppresses show less"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Shaped by $|H(f)|^2$: $S_Y(f) = |H(f)|^2\\,S_X(f)$, the random-process analogue of the convolution theorem's $Y(f) = X(f)H(f)$ from the Fourier-analysis module. Filtering scales the PSD frequency-by-frequency by the filter's power response — a flat white-noise PSD gets literally reshaped into the filter's own $|H(f)|^2$ envelope. This is exactly how a real recording device (or a burst passing through a real communication channel) ends up with a PSD that looks like *neither* pure white noise *nor* the filter alone, but their frequency-by-frequency product."
+    },
+    {
+      "type": "entry",
+      "id": "compute-filtered-power",
+      "prompt": "White noise with flat PSD $S_X(f) = 2$ (at every frequency) passes through a filter with $|H(f_0)|^2 = 5$ at some specific frequency $f_0$. What is $S_Y(f_0)$, the output PSD at that frequency?",
+      "inputMode": "numeric",
+      "answer": 10,
+      "tolerance": 0.01,
+      "successFeedback": "Right — S_Y(f₀) = |H(f₀)|²·S_X(f₀) = 5 × 2 = 10.",
+      "hints": [
+        "S_Y(f) = |H(f)|² · S_X(f), evaluated at f₀.",
+        "5 × 2 = ?"
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-band-power",
+      "prompt": "What does integrating S_X(f) over a specific frequency band, say from f₁ to f₂, give you?",
+      "choices": [
+        { "text": "The signal's average power contained specifically within that frequency band" },
+        {
+          "text": "The signal's total power at every frequency, regardless of the chosen band",
+          "feedback": "That's what integrating over ALL frequencies gives (R_X(0)). Integrating over just [f₁, f₂] restricts the total to only the power sitting inside that specific band."
+        },
+        {
+          "text": "The autocorrelation function evaluated at lag f₂ − f₁",
+          "feedback": "Integrating the PSD over a band gives a power quantity, not an autocorrelation value — R_X(τ) and S_X(f) are Fourier-transform partners of each other, but 'integrate S_X over a frequency band' isn't the operation that recovers a specific R_X(τ)."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — this bandwise-power interpretation is precisely why it's called a 'density': integrate it over any range of frequencies and you get the actual power carried by that range, exactly like a probability density integrates to a probability over a range."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "white-noise-mechanism",
+      "body": "**White noise** is the idealized process whose PSD is exactly flat, $S_X(f) = N_0$ (a constant) for all frequencies. Applying Wiener–Khinchin backward: the inverse Fourier transform of a constant is a scaled impulse, so white noise's autocorrelation is $R_X(\\tau) = N_0\\,\\delta(\\tau)$ — exactly zero for any nonzero lag, and (formally) infinite at $\\tau=0$. In plain terms: an idealized white-noise sample at any instant tells you *nothing at all* about the sample at any other instant, however close — the polar opposite of the smoothly-varying, highly-autocorrelated signals you've been analyzing throughout this course. Real recorded noise is never perfectly white (it's always at least slightly correlated over very short lags, and its spectrum eventually rolls off at high frequency), but 'white noise' remains the standard idealized reference every real spectral estimate gets compared against.",
+      "selfExplainPrompt": "In your own words: why does a perfectly flat PSD correspond to an autocorrelation function that is zero everywhere except exactly at τ = 0?",
+      "selfExplainAnswer": "A strong answer connects this to the Fourier transform pairs from the complex-exponentials module: a perfectly flat function in one domain (here, frequency) transforms to a sharply concentrated impulse in the other domain (here, an impulse in τ at exactly zero lag) — this is the same duality principle that made a rectangular pulse's spectrum spread out into a sinc. A signal whose autocorrelation vanishes at every nonzero lag is, by definition, one where no sample carries any predictive information about any other sample — the defining property of white noise."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-passband-power",
+      "worked": "White noise with flat PSD $S_X(f) = 3$ passes through an ideal band-pass filter that passes frequencies in $[10, 15]$ Hz perfectly ($|H(f)|^2=1$ there) and blocks everything else completely ($|H(f)|^2=0$ elsewhere). The output power is $\\int_{10}^{15} S_Y(f)\\,df = \\int_{10}^{15} 3\\,df = 3 \\times (15-10) = 15$.",
+      "prompt": "Same white noise ($S_X(f)=3$) through an ideal band-pass filter passing $[20,26]$ Hz perfectly and blocking everything else. What is the total output power?",
+      "inputMode": "numeric",
+      "answer": 18,
+      "tolerance": 0.01,
+      "successFeedback": "Right — 3 × (26 − 20) = 3 × 6 = 18. Flat input PSD times an ideal passband of width 6 Hz gives 18 units of output power, all concentrated in that band.",
+      "hints": [
+        "Output power = S_X(f) × (bandwidth of the passband), since the filter passes that band perfectly and blocks everything else.",
+        "Bandwidth = 26 − 20 = 6 Hz; 3 × 6 = ?"
+      ]
+    }
+  ]
+}

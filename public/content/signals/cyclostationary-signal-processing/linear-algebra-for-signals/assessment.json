@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "id": "linear-algebra-for-signals-assessment",
+  "title": "End of module: Linear Algebra for Signals",
+  "shuffleQuestions": true,
+  "shuffleChoices": true,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "A nonzero vector v satisfies Mv = λv. What are v and λ called?",
+      "choices": [
+        "v is an eigenvector of M, and λ is its eigenvalue",
+        "v is the determinant of M, and λ is its trace",
+        "v is a quadratic form, and λ is a covariance matrix"
+      ],
+      "answer": 0,
+      "explanation": "By definition, a nonzero vector v satisfying Mv = λv for some scalar λ is an eigenvector with eigenvalue λ — multiplication by M scales v without rotating it."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "What does the spectral theorem guarantee for a real symmetric matrix?",
+      "choices": [
+        "Its eigenvalues are always real, and it has an orthogonal set of eigenvectors",
+        "Its eigenvalues are always complex",
+        "It cannot be diagonalized"
+      ],
+      "answer": 0,
+      "explanation": "The spectral theorem guarantees real eigenvalues and an orthogonal eigenbasis for any real symmetric matrix — exactly why covariance matrices (always symmetric) have well-behaved, real, comparable variances along their principal directions."
+    },
+    {
+      "id": "q3",
+      "type": "numeric",
+      "text": "For M = [[6,0],[0,2]] (diagonal), what is the larger eigenvalue?",
+      "answer": 6,
+      "tolerance": 0.01,
+      "explanation": "For a diagonal matrix, the eigenvalues are simply the diagonal entries themselves: 6 and 2, so the larger is 6."
+    },
+    {
+      "id": "q4",
+      "type": "numeric",
+      "text": "For M = [[3,2],[2,3]], the characteristic equation is λ² − 6λ + 5 = 0. What is the smaller eigenvalue?",
+      "answer": 1,
+      "tolerance": 0.01,
+      "explanation": "λ² − 6λ + 5 = 0 factors as (λ−1)(λ−5) = 0, giving eigenvalues 1 and 5. The smaller is 1."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "For a real covariance matrix Σ and any real vector a, why is a^T Σ a always ≥ 0?",
+      "choices": [
+        "Because a^T Σ a equals Var(a^T x), the variance of a projection of the data — and variance can never be negative",
+        "Because covariance matrices always have a positive determinant",
+        "Because a must always be a unit vector"
+      ],
+      "answer": 0,
+      "explanation": "a^T Σ a is exactly the variance of the scalar random variable a^T x, and variance is never negative — this is what forces every real covariance matrix to be positive semi-definite, with no exceptions."
+    },
+    {
+      "id": "q6",
+      "type": "mcq",
+      "text": "A symmetric matrix is positive semi-definite exactly when:",
+      "choices": [
+        "All of its eigenvalues are ≥ 0",
+        "Its trace is positive",
+        "Its determinant is positive"
+      ],
+      "answer": 0,
+      "explanation": "Writing any vector in the matrix's eigenbasis turns the quadratic form into a weighted sum of squares, weighted by the eigenvalues — that sum stays non-negative for every possible vector only if every eigenvalue itself is non-negative."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "M = [[2,3],[3,2]] has eigenvalues found from λ² − 4λ − 5 = 0. Is the smaller eigenvalue ≥ 0? Enter the smaller eigenvalue (it may be negative).",
+      "answer": -1,
+      "tolerance": 0.01,
+      "explanation": "λ² − 4λ − 5 = 0 factors as (λ−5)(λ+1) = 0, giving eigenvalues 5 and −1. Since −1 is negative, this matrix is NOT positive semi-definite — it could never be a genuine real covariance matrix."
+    },
+    {
+      "id": "q8",
+      "type": "mcq",
+      "text": "For a covariance matrix Σ = [[a,b],[b,c]] with a = c and b ≠ 0, what is the principal eigenvector's tilt angle?",
+      "choices": [
+        "Exactly 45°, regardless of the specific nonzero value of b",
+        "Always 0°",
+        "It depends only on b, never on a or c"
+      ],
+      "answer": 0,
+      "explanation": "When a = c, the formula θ = ½·arctan(2b/(a−c)) has a zero denominator, corresponding to arctan's vertical asymptote (90°), giving θ = 45° for any nonzero b — only the eigenvalues' spread (not the tilt angle) depends on b's magnitude in this equal-variance case."
+    },
+    {
+      "id": "q9",
+      "type": "text",
+      "text": "One phrase (two words): the geometric/statistical technique that IS covariance-matrix eigendecomposition under a different name, used to find a dataset's dominant direction of variance, is called ___ ___ analysis.",
+      "accept": ["principal component"],
+      "caseSensitive": false,
+      "explanation": "Principal Component Analysis (PCA) is exactly covariance-matrix eigendecomposition: the first principal component is the eigenvector with the largest eigenvalue, the direction of greatest variance."
+    }
+  ]
+}

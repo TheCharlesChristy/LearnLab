@@ -11,5 +11,7 @@
   "vector-field",
   "geometry-canvas",
   "circuit-sim",
-  "truth-table"
+  "truth-table",
+  "eigen-playground",
+  "signal-scope"
 ]

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "quadratic-forms-and-psd",
+  "title": "Quadratic forms and positive semi-definiteness",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-quadratic-form-sign",
+      "prompt": "Take any symmetric matrix $M$ built as a covariance matrix, and any real vector $\\mathbf{a}$. Form the scalar $Q(\\mathbf{a}) = \\mathbf{a}^T M \\mathbf{a}$ — a **quadratic form**. Could $Q(\\mathbf{a})$ ever come out negative, for some choice of $\\mathbf{a}$, if $M$ is a genuine covariance matrix?",
+      "choices": [
+        "Yes — quadratic forms can be negative for any symmetric matrix",
+        "No — if M is a real covariance matrix, a^T M a is always ≥ 0, for every possible a"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "No, never — and this isn't a coincidence, it's forced by what a covariance matrix *is*. If $M = \\text{Cov}(\\mathbf{x})$ for a random vector $\\mathbf{x}$, then $\\mathbf{a}^T M \\mathbf{a} = \\text{Var}(\\mathbf{a}^T\\mathbf{x})$ — the variance of the scalar random variable you get by projecting $\\mathbf{x}$ onto direction $\\mathbf{a}$. Variance can never be negative, so neither can $\\mathbf{a}^T M \\mathbf{a}$, for *any* $\\mathbf{a}$. A symmetric matrix with this property for every $\\mathbf{a}$ is called **positive semi-definite (PSD)** — and every real covariance matrix, without exception, is PSD."
+    },
+    {
+      "type": "entry",
+      "id": "compute-quadratic-form",
+      "prompt": "For $M = \\begin{pmatrix}2 & 1\\\\1 & 2\\end{pmatrix}$ and $\\mathbf{a} = (1, 1)$, compute $Q(\\mathbf{a}) = \\mathbf{a}^T M \\mathbf{a}$.",
+      "inputMode": "numeric",
+      "answer": 6,
+      "tolerance": 0.01,
+      "successFeedback": "Right — Ma = (2+1, 1+2) = (3,3), and a^T(Ma) = 1×3 + 1×3 = 6. A positive result, consistent with M being a valid (positive semi-definite) covariance matrix.",
+      "hints": [
+        "First compute Ma (a 2-vector), then take the dot product of a with that result.",
+        "Ma = (2×1 + 1×1, 1×1 + 2×1) = (3, 3). Then a·(3,3) = 1×3 + 1×3."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-eigenvalue-psd-link",
+      "prompt": "In terms of eigenvalues, a symmetric matrix M is positive semi-definite exactly when:",
+      "choices": [
+        { "text": "All of M's eigenvalues are ≥ 0" },
+        {
+          "text": "M's determinant is positive",
+          "feedback": "A positive determinant alone doesn't guarantee PSD — two negative eigenvalues multiply to a positive determinant too, but a matrix with any negative eigenvalue is not PSD."
+        },
+        {
+          "text": "M's trace is positive",
+          "feedback": "A positive trace doesn't guarantee every eigenvalue is non-negative — one large positive eigenvalue could offset one negative eigenvalue and still give a positive trace, while the matrix itself is not PSD."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — writing any vector a in M's eigenbasis turns Q(a) into a weighted sum of squared components, each weighted by an eigenvalue. That sum can only stay non-negative for every possible a if every eigenvalue is itself non-negative."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "eigenbasis-quadratic-form-mechanism",
+      "body": "Here's why the eigenvalue link holds. Write any vector $\\mathbf{a}$ in $M$'s orthogonal eigenbasis: $\\mathbf{a} = \\sum_i c_i \\mathbf{v}_i$, where $\\mathbf{v}_i$ are unit eigenvectors with eigenvalues $\\lambda_i$. Then $M\\mathbf{a} = \\sum_i c_i\\lambda_i\\mathbf{v}_i$, and using the eigenvectors' orthonormality, $\\mathbf{a}^TM\\mathbf{a} = \\sum_i \\lambda_i c_i^2$. Every $c_i^2$ term is automatically non-negative — so the whole sum is non-negative for *every* possible $\\mathbf{a}$ (every choice of the $c_i$) if and only if every $\\lambda_i \\geq 0$. This is exactly why a covariance matrix's eigenvalues can never be negative: they're the weights on a sum of squares that has to represent a variance.",
+      "selfExplainPrompt": "In your own words: why does a single negative eigenvalue guarantee you can find some direction a where a^T M a is negative?",
+      "selfExplainAnswer": "A strong answer says: pick a to be exactly the eigenvector with the negative eigenvalue (c_i = 1 for that one term, all other c_j = 0). Then a^T M a = λ_i · 1² = λ_i, which is negative by assumption — so that one specific direction alone is enough to break positive semi-definiteness, confirming that every single eigenvalue must be non-negative, not just most of them."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-psd-check",
+      "worked": "Is $M = \\begin{pmatrix}4 & 1\\\\1 & 4\\end{pmatrix}$ positive semi-definite? Trace $=8$, determinant $=16-1=15$, so eigenvalues solve $\\lambda^2-8\\lambda+15=0$, giving $\\lambda=3$ and $\\lambda=5$ (from the previous lesson). Both are $\\geq 0$, so yes — $M$ is positive semi-definite (in fact positive *definite*, since both eigenvalues are strictly positive), consistent with it being a valid covariance matrix.",
+      "prompt": "Is $M = \\begin{pmatrix}1 & 3\\\\3 & 1\\end{pmatrix}$ positive semi-definite? Compute both eigenvalues (trace = 2, determinant = 1 − 9 = −8) and enter the smaller one.",
+      "inputMode": "numeric",
+      "answer": -2,
+      "tolerance": 0.01,
+      "successFeedback": "Right — λ² − 2λ − 8 = 0 factors as (λ−4)(λ+2) = 0, giving eigenvalues 4 and −2. Since −2 is negative, this matrix is NOT positive semi-definite — it could never actually be a real covariance matrix, no matter what data you claimed produced it.",
+      "hints": [
+        "Solve λ² − 2λ − 8 = 0.",
+        "Look for two numbers that multiply to −8 and add to 2: that's 4 and −2."
+      ]
+    }
+  ]
+}

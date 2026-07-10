@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "id": "cyclostationary-signal-processing",
+  "title": "Cyclostationary Signal Processing: Zero to Hero",
+  "subject": "signals",
+  "level": "postgrad",
+  "description": "From first-principles probability and linear algebra through to cyclostationary signal processing (CSP) and the research literature — you're a signals analyst investigating a transmission nobody else's tools can classify, and every module hands you one more real tool for the case.",
+  "modules": [
+    {
+      "id": "probability-foundations",
+      "dir": "probability-foundations"
+    },
+    {
+      "id": "linear-algebra-for-signals",
+      "dir": "linear-algebra-for-signals"
+    },
+    {
+      "id": "complex-exponentials-and-fourier",
+      "dir": "complex-exponentials-and-fourier"
+    },
+    {
+      "id": "stationary-random-processes",
+      "dir": "stationary-random-processes"
+    },
+    {
+      "id": "wiener-khinchin-and-psd",
+      "dir": "wiener-khinchin-and-psd"
+    },
+    {
+      "id": "spectral-estimation",
+      "dir": "spectral-estimation"
+    },
+    {
+      "id": "eigenanalysis-of-covariance",
+      "dir": "eigenanalysis-of-covariance"
+    },
+    {
+      "id": "cyclostationarity-core-theory",
+      "dir": "cyclostationarity-core-theory"
+    },
+    {
+      "id": "cyclic-spectrum-estimation",
+      "dir": "cyclic-spectrum-estimation"
+    },
+    {
+      "id": "csp-applications",
+      "dir": "csp-applications"
+    },
+    {
+      "id": "research-frontiers",
+      "dir": "research-frontiers"
+    }
+  ]
+}

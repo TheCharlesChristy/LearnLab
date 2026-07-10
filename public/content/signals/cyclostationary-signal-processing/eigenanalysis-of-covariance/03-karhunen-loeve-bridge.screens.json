@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "karhunen-loeve-bridge",
+  "title": "The Karhunen-Loeve bridge",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-eigenbasis-use",
+      "prompt": "The Karhunen-Loeve expansion writes a random process as a sum of its covariance matrix's eigenvectors, each weighted by an uncorrelated random coefficient — an eigenvector-based analogue of a Fourier series. Case-relevant question: if you suspect the burst is buried under a lot of background noise, could ranking the eigenvectors by their eigenvalues help separate signal from noise?",
+      "choices": [
+        "No — eigenvectors only describe geometry, they carry no information about which part is signal vs noise",
+        "Yes — a strong, structured signal tends to concentrate energy into a few large eigenvalues, leaving noise spread thinly across the rest"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Yes — this is the core idea behind **subspace-based detectors**. A structured, correlated signal (like your burst) pushes most of the covariance matrix's energy into a small number of large eigenvalues (a low-dimensional \"signal subspace\"), while unstructured background noise spreads its energy roughly evenly across every eigenvalue. Separating large eigenvalues from the noise floor is exactly how many practical cyclostationary and array-processing detectors decide \"there's a real signal here\" versus \"this is just noise\" — you'll meet this again once the case reaches cyclic-spectrum estimation."
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-kl-role",
+      "prompt": "What role does the Karhunen-Loeve expansion play, conceptually, between random processes and linear algebra?",
+      "choices": [
+        { "text": "It represents a random process in the eigenbasis of its own covariance matrix, with uncorrelated coefficients" },
+        {
+          "text": "It replaces the autocorrelation function with a simpler formula",
+          "feedback": "Karhunen-Loeve doesn't simplify or replace the autocorrelation — it's built directly from it (the covariance matrix comes from R_x), and re-expresses the process using that matrix's own eigenvectors."
+        },
+        {
+          "text": "It converts a wide-sense stationary process into a strict-sense stationary one",
+          "feedback": "That's not what Karhunen-Loeve does — it says nothing about upgrading the type of stationarity. It's a representation of the process in a particular (eigenvector) basis."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — it's the formal bridge: covariance matrices come from random processes, eigendecomposing them gives an orthogonal basis, and Karhunen-Loeve is the statement that the process itself can be rebuilt from that basis with uncorrelated random weights."
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "cyclic-spectrum-estimation",
+  "title": "Estimating the Cyclic Spectrum in Practice",
+  "description": "Time- and frequency-smoothing cyclic periodogram estimators, and the FFT Accumulation Method (FAM) and Strip Spectral Correlation Algorithm (SSCA) used in practice.",
+  "estMinutes": 110,
+  "prerequisites": [
+    "cyclostationarity-core-theory"
+  ],
+  "objectives": [
+    "Describe time-smoothing and frequency-smoothing cyclic periodogram estimators as the two-dimensional analogue of Bartlett/Welch averaging",
+    "Explain what the FFT Accumulation Method (FAM) and Strip Spectral Correlation Algorithm (SSCA) compute and why they're the practical workhorses for SCF estimation",
+    "Explain why estimating a 2D surface over frequency and cycle frequency is far more computationally demanding than estimating an ordinary 1D PSD"
+  ],
+  "lessons": [
+    {
+      "id": "estimating-in-two-dimensions",
+      "title": "Estimating in two dimensions",
+      "file": "01-estimating-in-two-dimensions.screens.json",
+      "kind": "screens",
+      "estMinutes": 35
+    },
+    {
+      "id": "fam-and-ssca",
+      "title": "FAM and SSCA",
+      "file": "02-fam-and-ssca.screens.json",
+      "kind": "screens",
+      "estMinutes": 40
+    },
+    {
+      "id": "the-cost-of-two-dimensions",
+      "title": "The cost of two dimensions",
+      "file": "03-the-cost-of-two-dimensions.screens.json",
+      "kind": "screens",
+      "estMinutes": 35
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "learnlab"
+  ]
+}

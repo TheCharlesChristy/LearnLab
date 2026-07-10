@@ -24,7 +24,7 @@
           "body"
         ],
         "properties": {
-          "subject": { "enum": ["maths", "physics", "cs", "ai"] },
+          "subject": { "enum": ["maths", "physics", "cs", "ai", "signals"] },
           "courseId": { "$ref": "#/$defs/id" },
           "courseTitle": { "type": "string", "minLength": 1 },
           "moduleId": { "$ref": "#/$defs/id" },

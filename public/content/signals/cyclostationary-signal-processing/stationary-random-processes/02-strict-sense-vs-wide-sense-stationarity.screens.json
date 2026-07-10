@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "strict-sense-vs-wide-sense-stationarity",
+  "title": "Strict-sense vs. wide-sense stationarity",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-mean-and-autocorr-enough",
+      "prompt": "Suppose you check two things about a process: its mean function $\\mu_X(t)$ is exactly constant (doesn't depend on $t$), and its autocorrelation $R_X(t_1,t_2)$ turns out to depend only on the lag $\\tau = t_1 - t_2$, never on $t_1$ and $t_2$ individually. Does that guarantee the process's *entire* statistical behavior (every joint distribution, of any order) never shifts over time?",
+      "choices": [
+        "Yes — constant mean plus lag-only autocorrelation is the complete statistical picture",
+        "No — those two conditions only pin down first and second moments; higher-order structure could still change over time"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "No, not in general. This distinction has a name for each case. **Strict-sense stationarity (SSS)** is the strong condition: the *entire* joint distribution of any collection of samples $X(t_1), \\ldots, X(t_n)$ is unchanged if every $t_i$ is shifted by the same amount. **Wide-sense stationarity (WSS)** is the weaker condition you described — constant mean, and autocorrelation depending only on $\\tau = t_1-t_2$. WSS says nothing about third moments, skewness, or any structure beyond the first two — it's possible (though not typical of simple textbook examples) for two processes to share identical WSS statistics while differing in higher-order behavior. Almost all practical signal-processing theory, including everything ahead in this course, is built on WSS specifically, because it's the level of description second-order tools (autocorrelation, PSD) can actually see."
+    },
+    {
+      "type": "entry",
+      "id": "check-lag-only-property",
+      "prompt": "For a WSS process, R_X(t₁, t₂) depends only on τ = t₁ − t₂. If R_X(10, 4) = 7, what must R_X(6, 0) equal (same lag, τ = 6 in both cases)?",
+      "inputMode": "numeric",
+      "answer": 7,
+      "tolerance": 0.01,
+      "successFeedback": "Right — both pairs share the same lag (τ = 10−4 = 6, and τ = 6−0 = 6), so for a WSS process they must give the same autocorrelation value: 7. This is exactly the collapsing-to-one-variable property that makes WSS analysis so much more tractable than the general two-argument case.",
+      "hints": [
+        "Compute the lag τ = t₁ − t₂ for both pairs and compare.",
+        "10 − 4 = 6, and 6 − 0 = 6 — same lag means same R_X value for a WSS process."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-sss-implies-wss",
+      "prompt": "Does strict-sense stationarity (SSS) imply wide-sense stationarity (WSS)?",
+      "choices": [
+        { "text": "Yes — SSS is the stronger condition, so any process satisfying it automatically satisfies the weaker WSS conditions too (as long as its second moments are even finite)" },
+        {
+          "text": "No — SSS and WSS are unrelated conditions",
+          "feedback": "They're not unrelated — SSS is strictly stronger. If every joint distribution is shift-invariant, then in particular the mean and the two-point autocorrelation (special cases of those joint distributions) must be shift-invariant too, which is exactly WSS."
+        },
+        {
+          "text": "Only for Gaussian processes",
+          "feedback": "SSS implies WSS unconditionally (given finite second moments) for any process, not just Gaussian ones. The special role of Gaussian processes is the reverse direction — WSS implying SSS — which does need the Gaussian assumption."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right — SSS is the stronger, more complete condition, so it implies WSS. The direction that fails in general is WSS implying SSS, which is exactly the trap the opening prediction was testing."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "gaussian-exception-mechanism",
+      "body": "There's one important exception where WSS actually does imply SSS: a **jointly Gaussian process**. A Gaussian joint distribution is completely and uniquely determined by its mean vector and covariance matrix alone — no higher moments carry any extra information for a Gaussian, because they're all determined by the first two. So if a Gaussian process's mean and autocorrelation are already shift-invariant (WSS), its entire joint distribution automatically is too (SSS). This is part of why Gaussian noise models are so convenient in practice: for them, the weaker, easier-to-check WSS condition is all you ever need to establish, and it buys you the full strict-sense guarantee for free.",
+      "selfExplainPrompt": "In your own words: why does the WSS-implies-SSS shortcut work specifically for Gaussian processes, when it fails for processes in general?",
+      "selfExplainAnswer": "A strong answer notes that a Gaussian distribution (of any dimension) is fully specified by its mean and covariance alone — there's no additional higher-moment information a Gaussian distribution can carry beyond what the first two moments already determine. So if those first two moments (mean function and autocorrelation) are shift-invariant, the entire Gaussian joint distribution built from them must be shift-invariant too. A non-Gaussian process could have identical means and autocorrelations at every shift while still differing in, say, skewness at different times — WSS wouldn't catch that, but it's simply not possible for a Gaussian process."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-wss-check",
+      "worked": "Is a process with mean function $\\mu_X(t) = 3$ (constant) and $R_X(t_1,t_2) = 5e^{-|t_1-t_2|}$ WSS? The mean is constant — first condition met. $R_X(t_1,t_2) = 5e^{-|t_1-t_2|}$ depends only on the difference $t_1-t_2$ (through $|t_1-t_2|$), never on $t_1$ and $t_2$ individually — second condition met. So yes, this process is WSS.",
+      "prompt": "Is a process with mean function $\\mu_X(t) = 2t$ (not constant) and $R_X(t_1,t_2) = 4e^{-|t_1-t_2|}$ WSS? Enter 1 for yes or 0 for no.",
+      "inputMode": "numeric",
+      "answer": 0,
+      "tolerance": 0,
+      "successFeedback": "Right — 0 (no). Even though the autocorrelation depends only on the lag, the mean function μ_X(t) = 2t genuinely depends on t (it grows over time) rather than being constant, so the first WSS condition fails. Both conditions are required, not just one.",
+      "hints": [
+        "Check both WSS conditions separately: constant mean, and lag-only autocorrelation.",
+        "μ_X(t) = 2t changes as t changes — is that constant?"
+      ]
+    }
+  ]
+}

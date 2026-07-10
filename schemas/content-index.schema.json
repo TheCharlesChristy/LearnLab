@@ -15,7 +15,7 @@
         "additionalProperties": false,
         "required": ["id", "title", "courses"],
         "properties": {
-          "id": { "enum": ["maths", "physics", "cs", "ai"] },
+          "id": { "enum": ["maths", "physics", "cs", "ai", "signals"] },
           "title": { "type": "string", "minLength": 1 },
           "courses": {
             "type": "array",
@@ -27,7 +27,7 @@
                 "id": { "$ref": "#/$defs/id" },
                 "path": { "type": "string", "minLength": 1 },
                 "title": { "type": "string", "minLength": 1 },
-                "level": { "enum": ["gcse", "as", "a2", "alevel", "foundation"] },
+                "level": { "enum": ["gcse", "as", "a2", "alevel", "foundation", "postgrad"] },
                 "moduleCount": { "type": "integer", "minimum": 0 },
                 "totalEstMinutes": { "type": "integer", "minimum": 0 }
               }

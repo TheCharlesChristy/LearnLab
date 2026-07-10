@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "checkpoint-eigendecomposing-a-covariance-matrix",
+  "title": "Checkpoint: eigendecomposing a covariance matrix",
+  "screens": [
+    {
+      "type": "reveal-mechanism",
+      "id": "full-worked-eigendecomposition",
+      "body": "Case data: four paired readings from your two sensors give a sample covariance matrix $\\Sigma = \\begin{pmatrix}4 & 2\\\\2 & 1\\end{pmatrix}$. **Step 1 — eigenvalues**: trace $=4+1=5$, determinant $=4\\times1-2\\times2=0$, so $\\lambda^2-5\\lambda+0=0$, giving $\\lambda(\\lambda-5)=0$: eigenvalues $\\lambda_1=5$ and $\\lambda_2=0$. **Step 2 — principal eigenvector angle**: $\\theta=\\tfrac12\\arctan\\!\\big(\\tfrac{2b}{a-c}\\big)=\\tfrac12\\arctan\\!\\big(\\tfrac{4}{3}\\big)\\approx\\tfrac12(53.1°)\\approx26.6°$. **Step 3 — interpretation**: one eigenvalue is exactly zero, meaning *all* the variance lives along the single direction at $26.6°$ — the two sensors' readings are perfectly linearly related (this is a degenerate, perfectly-correlated case, deliberately chosen to make the arithmetic land cleanly). In a real, noisy case this second eigenvalue would be small but not exactly zero, and the ratio between the two eigenvalues would tell you how close to that perfectly-correlated situation your actual data sits.",
+      "selfExplainPrompt": "In your own words: what does it mean, physically, for one eigenvalue of a covariance matrix to come out exactly zero?",
+      "selfExplainAnswer": "A strong answer says a zero eigenvalue means there is no variance at all in the direction of the corresponding eigenvector — every data point, no matter which one you pick, lies exactly on the line defined by the other (nonzero-eigenvalue) eigenvector. In this sensor-pair case, that means the two sensors' readings are perfectly, deterministically related to each other with no independent variation of their own — the two-dimensional data cloud has collapsed onto a single line."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-eigendecomposition",
+      "worked": "Reminder of the method: for $\\Sigma = \\begin{pmatrix}a & b\\\\b & c\\end{pmatrix}$, find eigenvalues from $\\lambda^2-(a+c)\\lambda+(ac-b^2)=0$, and the principal eigenvector's angle from $\\theta=\\tfrac12\\arctan\\!\\big(\\tfrac{2b}{a-c}\\big)$.",
+      "prompt": "A new sensor pair gives $\\Sigma = \\begin{pmatrix}3 & 0\\\\0 & 3\\end{pmatrix}$ (equal variances, zero covariance — completely uncorrelated, equal-strength sensors). What is the larger eigenvalue?",
+      "inputMode": "numeric",
+      "answer": 3,
+      "tolerance": 0.01,
+      "successFeedback": "Right — trace = 6, determinant = 9, so λ² − 6λ + 9 = 0 factors as (λ−3)² = 0: both eigenvalues equal 3. Every direction has the same variance — a perfect circle of a data cloud, with no preferred direction at all, exactly what zero covariance and equal variances predicts.",
+      "hints": [
+        "Trace = 3 + 3 = 6; determinant = 3×3 − 0×0 = 9.",
+        "λ² − 6λ + 9 = 0 factors as a perfect square: (λ − 3)² = 0."
+      ]
+    }
+  ]
+}

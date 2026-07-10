@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "id": "cross-correlation-and-cross-spectral-density",
+  "title": "Cross-correlation and cross-spectral density",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-buried-carrier",
+      "prompt": "Case update: the burst's recording is buried under enough noise that a naive glance at the waveform tells you nothing about its carrier frequency. If the burst really does have a specific hidden carrier, would tuning a frequency dial while watching the recording's spectrum actually let you find it, even with substantial noise mixed in?",
+      "choices": [
+        "No — noise this heavy makes the true carrier frequency undetectable in the spectrum",
+        "Yes — a genuine carrier still shows up as a spectral peak standing above the noise floor, even with substantial noise present"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Yes — this is exactly Wiener–Khinchin at work: a real periodic/oscillatory component concentrates its power at a specific frequency, while noise spreads its power thinly across the whole spectrum. Below, tune the frequency dial yourself and watch the spectral peak track your setting — find the value that matches the recording's actual hidden carrier."
+    },
+    {
+      "type": "manipulable-target",
+      "id": "tune-hidden-carrier",
+      "prompt": "Sweep the frequency dial until the spectrum's peak lands on 4 Hz — the burst's suspected carrier frequency.",
+      "widget": "signal-scope",
+      "widgetProps": {
+        "expr": "sin(2*pi*f*t)",
+        "sampleRate": 64,
+        "duration": 4,
+        "noiseAmount": 0.6,
+        "freqMin": 0.5,
+        "freqMax": 8,
+        "showSpectrum": true
+      },
+      "goal": {
+        "kind": "match-frequency-in-range",
+        "min": 3.6,
+        "max": 4.4,
+        "description": "Target: spectral peak at 4 Hz."
+      },
+      "successFeedback": "There it is — a clean peak at 4 Hz, standing above the noise floor even though the waveform itself looked like a mess. This is exactly why spectral analysis, not a glance at the raw waveform, is the tool for finding a hidden periodic component.",
+      "hints": [
+        "Drag toward higher frequencies from the left end of the dial — 4 Hz is roughly in the middle of the available range.",
+        "Watch the spectrum panel's dashed red marker — it tracks the currently-detected peak live as you adjust f."
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-peak-vs-noise",
+      "prompt": "Why does the true carrier still produce a clear spectral peak, even with substantial noise added?",
+      "choices": [
+        { "text": "The carrier concentrates its power at one specific frequency, while noise spreads its power thinly and roughly evenly across many frequencies" },
+        {
+          "text": "Noise has no effect whatsoever on the spectrum",
+          "feedback": "Noise definitely affects the spectrum — it raises the whole noise floor around the peak. It just doesn't concentrate power at one frequency the way a genuine carrier does, so the peak still stands out above that raised floor."
+        },
+        {
+          "text": "The peak only appears because the recording is exactly 4 seconds long",
+          "feedback": "The recording length affects frequency resolution (how finely you can distinguish nearby frequencies), not whether a real spectral concentration of power shows up at all — the peak's existence comes from the carrier's genuine periodicity, not the recording's specific duration."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right — this is the concentrated-vs-spread-out power distinction that makes spectral analysis such a powerful detection tool, one you'll lean on heavily for the rest of this course."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "cross-correlation-mechanism",
+      "body": "Now suppose two separate sensors both pick up the same burst, at slightly different times (one antenna is farther away). The **cross-correlation** $R_{XY}(\\tau) = E[X(t)Y(t-\\tau)]$ measures how strongly one process at time $t$ relates to a *different* process shifted by $\\tau$ — the direct generalization of autocorrelation ($R_X(\\tau)$ is just the special case $Y=X$) to a pair of related signals. If sensor $Y$'s recording is genuinely a delayed copy of sensor $X$'s, $R_{XY}(\\tau)$ peaks sharply at $\\tau$ equal to that time delay — giving you a direct way to measure how much later the second sensor received the same signal, from cross-correlation alone. Fourier-transforming $R_{XY}(\\tau)$ over $\\tau$ gives the **cross-spectral density** $S_{XY}(f)$, the frequency-domain partner of cross-correlation exactly as $S_X(f)$ partners $R_X(\\tau)$.",
+      "selfExplainPrompt": "In your own words: why would R_XY(τ) peak specifically at the true time delay between two sensors receiving the same signal, rather than at τ = 0 or some other value?",
+      "selfExplainAnswer": "A strong answer notes that R_XY(τ) = E[X(t)Y(t−τ)] measures agreement between X(t) and a τ-shifted copy of Y. If Y is genuinely a delayed copy of X by some true delay d (Y(t) ≈ X(t−d)), then shifting Y back by exactly τ = d realigns it with X almost perfectly, producing the strongest possible correlation at that specific τ — any other shift leaves the two signals misaligned and less strongly correlated."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-delay-estimation",
+      "worked": "You compute $R_{XY}(\\tau)$ for several candidate lags and get: $\\tau=0$: 2, $\\tau=1$: 3, $\\tau=2$: 9, $\\tau=3$: 4. The peak occurs at $\\tau=2$, so your estimate of the time delay between the two sensors is 2 (in whatever time units $\\tau$ was measured in).",
+      "prompt": "A different pair of sensors gives $R_{XY}(\\tau)$ values: $\\tau=0$: 5, $\\tau=1$: 11, $\\tau=2$: 6, $\\tau=3$: 3. What is your estimate of the time delay (the $\\tau$ value where the peak occurs)?",
+      "inputMode": "numeric",
+      "answer": 1,
+      "tolerance": 0,
+      "successFeedback": "Right — the peak value (11) occurs at τ = 1, so that's the estimated delay between the two sensors' recordings of the same underlying signal.",
+      "hints": [
+        "Find which τ value gives the largest R_XY(τ).",
+        "Compare 5, 11, 6, 3 — which is the biggest, and at which τ?"
+      ]
+    }
+  ]
+}

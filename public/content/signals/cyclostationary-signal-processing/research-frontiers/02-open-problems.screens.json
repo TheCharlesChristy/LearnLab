@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "open-problems",
+  "title": "Open problems",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-hardware-gap",
+      "prompt": "The core theory of cyclostationarity is decades old and well settled (Gardner's foundational work dates to the 1980s). Given that, would you expect there to be any genuinely open, unsolved engineering problems left in this field for someone with a signal-processing/FPGA background to contribute to?",
+      "choices": [
+        "No — a field this mature has nothing left but re-deriving known results",
+        "Yes — the theory being settled doesn't mean the engineering of estimating it efficiently, in real time, on real hardware, is settled too"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Yes. This is a recurring pattern across applied fields: the theory (what the SCF *is*, why it matters) can be mature while the engineering of computing it efficiently, at real-time rates, on real hardware remains genuinely active — that's precisely the FAM/SSCA computational-cost thread from the cyclic-spectrum-estimation module. Efficient real-time hardware implementation of cyclic spectral estimators is a legitimately under-served research area, and it plays directly to a background in FPGA/embedded signal-processing work rather than requiring new theoretical derivations."
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-next-steps",
+      "prompt": "Given a background in SDR/FPGA work, what's a sensible way to start engaging with CSP research rather than jumping straight to trying to publish something new?",
+      "choices": [
+        { "text": "Reproduce 2-3 published results computationally first, using an existing GNU Radio/SDR pipeline as a testbed, before attempting to extend them" },
+        {
+          "text": "Skip straight to proposing a novel cycle-frequency estimator without reproducing any existing result first",
+          "feedback": "Reproducing established results first is what tells you whether your tooling, assumptions, and numerical intuition are actually correct — attempting a novel contribution before that is how subtle errors go unnoticed."
+        },
+        {
+          "text": "Wait until every textbook chapter has been reread a second time before writing any code",
+          "feedback": "The roadmap's own checkpoint-project philosophy (working code at every phase) applies here too — reproducing results computationally is itself how the remaining textbook material gets tested and cemented, not something to defer until after more reading."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right — reproduce before you extend. An existing SDR/GNU Radio pipeline is a natural testbed for exactly that: generate known BPSK/QPSK/OFDM test signals, estimate their SCFs, and check the results against published expectations before attempting anything original."
+    }
+  ]
+}

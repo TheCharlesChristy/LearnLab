@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "id": "csp-applications-assessment",
+  "title": "End of module: CSP Applications",
+  "shuffleQuestions": true,
+  "shuffleChoices": true,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "mcq",
+      "text": "Two modulation schemes sharing the same symbol rate and carrier frequency will generally have SCFs that:",
+      "choices": [
+        "Peak at the same cycle-frequency locations, but with different shape/strength there",
+        "Peak at completely unrelated cycle frequencies",
+        "Are identical in every respect"
+      ],
+      "answer": 0,
+      "explanation": "Cycle-frequency peak locations are set mainly by timing parameters (symbol rate, carrier, framing); the detailed shape/strength at those locations depends on the modulation scheme itself — that combination is the 'fingerprint' blind classifiers match against."
+    },
+    {
+      "id": "q2",
+      "type": "mcq",
+      "text": "Blind modulation classification using cyclic features works by:",
+      "choices": [
+        "Comparing the observed SCF's peak locations and shape against known modulation signatures",
+        "Measuring only the signal's total received power",
+        "Requiring advance knowledge of which modulation was transmitted"
+      ],
+      "answer": 0,
+      "explanation": "Cyclic-feature classification is fundamentally a pattern-matching problem over SCF structure, letting a receiver infer modulation type without prior knowledge of the transmission scheme."
+    },
+    {
+      "id": "q3",
+      "type": "mcq",
+      "text": "A cyclostationary detector can succeed at SNRs where an energy detector fails because:",
+      "choices": [
+        "It tests for spectral correlation at a cycle frequency, which stationary noise essentially lacks, rather than testing total power",
+        "It amplifies the received signal before analysis",
+        "It always requires a stronger signal than an energy detector needs"
+      ],
+      "answer": 0,
+      "explanation": "Energy detectors compare total power to a noise floor and lose at low SNR; cyclic detectors instead test for correlation between spectral components at a candidate cycle frequency — a property stationary noise essentially doesn't have, so even a weak signal's cyclic correlation can be distinguishable."
+    },
+    {
+      "id": "q4",
+      "type": "mcq",
+      "text": "Two signals that fully overlap in ordinary frequency can often still be separated using cyclic features because:",
+      "choices": [
+        "They typically have different symbol/framing rates, giving distinct cycle-frequency peaks even where frequency spectra coincide",
+        "One signal is always physically located farther away",
+        "Cyclic separation only works when signals don't overlap in frequency"
+      ],
+      "answer": 0,
+      "explanation": "Different clocking (symbol/framing) rates give different signals distinct cycle-frequency peaks, providing a separating axis that ordinary frequency-domain analysis structurally cannot offer when the signals coincide in frequency."
+    },
+    {
+      "id": "q5",
+      "type": "mcq",
+      "text": "Why is a stationary noise process a poor competitor against a cyclostationary detector, even at low SNR?",
+      "choices": [
+        "Stationary processes have essentially no spectral redundancy — no correlation between spectral components separated by any nonzero cycle frequency",
+        "Stationary noise always has less total power than any real signal",
+        "Stationary processes cannot be represented in the frequency domain at all"
+      ],
+      "answer": 0,
+      "explanation": "Spectral redundancy — correlation between frequency components spaced α apart — is essentially absent in stationary noise, which is exactly the property a cyclostationary detector tests for and exploits."
+    },
+    {
+      "id": "q6",
+      "type": "text",
+      "text": "One word: the general term for detecting an unknown/uncooperative transmitter's signal in a shared band, one of CSP's main real-world uses, is spectrum ___.",
+      "accept": ["sensing"],
+      "caseSensitive": false,
+      "explanation": "Spectrum sensing — detecting occupied vs. free spectrum, often for cognitive-radio use cases — is one of the main applications of low-SNR cyclostationary detection."
+    },
+    {
+      "id": "q7",
+      "type": "numeric",
+      "text": "Two co-channel signals have symbol rates of 5000 and 12000 symbols/second. At how many distinct fundamental cycle frequencies (in Hz) would you expect their SCFs to show separate peaks (counting only the two fundamental rates, ignoring harmonics)?",
+      "answer": 2,
+      "tolerance": 0,
+      "explanation": "Each signal's fundamental cycle frequency equals its own symbol rate (5000 Hz and 12000 Hz), so there are 2 distinct fundamental peak locations — exactly the separating information ordinary frequency-domain analysis alone would miss, since both signals occupy the same frequency band."
+    },
+    {
+      "id": "q8",
+      "type": "mcq",
+      "text": "Cumulative review: the reason ordinary PSD analysis cannot distinguish the two overlapping co-channel signals from the previous question is that:",
+      "choices": [
+        "The PSD is only the α = 0 slice of the SCF, so it cannot see structure at the nonzero cycle frequencies where the two signals actually differ",
+        "PSD analysis can only ever show one signal at a time regardless of overlap",
+        "The two signals must have identical power for PSD analysis to fail"
+      ],
+      "answer": 0,
+      "explanation": "From cyclostationarity-core-theory: the ordinary PSD is structurally restricted to α = 0, so any information that only shows up at nonzero cycle frequencies — like two signals' different symbol rates — is invisible to it no matter how carefully it's estimated."
+    },
+    {
+      "id": "q9",
+      "type": "mcq",
+      "text": "Which of these is NOT one of the three applications covered in this module?",
+      "choices": [
+        "Estimating a signal's carrier frequency from its DC offset",
+        "Blind modulation classification using cyclic fingerprints",
+        "Low-SNR signal detection via spectral redundancy"
+      ],
+      "answer": 0,
+      "explanation": "This module covers modulation classification, low-SNR/spectrum-sensing detection, and separation of overlapping co-channel signals — carrier-frequency estimation from DC offset isn't one of them (and isn't a meaningful CSP technique at all: DC offset carries no cyclic information)."
+    }
+  ]
+}

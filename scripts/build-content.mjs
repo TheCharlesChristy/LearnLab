@@ -42,12 +42,13 @@ import { dumpWidgetKeys } from './dump-widget-keys.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-const SUBJECTS = ['maths', 'physics', 'cs', 'ai'];
+const SUBJECTS = ['maths', 'physics', 'cs', 'ai', 'signals'];
 const SUBJECT_TITLES = {
   maths: 'Mathematics',
   physics: 'Physics',
   cs: 'Computer Science',
   ai: 'AI',
+  signals: 'Signal Processing',
 };
 const CALLOUT_KINDS = ['info', 'tip', 'warning', 'key'];
 // Brilliant rewrite (docs/BRILLIANT_REWRITE_PLAN.md): the closed set of

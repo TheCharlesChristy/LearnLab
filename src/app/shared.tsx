@@ -9,12 +9,13 @@ import { Button, Card } from '../ui';
 import type { ModuleLocation, SubjectId } from './content-api';
 import { describeError } from './useAsyncData';
 
-/** Display labels for the four fixed subjects (§4.1). */
+/** Display labels for the fixed subjects (§4.1). */
 export const SUBJECT_LABELS: Record<SubjectId, string> = {
   maths: 'Mathematics',
   physics: 'Physics',
   cs: 'Computer Science',
   ai: 'AI',
+  signals: 'Signal Processing',
 };
 
 export const LEVEL_LABELS: Record<string, string> = {
@@ -23,6 +24,7 @@ export const LEVEL_LABELS: Record<string, string> = {
   a2: 'A2',
   alevel: 'A-level',
   foundation: 'Foundation',
+  postgrad: 'Postgrad',
 };
 
 /** Build the ModuleMeta the progress write API needs (FR-PROG-002). */

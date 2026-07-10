@@ -69,8 +69,8 @@ export interface EntryScreen {
 }
 
 export interface ManipulableTargetGoal {
-  /** Phase 1 supports one goal kind on one widget; more join as later phases wrap more explorables. */
-  kind: 'tangent-gradient-in-range';
+  /** Each widget pairs with exactly one goal kind — see schemas/screen-sequence.schema.json's allOf. */
+  kind: 'tangent-gradient-in-range' | 'match-frequency-in-range' | 'eigenvector-angle-in-range';
   min: number;
   max: number;
   /** Learner-facing statement of the goal, shown alongside the widget. */
@@ -79,22 +79,37 @@ export interface ManipulableTargetGoal {
 
 /**
  * Wraps an existing explorable widget with a goal to hit instead of a bare
- * manipulable (target spec #4: interaction first, formalism second). Phase 1
- * wraps `function-grapher` only.
+ * manipulable (target spec #4: interaction first, formalism second).
+ * `function-grapher` pairs with `tangent-gradient-in-range`, `signal-scope`
+ * with `match-frequency-in-range`, `eigen-playground` with
+ * `eigenvector-angle-in-range`.
  */
 export interface ManipulableTargetScreen {
   type: 'manipulable-target';
   id: string;
   prompt: string;
-  widget: 'function-grapher';
+  widget: 'function-grapher' | 'signal-scope' | 'eigen-playground';
   widgetProps: {
-    expr: string;
+    expr?: string;
     xmin?: number;
     xmax?: number;
     ymin?: number;
     ymax?: number;
     tangent?: boolean;
     grid?: boolean;
+    sampleRate?: number;
+    duration?: number;
+    noiseAmount?: number;
+    freqMin?: number;
+    freqMax?: number;
+    freqInit?: number;
+    showSpectrum?: boolean;
+    a?: number;
+    c?: number;
+    bMin?: number;
+    bMax?: number;
+    bInit?: number;
+    showPoints?: boolean;
   };
   goal: ManipulableTargetGoal;
   successFeedback?: string;

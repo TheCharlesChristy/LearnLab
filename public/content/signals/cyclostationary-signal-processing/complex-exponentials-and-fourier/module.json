@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "id": "complex-exponentials-and-fourier",
+  "title": "Complex Exponentials and Fourier Analysis",
+  "description": "Why complex exponentials are the natural language for real signals, and the Fourier series/transform built from first principles rather than a table of pairs.",
+  "estMinutes": 110,
+  "prerequisites": [],
+  "objectives": [
+    "Explain why complex exponentials simplify the analysis of real oscillating signals, and the mirror-symmetry of a real signal's spectrum",
+    "Derive the Fourier series coefficient formula from the orthogonality of complex exponentials",
+    "Derive the Fourier transform as the continuous-frequency limit of the Fourier series, and state its duality and convolution properties",
+    "Recognize the standard time-domain/frequency-domain transform pairs (impulse, constant, rectangle/sinc, cosine)"
+  ],
+  "lessons": [
+    {
+      "id": "why-complex-exponentials",
+      "title": "Why complex exponentials",
+      "file": "01-why-complex-exponentials.screens.json",
+      "kind": "screens",
+      "estMinutes": 30
+    },
+    {
+      "id": "fourier-series-derivation",
+      "title": "The Fourier series, derived",
+      "file": "02-fourier-series-derivation.screens.json",
+      "kind": "screens",
+      "estMinutes": 30
+    },
+    {
+      "id": "fourier-transform-and-duality",
+      "title": "The Fourier transform, and duality",
+      "file": "03-fourier-transform-and-duality.screens.json",
+      "kind": "screens",
+      "estMinutes": 30
+    },
+    {
+      "id": "checkpoint-transform-pair-intuition",
+      "title": "Checkpoint: transform-pair intuition",
+      "file": "04-checkpoint-transform-pair-intuition.screens.json",
+      "kind": "screens",
+      "estMinutes": 20
+    }
+  ],
+  "assessment": {
+    "file": "assessment.json",
+    "passMark": 0.7
+  },
+  "version": "1.0.0",
+  "authors": [
+    "learnlab"
+  ]
+}

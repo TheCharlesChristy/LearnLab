@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "ergodicity",
+  "title": "Ergodicity",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-time-average-trustworthy",
+      "prompt": "You only ever have one recording of the burst — one realization, not the full ensemble. You compute a **time average** of that one recording (averaging its readings across time) instead of the ensemble average (averaging across many parallel realizations) from the last two lessons. Can you always trust that these two numbers are the same?",
+      "choices": [
+        "Yes — a long enough single recording always converges to the true ensemble average",
+        "No — that convergence is a special property (ergodicity) that has to actually hold; it isn't automatic just because the recording is long"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "No, it isn't automatic — and this is arguably the most quietly-assumed idea in all of applied DSP. A process is (mean-)**ergodic** if the time average of a single, sufficiently long realization converges to the true ensemble mean $\\mu_X$; it's autocorrelation-ergodic if the time-averaged autocorrelation similarly converges to $R_X(\\tau)$. Whenever anyone estimates a signal's mean or autocorrelation from one recording — which is what you'll do for the rest of this course — they are silently assuming ergodicity holds. It's a real, checkable (if occasionally subtle) property, not a free consequence of stationarity."
+    },
+    {
+      "type": "entry",
+      "id": "check-time-average-computation",
+      "prompt": "A single realization gives 5 readings over time: 2, 4, 6, 4, 4. What is its time average?",
+      "inputMode": "numeric",
+      "answer": 4,
+      "tolerance": 0.01,
+      "successFeedback": "Right — (2+4+6+4+4)/5 = 20/5 = 4. This is a time average: computed from one realization, across different instants — a fundamentally different computation from the ensemble averages you computed two lessons ago.",
+      "hints": [
+        "Add the five readings and divide by 5.",
+        "2+4+6+4+4 = 20; 20/5 = ?"
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-ergodicity-requires-wss",
+      "prompt": "Is a WSS process automatically ergodic?",
+      "choices": [
+        { "text": "No — ergodicity is an additional property that must hold on top of (wide-sense) stationarity, not a free consequence of it" },
+        {
+          "text": "Yes — WSS is exactly the same thing as ergodicity, just a different name",
+          "feedback": "They're genuinely different properties. WSS is about the process's statistics not depending on absolute time; ergodicity is about whether a single realization's time average actually converges to those (time-invariant) ensemble statistics. A process can satisfy one without the other."
+        },
+        {
+          "text": "Only non-stationary processes can fail to be ergodic",
+          "feedback": "Stationarity (even WSS) is a prerequisite for ergodicity to even be a sensible question to ask — but plenty of WSS processes still fail to be ergodic, as the next screen's counterexample shows directly."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Right — being WSS makes ergodicity a meaningful question to ask (constant statistics to converge toward), but stationarity alone doesn't guarantee that a single realization's time behavior actually reaches those ensemble values."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "ergodicity-counterexample-mechanism",
+      "body": "Classic counterexample: let $X(t) = A$ for all $t$, where $A$ is a single random variable drawn once at the start of each realization (say $A$ is $+1$ or $-1$ with equal probability) and then held fixed for that entire realization. This process is WSS: its mean is $E[A] = 0$ (constant in $t$), and its autocorrelation $R_X(t_1,t_2) = E[A^2] = 1$ depends only on the fact that it's the same $A$ at both times, not on $t_1$ or $t_2$ individually. But it is **not ergodic**: pick any one realization — say the one where $A$ happened to come out $+1$ — and its time average, however long you record, is exactly $1$, never $0$. That single realization never 'explores' the other possible value of $A$; it's stuck showing you only one branch of the ensemble, forever. The time average of any one realization tells you which branch you're on, not the ensemble mean across all branches.",
+      "selfExplainPrompt": "In your own words: why does recording this X(t) = A process for a very long time never help you discover the true ensemble mean of 0?",
+      "selfExplainAnswer": "A strong answer notes that within any single realization, A is drawn once and then frozen for the entire recording — no matter how long you watch, you keep seeing the exact same fixed value (+1 or −1, whichever was drawn for that realization). A time average only ever sees the one branch its realization is on; it has no way to sample the other branch and can never converge to the ensemble average of 0, because true convergence would require actually observing both possible values of A, which one realization structurally cannot do."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-ergodicity-judgment",
+      "worked": "Consider $Y(t) = \\sin(t) + N(t)$, where $N(t)$ is fresh, independent noise drawn at every single instant $t$ (unlike the frozen $A$ above). A long single recording of $Y(t)$ genuinely samples many independent noise draws over time, and — given the right technical conditions on $N(t)$ — its time-averaged statistics do converge to the true ensemble values: this process is a standard example of one that *is* ergodic.",
+      "prompt": "Consider $Z(t) = B\\cos(t)$, where $B$ is drawn once per realization (frozen for all $t$, like $A$ in the counterexample) and never redrawn afterward. Is $Z(t)$ ergodic in the mean? Enter 1 for yes or 0 for no.",
+      "inputMode": "numeric",
+      "answer": 0,
+      "tolerance": 0,
+      "successFeedback": "Right — 0 (no). Z(t) has exactly the same structural problem as the A-only counterexample: B is frozen once per realization, so a single recording never explores the other values B could have taken, and its time-averaged statistics won't converge to the true ensemble statistics.",
+      "hints": [
+        "Compare this process's structure to the worked counterexample: is the random quantity drawn once per realization and then frozen, or redrawn at every instant?",
+        "B is drawn once and frozen — the same structural issue as A in the reveal-mechanism's counterexample."
+      ]
+    }
+  ]
+}

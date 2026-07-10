@@ -1,8 +1,10 @@
 // `manipulable-target` screen — wraps an existing explorable widget with a
 // goal to hit instead of a bare manipulable (target spec #4: interaction
-// first, formalism second). Phase 1 wraps `function-grapher` only, via its
-// `onTangentChange` hook (src/widgets/function-grapher). Gating: Continue
-// stays disabled until the live value satisfies the goal.
+// first, formalism second). Three (widget, goal.kind) pairs are supported:
+// `function-grapher`/`tangent-gradient-in-range` (src/widgets/function-grapher),
+// `signal-scope`/`match-frequency-in-range` (src/widgets/signal-scope),
+// `eigen-playground`/`eigenvector-angle-in-range` (src/widgets/eigen-playground).
+// Gating: Continue stays disabled until the live value satisfies the goal.
 
 import { lazy, Suspense, useCallback, useState } from 'react';
 
@@ -15,10 +17,12 @@ import { ScreenShell } from './ScreenShell';
 import type { ManipulableTargetScreen as ManipulableTargetScreenType } from './types';
 
 const LazyFunctionGrapher = lazy(() => import('../widgets/function-grapher/FunctionGrapher'));
+const LazySignalScope = lazy(() => import('../widgets/signal-scope/SignalScope'));
+const LazyEigenPlayground = lazy(() => import('../widgets/eigen-playground/EigenPlayground'));
 
-function goalMet(screen: ManipulableTargetScreenType, gradient: number | null): boolean {
-  if (gradient === null) return false;
-  return gradient >= screen.goal.min && gradient <= screen.goal.max;
+function inRange(value: number | null, min: number, max: number): boolean {
+  if (value === null) return false;
+  return value >= min && value <= max;
 }
 
 function ManipulableTargetScreenRunner({
@@ -27,14 +31,20 @@ function ManipulableTargetScreenRunner({
   total,
   onAdvance,
 }: ScreenRunnerProps<ManipulableTargetScreenType>) {
-  const [gradient, setGradient] = useState<number | null>(null);
+  const [liveValue, setLiveValue] = useState<number | null>(null);
   const [hintLevel, setHintLevel] = useState(0);
 
   const handleTangentChange = useCallback((info: { x: number; gradient: number | null }) => {
-    setGradient(info.gradient);
+    setLiveValue(info.gradient);
+  }, []);
+  const handleFrequencyChange = useCallback((info: { freq: number; peakFreq: number | null }) => {
+    setLiveValue(info.peakFreq);
+  }, []);
+  const handleEigenChange = useCallback((info: { angleDeg: number }) => {
+    setLiveValue(info.angleDeg);
   }, []);
 
-  const met = goalMet(screen, gradient);
+  const met = inRange(liveValue, screen.goal.min, screen.goal.max);
   const hints = screen.hints ?? [];
 
   return (
@@ -44,17 +54,43 @@ function ManipulableTargetScreenRunner({
       </p>
       <p className="mt-1 text-sm italic opacity-80">{screen.goal.description}</p>
       <div className="mt-3">
-        <Suspense fallback={<Spinner label="Loading graph…" />}>
-          <LazyFunctionGrapher
-            expr={screen.widgetProps.expr}
-            xmin={screen.widgetProps.xmin ?? -10}
-            xmax={screen.widgetProps.xmax ?? 10}
-            ymin={screen.widgetProps.ymin}
-            ymax={screen.widgetProps.ymax}
-            tangent
-            grid={screen.widgetProps.grid ?? true}
-            onTangentChange={handleTangentChange}
-          />
+        <Suspense fallback={<Spinner label="Loading widget…" />}>
+          {screen.widget === 'function-grapher' && (
+            <LazyFunctionGrapher
+              expr={screen.widgetProps.expr ?? 'x'}
+              xmin={screen.widgetProps.xmin ?? -10}
+              xmax={screen.widgetProps.xmax ?? 10}
+              ymin={screen.widgetProps.ymin}
+              ymax={screen.widgetProps.ymax}
+              tangent
+              grid={screen.widgetProps.grid ?? true}
+              onTangentChange={handleTangentChange}
+            />
+          )}
+          {screen.widget === 'signal-scope' && (
+            <LazySignalScope
+              expr={screen.widgetProps.expr ?? 'sin(2*pi*f*t)'}
+              sampleRate={screen.widgetProps.sampleRate ?? 64}
+              duration={screen.widgetProps.duration ?? 4}
+              noiseAmount={screen.widgetProps.noiseAmount ?? 0}
+              freqMin={screen.widgetProps.freqMin ?? 0.5}
+              freqMax={screen.widgetProps.freqMax ?? 8}
+              freqInit={screen.widgetProps.freqInit}
+              showSpectrum={screen.widgetProps.showSpectrum ?? true}
+              onFrequencyChange={handleFrequencyChange}
+            />
+          )}
+          {screen.widget === 'eigen-playground' && (
+            <LazyEigenPlayground
+              a={screen.widgetProps.a ?? 2}
+              c={screen.widgetProps.c ?? 1}
+              bMin={screen.widgetProps.bMin ?? -1.5}
+              bMax={screen.widgetProps.bMax ?? 1.5}
+              bInit={screen.widgetProps.bInit}
+              showPoints={screen.widgetProps.showPoints ?? true}
+              onEigenChange={handleEigenChange}
+            />
+          )}
         </Suspense>
       </div>
       <div aria-live="polite" className="mt-2 min-h-6">

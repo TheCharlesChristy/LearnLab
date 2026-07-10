@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "id": "fourier-series-derivation",
+  "title": "The Fourier series, derived",
+  "screens": [
+    {
+      "type": "predict",
+      "id": "predict-periodic-decomposition",
+      "prompt": "A signal repeats exactly every $T_0$ seconds — genuinely periodic, not just \"roughly similar\" like your burst's statistics will turn out to be. Can any such periodic signal always be built by adding up complex exponentials spinning at $0, \\pm f_0, \\pm 2f_0, \\pm 3f_0, \\ldots$ (integer multiples of the fundamental frequency $f_0 = 1/T_0$), for suitable amplitudes?",
+      "choices": [
+        "No — only signals that already look like sine waves can be built this way",
+        "Yes — this is the Fourier series: essentially any periodic signal (under mild technical conditions) decomposes exactly into harmonics of its fundamental frequency"
+      ],
+      "correctChoiceIndex": 1,
+      "reveal": "Yes — this is one of the most consequential facts in all of signal processing. Any period-$T_0$ signal (again, under mild conditions almost every real signal satisfies) can be written as $x(t) = \\sum_{k=-\\infty}^{\\infty} c_k\\, e^{j2\\pi k f_0 t}$, a sum of complex exponentials at every integer multiple of the fundamental frequency $f_0 = 1/T_0$. The $c_k$ are the **Fourier series coefficients** — a complete, exact re-encoding of the periodic signal as \"how much of each harmonic frequency is present.\""
+    },
+    {
+      "type": "entry",
+      "id": "check-fundamental-frequency",
+      "prompt": "A periodic signal repeats every $T_0 = 0.02$ s. What is its fundamental frequency $f_0 = 1/T_0$, in Hz?",
+      "inputMode": "numeric",
+      "answer": 50,
+      "tolerance": 0.5,
+      "unit": "Hz",
+      "successFeedback": "Right — 1 / 0.02 = 50 Hz. Every harmonic in this signal's Fourier series sits at an integer multiple of 50 Hz: 0, ±50, ±100, ±150 Hz, and so on.",
+      "hints": [
+        "Fundamental frequency is the reciprocal of the period: f₀ = 1/T₀.",
+        "1 / 0.02 = ?"
+      ]
+    },
+    {
+      "type": "tap-choice",
+      "id": "check-coefficient-meaning",
+      "prompt": "In $x(t) = \\sum_k c_k\\, e^{j2\\pi k f_0 t}$, what does the coefficient $c_k$ represent?",
+      "choices": [
+        { "text": "How much of the k-th harmonic (frequency k·f₀) is present in the signal, as a complex amplitude carrying both size and phase" },
+        {
+          "text": "The signal's value at time t = k",
+          "feedback": "c_k doesn't depend on t at all — it's a fixed number (for a fixed signal) describing the whole harmonic's contribution, not a value at any particular instant."
+        },
+        {
+          "text": "The total energy of the signal at all frequencies combined",
+          "feedback": "Each individual c_k describes just one harmonic's contribution; the total signal's energy comes from combining information across every c_k, not from any single one."
+        }
+      ],
+      "correctIndex": 0,
+      "successFeedback": "Exactly — each c_k is a complex number: its magnitude is that harmonic's amplitude, and its angle is that harmonic's phase offset."
+    },
+    {
+      "type": "reveal-mechanism",
+      "id": "orthogonality-mechanism",
+      "body": "How do you actually extract a single $c_k$ out of the infinite sum? The trick is **orthogonality**: for integers $m \\neq k$, $\\int_0^{T_0} e^{j2\\pi m f_0 t}\\,e^{-j2\\pi k f_0 t}\\,dt = 0$, while for $m = k$ the same integral equals $T_0$ exactly (the integrand becomes 1 everywhere). Multiply both sides of the Fourier series by $e^{-j2\\pi k f_0 t}$ and integrate over one period: every term in the sum except $k$ itself integrates to zero, leaving $\\int_0^{T_0} x(t)\\,e^{-j2\\pi k f_0 t}\\,dt = c_k T_0$. Rearranging gives the coefficient formula: $c_k = \\dfrac{1}{T_0}\\int_0^{T_0} x(t)\\,e^{-j2\\pi k f_0 t}\\,dt$ — multiply the signal by the harmonic you're looking for, and average.",
+      "selfExplainPrompt": "In your own words: why does multiplying x(t) by e^{-j2πkf₀t} and integrating over one period isolate exactly the c_k term, killing off every other term in the sum?",
+      "selfExplainAnswer": "A strong answer notes that after multiplying, each term in the sum becomes c_m·e^{j2π(m-k)f₀t}. Integrating any such term over one full period gives zero whenever m ≠ k (the orthogonality property — a complex exponential at any nonzero integer multiple of the fundamental frequency averages to zero over a full period), and gives exactly c_k · T₀ when m = k (since the exponential becomes 1 everywhere). So every term except the one you're targeting vanishes, leaving only c_k behind."
+    },
+    {
+      "type": "faded-step",
+      "id": "faded-coefficient-extraction",
+      "worked": "For $x(t) = 3 + 2\\cos(2\\pi f_0 t)$, rewrite the cosine as phasors: $x(t) = 3 + e^{j2\\pi f_0 t} + e^{-j2\\pi f_0 t}$ (using $2\\cos(\\theta) = e^{j\\theta}+e^{-j\\theta}$). Matching against $\\sum_k c_k e^{j2\\pi kf_0t}$ term by term: $c_0 = 3$ (the constant/DC term), $c_1 = 1$, $c_{-1} = 1$, and every other $c_k = 0$.",
+      "prompt": "For $x(t) = 5 + 4\\cos(2\\pi f_0 t)$, what is $c_1$ (the coefficient of the $e^{j2\\pi f_0 t}$ term)?",
+      "inputMode": "numeric",
+      "answer": 2,
+      "tolerance": 0.01,
+      "successFeedback": "Right — 4cos(θ) = 2e^{jθ} + 2e^{-jθ}, so c₁ = 2 (and c₋₁ = 2, c₀ = 5, every other c_k = 0). The pattern from the worked example generalizes directly: an A·cos term always splits into two phasors each of amplitude A/2.",
+      "hints": [
+        "2cos(θ) = e^{jθ} + e^{-jθ}, so 4cos(θ) = 2e^{jθ} + 2e^{-jθ}.",
+        "Match the coefficient of e^{j2πf₀t} directly against c₁."
+      ]
+    }
+  ]
+}
