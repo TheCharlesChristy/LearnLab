@@ -59,9 +59,9 @@ function ManipulableTargetScreenRunner({
       </div>
       <div aria-live="polite" className="mt-2 min-h-6">
         {met && (
-          <p className="font-semibold text-emerald-700 dark:text-emerald-400">
-            {screen.successFeedback ?? "That's the target."}
-          </p>
+          <div className="font-semibold text-emerald-700 dark:text-emerald-400">
+            <MarkdownInline markdown={screen.successFeedback ?? "That's the target."} />
+          </div>
         )}
       </div>
       {!met && hints.length > 0 && (
@@ -75,7 +75,9 @@ function ManipulableTargetScreenRunner({
             {hintLevel === 0 ? 'Need a hint?' : 'Show another hint'}
           </button>
           {hintLevel > 0 && (
-            <p className="mt-1 text-sm italic opacity-80">Hint: {hints[hintLevel - 1]}</p>
+            <div className="mt-1 text-sm italic opacity-80">
+              <MarkdownInline markdown={`Hint: ${hints[hintLevel - 1]}`} />
+            </div>
           )}
         </div>
       )}

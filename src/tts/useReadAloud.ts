@@ -16,6 +16,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { kvGet, kvSet } from '../progress';
 
+import type { SpeakableSegment } from './extract-speakable-text';
 import { extractSpeakableContent } from './extract-speakable-text';
 import type { HighlightController } from './highlight';
 import { createHighlightController } from './highlight';
@@ -57,8 +58,28 @@ export function useReadAloud(
 ): UseReadAloudResult {
   const supported = speechSupported();
   const [status, setStatus] = useState<ReadAloudStatus>(supported ? 'idle' : 'unsupported');
+  const statusRef = useRef(status);
+  useEffect(() => {
+    statusRef.current = status;
+  }, [status]);
   const [rate, setRateState] = useState(DEFAULT_RATE);
+  const rateRef = useRef(rate);
+  useEffect(() => {
+    rateRef.current = rate;
+  }, [rate]);
   const highlightRef = useRef<HighlightController | null>(null);
+  // The full speakable text/segments for the content currently loaded by
+  // start(), and the absolute offset (into that text) of the last word
+  // boundary reported — SpeechSynthesisUtterance.rate can't be changed on an
+  // in-flight utterance in any engine, so applying a rate change mid-speech
+  // means re-speaking from here, not mutating the existing utterance.
+  const contentRef = useRef<{ text: string; segments: SpeakableSegment[] }>({ text: '', segments: [] });
+  const lastCharIndexRef = useRef(0);
+  // Bumped on every speakFrom() call so a cancelled utterance's onend/onerror
+  // (queued async by speechSynthesis.cancel(), and so liable to fire after
+  // the *next* utterance has already started) can recognise it's stale and
+  // skip clobbering the new one's status/highlight.
+  const speakGenRef = useRef(0);
 
   useEffect(() => {
     if (!supported) return;
@@ -99,38 +120,65 @@ export function useReadAloud(
     };
   }, [supported, resetKey]);
 
+  // Speaks contentRef's text starting at absolute offset `offset`, at
+  // whatever rate is current — the one way to change the rate of an
+  // "in-flight" reading, since SpeechSynthesisUtterance.rate is fixed at
+  // speak() time in every engine and can't be mutated afterwards.
+  const speakFrom = useCallback(
+    (offset: number) => {
+      if (!supported) return;
+      window.speechSynthesis.cancel();
+      const gen = ++speakGenRef.current;
+      const { text, segments } = contentRef.current;
+      const slice = text.slice(offset);
+      if (slice.trim().length === 0) {
+        highlightRef.current?.set(null);
+        setStatus('idle');
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(slice);
+      utterance.rate = rateRef.current;
+
+      utterance.onboundary = (event) => {
+        if (speakGenRef.current !== gen) return;
+        if (event.name !== undefined && event.name !== 'word') return;
+        const absoluteIndex = offset + event.charIndex;
+        lastCharIndexRef.current = absoluteIndex;
+        const segment = findSegmentAt(segments, absoluteIndex);
+        if (!segment) return;
+        const range = segmentToRange(segment, absoluteIndex, event.charLength || 1);
+        highlightRef.current?.set(range);
+      };
+      utterance.onend = () => {
+        if (speakGenRef.current !== gen) return;
+        highlightRef.current?.set(null);
+        setStatus('idle');
+      };
+      utterance.onerror = () => {
+        if (speakGenRef.current !== gen) return;
+        highlightRef.current?.set(null);
+        setStatus('idle');
+      };
+
+      window.speechSynthesis.speak(utterance);
+      setStatus('speaking');
+    },
+    [supported],
+  );
+
   const start = useCallback(() => {
     const container = containerRef.current;
     if (!supported || !container) return;
-    window.speechSynthesis.cancel();
     highlightRef.current?.destroy();
     highlightRef.current = createHighlightController(container);
 
-    const { text, segments } = extractSpeakableContent(container);
-    if (text.trim().length === 0) return;
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = rate;
-
-    utterance.onboundary = (event) => {
-      if (event.name !== undefined && event.name !== 'word') return;
-      const segment = findSegmentAt(segments, event.charIndex);
-      if (!segment) return;
-      const range = segmentToRange(segment, event.charIndex, event.charLength || 1);
-      highlightRef.current?.set(range);
-    };
-    utterance.onend = () => {
-      highlightRef.current?.set(null);
-      setStatus('idle');
-    };
-    utterance.onerror = () => {
-      highlightRef.current?.set(null);
-      setStatus('idle');
-    };
-
-    window.speechSynthesis.speak(utterance);
-    setStatus('speaking');
-  }, [containerRef, rate, supported]);
+    const content = extractSpeakableContent(container);
+    if (content.text.trim().length === 0) return;
+    contentRef.current = content;
+    lastCharIndexRef.current = 0;
+    speakFrom(0);
+  }, [containerRef, supported, speakFrom]);
 
   const pause = useCallback(() => {
     if (!supported) return;
@@ -144,11 +192,20 @@ export function useReadAloud(
     setStatus('speaking');
   }, [supported]);
 
-  const setRate = useCallback((next: number) => {
-    const clamped = Math.min(MAX_RATE, Math.max(MIN_RATE, next));
-    setRateState(clamped);
-    void kvSet(KV_RATE_KEY, clamped);
-  }, []);
+  const setRate = useCallback(
+    (next: number) => {
+      const clamped = Math.min(MAX_RATE, Math.max(MIN_RATE, next));
+      setRateState(clamped);
+      rateRef.current = clamped;
+      void kvSet(KV_RATE_KEY, clamped);
+      // Mid-speech rate changes only take effect on a fresh utterance
+      // (rate is immutable once speak() is called) — re-speak from the
+      // last known word boundary so the change applies immediately instead
+      // of only after a manual stop/restart.
+      if (statusRef.current === 'speaking') speakFrom(lastCharIndexRef.current);
+    },
+    [speakFrom],
+  );
 
   return { status, rate, setRate, start, pause, resume, stop };
 }

@@ -80,15 +80,19 @@ function FadedStepScreenRunner({
       </div>
       <div aria-live="polite" className="mt-3 min-h-6">
         {correct && (
-          <p className="font-semibold text-emerald-700 dark:text-emerald-400">
-            Correct!{screen.successFeedback ? ` ${screen.successFeedback}` : ''}
-          </p>
+          <div className="font-semibold text-emerald-700 dark:text-emerald-400">
+            <MarkdownInline
+              markdown={screen.successFeedback ? `Correct! ${screen.successFeedback}` : 'Correct!'}
+            />
+          </div>
         )}
         {!correct && showFeedback && (
           <p className="text-sm text-red-700 dark:text-red-400">Not quite — try again.</p>
         )}
         {!correct && activeHint && (
-          <p className="mt-1 text-sm italic opacity-80">Hint: {activeHint}</p>
+          <div className="mt-1 text-sm italic opacity-80">
+            <MarkdownInline markdown={`Hint: ${activeHint}`} />
+          </div>
         )}
       </div>
     </ScreenShell>

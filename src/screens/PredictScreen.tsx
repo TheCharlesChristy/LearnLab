@@ -48,7 +48,7 @@ function PredictScreenRunner({
                   'border-emerald-600 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-950/30',
               )}
             >
-              {choice}
+              <MarkdownInline markdown={choice} />
             </button>
           );
         })}
