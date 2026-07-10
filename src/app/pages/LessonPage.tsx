@@ -21,6 +21,7 @@ import {
 } from '../../progress';
 import type { ModuleMeta } from '../../progress';
 import { Button, ProgressBar, Spinner, celebrate } from '../../ui';
+import { ReadAloudControl } from '../../tts';
 import { describeEngagementEvent } from '../engagement-copy';
 import { LessonContext, loadLessonMarkdown, loadScreenSequence, moduleBaseUrl } from '../content-api';
 import type { LessonContextValue, ModuleLocation } from '../content-api';
@@ -148,6 +149,7 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
   // Auto-complete via a scroll sentinel at the end of the content
   // (FR-SHELL-004 — works alongside the manual button).
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const legacyBodyRef = useRef<HTMLDivElement>(null);
   const completeRef = useRef(complete);
   useEffect(() => {
     completeRef.current = complete;
@@ -249,6 +251,17 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
 
       <article className="lesson-article">
         <h1 className="mb-4 text-2xl font-bold">{lesson.title}</h1>
+        {/* Read-aloud (docs/BRILLIANT_REWRITE_PLAN.md): legacy Markdown
+            lessons only — the screens format gets its own control per
+            screen (src/screens/ScreenShell.tsx), and Python full-page items
+            are arbitrary interactive React, not simple prose. resetKey is
+            lessonId because LessonPage's component instance persists across
+            a Prev/Next navigation (same route pattern, only params change),
+            so an unmount-only cleanup wouldn't stop speech when switching
+            lessons. */}
+        {!isPython && !isScreens && (
+          <ReadAloudControl targetRef={legacyBodyRef} resetKey={lessonId} className="mb-4 print:hidden" />
+        )}
         {isPython ? (
           // Full-page Python lesson (Lesson.kind === 'python', §4.4): render the
           // item full-width instead of fetching markdown. Prev/Next, the
@@ -283,20 +296,22 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
         ) : markdown.status === 'error' ? (
           <RetryCard what="this lesson" error={markdown.error} onRetry={markdown.retry} />
         ) : (
-          <Suspense fallback={<Spinner label="Preparing renderer…" />}>
-            <LazyMarkdownLesson
-              markdown={markdown.data}
-              pyItemRenderer={(p) => (
-                <PyItemHost
-                  moduleId={moduleId}
-                  sourceUrl={baseUrl + p.src}
-                  src={p.src}
-                  params={p.params}
-                  height={p.height}
-                />
-              )}
-            />
-          </Suspense>
+          <div ref={legacyBodyRef}>
+            <Suspense fallback={<Spinner label="Preparing renderer…" />}>
+              <LazyMarkdownLesson
+                markdown={markdown.data}
+                pyItemRenderer={(p) => (
+                  <PyItemHost
+                    moduleId={moduleId}
+                    sourceUrl={baseUrl + p.src}
+                    src={p.src}
+                    params={p.params}
+                    height={p.height}
+                  />
+                )}
+              />
+            </Suspense>
+          </div>
         )}
       </article>
 

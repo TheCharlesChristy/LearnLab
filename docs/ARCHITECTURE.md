@@ -50,6 +50,7 @@ Why adding content scales without touching the app:
 | `src/quiz/`      | Native quiz engine: §4.6 types, marking, seeded shuffle/pick (mulberry32), one-question-at-a-time flow.                | built |
 | `src/progress/`  | Dexie db (`learnlab`), hooks, export/import, persistence.                                                              | built |
 | `src/python/`    | `PyHost` worker management, §6.3 protocol types, `TreeRenderer`, `worker.ts`.                                          | TODO(P1) |
+| `src/tts/`       | Read-aloud with word-level highlighting (`docs/BRILLIANT_REWRITE_PLAN.md`'s read-aloud follow-up): `useReadAloud` + `ReadAloudControl`, built on the Web Speech API. Not a closed-set member — an engine-owned capability like the celebration layer, working on already-rendered DOM from both `src/markdown` and `src/screens` without touching either. | built |
 | `src/ui/`        | Shared primitives (Button, Card, ProgressBar…).                                                                        | grows as needed |
 
 Runtime data flow (§3.4): boot → fetch generated `content/index.json` → catalogue; course/module/lesson files fetched lazily; the Markdown renderer maps directives to registry widgets or (P1) `<PyItem>` mounts; progress writes go through `src/progress` into Dexie.
