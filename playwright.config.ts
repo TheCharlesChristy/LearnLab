@@ -90,10 +90,19 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         ...(chromiumExecutable ? { launchOptions: { executablePath: chromiumExecutable } } : {}),
       },
+      grepInvert: /@low-end/,
     },
     // The general e2e suite runs on 3 engines (NFR-COMPAT-001); the real-Pyodide
     // @py smoke is Chromium-only (§11, §10.3), so firefox/webkit skip it.
     { name: 'firefox', use: { ...devices['Desktop Firefox'] }, grepInvert: /@py/ },
     { name: 'webkit', use: { ...devices['Desktop Safari'] }, grepInvert: /@py/ },
+    {
+      name: 'chromium-low-end',
+      grep: /@low-end/,
+      use: {
+        ...devices['Pixel 5'],
+        ...(chromiumExecutable ? { launchOptions: { executablePath: chromiumExecutable } } : {}),
+      },
+    },
   ],
 });

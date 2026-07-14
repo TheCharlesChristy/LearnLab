@@ -1,0 +1,768 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learnlab.dev/schemas/activity-plugin-props.schema.json",
+  "title": "LearnLab Activity Plugin Props",
+  "description": "Generated from the registered ActivityPlugin definitions. The definition named by activity.key validates activity.props.",
+  "$defs": {
+    "core-choice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "legacyLessonId",
+        "screen",
+        "index",
+        "total"
+      ],
+      "properties": {
+        "legacyLessonId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screen": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "tap-choice"
+            }
+          }
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "core-entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "legacyLessonId",
+        "screen",
+        "index",
+        "total"
+      ],
+      "properties": {
+        "legacyLessonId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screen": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "entry"
+            }
+          }
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "core-faded-step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "legacyLessonId",
+        "screen",
+        "index",
+        "total"
+      ],
+      "properties": {
+        "legacyLessonId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screen": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "faded-step"
+            }
+          }
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "core-flash-recall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "legacyLessonId",
+        "screen",
+        "index",
+        "total"
+      ],
+      "properties": {
+        "legacyLessonId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screen": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "flash-recall"
+            }
+          }
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "core-predict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "legacyLessonId",
+        "screen",
+        "index",
+        "total"
+      ],
+      "properties": {
+        "legacyLessonId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screen": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "predict"
+            }
+          }
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "core-reveal-mechanism": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "legacyLessonId",
+        "screen",
+        "index",
+        "total"
+      ],
+      "properties": {
+        "legacyLessonId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screen": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "reveal-mechanism"
+            }
+          }
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "core-sort-match": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "legacyLessonId",
+        "screen",
+        "index",
+        "total"
+      ],
+      "properties": {
+        "legacyLessonId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screen": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "sort-match"
+            }
+          }
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "diagnose-repair": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "symptoms",
+        "diagnoses",
+        "repairs",
+        "requiredEvidenceIds"
+      ],
+      "properties": {
+        "symptoms": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "diagnosisIds"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "diagnosisIds": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              }
+            }
+          }
+        },
+        "diagnoses": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "repairIds",
+              "evidenceIds"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "repairIds": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "evidenceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "feedback": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "repairs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "effect"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              },
+              "effect": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "operator",
+                  "path",
+                  "value"
+                ],
+                "properties": {
+                  "operator": {
+                    "const": "set"
+                  },
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "value": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requiredEvidenceIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "experiment-infer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "predictionPrompt",
+        "predictions",
+        "trials",
+        "requiredTrialIds",
+        "inferencePrompt",
+        "rules",
+        "correctRuleId",
+        "transferPrompt",
+        "transferOptions",
+        "correctTransferId"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "predictionPrompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "predictions": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "trials": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "controlLabel",
+              "observationLabel"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "controlLabel": {
+                "type": "string",
+                "minLength": 1
+              },
+              "observationLabel": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "requiredTrialIds": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "inferencePrompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rules": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "correctRuleId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transferPrompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transferOptions": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "correctTransferId": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "explore-eigen-playground": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "a",
+        "c",
+        "bMin",
+        "bMax"
+      ],
+      "properties": {
+        "a": {
+          "type": "number",
+          "minimum": 0.000001
+        },
+        "c": {
+          "type": "number",
+          "minimum": 0.000001
+        },
+        "bMin": {
+          "type": "number"
+        },
+        "bMax": {
+          "type": "number"
+        },
+        "bInit": {
+          "type": "number"
+        },
+        "showPoints": {
+          "type": "boolean"
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "explore-function-grapher": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expr",
+        "xmin",
+        "xmax"
+      ],
+      "properties": {
+        "expr": {
+          "type": "string",
+          "minLength": 1
+        },
+        "xmin": {
+          "type": "number"
+        },
+        "xmax": {
+          "type": "number"
+        },
+        "ymin": {
+          "type": "number"
+        },
+        "ymax": {
+          "type": "number"
+        },
+        "grid": {
+          "type": "boolean"
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "explore-signal-scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expr",
+        "sampleRate",
+        "duration",
+        "freqMin",
+        "freqMax"
+      ],
+      "properties": {
+        "expr": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sampleRate": {
+          "type": "number",
+          "minimum": 1
+        },
+        "duration": {
+          "type": "number",
+          "minimum": 0.001
+        },
+        "noiseAmount": {
+          "type": "number",
+          "minimum": 0
+        },
+        "freqMin": {
+          "type": "number"
+        },
+        "freqMax": {
+          "type": "number"
+        },
+        "freqInit": {
+          "type": "number"
+        },
+        "showSpectrum": {
+          "type": "boolean"
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "python-item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "itemId",
+        "sourceUrl"
+      ],
+      "properties": {
+        "itemId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceUrl": {
+          "type": "string",
+          "minLength": 1
+        },
+        "params": {
+          "type": "object"
+        },
+        "height": {
+          "type": "number",
+          "minimum": 1
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "savedState": {
+          "type": "object"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "seeded-choice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prompt",
+        "options",
+        "correctId"
+      ],
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "minLength": 1
+        },
+        "options": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "correctId": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "v1-screen": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "legacyLessonId",
+        "screen",
+        "index",
+        "total"
+      ],
+      "properties": {
+        "legacyLessonId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screen": {
+          "type": "object"
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

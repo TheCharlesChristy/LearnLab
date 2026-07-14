@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 2,
+  "id": "harbour-hoist",
+  "version": "1.0.0",
+  "title": "Harbour hoist",
+  "description": "Use resultant force to diagnose and repair a harbour hoist.",
+  "audience": {
+    "level": "gcse",
+    "summary": "GCSE learners who can add signed whole numbers.",
+    "prerequisites": ["Add signed whole numbers"]
+  },
+  "taxonomy": {
+    "subjects": [
+      "physics"
+    ],
+    "tags": [
+      "forces",
+      "resultant-force",
+      "equilibrium"
+    ]
+  },
+  "theme": {
+    "name": "Harbour hoist"
+  },
+  "estimatedMinutes": 12,
+  "engineCapabilities": [
+    {
+      "key": "core-flash-recall",
+      "version": "1.0.0"
+    },
+    {
+      "key": "core-reveal-mechanism",
+      "version": "1.0.0"
+    },
+    {
+      "key": "experiment-infer",
+      "version": "1.0.0"
+    },
+    {
+      "key": "diagnose-repair",
+      "version": "1.0.0"
+    },
+    {
+      "key": "seeded-choice",
+      "version": "1.0.0"
+    }
+  ],
+  "state": {
+    "version": "1.0.0",
+    "declarations": [
+      {
+        "path": "/hoist/repaired",
+        "type": "boolean",
+        "default": false
+      },
+      {
+        "path": "/hoist/evidence",
+        "type": "string-set",
+        "default": []
+      },
+      {
+        "path": "/hoist/resultant-understood",
+        "type": "boolean",
+        "default": false
+      }
+    ],
+    "migrations": []
+  },
+  "skills": [
+    {
+      "id": "calculate-resultant-force",
+      "title": "Calculate a resultant force",
+      "description": "Add forces with direction to decide whether the resultant is zero and identify its direction.",
+      "prerequisiteIds": []
+    },
+    {
+      "id": "evidence-based-repair",
+      "title": "Choose an evidence based repair",
+      "description": "Use an observed force imbalance and its reading to select a causal repair.",
+      "prerequisiteIds": ["calculate-resultant-force"]
+    }
+  ],
+  "experiences": [
+    {
+      "id": "balance-the-hoist",
+      "file": "experiences/balance-the-hoist.json",
+      "title": "Balance the hoist",
+      "estimatedMinutes": 12
+    }
+  ],
+  "campaigns": [
+    {
+      "id": "harbour-hoist-campaign",
+      "title": "Harbour hoist campaign",
+      "description": "Investigate an imbalance in a harbour hoist, then repair it using force evidence.",
+      "entryExperienceId": "balance-the-hoist",
+      "experienceIds": [
+        "balance-the-hoist"
+      ]
+    }
+  ],
+  "assets": [],
+  "reviewItems": [
+    {
+      "id": "harbour-hoist-resultant-review",
+      "title": "Resultant force on a hoist",
+      "standaloneContext": "A hoist platform has a 120 N upward force and a 90 N downward force. Treat upward as positive.",
+      "prompt": "What is the resultant force on the platform?",
+      "skillIds": [
+        "calculate-resultant-force"
+      ],
+      "activity": {
+        "key": "seeded-choice",
+        "version": "1.0.0",
+        "props": {
+          "prompt": "Select the signed resultant.",
+          "options": [
+            { "id": "up-30", "label": "30 N upward" },
+            { "id": "zero", "label": "0 N" },
+            { "id": "down-210", "label": "210 N downward" }
+          ],
+          "correctId": "up-30"
+        }
+      },
+      "goal": {
+        "operator": "activity-complete"
+      },
+      "feedback": {
+        "success": "The signed sum is $+120\\,\\text{N} - 90\\,\\text{N} = +30\\,\\text{N}$, so the resultant is 30 N upward.",
+        "misconceptions": [
+          "Zero would require equal opposing forces.",
+          "Adding magnitudes without keeping their directions produces 210 N, not the resultant."
+        ],
+        "hints": [
+          "Choose one direction as positive before adding the forces."
+        ]
+      },
+      "source": {
+        "experienceId": "balance-the-hoist",
+        "nodeId": "experiment-balance"
+      }
+    }
+  ]
+}

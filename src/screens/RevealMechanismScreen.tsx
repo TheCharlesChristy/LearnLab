@@ -18,6 +18,7 @@ function RevealMechanismScreenRunner({
   index,
   total,
   onAdvance,
+  onInteraction,
 }: ScreenRunnerProps<RevealMechanismScreenType>) {
   const [explanation, setExplanation] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -43,7 +44,12 @@ function RevealMechanismScreenRunner({
         {!submitted && (
           <button
             type="button"
-            onClick={() => setSubmitted(true)}
+            onClick={() => {
+              setSubmitted(true);
+              const values = { '/self-explanation': explanation } as const;
+              onInteraction?.({ type: 'interaction', values });
+              onInteraction?.({ type: 'attempted', values });
+            }}
             disabled={explanation.trim() === ''}
             className="mt-2 rounded bg-blue-600 px-3 py-1 text-white disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
           >
@@ -60,4 +66,6 @@ function RevealMechanismScreenRunner({
   );
 }
 
-export const def = defineScreen<RevealMechanismScreenType>({ component: RevealMechanismScreenRunner });
+export const def = defineScreen<RevealMechanismScreenType>({
+  component: RevealMechanismScreenRunner,
+});

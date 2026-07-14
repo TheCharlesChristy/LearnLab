@@ -18,6 +18,7 @@ function FlashRecallScreenRunner({
   index,
   total,
   onAdvance,
+  onInteraction,
 }: ScreenRunnerProps<FlashRecallScreenType>) {
   const [revealed, setRevealed] = useState(false);
   const [grade, setGrade] = useState<'again' | 'good' | null>(null);
@@ -28,7 +29,13 @@ function FlashRecallScreenRunner({
         <MarkdownInline markdown={screen.front} />
       </p>
       {!revealed ? (
-        <Button className="mt-4" onClick={() => setRevealed(true)}>
+        <Button
+          className="mt-4"
+          onClick={() => {
+            setRevealed(true);
+            onInteraction?.({ type: 'interaction', values: { '/revealed': true } });
+          }}
+        >
           I've got an answer — show me
         </Button>
       ) : (
@@ -37,7 +44,12 @@ function FlashRecallScreenRunner({
           <div className="mt-3 flex gap-2">
             <button
               type="button"
-              onClick={() => setGrade('again')}
+              onClick={() => {
+                setGrade('again');
+                const values = { '/grade': 'again' } as const;
+                onInteraction?.({ type: 'interaction', values });
+                onInteraction?.({ type: 'attempted', values });
+              }}
               className={cx(
                 'rounded-md border px-3 py-1.5 text-sm font-medium',
                 grade === 'again'
@@ -49,7 +61,12 @@ function FlashRecallScreenRunner({
             </button>
             <button
               type="button"
-              onClick={() => setGrade('good')}
+              onClick={() => {
+                setGrade('good');
+                const values = { '/grade': 'good' } as const;
+                onInteraction?.({ type: 'interaction', values });
+                onInteraction?.({ type: 'attempted', values });
+              }}
               className={cx(
                 'rounded-md border px-3 py-1.5 text-sm font-medium',
                 grade === 'good'

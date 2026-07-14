@@ -18,6 +18,7 @@ function PredictScreenRunner({
   index,
   total,
   onAdvance,
+  onInteraction,
 }: ScreenRunnerProps<PredictScreenType>) {
   const [committed, setCommitted] = useState<number | null>(null);
 
@@ -30,7 +31,9 @@ function PredictScreenRunner({
         {screen.choices.map((choice, i) => {
           const isSelected = committed === i;
           const isMarkedCorrect =
-            committed !== null && screen.correctChoiceIndex !== undefined && i === screen.correctChoiceIndex;
+            committed !== null &&
+            screen.correctChoiceIndex !== undefined &&
+            i === screen.correctChoiceIndex;
           return (
             <button
               key={i}
@@ -38,7 +41,17 @@ function PredictScreenRunner({
               role="radio"
               aria-checked={isSelected}
               disabled={committed !== null}
-              onClick={() => setCommitted(i)}
+              onClick={() => {
+                setCommitted(i);
+                const values = {
+                  '/choice-index': i,
+                  ...(screen.correctChoiceIndex === undefined
+                    ? {}
+                    : { '/correct': i === screen.correctChoiceIndex }),
+                } as const;
+                onInteraction?.({ type: 'interaction', values });
+                onInteraction?.({ type: 'attempted', values });
+              }}
               className={cx(
                 'flex w-full items-center gap-2 rounded-md border px-3 py-2 text-left transition-colors motion-safe:duration-150',
                 'border-slate-300 hover:bg-indigo-50 disabled:cursor-default dark:border-slate-600 dark:hover:bg-slate-700',

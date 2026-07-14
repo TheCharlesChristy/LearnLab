@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 2,
+  "id": "balance-the-hoist",
+  "packId": "harbour-hoist",
+  "version": "1.0.0",
+  "stateVersion": "1.0.0",
+  "entryNodeId": "recall-reading",
+  "nodes": [
+    {
+      "id": "recall-reading",
+      "kind": "scene",
+      "presentation": {
+        "kind": "briefing",
+        "title": "The hoist is drifting",
+        "body": "A loaded harbour hoist drifts downward. Before opening the cabinet, recall what equal 200 N upward and downward forces would mean for its resultant."
+      },
+      "activity": {
+        "key": "core-flash-recall",
+        "version": "1.0.0",
+        "props": {
+          "legacyLessonId": "harbour-hoist-recall",
+          "index": 0,
+          "total": 1,
+          "screen": {
+            "type": "flash-recall",
+            "id": "recall-equal-forces",
+            "front": "A hoist has 200 N upward and 200 N downward force. What is its resultant force?",
+            "back": "The resultant is 0 N. Equal magnitude forces in opposite directions cancel."
+          }
+        }
+      },
+      "goal": { "operator": "activity-complete" },
+      "feedback": {
+        "success": "You committed to a recall attempt before seeing the model answer. Use your self grade to choose the right amount of support.",
+        "hints": ["Keep both magnitude and direction when you add forces."]
+      },
+      "effects": [{ "operator": "checkpoint", "label": "recall-resultant" }],
+      "transitions": {
+        "branches": [
+          {
+            "when": { "operator": "outcome-equals", "path": "/grade", "value": "again" },
+            "to": "guided-sum",
+            "label": "Use a guided signed sum"
+          }
+        ],
+        "fallback": { "to": "experiment-balance", "label": "Test the force readings" }
+      },
+      "accessibility": {
+        "ariaLabel": "Recall the resultant force on the hoist",
+        "textAlternative": "The card states both force magnitudes and directions in text.",
+        "reducedMotionAlternative": "The recall card has no timed motion."
+      }
+    },
+    {
+      "id": "guided-sum",
+      "kind": "scene",
+      "presentation": {
+        "kind": "explanation",
+        "body": "Take upward as positive. The two equal readings are $+200\\,\\text{N} + (-200\\,\\text{N}) = 0\\,\\text{N}$. The hoist can be balanced even while it has forces acting on it."
+      },
+      "activity": {
+        "key": "core-reveal-mechanism",
+        "version": "1.0.0",
+        "props": {
+          "legacyLessonId": "harbour-hoist-guided-sum",
+          "index": 0,
+          "total": 1,
+          "screen": {
+            "type": "reveal-mechanism",
+            "id": "explain-opposite-directions",
+            "body": "The sign records direction. Adding a downward force means adding a negative value when upward is positive.",
+            "selfExplainPrompt": "Why is the downward 200 N written as a negative value in this sum?",
+            "selfExplainAnswer": "The negative sign records that the downward force points opposite to the chosen positive direction. It is not a smaller force."
+          }
+        }
+      },
+      "goal": { "operator": "activity-complete" },
+      "feedback": { "success": "You explained why direction belongs in the sum. Now use that rule on the real readings." },
+      "effects": [{ "operator": "checkpoint", "label": "guided-signed-sum" }],
+      "transitions": { "branches": [], "fallback": { "to": "experiment-balance", "label": "Investigate the readings" } },
+      "accessibility": {
+        "ariaLabel": "Guided explanation of signed forces",
+        "textAlternative": "The signed force calculation is written in the scene text.",
+        "reducedMotionAlternative": "The explanation is shown as text without animation."
+      }
+    },
+    {
+      "id": "experiment-balance",
+      "kind": "scene",
+      "presentation": {
+        "kind": "world-event",
+        "body": "The engineer gives you two controlled force readings. Change only the upward support reading, record both observations, then infer the rule before choosing a new setting."
+      },
+      "activity": {
+        "key": "experiment-infer",
+        "version": "1.0.0",
+        "props": {
+          "title": "Hoist force investigation",
+          "predictionPrompt": "With a 200 N downward load, what will a 160 N upward support produce?",
+          "predictions": [
+            { "id": "down-40", "label": "A 40 N downward resultant" },
+            { "id": "zero", "label": "A zero resultant" },
+            { "id": "up-40", "label": "A 40 N upward resultant" }
+          ],
+          "trials": [
+            { "id": "support-160", "controlLabel": "Set upward support to 160 N", "observationLabel": "With 160 N upward and 200 N downward, the resultant is 40 N downward." },
+            { "id": "support-200", "controlLabel": "Set upward support to 200 N", "observationLabel": "With 200 N upward and 200 N downward, the resultant is 0 N." }
+          ],
+          "requiredTrialIds": ["support-160", "support-200"],
+          "inferencePrompt": "Which rule accounts for both readings?",
+          "rules": [
+            { "id": "signed-sum", "label": "The resultant is the signed sum of forces, so equal opposing forces cancel." },
+            { "id": "unsigned-total", "label": "Add force magnitudes without direction to find the resultant." },
+            { "id": "largest-force", "label": "Only the largest force determines the resultant." }
+          ],
+          "correctRuleId": "signed-sum",
+          "transferPrompt": "For 120 N upward and 90 N downward, what should the resultant be?",
+          "transferOptions": [
+            { "id": "up-30", "label": "30 N upward" },
+            { "id": "zero", "label": "0 N" },
+            { "id": "down-210", "label": "210 N downward" }
+          ],
+          "correctTransferId": "up-30"
+        }
+      },
+      "goal": { "operator": "activity-complete" },
+      "feedback": {
+        "success": "The two observations and the transfer case agree: resultant force is a signed sum, not an unsigned total.",
+        "failure": "Run both readings, choose the rule that matches both, then apply it to the new force pair.",
+        "misconceptions": [
+          "The unsigned total 360 N ignores direction, so it cannot explain opposing forces cancelling.",
+          "The largest force is not enough information because the other force changes the signed sum."
+        ],
+        "hints": ["Choose upward as positive.", "Compare $+160\\,\\text{N} - 200\\,\\text{N}$ with $+200\\,\\text{N} - 200\\,\\text{N}$."]
+      },
+      "effects": [
+        { "operator": "append", "path": "/hoist/evidence", "value": "force-readings" },
+        { "operator": "set", "path": "/hoist/resultant-understood", "value": true },
+        { "operator": "checkpoint", "label": "force-reading-evidence" },
+        { "operator": "emit-evidence", "skillId": "calculate-resultant-force", "outcome": "success", "independence": "independent", "confidence": "think-so" }
+      ],
+      "transitions": { "branches": [], "fallback": { "to": "diagnose-repair", "label": "Diagnose the drift" } },
+      "review": { "itemId": "harbour-hoist-resultant-review" },
+      "accessibility": {
+        "ariaLabel": "Investigate force readings on the hoist",
+        "textAlternative": "Every force reading and observation is available as text on a labelled button.",
+        "reducedMotionAlternative": "Observations appear as text without a timed simulation."
+      }
+    },
+    {
+      "id": "diagnose-repair",
+      "kind": "scene",
+      "presentation": {
+        "kind": "dialogue",
+        "speaker": "Harbour engineer",
+        "body": "The load drifts downward when released. Use the reading as evidence. Do not tighten a part until your diagnosis explains the direction of the imbalance."
+      },
+      "activity": {
+        "key": "diagnose-repair",
+        "version": "1.0.0",
+        "props": {
+          "symptoms": [
+            { "id": "downward-drift", "label": "The loaded platform drifts downward", "diagnosisIds": ["support-too-small"] }
+          ],
+          "diagnoses": [
+            { "id": "support-too-small", "label": "The upward support force is too small", "repairIds": ["increase-support"], "evidenceIds": ["force-readings"] },
+            { "id": "brake-jammed", "label": "The brake is jammed", "repairIds": ["release-brake"], "evidenceIds": ["brake-inspection"], "feedback": "A jammed brake would oppose motion. The measured 160 N upward support is smaller than the 200 N downward load, which directly explains the downward resultant." }
+          ],
+          "repairs": [
+            { "id": "increase-support", "label": "Increase the upward support to 200 N", "effect": { "operator": "set", "path": "/hoist/repaired", "value": true } },
+            { "id": "release-brake", "label": "Release the brake", "effect": { "operator": "set", "path": "/hoist/repaired", "value": false } }
+          ],
+          "requiredEvidenceIds": ["force-readings"]
+        }
+      },
+      "goal": { "operator": "activity-complete" },
+      "feedback": {
+        "success": "You used the symptom and force readings to select the repair. Restoring 200 N upward support gives a zero resultant against the 200 N downward load.",
+        "failure": "Observe the symptom, commit the force reading, then choose a diagnosis and repair that fit both.",
+        "misconceptions": ["A repair should follow the measured imbalance, not a plausible sounding fault."],
+        "hints": ["The force readings are required evidence.", "Compare the direction of the 40 N resultant with the direction of the drift."]
+      },
+      "effects": [
+        { "operator": "set", "path": "/hoist/repaired", "value": true },
+        { "operator": "checkpoint", "label": "evidence-based-repair" },
+        { "operator": "emit-evidence", "skillId": "evidence-based-repair", "outcome": "success", "independence": "independent", "confidence": "think-so" },
+        { "operator": "celebrate", "milestoneId": "hoist-balanced" }
+      ],
+      "transitions": { "branches": [], "fallback": { "to": "hoist-balanced", "label": "Confirm repair" } },
+      "accessibility": {
+        "ariaLabel": "Diagnose and repair the harbour hoist",
+        "textAlternative": "The symptom, evidence, diagnoses, and repairs are exposed as labelled native controls.",
+        "reducedMotionAlternative": "The repair consequence is described in text without animation."
+      }
+    },
+    {
+      "id": "hoist-balanced",
+      "kind": "ending",
+      "presentation": {
+        "kind": "explanation",
+        "body": "The hoist is steady. You first recalled the equal force case, then used two readings to infer a signed-sum rule, and finally chose the repair that restores a zero resultant."
+      },
+      "effects": [{ "operator": "checkpoint", "label": "hoist-balanced" }],
+      "termination": {
+        "status": "complete",
+        "summary": "You can calculate a resultant force and use it as evidence for a causal repair. Return for the standalone review after a delay."
+      },
+      "accessibility": {
+        "ariaLabel": "Harbour hoist balanced",
+        "textAlternative": "The completed repair and the learning payoff are stated in text.",
+        "reducedMotionAlternative": "Completion has a text alternative when reduced motion is preferred."
+      }
+    }
+  ]
+}

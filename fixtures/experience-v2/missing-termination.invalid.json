@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 2,
+  "id": "missing-termination",
+  "packId": "bridge-missions",
+  "version": "2.0.0",
+  "stateVersion": "1.0.0",
+  "entryNodeId": "end",
+  "nodes": [{ "id": "end", "kind": "ending", "presentation": { "kind": "explanation", "body": "End." } }]
+}

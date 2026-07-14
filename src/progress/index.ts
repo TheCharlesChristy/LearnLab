@@ -12,14 +12,19 @@ export type {
 } from './types';
 
 export type { Achievement, EngagementEvent, EngagementState } from './engagement-types';
+export type { ExperienceEvent, ExperienceRun } from '../experience/run-state';
 
 export { ACHIEVEMENTS, pointsForEvent } from './engagement';
 
 export {
   ITEM_STATE_MAX_BYTES,
   addLessonTime,
+  appendExperienceRunBoundary,
   db,
   dueReviewItems,
+  eraseExperienceRunData,
+  experienceRunEventCount,
+  getExperienceRun,
   kvGet,
   kvSet,
   markLessonComplete,
@@ -29,6 +34,7 @@ export {
   recordReview,
   seedReviewItem,
   setItemState,
+  startExperienceRun,
   getItemState,
   touchLesson,
   type ModuleMeta,

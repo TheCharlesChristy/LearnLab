@@ -2,6 +2,7 @@
 // Pinned by the orchestrator (T0.C). Do not add or rename fields.
 
 import type { EngagementState } from './engagement-types';
+import type { ExperienceEvent, ExperienceRun } from '../experience/run-state/types';
 
 export interface ModuleState {
   moduleId: string;
@@ -76,7 +77,7 @@ export interface ReviewState {
 // SRS §5.5 normative set the other five tables belong to.
 export interface ProgressExport {
   app: 'learnlab';
-  exportVersion: 1 | 2 | 3;
+  exportVersion: 1 | 2 | 3 | 4;
   exportedAt: string;
   tables: {
     moduleState: ModuleState[];
@@ -86,5 +87,7 @@ export interface ProgressExport {
     kv: KV[];
     reviewState: ReviewState[];
     engagement: EngagementState[];
+    experienceRuns: ExperienceRun[];
+    experienceEvents: ExperienceEvent[];
   };
 }

@@ -14,6 +14,8 @@ blob-report/
 # Generated artifacts (built by scripts/, never committed — SRS §4.2, §3.3)
 public/content/index.json
 public/content/search-index.json
+public/content/experience-index.json
+public/content/experience-search-index.json
 public/python-bundle.zip
 
 # Python

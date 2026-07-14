@@ -22,6 +22,10 @@ const SearchPage = lazy(() => import('./pages/SearchPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const WidgetsPage = lazy(() => import('./pages/WidgetsPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+// ADR-001: Studio is developer tooling, never a learner-product route. Vite
+// replaces DEV at build time, so this lazy chunk and its Ajv/schema imports are
+// absent from production learner builds.
+const StudioPage = import.meta.env.DEV ? lazy(() => import('../studio/StudioPage')) : null;
 
 function page(node: ReactNode): ReactNode {
   return <Suspense fallback={<Spinner label="Loading page…" />}>{node}</Suspense>;
@@ -64,6 +68,9 @@ export function buildRoutes(): RouteObject[] {
           element: page(<WidgetsPage />),
           errorElement: <RouteErrorPage />,
         },
+        ...(StudioPage === null
+          ? []
+          : [{ path: 'studio', element: page(<StudioPage />), errorElement: <RouteErrorPage /> }]),
         { path: '*', element: page(<NotFoundPage />), errorElement: <RouteErrorPage /> },
       ],
     },

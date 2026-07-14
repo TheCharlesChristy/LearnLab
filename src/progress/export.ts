@@ -4,6 +4,13 @@
 
 import { db } from './db';
 import type { EngagementState } from './engagement-types';
+import { assertProjectionMatchesEvents } from '../experience/run-state/projection';
+import {
+  RUN_EVENT_MAX_BYTES,
+  RUN_EVENT_MAX_PER_RUN,
+  RUN_PROJECTION_MAX_BYTES,
+} from '../experience/run-state/limits';
+import type { ExperienceEvent, ExperienceRun } from '../experience/run-state/types';
 import type {
   Attempt,
   ItemState,
@@ -21,26 +28,57 @@ export interface ImportSummary {
 
 /** Snapshot all tables into the §5.5 / FR-PROG-003 export shape (D-021: v2 adds reviewState; D-027: v3 adds engagement). */
 export async function exportProgress(): Promise<ProgressExport> {
-  const [moduleState, lessonProgress, attempts, itemState, kv, reviewState, engagement] =
-    await db.transaction(
-      'r',
-      [db.moduleState, db.lessonProgress, db.attempts, db.itemState, db.kv, db.reviewState, db.engagement],
-      () =>
-        Promise.all([
-          db.moduleState.toArray(),
-          db.lessonProgress.toArray(),
-          db.attempts.toArray(),
-          db.itemState.toArray(),
-          db.kv.toArray(),
-          db.reviewState.toArray(),
-          db.engagement.toArray(),
-        ]),
-    );
+  const [
+    moduleState,
+    lessonProgress,
+    attempts,
+    itemState,
+    kv,
+    reviewState,
+    engagement,
+    experienceRuns,
+    experienceEvents,
+  ] = await db.transaction(
+    'r',
+    [
+      db.moduleState,
+      db.lessonProgress,
+      db.attempts,
+      db.itemState,
+      db.kv,
+      db.reviewState,
+      db.engagement,
+      db.experienceRuns,
+      db.experienceEvents,
+    ],
+    () =>
+      Promise.all([
+        db.moduleState.toArray(),
+        db.lessonProgress.toArray(),
+        db.attempts.toArray(),
+        db.itemState.toArray(),
+        db.kv.toArray(),
+        db.reviewState.toArray(),
+        db.engagement.toArray(),
+        db.experienceRuns.toArray(),
+        db.experienceEvents.toArray(),
+      ]),
+  );
   return {
     app: 'learnlab',
-    exportVersion: 3,
+    exportVersion: 4,
     exportedAt: new Date().toISOString(),
-    tables: { moduleState, lessonProgress, attempts, itemState, kv, reviewState, engagement },
+    tables: {
+      moduleState,
+      lessonProgress,
+      attempts,
+      itemState,
+      kv,
+      reviewState,
+      engagement,
+      experienceRuns,
+      experienceEvents,
+    },
   };
 }
 
@@ -154,6 +192,132 @@ function isEngagementState(v: unknown): v is EngagementState {
   );
 }
 
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === 'string');
+}
+
+function isRunStateValue(value: unknown): boolean {
+  return (
+    value === null ||
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean' ||
+    isStringArray(value)
+  );
+}
+
+function isRunEvidence(value: unknown): boolean {
+  return (
+    isRecord(value) &&
+    typeof value.skillId === 'string' &&
+    ['success', 'partial', 'failure'].includes(String(value.outcome)) &&
+    ['independent', 'hinted', 'assisted'].includes(String(value.independence)) &&
+    typeof value.eventId === 'string' &&
+    (value.confidence === undefined ||
+      ['guessing', 'think-so', 'sure'].includes(String(value.confidence)))
+  );
+}
+
+function isRunInitial(value: unknown, runId: string): boolean {
+  return (
+    isRecord(value) &&
+    value.runId === runId &&
+    value.schemaVersion === 1 &&
+    typeof value.packId === 'string' &&
+    typeof value.experienceId === 'string' &&
+    typeof value.packVersion === 'string' &&
+    typeof value.experienceVersion === 'string' &&
+    typeof value.stateVersion === 'string' &&
+    typeof value.currentNodeId === 'string' &&
+    isRecord(value.variables) &&
+    Object.values(value.variables).every(isRunStateValue) &&
+    isStringArray(value.unlockedCapabilityIds) &&
+    isStringArray(value.branchHistory) &&
+    Array.isArray(value.evidence) &&
+    value.evidence.every(isRunEvidence) &&
+    isStringArray(value.celebrations)
+  );
+}
+
+function isExperienceRun(value: unknown): value is ExperienceRun {
+  return (
+    isRecord(value) &&
+    typeof value.runId === 'string' &&
+    value.schemaVersion === 1 &&
+    typeof value.packId === 'string' &&
+    typeof value.experienceId === 'string' &&
+    typeof value.packVersion === 'string' &&
+    typeof value.experienceVersion === 'string' &&
+    typeof value.stateVersion === 'string' &&
+    typeof value.currentNodeId === 'string' &&
+    isRecord(value.variables) &&
+    Object.values(value.variables).every(isRunStateValue) &&
+    isStringArray(value.unlockedCapabilityIds) &&
+    isStringArray(value.branchHistory) &&
+    Array.isArray(value.evidence) &&
+    value.evidence.every(isRunEvidence) &&
+    isStringArray(value.celebrations) &&
+    typeof value.eventCount === 'number' &&
+    typeof value.createdAt === 'number' &&
+    typeof value.updatedAt === 'number'
+  );
+}
+
+function isExperienceEvent(value: unknown): value is ExperienceEvent {
+  if (
+    !isRecord(value) ||
+    typeof value.runId !== 'string' ||
+    value.schemaVersion !== 1 ||
+    typeof value.sequence !== 'number' ||
+    typeof value.eventId !== 'string' ||
+    typeof value.occurredAt !== 'number'
+  ) {
+    return false;
+  }
+  if (value.kind === 'run-created') return isRunInitial(value.initial, value.runId);
+  return (
+    value.kind === 'boundary-applied' &&
+    typeof value.nodeId === 'string' &&
+    Array.isArray(value.effects) &&
+    (value.nextNodeId === undefined || typeof value.nextNodeId === 'string') &&
+    (value.ending === undefined ||
+      (typeof value.ending === 'string' &&
+        ['complete', 'failed', 'abandoned'].includes(value.ending)))
+  );
+}
+
+function validateExperienceTables(runs: ExperienceRun[], events: ExperienceEvent[]): void {
+  const eventsByRun = new Map<string, ExperienceEvent[]>();
+  for (const event of events) {
+    const bucket = eventsByRun.get(event.runId) ?? [];
+    bucket.push(event);
+    eventsByRun.set(event.runId, bucket);
+    if (JSON.stringify(event).length > RUN_EVENT_MAX_BYTES) {
+      throw new Error(`Import rejected: run event ${event.eventId} exceeds the local storage cap.`);
+    }
+  }
+  for (const run of runs) {
+    if (JSON.stringify(run).length > RUN_PROJECTION_MAX_BYTES) {
+      throw new Error(`Import rejected: run ${run.runId} exceeds the local storage cap.`);
+    }
+    const runEvents = eventsByRun.get(run.runId) ?? [];
+    if (runEvents.length > RUN_EVENT_MAX_PER_RUN) {
+      throw new Error(`Import rejected: run ${run.runId} exceeds the event cap.`);
+    }
+    try {
+      assertProjectionMatchesEvents(run, runEvents);
+    } catch (error) {
+      throw new Error(
+        `Import rejected: corrupt experience run ${run.runId}: ${error instanceof Error ? error.message : 'invalid event log'}`,
+      );
+    }
+    eventsByRun.delete(run.runId);
+  }
+  if (eventsByRun.size > 0) {
+    throw new Error('Import rejected: experience events reference a missing run projection.');
+  }
+}
+
 /**
  * Validate an unknown parsed JSON value as a ProgressExport. Throws an Error
  * with a human-readable reason on any problem; touches nothing. D-021/D-027
@@ -172,15 +336,15 @@ function validateExport(data: unknown): ProgressExport {
   if (typeof version !== 'number') {
     throw new Error('Import rejected: missing or invalid exportVersion.');
   }
-  if (version > 3) {
+  if (version > 4) {
     // NFR-MAINT-002: fail loudly and actionably on unknown newer versions.
     throw new Error(
       `Import rejected: this file was exported by a newer version of LearnLab ` +
-        `(exportVersion ${version}, this app understands up to version 3). ` +
+        `(exportVersion ${version}, this app understands up to version 4). ` +
         `Update LearnLab and try again.`,
     );
   }
-  if (version !== 1 && version !== 2 && version !== 3) {
+  if (version !== 1 && version !== 2 && version !== 3 && version !== 4) {
     throw new Error(`Import rejected: unsupported exportVersion ${version}.`);
   }
   const tables = data.tables;
@@ -235,9 +399,31 @@ function validateExport(data: unknown): ProgressExport {
     }
     engagement = rows as EngagementState[];
   }
+  // v4 adds the Experience Runtime's projections and diagnostic event log.
+  // Pre-v4 exports intentionally predate this feature and import as no runs.
+  let experienceRuns: ExperienceRun[] = [];
+  let experienceEvents: ExperienceEvent[] = [];
+  for (const [name, check] of [
+    ['experienceRuns', isExperienceRun],
+    ['experienceEvents', isExperienceEvent],
+  ] as const) {
+    const rows = tables[name];
+    if (rows === undefined && version < 4) continue;
+    if (!Array.isArray(rows)) {
+      throw new Error(`Import rejected: tables.${name} is missing or not an array.`);
+    }
+    for (let i = 0; i < rows.length; i++) {
+      if (!check(rows[i])) {
+        throw new Error(`Import rejected: tables.${name}[${i}] is malformed.`);
+      }
+    }
+    if (name === 'experienceRuns') experienceRuns = rows as ExperienceRun[];
+    else experienceEvents = rows as ExperienceEvent[];
+  }
+  validateExperienceTables(experienceRuns, experienceEvents);
   return {
     ...(data as object),
-    tables: { ...tables, reviewState, engagement },
+    tables: { ...tables, reviewState, engagement, experienceRuns, experienceEvents },
   } as unknown as ProgressExport;
 }
 
@@ -255,7 +441,17 @@ export async function importProgress(data: unknown): Promise<ImportSummary> {
 
   return db.transaction(
     'rw',
-    [db.moduleState, db.lessonProgress, db.attempts, db.itemState, db.kv, db.reviewState, db.engagement],
+    [
+      db.moduleState,
+      db.lessonProgress,
+      db.attempts,
+      db.itemState,
+      db.kv,
+      db.reviewState,
+      db.engagement,
+      db.experienceRuns,
+      db.experienceEvents,
+    ],
     async () => {
       let imported = 0;
       let skipped = 0;
@@ -318,6 +514,28 @@ export async function importProgress(data: unknown): Promise<ImportSummary> {
         } else {
           skipped++;
         }
+      }
+
+      // A run projection and its event stream are one atomic snapshot. A
+      // strictly newer imported snapshot replaces both together; an older or
+      // equal local projection wins so no partial event tail can be grafted
+      // onto a different materialisation.
+      const incomingEventsByRun = new Map<string, ExperienceEvent[]>();
+      for (const event of t.experienceEvents) {
+        const bucket = incomingEventsByRun.get(event.runId) ?? [];
+        bucket.push(event);
+        incomingEventsByRun.set(event.runId, bucket);
+      }
+      for (const incoming of t.experienceRuns) {
+        const existing = await db.experienceRuns.get(incoming.runId);
+        if (existing && incoming.updatedAt <= existing.updatedAt) {
+          skipped += 1 + (incomingEventsByRun.get(incoming.runId)?.length ?? 0);
+          continue;
+        }
+        await db.experienceEvents.where('runId').equals(incoming.runId).delete();
+        await db.experienceRuns.put(incoming);
+        await db.experienceEvents.bulkAdd(incomingEventsByRun.get(incoming.runId) ?? []);
+        imported += 1 + (incomingEventsByRun.get(incoming.runId)?.length ?? 0);
       }
 
       // Attempts: union, deduped on (moduleId, itemId, startedAt).

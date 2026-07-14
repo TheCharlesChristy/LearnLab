@@ -57,10 +57,12 @@ afterEach(() => {
 describe('schema', () => {
   it('uses database name learnlab, version 3, with the five §5.5 stores + reviewState (D-021) + engagement (D-027)', () => {
     expect(db.name).toBe('learnlab');
-    expect(db.verno).toBe(3);
+    expect(db.verno).toBe(4);
     expect(db.tables.map((t) => t.name).sort()).toEqual([
       'attempts',
       'engagement',
+      'experienceEvents',
+      'experienceRuns',
       'itemState',
       'kv',
       'lessonProgress',

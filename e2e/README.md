@@ -35,6 +35,7 @@ pilot courses, and prints the course list as a sanity check.
 | AC-03 | `progress-roundtrip.pw.ts` | Complete lessons + assessment → export → erase → import restores state.   |
 | AC-05 | `validation-gate.pw.ts`    | `build-content` fails bad content with file + JSON pointer / line.        |
 | AC-07 | `keyboard-assessment.pw.ts`| Keyboard-only assessment run, feedback read via `aria-live`.              |
+| v2 / #65 | `v2-release-matrix.pw.ts` | Production CSP/origin/no-prefetch release gate (Chromium once). |
 
 These run in every environment (no network beyond the local preview server).
 The fixture-targeting locators are scoped/`exact` so they stay unambiguous now
@@ -122,3 +123,26 @@ Playwright specs prove the host↔worker↔real-Pyodide half in CI.
 
 AC-06 is **not** in this Playwright suite; its disposition is unchanged — see
 `e2e/lighthouse-check.md` (run manually / wired via Lighthouse CI in deploy).
+
+## v2 experience test matrix (#65)
+
+The v2 runtime is deliberately not yet attached to a learner route, so a
+browser test cannot honestly navigate to its terminal/recovery states without
+adding a production-only test route. The release matrix is therefore split by
+its real boundary:
+
+- `src/experience/plugins/contract-matrix.test.tsx` iterates every registered
+  activity plugin and preview fixture, validates the serialisable contract,
+  mounts the lazy preview, and drives the reference plugin by keyboard only.
+- `src/experience/runtime/recovery.test.tsx` runs the actual `SceneRunner`
+  terminal boundary: failed local save → keyboard retry → persisted ending →
+  recreated learner view with no duplicate ending write.
+- `src/experience/visual-matrix.test.tsx` owns the stable component-snapshot
+  matrix across narrow/wide layout contracts, light/dark tokens,
+  reduced-motion classes, success/recoverable/branch/terminal states, and the
+  learner-safe error card. These are deterministic DOM/style snapshots; add
+  browser image snapshots only when the v2 runtime gets a real learner route.
+- `v2-release-matrix.pw.ts` runs against the production preview, invokes the
+  exact CSP/origin/no-prefetch quality gate, and checks the CSP the browser
+  receives. It runs once under Chromium because the built artefact is shared
+  by every Playwright engine.

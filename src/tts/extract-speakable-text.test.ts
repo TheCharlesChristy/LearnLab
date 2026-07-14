@@ -42,6 +42,15 @@ describe('extractSpeakableContent', () => {
     expect(text).toBe('Before. After.');
   });
 
+  it('skips explicitly decorative presentation chrome and live announcements', () => {
+    const { text } = extractSpeakableContent(
+      container(
+        '<p data-tts-exclude>Scene 3</p><p>Investigate the signal.</p><p aria-hidden="true">Decorative divider</p><p data-tts-exclude aria-live="polite">Next decision available.</p>',
+      ),
+    );
+    expect(text).toBe('Investigate the signal.');
+  });
+
   it('substitutes humanized LaTeX for a katex node instead of its rendered glyphs', () => {
     const el = container(
       `<p>The derivative is <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x^2</annotation></semantics></math></span><span class="katex-html">x&sup2;</span></span>.</p>`,

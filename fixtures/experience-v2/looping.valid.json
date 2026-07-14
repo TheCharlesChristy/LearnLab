@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 2,
+  "id": "loop-mission",
+  "packId": "bridge-missions",
+  "version": "2.0.0",
+  "stateVersion": "1.0.0",
+  "entryNodeId": "test",
+  "nodes": [
+    { "id": "test", "kind": "scene", "presentation": { "kind": "diagram", "assetId": "bridge-photo", "alt": "A bridge support with arrows showing force." }, "activity": { "key": "choice", "version": "1.0.0", "props": {} }, "goal": { "operator": "in-range", "path": "/bridge/attempts", "minimum": 0, "maximum": 3 }, "feedback": { "success": "Test the next hypothesis.", "failure": "Adjust the support, then test again." }, "effects": [{ "operator": "increment", "path": "/bridge/attempts", "by": 1 }], "transitions": { "branches": [{ "when": { "operator": "mastery-band", "skillId": "force-balance", "band": "secure" }, "to": "finish" }], "fallback": { "to": "test", "label": "Try another hypothesis" } } },
+    { "id": "finish", "kind": "ending", "presentation": { "kind": "explanation", "body": "You have a robust repair." }, "termination": { "status": "complete", "summary": "Investigation complete." } }
+  ]
+}

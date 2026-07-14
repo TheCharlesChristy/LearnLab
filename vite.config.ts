@@ -71,6 +71,11 @@ const pwaPlugin = VitePWA({
 
 export default defineConfig({
   base,
+  build: {
+    // The deterministic manifest makes the production lazy-chunk boundary
+    // auditable alongside scripts/size-check.mjs and quality-check.mjs.
+    manifest: true,
+  },
   // pyHotReloadPlugin is apply:'serve' → active in `vite dev` only, never in
   // the production build (FR-PYDX-001; keeps prod output unchanged).
   plugins: [react(), tailwindcss(), pwaPlugin, pyHotReloadPlugin()],

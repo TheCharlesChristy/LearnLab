@@ -9,6 +9,27 @@
 
 import Dexie, { type Table } from 'dexie';
 
+import { assertRegisteredEffect } from '../experience/run-state/effects';
+import {
+  assertWithinRunStorageCap,
+  RUN_EVENT_MAX_BYTES,
+  RUN_EVENT_MAX_PER_RUN,
+  RUN_EVENT_MAX_TOTAL,
+  RUN_PROJECTION_MAX_BYTES,
+} from '../experience/run-state/limits';
+import {
+  createRunEvent,
+  projectRunBoundary,
+  projectRunStart,
+  replayExperienceEvents,
+} from '../experience/run-state/projection';
+import type {
+  ExperienceEvent,
+  ExperienceRun,
+  RunBoundaryInput,
+  StartExperienceRunInput,
+} from '../experience/run-state/types';
+import type { Effect } from '../experience/types';
 import { applyEngagementEvent, INITIAL_ENGAGEMENT_STATE } from './engagement';
 import type { Achievement, EngagementEvent, EngagementState } from './engagement-types';
 import { GRADE_QUALITY, INITIAL_SM2_STATE, MS_PER_DAY, sm2Step } from './srs';
@@ -32,6 +53,8 @@ class LearnLabDB extends Dexie {
   kv!: Table<KV, string>;
   reviewState!: Table<ReviewState, [string, string]>;
   engagement!: Table<EngagementState, string>;
+  experienceRuns!: Table<ExperienceRun, string>;
+  experienceEvents!: Table<ExperienceEvent, [string, number]>;
 
   constructor() {
     super('learnlab');
@@ -55,6 +78,13 @@ class LearnLabDB extends Dexie {
     // pattern as version 2 — see engagement-types.ts.
     this.version(3).stores({
       engagement: 'id',
+    });
+    // Experience Runtime v2/B4: additive local-first diagnostic event log
+    // plus its materialised resume projection. The log's compound primary key
+    // fixes append order per run; event idempotency is guarded in the write API.
+    this.version(4).stores({
+      experienceRuns: 'runId, packId, experienceId, updatedAt',
+      experienceEvents: '[runId+sequence], runId, occurredAt, eventId',
     });
   }
 }
@@ -344,6 +374,132 @@ export async function kvGet<T>(key: string): Promise<T | undefined> {
 /** Write a kv value. */
 export async function kvSet(key: string, value: unknown): Promise<void> {
   await guardedWrite('kvSet', () => db.kv.put({ key, value }));
+}
+
+// ---------------------------------------------------------------------------
+// Experience Runtime v2/B4 run projection and append-only event log
+// ---------------------------------------------------------------------------
+
+function assertRunBoundaryInput(
+  input: RunBoundaryInput,
+): asserts input is RunBoundaryInput & { effects: Effect[] } {
+  if (!input.eventId || !input.nodeId || !Array.isArray(input.effects)) {
+    throw new Error('A run boundary needs an event id, node id, and effects array.');
+  }
+  input.effects.forEach(assertRegisteredEffect);
+  if (input.telemetry) {
+    for (const value of Object.values(input.telemetry)) {
+      if (value !== undefined && typeof value !== 'number' && typeof value !== 'string') {
+        throw new Error('Run telemetry is malformed.');
+      }
+    }
+  }
+}
+
+/** Start a v2 run at sequence 0 through the sole progress write boundary. */
+export async function startExperienceRun(input: StartExperienceRunInput): Promise<ExperienceRun> {
+  if (!input.runId || !input.eventId || !input.packId || !input.experienceId || !input.entryNodeId) {
+    throw new Error('A run needs stable ids for the run, event, pack, experience, and entry node.');
+  }
+  const run = projectRunStart(input);
+  const event = createRunEvent(input, run);
+  assertWithinRunStorageCap(run, RUN_PROJECTION_MAX_BYTES, 'Run projection');
+  assertWithinRunStorageCap(event, RUN_EVENT_MAX_BYTES, 'Run event');
+  try {
+    return await db.transaction('rw', [db.experienceRuns, db.experienceEvents], async () => {
+      const existing = await db.experienceRuns.get(input.runId);
+      if (existing) return existing;
+      if ((await db.experienceEvents.count()) >= RUN_EVENT_MAX_TOTAL) {
+        throw new Error(`Experience event log has reached its ${RUN_EVENT_MAX_TOTAL} event cap.`);
+      }
+      await db.experienceRuns.add(run);
+      await db.experienceEvents.add(event);
+      return run;
+    });
+  } catch (error) {
+    reportWriteError('startExperienceRun', error);
+    throw error;
+  }
+}
+
+/** Atomically append one progress boundary and its materialised projection. */
+export async function appendExperienceRunBoundary(
+  runId: string,
+  input: RunBoundaryInput,
+): Promise<ExperienceRun> {
+  assertRunBoundaryInput(input);
+  try {
+    return await db.transaction('rw', [db.experienceRuns, db.experienceEvents], async () => {
+      const current = await db.experienceRuns.get(runId);
+      if (!current) throw new Error(`Unknown experience run ${runId}.`);
+      const existingEvents = await db.experienceEvents.where('runId').equals(runId).toArray();
+      if (existingEvents.some((event) => event.eventId === input.eventId)) return current;
+      if (existingEvents.length >= RUN_EVENT_MAX_PER_RUN) {
+        throw new Error(`Experience run ${runId} has reached its ${RUN_EVENT_MAX_PER_RUN} event cap.`);
+      }
+      if ((await db.experienceEvents.count()) >= RUN_EVENT_MAX_TOTAL) {
+        throw new Error(`Experience event log has reached its ${RUN_EVENT_MAX_TOTAL} event cap.`);
+      }
+      const event: ExperienceEvent = {
+        runId,
+        schemaVersion: 1,
+        sequence: current.eventCount,
+        eventId: input.eventId,
+        occurredAt: input.occurredAt ?? Date.now(),
+        kind: 'boundary-applied',
+        nodeId: input.nodeId,
+        effects: input.effects,
+        ...(input.nextNodeId ? { nextNodeId: input.nextNodeId } : {}),
+        ...(input.ending ? { ending: input.ending } : {}),
+        ...(input.telemetry ? { telemetry: input.telemetry } : {}),
+      };
+      assertWithinRunStorageCap(event, RUN_EVENT_MAX_BYTES, 'Run event');
+      const next = projectRunBoundary(current, event);
+      assertWithinRunStorageCap(next, RUN_PROJECTION_MAX_BYTES, 'Run projection');
+      await db.experienceEvents.add(event);
+      await db.experienceRuns.put(next);
+      return next;
+    });
+  } catch (error) {
+    reportWriteError('appendExperienceRunBoundary', error);
+    throw error;
+  }
+}
+
+/** Read/replay helper which detects corrupted materialised state. */
+export async function replayExperienceRun(runId: string): Promise<ExperienceRun> {
+  const [run, events] = await Promise.all([
+    db.experienceRuns.get(runId),
+    db.experienceEvents.where('runId').equals(runId).toArray(),
+  ]);
+  if (!run) throw new Error(`Unknown experience run ${runId}.`);
+  const replayed = replayExperienceEvents(events);
+  if (JSON.stringify(replayed) !== JSON.stringify(run)) {
+    throw new Error(`Run ${runId} is corrupt: its projection does not match its event log.`);
+  }
+  return replayed;
+}
+
+/** Explicitly erase v2 diagnostic state; app-wide erase also clears these tables. */
+export async function eraseExperienceRunData(): Promise<void> {
+  try {
+    await db.transaction('rw', [db.experienceRuns, db.experienceEvents], async () => {
+      await db.experienceRuns.clear();
+      await db.experienceEvents.clear();
+    });
+  } catch (error) {
+    reportWriteError('eraseExperienceRunData', error);
+    throw error;
+  }
+}
+
+/** Read-only diagnostic helpers; components still use hooks rather than tables. */
+export async function experienceRunEventCount(runId: string): Promise<number> {
+  return db.experienceEvents.where('runId').equals(runId).count();
+}
+
+export async function getExperienceRun(runId: string): Promise<ExperienceRun | undefined> {
+  return db.experienceRuns.get(runId);
 }
 
 // ---------------------------------------------------------------------------

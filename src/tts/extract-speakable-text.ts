@@ -43,6 +43,14 @@ function isKatexRoot(el: Element): boolean {
   return el.classList.contains('katex');
 }
 
+/**
+ * Presentation layers can keep visual markers and live-region status inside
+ * their readable container without making speech repeat that decorative chrome.
+ */
+function isTtsExcluded(el: Element): boolean {
+  return el.hasAttribute('data-tts-exclude') || el.getAttribute('aria-hidden') === 'true';
+}
+
 interface WalkState {
   segments: SpeakableSegment[];
   parts: string[];
@@ -71,6 +79,7 @@ function walk(node: Node, state: WalkState): void {
   }
   if (node.nodeType !== Node.ELEMENT_NODE) return;
   const el = node as Element;
+  if (isTtsExcluded(el)) return;
   if (isCodeBlock(el)) return; // skip entirely, don't descend
   if (isKatexRoot(el)) {
     const annotation = el.querySelector('annotation[encoding="application/x-tex"]');

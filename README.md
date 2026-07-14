@@ -39,6 +39,8 @@ Useful scripts:
 | `npm run dev`                 | Dev server with HMR + content validation in watch mode |
 | `npm run validate -- --strict`| Full content validation pipeline (run before any PR)  |
 | `npm run new:module`          | Scaffold a new content module                          |
+| `npm run new:course`          | Scaffold a v2 course pack and first experience         |
+| `npm run new:experience`      | Add a v2 experience to an existing course pack         |
 | `npm run new:item`            | Scaffold a new Python item (P1)                        |
 | `npm test` / `npm run test:e2e` / `npm run test:py` | Vitest / Playwright / pytest    |
 

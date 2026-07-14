@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 2,
+  "id": "{{experienceId}}",
+  "packId": "{{packId}}",
+  "version": "1.0.0",
+  "stateVersion": "{{stateVersion}}",
+  "entryNodeId": "opening-checkpoint",
+  "nodes": [
+    {
+      "id": "opening-checkpoint",
+      "kind": "scene",
+      "presentation": {
+        "kind": "briefing",
+        "title": "{{experienceTitle}}",
+        "body": "TODO: place the learner in a meaningful problem before they receive the explanation."
+      },
+      "activity": {
+        "key": "choice",
+        "version": "1.0.0",
+        "props": { "choices": ["TODO: first hypothesis", "TODO: second hypothesis"] }
+      },
+      "goal": { "operator": "activity-complete" },
+      "feedback": {
+        "success": "TODO: connect the learner's action to the mechanism they need to learn.",
+        "failure": "TODO: diagnose a likely misconception without revealing the answer."
+      },
+      "effects": [
+        { "operator": "checkpoint", "label": "opening-checkpoint" }
+      ],
+      "transitions": {
+        "branches": [],
+        "fallback": { "to": "complete", "label": "Continue" }
+      }
+    },
+    {
+      "id": "complete",
+      "kind": "ending",
+      "presentation": {
+        "kind": "explanation",
+        "body": "TODO: state the consequence, then connect it back to the objective."
+      },
+      "termination": {
+        "status": "complete",
+        "summary": "TODO: summarize the capability the learner has demonstrated."
+      }
+    }
+  ]
+}

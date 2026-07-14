@@ -5,6 +5,10 @@ description: Author new LearnLab lessons, modules, or courses under public/conte
 
 # Authoring LearnLab content
 
+For v2 packs, use registered activity keys and generated prop contracts in
+`docs/ACTIVITY_PLUGINS.md`; do not invent props. Release/demonstration rules are in
+`docs/V2_RELEASE_GATES.md`.
+
 LearnLab content is data, not code: courses are folders of JSON and (for legacy lessons)
 Markdown, plus Python for Tier 2 items, under `public/content/`. The full reference is
 `docs/AUTHORING.md` — read it before you start; this skill covers what that guide doesn't spell

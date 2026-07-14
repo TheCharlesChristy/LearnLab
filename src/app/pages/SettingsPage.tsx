@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 
 import packageJson from '../../../package.json';
 import { APP_NAME, PYODIDE_VERSION, REPO_NAME } from '../../config';
+import { useSensoryPreferences } from '../../experience/sensory';
 import {
   KV_PERSISTENT,
   KV_PERSIST_REQUESTED,
@@ -69,6 +70,78 @@ function ThemeSection() {
           ))}
         </div>
       </fieldset>
+    </SectionCard>
+  );
+}
+
+function SensoryFeedbackSection() {
+  const { preferences, setPreferences } = useSensoryPreferences();
+  const update = (patch: Partial<typeof preferences>) =>
+    setPreferences({ ...preferences, ...patch });
+  return (
+    <SectionCard title="Celebrations and sensory feedback">
+      <p className="mb-3 text-sm text-slate-600 dark:text-slate-300">
+        Celebrations are shown only after demonstrated mastery. Text feedback remains available even
+        when these optional effects are off.
+      </p>
+      <div className="space-y-3">
+        <label className="flex items-start gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={preferences.visual}
+            onChange={(event) => update({ visual: event.target.checked })}
+            className="mt-0.5 h-4 w-4 accent-indigo-700"
+          />
+          <span>
+            <strong>Visual celebrations</strong>
+            <br />
+            Show a confetti effect for a mastery milestone.
+          </span>
+        </label>
+        <label className="flex items-start gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={preferences.sound}
+            onChange={(event) => update({ sound: event.target.checked })}
+            className="mt-0.5 h-4 w-4 accent-indigo-700"
+          />
+          <span>
+            <strong>Celebration sound</strong>
+            <br />
+            Play a short confirmation tone.
+          </span>
+        </label>
+        <label className="flex items-start gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={preferences.haptics}
+            onChange={(event) => update({ haptics: event.target.checked })}
+            className="mt-0.5 h-4 w-4 accent-indigo-700"
+          />
+          <span>
+            <strong>Haptic feedback</strong>
+            <br />
+            Use a brief vibration when your device supports it.
+          </span>
+        </label>
+        <label className="block text-sm">
+          <span className="font-semibold">Motion</span>
+          <select
+            aria-label="Celebration motion"
+            value={preferences.motion}
+            onChange={(event) =>
+              update({ motion: event.target.value as typeof preferences.motion })
+            }
+            className="mt-1 block rounded-md border border-slate-300 bg-white px-2 py-1.5 dark:border-slate-600 dark:bg-slate-800"
+          >
+            <option value="system">Follow system reduced-motion setting</option>
+            <option value="reduce">Reduce decorative motion</option>
+          </select>
+        </label>
+      </div>
+      <p className="mt-3 text-xs text-slate-600 dark:text-slate-300">
+        These preferences stay only in this browser and are not part of a progress export.
+      </p>
     </SectionCard>
   );
 }
@@ -235,10 +308,10 @@ function SyncSection() {
   return (
     <SectionCard title="Sync via a synced folder">
       <p className="text-sm text-slate-600 dark:text-slate-300">
-        Point LearnLab at a JSON file inside a folder your OS already syncs (Dropbox, Google
-        Drive, iCloud Drive, OneDrive, etc.) to save or load your progress there directly,
-        without a manual download/upload each time. This is a manual, one-click action — nothing
-        syncs automatically or in the background, and your data never touches a server.
+        Point LearnLab at a JSON file inside a folder your OS already syncs (Dropbox, Google Drive,
+        iCloud Drive, OneDrive, etc.) to save or load your progress there directly, without a manual
+        download/upload each time. This is a manual, one-click action — nothing syncs automatically
+        or in the background, and your data never touches a server.
       </p>
       {!supported ? (
         <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
@@ -325,20 +398,14 @@ function PythonRuntimeSection() {
       ) : null}
       <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
         Loaded packages:{' '}
-        <span className="font-medium">
-          {packages.length > 0 ? packages.join(', ') : 'none'}
-        </span>
+        <span className="font-medium">{packages.length > 0 ? packages.join(', ') : 'none'}</span>
       </p>
       {status.error ? (
         <p className="mt-2 text-sm text-red-800 dark:text-red-300" role="alert">
           {status.error}
         </p>
       ) : null}
-      <Button
-        variant="secondary"
-        className="mt-3"
-        onClick={() => void pyHost.restart()}
-      >
+      <Button variant="secondary" className="mt-3" onClick={() => void pyHost.restart()}>
         Restart Python runtime
       </Button>
     </SectionCard>
@@ -418,6 +485,7 @@ export default function SettingsPage() {
     <div className="mx-auto max-w-2xl">
       <h1 className="mb-5 text-2xl font-bold">Settings</h1>
       <ThemeSection />
+      <SensoryFeedbackSection />
       <ProgressDataSection />
       <SyncSection />
       <PythonRuntimeSection />

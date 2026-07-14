@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 2,
+  "id": "bridge-missions",
+  "version": "2.0.0",
+  "title": "Bridge missions",
+  "description": "Use force balance to diagnose and repair a bridge.",
+  "audience": { "level": "gcse", "summary": "Learners who can add signed forces.", "prerequisites": ["Add integers"] },
+  "taxonomy": { "subjects": ["physics"], "tags": ["forces", "equilibrium"] },
+  "theme": { "name": "Bridge control", "accent": "#2563EB" },
+  "estimatedMinutes": 24,
+  "engineCapabilities": [{ "key": "choice", "version": "1.0.0" }],
+  "state": {
+    "version": "1.0.0",
+    "declarations": [
+      { "path": "/bridge/repaired", "type": "boolean", "default": false },
+      { "path": "/bridge/attempts", "type": "number", "default": 0, "minimum": 0 },
+      { "path": "/tools", "type": "string-set", "default": [] }
+    ],
+    "migrations": []
+  },
+  "skills": [{ "id": "force-balance", "title": "Balance forces", "description": "Determine whether forces on an object sum to zero.", "prerequisiteIds": [] }],
+  "experiences": [
+    { "id": "linear-mission", "file": "experiences/linear-mission.json", "title": "Linear mission", "estimatedMinutes": 4 },
+    { "id": "branch-mission", "file": "experiences/branch-mission.json", "title": "Branch mission", "estimatedMinutes": 6 },
+    { "id": "loop-mission", "file": "experiences/loop-mission.json", "title": "Loop mission", "estimatedMinutes": 6 },
+    { "id": "multi-ending-mission", "file": "experiences/multi-ending-mission.json", "title": "Multi-ending mission", "estimatedMinutes": 8 }
+  ],
+  "campaigns": [{ "id": "bridge-campaign", "title": "Bridge campaign", "entryExperienceId": "linear-mission", "experienceIds": ["linear-mission", "branch-mission", "loop-mission", "multi-ending-mission"] }],
+  "assets": [{ "id": "bridge-photo", "path": "assets/bridge.webp", "mediaType": "image/webp", "alt": "A bridge with a displaced support." }],
+  "reviewItems": [{ "id": "balanced-force-review", "title": "Balanced forces", "standaloneContext": "A bridge deck has 10 N upward and 10 N downward force.", "prompt": "Are the forces balanced?", "skillIds": ["force-balance"], "activity": { "key": "choice", "version": "1.0.0", "props": { "choices": ["Yes", "No"] } }, "goal": { "operator": "activity-complete" }, "feedback": { "success": "Equal opposing forces give zero resultant force." }, "source": { "experienceId": "linear-mission", "nodeId": "inspect" } }]
+}

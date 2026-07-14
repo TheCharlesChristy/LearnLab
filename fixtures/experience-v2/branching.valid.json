@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 2,
+  "id": "branch-mission",
+  "packId": "bridge-missions",
+  "version": "2.0.0",
+  "stateVersion": "1.0.0",
+  "entryNodeId": "choose",
+  "nodes": [
+    { "id": "choose", "kind": "scene", "presentation": { "kind": "dialogue", "speaker": "Engineer", "body": "Choose a repair strategy." }, "activity": { "key": "choice", "version": "1.0.0", "props": {} }, "goal": { "operator": "activity-complete" }, "feedback": { "success": "Strategy recorded.", "hints": ["Compare the forces."] }, "effects": [{ "operator": "set", "path": "/bridge/repaired", "value": true }, { "operator": "emit-evidence", "skillId": "force-balance", "outcome": "success", "independence": "independent", "confidence": "sure" }], "transitions": { "branches": [{ "when": { "operator": "state-equals", "path": "/bridge/repaired", "value": true }, "to": "success", "label": "Repair holds" }], "fallback": { "to": "retry" } }, "accessibility": { "ariaLabel": "Choose a bridge repair strategy" } },
+    { "id": "success", "kind": "ending", "presentation": { "kind": "world-event", "body": "Traffic can cross again.", "assetId": "bridge-photo" }, "effects": [{ "operator": "celebrate", "milestoneId": "bridge-repair" }], "termination": { "status": "complete", "summary": "The repair succeeded." } },
+    { "id": "retry", "kind": "ending", "presentation": { "kind": "explanation", "body": "Recheck the force balance." }, "termination": { "status": "failed", "summary": "Try the mission again." } }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learnlab.dev/schemas/v2/course-pack.schema.json",
+  "title": "LearnLab v2 course pack",
+  "description": "A self-contained, static v2 course-pack manifest. References are resolved by the B2 content validator; this contract deliberately contains no executable migration or condition code.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "version", "title", "description", "audience", "taxonomy", "estimatedMinutes", "engineCapabilities", "state", "skills", "experiences", "campaigns", "assets", "reviewItems"],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "id": { "$ref": "#/$defs/id" },
+    "version": { "$ref": "#/$defs/semver" },
+    "title": { "$ref": "#/$defs/nonEmptyString" },
+    "description": { "$ref": "#/$defs/nonEmptyString" },
+    "audience": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "summary"],
+      "properties": {
+        "level": { "enum": ["gcse", "as", "a2", "alevel", "foundation", "adult", "postgrad"] },
+        "summary": { "$ref": "#/$defs/nonEmptyString" },
+        "prerequisites": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyString" }, "uniqueItems": true }
+      }
+    },
+    "taxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subjects", "tags"],
+      "properties": {
+        "subjects": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/id" }, "uniqueItems": true },
+        "tags": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true }
+      }
+    },
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "accent": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "description": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "estimatedMinutes": { "type": "integer", "minimum": 1 },
+    "engineCapabilities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/capabilityRequirement" },
+      "uniqueItems": true
+    },
+    "state": { "$ref": "#/$defs/stateSchema" },
+    "skills": { "type": "array", "items": { "$ref": "#/$defs/skill" }, "uniqueItems": true },
+    "experiences": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "file", "title", "estimatedMinutes"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "file": { "$ref": "#/$defs/localJsonPath" },
+          "title": { "$ref": "#/$defs/nonEmptyString" },
+          "estimatedMinutes": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "campaigns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "entryExperienceId", "experienceIds"],
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "title": { "$ref": "#/$defs/nonEmptyString" },
+          "description": { "$ref": "#/$defs/nonEmptyString" },
+          "entryExperienceId": { "$ref": "#/$defs/id" },
+          "experienceIds": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/id" }, "uniqueItems": true },
+          "recommendedNextCampaignIds": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true }
+        }
+      }
+    },
+    "assets": { "type": "array", "items": { "$ref": "#/$defs/asset" }, "uniqueItems": true },
+    "reviewItems": { "type": "array", "items": { "$ref": "#/$defs/reviewItem" }, "uniqueItems": true }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$", "maxLength": 64 },
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "semver": { "type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$" },
+    "localJsonPath": { "type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9][A-Za-z0-9._/-]*\\.json$" },
+    "localAssetPath": { "type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9][A-Za-z0-9._/-]*$" },
+    "statePath": { "type": "string", "pattern": "^/(?:[A-Za-z][A-Za-z0-9_-]*)(?:/(?:[A-Za-z][A-Za-z0-9_-]*))*$" },
+    "capabilityRequirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "version"],
+      "properties": { "key": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/semver" } }
+    },
+    "stateSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "declarations", "migrations"],
+      "properties": {
+        "version": { "$ref": "#/$defs/semver" },
+        "declarations": { "type": "array", "items": { "$ref": "#/$defs/stateDeclaration" }, "uniqueItems": true },
+        "migrations": { "type": "array", "items": { "$ref": "#/$defs/migration" } }
+      }
+    },
+    "stateDeclaration": {
+      "type": "object",
+      "discriminator": { "propertyName": "type" },
+      "oneOf": [
+        { "$ref": "#/$defs/booleanState" },
+        { "$ref": "#/$defs/numberState" },
+        { "$ref": "#/$defs/stringState" },
+        { "$ref": "#/$defs/stringSetState" }
+      ]
+    },
+    "booleanState": { "type": "object", "additionalProperties": false, "required": ["path", "type", "default"], "properties": { "path": { "$ref": "#/$defs/statePath" }, "type": { "const": "boolean" }, "default": { "type": "boolean" } } },
+    "numberState": { "type": "object", "additionalProperties": false, "required": ["path", "type", "default"], "properties": { "path": { "$ref": "#/$defs/statePath" }, "type": { "const": "number" }, "default": { "type": "number" }, "minimum": { "type": "number" }, "maximum": { "type": "number" } } },
+    "stringState": { "type": "object", "additionalProperties": false, "required": ["path", "type", "default"], "properties": { "path": { "$ref": "#/$defs/statePath" }, "type": { "const": "string" }, "default": { "type": "string" }, "enum": { "type": "array", "minItems": 1, "items": { "type": "string" }, "uniqueItems": true } } },
+    "stringSetState": { "type": "object", "additionalProperties": false, "required": ["path", "type", "default"], "properties": { "path": { "$ref": "#/$defs/statePath" }, "type": { "const": "string-set" }, "default": { "type": "array", "items": { "type": "string" }, "uniqueItems": true } } },
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fromVersion", "toVersion", "strategy"],
+      "properties": {
+        "fromVersion": { "$ref": "#/$defs/semver" },
+        "toVersion": { "$ref": "#/$defs/semver" },
+        "strategy": { "enum": ["preserve-declared-state", "reset"] },
+        "note": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "description", "prerequisiteIds"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "$ref": "#/$defs/nonEmptyString" },
+        "description": { "$ref": "#/$defs/nonEmptyString" },
+        "prerequisiteIds": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "path", "mediaType"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "path": { "$ref": "#/$defs/localAssetPath" },
+        "mediaType": { "$ref": "#/$defs/nonEmptyString" },
+        "alt": { "$ref": "#/$defs/nonEmptyString" },
+        "attribution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["creator", "license"],
+          "properties": { "creator": { "$ref": "#/$defs/nonEmptyString" }, "license": { "$ref": "#/$defs/nonEmptyString" }, "sourceUrl": { "type": "string", "format": "uri" } }
+        }
+      }
+    },
+    "activityReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "version", "props"],
+      "properties": {
+        "key": { "$ref": "#/$defs/id" },
+        "version": { "$ref": "#/$defs/semver" },
+        "props": { "type": "object", "description": "Plugin-owned props. The registered plugin schema validates this object in B2/C2." }
+      }
+    },
+    "goal": {
+      "type": "object",
+      "discriminator": { "propertyName": "operator" },
+      "oneOf": [
+        { "type": "object", "additionalProperties": false, "required": ["operator", "path", "value"], "properties": { "operator": { "const": "equals" }, "path": { "$ref": "#/$defs/statePath" }, "value": { "type": ["string", "number", "boolean", "null"] } } },
+        { "type": "object", "additionalProperties": false, "required": ["operator", "path", "minimum", "maximum"], "properties": { "operator": { "const": "in-range" }, "path": { "$ref": "#/$defs/statePath" }, "minimum": { "type": "number" }, "maximum": { "type": "number" } } },
+        { "type": "object", "additionalProperties": false, "required": ["operator", "path", "values"], "properties": { "operator": { "const": "set-equals" }, "path": { "$ref": "#/$defs/statePath" }, "values": { "type": "array", "items": { "type": "string" }, "uniqueItems": true } } },
+        { "type": "object", "additionalProperties": false, "required": ["operator", "path", "pattern"], "properties": { "operator": { "const": "regex-match" }, "path": { "$ref": "#/$defs/statePath" }, "pattern": { "type": "string", "minLength": 1 } } },
+        { "type": "object", "additionalProperties": false, "required": ["operator"], "properties": { "operator": { "const": "activity-complete" } } }
+      ]
+    },
+    "feedback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["success"],
+      "properties": { "success": { "$ref": "#/$defs/nonEmptyString" }, "failure": { "$ref": "#/$defs/nonEmptyString" }, "misconceptions": { "type": "array", "items": { "$ref": "#/$defs/nonEmptyString" } }, "hints": { "type": "array", "maxItems": 3, "items": { "$ref": "#/$defs/nonEmptyString" } } }
+    },
+    "reviewItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "standaloneContext", "prompt", "skillIds", "activity", "goal", "feedback"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "$ref": "#/$defs/nonEmptyString" },
+        "standaloneContext": { "$ref": "#/$defs/nonEmptyString", "description": "All context needed when the item is rendered outside its original episode." },
+        "prompt": { "$ref": "#/$defs/nonEmptyString" },
+        "skillIds": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/id" }, "uniqueItems": true },
+        "activity": { "$ref": "#/$defs/activityReference" },
+        "goal": { "$ref": "#/$defs/goal" },
+        "feedback": { "$ref": "#/$defs/feedback" },
+        "source": { "type": "object", "additionalProperties": false, "required": ["experienceId", "nodeId"], "properties": { "experienceId": { "$ref": "#/$defs/id" }, "nodeId": { "$ref": "#/$defs/id" } } }
+      }
+    }
+  }
+}

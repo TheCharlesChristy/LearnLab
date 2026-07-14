@@ -20,6 +20,7 @@ function FadedStepScreenRunner({
   index,
   total,
   onAdvance,
+  onInteraction,
 }: ScreenRunnerProps<FadedStepScreenType>) {
   const [value, setValue] = useState('');
   const [correct, setCorrect] = useState(false);
@@ -29,13 +30,21 @@ function FadedStepScreenRunner({
   function submit() {
     if (correct || value.trim() === '') return;
     const ok = checkGenerationAnswer(screen, value);
+    const answer = screen.inputMode === 'numeric' ? parseNumericInput(value) : value;
+    const values = {
+      '/answer': answer ?? value,
+      '/correct': ok,
+    } as const;
+    onInteraction?.({ type: 'interaction', values });
+    onInteraction?.({ type: 'attempted', values });
     setShowFeedback(true);
     if (ok) setCorrect(true);
     else setAttempts((n) => n + 1);
   }
 
   const hints = screen.hints ?? [];
-  const activeHint = !correct && attempts > 0 ? hints[Math.min(attempts - 1, hints.length - 1)] : undefined;
+  const activeHint =
+    !correct && attempts > 0 ? hints[Math.min(attempts - 1, hints.length - 1)] : undefined;
   const numericValue = screen.inputMode === 'numeric' ? parseNumericInput(value) : null;
   const numericInvalid =
     screen.inputMode === 'numeric' && value.trim() !== '' && numericValue === null;
@@ -50,7 +59,9 @@ function FadedStepScreenRunner({
       </p>
       <div className="mt-3">
         <label className="flex items-center gap-2" htmlFor={`${screen.id}-input`}>
-          <span>Your answer{screen.inputMode === 'numeric' && screen.unit ? ` (${screen.unit})` : ''}</span>
+          <span>
+            Your answer{screen.inputMode === 'numeric' && screen.unit ? ` (${screen.unit})` : ''}
+          </span>
           <input
             id={`${screen.id}-input`}
             type="text"

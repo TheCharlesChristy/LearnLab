@@ -20,6 +20,7 @@ function TapChoiceScreenRunner({
   index,
   total,
   onAdvance,
+  onInteraction,
 }: ScreenRunnerProps<TapChoiceScreenType>) {
   const [selected, setSelected] = useState<number | null>(null);
   const [wrongTried, setWrongTried] = useState<number[]>([]);
@@ -30,6 +31,9 @@ function TapChoiceScreenRunner({
   function choose(i: number) {
     if (correct) return; // locked in once right
     setSelected(i);
+    const values = { '/choice-index': i, '/correct': i === screen.correctIndex } as const;
+    onInteraction?.({ type: 'interaction', values });
+    onInteraction?.({ type: 'attempted', values });
     if (i !== screen.correctIndex) {
       setWrongTried((prev) => (prev.includes(i) ? prev : [...prev, i]));
       setHintLevel((n) => Math.min(n + 1, screen.hints?.length ?? 0));
@@ -61,7 +65,8 @@ function TapChoiceScreenRunner({
               className={cx(
                 'flex w-full items-center gap-2 rounded-md border px-3 py-2 text-left transition-colors motion-safe:duration-150',
                 'border-slate-300 hover:bg-indigo-50 disabled:cursor-default dark:border-slate-600 dark:hover:bg-slate-700',
-                isRight && 'border-emerald-600 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-950/30',
+                isRight &&
+                  'border-emerald-600 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-950/30',
                 isWrong && 'border-red-400 bg-red-50 dark:border-red-500 dark:bg-red-950/30',
               )}
             >

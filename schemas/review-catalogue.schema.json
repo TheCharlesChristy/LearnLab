@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learnlab.dev/schemas/v2/review-catalogue.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "items"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ownerId", "contentVersion", "id", "title", "standaloneContext", "prompt", "skillIds", "activity", "goal", "feedback"],
+        "properties": {
+          "ownerId": { "type": "string", "minLength": 1 },
+          "contentVersion": { "type": "string", "minLength": 1 },
+          "id": { "type": "string", "minLength": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "standaloneContext": { "type": "string", "minLength": 1 },
+          "prompt": { "type": "string", "minLength": 1 },
+          "skillIds": { "type": "array", "items": { "type": "string" } },
+          "activity": { "type": "object" },
+          "goal": { "type": "object" },
+          "feedback": { "type": "object" },
+          "source": { "type": "object" }
+        }
+      }
+    }
+  }
+}

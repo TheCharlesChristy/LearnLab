@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 2,
+  "id": "multi-ending-mission",
+  "packId": "bridge-missions",
+  "version": "2.0.0",
+  "stateVersion": "1.0.0",
+  "entryNodeId": "final-check",
+  "nodes": [
+    { "id": "final-check", "kind": "scene", "presentation": { "kind": "briefing", "body": "Run the final safety check." }, "activity": { "key": "choice", "version": "1.0.0", "props": {} }, "goal": { "operator": "equals", "path": "/bridge/repaired", "value": true }, "feedback": { "success": "Safety check logged." }, "effects": [{ "operator": "append", "path": "/tools", "value": "force-meter" }, { "operator": "unlock-capability", "capabilityId": "force-meter" }], "transitions": { "branches": [{ "when": { "operator": "all", "conditions": [{ "operator": "state-equals", "path": "/bridge/repaired", "value": true }, { "operator": "not", "condition": { "operator": "state-in", "path": "/tools", "values": ["broken"] } }] }, "to": "safe" }], "fallback": { "to": "unsafe" } } },
+    { "id": "safe", "kind": "ending", "presentation": { "kind": "explanation", "body": "The bridge passes inspection." }, "termination": { "status": "complete", "summary": "Safe ending." } },
+    { "id": "unsafe", "kind": "ending", "presentation": { "kind": "explanation", "body": "The bridge remains closed." }, "termination": { "status": "abandoned", "summary": "Unsafe ending." } }
+  ]
+}

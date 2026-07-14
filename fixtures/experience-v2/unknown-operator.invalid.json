@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 2,
+  "id": "unknown-operator",
+  "packId": "bridge-missions",
+  "version": "2.0.0",
+  "stateVersion": "1.0.0",
+  "entryNodeId": "start",
+  "nodes": [{ "id": "start", "kind": "scene", "presentation": { "kind": "briefing", "body": "Start." }, "activity": { "key": "choice", "version": "1.0.0", "props": {} }, "goal": { "operator": "execute-javascript" }, "feedback": { "success": "Done." }, "effects": [], "transitions": { "branches": [], "fallback": { "to": "end" } } }, { "id": "end", "kind": "ending", "presentation": { "kind": "explanation", "body": "End." }, "termination": { "status": "complete", "summary": "Done." } }]
+}

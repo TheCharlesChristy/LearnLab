@@ -114,6 +114,8 @@ function validExport(tables: Partial<ProgressExport['tables']> = {}): ProgressEx
       kv: [],
       reviewState: [],
       engagement: [],
+      experienceRuns: [],
+      experienceEvents: [],
       ...tables,
     },
   };
@@ -148,11 +150,13 @@ describe('exportProgress (FR-PROG-003)', () => {
     await db.engagement.put(engagementRow());
     const out = await exportProgress();
     expect(out.app).toBe('learnlab');
-    expect(out.exportVersion).toBe(3);
+    expect(out.exportVersion).toBe(4);
     expect(new Date(out.exportedAt).toISOString()).toBe(out.exportedAt);
     expect(Object.keys(out.tables).sort()).toEqual([
       'attempts',
       'engagement',
+      'experienceEvents',
+      'experienceRuns',
       'itemState',
       'kv',
       'lessonProgress',
@@ -173,12 +177,12 @@ describe('downloadProgress', () => {
     // jsdom does not implement object URLs; provide them for this test.
     URL.createObjectURL = createObjectURL;
     URL.revokeObjectURL = revokeObjectURL;
-    const click = vi
-      .spyOn(HTMLAnchorElement.prototype, 'click')
-      .mockImplementation(function (this: HTMLAnchorElement) {
-        expect(this.download).toMatch(/^learnlab-progress-\d{8}\.json$/);
-        expect(this.href).toContain('blob:fake');
-      });
+    const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(function (
+      this: HTMLAnchorElement,
+    ) {
+      expect(this.download).toMatch(/^learnlab-progress-\d{8}\.json$/);
+      expect(this.href).toContain('blob:fake');
+    });
     await downloadProgress();
     expect(click).toHaveBeenCalledOnce();
     expect(createObjectURL).toHaveBeenCalledOnce();
@@ -200,7 +204,7 @@ describe('importProgress validation (FR-PROG-004, NFR-MAINT-002)', () => {
   });
 
   it('rejects an unknown NEWER exportVersion loudly and actionably', async () => {
-    const file = { ...validExport(), exportVersion: 4 };
+    const file = { ...validExport(), exportVersion: 5 };
     await expect(importProgress(file)).rejects.toThrow(/newer version of LearnLab/);
     await expect(importProgress(file)).rejects.toThrow(/Update LearnLab/);
   });
@@ -250,9 +254,7 @@ describe('importProgress validation (FR-PROG-004, NFR-MAINT-002)', () => {
   });
 
   it('rejects a missing or non-numeric exportVersion', async () => {
-    await expect(importProgress({ app: 'learnlab', tables: {} })).rejects.toThrow(
-      /exportVersion/,
-    );
+    await expect(importProgress({ app: 'learnlab', tables: {} })).rejects.toThrow(/exportVersion/);
   });
 
   it('rejects malformed tables and leaves the db untouched', async () => {

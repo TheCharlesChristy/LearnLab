@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 2,
+  "id": "bridge-missions",
+  "version": "2.0.0",
+  "title": "Bridge missions",
+  "description": "Use force balance to diagnose and repair a bridge.",
+  "audience": { "level": "gcse", "summary": "Learners who can add signed forces." },
+  "taxonomy": { "subjects": ["physics"], "tags": ["forces"] },
+  "estimatedMinutes": 24,
+  "engineCapabilities": [{ "key": "choice", "version": "1.0.0" }],
+  "state": { "version": "1.0.0", "declarations": [], "migrations": [] },
+  "skills": [
+    { "id": "force-balance", "title": "Balance forces", "description": "Determine whether forces sum to zero.", "prerequisiteIds": ["vector-resolution"] },
+    { "id": "vector-resolution", "title": "Resolve vectors", "description": "Resolve a vector into components.", "prerequisiteIds": ["force-balance"] }
+  ],
+  "experiences": [{ "id": "linear-mission", "file": "experiences/linear-mission.json", "title": "Linear mission", "estimatedMinutes": 4 }],
+  "campaigns": [{ "id": "bridge-campaign", "title": "Bridge campaign", "entryExperienceId": "linear-mission", "experienceIds": ["linear-mission"] }],
+  "assets": [],
+  "reviewItems": []
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learnlab.dev/schemas/v2/experience-index.schema.json",
+  "type": "object", "additionalProperties": false, "required": ["schemaVersion", "packs"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "packs": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["id", "title", "description", "audience", "taxonomy", "estimatedMinutes", "campaigns", "experiences"], "properties": {
+      "id": { "type": "string" }, "title": { "type": "string" }, "description": { "type": "string" }, "audience": { "type": "object" }, "taxonomy": { "type": "object" }, "estimatedMinutes": { "type": "integer" },
+      "campaigns": { "type": "array" }, "experiences": { "type": "array" }
+    } } }
+  }
+}

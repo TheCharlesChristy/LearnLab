@@ -134,6 +134,11 @@ registries.
 
 ### 5.2 Experience graph
 
+The precise structural contract is in `docs/EXPERIENCE_RUNTIME_V2_SCHEMA.md` and its two JSON
+Schemas. The B1 schema deliberately checks closed object/operator shapes; B2 adds the
+cross-file checks that cannot be expressed in JSON Schema alone (references, reachability,
+state-path declarations, capability compatibility, and mandatory-cycle termination).
+
 An experience contains nodes and transitions rather than only an ordered `screens[]` array.
 
 Each node composes:
@@ -164,7 +169,8 @@ Every plugin supplies one definition from which the build derives runtime and au
 - preview fixtures;
 - persistence/resume policy;
 - accessibility contract;
-- performance budget;
+- performance metadata: `loading: "lazy"` and an independently checked gzip chunk budget no
+  greater than 150 KB;
 - documentation metadata and examples.
 
 The contract separates the activity from its presentation and progression. A circuit simulator,
@@ -354,8 +360,10 @@ Published tracking:
   creation, transitions, validation, undo, and safe file export.
 - **D3 — Build schema-driven property forms, learner preview, and state inspector.** Preview any
   node/branch with seeded state and inspect events, effects, accessibility, and responsive layout.
-- **D4 — Add content linting, asset checks, and migration tooling.** Enforce pedagogy format mix,
-  feedback completeness, reachable goals, CSP-safe assets, and produce reviewable migration diffs.
+- **D4 — Add content linting, asset checks, and migration tooling.** Implemented as strict v2
+  authoring lint (format mix, feedback completeness, safe local assets) plus a deterministic,
+  review-only legacy migration-plan command. Graph reachability remains a B2 semantic-validator
+  invariant; see `docs/V2_LINT_AND_MIGRATION.md`.
 
 ### Epic E — Learner journey and narrative presentation
 
@@ -366,8 +374,11 @@ Published tracking:
 - **E3 — Build an immersive SceneShell and narrative presentation primitives.** Add objectives,
   briefings, dialogue/captions, world-state panels, consequence transitions, and debriefs while
   retaining read-aloud and semantic HTML.
-- **E4 — Add mastery-linked celebration, optional sound/haptics, motion, and settings.** Respect
-  reduced motion, mute, sensory preferences, and avoid rewards for bare activity.
+- **E4 — Add mastery-linked celebration, optional sound/haptics, motion, and settings.** Implemented
+  in `src/experience/sensory`: callers compare two mastery aggregations, so only a newly classified
+  `developing` or `secure` skill can be acknowledged. Text feedback is always available; confetti,
+  sound, and haptics are opt-in, and motion honours both the OS and the local setting. Preferences
+  are browser-local and excluded from progress exports.
 
 ### Epic F — Reusable story-game mechanics and vertical slice
 
@@ -376,8 +387,10 @@ Published tracking:
   announcements.
 - **F2 — Build the diagnose-and-repair mechanic template.** Observe symptoms, test hypotheses,
   manipulate a model, repair it, and explain the causal mechanism.
-- **F3 — Build the experiment-and-infer mechanic template.** Commit a prediction, vary controlled
-  inputs, collect observations, infer a rule, and transfer it to a new case.
+- **F3 — Build the experiment-and-infer mechanic template.** Implemented as the lazy
+  `experiment-infer` ActivityPlugin plus the pure `evaluateExperimentInfer` mission contract:
+  commit a prediction, vary controlled inputs, collect observations, infer a rule, and transfer it
+  to a new case. Completion requires the full evidence chain, not bare exploration.
 - **F4 — Build design-under-constraints and investigation templates.** Support budgets/trade-offs,
   evidence elimination, multiple valid strategies, and authored misconception feedback.
 - **F5 — Author, verify, and playtest the first v2 vertical slice.** Use the relevant research,
@@ -391,10 +404,20 @@ Published tracking:
   precision.
 - **G2 — Make review items renderable and index all content formats.** Replace ID-only review,
   include standalone context, and search Markdown, v1 screens, and v2 scenes.
-- **G3 — Build mixed cross-course review sessions.** Select due items, interleave confusable
-  skills, grade with existing scheduling, and return the learner to their campaign cleanly.
-- **G4 — Add deterministic local recommendations and adaptive scaffolding.** Begin with transparent
-  rules; choose review/new work and fuller/faded support from evidence, with an inspectable reason.
+  The build emits `content/review-catalogue.json`: v2 items use
+  `v2:<pack-id>` plus their authored review id, include their pack content
+  version, and remain renderable away from the source scene. The review page
+  gives retry/missing-content recovery when that catalogue is stale or absent.
+  Search indexes only learner-visible prompts, context, and presentation text;
+  answers, feedback, hidden branches, and reveal backs stay out of excerpts.
+- **G3 — Build mixed cross-course review sessions.** Implemented: deterministic eight-item
+  browser-local sessions interleave due courses/skills, render V2 standalone activities, prevent
+  duplicate scheduling, recover unavailable items, and return the learner to the catalogue. See
+  `docs/MIXED_REVIEW_SESSIONS.md`.
+- **G4 — Add deterministic local recommendations and adaptive scaffolding.** Implemented with
+  transparent Continue/Review/Next rules, an always-available browse path, human-readable local
+  decision logging, evidence-aware fuller/faded support, and delayed-performance rollback rules.
+  See `docs/LOCAL_RECOMMENDATIONS.md`.
 
 ### Epic H — Migration, quality, privacy diagnostics, and release
 

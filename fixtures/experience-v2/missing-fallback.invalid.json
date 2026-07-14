@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 2,
+  "id": "missing-fallback",
+  "packId": "bridge-missions",
+  "version": "2.0.0",
+  "stateVersion": "1.0.0",
+  "entryNodeId": "start",
+  "nodes": [{ "id": "start", "kind": "scene", "presentation": { "kind": "briefing", "body": "Start." }, "activity": { "key": "choice", "version": "1.0.0", "props": {} }, "goal": { "operator": "activity-complete" }, "feedback": { "success": "Done." }, "effects": [], "transitions": { "branches": [] } }]
+}

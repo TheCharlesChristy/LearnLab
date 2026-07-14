@@ -39,6 +39,8 @@ import remarkParse from 'remark-parse';
 import { unified } from 'unified';
 
 import { dumpWidgetKeys } from './dump-widget-keys.mjs';
+import { lintExperienceV2 } from './lint-experience-v2.mjs';
+import { emitExperienceIndexes, validateExperienceV2 } from './validate-experience-v2.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -107,7 +109,9 @@ function parseCli(argv) {
       opts.screenDocsFile = path.resolve(value);
       i += 1;
     } else {
-      fail(`unknown argument: ${arg}\nusage: build-content.mjs [--root <dir>] [--strict] [--watch]`);
+      fail(
+        `unknown argument: ${arg}\nusage: build-content.mjs [--root <dir>] [--strict] [--watch]`,
+      );
     }
   }
   return opts;
@@ -322,7 +326,11 @@ function checkLessonMarkdown(file, moduleDir, widgetKeys, validators, reporter) 
     if (type === 'quiz') {
       const src = attrs.src;
       if (!src) {
-        reporter.atLine(file, line(node), 'quiz widget requires a module-relative src attribute (§5.3)');
+        reporter.atLine(
+          file,
+          line(node),
+          'quiz widget requires a module-relative src attribute (§5.3)',
+        );
         return;
       }
       const quizFile = path.resolve(moduleDir, src);
@@ -385,7 +393,11 @@ function checkScreenSequence(file, validators, reporter) {
   const ids = new Set();
   data.screens.forEach((screen, i) => {
     if (ids.has(screen.id)) {
-      reporter.atPointer(file, `/screens/${i}/id`, `duplicate screen id "${screen.id}" within sequence`);
+      reporter.atPointer(
+        file,
+        `/screens/${i}/id`,
+        `duplicate screen id "${screen.id}" within sequence`,
+      );
     }
     ids.add(screen.id);
   });
@@ -414,14 +426,22 @@ function validateTree(root, strict, validators, widgetKeys, reporter) {
 
   for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
     if (!entry.isDirectory()) continue; // index.json, .gitkeep, …
+    if (entry.name === 'v2') continue; // validated by the additive v2 pipeline below
     if (!SUBJECTS.includes(entry.name)) {
-      reporter.atFile(path.join(root, entry.name), `unknown subject folder — must be one of ${SUBJECTS.join(', ')} (§4.1)`);
+      reporter.atFile(
+        path.join(root, entry.name),
+        `unknown subject folder — must be one of ${SUBJECTS.join(', ')} (§4.1)`,
+      );
       continue;
     }
     const subjectDir = path.join(root, entry.name);
     const courses = [];
     for (const courseDirName of listDirs(subjectDir)) {
-      const course = validateCourse(entry.name, courseDirName, path.join(subjectDir, courseDirName));
+      const course = validateCourse(
+        entry.name,
+        courseDirName,
+        path.join(subjectDir, courseDirName),
+      );
       if (course) courses.push(course);
     }
     if (courses.length > 0) subjects.set(entry.name, courses);
@@ -537,7 +557,11 @@ function validateTree(root, strict, validators, widgetKeys, reporter) {
     let interactive = false;
     mod.lessons.forEach((lesson, i) => {
       if (lessonIds.has(lesson.id)) {
-        reporter.atPointer(moduleFile, `/lessons/${i}/id`, `duplicate lesson id "${lesson.id}" within module`);
+        reporter.atPointer(
+          moduleFile,
+          `/lessons/${i}/id`,
+          `duplicate lesson id "${lesson.id}" within module`,
+        );
       }
       lessonIds.add(lesson.id);
       const lessonFile = path.resolve(moduleDir, lesson.file);
@@ -605,7 +629,10 @@ function validateTree(root, strict, validators, widgetKeys, reporter) {
       );
     }
     if (!mod.assessment) {
-      reporter.atFile(moduleFile, 'MVC (§8.6): module has no assessment (assessment.json with ≥ 8 questions required)');
+      reporter.atFile(
+        moduleFile,
+        'MVC (§8.6): module has no assessment (assessment.json with ≥ 8 questions required)',
+      );
     } else if (assessmentQuiz) {
       const assessmentFile = path.resolve(path.dirname(moduleFile), mod.assessment.file);
       if (assessmentQuiz.questions.length < 8) {
@@ -660,9 +687,7 @@ function pyCompile(root, reporter) {
   }
   const result = spawnSync('python3', ['-m', 'py_compile', ...files], { encoding: 'utf8' });
   if (result.status !== 0) {
-    reporter.errors.push(
-      `py_compile failed:\n${(result.stderr || result.stdout || '').trim()}`,
-    );
+    reporter.errors.push(`py_compile failed:\n${(result.stderr || result.stdout || '').trim()}`);
   }
 }
 
@@ -701,22 +726,54 @@ function emitIndex(root, subjects, validators, reporter) {
 
 /** Strip directive syntax / markdown markup down to plain, searchable text. */
 function stripMarkdownForSearch(md) {
-  return md
-    // Container directive fences, e.g. :::callout{kind="info"} ... :::
-    .replace(/^:::+[a-z-]*\s*\{[^}]*\}\s*$/gim, '')
-    .replace(/^:::+\s*$/gm, '')
-    // Leaf directives, e.g. ::widget{type="..." ...} / ::py{src="..."}
-    .replace(/^::[a-z-]+\s*\{[^}]*\}\s*$/gim, '')
-    // Links: keep the visible text, drop the URL.
-    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
-    // KaTeX math spans (inline $...$ and display $$...$$) — formulas aren't searchable text.
-    .replace(/\$\$[^$]*\$\$/g, ' ')
-    .replace(/\$[^$\n]*\$/g, ' ')
-    // Residual markdown punctuation.
-    .replace(/[`*_#>]/g, '')
-    .replace(/[ \t]+/g, ' ')
-    .replace(/\n{2,}/g, '\n')
-    .trim();
+  return (
+    md
+      // Container directive fences, e.g. :::callout{kind="info"} ... :::
+      .replace(/^:::+[a-z-]*\s*\{[^}]*\}\s*$/gim, '')
+      .replace(/^:::+\s*$/gm, '')
+      // Leaf directives, e.g. ::widget{type="..." ...} / ::py{src="..."}
+      .replace(/^::[a-z-]+\s*\{[^}]*\}\s*$/gim, '')
+      // Links: keep the visible text, drop the URL.
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+      // KaTeX math spans (inline $...$ and display $$...$$) — formulas aren't searchable text.
+      .replace(/\$\$[^$]*\$\$/g, ' ')
+      .replace(/\$[^$\n]*\$/g, ' ')
+      // Residual markdown punctuation.
+      .replace(/[`*_#>]/g, '')
+      .replace(/[ \t]+/g, ' ')
+      .replace(/\n{2,}/g, '\n')
+      .trim()
+  );
+}
+
+/** Learner-visible v1 screen text only. Deliberately exclude answers, choices,
+ * reveal backs, marking metadata, and feedback so search cannot disclose a
+ * solution before a learner attempts the screen. */
+function screenTextForSearch(sequence) {
+  const text = [];
+  for (const screen of sequence?.screens ?? []) {
+    switch (screen.type) {
+      case 'predict':
+      case 'tap-choice':
+      case 'entry':
+      case 'manipulable-target':
+      case 'sort-match':
+        text.push(screen.prompt, screen.goal?.description);
+        break;
+      case 'faded-step':
+        text.push(screen.worked, screen.prompt);
+        break;
+      case 'flash-recall':
+        text.push(screen.front);
+        break;
+      case 'reveal-mechanism':
+        text.push(screen.body, screen.selfExplainPrompt);
+        break;
+      default:
+        break;
+    }
+  }
+  return stripMarkdownForSearch(text.filter(Boolean).join('\n'));
 }
 
 function emitSearchIndex(root, validators, reporter) {
@@ -733,9 +790,19 @@ function emitSearchIndex(root, validators, reporter) {
         const mod = readJson(path.join(moduleDir, 'module.json'), reporter);
         if (!mod?.lessons) continue;
         for (const lesson of mod.lessons) {
-          if ((lesson.kind ?? 'markdown') !== 'markdown') continue; // full-page Python items have no static body
           const lessonFile = path.resolve(moduleDir, lesson.file);
           if (!fs.existsSync(lessonFile)) continue;
+          const kind = lesson.kind ?? 'markdown';
+          // Python source is executable, not searchable learner prose.
+          if (kind === 'python') continue;
+          let body;
+          if (kind === 'screens') {
+            const sequence = readJson(lessonFile, reporter);
+            if (!sequence) continue;
+            body = screenTextForSearch(sequence);
+          } else {
+            body = stripMarkdownForSearch(fs.readFileSync(lessonFile, 'utf8'));
+          }
           lessons.push({
             subject,
             courseId: course.id,
@@ -744,7 +811,7 @@ function emitSearchIndex(root, validators, reporter) {
             moduleTitle: mod.title,
             lessonId: lesson.id,
             lessonTitle: lesson.title,
-            body: stripMarkdownForSearch(fs.readFileSync(lessonFile, 'utf8')),
+            body,
           });
         }
       }
@@ -815,13 +882,23 @@ function runPipeline(opts) {
   checkScreenDocs(SCREEN_TYPES, opts.screenDocsFile, reporter);
 
   const validators = makeValidators();
-  const { subjects, moduleIds } = validateTree(opts.root, opts.strict, validators, widgetKeys, reporter);
+  const { subjects, moduleIds } = validateTree(
+    opts.root,
+    opts.strict,
+    validators,
+    widgetKeys,
+    reporter,
+  );
+  const experienceIndexes = validateExperienceV2(opts.root, repoRoot, reporter);
+  lintExperienceV2(opts.root, reporter, { strict: opts.strict });
 
   pyCompile(opts.root, reporter);
 
   if (reporter.errors.length === 0) {
     emitIndex(opts.root, subjects, validators, reporter);
     emitSearchIndex(opts.root, validators, reporter);
+    if (experienceIndexes.index.packs.length > 0)
+      emitExperienceIndexes(opts.root, experienceIndexes);
   }
 
   for (const warning of reporter.warnings) console.warn(`WARN  ${warning}`);
@@ -849,7 +926,17 @@ function watch(opts) {
   fs.mkdirSync(opts.root, { recursive: true });
   let timer;
   const schedule = (event, filename) => {
-    if (filename && path.basename(filename) === 'index.json') return; // our own output
+    if (
+      filename &&
+      [
+        'index.json',
+        'search-index.json',
+        'experience-index.json',
+        'experience-search-index.json',
+        'review-catalogue.json',
+      ].includes(path.basename(filename))
+    )
+      return; // our own output
     clearTimeout(timer);
     timer = setTimeout(() => {
       console.log('\nbuild-content: change detected, revalidating…');
@@ -862,7 +949,9 @@ function watch(opts) {
   };
   fs.watch(opts.root, { recursive: true }, schedule);
   fs.watch(path.join(repoRoot, 'src', 'widgets', 'keys.json'), schedule);
-  console.log(`build-content: watching ${path.relative(process.cwd(), opts.root)} (Ctrl-C to stop)`);
+  console.log(
+    `build-content: watching ${path.relative(process.cwd(), opts.root)} (Ctrl-C to stop)`,
+  );
 }
 
 // ---------------------------------------------------------------------------

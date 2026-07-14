@@ -5,6 +5,10 @@ description: Extend the LearnLab engine itself — new widgets, new screen types
 
 # Extending the LearnLab platform
 
+V2 activity keys are live only in `src/experience/plugins/registry.ts`; generated schema, Studio
+metadata, fixtures and `docs/ACTIVITY_PLUGINS.md` come from `generated.ts`. Run
+`npm run verify:release-v2` and follow `docs/V2_RELEASE_GATES.md` before release.
+
 This skill is the `src/`-side counterpart to the content skills. The content skills
 (learnlab-author-content, learnlab-lesson-pedagogy, learnlab-adapt-resource,
 learnlab-research-content) operate strictly inside four closed vocabularies — the

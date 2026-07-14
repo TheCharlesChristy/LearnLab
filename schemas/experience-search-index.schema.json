@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learnlab.dev/schemas/v2/experience-search-index.schema.json",
+  "type": "object", "additionalProperties": false, "required": ["schemaVersion", "entries"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "entries": { "type": "array", "items": { "type": "object", "additionalProperties": false, "required": ["kind", "packId", "id", "title", "text"], "properties": {
+      "kind": { "enum": ["pack", "campaign", "review", "scene", "ending"] }, "packId": { "type": "string" }, "experienceId": { "type": "string" }, "id": { "type": "string" }, "title": { "type": "string" }, "text": { "type": "string" }
+    } } }
+  }
+}

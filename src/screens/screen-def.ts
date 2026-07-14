@@ -9,6 +9,18 @@ import type { ComponentType } from 'react';
 
 import type { Screen } from './types';
 
+/**
+ * Optional, presentation-neutral trace for v2 activity adapters. Screen
+ * renderers continue to own their interaction and gating; an adapter may
+ * observe a serialisable trace without taking over those responsibilities.
+ */
+export type ScreenInteractionValue = string | number | boolean | readonly string[];
+
+export interface ScreenInteraction {
+  type: 'interaction' | 'attempted' | 'hint-requested';
+  values?: Readonly<Record<`/${string}`, ScreenInteractionValue>>;
+}
+
 export interface ScreenRunnerProps<S extends Screen = Screen> {
   screen: S;
   /** Stable per-screen namespace for future review/engagement item ids, e.g. `${lessonId}:${screen.id}`. */
@@ -18,6 +30,8 @@ export interface ScreenRunnerProps<S extends Screen = Screen> {
   total: number;
   /** Advance to the next screen (or finish, on the last). Call only once the screen is genuinely complete. */
   onAdvance: () => void;
+  /** Optional observer used by ActivityPlugin adapters; never controls screen state. */
+  onInteraction?: (interaction: ScreenInteraction) => void;
 }
 
 export interface ScreenDef<S extends Screen = Screen> {

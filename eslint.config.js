@@ -50,7 +50,19 @@ export default tseslint.config(
       //   { target: './src/progress', from: './src/python' },
       // The rule requires >= 1 zone, so until subsystems land it carries a
       // single always-true guard (nothing may import from build output).
-      'import/no-restricted-paths': ['error', { zones: [{ target: './src', from: './dist' }] }],
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            { target: './src', from: './dist' },
+            // Activity plugins are pure render/interaction adapters. Progress
+            // and v2 run-state are engine-owned boundaries; plugins report a
+            // normalised outcome and never write learner state themselves.
+            { target: './src/progress', from: './src/experience/plugins' },
+            { target: './src/experience/run-state', from: './src/experience/plugins' },
+          ],
+        },
+      ],
     },
   },
 );

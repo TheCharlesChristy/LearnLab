@@ -41,6 +41,28 @@ describe('SettingsPage (FR-SET-001)', () => {
     expect(progress.kvSet).toHaveBeenCalledWith('theme', 'light');
   });
 
+  it('offers calm, opt-in sensory settings for mastery celebrations', async () => {
+    const user = userEvent.setup();
+    renderSettings();
+
+    const visual = screen.getByRole('checkbox', { name: /Visual celebrations/ });
+    const sound = screen.getByRole('checkbox', { name: /Celebration sound/ });
+    const haptics = screen.getByRole('checkbox', { name: /Haptic feedback/ });
+    expect(visual).not.toBeChecked();
+    expect(sound).not.toBeChecked();
+    expect(haptics).not.toBeChecked();
+    expect(screen.getByText(/only after demonstrated mastery/)).toBeInTheDocument();
+    expect(screen.getByText(/not part of a progress export/)).toBeInTheDocument();
+
+    await user.click(visual);
+    await user.click(sound);
+    await user.click(haptics);
+    expect(visual).toBeChecked();
+    expect(sound).toBeChecked();
+    expect(haptics).toBeChecked();
+    expect(screen.getByRole('combobox', { name: 'Celebration motion' })).toHaveValue('system');
+  });
+
   it('erase dialog requires typing exactly ERASE (FR-PROG-005)', async () => {
     const reload = vi.fn();
     Object.defineProperty(window, 'location', {

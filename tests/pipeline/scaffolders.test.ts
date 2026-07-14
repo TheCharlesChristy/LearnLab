@@ -160,6 +160,106 @@ describe('new-module.mjs (FR-AUTH-001)', () => {
   );
 });
 
+describe('new-course.mjs and new-experience.mjs (Experience Runtime v2 D1 / #45)', () => {
+  it(
+    'scaffolds a discoverable, strict-valid v2 course pack with its skill, review, assets, and fixture starter',
+    () => {
+      const root = tempDir();
+      const scaffold = run('new-course.mjs', [
+        '--root', root,
+        '--id', 'bridge-missions',
+        '--title', 'Bridge missions',
+        '--description', 'Use force balance to diagnose and repair a bridge.',
+        '--subject', 'physics',
+        '--level', 'gcse',
+        '--minutes', '20',
+      ]);
+      expect(scaffold.status, scaffold.output).toBe(0);
+
+      const packDir = path.join(root, 'v2', 'bridge-missions');
+      const packFile = path.join(packDir, 'course-pack.json');
+      const graphFile = path.join(packDir, 'experiences', 'first-experience.json');
+      expect(fs.existsSync(packFile)).toBe(true);
+      expect(fs.existsSync(graphFile)).toBe(true);
+      expect(fs.existsSync(path.join(packDir, 'assets', '.gitkeep'))).toBe(true);
+      expect(fs.existsSync(path.join(packDir, 'fixtures', 'first-experience.fixture.json'))).toBe(true);
+
+      const pack = JSON.parse(fs.readFileSync(packFile, 'utf8'));
+      expect(pack).toMatchObject({
+        schemaVersion: 2,
+        id: 'bridge-missions',
+        skills: [{ id: 'bridge-missions-starter-skill' }],
+        reviewItems: [{ id: 'bridge-missions-starter-review' }],
+      });
+      const build = run('build-content.mjs', ['--root', root, '--strict']);
+      expect(build.status, build.output).toBe(0);
+      const index = JSON.parse(fs.readFileSync(path.join(root, 'experience-index.json'), 'utf8'));
+      expect(index.packs).toMatchObject([{ id: 'bridge-missions', experiences: [{ id: 'first-experience' }] }]);
+    },
+    TIMEOUT,
+  );
+
+  it(
+    'adds a strict-valid experience and synchronises its manifest, campaign, fixture, and estimate',
+    () => {
+      const root = tempDir();
+      const first = run('new-course.mjs', [
+        '--root', root,
+        '--id', 'bridge-missions',
+        '--title', 'Bridge missions',
+        '--subject', 'physics',
+        '--minutes', '20',
+      ]);
+      expect(first.status, first.output).toBe(0);
+      const second = run('new-experience.mjs', [
+        '--root', root,
+        '--pack', 'bridge-missions',
+        '--id', 'inspect-support',
+        '--title', 'Inspect the support',
+        '--minutes', '5',
+      ]);
+      expect(second.status, second.output).toBe(0);
+
+      const packDir = path.join(root, 'v2', 'bridge-missions');
+      const pack = JSON.parse(fs.readFileSync(path.join(packDir, 'course-pack.json'), 'utf8'));
+      expect(pack.experiences).toContainEqual({
+        id: 'inspect-support', file: 'experiences/inspect-support.json', title: 'Inspect the support', estimatedMinutes: 5,
+      });
+      expect(pack.campaigns[0].experienceIds).toContain('inspect-support');
+      expect(pack.estimatedMinutes).toBe(25);
+      expect(fs.existsSync(path.join(packDir, 'fixtures', 'inspect-support.fixture.json'))).toBe(true);
+
+      const build = run('build-content.mjs', ['--root', root, '--strict']);
+      expect(build.status, build.output).toBe(0);
+    },
+    TIMEOUT,
+  );
+
+  it('rejects duplicate experience ids before it changes a pack', () => {
+    const root = tempDir();
+    const first = run('new-course.mjs', ['--root', root, '--id', 'bridge-missions', '--subject', 'physics']);
+    expect(first.status, first.output).toBe(0);
+    const duplicate = run('new-experience.mjs', [
+      '--root', root, '--pack', 'bridge-missions', '--id', 'first-experience',
+    ]);
+    expect(duplicate.status, duplicate.output).not.toBe(0);
+    expect(duplicate.output).toContain('already declares experience id');
+  }, TIMEOUT);
+
+  it('keeps derived ids schema-valid when the course-pack id is at the 64-character limit', () => {
+    const root = tempDir();
+    const packId = 'a'.repeat(64);
+    const scaffold = run('new-course.mjs', ['--root', root, '--id', packId, '--subject', 'physics']);
+    expect(scaffold.status, scaffold.output).toBe(0);
+    const pack = JSON.parse(fs.readFileSync(path.join(root, 'v2', packId, 'course-pack.json'), 'utf8'));
+    expect(pack.campaigns[0].id).toHaveLength(64);
+    expect(pack.skills[0].id).toHaveLength(64);
+    expect(pack.reviewItems[0].id).toHaveLength(64);
+    const build = run('build-content.mjs', ['--root', root, '--strict']);
+    expect(build.status, build.output).toBe(0);
+  }, TIMEOUT);
+});
+
 describe('new-item.mjs (FR-AUTH-002)', () => {
   it(
     'scaffolds items/<name>.py from the blank template with the saved_state guard',

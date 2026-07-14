@@ -1,0 +1,925 @@
+{
+  "schemaVersion": 1,
+  "plugins": [
+    {
+      "key": "core-choice",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "core-interaction-preview",
+          "title": "Core interaction preview",
+          "seed": "core-choice:preview",
+          "props": {
+            "legacyLessonId": "core-preview",
+            "index": 0,
+            "total": 1,
+            "screen": {
+              "type": "tap-choice",
+              "id": "choice-preview",
+              "prompt": "Which route is safe?",
+              "choices": [
+                {
+                  "text": "Unsafe"
+                },
+                {
+                  "text": "Safe"
+                }
+              ],
+              "correctIndex": 1
+            }
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/choice-index": 1,
+              "/correct": true
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "interaction",
+                "values": {
+                  "/choice-index": 1,
+                  "/correct": true
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "attempted",
+                "values": {
+                  "/choice-index": 1,
+                  "/correct": true
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "core-entry",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "core-interaction-preview",
+          "title": "Core interaction preview",
+          "seed": "core-entry:preview",
+          "props": {
+            "legacyLessonId": "core-preview",
+            "index": 0,
+            "total": 1,
+            "screen": {
+              "type": "entry",
+              "id": "entry-preview",
+              "prompt": "Which route is safe?",
+              "inputMode": "numeric",
+              "answer": 6,
+              "tolerance": 0
+            }
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/answer": 6,
+              "/correct": true
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "interaction",
+                "values": {
+                  "/answer": 6,
+                  "/correct": true
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "attempted",
+                "values": {
+                  "/answer": 6,
+                  "/correct": true
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "core-faded-step",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "core-interaction-preview",
+          "title": "Core interaction preview",
+          "seed": "core-faded-step:preview",
+          "props": {
+            "legacyLessonId": "core-preview",
+            "index": 0,
+            "total": 1,
+            "screen": {
+              "type": "faded-step",
+              "id": "faded-preview",
+              "worked": "Which route is safe?",
+              "prompt": "Enter the final value.",
+              "inputMode": "numeric",
+              "answer": 4,
+              "tolerance": 0
+            }
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/answer": 4,
+              "/correct": true
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "interaction",
+                "values": {
+                  "/answer": 4,
+                  "/correct": true
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "attempted",
+                "values": {
+                  "/answer": 4,
+                  "/correct": true
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "core-flash-recall",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "core-interaction-preview",
+          "title": "Core interaction preview",
+          "seed": "core-flash-recall:preview",
+          "props": {
+            "legacyLessonId": "core-preview",
+            "index": 0,
+            "total": 1,
+            "screen": {
+              "type": "flash-recall",
+              "id": "flash-preview",
+              "front": "Which route is safe?",
+              "back": "The clear route."
+            }
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/grade": "good",
+              "/revealed": true
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "interaction",
+                "values": {
+                  "/revealed": true
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "interaction",
+                "values": {
+                  "/grade": "good"
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 2,
+                "type": "attempted",
+                "values": {
+                  "/grade": "good"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "core-predict",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "core-interaction-preview",
+          "title": "Core interaction preview",
+          "seed": "core-predict:preview",
+          "props": {
+            "legacyLessonId": "core-preview",
+            "index": 0,
+            "total": 1,
+            "screen": {
+              "type": "predict",
+              "id": "predict-preview",
+              "prompt": "Which route is safe?",
+              "choices": [
+                "Unsafe",
+                "Safe"
+              ],
+              "correctChoiceIndex": 1,
+              "reveal": "The safe route has a clear path."
+            }
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/choice-index": 1,
+              "/correct": true
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "interaction",
+                "values": {
+                  "/choice-index": 1,
+                  "/correct": true
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "attempted",
+                "values": {
+                  "/choice-index": 1,
+                  "/correct": true
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "core-reveal-mechanism",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "core-interaction-preview",
+          "title": "Core interaction preview",
+          "seed": "core-reveal-mechanism:preview",
+          "props": {
+            "legacyLessonId": "core-preview",
+            "index": 0,
+            "total": 1,
+            "screen": {
+              "type": "reveal-mechanism",
+              "id": "reveal-preview",
+              "body": "Which route is safe?",
+              "selfExplainPrompt": "Explain why.",
+              "selfExplainAnswer": "The safe route avoids the hazard."
+            }
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/self-explanation": "It avoids the hazard."
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "interaction",
+                "values": {
+                  "/self-explanation": "It avoids the hazard."
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "attempted",
+                "values": {
+                  "/self-explanation": "It avoids the hazard."
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "core-sort-match",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "core-interaction-preview",
+          "title": "Core interaction preview",
+          "seed": "core-sort-match:preview",
+          "props": {
+            "legacyLessonId": "core-preview",
+            "index": 0,
+            "total": 1,
+            "screen": {
+              "type": "sort-match",
+              "id": "sort-preview",
+              "prompt": "Which route is safe?",
+              "pairs": [
+                {
+                  "left": "Clear",
+                  "right": "Safe"
+                },
+                {
+                  "left": "Blocked",
+                  "right": "Unsafe"
+                }
+              ]
+            }
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/correct": true,
+              "/left-index": 1,
+              "/matched": [
+                "0",
+                "1"
+              ],
+              "/right-index": 1
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "interaction",
+                "values": {
+                  "/correct": true,
+                  "/left-index": 0,
+                  "/matched": [
+                    "0"
+                  ],
+                  "/right-index": 0
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "attempted",
+                "values": {
+                  "/correct": true,
+                  "/left-index": 0,
+                  "/matched": [
+                    "0"
+                  ],
+                  "/right-index": 0
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 2,
+                "type": "interaction",
+                "values": {
+                  "/correct": true,
+                  "/left-index": 1,
+                  "/matched": [
+                    "0",
+                    "1"
+                  ],
+                  "/right-index": 1
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 3,
+                "type": "attempted",
+                "values": {
+                  "/correct": true,
+                  "/left-index": 1,
+                  "/matched": [
+                    "0",
+                    "1"
+                  ],
+                  "/right-index": 1
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "diagnose-repair",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "signal-repair",
+          "title": "Signal repair",
+          "seed": "diagnose-repair:signal",
+          "props": {
+            "symptoms": [
+              {
+                "id": "no-signal",
+                "label": "No signal",
+                "diagnosisIds": [
+                  "loose-wire"
+                ]
+              }
+            ],
+            "diagnoses": [
+              {
+                "id": "loose-wire",
+                "label": "Loose wire",
+                "repairIds": [
+                  "secure-wire"
+                ],
+                "evidenceIds": [
+                  "continuity-test"
+                ]
+              },
+              {
+                "id": "flat-battery",
+                "label": "Flat battery",
+                "repairIds": [
+                  "replace-battery"
+                ],
+                "evidenceIds": [
+                  "voltage-test"
+                ],
+                "feedback": "The observed symptom and continuity evidence point to the wire, not the battery."
+              }
+            ],
+            "repairs": [
+              {
+                "id": "secure-wire",
+                "label": "Secure wire",
+                "effect": {
+                  "operator": "set",
+                  "path": "/relay/repaired",
+                  "value": true
+                }
+              },
+              {
+                "id": "replace-battery",
+                "label": "Replace battery",
+                "effect": {
+                  "operator": "set",
+                  "path": "/relay/repaired",
+                  "value": true
+                }
+              }
+            ],
+            "requiredEvidenceIds": [
+              "continuity-test"
+            ]
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {},
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "attempted"
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "interaction"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "experiment-infer",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "direct-relationship",
+          "title": "Direct relationship experiment",
+          "seed": "experiment-infer:direct-relationship",
+          "props": {
+            "title": "Lamp investigation",
+            "predictionPrompt": "If the input rises, what will happen to the measured response?",
+            "predictions": [
+              {
+                "id": "larger",
+                "label": "It will increase"
+              },
+              {
+                "id": "smaller",
+                "label": "It will decrease"
+              }
+            ],
+            "trials": [
+              {
+                "id": "low",
+                "controlLabel": "Run low-input condition",
+                "observationLabel": "Low input gives a small response."
+              },
+              {
+                "id": "high",
+                "controlLabel": "Run high-input condition",
+                "observationLabel": "High input gives a large response."
+              }
+            ],
+            "requiredTrialIds": [
+              "low",
+              "high"
+            ],
+            "inferencePrompt": "Which rule accounts for both observations?",
+            "rules": [
+              {
+                "id": "direct",
+                "label": "The response increases as the input increases."
+              },
+              {
+                "id": "inverse",
+                "label": "The response decreases as the input increases."
+              }
+            ],
+            "correctRuleId": "direct",
+            "transferPrompt": "For a new, still higher input, what should you predict?",
+            "transferOptions": [
+              {
+                "id": "increase",
+                "label": "A larger response"
+              },
+              {
+                "id": "decrease",
+                "label": "A smaller response"
+              }
+            ],
+            "correctTransferId": "increase"
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/observations": [
+                "low",
+                "high"
+              ],
+              "/prediction": "larger",
+              "/rule": "direct",
+              "/transfer": "increase"
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "interaction",
+                "values": {
+                  "/prediction": "larger"
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "interaction",
+                "values": {
+                  "/observations": [
+                    "low"
+                  ]
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 2,
+                "type": "interaction",
+                "values": {
+                  "/observations": [
+                    "low",
+                    "high"
+                  ]
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 3,
+                "type": "interaction",
+                "values": {
+                  "/rule": "direct"
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 4,
+                "type": "attempted",
+                "values": {
+                  "/rule": "direct"
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 5,
+                "type": "interaction",
+                "values": {
+                  "/transfer": "increase"
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 6,
+                "type": "attempted",
+                "values": {
+                  "/transfer": "increase"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "explore-eigen-playground",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "covariance-angle",
+          "title": "Covariance angle observation",
+          "seed": "eigen-preview",
+          "props": {
+            "a": 2,
+            "c": 1,
+            "bMin": -1,
+            "bMax": 1,
+            "showPoints": true
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/angle-degrees": 31.717,
+              "/covariance": 1,
+              "/eigenvalue-major": 2.618,
+              "/eigenvalue-minor": 0.382
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "interaction",
+                "values": {
+                  "/angle-degrees": 31.717,
+                  "/covariance": 1,
+                  "/eigenvalue-major": 2.618,
+                  "/eigenvalue-minor": 0.382
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "attempted",
+                "values": {
+                  "/angle-degrees": 31.717,
+                  "/covariance": 1,
+                  "/eigenvalue-major": 2.618,
+                  "/eigenvalue-minor": 0.382
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "explore-function-grapher",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "quadratic-tangent",
+          "title": "Quadratic tangent observation",
+          "seed": "function-graph-preview",
+          "props": {
+            "expr": "x^2",
+            "xmin": -4,
+            "xmax": 4,
+            "grid": true,
+            "hints": [
+              "Use the arrow keys on the tangent point."
+            ]
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/gradient": 8,
+              "/x": 4
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "interaction",
+                "values": {
+                  "/gradient": 8,
+                  "/x": 4
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "attempted",
+                "values": {
+                  "/gradient": 8,
+                  "/x": 4
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "explore-signal-scope",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "sine-spectrum",
+          "title": "Sine spectrum observation",
+          "seed": "signal-scope-preview",
+          "props": {
+            "expr": "sin(2*pi*f*t)",
+            "sampleRate": 64,
+            "duration": 4,
+            "freqMin": 1,
+            "freqMax": 8,
+            "showSpectrum": true
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/frequency": 8,
+              "/peak-frequency": 8
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "interaction",
+                "values": {
+                  "/frequency": 8,
+                  "/peak-frequency": 8
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "attempted",
+                "values": {
+                  "/frequency": 8,
+                  "/peak-frequency": 8
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "python-item",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "worker-progress-contract",
+          "title": "Python item progress event",
+          "seed": "python-item-preview",
+          "props": {
+            "itemId": "items/example",
+            "sourceUrl": "/content/physics/example/items/example.py",
+            "title": "Example Python item",
+            "seed": 7
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/max-score": 1,
+              "/progress-kind": "scored",
+              "/score": 1
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "attempted",
+                "values": {
+                  "/max-score": 1,
+                  "/progress-kind": "scored",
+                  "/score": 1
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "seeded-choice",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "basic-correct-choice",
+          "title": "Correct answer",
+          "seed": "reference-choice-1",
+          "props": {
+            "prompt": "Which route is safe?",
+            "options": [
+              {
+                "id": "safe",
+                "label": "Safe route"
+              },
+              {
+                "id": "unsafe",
+                "label": "Unsafe route"
+              }
+            ],
+            "correctId": "safe"
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {
+              "/answer": "safe"
+            },
+            "events": [
+              {
+                "schemaVersion": 1,
+                "sequence": 0,
+                "type": "interaction",
+                "values": {
+                  "/answer": "safe"
+                }
+              },
+              {
+                "schemaVersion": 1,
+                "sequence": 1,
+                "type": "attempted",
+                "values": {
+                  "/answer": "safe"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "key": "v1-screen",
+      "version": "1.0.0",
+      "fixtures": [
+        {
+          "id": "adapter-contract",
+          "title": "Adapter payload shape",
+          "seed": "v1-screen-adapter",
+          "props": {
+            "legacyLessonId": "legacy-lesson",
+            "screen": {
+              "type": "tap-choice",
+              "id": "legacy-choice",
+              "prompt": "Choose.",
+              "choices": [
+                {
+                  "text": "No"
+                },
+                {
+                  "text": "Yes"
+                }
+              ],
+              "correctIndex": 1,
+              "successFeedback": "Correct."
+            },
+            "index": 0,
+            "total": 1
+          },
+          "expectedOutcome": {
+            "schemaVersion": 1,
+            "completed": true,
+            "values": {},
+            "events": []
+          }
+        }
+      ]
+    }
+  ]
+}

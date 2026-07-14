@@ -5,6 +5,10 @@ description: Evidence-based rules for designing LearnLab screen sequences that m
 
 # Designing LearnLab lessons that actually teach
 
+V2 activity sequencing must respect the generated accessibility/fixture contract in
+`docs/ACTIVITY_PLUGINS.md`; release evidence in `docs/V2_RELEASE_GATES.md` values delayed learning
+and accessibility over completion alone.
+
 Every rule in this skill comes from replicated learning-science findings (meta-analyses where
 available), translated into things you can do with LearnLab's screen-sequence engine
 (`docs/BRILLIANT_REWRITE_PLAN.md`, `docs/SCREENS.md`) — eight screen types, plus the four-question-type

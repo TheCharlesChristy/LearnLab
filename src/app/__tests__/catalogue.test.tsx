@@ -49,5 +49,20 @@ describe('CataloguePage (FR-SHELL-002, FR-CONT-001)', () => {
     await waitFor(() =>
       expect(screen.getByRole('heading', { name: 'No courses yet' })).toBeInTheDocument(),
     );
+    expect(screen.getByRole('heading', { name: 'Your next step' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Quick Review/ })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Browse all courses/ })).toBeInTheDocument();
+  });
+
+  it('keeps local home actions available while the catalogue loads or fails offline', async () => {
+    let reject!: (error: Error) => void;
+    vi.mocked(contentApi.loadContentIndex).mockReturnValueOnce(new Promise((_, fail) => { reject = fail; }) as never);
+    renderRoute('/');
+    expect(screen.getByRole('heading', { name: 'Your next step' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Quick Review/ })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Browse all courses/ })).toBeInTheDocument();
+    reject(new Error('Offline'));
+    await waitFor(() => expect(screen.getByText(/could not load/i)).toBeInTheDocument());
+    expect(screen.getByRole('heading', { name: 'Your next step' })).toBeInTheDocument();
   });
 });

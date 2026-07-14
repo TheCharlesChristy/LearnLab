@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "id": "{{packId}}",
+  "version": "1.0.0",
+  "title": "{{title}}",
+  "description": "{{description}}",
+  "audience": {
+    "level": "{{level}}",
+    "summary": "{{audienceSummary}}",
+    "prerequisites": []
+  },
+  "taxonomy": {
+    "subjects": ["{{subject}}"],
+    "tags": ["{{packId}}"]
+  },
+  "theme": {
+    "name": "{{title}}"
+  },
+  "estimatedMinutes": "{{estimatedMinutes}}",
+  "engineCapabilities": [
+    { "key": "choice", "version": "1.0.0" }
+  ],
+  "state": {
+    "version": "1.0.0",
+    "declarations": [],
+    "migrations": []
+  },
+  "skills": [
+    {
+      "id": "{{skillId}}",
+      "title": "{{skillTitle}}",
+      "description": "TODO: describe the capability the learner will demonstrate.",
+      "prerequisiteIds": []
+    }
+  ],
+  "experiences": [
+    {
+      "id": "{{experienceId}}",
+      "file": "experiences/{{experienceId}}.json",
+      "title": "{{experienceTitle}}",
+      "estimatedMinutes": "{{experienceMinutes}}"
+    }
+  ],
+  "campaigns": [
+    {
+      "id": "{{campaignId}}",
+      "title": "{{campaignTitle}}",
+      "description": "TODO: describe the learner's campaign objective.",
+      "entryExperienceId": "{{experienceId}}",
+      "experienceIds": ["{{experienceId}}"]
+    }
+  ],
+  "assets": [],
+  "reviewItems": [
+    {
+      "id": "{{reviewId}}",
+      "title": "{{skillTitle}} review",
+      "standaloneContext": "TODO: give all context a learner needs when this review item is shown on its own.",
+      "prompt": "TODO: ask the learner to retrieve the key idea or procedure.",
+      "skillIds": ["{{skillId}}"],
+      "activity": {
+        "key": "choice",
+        "version": "1.0.0",
+        "props": { "choices": ["TODO: correct answer", "TODO: plausible misconception"] }
+      },
+      "goal": { "operator": "activity-complete" },
+      "feedback": {
+        "success": "TODO: explain the mechanism, not only that the answer is correct.",
+        "hints": ["TODO: name the relevant principle."]
+      },
+      "source": { "experienceId": "{{experienceId}}", "nodeId": "opening-checkpoint" }
+    }
+  ]
+}

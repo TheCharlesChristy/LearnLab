@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 2,
+  "id": "linear-mission",
+  "packId": "bridge-missions",
+  "version": "2.0.0",
+  "stateVersion": "1.0.0",
+  "entryNodeId": "inspect",
+  "nodes": [
+    { "id": "inspect", "kind": "scene", "presentation": { "kind": "briefing", "title": "Inspect", "body": "Check the forces on the deck." }, "activity": { "key": "choice", "version": "1.0.0", "props": { "choices": ["Balanced", "Unbalanced"] } }, "goal": { "operator": "activity-complete" }, "feedback": { "success": "You have made a diagnosis." }, "effects": [{ "operator": "checkpoint", "label": "diagnosis" }], "transitions": { "branches": [], "fallback": { "to": "finish" } }, "review": { "itemId": "balanced-force-review" } },
+    { "id": "finish", "kind": "ending", "presentation": { "kind": "explanation", "body": "The deck is now safe." }, "termination": { "status": "complete", "summary": "Mission complete." } }
+  ]
+}

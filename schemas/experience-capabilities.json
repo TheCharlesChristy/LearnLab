@@ -1,0 +1,8 @@
+{
+  "choice": "1.0.0",
+  "core-flash-recall": "1.0.0",
+  "core-reveal-mechanism": "1.0.0",
+  "diagnose-repair": "1.0.0",
+  "experiment-infer": "1.0.0",
+  "seeded-choice": "1.0.0"
+}

@@ -69,12 +69,14 @@ run('building python-bundle.zip (§6.2.2)', process.execPath, [
 //    so the REAL pilot modules ship into the served content root, and
 //    public/python-bundle.zip → dist/python-bundle.zip). BASE='/' keeps the
 //    local base even when CI=1 (vite.config.ts: explicit BASE wins).
+// Invoke Vite through Node rather than `npx`: Playwright starts this helper
+// without a shell, which makes the Windows `npx.cmd` shim unreliable.
 run(
   'building app (vite build, real public/content included)',
   process.execPath,
   [path.join(repoRoot, 'node_modules', 'vite', 'bin', 'vite.js'), 'build'],
   {
-  BASE: '/',
+    BASE: '/',
   },
 );
 

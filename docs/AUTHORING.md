@@ -2,6 +2,12 @@
 
 This guide is everything you need to add learning content to LearnLab **without writing any application code**. Content is data: courses are folders of JSON, screen-sequence JSON, Markdown, and (from P1) Python files under `public/content/`. Adding or editing content never requires changes under `src/` — that is the central architectural invariant (C-5).
 
+Experience Runtime v2 has a declared pack/graph contract, documented in
+[`EXPERIENCE_RUNTIME_V2_SCHEMA.md`](EXPERIENCE_RUNTIME_V2_SCHEMA.md). Its packs are discovered
+and semantically validated alongside v1 content, and the supported scaffolders below create a
+strict-valid starter. Runtime traversal is still an engine roadmap item: author the pack now, but
+do not present it as a learner-facing replacement for a v1 course yet.
+
 **New lessons are authored as screen sequences** (`docs/BRILLIANT_REWRITE_PLAN.md`) — an ordered list of gated interactive screens, not a Markdown page you scroll. §3 below is the primary format; the full per-screen-type reference is [`SCREENS.md`](SCREENS.md). §3a covers the older Markdown + directives format, kept for lessons already written in it (planned deprecation — new authoring should not use it without a specific reason).
 
 For Python items (Tier 2), see [`PYTHON_ITEMS.md`](PYTHON_ITEMS.md). For the native widget catalogue, see [`WIDGETS.md`](WIDGETS.md) (still relevant: several screen types, like `manipulable-target`, wrap a native widget).
@@ -67,6 +73,70 @@ Key facts:
 
    Fix anything it reports (it prints file paths and JSON pointers).
 7. **Open a PR.** Use the PR checklist in §7. Content-only PRs run a fast CI lane (validation + Python compile + smoke tests).
+
+## 2a. Start a v2 course pack or add an experience
+
+V2 packs live independently of v1 courses at `public/content/v2/<pack-id>/`. They are
+auto-discovered: never edit a central subject enum, registry, or generated index. Start a pack
+with a first valid, gated episode, a starter skill graph, an `assets/` directory, a fixture copy,
+and an independently renderable review-item starter:
+
+```sh
+npm run new:course -- \
+  --id bridge-missions \
+  --title "Bridge missions" \
+  --description "Use force balance to diagnose and repair a bridge." \
+  --subject physics \
+  --level gcse \
+  --minutes 20
+```
+
+The command also works interactively as `npm run new:course`. It writes:
+
+```
+public/content/v2/bridge-missions/
+├── course-pack.json                    # pack, state declarations, skills, campaign, review starter
+├── assets/.gitkeep                     # add only local assets and record them in course-pack.json
+├── experiences/first-experience.json   # one genuinely gated choice activity and a terminating node
+└── fixtures/first-experience.fixture.json # copy for Studio/runtime tests; not a second manifest
+```
+
+Every scaffold contains deliberate `TODO`s rather than hidden defaults. Replace them before
+shipping. In particular, write a standalone review context, a retrieval prompt, misconception-aware
+feedback, and a meaningful consequence after the learner action. The current v2 scaffold uses the
+installed `choice@1.0.0` activity capability; adding another activity type is platform work and
+must be registered before it can appear in a pack.
+
+To add another episode without manually synchronising the manifest and campaign, run:
+
+```sh
+npm run new:experience -- \
+  --pack bridge-missions \
+  --id inspect-support \
+  --title "Inspect the support" \
+  --minutes 5
+```
+
+It adds the graph and fixture, appends the experience to `course-pack.json`, adds it to the chosen
+campaign, and increments the pack estimate. Use `--campaign <campaign-id>` to choose a campaign
+other than the first one. Both commands accept `--root <content-root>` for isolated tooling/tests;
+they default to `public/content`. Finish with `npm run validate -- --strict`. The generated
+`experience-index.json` and `experience-search-index.json` are build artifacts—never edit them.
+
+### Skill prerequisites and evidence
+
+For a v2 pack, give every `skills` entry a stable id, a learner-readable title/description, and
+only the skill ids it directly requires in `prerequisiteIds`. Prerequisites form a DAG: no missing
+ids, self-links, or cycles. The v2 build validates all of these and reports the exact
+`course-pack.json` pointer; use the platform's `validateSkillGraph` API for generated or
+editor-authored data before it reaches the build.
+
+Do not describe a completed experience, a quiz percentage, or a review grade as mastery. The
+platform's evidence model records an opportunity, outcome, support/hints, confidence, latency,
+transfer context and content version separately. It intentionally reports `unknown` when an
+activity did not collect a field. Existing quiz and review records remain legacy until an explicit
+per-item skill/evidence mapping has been authored; never retrofit a skill claim from an aggregate
+score.
 
 ## 3. Screen-sequence lessons (the primary format)
 
