@@ -1146,4 +1146,95 @@ Default CDN-with-SW-cache (rationale: C-2 repo size, zero maintenance, first-loa
 |One worker, many items             |Pyodide instances are expensive; namespacing per item gives isolation that matches the trust model (C-6).    |
 |CDN Pyodide + SW cache             |C-2; offline still holds after first load (FR-PWA-002/003).                                                  |
 
-*End of SRS v1.0.*
+## 14. Experience Runtime v2 amendment
+
+This section is the normative v2 amendment recorded by
+[`docs/ADR-001-experience-runtime-v2.md`](docs/ADR-001-experience-runtime-v2.md). Sections 1–13
+remain the v1 contract. Where this section applies to a v2 course pack or runtime, it supersedes
+the v1 wording only for that v2 path; it does not authorise a v1 cutover.
+
+### 14.1 Product and architectural boundary
+
+V2 SHALL be an additive, capability-bounded runtime. A v2 course pack SHALL declare its
+format/schema version and required engine capability versions. Unsupported or malformed packs
+SHALL fail closed with a learner-safe message and developer diagnostics. V2 SHALL preserve the
+following invariants from the implementation plan: static/client-only hosting, local-first
+privacy, content-as-data, typed registered operators, versioned persistence, genuine interaction
+gating, mastery-linked rewards, accessibility contracts, and reviewable engine/content scope.
+
+The learner product SHALL NOT require accounts, authentication, a backend, hosted learner
+profiles, telemetry, competitive leaderboards, runtime-generated story text, arbitrary authored
+code, or native mobile applications for the first v2 programme.
+
+### 14.2 Course packs and experience graphs
+
+A v2 course pack SHALL be a self-contained versioned content directory declaring its identity,
+audience, taxonomy, required capabilities, experiences, skills/prerequisites, local assets,
+review items, and state-schema/migration metadata. An experience SHALL contain nodes with a
+presentation, registered activity, goal, feedback policy, typed effects, ordered transitions
+and an explicit fallback. Review items SHALL remain renderable outside the surrounding story.
+
+Conditions, goals, transitions, and effects SHALL use pure, deterministic, schema-validated
+operators from a registered vocabulary. Content SHALL NOT provide JavaScript, `eval`,
+`new Function`, or arbitrary predicates.
+
+### 14.3 Activity and accessibility contracts
+
+Activities SHALL be separable from presentation, progression, and persistence so one registered
+activity can be reused in multiple scene types. Each activity capability SHALL declare its stable
+key/version, input and output schemas, supported goal evaluators, authoring metadata, preview
+fixture, resume policy, accessibility behaviour, performance metadata, and documentation.
+
+Every v2 activity/presentation SHALL define keyboard and focus behaviour, announcements, contrast,
+reduced-motion behaviour, touch behaviour where relevant, and an alternative or equivalent path
+where the interaction requires one. A node SHALL NOT advance solely because it was rendered; a
+real learner action, evidence record, or declared state change SHALL satisfy its goal.
+
+### 14.4 Studio boundary
+
+LearnLab Studio SHALL be developer-only local tooling. It MAY edit or export local source files
+and preview seeded content, but SHALL NOT be a learner-facing content editor, hosted
+collaboration surface, account feature, or implicit upload path. Studio previews SHALL use the
+same schemas, validation, runtime contracts, and accessibility requirements as the learner
+runtime and SHALL be capability-gated so production learner builds can exclude Studio where
+practical.
+
+### 14.5 Persistence, diagnostics, and rollback
+
+V2 run state, mastery evidence, and diagnostic events SHALL remain on-device. There SHALL be no
+telemetry endpoint or background export. Explicit playtest/diagnostic export SHALL be
+user-initiated, versioned, size-bounded, and validated before import. An append-only local event
+log SHALL be the diagnostic source of truth, with materialised run state as a projection for
+rendering and resume.
+
+Saved v2 state SHALL carry pack, experience, and state-schema versions. Readers SHALL accept
+equal or older versions only through tested migration and SHALL fail loudly on unknown newer
+versions without silently discarding or reinterpreting the data. Disablement of a v2 capability
+SHALL return the learner to v1 or a documented safe fallback without corrupting saved state.
+
+### 14.6 Compatibility and deprecation gates
+
+Markdown and v1 screen-sequence routes SHALL remain supported during migration. The migration
+order SHALL be: preserve v1; add the v2 boundary; adapt representative v1 content to linear v2
+graphs; prove one measured vertical slice; then migrate selectively.
+
+Markdown SHALL remain readable, printable, searchable, and read-aloud capable. Existing screen
+runners and Python items MAY be wrapped as v2 adapters, but adapters SHALL preserve their
+isolation and SHALL NOT grant direct progress-store or learner-DOM access.
+
+V1 support SHALL NOT be removed until the migration inventory and priority order are approved,
+all retained learner paths have a tested adapter or explicitly approved replacement, unique
+capabilities have an equivalent or approved retirement decision, resume/export-import,
+accessibility/offline/CSP/production regression gates pass, relevant delayed-learning and
+voluntary-return thresholds are met, and release/rollback notes are published.
+
+### 14.7 Studio and runtime delivery gates
+
+The v2 programme SHALL follow the milestones and dependency order in
+`docs/EXPERIENCE_RUNTIME_V2_PLAN.md`. In particular, graph schemas and validation SHALL precede
+the runtime; the activity contract SHALL precede broad composition; and a complete measured
+vertical slice SHALL precede broad migration. Every shipped v2 capability SHALL update its
+architecture/authoring documentation, validation fixtures, accessibility coverage, and relevant
+skills before it is treated as available to authors.
+
+*End of SRS v1.0 with the proposed v2 amendment.*
