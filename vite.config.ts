@@ -74,6 +74,15 @@ export default defineConfig({
   // pyHotReloadPlugin is apply:'serve' → active in `vite dev` only, never in
   // the production build (FR-PYDX-001; keeps prod output unchanged).
   plugins: [react(), tailwindcss(), pwaPlugin, pyHotReloadPlugin()],
+  build: {
+    // NFR-SEC-001: never inline fonts as data: URIs. Vite inlines assets
+    // under 4 KB by default, which caught KaTeX_Size3-Regular.woff2 (3.6 KB);
+    // the CSP's default-src 'self' (no font-src) then blocked it, breaking
+    // large delimiters. Emitting fonts as same-origin files keeps the CSP
+    // strict and lets the PWA precache them like every other KaTeX font.
+    // Other assets keep Vite's default threshold (undefined = default).
+    assetsInlineLimit: (filePath) => (/\.(woff2?|ttf|otf|eot)$/i.test(filePath) ? false : undefined),
+  },
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test-setup.ts'],

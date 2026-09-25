@@ -23,8 +23,8 @@ The lesson format lives up to this. The weak point is everything that happens *a
 ## 2. Method
 
 1. Read every design/plan document and the code for each learner-facing surface.
-2. Inventoried content: 93 screen lessons, of which 91 are referenced by modules (the other 2 are
-   orphaned, see §6). They contain **326 auto-markable checkpoint screens** (127 `entry`, 99
+2. Inventoried content: 93 screen lessons, of which 91 were referenced by modules (the other 2 were
+   orphaned and have since been removed, see §6). They contain **326 auto-markable checkpoint screens** (127 `entry`, 99
    `tap-choice`, 81 `faded-step`, 10 `flash-recall`, 9 `sort-match`), plus 78 module assessments.
 3. Walked the learner journey (home → lesson → completion → review → progress) against the
    production build in Chromium, including mobile width, and traced where each learner action
@@ -172,13 +172,15 @@ The first thing on the catalogue is now the next valuable action:
 7. **Learner-set desired retention** (0.85 / 0.9 / 0.95) and session size, in Settings.
 8. **Streak repair.** Repairability softens the demotivating effect of a broken streak (Silverman
    & Barasch).
-9. **Housekeeping found along the way:**
-   - two orphaned screen lessons in `alevel-mechanics` (`forces-and-newtons-laws/01-newtons-laws`,
-     `kinematics-suvat/01-motion-graphs`) that no `module.json` references;
-   - `/favicon.ico` 404s;
-   - one KaTeX font face is inlined as a `data:` URI that the CSP's `default-src 'self'` blocks.
-     Either stop Vite inlining fonts (`build.assetsInlineLimit`) or add `font-src 'self' data:`.
-     This is a security-config choice, so it's left for review.
+9. **Housekeeping found along the way (all fixed):**
+   - removed two orphaned screen lessons in `alevel-mechanics`
+     (`forces-and-newtons-laws/01-newtons-laws.screens.json`,
+     `kinematics-suvat/01-motion-graphs.screens.json`). Leftovers from #22 that no `module.json`
+     referenced; both modules use their Markdown lessons with the same ids;
+   - `/favicon.ico` 404: `index.html` now declares the app icon (base-path aware);
+   - the `KaTeX_Size3` font (large delimiters) was inlined by Vite as a `data:` URI, which the
+     CSP's `default-src 'self'` blocked. `build.assetsInlineLimit` now never inlines font files,
+     so every KaTeX face is a same-origin, precached file and the CSP stays strict.
 
 ## 7. Measuring it
 
