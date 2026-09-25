@@ -20,7 +20,11 @@ export type EngagementEvent =
   | { kind: 'quiz-finished'; ratio: number; perfect: boolean; isAssessment: boolean }
   | { kind: 'flashcards-deck-complete' }
   | { kind: 'game-complete' }
-  | { kind: 'screen-complete' };
+  | { kind: 'screen-complete' }
+  // D-033: a finished spaced-review session. `recalled` counts items
+  // retrieved correctly on their first ask this session — points are tied
+  // to those successful retrievals, never to merely opening the queue.
+  | { kind: 'review-session-complete'; recalled: number; reviewed: number };
 
 export interface Achievement {
   id: string;

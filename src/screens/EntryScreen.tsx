@@ -14,7 +14,7 @@ import type { ScreenRunnerProps } from './screen-def';
 import { ScreenShell } from './ScreenShell';
 import type { EntryScreen as EntryScreenType } from './types';
 
-function EntryScreenRunner({ screen, index, total, onAdvance }: ScreenRunnerProps<EntryScreenType>) {
+function EntryScreenRunner({ screen, index, total, onAdvance, onOutcome }: ScreenRunnerProps<EntryScreenType>) {
   const [value, setValue] = useState('');
   const [correct, setCorrect] = useState(false);
   const [attempts, setAttempts] = useState(0);
@@ -26,6 +26,7 @@ function EntryScreenRunner({ screen, index, total, onAdvance }: ScreenRunnerProp
     setShowFeedback(true);
     if (ok) {
       setCorrect(true);
+      onOutcome?.({ firstTry: attempts === 0 });
     } else {
       setAttempts((n) => n + 1);
     }

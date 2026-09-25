@@ -17,6 +17,7 @@ Open the app and start: **https://thecharleschristy.github.io/LearnLab/**
 
 - Works in any modern browser (latest Chrome, Edge, Firefox, Safari; iOS Safari ≥ 17).
 - Works offline after your first visit (PWA — P1).
+- Everything you answer in a lesson comes back later in a short **Review** session, timed by the FSRS spaced-repetition scheduler for just before you'd forget it. You answer it again for real, say how sure you are, and see how well your confidence tracks your accuracy (see [docs/UX_GAP_ANALYSIS.md](docs/UX_GAP_ANALYSIS.md)).
 - Your progress is saved in your browser and can be exported/imported as a JSON file from Settings.
 
 ## Privacy

@@ -11,8 +11,11 @@ import Dexie, { type Table } from 'dexie';
 
 import { applyEngagementEvent, INITIAL_ENGAGEMENT_STATE } from './engagement';
 import type { Achievement, EngagementEvent, EngagementState } from './engagement-types';
-import { GRADE_QUALITY, INITIAL_SM2_STATE, MS_PER_DAY, sm2Step } from './srs';
-import type { ReviewGrade } from './srs';
+import { addCalibration, KV_CALIBRATION, toCalibrationState } from './calibration';
+import type { Confidence } from './calibration';
+import { GRADE_RATING, initialMemory, memoryFromLegacy, nextIntervalDays, nextMemory } from './fsrs';
+import type { FsrsMemory, ReviewGrade } from './fsrs';
+import { GRADE_QUALITY, INITIAL_SM2_STATE, MS_PER_DAY } from './srs';
 import type { Attempt, ItemState, KV, LessonProgress, ModuleState, ReviewState } from './types';
 
 /** Module metadata callers pass alongside lesson writes (from the content index). */
@@ -347,58 +350,110 @@ export async function kvSet(key: string, value: unknown): Promise<void> {
 }
 
 // ---------------------------------------------------------------------------
-// Spaced-repetition review queue (SM-2-lite, §13 roadmap, D-021)
+// Spaced-repetition review queue (FSRS-6, D-033; originally SM-2-lite, D-021)
 // ---------------------------------------------------------------------------
 
 /**
- * Grade one reviewable item (a flashcard or a missed quiz question — see
- * `flashcardReviewItemId`/`quizReviewItemId` in ./srs) and schedule its next
- * due date via SM-2-lite. Creates the row on first grade.
+ * Pure: the next ReviewState for one grade. Uses the row's FSRS memory when
+ * present, converts a pre-D-033 SM-2 row via memoryFromLegacy(), or starts a
+ * fresh memory for a first-ever grade. The SM-2 fields stay populated
+ * (interval, repetitions, EF unchanged) so older readers see a valid row.
+ */
+export function scheduleReview(
+  existing: ReviewState | undefined,
+  moduleId: string,
+  itemId: string,
+  grade: ReviewGrade,
+  now: number,
+): ReviewState {
+  const rating = GRADE_RATING[grade];
+  let memory: FsrsMemory;
+  if (!existing) {
+    memory = initialMemory(rating);
+  } else {
+    const prev =
+      existing.stability !== undefined && existing.difficulty !== undefined
+        ? { stability: existing.stability, difficulty: existing.difficulty }
+        : memoryFromLegacy(existing.intervalDays, existing.easinessFactor);
+    const elapsedDays = Math.max(0, (now - existing.lastReviewedAt) / MS_PER_DAY);
+    memory = nextMemory(prev, elapsedDays, rating);
+  }
+  const intervalDays = nextIntervalDays(memory.stability);
+  const wasRemembered = (existing?.repetitions ?? 0) > 0;
+  return {
+    moduleId,
+    itemId,
+    easinessFactor: existing?.easinessFactor ?? INITIAL_SM2_STATE.easinessFactor,
+    intervalDays,
+    repetitions: grade === 'again' ? 0 : (existing?.repetitions ?? 0) + 1,
+    dueAt: now + intervalDays * MS_PER_DAY,
+    lastReviewedAt: now,
+    lastQuality: GRADE_QUALITY[grade],
+    updatedAt: now,
+    stability: memory.stability,
+    difficulty: memory.difficulty,
+    lapses: (existing?.lapses ?? 0) + (grade === 'again' && wasRemembered ? 1 : 0),
+  };
+}
+
+/**
+ * Grade one reviewable item (a flashcard, a quiz question, or a screen
+ * checkpoint — see the item-id helpers in ./srs) and schedule its next due
+ * date via FSRS. Creates the row on first grade. Resolves to the new row, or
+ * undefined if the write failed.
  */
 export async function recordReview(
   moduleId: string,
   itemId: string,
   grade: ReviewGrade,
-): Promise<void> {
-  await guardedWrite('recordReview', () =>
+): Promise<ReviewState | undefined> {
+  return guardedWrite('recordReview', () =>
     db.transaction('rw', db.reviewState, async () => {
-      const now = Date.now();
       const existing = await db.reviewState.get([moduleId, itemId]);
-      const prev = existing ?? INITIAL_SM2_STATE;
-      const quality = GRADE_QUALITY[grade];
-      const next = sm2Step(prev, quality);
-      const row: ReviewState = {
-        moduleId,
-        itemId,
-        easinessFactor: next.easinessFactor,
-        intervalDays: next.intervalDays,
-        repetitions: next.repetitions,
-        dueAt: now + next.intervalDays * MS_PER_DAY,
-        lastReviewedAt: now,
-        lastQuality: quality,
-        updatedAt: now,
-      };
+      const row = scheduleReview(existing, moduleId, itemId, grade, Date.now());
       await db.reviewState.put(row);
+      return row;
     }),
   );
 }
 
 /**
- * Seed a reviewable item into the queue without grading it yet — used when a
- * quiz/assessment question is answered wrong for the first time, so it joins
- * the queue as due-tomorrow (same effect as an explicit "Again" grade)
- * without requiring the learner to visit the review page first.
+ * Seed a reviewable item into the queue the first time the learner meets it
+ * (a quiz question, a lesson checkpoint), graded by how that first encounter
+ * went — `again` for a miss (due tomorrow), `good`/`hard` for a first-try
+ * success. No-op for an item that's already tracked, so a retry or a lesson
+ * revisit never disturbs a real in-progress schedule.
  */
-export async function seedReviewItem(moduleId: string, itemId: string): Promise<void> {
+export async function seedReviewItem(
+  moduleId: string,
+  itemId: string,
+  grade: ReviewGrade = 'again',
+): Promise<void> {
   const existing = await db.reviewState.get([moduleId, itemId]);
-  if (existing) return; // already tracked; leave its real schedule alone
-  await recordReview(moduleId, itemId, 'again');
+  if (existing) return;
+  await recordReview(moduleId, itemId, grade);
+}
+
+/** Drop an item from the queue — e.g. its content was removed from the course. */
+export async function removeReviewItem(moduleId: string, itemId: string): Promise<void> {
+  await guardedWrite('removeReviewItem', () => db.reviewState.delete([moduleId, itemId]));
 }
 
 /** All review items due at or before `now` (default: this instant), oldest-due first. */
 export async function dueReviewItems(now: number = Date.now()): Promise<ReviewState[]> {
   const rows = await db.reviewState.where('dueAt').belowOrEqual(now).toArray();
   return rows.sort((a, b) => a.dueAt - b.dueAt);
+}
+
+/** Add one confidence-tagged review answer to the lifetime calibration record (kv). */
+export async function recordCalibration(confidence: Confidence, correct: boolean): Promise<void> {
+  await guardedWrite('recordCalibration', () =>
+    db.transaction('rw', db.kv, async () => {
+      const row = await db.kv.get(KV_CALIBRATION);
+      const next = addCalibration(toCalibrationState(row?.value), confidence, correct);
+      await db.kv.put({ key: KV_CALIBRATION, value: next });
+    }),
+  );
 }
 
 // ---------------------------------------------------------------------------

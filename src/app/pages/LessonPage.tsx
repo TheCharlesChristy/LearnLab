@@ -21,6 +21,7 @@ import {
 } from '../../progress';
 import type { ModuleMeta } from '../../progress';
 import { Button, ProgressBar, Spinner, celebrate } from '../../ui';
+import type { LessonRunSummary } from '../../screens';
 import { ReadAloudControl } from '../../tts';
 import { describeEngagementEvent } from '../engagement-copy';
 import { LessonContext, loadLessonMarkdown, loadScreenSequence, moduleBaseUrl } from '../content-api';
@@ -92,6 +93,9 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
   const moduleState = useModuleState(moduleId);
   const lessonProgress = useLessonProgressList(moduleId);
   const [completedNow, setCompletedNow] = useState(false);
+  // What this run of a screens lesson produced (D-033) — only known when the
+  // learner finishes the sequence in this visit, not on a later revisit.
+  const [runSummary, setRunSummary] = useState<LessonRunSummary | null>(null);
 
   useLessonActivity(moduleId, lessonId, lesson ? meta : null);
 
@@ -192,8 +196,10 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
       },
       getItemState: (itemId) => getItemState(moduleId, itemId),
       setItemState: (itemId, state) => setItemState(moduleId, itemId, state),
-      recordReview: (itemId, grade) => recordReview(moduleId, itemId, grade),
-      seedReviewItem: (itemId) => seedReviewItem(moduleId, itemId),
+      recordReview: async (itemId, grade) => {
+        await recordReview(moduleId, itemId, grade);
+      },
+      seedReviewItem: (itemId, grade) => seedReviewItem(moduleId, itemId, grade),
       notifyEngagement: (event) => {
         void (async () => {
           const result = await recordEngagementEvent(event);
@@ -286,6 +292,7 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
               <p className="mb-4 text-lg font-semibold text-emerald-700 dark:text-emerald-400">
                 Lesson complete!
               </p>
+              {runSummary && runSummary.checkpoints > 0 && <LessonDebrief summary={runSummary} />}
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <Link
                   to="/"
@@ -319,7 +326,10 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
               <LazyScreenSequenceEngine
                 sequence={screenSeq.data}
                 lessonId={lessonId}
-                onSequenceComplete={() => void complete()}
+                onSequenceComplete={(summary) => {
+                  setRunSummary(summary);
+                  void complete();
+                }}
               />
             </Suspense>
           ) : null
@@ -397,6 +407,33 @@ function LessonBody({ loc, lessonId }: { loc: ModuleLocation; lessonId: string }
         )}
       </div>
     </LessonContext.Provider>
+  );
+}
+
+/**
+ * Lesson-complete debrief (D-033): makes the spacing mechanism visible.
+ * Learners reliably underrate spaced retrieval because in-the-moment fluency
+ * feels like learning; saying plainly what happens next — and why — is a
+ * cheap, evidence-backed nudge toward actually coming back.
+ */
+function LessonDebrief({ summary }: { summary: LessonRunSummary }) {
+  const missed = summary.checkpoints - summary.firstTry;
+  return (
+    <div className="mx-auto mb-5 max-w-md text-left text-sm text-slate-700 dark:text-slate-300">
+      <p>
+        <span className="font-semibold">
+          {summary.firstTry} of {summary.checkpoints}
+        </span>{' '}
+        checkpoints right first time.
+      </p>
+      <p className="mt-2">
+        All {summary.checkpoints} now join your review queue.{' '}
+        {missed > 0
+          ? `The ${missed} you needed help with come back tomorrow; the rest in a couple of days.`
+          : 'They come back in a couple of days.'}{' '}
+        Recalling them after a gap — not re-reading — is what makes today&rsquo;s lesson stick.
+      </p>
+    </div>
   );
 }
 

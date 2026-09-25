@@ -79,8 +79,10 @@ function AssessmentBody({ loc }: { loc: ModuleLocation }) {
       },
       getItemState: (itemId) => getItemState(moduleId, itemId),
       setItemState: (itemId, state) => setItemState(moduleId, itemId, state),
-      recordReview: (itemId, grade) => recordReview(moduleId, itemId, grade),
-      seedReviewItem: (itemId) => seedReviewItem(moduleId, itemId),
+      recordReview: async (itemId, grade) => {
+        await recordReview(moduleId, itemId, grade);
+      },
+      seedReviewItem: (itemId, grade) => seedReviewItem(moduleId, itemId, grade),
       notifyEngagement: (event) => {
         void (async () => {
           const result = await recordEngagementEvent(event);

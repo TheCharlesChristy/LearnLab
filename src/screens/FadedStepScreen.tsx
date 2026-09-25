@@ -20,6 +20,7 @@ function FadedStepScreenRunner({
   index,
   total,
   onAdvance,
+  onOutcome,
 }: ScreenRunnerProps<FadedStepScreenType>) {
   const [value, setValue] = useState('');
   const [correct, setCorrect] = useState(false);
@@ -30,8 +31,10 @@ function FadedStepScreenRunner({
     if (correct || value.trim() === '') return;
     const ok = checkGenerationAnswer(screen, value);
     setShowFeedback(true);
-    if (ok) setCorrect(true);
-    else setAttempts((n) => n + 1);
+    if (ok) {
+      setCorrect(true);
+      onOutcome?.({ firstTry: attempts === 0 });
+    } else setAttempts((n) => n + 1);
   }
 
   const hints = screen.hints ?? [];

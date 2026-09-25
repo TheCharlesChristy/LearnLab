@@ -87,6 +87,6 @@ describe('review item-id helpers', () => {
   });
 
   it('quizReviewItemId namespaces by quiz/assessment item id and question id', () => {
-    expect(quizReviewItemId('assessment-1', 'q4')).toBe('quiz:assessment-1:q4');
+    expect(quizReviewItemId('assessment-1', 'q4')).toBe('assessment-1:q4');
   });
 });

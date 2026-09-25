@@ -20,6 +20,8 @@ function baseMessage(event: EngagementEvent): string {
       return 'Nice, game complete! 🎮';
     case 'screen-complete':
       return 'Nice.';
+    case 'review-session-complete':
+      return 'Review session done — memories strengthened!';
   }
 }
 

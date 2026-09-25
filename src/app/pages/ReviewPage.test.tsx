@@ -1,17 +1,83 @@
+// Review page (D-033): real retrieval sessions over resolved content, with
+// confidence lock-in, hypercorrection feedback, in-session relearning and a
+// debrief. Uses the real progress layer (fake-indexeddb) and a mocked
+// content barrel so the resolver finds a small fixture module.
+
 import 'fake-indexeddb/auto';
 
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { db } from '../../progress';
+import type { ReviewState } from '../../progress';
+
+import { whenDue } from '../when-due';
 
 import ReviewPage from './ReviewPage';
 
-function renderReview() {
+vi.mock('../../content', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../content')>();
+  const loc = {
+    subjectId: 'maths',
+    coursePath: 'maths/c',
+    course: { schemaVersion: 1, id: 'c', title: 'Course', subject: 'maths', level: 'alevel', description: '', modules: [] },
+    moduleRef: { id: 'm1', dir: 'm1' },
+    module: {
+      schemaVersion: 1,
+      id: 'm1',
+      title: 'Module One',
+      description: '',
+      estMinutes: 5,
+      prerequisites: [],
+      objectives: [],
+      lessons: [{ id: 'l1', title: 'Lesson One', file: 'l1.screens.json', kind: 'screens', estMinutes: 5 }],
+      version: '1.0.0',
+      authors: [],
+    },
+  };
+  return {
+    ...actual,
+    findModule: vi.fn(async (id: string) => (id === 'm1' ? loc : null)),
+    loadScreenSequence: vi.fn(async () => ({
+      schemaVersion: 1,
+      id: 'l1',
+      title: 'Lesson One',
+      screens: [
+        {
+          type: 'tap-choice',
+          id: 'capital',
+          prompt: 'Capital of France?',
+          choices: [{ text: 'Lyon', feedback: 'Lyon is the third-largest city.' }, { text: 'Paris' }],
+          correctIndex: 1,
+          successFeedback: 'Paris has been the capital since 987.',
+        },
+      ],
+    })),
+  };
+});
+
+function due(itemId: string, moduleId = 'm1'): ReviewState {
+  const t = Date.now() - 3 * 86_400_000;
+  return {
+    moduleId,
+    itemId,
+    easinessFactor: 2.5,
+    intervalDays: 2,
+    repetitions: 1,
+    dueAt: t,
+    lastReviewedAt: t,
+    lastQuality: 4,
+    updatedAt: t,
+    stability: 2.3,
+    difficulty: 5,
+  };
+}
+
+function renderReview(path = '/review') {
   return render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={[path]}>
       <ReviewPage />
     </MemoryRouter>,
   );
@@ -22,80 +88,86 @@ beforeEach(async () => {
   await Promise.all(db.tables.map((t) => t.clear()));
 });
 
-describe('ReviewPage (§13 roadmap, D-021)', () => {
-  it('shows a friendly empty state when nothing is due', async () => {
+describe('ReviewPage (D-033)', () => {
+  it('explains how the queue fills when nothing has ever been tracked', async () => {
     renderReview();
-
-    expect(
-      await screen.findByText('Nothing due for review right now — nice work!'),
-    ).toBeInTheDocument();
+    expect(await screen.findByText('Your review queue fills up as you learn')).toBeInTheDocument();
   });
 
-  it('shows a due item with Again/Good buttons; grading it advances and empties the queue', async () => {
-    const now = Date.now();
-    await db.reviewState.put({
-      moduleId: 'm1',
-      itemId: 'flashcards:deck.json:0',
-      easinessFactor: 2.5,
-      intervalDays: 0,
-      repetitions: 0,
-      dueAt: now - 1000,
-      lastReviewedAt: now - 1000,
-      lastQuality: 2,
-      updatedAt: now - 1000,
-    });
-
+  it('asks the real question; a sure, correct answer is marked and scheduled', async () => {
+    await db.reviewState.put(due('screen:l1:capital'));
     const user = userEvent.setup();
     renderReview();
 
-    expect(await screen.findByText(/Reviewing 1 of 1 due/)).toBeInTheDocument();
-    expect(screen.getByText('m1')).toBeInTheDocument();
-    expect(screen.getByText('flashcards:deck.json:0')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Go to module' })).toHaveAttribute(
-      'href',
-      '/module/m1',
-    );
+    expect(await screen.findByText(/1 item to review/)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Start review' }));
 
-    const goodButton = screen.getByRole('button', { name: 'Good' });
-    await user.click(goodButton);
+    expect(await screen.findByText('Capital of France?')).toBeInTheDocument();
+    expect(screen.getByText(/Lesson One · Module One/)).toBeInTheDocument();
+    // Can't lock in before answering.
+    expect(screen.getByRole('button', { name: 'Sure' })).toBeDisabled();
 
-    // recordReview schedules the item at least a day out (SM-2-lite), so the
-    // live due-items query drops it and the empty state reappears.
-    expect(
-      await screen.findByText('Nothing due for review right now — nice work!'),
-    ).toBeInTheDocument();
+    await user.click(screen.getByRole('radio', { name: 'Paris' }));
+    await user.click(screen.getByRole('button', { name: 'Sure' }));
+    expect(screen.getByText('Correct!')).toBeInTheDocument();
+    expect(screen.getByText('Paris has been the capital since 987.')).toBeInTheDocument();
 
-    const row = await db.reviewState.get(['m1', 'flashcards:deck.json:0']);
-    expect(row?.dueAt).toBeGreaterThan(now);
-    expect(row?.lastQuality).toBe(4); // GRADE_QUALITY.good
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+    expect(await screen.findByText('Session complete')).toBeInTheDocument();
+    expect(screen.getByText('1/1')).toBeInTheDocument();
+
+    await vi.waitFor(async () => {
+      const row = await db.reviewState.get(['m1', 'screen:l1:capital']);
+      expect(row!.stability!).toBeGreaterThan(2.3); // a spaced success grows stability
+      expect(row!.dueAt).toBeGreaterThan(Date.now());
+      const cal = await db.kv.get('calibration');
+      expect(cal!.value).toMatchObject({ sure: { answered: 1, correct: 1 } });
+    });
   });
 
-  it('grading "Again" also reschedules the item out of the due list', async () => {
-    const now = Date.now();
-    await db.reviewState.put({
-      moduleId: 'm2',
-      itemId: 'quiz:q1:q1',
-      easinessFactor: 2.5,
-      intervalDays: 0,
-      repetitions: 0,
-      dueAt: now - 1000,
-      lastReviewedAt: now - 1000,
-      lastQuality: 2,
-      updatedAt: now - 1000,
-    });
-
+  it('a confident mistake gets hypercorrection feedback, then comes back once in-session', async () => {
+    await db.reviewState.put(due('screen:l1:capital'));
     const user = userEvent.setup();
-    renderReview();
+    renderReview('/review?start=1'); // ?start=1 skips the intro
 
-    expect(await screen.findByText(/Reviewing 1 of 1 due/)).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'Again' }));
+    await user.click(await screen.findByRole('radio', { name: 'Lyon' }));
+    await user.click(screen.getByRole('button', { name: 'Sure' }));
+    expect(screen.getByText('You were sure — and it was something else.')).toBeInTheDocument();
+    expect(screen.getByText('Lyon is the third-largest city.')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
 
-    await waitFor(async () => {
-      const row = await db.reviewState.get(['m2', 'quiz:q1:q1']);
-      expect(row?.dueAt).toBeGreaterThan(now);
+    // Relearning pass.
+    expect(await screen.findByText(/Second pass/)).toBeInTheDocument();
+    await user.click(screen.getByRole('radio', { name: 'Paris' }));
+    await user.click(screen.getByRole('button', { name: 'Think so' }));
+    await user.click(screen.getByRole('button', { name: 'Continue' }));
+
+    expect(await screen.findByText('Session complete')).toBeInTheDocument();
+    expect(screen.getByText('0/1')).toBeInTheDocument();
+    expect(screen.getByText('Confident mistakes fixed')).toBeInTheDocument();
+
+    await vi.waitFor(async () => {
+      const row = await db.reviewState.get(['m1', 'screen:l1:capital']);
+      expect(row!.lapses).toBe(1);
+      expect(row!.intervalDays).toBeLessThanOrEqual(2); // relearned, but due again soon
     });
-    expect(
-      await screen.findByText('Nothing due for review right now — nice work!'),
-    ).toBeInTheDocument();
+  });
+
+  it('drops items whose content no longer exists', async () => {
+    await db.reviewState.put(due('screen:l1:deleted-screen'));
+    renderReview();
+    expect(await screen.findByText('Your review queue fills up as you learn')).toBeInTheDocument();
+    expect(await db.reviewState.count()).toBe(0);
+  });
+});
+
+describe('whenDue', () => {
+  it('phrases due times coarsely', () => {
+    const now = new Date(2026, 5, 10, 9, 0).getTime();
+    expect(whenDue(now - 1, now)).toBe('now');
+    expect(whenDue(now + 30 * 60_000, now)).toBe('within the hour');
+    expect(whenDue(now + 5 * 3_600_000, now)).toBe('later today');
+    expect(whenDue(now + 24 * 3_600_000, now)).toBe('tomorrow');
+    expect(whenDue(now + 4 * 86_400_000, now)).toBe('in 4 days');
   });
 });

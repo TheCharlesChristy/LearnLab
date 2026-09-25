@@ -1,11 +1,13 @@
-import { expect, test } from '@playwright/test';
+// Loader shim (same convention as the other e2e/*.spec.ts files): vitest's
+// default include picks up e2e/*.spec.ts, but this suite is a Playwright test
+// (Playwright's test() throws outside `playwright test`). Under vitest this
+// registers one skipped placeholder; under Playwright it loads the real
+// suite from ./v2-rollout.pw.ts.
+if (process.env.VITEST) {
+  const { test } = await import('vitest');
+  test.skip('Playwright e2e suite — run with `npx playwright test` (see e2e/v2-rollout.pw.ts)', () => {});
+} else {
+  await import('./v2-rollout.pw');
+}
 
-test.describe('A4 v2 rollout boundary', () => {
-  test('default-disabled v2 preserves the v1 catalogue and bounds unknown routes', async ({ page }) => {
-    await page.goto('/');
-    await expect(page.getByRole('heading', { name: 'Mathematics', exact: true })).toBeVisible();
-
-    await page.goto('/#/experience/unsupported-fixture');
-    await expect(page.getByRole('heading', { name: 'Page not found' })).toBeVisible();
-  });
-});
+export {};

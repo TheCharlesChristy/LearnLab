@@ -93,7 +93,14 @@ re-ranking as circumstances change:
 
 ## The capability backlog, ranked
 
-### 1. Cross-module spaced retrieval scheduling
+### 1. Cross-module spaced retrieval scheduling — DELIVERED (D-033)
+Shipped as the retention loop (`docs/UX_GAP_ANALYSIS.md`): every checkpoint screen and quiz
+question seeds the queue, `src/review` resolves items back into real questions, sessions are
+capped at 12 / most-at-risk first / interleaved across modules / missed items relearned in-session,
+and scheduling is FSRS-6 (`src/progress/fsrs.ts`, pinned to py-fsrs outputs) rather than the
+fixed ladder sketched below. Still open: `manipulable-target` screens aren't reviewable, and
+review re-asks the *same* item — item 6 (parameterised questions) is now the biggest multiplier
+on this loop. Original rationale kept below.
 **What:** a per-learner review queue that resurfaces previously-mastered items
 (flashcards, assessment questions) at expanding intervals (e.g. 1 d / 3 d / 7 d / 21 d,
 adjusted by recall success) across module boundaries, surfaced as short mixed "review
@@ -126,7 +133,12 @@ pattern over existing widgets, no new learner model. **On shipping:** pedagogy s
 prediction-hook and widget-task patterns switch from the quiz workaround to the native
 prop.
 
-### 3. Two-tier questions and confidence marking
+### 3. Two-tier questions and confidence marking — HALF DELIVERED (D-033)
+Confidence shipped in review, not in lessons: every auto-marked review answer is locked in as
+Guessing / Think so / Sure, a correct guess schedules as `hard`, a confident error gets
+hypercorrection feedback, and lifetime calibration totals live in kv `calibration`
+(`src/progress/calibration.ts`). The two-tier "because…" question type (3a) is still open, and
+lesson checkpoints deliberately don't ask for confidence (keeps the lesson flow light).
 **What:** (a) a `two-tier` question type: an answer tier plus a "because…" reason tier,
 marked as a pair; (b) an optional confidence selector (sure / think so / guessing) on
 existing question types, feeding feedback routing and analytics. **Why:** two-tier
@@ -231,6 +243,19 @@ relatedness is the one self-determination-theory lever the platform doesn't touc
 full peer features carry moderation/safety cost and mixed learning evidence — hence
 last, and aggregate-first. Avoid competitive leaderboards as a default: they demotivate
 exactly the learners furthest behind.
+
+## Retention-loop contract (D-033) — keep it intact when extending
+
+- **A new checkpoint-style screen type must report `onOutcome`** (`src/screens/screen-def.ts`)
+  when the learner completes it, and needs a matching card mapping in `cardFromScreen`
+  (`src/review/resolve.ts`) — otherwise its content silently never comes back for review.
+- **A new question type** needs a `cardFromQuestion` mapping and marking inside
+  `src/review/ReviewCard.tsx`, not just the quiz engine.
+- **Scheduling goes through `recordReview`/`seedReviewItem`** with the 4-grade scale; never
+  write `reviewState` rows directly, and keep the SM-2 fields populated (older readers of an
+  export rely on them).
+- **Review rewards stay recall-linked** (`review-session-complete` pays per correct first-ask
+  recall only).
 
 ## Engagement mechanics: guardrails on the existing layer
 

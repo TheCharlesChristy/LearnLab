@@ -63,8 +63,15 @@ export interface ReviewState {
   repetitions: number; // consecutive "good" grades; resets to 0 on "again"
   dueAt: number; // epoch ms
   lastReviewedAt: number;
-  lastQuality: number; // 2 ("again") or 4 ("good") — see GRADE_QUALITY in srs.ts
+  lastQuality: number; // 2 again / 3 hard / 4 good / 5 easy — see GRADE_QUALITY in srs.ts
   updatedAt: number;
+  // D-033 (FSRS-6 scheduling, src/progress/fsrs.ts) — optional and additive:
+  // rows written before D-033 lack them and are converted on their next
+  // review via memoryFromLegacy(); the SM-2 fields above stay populated so
+  // an older app reading a newer export still sees a valid row.
+  stability?: number; // FSRS stability, days
+  difficulty?: number; // FSRS difficulty, 1-10
+  lapses?: number; // times graded "again" after being remembered at least once
 }
 
 // §5.5 export file shape (FR-PROG-003). exportVersion 2 adds `reviewState`

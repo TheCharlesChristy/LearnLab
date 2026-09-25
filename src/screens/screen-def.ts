@@ -18,6 +18,20 @@ export interface ScreenRunnerProps<S extends Screen = Screen> {
   total: number;
   /** Advance to the next screen (or finish, on the last). Call only once the screen is genuinely complete. */
   onAdvance: () => void;
+  /**
+   * Retrieval-evidence hook (D-033), for checkpoint screens that can be
+   * re-asked later in a review session: report whether the learner got it
+   * on their first attempt (for `flash-recall`, their self-grade). May be
+   * called more than once; the engine commits the latest report when the
+   * learner advances, seeding the screen into the spaced-review queue.
+   * Non-checkpoint screens (predict, reveal-mechanism, manipulable-target)
+   * never call it.
+   */
+  onOutcome?: (outcome: ScreenOutcome) => void;
+}
+
+export interface ScreenOutcome {
+  firstTry: boolean;
 }
 
 export interface ScreenDef<S extends Screen = Screen> {

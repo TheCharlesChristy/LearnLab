@@ -1,5 +1,18 @@
 # LearnLab skill set: what changed and why
 
+## Follow-up: the retention loop (D-033)
+
+Lesson checkpoints and quiz questions now come back in real spaced-review sessions
+(`docs/UX_GAP_ANALYSIS.md`). Skill changes, no content changes:
+
+- **`learnlab-lesson-pedagogy`** gains "Checkpoints must survive review": every seeded screen type
+  is re-asked out of lesson context, so prompts must carry their own givens, avoid back-references,
+  keep teaching explanations, and keep stable `id`s. The final self-check gains a matching review
+  pass.
+- **`learnlab-extend-platform`** marks backlog item 1 delivered and item 3 half-delivered
+  (confidence yes, two-tier no), and adds the retention-loop contract that new screen/question
+  types must honour (`onOutcome`, resolver card mapping, 4-grade scheduling API).
+
 ## Follow-up: give the rewrite a narrative voice
 
 Post-merge feedback on the Brilliant rewrite: the mechanics landed well, but `differentiation-1`

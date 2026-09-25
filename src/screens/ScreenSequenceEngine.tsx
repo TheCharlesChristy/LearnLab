@@ -10,21 +10,38 @@
 // a reload resumes where the learner left off, and each screen completion
 // fires notifyEngagement({kind:'screen-complete'}) so the existing points/
 // streak/celebration layer reacts per screen, not just per lesson.
+//
+// Retrieval evidence (D-033): checkpoint screens report a first-try outcome
+// via `onOutcome`; on advance the engine seeds that screen into the spaced-
+// review queue (item id `screen:<lessonId>:<screenId>`, mirroring
+// screenReviewItemId in src/progress/srs.ts) — `good` if the learner got it
+// first time, `again` (due tomorrow) if they needed feedback or hints. This
+// is what connects the primary lesson format to spaced retrieval: without
+// it, nothing a learner did in a lesson would ever come back.
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import { LessonContext } from '../content';
 import { Spinner } from '../ui';
 
 import { screenRegistry } from './registry';
+import type { ScreenOutcome } from './screen-def';
 import type { ScreenSequence } from './types';
+
+/** What this run of the lesson produced — shown in the lesson-complete debrief. */
+export interface LessonRunSummary {
+  /** Checkpoint screens completed in this run (resumed runs count only what was done now). */
+  checkpoints: number;
+  /** Of those, answered correctly on the first attempt. */
+  firstTry: number;
+}
 
 export interface ScreenSequenceEngineProps {
   sequence: ScreenSequence;
   /** Used to namespace the itemState key and each screen's screenKey. */
   lessonId: string;
   /** Called once, when the learner advances past the last screen. */
-  onSequenceComplete: () => void;
+  onSequenceComplete: (summary: LessonRunSummary) => void;
 }
 
 interface SavedPosition {
@@ -57,6 +74,10 @@ export function ScreenSequenceEngine({
   // advance() — and therefore notifyEngagement({kind:'screen-complete'}) and
   // onSequenceComplete() — again on every repeat click.
   const [finished, setFinished] = useState(false);
+  // Latest outcome reported by the current screen (it may change its mind,
+  // e.g. a flash-recall self-grade), committed on advance.
+  const pendingOutcome = useRef<ScreenOutcome | null>(null);
+  const summary = useRef<LessonRunSummary>({ checkpoints: 0, firstTry: 0 });
 
   useEffect(() => {
     if (!ctx) return;
@@ -75,12 +96,20 @@ export function ScreenSequenceEngine({
 
   function advance() {
     if (index === null || finished) return;
+    const current = sequence.screens[index];
+    const outcome = pendingOutcome.current;
+    pendingOutcome.current = null;
+    if (current && outcome) {
+      summary.current.checkpoints += 1;
+      if (outcome.firstTry) summary.current.firstTry += 1;
+      void ctx?.seedReviewItem(`screen:${lessonId}:${current.id}`, outcome.firstTry ? 'good' : 'again');
+    }
     ctx?.notifyEngagement({ kind: 'screen-complete' });
     const next = index + 1;
     void ctx?.setItemState(itemId, { screenIndex: Math.min(next, total - 1) } satisfies SavedPosition);
     if (next >= total) {
       setFinished(true);
-      onSequenceComplete();
+      onSequenceComplete({ ...summary.current });
       return;
     }
     setIndex(next);
@@ -108,6 +137,9 @@ export function ScreenSequenceEngine({
       index={index}
       total={total}
       onAdvance={advance}
+      onOutcome={(o) => {
+        pendingOutcome.current = o;
+      }}
     />
   );
 }

@@ -4,13 +4,14 @@
 // zero-value placeholder, since "no engagement row yet" and "streak of zero"
 // aren't the same thing to show a brand-new learner.
 
-import { Award, Flame, Footprints, Gamepad2, Layers, Star, Trophy, type LucideIcon } from 'lucide-react';
+import { Award, Brain, Flame, Footprints, Gamepad2, Layers, Star, Trophy, type LucideIcon } from 'lucide-react';
 
 import { ACHIEVEMENTS, useEngagement } from '../progress';
 import { Card } from '../ui';
 
 const ACHIEVEMENT_ICONS: Record<string, LucideIcon> = {
   Footprints,
+  Brain,
   Flame,
   Trophy,
   Star,

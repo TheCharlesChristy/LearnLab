@@ -6,7 +6,7 @@
 import { useState } from 'react';
 
 import { MarkdownInline } from '../markdown';
-import { cx } from '../ui';
+import { choiceClassName } from '../ui';
 
 import { defineScreen } from './screen-def';
 import type { ScreenRunnerProps } from './screen-def';
@@ -39,13 +39,8 @@ function PredictScreenRunner({
               aria-checked={isSelected}
               disabled={committed !== null}
               onClick={() => setCommitted(i)}
-              className={cx(
-                'flex w-full items-center gap-2 rounded-md border px-3 py-2 text-left transition-colors motion-safe:duration-150',
-                'border-slate-300 hover:bg-indigo-50 disabled:cursor-default dark:border-slate-600 dark:hover:bg-slate-700',
-                isSelected &&
-                  'border-indigo-600 bg-indigo-50 dark:border-indigo-400 dark:bg-indigo-950/40',
-                isMarkedCorrect &&
-                  'border-emerald-600 bg-emerald-50 dark:border-emerald-400 dark:bg-emerald-950/30',
+              className={choiceClassName(
+                isMarkedCorrect ? 'correct' : isSelected ? 'selected' : 'idle',
               )}
             >
               <MarkdownInline markdown={choice} />

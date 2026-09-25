@@ -68,6 +68,9 @@ describe('pointsForEvent', () => {
     expect(pointsForEvent({ kind: 'lesson-complete' })).toBe(10);
     expect(pointsForEvent({ kind: 'flashcards-deck-complete' })).toBe(10);
     expect(pointsForEvent({ kind: 'game-complete' })).toBe(15);
+    // D-033: review points scale with successful retrievals only.
+    expect(pointsForEvent({ kind: 'review-session-complete', recalled: 5, reviewed: 8 })).toBe(10);
+    expect(pointsForEvent({ kind: 'review-session-complete', recalled: 0, reviewed: 8 })).toBe(0);
   });
 
   it('scales inline-quiz points with pass/perfect', () => {
@@ -140,6 +143,7 @@ describe('applyEngagementEvent (streak + points + achievements combined)', () =>
       { kind: 'quiz-finished', ratio: 1, perfect: true, isAssessment: true },
       { kind: 'flashcards-deck-complete' },
       { kind: 'game-complete' },
+      { kind: 'review-session-complete', recalled: 3, reviewed: 4 },
     ];
     let state = INITIAL_ENGAGEMENT_STATE;
     for (let i = 0; i < 7; i++) {

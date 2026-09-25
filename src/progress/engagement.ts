@@ -61,6 +61,8 @@ export function pointsForEvent(event: EngagementEvent): number {
       // on demonstrated correctness (never bare activity), but a whole
       // lesson's worth of screens must not out-earn 'lesson-complete'.
       return 2;
+    case 'review-session-complete':
+      return 2 * event.recalled;
     case 'quiz-finished': {
       const pass = event.ratio >= 0.5;
       if (!pass) return 0;
@@ -84,6 +86,12 @@ export const ACHIEVEMENTS: Achievement[] = [
   },
   { id: 'flashcards-deck', title: 'Card Shark', description: 'Clear a full flashcard deck.', icon: 'Layers' },
   { id: 'game-complete', title: 'Playtime', description: 'Finish an interactive game widget.', icon: 'Gamepad2' },
+  {
+    id: 'first-review',
+    title: 'Memory Builder',
+    description: 'Finish your first spaced review session.',
+    icon: 'Brain',
+  },
 ];
 
 export interface AchievementTotals {
@@ -107,6 +115,7 @@ const ACHIEVEMENT_CHECKS: Record<string, (i: AchievementInputs) => boolean> = {
   'perfect-assessment': (i) => i.event.kind === 'quiz-finished' && i.event.perfect && i.event.isAssessment,
   'flashcards-deck': (i) => i.event.kind === 'flashcards-deck-complete',
   'game-complete': (i) => i.event.kind === 'game-complete',
+  'first-review': (i) => i.event.kind === 'review-session-complete' && i.event.reviewed > 0,
 };
 
 /**

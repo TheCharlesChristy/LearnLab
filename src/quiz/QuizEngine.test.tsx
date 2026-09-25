@@ -128,10 +128,12 @@ describe('QuizEngine flow (FR-QUIZ-001)', () => {
     expect(onFinished).toHaveBeenCalledWith({ score: 1, maxScore: 2 });
     await waitFor(() => expect(recordAttempt).toHaveBeenCalledTimes(1));
 
-    // §13 roadmap (D-021/D-022): the missed numeric question (q-num) is
-    // seeded into the review queue; the correctly-answered mcq (q-mcq) is not.
-    expect(ctx.seedReviewItem).toHaveBeenCalledTimes(1);
-    expect(ctx.seedReviewItem).toHaveBeenCalledWith('flow-quiz:q-num');
+    // §13 roadmap (D-021/D-022, D-033): every answered question is seeded
+    // into the review queue — the missed numeric question (q-num) as
+    // "again", the correctly-answered mcq (q-mcq) as "good".
+    expect(ctx.seedReviewItem).toHaveBeenCalledTimes(2);
+    expect(ctx.seedReviewItem).toHaveBeenCalledWith('flow-quiz:q-num', 'again');
+    expect(ctx.seedReviewItem).toHaveBeenCalledWith('flow-quiz:q-mcq', 'good');
 
     // Delight layer: reports the finished attempt through notifyEngagement,
     // never by importing src/progress directly (§3.5).

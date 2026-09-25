@@ -367,6 +367,25 @@ which already fires on every screen completion as well as lesson/quiz/deck/game 
 content-level reward language ("+10 points for you!") is banned in any `prompt`/`feedback`/
 `successFeedback` string — rewards untethered from mastery measurably erode intrinsic motivation.
 
+## Checkpoints must survive review
+
+Every `tap-choice`, `entry`, `faded-step`, `flash-recall` and `sort-match` screen comes back later
+in the learner's spaced-review queue (D-033), asked on its own, out of the lesson, with only the
+lesson and module title shown above it. Write checkpoints so they still work cold:
+
+- **Carry the givens in the prompt.** The throughline can stay ("the car's distance is $x^2$ m
+  after $x$ s — how fast is it going at $x=3$?"), but the numbers and the function it needs must be
+  in *this* `prompt` (or, for `faded-step`, in `worked`), not three screens earlier.
+- **No back-references.** "As we just saw", "the previous graph", "your prediction" all break in
+  review. Name the thing instead.
+- **Explanations teach on their own.** `successFeedback` is shown as the explanation after a review
+  answer. It should state the reasoning, not just "Exactly — like before".
+- **Keep screen `id`s stable** once a lesson ships; renaming one orphans every learner's scheduled
+  review of it.
+
+`predict`, `reveal-mechanism` and `manipulable-target` are never seeded, so they can lean on the
+lesson context freely.
+
 ## Module assessments: mix formats and reach backward
 
 `assessment.json` is unchanged by the screens rewrite — every module still ships one end-of-module
@@ -432,6 +451,9 @@ Go through this literally, screen by screen:
     prerequisite.
 11. Close resolves the opening prediction by name and hands off forward.
 12. Level dial setting held consistently (narrative dosage, fading depth, tone).
-13. Mechanics pass: everything in learnlab-author-content's own checklist (dash grep, schema
+13. Review pass (D-033): read each `tap-choice`/`entry`/`faded-step`/`flash-recall`/`sort-match`
+    prompt in isolation. Every given it needs is on that screen, and nothing says "as we just
+    saw".
+14. Mechanics pass: everything in learnlab-author-content's own checklist (dash grep, schema
     validity, MVC, hand-verified answers, the tolerance/keyboard-step check) still applies on top
     of this list — this skill adds to that bar, it never replaces it.

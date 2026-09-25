@@ -18,9 +18,15 @@ function FlashRecallScreenRunner({
   index,
   total,
   onAdvance,
+  onOutcome,
 }: ScreenRunnerProps<FlashRecallScreenType>) {
   const [revealed, setRevealed] = useState(false);
-  const [grade, setGrade] = useState<'again' | 'good' | null>(null);
+  const [grade, setGradeState] = useState<'again' | 'good' | null>(null);
+
+  function setGrade(g: 'again' | 'good') {
+    setGradeState(g);
+    onOutcome?.({ firstTry: g === 'good' });
+  }
 
   return (
     <ScreenShell index={index} total={total} canAdvance={grade !== null} onAdvance={onAdvance}>

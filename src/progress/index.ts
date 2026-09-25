@@ -26,7 +26,10 @@ export {
   onWriteError,
   recordAttempt,
   recordEngagementEvent,
+  recordCalibration,
   recordReview,
+  removeReviewItem,
+  scheduleReview,
   seedReviewItem,
   setItemState,
   getItemState,
@@ -36,7 +39,11 @@ export {
 } from './db';
 
 export {
+  forecastReviews,
   useAllReviewItems,
+  useCalibration,
+  useLastLessonActivity,
+  useReviewForecast,
   useAttempts,
   useBestAttempt,
   useCourseProgress,
@@ -48,6 +55,8 @@ export {
   useModuleState,
   useOverallProgress,
   type CourseProgress,
+  type ModuleMemory,
+  type ReviewForecast,
 } from './hooks';
 
 export {
@@ -63,10 +72,34 @@ export { requestPersistentStorage, KV_PERSISTENT, KV_PERSIST_REQUESTED } from '.
 export {
   GRADE_QUALITY,
   INITIAL_SM2_STATE,
+  MS_PER_DAY,
   flashcardReviewItemId,
   quizReviewItemId,
+  screenReviewItemId,
   sm2Step,
   sm2StepLite,
   type ReviewGrade,
   type Sm2State,
 } from './srs';
+
+export {
+  DESIRED_RETENTION,
+  GRADE_RATING,
+  nextIntervalDays,
+  retrievability,
+  type FsrsMemory,
+} from './fsrs';
+
+export {
+  CALIBRATION_MIN_SAMPLE,
+  CONFIDENCE_LABELS,
+  CONFIDENCE_LEVELS,
+  EMPTY_CALIBRATION,
+  accuracy,
+  calibrationInsight,
+  gradeForAnswer,
+  isConfidentError,
+  type CalibrationBucket,
+  type CalibrationState,
+  type Confidence,
+} from './calibration';

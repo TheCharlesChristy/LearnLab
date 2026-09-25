@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react';
 
 import { cx } from './cx';
 
@@ -7,6 +7,8 @@ export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'ghost';
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   children: ReactNode;
+  /** React 19: `ref` is a plain prop, forwarded to the <button> (e.g. to move focus). */
+  ref?: Ref<HTMLButtonElement>;
 }
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {

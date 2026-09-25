@@ -34,6 +34,7 @@ function SortMatchScreenRunner({
   index,
   total,
   onAdvance,
+  onOutcome,
 }: ScreenRunnerProps<SortMatchScreenType>) {
   const { pairs } = screen;
   const rightOrder = useMemo(() => {
@@ -48,6 +49,7 @@ function SortMatchScreenRunner({
   const [selectedLeft, setSelectedLeft] = useState<number | null>(null);
   const [selectedRight, setSelectedRight] = useState<number | null>(null);
   const [mismatch, setMismatch] = useState<{ left: number; right: number } | null>(null);
+  const [mismatches, setMismatches] = useState(0);
 
   const complete = matched.size === pairs.length;
 
@@ -56,11 +58,13 @@ function SortMatchScreenRunner({
       const next = new Set(matched);
       next.add(leftIndex);
       setMatched(next);
+      if (next.size === pairs.length) onOutcome?.({ firstTry: mismatches === 0 });
       setSelectedLeft(null);
       setSelectedRight(null);
       return;
     }
     setMismatch({ left: leftIndex, right: rightIndex });
+    setMismatches((n) => n + 1);
     window.setTimeout(() => {
       setMismatch(null);
       setSelectedLeft(null);

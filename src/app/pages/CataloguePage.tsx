@@ -9,6 +9,7 @@ import { Badge, Card, ProgressBar, Spinner } from '../../ui';
 import { loadContentIndex } from '../content-api';
 import type { CourseRef } from '../content-api';
 import { LEVEL_LABELS, RetryCard } from '../shared';
+import { TodayPanel } from '../TodayPanel';
 import { useAsyncData } from '../useAsyncData';
 
 function coursePercent(course: CourseRef, moduleStates: ModuleState[] | undefined): number {
@@ -75,6 +76,7 @@ export default function CataloguePage() {
   return (
     <div>
       <h1 className="sr-only">Course catalogue</h1>
+      <TodayPanel />
       {subjects.map((subject) => (
         <section key={subject.id} aria-labelledby={`subject-${subject.id}`} className="mb-8">
           <h2 id={`subject-${subject.id}`} className="mb-3 text-xl font-bold">

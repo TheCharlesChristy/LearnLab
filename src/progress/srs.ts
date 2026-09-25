@@ -4,14 +4,21 @@
 // committing via recordReview() in ./db.
 
 /**
- * "Lite" grading scale: two buttons, matching flashcards' existing UX
- * (src/widgets/flashcards) exactly, rather than full SM-2's 0-5 quality
- * scale. `again` resets the streak; `good` grows the interval.
+ * Grading scale shared with the FSRS scheduler (./fsrs.ts, D-033). The
+ * original D-021 "lite" scale was two buttons (again/good, matching the
+ * flashcards widget); `hard` and `easy` were added so auto-marked review
+ * items can report a lucky guess or an effortless recall. The two original
+ * grades keep their meaning.
  */
-export type ReviewGrade = 'again' | 'good';
+export type { ReviewGrade } from './fsrs';
+import type { ReviewGrade } from './fsrs';
 
-/** D-021: fixed quality values standing in for full SM-2's 0-5 scale. */
-export const GRADE_QUALITY: Record<ReviewGrade, number> = { again: 2, good: 4 };
+/**
+ * Fixed SM-2 quality values per grade. Still written to
+ * `ReviewState.lastQuality` so older readers of an export see a sensible
+ * value (D-021: again 2, good 4; D-033 adds hard 3, easy 5).
+ */
+export const GRADE_QUALITY: Record<ReviewGrade, number> = { again: 2, hard: 3, good: 4, easy: 5 };
 
 export interface Sm2State {
   easinessFactor: number;
@@ -47,7 +54,7 @@ export function sm2Step(state: Sm2State, quality: number): Sm2State {
 }
 
 /** `sm2Step` specialised to the lite 2-button grade scale. */
-export function sm2StepLite(state: Sm2State, grade: ReviewGrade): Sm2State {
+export function sm2StepLite(state: Sm2State, grade: 'again' | 'good'): Sm2State {
   return sm2Step(state, GRADE_QUALITY[grade]);
 }
 
@@ -58,7 +65,17 @@ export function flashcardReviewItemId(src: string, cardIndex: number): string {
   return `flashcards:${src}:${cardIndex}`;
 }
 
-/** The quiz item-id namespace for a missed question within a given quiz/assessment item. */
-export function quizReviewItemId(itemId: string, questionId: string): string {
-  return `quiz:${itemId}:${questionId}`;
+/**
+ * The quiz item-id namespace for a question within a given quiz/assessment.
+ * Matches what QuizEngine has always seeded (`${quizId}:${questionId}`, no
+ * prefix); the review resolver (src/review) treats any id without a known
+ * prefix as a quiz item.
+ */
+export function quizReviewItemId(quizId: string, questionId: string): string {
+  return `${quizId}:${questionId}`;
+}
+
+/** The screen-lesson item-id namespace (D-033): one checkpoint screen in one lesson. */
+export function screenReviewItemId(lessonId: string, screenId: string): string {
+  return `screen:${lessonId}:${screenId}`;
 }

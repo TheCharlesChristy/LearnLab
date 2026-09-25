@@ -35,14 +35,15 @@ export interface LessonContextValue {
    * assembles it" precedent as recordAttempt/getItemState. Fire-and-forget;
    * errors surface via the progress layer's onWriteError → toast.
    */
-  recordReview: (itemId: string, grade: 'again' | 'good') => Promise<void>;
+  recordReview: (itemId: string, grade: 'again' | 'hard' | 'good' | 'easy') => Promise<void>;
   /**
-   * Add an item to the review queue as if just graded "again", but ONLY if
-   * it isn't already tracked — used to seed a missed quiz/assessment
-   * question into the queue on first miss without disturbing a real
-   * schedule a learner may already be progressing through.
+   * Add an item to the review queue, graded by the learner's first encounter
+   * with it (default "again" — a miss), but ONLY if it isn't already tracked
+   * — used to seed quiz/assessment questions and lesson checkpoint screens
+   * (D-033) without disturbing a real schedule a learner may already be
+   * progressing through.
    */
-  seedReviewItem: (itemId: string) => Promise<void>;
+  seedReviewItem: (itemId: string, grade?: 'again' | 'hard' | 'good' | 'easy') => Promise<void>;
   /**
    * Report a delight-layer milestone (quiz finished, flashcard deck cleared,
    * a game widget completed) so the app can award points/streak progress and

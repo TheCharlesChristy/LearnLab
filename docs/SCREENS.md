@@ -27,6 +27,8 @@ Every screen object is a discriminated union on `type` — see the sections belo
 
 **Closed set.** There are exactly eight registered screen types, listed below. If a task needs a ninth, that is a `src/`-level engine change — stop and hand it to the **learnlab-extend-platform** skill rather than inventing a `type` value; an unrecognised `type` fails schema validation, it does not degrade gracefully.
 
+**Checkpoints come back in review (D-033).** Every `tap-choice`, `entry`, `faded-step`, `flash-recall` and `sort-match` screen is seeded into the learner's spaced-review queue when they advance past it, as item `screen:<lessonId>:<screenId>` (graded `good` if they got it first time, `again` if they needed feedback or hints). The Review page later asks the *same screen content* again, out of lesson context, with only the lesson and module title as a header. Two consequences for authors: write checkpoint `prompt`s that still make sense cold (see learnlab-lesson-pedagogy, "Checkpoints must survive review"), and treat a screen's `id` as stable. Renaming or deleting a checkpoint's `id` orphans every learner's scheduled review of it (the app drops unresolvable items quietly, so their history is lost, not broken). `predict`, `reveal-mechanism` and `manipulable-target` are never seeded.
+
 **No separate keys file to check.** Unlike widgets (whose `::widget type=` is a free-form Markdown attribute string cross-checked at build time against `schemas/widget-keys.json`), a screen's `type` is a first-class JSON Schema field validated directly by Ajv's `oneOf`/`discriminator` against `schemas/screen-sequence.schema.json` — there is nothing to keep in sync beyond that schema file and this doc.
 
 ---

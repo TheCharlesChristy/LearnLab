@@ -236,13 +236,16 @@ function QuizAttempt({
         }
       })();
 
-      // §13 roadmap (D-021/D-022): seed each missed question into the
-      // spaced-repetition queue so it resurfaces later, independent of
-      // whether the learner ever revisits this quiz. seedReviewItem() is a
-      // no-op for an already-tracked item, so retries don't disturb a real
-      // in-progress review schedule — fire-and-forget, same as setItemState.
+      // §13 roadmap (D-021/D-022, widened by D-033): seed every answered
+      // question into the spaced-repetition queue so it resurfaces later,
+      // independent of whether the learner ever revisits this quiz — a miss
+      // as "again" (due tomorrow), a correct answer as "good" (successive
+      // relearning: one correct recall is not durable learning; re-retrieval
+      // across spaced sessions is). seedReviewItem() is a no-op for an
+      // already-tracked item, so retries don't disturb a real in-progress
+      // review schedule — fire-and-forget, same as setItemState.
       for (const r of allResponses) {
-        if (!r.correct) void lessonCtx.seedReviewItem(`${quiz.id}:${r.questionId}`);
+        void lessonCtx.seedReviewItem(`${quiz.id}:${r.questionId}`, r.correct ? 'good' : 'again');
       }
 
       // Delight layer (not SRS-normative): report the finished attempt so the

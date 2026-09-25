@@ -13,7 +13,9 @@ import {
   onWriteError,
   recordAttempt,
   recordEngagementEvent,
+  recordCalibration,
   recordReview,
+  removeReviewItem,
   seedReviewItem,
   setItemState,
   touchLesson,
@@ -240,15 +242,17 @@ describe('kv', () => {
 });
 
 describe('recordReview / dueReviewItems / seedReviewItem (§13 roadmap, D-021)', () => {
-  it('creates a row on first grade with SM-2-lite state, due in the future', async () => {
+  it('creates a row on first grade with FSRS state, due in the future (D-033)', async () => {
     const before = Date.now();
     await recordReview('m1', 'flashcards:deck:0', 'good');
     const row = await db.reviewState.get(['m1', 'flashcards:deck:0']);
     expect(row).toBeDefined();
     expect(row!.repetitions).toBe(1);
-    expect(row!.intervalDays).toBe(1);
-    expect(row!.easinessFactor).toBeCloseTo(2.5, 5); // q=4 leaves EF at 2.5 (delta 0)
-    expect(row!.dueAt).toBeGreaterThanOrEqual(before + 1 * 86_400_000);
+    expect(row!.stability).toBeCloseTo(2.3065, 4); // FSRS-6 initial stability for Good
+    expect(row!.intervalDays).toBe(2);
+    expect(row!.easinessFactor).toBeCloseTo(2.5, 5); // legacy SM-2 field kept populated
+    expect(row!.lastQuality).toBe(4);
+    expect(row!.dueAt).toBeGreaterThanOrEqual(before + 2 * 86_400_000);
   });
 
   it('"again" resets repetitions to 0 and schedules a 1-day interval', async () => {
@@ -260,13 +264,62 @@ describe('recordReview / dueReviewItems / seedReviewItem (§13 roadmap, D-021)',
     expect(row!.intervalDays).toBe(1);
   });
 
-  it('grows the interval by the easiness factor from the third repetition onward', async () => {
-    await recordReview('m1', 'flashcards:d:1', 'good'); // rep1 -> interval 1
-    await recordReview('m1', 'flashcards:d:1', 'good'); // rep2 -> interval 6
-    await recordReview('m1', 'flashcards:d:1', 'good'); // rep3 -> interval round(6*EF)
-    const row = await db.reviewState.get(['m1', 'flashcards:d:1']);
-    expect(row!.repetitions).toBe(3);
-    expect(row!.intervalDays).toBe(Math.round(6 * row!.easinessFactor));
+  it('a spaced success grows stability far more than a same-day repeat', async () => {
+    await recordReview('m1', 'flashcards:d:1', 'good');
+    await recordReview('m1', 'flashcards:d:1', 'good'); // same day: short-term rule
+    const sameDay = await db.reviewState.get(['m1', 'flashcards:d:1']);
+    expect(sameDay!.stability).toBeCloseTo(2.3065, 3);
+
+    // Backdate the last review by 2 days, then succeed again: a real spaced success.
+    await db.reviewState.update(['m1', 'flashcards:d:1'], {
+      lastReviewedAt: Date.now() - 2 * 86_400_000,
+    });
+    await recordReview('m1', 'flashcards:d:1', 'good');
+    const spaced = await db.reviewState.get(['m1', 'flashcards:d:1']);
+    expect(spaced!.repetitions).toBe(3);
+    expect(spaced!.stability!).toBeGreaterThan(4 * sameDay!.stability!);
+    expect(spaced!.intervalDays).toBe(11);
+  });
+
+  it('converts a pre-D-033 SM-2 row on its next review and counts lapses', async () => {
+    const now = Date.now();
+    await db.reviewState.put({
+      moduleId: 'm1',
+      itemId: 'legacy',
+      easinessFactor: 2.5,
+      intervalDays: 6,
+      repetitions: 2,
+      dueAt: now,
+      lastReviewedAt: now - 6 * 86_400_000,
+      lastQuality: 4,
+      updatedAt: now,
+    });
+    await recordReview('m1', 'legacy', 'again');
+    const row = await db.reviewState.get(['m1', 'legacy']);
+    expect(row!.stability).toBeDefined();
+    expect(row!.stability!).toBeLessThan(6);
+    expect(row!.difficulty!).toBeGreaterThan(5);
+    expect(row!.repetitions).toBe(0);
+    expect(row!.lapses).toBe(1);
+  });
+
+  it('seedReviewItem honours a first-encounter grade; removeReviewItem deletes', async () => {
+    await seedReviewItem('m1', 'screen:l1:s1', 'good');
+    expect((await db.reviewState.get(['m1', 'screen:l1:s1']))!.intervalDays).toBe(2);
+    await removeReviewItem('m1', 'screen:l1:s1');
+    expect(await db.reviewState.get(['m1', 'screen:l1:s1'])).toBeUndefined();
+  });
+
+  it('recordCalibration accumulates per-confidence totals in kv', async () => {
+    await recordCalibration('sure', true);
+    await recordCalibration('sure', false);
+    await recordCalibration('guess', true);
+    const row = await db.kv.get('calibration');
+    expect(row!.value).toEqual({
+      guess: { answered: 1, correct: 1 },
+      unsure: { answered: 0, correct: 0 },
+      sure: { answered: 2, correct: 1 },
+    });
   });
 
   it('dueReviewItems returns only items due at/before now, oldest first', async () => {
