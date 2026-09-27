@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "title": "Investigate the Great Fire of London",
+  "subject": {
+    "id": "history",
+    "title": "History"
+  },
+  "audience": "Curious secondary learners and adults, including people uninterested in history",
+  "level": "Introductory historical inquiry, no prior Great Fire study assumed",
+  "outcomes": [
+    "Separate observation from inference with explicit uncertainty",
+    "Evaluate provenance, purpose and limits of a historical source",
+    "Corroborate independent accounts using maps and chronology",
+    "Build a defensible multi-causal explanation and acknowledge alternatives"
+  ],
+  "prerequisites": [
+    "Read a short adapted source; read a labelled schematic map and chronological sequence"
+  ],
+  "scope": "Four source-based investigations of the September 1666 fire, its spread, accounts and explanations",
+  "excluded": [
+    "Complete Stuart political history",
+    "Definitive death toll",
+    "A single mechanically correct interpretation of contested evidence"
+  ],
+  "curriculum": "none; disciplinary historical reasoning",
+  "sources": [
+    "London Museum Great Fire and myths pages",
+    "Primary Pepys diary September 1666, provenance to verify before drafting",
+    "Digital Inquiry Group historical inquiry guidance"
+  ],
+  "playConcept": "A case file with maps and time-stamped evidence: inspect witnesses in different orders, distinguish seen from inferred, corroborate and assemble a defensible account with limits.",
+  "decisions": [
+    "Four short episodes chosen",
+    "Authored source adaptations will be explicitly labelled",
+    "Open causal claims use rubric reflection/human review, never runtime AI marking"
+  ],
+  "assumptions": [
+    "Timeline and map knowledge can be introduced through interactions"
+  ],
+  "openQuestions": [],
+  "delegated": [
+    "playConcept"
+  ]
+}

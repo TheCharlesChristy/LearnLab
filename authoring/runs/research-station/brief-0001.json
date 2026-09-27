@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "title": "Bring the research station back online",
+  "subject": {
+    "id": "physics",
+    "title": "Physics"
+  },
+  "audience": "Learners approaching A-level physics, with optional GCSE bridges; curious adult explorers welcome",
+  "level": "Introduction bridging GCSE to A-level DC circuits",
+  "outcomes": [
+    "Explain closed-path charge flow and distinguish current from charge",
+    "Interpret potential difference as energy per unit charge",
+    "Predict how resistance changes current in ideal DC circuits",
+    "Apply conservation of charge and energy to series and parallel networks",
+    "Use current and potential-difference measurements to test a hypothesis",
+    "Relate power and energy to a station component budget",
+    "Diagnose unfamiliar faults and justify a repair using independent evidence"
+  ],
+  "prerequisites": [
+    "Multiply, divide and rearrange a one-step relationship",
+    "Read decimal quantities and SI unit prefixes; bridging help provided"
+  ],
+  "scope": "Ten short investigations of ideal DC resistors, source and switches, conservation, measurement, power, open faults and repair; optional unrestricted exploration within the bounded model",
+  "excluded": [
+    "Capacitors and AC/transients",
+    "Non-ohmic devices, semiconductor electronics",
+    "Resistivity, internal resistance and potential dividers are left to the existing deeper electricity-dc course"
+  ],
+  "curriculum": "AQA 7408 electricity informed, not exam-board branded or full specification coverage",
+  "sources": [
+    "docs/laboratory/research-ledger.json",
+    "Existing electricity-dc module objectives and circuit-sim reference implementation"
+  ],
+  "playConcept": "A storm has isolated a research station. Restore useful equipment by constructing, measuring, predicting and diagnosing its real circuit states. More than one investigation order; experiments expose conservation.",
+  "decisions": [
+    "Owner delegated subject/design choices; ten episodes selected",
+    "Extend src/v2 runtime additively",
+    "Ship ideal bounded resistor model and label its limits"
+  ],
+  "assumptions": [
+    "5 to 12 minutes per core episode is an estimate",
+    "Basic ratios can be bridged without locking entry"
+  ],
+  "openQuestions": [],
+  "delegated": [
+    "playConcept"
+  ]
+}

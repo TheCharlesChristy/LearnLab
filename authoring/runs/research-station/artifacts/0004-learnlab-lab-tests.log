@@ -1,0 +1,171 @@
+
+> learnlab@0.1.0 test
+> vitest run --reporter=dot
+
+(node:20853) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ RUN  v4.1.8 /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab
+
+·········································································································stderr | src/widgets/geometry-canvas/GeometryCanvas.test.tsx > GeometryCanvas component > shows a retry card on fetch failure and retries on click
+[geometry-canvas] failed to load scenes/triangle.json Error: offline
+    at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/src/widgets/geometry-canvas/GeometryCanvas.test.tsx:197:30
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+··························stderr | src/widgets/geometry-canvas/GeometryCanvas.test.tsx > GeometryCanvas component > never throws an unhandled exception on a network error (shows a card instead)
+[geometry-canvas] failed to load scenes/triangle.json Error: network down
+    at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/src/widgets/geometry-canvas/GeometryCanvas.test.tsx:225:15
+    at Mock (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/spy/dist/index.js:332:34)
+    at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/src/widgets/geometry-canvas/GeometryCanvas.tsx:251:27
+    at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/src/widgets/geometry-canvas/GeometryCanvas.tsx:275:5
+    at Object.react_stack_bottom_frame (/home/charles/Desktop/Projects/LearnLab/node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+    at runWithFiberInDEV (/home/charles/Desktop/Projects/LearnLab/node_modules/react-dom/cjs/react-dom-client.development.js:874:13)
+    at commitHookEffectListMount (/home/charles/Desktop/Projects/LearnLab/node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+    at commitHookPassiveMountEffects (/home/charles/Desktop/Projects/LearnLab/node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+    at commitPassiveMountOnFiber (/home/charles/Desktop/Projects/LearnLab/node_modules/react-dom/cjs/react-dom-client.development.js:15484:13)
+    at recursivelyTraversePassiveMountEffects (/home/charles/Desktop/Projects/LearnLab/node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+
+···················stderr | src/widgets/circuit-sim/CircuitSim.test.tsx > CircuitSim component > shows a retry card on fetch failure and retries on click
+[circuit-sim] failed to load circuits/series.json Error: offline
+    at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/src/widgets/circuit-sim/CircuitSim.test.tsx:355:30
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+········stderr | src/widgets/logic-gate-sim/LogicGateSim.test.tsx > LogicGateSim component > shows a retry card on fetch failure and retries on click
+[logic-gate-sim] failed to load circuits/and.json Error: offline
+    at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/src/widgets/logic-gate-sim/LogicGateSim.test.tsx:347:30
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+···································································································································stderr | src/widgets/flashcards/Flashcards.test.tsx > Flashcards > shows a retry card on fetch failure and retries on click
+[flashcards] failed to load cards.json Error: offline
+    at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/src/widgets/flashcards/Flashcards.test.tsx:197:30
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+···············································································stderr | src/widgets/matching-pairs/MatchingPairs.test.tsx > MatchingPairs > shows a retry card on fetch failure and retries on click
+[matching-pairs] failed to load cards.json Error: offline
+    at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/src/widgets/matching-pairs/MatchingPairs.test.tsx:161:30
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+···················································································································································stderr | src/widgets/step-reveal/StepReveal.test.tsx > StepReveal > shows a retry card on fetch failure and retries on click
+[step-reveal] failed to load steps.json Error: offline
+    at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/src/widgets/step-reveal/StepReveal.test.tsx:109:30
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+·································stderr | src/widgets/data-plot/DataPlot.test.tsx > DataPlot > shows an error card on malformed JSON (no retry button — it parsed OK over the wire)
+[data-plot] failed to load data/broken.json SyntaxError: Unexpected token
+    at Object.json (/home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/src/widgets/data-plot/DataPlot.test.tsx:104:15)
+    at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/src/widgets/data-plot/DataPlot.tsx:154:25
+
+·stderr | src/widgets/data-plot/DataPlot.test.tsx > DataPlot > shows a retry card on fetch failure and retries on click
+[data-plot] failed to load data/v.json Error: network down
+    at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/src/widgets/data-plot/DataPlot.test.tsx:117:30
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20
+    at new Promise (<anonymous>)
+    at runWithCancel (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10)
+    at file:///home/charles/Desktop/Projects/LearnLab/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64
+
+·············stderr | src/review/ReviewCard.test.tsx > ReviewCard > entry: a wrong text answer shows the readable model answer
+In HTML, <p> cannot be a descendant of <p>.
+This will cause a hydration error.
+
+  <ReviewCard item={{moduleId:"m", ...}} attempt={0} onDone={function Mock}>
+    <MarkedCard item={{moduleId:"m", ...}} attempt={0} onDone={function Mock}>
+      <div>
+      <label>
+      <div aria-live="polite" className="mt-5 space...">
+        <p>
+>       <p className="text-sm">
+          <span className="font-semibold">
+            <MarkdownInline markdown="2n - 1">
+              <Markdown remarkPlugins={[...]} rehypePlugins={[...]} skipHtml={true} components={{...}}>
+>               <p>
+        ...
+
+<p> cannot contain a nested <p>.
+See this log for the ancestor stack trace.
+
+·········································stderr | src/screens/ScreenSequenceEngine.test.tsx > ScreenSequenceEngine retrieval evidence (D-033) > seeds checkpoints by first-try success and reports a run summary
+In HTML, <p> cannot be a descendant of <p>.
+This will cause a hydration error.
+
+  <ScreenSequenceEngine sequence={{...}} lessonId="lesson-a" onSequenceComplete={function Mock}>
+    <PredictScreenRunner screen={{type:"predict", ...}} screenKey="lesson-a:p1" index={0} total={3} ...>
+      <ScreenShell index={0} total={3} canAdvance={false} onAdvance={function advance}>
+        <section aria-label="Screen 1 of 3" className="mx-auto fl...">
+          <ProgressBar>
+          <div ref={{current:null}} className="rounded-lg...">
+>           <p className="text-lg font-medium">
+              <MarkdownInline markdown="Guess?">
+                <Markdown remarkPlugins={[...]} rehypePlugins={[...]} skipHtml={true} components={{...}}>
+>                 <p>
+            ...
+          ...
+
+<p> cannot contain a nested <p>.
+See this log for the ancestor stack trace.
+
+·······································································································································································stderr | src/python/components/__tests__/viz.test.tsx > Plot component > shows a loading fallback then renders the lazy chart
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+
+························································································································-··-···------·
+
+ Test Files  86 passed | 8 skipped (94)
+      Tests  896 passed | 8 skipped (904)
+   Start at  16:58:37
+   Duration  25.35s (transform 8.36s, setup 18.77s, import 27.51s, tests 81.82s, environment 120.79s)
+

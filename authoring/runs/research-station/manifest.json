@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "tool": "learnlab-author",
+  "startedAt": "2026-09-27T15:57:08.492Z",
+  "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+  "requestHash": "1b1326c2b2ef5e71d7cffcabde1159904d153f0af9bec177e9b133471d99123b",
+  "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+  "briefRevision": 1,
+  "plan": {
+    "file": "plan-0001.json",
+    "sha256": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32",
+    "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5"
+  },
+  "artifacts": [
+    {
+      "kind": "research",
+      "file": "artifacts/0001-research-ledger.json",
+      "sha256": "23659e1996fcdf70c71f44bb2388f2d148019fbc8233163b4d12059e5de95c5f",
+      "note": "",
+      "at": "2026-09-27T15:57:08.858Z",
+      "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0002-author-course.mjs",
+      "sha256": "db52673289f4d55d3c8f27e704e9152d7cdf7b6b01498653b3c77c0906e1fe00",
+      "note": "Executed local intake/planning tool source before episode authoring; Git baseline alone does not capture an uncommitted tool",
+      "at": "2026-09-27T15:59:41.086Z",
+      "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0003-contracts.mjs",
+      "sha256": "eb70904066e17266b456258f99c5728f01c535d32e73b4eed79b7176829d1288",
+      "note": "Executed intake/plan contract source",
+      "at": "2026-09-27T15:59:41.188Z",
+      "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0004-learnlab-lab-tests.log",
+      "sha256": "68c567e7d7ced1de6d730414c2403d5fcab72fccc43eb9a30f50fc260192161c",
+      "note": "896 passed, 8 skipped; authoring foundation and legacy regression, not rendered pilot evidence",
+      "at": "2026-09-27T15:59:41.490Z",
+      "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0005-learnlab-lab-build.log",
+      "sha256": "c946ddd62da3b6b9fce18dec8646f9ef632c1e212e282d476d422abf2d8f7a85",
+      "note": "Production build and all size budgets pass",
+      "at": "2026-09-27T15:59:41.594Z",
+      "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0006-learnlab-lab-lint.log",
+      "sha256": "7b93fb011a71bd18e90688d547778bbc6acea8178753931f3cba2484034e5199",
+      "note": "No errors; one pre-existing signal-scope warning",
+      "at": "2026-09-27T15:59:41.685Z",
+      "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0007-learnlab-lab-types.log",
+      "sha256": "9db56300b0bf5d5dd8f19cd445585168aec7f425300402b5c00501892fa29208",
+      "note": "TypeScript passes",
+      "at": "2026-09-27T15:59:41.779Z",
+      "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0008-learnlab-lab-baseline-validation.log",
+      "sha256": "872629d7122ad642fea3a1176c88393fa5b6d92996071e2a1cd58fd772bb5099",
+      "note": "9 courses, 78 modules strict validation baseline",
+      "at": "2026-09-27T15:59:41.891Z",
+      "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    }
+  ],
+  "history": [
+    {
+      "kind": "started",
+      "at": "2026-09-27T15:57:08.496Z"
+    },
+    {
+      "kind": "plan-verified",
+      "at": "2026-09-27T15:57:08.685Z",
+      "file": "plan-0001.json"
+    }
+  ]
+}

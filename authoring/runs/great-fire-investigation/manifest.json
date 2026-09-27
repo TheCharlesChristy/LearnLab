@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "tool": "learnlab-author",
+  "startedAt": "2026-09-27T15:57:09.054Z",
+  "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+  "requestHash": "6efa73de27644b63ff42755e8b568f1e76c4f1b22138fea16b42c007b8c2d8d2",
+  "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+  "briefRevision": 1,
+  "plan": {
+    "file": "plan-0001.json",
+    "sha256": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a",
+    "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2"
+  },
+  "artifacts": [
+    {
+      "kind": "research",
+      "file": "artifacts/0001-research-ledger.json",
+      "sha256": "23659e1996fcdf70c71f44bb2388f2d148019fbc8233163b4d12059e5de95c5f",
+      "note": "",
+      "at": "2026-09-27T15:57:09.437Z",
+      "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0002-author-course.mjs",
+      "sha256": "db52673289f4d55d3c8f27e704e9152d7cdf7b6b01498653b3c77c0906e1fe00",
+      "note": "Executed local intake/planning tool source before episode authoring",
+      "at": "2026-09-27T15:59:41.288Z",
+      "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0003-contracts.mjs",
+      "sha256": "eb70904066e17266b456258f99c5728f01c535d32e73b4eed79b7176829d1288",
+      "note": "Executed intake/plan contract source",
+      "at": "2026-09-27T15:59:41.387Z",
+      "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    }
+  ],
+  "history": [
+    {
+      "kind": "started",
+      "at": "2026-09-27T15:57:09.059Z"
+    },
+    {
+      "kind": "plan-verified",
+      "at": "2026-09-27T15:57:09.256Z",
+      "file": "plan-0001.json"
+    }
+  ]
+}

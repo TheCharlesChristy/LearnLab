@@ -5,8 +5,8 @@ description: Evidence-based rules for designing LearnLab screen sequences that m
 
 # Designing LearnLab lessons that actually teach
 
-Every rule in this skill comes from replicated learning-science findings (meta-analyses where
-available), translated into things you can do with LearnLab's screen-sequence engine
+This skill combines learning-science findings with contextual authoring guidance, translated
+into things you can do with LearnLab's screen-sequence engine
 (`docs/BRILLIANT_REWRITE_PLAN.md`, `docs/SCREENS.md`) — eight screen types, plus the four-question-type
 assessment format for end-of-module quizzes. Effect sizes are cited as orientation, not guarantees —
 they are directional evidence for why a rule exists, and they do not simply add up.
@@ -28,7 +28,29 @@ design (target spec: "you cannot advance without doing something"). If you find 
 write more than a few sentences before the interaction, that's a sign the idea needs its own screen
 with its own checkpoint, not a longer prompt.
 
-## The north star: measured learning beats smooth feelings
+## Laboratory authoring amendment (27 September 2026)
+
+For the learning laboratory and v2 pilots, read `docs/laboratory/AUTHORING-HARNESS.md`
+and `docs/laboratory/ACCEPTANCE.md`. Start an executable authoring run before drafting.
+The current CLI supports intake/planning/evidence preservation; do not claim that it
+already scaffolds or playtests complete courses. Discover actual capabilities with
+`npm run author:course -- capabilities` and respect its implementation status.
+
+Learning and enjoyment are separate outcomes, and both matter. Adult courses may
+be playful, including narrative and discovery, when these carry conceptual work.
+Use the level dial to calibrate assumed knowledge and support, not to ban adult fun.
+There is no universal optimal success rate or compulsory scene sequence. An early
+meaningful action is the aim; predict-first is useful when the task benefits from it.
+
+For v2 activities, author hint, alternative representation, worked example,
+prerequisite recommendation, retry and assisted exit routes as appropriate. An
+assisted exit must be recorded as helped/explored, never independent mastery.
+Open reflection and self-grading are unverified. Correct retries after answer
+exposure are practice; fresh independent tasks supply separate competence evidence.
+Do not invent an escape field for v1 JSON: v1 correct-answer gating remains the
+shipped legacy behavior until an engine extension deliberately changes it.
+
+## The north star: measured learning and voluntary return
 
 Learning and in-lesson performance are different things, and they routinely conflict. Conditions
 that make a lesson *feel* smooth (everything explained before it's asked, easy checkpoints, no
@@ -54,17 +76,17 @@ audience, and hold it for the whole module:
 
 | | **Setting A — GCSE / young foundation (~14–16)** | **Setting B — AS/A2/A-level (~16–18)** | **Setting C — adult-facing (professional/self-improver courses, e.g. much of ai-foundations)** |
 |---|---|---|---|
-| Narrative | Rich: scenarios, light characters, playful voice all fine | Story as problem-frame and throughline; no characters needed | Minimal whimsy; narrative = one real-world problem anchor, nothing more |
+| Narrative | Rich: scenarios, light characters, playful voice all fine | Story as problem-frame and throughline; no characters needed | Playful investigation and narrative welcome when they carry the concept |
 | Hook screen | Concrete scenario or surprise | Problem the toolkit can't solve, or a prediction | Lead with why-it-matters and immediate application, then the prediction |
 | Worked-example screens | 2 full `reveal-mechanism` screens before any `faded-step`; fade only the last step | 1 full + 1 faded (last step early in module, last two steps by module end) | Fade aggressively: one full `reveal-mechanism`, then straight to `faded-step`/`entry` completion screens |
 | Screen framing length | ~1-2 sentences per `prompt`/`body` | 2-4 sentences | 2-4 sentences, denser, no throat-clearing |
-| Tone | Warm, encouraging, playful | Concise, encouraging | Direct, respectful of time, zero fluff |
+| Tone | Warm, encouraging, playful | Concise, encouraging | Direct, playful and respectful of time; no unrelated spectacle |
 
 Everything below applies at all settings; the dial only scales it.
 
 ## The lesson skeleton
 
-Structure every lesson as this sequence of screens. It is the existing journey house style with
+For v1 lessons, use this sequence as a starting pattern; adapt it to the task. It is the existing journey house style with
 the openings and checkpoints made structural instead of merely recommended:
 
 ```
@@ -238,8 +260,8 @@ Mechanical rules, now directly countable against the `screens` array:
 - Rotate screen types the way the house style previously rotated widget/quiz choices: `flash-recall`
   for fresh vocabulary, `tap-choice` for a just-stated rule, `sort-match` for a mechanical
   term-pairing skill, `manipulable-target` for a spatial/continuous idea.
-- **Difficulty target: right-with-effort.** Aim for a checkpoint that roughly 3 in 4 learners get
-  correct after genuinely thinking — not 19 in 20. Never simplify a checkpoint just to keep the
+- **Difficulty target: approachable effort.** Calibrate checkpoints to the actual audience,
+  baseline and task, and revise from observed errors and help use. Do not hard-code a universal success rate. Never simplify a checkpoint just to keep the
   success rate smooth; productive difficulty is the mechanism, not a defect. Equally, don't stack
   trick questions — the immediate feedback loop and hint ladder the engine provides mean a
   learner who's stuck isn't abandoned, so a screen can afford real difficulty.
@@ -414,8 +436,8 @@ see learnlab-author-content):
 - **A `manipulable-target` goal narrower than the widget's interaction step.** Verified as a real
   bug, not a hypothetical — see learnlab-author-content's tolerance/keyboard-step trap. Test with
   the keyboard, not just a mouse.
-- **Whimsy at Setting C.** Adults read cutesy framing as disrespect for their time. Same journey
-  structure, drier delivery.
+- **Treating adult content as necessarily dry.** Playful investigation is welcome. Test whether
+  narrative carries the concept and whether the intended adults find it useful and enjoyable.
 - **"Engaging" as licence for tangents.** Deletion test, every time.
 - **Recognition-only lessons.** All-`tap-choice`/`predict` is the path of least authoring
   resistance and roughly half the learning benefit. Force the format mix.

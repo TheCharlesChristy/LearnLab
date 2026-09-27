@@ -18,6 +18,21 @@ or contradicts a sibling module's scope, authoring a formula or worked answer th
 wrong, and authoring quiz distractors or "common pitfall" callouts from imagined rather than
 real learner errors. All are cheap to prevent up front and expensive to find later.
 
+
+## Laboratory workflow amendment (27 September 2026)
+
+For new laboratory courses, read `docs/laboratory/AUTHORING-HARNESS.md` and
+`docs/laboratory/AUDIT.md`. Start a run with `npm run author:course -- start` before
+course drafting, record bounded audience/level/outcomes and research decisions,
+and validate the plan with `plan`. Preserve actual authoring, failure and playthrough
+artifacts using `record`; artifact presence alone does not pass a gate. The CLI
+currently implements intake/planning/discovery/evidence preservation only; course
+scaffolding, graph validators and Studio are pending. Use `capabilities` to distinguish
+shipped v1 sets from planned v2 activities. New v2 metadata is not confined to the v1
+subject/level enums. Keep v1 content compatible and use `src/v2/` for the additive
+experience runtime. Adult playfulness is allowed; difficulty is contextual. Assisted
+exits, self-report and answer-exposed retries cannot award independent mastery.
+
 ## 1. Pin down scope and depth before writing anything
 
 A topic's correct depth is not decided by what you remember about it — it's decided by where it

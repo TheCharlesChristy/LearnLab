@@ -1237,4 +1237,28 @@ vertical slice SHALL precede broad migration. Every shipped v2 capability SHALL 
 architecture/authoring documentation, validation fixtures, accessibility coverage, and relevant
 skills before it is treated as available to authors.
 
-*End of SRS v1.0 with the proposed v2 amendment.*
+### 14.8 Learning laboratory authoring and evidence amendment (27 September 2026)
+
+For v2 laboratory courses, subject identity, descriptive level, audience and bridging
+prerequisites SHALL belong to the course. Adults MAY receive playful investigations and
+narratives; correctness and rigor do not require dry presentation. Difficulty/support SHALL
+be calibrated by task and audience, without a universal target success percentage.
+
+V2 checkpoints SHALL offer task-appropriate help and a recorded assisted exit or skip without
+silently awarding independent mastery. Self-report, open reflection and answer-exposed retries
+SHALL remain distinct from independently marked fresh-task evidence. V1 completion retains
+its historical meaning and SHALL NOT be silently upgraded to competence.
+
+Course authors SHALL start an executable run before drafting, retain the request, structured
+brief, bounded outcome/activity/assessment map, source access/limitations, artifacts and
+revision history, and play the rendered course before delivery. Structural validation SHALL
+NOT certify source accuracy, human enjoyment or learning. Strict content checks SHALL reject
+orphan module folders rather than give misleading green results for unchecked content.
+
+The owner-preview acceptance/evaluation contract is `docs/laboratory/ACCEPTANCE.md`.
+The owner's written report and subsequent revision SHALL be required before the laboratory
+goal is declared achieved. Unobserved delayed outcomes SHALL be reported as unobserved.
+Human-study recruitment and month-long retention follow-up do not block delivery of the
+working owner-preview pilots. Existing v1 retirement gates remain unchanged.
+
+*End of SRS v1.0 with the additive v2 laboratory amendment.*

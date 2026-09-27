@@ -475,12 +475,13 @@ function validateTree(root, strict, validators, widgetKeys, reporter) {
     });
 
     // Orphan module folders (present on disk, absent from course.json) are
-    // unreferenced and unvalidated — surface them as warnings.
+    // unreferenced and unvalidated. Strict authoring must never report green
+    // for a tree containing these unchecked modules.
     for (const dirName of listDirs(courseDir)) {
       if (!seenDirs.has(dirName) && fs.existsSync(path.join(courseDir, dirName, 'module.json'))) {
-        reporter.warn(
-          `${reporter.rel(path.join(courseDir, dirName))}: module folder is not referenced by ${reporter.rel(courseFile)}`,
-        );
+        const message = `module folder is not referenced by ${reporter.rel(courseFile)}`;
+        if (opts.strict) reporter.atFile(path.join(courseDir, dirName), message);
+        else reporter.warn(`${reporter.rel(path.join(courseDir, dirName))}: ${message}`);
       }
     }
 
