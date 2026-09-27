@@ -1298,4 +1298,19 @@ It SHALL NOT be advertised as a visual graph editor, fresh-task generator, compl
 complete pilot or human learning/enjoyment evidence. ADR-003 and the authoring workflow record
 its shipped limits. V1 learner routes and default speech preference behaviour remain compatible.
 
+### 14.11 Local author Git delivery (27 September 2026)
+
+The authoring CLI SHALL require a complete retained brief and current validated plan before
+delivering a slice. Delivery SHALL inspect a committed branch and explicit remote base,
+verify origin repository identity, base ancestry, changed files and PR body, and push
+the checked commit without force. It SHALL create or update a draft PR only. It SHALL
+not stage, commit, merge or deploy. A dry run SHALL make no network mutation.
+
+The delivery receipt SHALL preserve the checked head, base, body hash, changed-file
+summary, untracked-file count and PR URL or uncertain state. Resuming with changed
+inputs, moved head or ambiguous remote PR state SHALL stop rather than duplicate a PR.
+Git checks and receipt validity SHALL NOT certify content accuracy, teaching quality,
+browser evidence or owner acceptance. Those remain review and evidence gates under
+§14.8 and `docs/laboratory/ACCEPTANCE.md`.
+
 *End of SRS v1.0 with the additive v2 laboratory amendment.*

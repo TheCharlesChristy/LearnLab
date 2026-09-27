@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learnlab.local/schemas/author-delivery.schema.json",
+  "title": "Local author GitHub delivery receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formatVersion",
+    "kind",
+    "attemptId",
+    "status",
+    "repository",
+    "branch",
+    "base",
+    "headCommit",
+    "baseCommit",
+    "title",
+    "bodySha256",
+    "bodyBytes",
+    "untrackedCount",
+    "untrackedPaths",
+    "range",
+    "url",
+    "at"
+  ],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "kind": { "const": "learnlab-author-delivery" },
+    "attemptId": { "type": "string", "pattern": "^[0-9a-f-]{36}$" },
+    "status": {
+      "enum": ["dry-run", "prepared", "pushed", "create-uncertain", "created", "existing"]
+    },
+    "repository": { "type": "string", "pattern": "^[A-Za-z0-9_-]+/[A-Za-z0-9_.-]+$" },
+    "branch": { "type": "string", "minLength": 1, "maxLength": 1024 },
+    "base": { "type": "string", "minLength": 1, "maxLength": 1024 },
+    "headCommit": { "$ref": "#/$defs/commit" },
+    "baseCommit": { "oneOf": [{ "$ref": "#/$defs/commit" }, { "type": "null" }] },
+    "title": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "bodySha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "bodyBytes": { "type": "integer", "minimum": 1, "maximum": 65536 },
+    "untrackedCount": { "type": "integer", "minimum": 0 },
+    "untrackedPaths": { "type": "array", "maxItems": 100, "items": { "type": "string" } },
+    "range": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["commits", "files", "fileCount", "stat"],
+          "properties": {
+            "commits": { "type": "integer", "minimum": 1 },
+            "files": { "type": "array", "maxItems": 1000, "items": { "type": "string" } },
+            "fileCount": { "type": "integer", "minimum": 1 },
+            "stat": { "type": "string", "maxLength": 262144 }
+          }
+        }
+      ]
+    },
+    "url": {
+      "type": ["string", "null"],
+      "pattern": "^https://github\\.com/[A-Za-z0-9_-]+/[A-Za-z0-9_.-]+/pull/[1-9][0-9]*$"
+    },
+    "at": { "type": "string", "minLength": 1 }
+  },
+  "$defs": { "commit": { "type": "string", "pattern": "^([0-9a-f]{40}|[0-9a-f]{64})$" } }
+}

@@ -32,7 +32,7 @@ course drafting, record bounded audience/level/outcomes and research decisions,
 and validate the plan with `plan`. Preserve actual authoring, failure and playthrough
 artifacts using `record`; artifact presence alone does not pass a gate. The CLI
 implements intake/planning/discovery, scaffolding, shared pack/graph validation,
-local preview staging and evidence preservation. Local Studio preview/inspection is implemented; complete pilots remain
+local preview staging, evidence preservation and draft-PR Git delivery. Local Studio preview/inspection is implemented; complete pilots remain
 pending. Use `capabilities` and `schemas` to discover actual v1 sets and registered
 laboratory activities (`choice`, `circuit`), not old v2 negotiation fixtures. Scaffold
 with `scaffold` before drafting; use `validate-pack` and `stage-pack` for laboratory
@@ -40,6 +40,11 @@ packs. See `docs/laboratory/ACTIVITIES.md` for marking, state and accessibility.
 subject/level enums. Keep v1 content compatible and use `src/v2/` for the additive
 experience runtime. Adult playfulness is allowed; difficulty is contextual. Assisted
 exits, self-report and answer-exposed retries cannot award independent mastery.
+For a committed focused slice, use `author:course deliver` with an explicit base,
+PR body and receipt path. Inspect the diff and browser evidence first; `--dry-run`
+performs no network action. The command creates or updates a draft PR only, never
+merges or deploys. See `docs/laboratory/AUTHORING-HARNESS.md` for resume and
+verification limits.
 
 ## The extension procedure — every new capability follows it
 

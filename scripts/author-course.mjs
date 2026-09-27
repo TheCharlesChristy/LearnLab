@@ -15,6 +15,7 @@ import {
 } from '../src/v2/pack.ts';
 import { createPreviewRun, parseAuthorPreview, previewPack } from '../src/v2/author-preview.ts';
 import { projectRun } from '../src/v2/run.ts';
+import { deliverCourse, deliverySchema } from './authoring/delivery.mjs';
 import { briefSchema, planSchema, planningErrors, questionsFor } from './authoring/contracts.mjs';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -22,6 +23,10 @@ const { values, positionals } = parseArgs({
   allowPositionals: true,
   options: {
     run: { type: 'string' },
+    base: { type: 'string' },
+    title: { type: 'string' },
+    'dry-run': { type: 'boolean' },
+    resume: { type: 'boolean' },
     output: { type: 'string' },
     episode: { type: 'string' },
     node: { type: 'string' },
@@ -65,6 +70,29 @@ const loadRun = () => {
   if (hash(fs.readFileSync(path.join(dir, 'brief.json'))) !== manifest.briefHash)
     throw new Error('Brief changed outside the harness; use intake --brief to record a revision.');
   return { dir, manifest, brief };
+};
+const verifyIntegrity = ({ dir, manifest, brief }) => {
+  const errors = [];
+  if (hash(fs.readFileSync(path.join(dir, 'request.txt'))) !== manifest.requestHash)
+    errors.push('request.txt hash mismatch');
+  for (const item of [...manifest.artifacts, ...(manifest.plan ? [manifest.plan] : [])]) {
+    const filename = path.resolve(dir, item.file);
+    if (!filename.startsWith(`${dir}${path.sep}`)) {
+      errors.push('manifest contains a path outside this run');
+      continue;
+    }
+    if (!fs.existsSync(filename) || hash(fs.readFileSync(filename)) !== item.sha256)
+      errors.push(`${item.file}: missing or modified artifact`);
+  }
+  if (manifest.plan && manifest.plan.briefHash !== manifest.briefHash)
+    errors.push('plan belongs to an older brief');
+  if (errors.length) throw new Error(errors.join('\n'));
+  if (manifest.plan) {
+    const plan = read(path.join(dir, manifest.plan.file));
+    validate(planSchema, plan, 'plan');
+    const planErrors = planningErrors(brief, plan);
+    if (planErrors.length) throw new Error(planErrors.join('\n'));
+  }
 };
 const update = (dir, manifest) => {
   const file = path.join(dir, 'manifest.json');
@@ -457,6 +485,33 @@ try {
         2,
       ),
     );
+  } else if (command === 'deliver') {
+    const retained = loadRun();
+    verifyIntegrity(retained);
+    assertComplete(retained.brief, fs.readFileSync(path.join(retained.dir, 'request.txt'), 'utf8'));
+    if (!retained.manifest.plan)
+      throw new Error('A verified current plan is required before delivery');
+    const receipt = deliverCourse({
+      repo,
+      base: need('base'),
+      title: need('title'),
+      bodyFile: path.resolve(need('file')),
+      output: path.resolve(need('output')),
+      dryRun: values['dry-run'] ?? false,
+      resume: values.resume ?? false,
+    });
+    console.log(
+      JSON.stringify(
+        {
+          receipt,
+          note: values['dry-run']
+            ? 'Local preflight only; no GitHub lookup, push or PR. Review the committed diff and current verification evidence before actual delivery.'
+            : 'Draft PR delivery only; no merge/deployment. Record this receipt in the retained run and attach the URL to the Codex task. Git integrity does not certify focused scope, source accuracy or learning.',
+        },
+        null,
+        2,
+      ),
+    );
   } else if (command === 'record') {
     const { dir, manifest } = loadRun();
     const kind = need('kind');
@@ -500,19 +555,7 @@ try {
     );
   } else if (command === 'status') {
     const { dir, manifest, brief } = loadRun();
-    const errors = [];
-    if (hash(fs.readFileSync(path.join(dir, 'request.txt'))) !== manifest.requestHash)
-      errors.push('request.txt hash mismatch');
-    for (const item of [...manifest.artifacts, ...(manifest.plan ? [manifest.plan] : [])]) {
-      const filename = path.resolve(dir, item.file);
-      if (!filename.startsWith(`${dir}${path.sep}`)) {
-        errors.push('manifest contains a path outside this run');
-        continue;
-      }
-      if (!fs.existsSync(filename) || hash(fs.readFileSync(filename)) !== item.sha256)
-        errors.push(`${item.file}: missing or modified artifact`);
-    }
-    if (errors.length) throw new Error(errors.join('\n'));
+    verifyIntegrity({ dir, manifest, brief });
     const questions = questionsFor(brief, fs.readFileSync(path.join(dir, 'request.txt'), 'utf8'));
     console.log(
       JSON.stringify(
@@ -544,6 +587,7 @@ try {
           brief: briefSchema,
           plan: planSchema,
           laboratoryPack: read(path.join(repo, 'schemas/laboratory-pack.schema.json')),
+          authorDelivery: deliverySchema,
           authorPreview: read(path.join(repo, 'schemas/author-preview.schema.json')),
           activities: ACTIVITY_CONTRACTS,
         },
@@ -553,7 +597,7 @@ try {
     );
   } else {
     throw new Error(
-      'Usage: node scripts/author-course.mjs start|intake|plan|scaffold|validate-pack|stage-pack|preview|inspect|record|status|capabilities|schemas [--run directory] [--request text-file] [--brief json-file] [--file artifact] [--kind kind] [--note text]',
+      'Usage: node scripts/author-course.mjs start|intake|plan|scaffold|validate-pack|stage-pack|preview|inspect|deliver|record|status|capabilities|schemas [--run directory] [--request text-file] [--brief json-file] [--file artifact] [--kind kind] [--note text]',
     );
   }
 } catch (error) {
