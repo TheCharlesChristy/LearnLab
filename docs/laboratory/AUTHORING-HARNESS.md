@@ -1,9 +1,13 @@
 # Executable authoring workflow
 
-Status: intake, planning, capability discovery and evidence-preservation foundation
-implemented. Course scaffolding, graph validation, Studio, rendered playthrough
-diagnostics and Git delivery automation are the next implementation stages. This
-foundation alone does **not** satisfy the complete harness goal.
+Status: intake, planning, capability discovery, scaffolding, shared pack validation,
+local preview staging and evidence preservation are implemented. One circuits
+episode has been authored through these commands. Studio inspection, parameterised
+variants, complete pilots and Git delivery automation remain pending. This first
+slice does **not** satisfy the complete harness goal.
+
+Use Node 22.18 or newer: the CLI shares the browser's typed pack/model contracts
+through Node's built-in TypeScript stripping. No extra authoring service is needed.
 
 Run `npm run author:course -- <command>`. Commands return inspectable JSON and exit
 nonzero on an invalid contract. No inference, credentials, accounts or authoring API
@@ -59,10 +63,12 @@ npm run author:course -- record --run authoring/runs/my-course --kind research -
 npm run author:course -- record --run authoring/runs/my-course --kind playthrough --file observation.json --note "Keyboard failure, awaiting revision"
 ```
 
-Discovery reads existing widget keys and the screen/question schemas; it does not
-publish v2 negotiation fixtures as implemented activities. `schemas` emits the
-machine-readable brief and plan contracts from their source of truth. Do not
-hand-maintain a second copy of these schemas.
+Discovery reads existing widget keys, screen/question schemas, and the laboratory
+activity registry. The implemented laboratory activities are `choice` and `circuit`;
+older v2 negotiation fixtures are not implemented activities. `schemas` emits brief,
+plan, pack and activity contracts from their source of truth. The generated browser
+pack validator is checked by `npm run validate:laboratory` and the production build.
+See [activity contracts](ACTIVITIES.md) for controls, marking, outputs and limits.
 
 Artifacts are copied under the run, hashed with SHA-256, and stamped with Git
 revision, brief hash and current plan hash. `status` checks request, current brief,
@@ -77,14 +83,45 @@ are distinct artifact kinds. A failed playthrough is useful evidence and should 
 retained. The presence of a file never certifies that its gate passed. No command
 declares the overall implementation goal achieved.
 
+## Scaffold, validate and stage a local preview
+
+```sh
+npm run author:course -- scaffold --run authoring/runs/my-course --output authoring/drafts/my-course
+# Or build a first slice using an episode ID from the verified plan:
+npm run author:course -- scaffold --run authoring/runs/my-course --output authoring/drafts/my-course-first --episode first-investigation
+npm run author:course -- validate-pack --run authoring/runs/my-course --file authoring/drafts/my-course/pack.json
+npm run author:course -- stage-pack --run authoring/runs/my-course --file authoring/drafts/my-course/pack.json
+VITE_EXPERIENCE_RUNTIME_V2=true npm run build
+```
+
+Scaffolding requires a complete retained brief and valid current plan. It creates a
+new directory with metadata and deliberately incomplete episode placeholders. Fill
+nodes, references and registered activity data before validation; an empty scaffold
+cannot get a misleading pass. Subject IDs and level descriptions are unrestricted
+within the schema. A first slice reports the remaining planned episodes explicitly.
+
+Validation uses the same parser as the learner app: schema, capability versions,
+skill and episode prerequisite DAGs, reachable scene branches, no scene cycles or
+orphans, independent-transfer opportunities, circuit bounds and reachable witnesses.
+It verifies local asset closure and rejects unlisted files and paths escaping the
+pack. These checks do not prove a source is true or a learning outcome is met.
+
+Staging copies pack data and listed assets into `public/laboratory/<id>/`, retains a
+snapshot in the run and provides a local walkthrough route. Existing previews need
+`--replace`; changed packs must increment their version. Staging is not publication.
+Run `npm run validate:laboratory` after staging to check the complete preview tree,
+including stale or unregistered files. Remove obsolete assets deliberately when
+updating a pack. Production builds generate checksummed acquisition manifests.
+The learner routes remain behind `VITE_EXPERIENCE_RUNTIME_V2=true` in this prototype.
+
 ## Subsequent author procedure
 
 1. Read the author/research/pedagogy/platform skills and live registry contracts.
 2. Start a run **before** drafting a course; preserve the request and material choices.
 3. Research sources and misconceptions, plan bounded outcomes and concept-bearing play.
 4. Build the first complete episode, play it in the production browser and revise.
-5. Scaffold and validate through the same harness when those stages are implemented;
-   create registered code extensions in focused platform PRs where required.
+5. Scaffold before drafting through the same harness; validate and stage each slice.
+   Create registered code extensions in focused platform PRs where required.
 6. Author the remaining episodes using the shipped contracts and retain actual files,
    model checks, mistakes, help/escape paths, browser artifacts and critiques.
 7. Play the actual rendered course on all consequential paths. Record author self-check

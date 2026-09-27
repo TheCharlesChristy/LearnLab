@@ -32,9 +32,13 @@ with its own checkpoint, not a longer prompt.
 
 For the learning laboratory and v2 pilots, read `docs/laboratory/AUTHORING-HARNESS.md`
 and `docs/laboratory/ACCEPTANCE.md`. Start an executable authoring run before drafting.
-The current CLI supports intake/planning/evidence preservation; do not claim that it
-already scaffolds or playtests complete courses. Discover actual capabilities with
-`npm run author:course -- capabilities` and respect its implementation status.
+The CLI supports intake/planning, scaffolding, shared pack/graph validation, local
+staging and evidence preservation. Only a first circuits slice is implemented;
+Studio and complete pilots remain pending. Discover actual capabilities with
+`npm run author:course -- capabilities` and `schemas`. Validate and stage laboratory
+packs through the harness; use `docs/laboratory/ACTIVITIES.md` for the current contract.
+Restart and import must retain prior answer/help exposure. A corrected choice after
+an error, hint, worked example or replay is practice evidence, not fresh independence.
 
 Learning and enjoyment are separate outcomes, and both matter. Adult courses may
 be playful, including narrative and discovery, when these carry conceptual work.

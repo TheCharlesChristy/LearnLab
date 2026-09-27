@@ -116,7 +116,7 @@ test('AC-07: keyboard-only user completes the full assessment via aria-live feed
 
   // Summary reached, all answers correct.
   await expect(
-    page.getByRole('region', { name: `${quiz.title} — summary`, exact: true }),
+    page.getByRole('region', { name: `${quiz.title}: summary`, exact: true }),
   ).toBeVisible();
   await expect(page.getByText(`Score: ${TOTAL} / ${TOTAL}`)).toBeVisible();
 });

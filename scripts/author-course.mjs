@@ -8,6 +8,11 @@ import { createHash } from 'node:crypto';
 import { Buffer } from 'node:buffer';
 import { execFileSync } from 'node:child_process';
 import Ajv2020 from 'ajv/dist/2020.js';
+import {
+  ACTIVITY_CONTRACTS,
+  LABORATORY_CAPABILITIES,
+  parseLaboratoryPack,
+} from '../src/v2/pack.ts';
 import { briefSchema, planSchema, planningErrors, questionsFor } from './authoring/contracts.mjs';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -15,6 +20,9 @@ const { values, positionals } = parseArgs({
   allowPositionals: true,
   options: {
     run: { type: 'string' },
+    output: { type: 'string' },
+    episode: { type: 'string' },
+    replace: { type: 'boolean' },
     request: { type: 'string' },
     brief: { type: 'string' },
     file: { type: 'string' },
@@ -91,7 +99,11 @@ try {
               (s) => s.$ref.split('/').at(-1),
             ),
           },
-          v2: { status: 'rollout-boundary-only', activities: [] },
+          v2: {
+            status: 'laboratory-contracts',
+            capabilities: LABORATORY_CAPABILITIES,
+            activities: ACTIVITY_CONTRACTS,
+          },
           note: 'Discovery describes shipped registries, not planned capabilities. See docs/WIDGETS.md and docs/SCREENS.md for v1 props.',
         },
         null,
@@ -187,6 +199,197 @@ try {
         2,
       ),
     );
+  } else if (command === 'scaffold') {
+    const { dir, manifest, brief } = loadRun();
+    if (!manifest.plan) throw new Error('A verified current plan is required before scaffolding.');
+    const plan = read(path.join(dir, manifest.plan.file));
+    if (hash(fs.readFileSync(path.join(dir, manifest.plan.file))) !== manifest.plan.sha256)
+      throw new Error('Plan was modified outside the harness.');
+    const episodes = values.episode
+      ? plan.episodes.filter((v) => v.id === values.episode)
+      : plan.episodes;
+    if (!episodes.length) throw new Error('Unknown planned episode.');
+    const output = path.resolve(need('output'));
+    if (fs.existsSync(output))
+      throw new Error('Scaffold output already exists; nothing was overwritten.');
+    const skills = brief.outcomes.map((title, i) => ({
+      id: `capability-${i + 1}`,
+      title,
+      criterion: plan.traceability.find((v) => v.outcome === title).criterion,
+      prerequisites: [],
+    }));
+    const pack = {
+      formatVersion: 1,
+      version: 1,
+      stateVersion: 1,
+      id: plan.courseId,
+      title: brief.title,
+      description: brief.playConcept,
+      audience: brief.audience,
+      level: brief.level,
+      subject: brief.subject,
+      capabilities: { 'experience-graph': '0.1.0', 'activity-plugin': '0.1.0', choice: '0.1.0' },
+      skills: skills.filter((s) => episodes.some((e) => e.outcomes.includes(s.title))),
+      episodes: episodes.map((e) => ({
+        id: e.id,
+        title: e.title,
+        estimatedMinutes: e.estimatedMinutes,
+        skills: skills.filter((s) => e.outcomes.includes(s.title)).map((s) => s.id),
+        prerequisites: e.prerequisites.filter((id) => episodes.some((v) => v.id === id)),
+        start: 'first-action',
+        nodes: [],
+      })),
+      references: [],
+      assets: [],
+      scopeNote:
+        episodes.length === plan.episodes.length
+          ? brief.scope
+          : `Partial first-episode prototype: ${episodes.length} of ${plan.episodes.length} planned episodes. ${brief.scope}`,
+    };
+    fs.mkdirSync(output, { recursive: true });
+    write(path.join(output, 'pack.json'), pack);
+    const filename = `artifacts/${String(manifest.artifacts.length + 1).padStart(4, '0')}-scaffold.json`;
+    write(path.join(dir, filename), pack);
+    manifest.artifacts.push({
+      kind: 'content',
+      file: filename,
+      sha256: hash(fs.readFileSync(path.join(dir, filename))),
+      note: `Actual draft scaffold at ${path.relative(repo, output)}; incomplete nodes/references deliberately fail validation.`,
+      at: new Date().toISOString(),
+      revision: revision(),
+      briefHash: manifest.briefHash,
+      planHash: manifest.plan.sha256,
+    });
+    manifest.history.push({
+      kind: 'scaffold-created',
+      at: new Date().toISOString(),
+      output: path.relative(repo, output),
+    });
+    update(dir, manifest);
+    console.log(
+      JSON.stringify(
+        {
+          stage: 'scaffolded-draft',
+          output,
+          episodes: episodes.length,
+          note: 'Empty scenes and references must be authored. This scaffold is not a valid playable course.',
+        },
+        null,
+        2,
+      ),
+    );
+  } else if (command === 'validate-pack') {
+    const filename = path.resolve(need('file'));
+    const pack = parseLaboratoryPack(read(filename));
+    const root = fs.realpathSync(path.dirname(filename));
+    for (const asset of pack.assets) {
+      const target = fs.realpathSync(path.resolve(root, asset.path));
+      if (!target.startsWith(`${root}${path.sep}`) || !fs.statSync(target).isFile())
+        throw new Error(`Missing or escaped asset ${asset.path}`);
+    }
+    const listed = new Set([path.basename(filename), ...pack.assets.map((a) => a.path)]);
+    const walk = (folder) => {
+      for (const entry of fs.readdirSync(folder, { withFileTypes: true })) {
+        const target = path.join(folder, entry.name);
+        if (entry.isDirectory()) walk(target);
+        else if (!listed.has(path.relative(root, target).split(path.sep).join('/')))
+          throw new Error(`Orphan/unlisted pack file ${path.relative(root, target)}`);
+      }
+    };
+    walk(root);
+    let planned;
+    if (values.run) {
+      const { dir, manifest } = loadRun();
+      if (!manifest.plan) throw new Error('Current plan is required.');
+      const plan = read(path.join(dir, manifest.plan.file));
+      if (
+        plan.courseId !== pack.id ||
+        pack.episodes.some((e) => !plan.episodes.some((v) => v.id === e.id))
+      )
+        throw new Error('Pack identity or episodes disagree with the retained plan.');
+      planned = {
+        authored: pack.episodes.length,
+        total: plan.episodes.length,
+        remaining: plan.episodes
+          .filter((e) => !pack.episodes.some((v) => v.id === e.id))
+          .map((e) => e.id),
+      };
+    }
+    console.log(
+      JSON.stringify(
+        {
+          valid: true,
+          pack: pack.id,
+          version: pack.version,
+          episodes: pack.episodes.length,
+          scenes: pack.episodes.reduce((n, e) => n + e.nodes.length, 0),
+          planned,
+          note: 'Schema, DAG, registered activities, bounded model witnesses and asset closure passed. Playthrough and learning/source accuracy are separate gates.',
+        },
+        null,
+        2,
+      ),
+    );
+  } else if (command === 'stage-pack') {
+    const { dir, manifest } = loadRun();
+    if (!manifest.plan) throw new Error('A verified current plan is required.');
+    const filename = path.resolve(need('file'));
+    const pack = parseLaboratoryPack(read(filename));
+    const plan = read(path.join(dir, manifest.plan.file));
+    if (
+      pack.id !== plan.courseId ||
+      pack.episodes.some((e) => !plan.episodes.some((v) => v.id === e.id))
+    )
+      throw new Error('Pack does not match the retained plan.');
+    const root = fs.realpathSync(path.dirname(filename));
+    const target = path.join(repo, 'public/laboratory', pack.id);
+    if (fs.existsSync(target) && !values.replace)
+      throw new Error('Local preview pack exists; use --replace for an intentional revision.');
+    if (fs.existsSync(path.join(target, 'pack.json'))) {
+      const previous = read(path.join(target, 'pack.json'));
+      if (JSON.stringify(previous) !== JSON.stringify(pack) && pack.version <= previous.version)
+        throw new Error(
+          'Changed staged content must increment pack.version; saved work must not be silently reinterpreted.',
+        );
+    }
+    const assets = pack.assets.map((asset) => {
+      const file = fs.realpathSync(path.join(root, asset.path));
+      if (!file.startsWith(`${root}${path.sep}`) || !fs.statSync(file).isFile())
+        throw new Error(`Unsafe asset ${asset.path}`);
+      return { path: asset.path, bytes: fs.readFileSync(file) };
+    });
+    // Validate and read every source before modifying the local preview directory.
+    fs.mkdirSync(target, { recursive: true });
+    fs.writeFileSync(path.join(target, 'pack.json'), `${JSON.stringify(pack, null, 2)}\n`);
+    for (const asset of assets) {
+      const destination = path.join(target, asset.path);
+      fs.mkdirSync(path.dirname(destination), { recursive: true });
+      fs.writeFileSync(destination, asset.bytes);
+    }
+    const snapshot = `artifacts/${String(manifest.artifacts.length + 1).padStart(4, '0')}-pack.json`;
+    write(path.join(dir, snapshot), pack);
+    manifest.artifacts.push({
+      kind: 'content',
+      file: snapshot,
+      sha256: hash(fs.readFileSync(path.join(dir, snapshot))),
+      note: `Staged local preview at public/laboratory/${pack.id}; no merge or deployment.`,
+      at: new Date().toISOString(),
+      revision: revision(),
+      briefHash: manifest.briefHash,
+      planHash: manifest.plan.sha256,
+    });
+    update(dir, manifest);
+    console.log(
+      JSON.stringify(
+        {
+          staged: path.relative(repo, target),
+          route: `#/laboratory/${pack.id}/${pack.episodes[0].id}`,
+          note: 'Local source staging only. Browser playthrough and delivery checks remain required.',
+        },
+        null,
+        2,
+      ),
+    );
   } else if (command === 'record') {
     const { dir, manifest } = loadRun();
     const kind = need('kind');
@@ -257,21 +460,32 @@ try {
           openQuestions: brief.openQuestions ?? [],
           manifest,
           pending: [
-            'course scaffold and runtime validation',
+            'complete agreed course outcomes and verify answers',
             'rendered course playthrough',
             'owner walkthrough and revision',
           ],
-          note: 'This foundation intentionally cannot claim a complete course or successful owner evaluation.',
+          note: 'Run integrity does not certify a complete course, rendered playthrough or successful owner evaluation.',
         },
         null,
         2,
       ),
     );
   } else if (command === 'schemas') {
-    console.log(JSON.stringify({ brief: briefSchema, plan: planSchema }, null, 2));
+    console.log(
+      JSON.stringify(
+        {
+          brief: briefSchema,
+          plan: planSchema,
+          laboratoryPack: read(path.join(repo, 'schemas/laboratory-pack.schema.json')),
+          activities: ACTIVITY_CONTRACTS,
+        },
+        null,
+        2,
+      ),
+    );
   } else {
     throw new Error(
-      'Usage: node scripts/author-course.mjs start|intake|plan|record|status|capabilities|schemas [--run directory] [--request text-file] [--brief json-file] [--file artifact] [--kind kind] [--note text]',
+      'Usage: node scripts/author-course.mjs start|intake|plan|scaffold|validate-pack|stage-pack|record|status|capabilities|schemas [--run directory] [--request text-file] [--brief json-file] [--file artifact] [--kind kind] [--note text]',
     );
   }
 } catch (error) {

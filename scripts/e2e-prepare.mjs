@@ -54,6 +54,14 @@ function run(label, command, args, extraEnv = {}) {
   }
 }
 
+run('checking laboratory contracts', process.execPath, [
+  path.join(repoRoot, 'scripts', 'build-laboratory-contracts.mjs'),
+  '--check',
+]);
+run('validating laboratory packs and acquisition index', process.execPath, [
+  path.join(repoRoot, 'scripts', 'build-laboratory.mjs'),
+]);
+
 // 1a. Build the Python SDK bundle. public/python-bundle.zip is gitignored
 //     (generated artifact, §3.3), so a fresh checkout — which is what every CI
 //     job gets, including the e2e job, which does NOT share a filesystem with
@@ -74,7 +82,7 @@ run(
   process.execPath,
   [path.join(repoRoot, 'node_modules', 'vite', 'bin', 'vite.js'), 'build'],
   {
-  BASE: '/',
+    BASE: '/',
   },
 );
 

@@ -1,7 +1,15 @@
 // App shell layout: header (app name → home, nav, offline chip), skip link,
 // unsupported-browser banner (§2.3), main landmark, routed outlet.
 
-import { BarChart3, Blocks, RotateCcw, Search as SearchIcon, Settings as SettingsIcon, WifiOff, X } from 'lucide-react';
+import {
+  BarChart3,
+  Blocks,
+  RotateCcw,
+  Search as SearchIcon,
+  Settings as SettingsIcon,
+  WifiOff,
+  X,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router';
 
@@ -87,7 +95,7 @@ export default function AppLayout() {
       </a>
       <UnsupportedBanner />
       <header className="border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-surface-dark-muted">
-        <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-3">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-3 px-4 py-3">
           <Link
             to="/"
             className="rounded text-lg font-bold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -103,7 +111,10 @@ export default function AppLayout() {
               Offline
             </span>
           )}
-          <nav aria-label="Main" className="ml-auto flex items-center gap-0.5 sm:gap-1">
+          <nav
+            aria-label="Main"
+            className="ml-auto flex max-w-full flex-wrap items-center gap-0.5 sm:gap-1"
+          >
             <NavLink to="/search" aria-label="Search" className={navLinkClass}>
               <SearchIcon aria-hidden className="h-4 w-4 shrink-0" />
               <span className="hidden sm:inline">Search</span>

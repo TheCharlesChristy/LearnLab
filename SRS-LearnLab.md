@@ -1261,4 +1261,25 @@ goal is declared achieved. Unobserved delayed outcomes SHALL be reported as unob
 Human-study recruitment and month-long retention follow-up do not block delivery of the
 working owner-preview pilots. Existing v1 retirement gates remain unchanged.
 
+### 14.9 First laboratory slice (27 September 2026)
+
+The opt-in laboratory prototype SHALL use the shared versioned pack schema and actual
+activity registry (`choice`, `circuit`) described in `docs/laboratory/ACTIVITIES.md`.
+It SHALL reject unknown capabilities, unreachable/orphaned scenes, invalid prerequisite
+DAGs, unsupported initial models, unreachable witnesses and asset closure failures.
+Passed and assisted routes SHALL be explicit; source accuracy and learning SHALL NOT
+be inferred from structural validation.
+
+Event replay SHALL recompute outcomes and preserve prior answer/help exposure through
+restart and rollback import. Bounded archival SHALL preserve the previous envelope
+atomically with its replacement. Incompatible work SHALL remain exportable. Downloads
+SHALL verify complete required runtime/pack bytes, and compatible older acquired pack
+versions SHALL retain their own saved-work boundary. Laboratory speech SHALL use only
+browser-reported local voices or remain unavailable with usable text.
+
+ADR-002 records the smaller initial graph contract and remaining extensions. The first
+circuits episode SHALL NOT be described as a complete pilot, whole-skill certification,
+implemented Studio or evidence of superior learning. V1 routes, schemas and saved work
+remain compatible, and the laboratory build flag remains an explicit rollback boundary.
+
 *End of SRS v1.0 with the additive v2 laboratory amendment.*

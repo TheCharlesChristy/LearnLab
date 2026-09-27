@@ -9,6 +9,7 @@ import {
   dueReviewItems,
   kvGet,
   kvSet,
+  saveLaboratoryState,
   markLessonComplete,
   onWriteError,
   recordAttempt,
@@ -425,5 +426,35 @@ describe('onWriteError (NFR-REL-001)', () => {
     off();
     await kvSet('bad2', () => {});
     expect(listener).toHaveBeenCalledOnce(); // unsubscribed
+  });
+});
+
+describe('laboratory recovery persistence', () => {
+  const key = 'laboratory:research-station:close-the-loop';
+  it('commits the replacement and original recovery envelope together', async () => {
+    vi.spyOn(Date, 'now').mockReturnValue(93027);
+    const original = { stateVersion: 99, events: ['unreadable'] };
+    await kvSet(key, original);
+    expect(await saveLaboratoryState(key, { stateVersion: 1, events: [] }, original)).toBe(true);
+    expect(await kvGet(key)).toEqual({ stateVersion: 1, events: [] });
+    expect(await kvGet(`${key}:recovery:93027`)).toEqual(original);
+  });
+  it('rolls back the archive if the replacement write fails', async () => {
+    vi.spyOn(Date, 'now').mockReturnValue(93027);
+    const original = { stateVersion: 99 };
+    await kvSet(key, original);
+    const put = db.kv.put.bind(db.kv);
+    vi.spyOn(db.kv, 'put').mockImplementation((...args) => {
+      if (args[0].key === key) return Promise.reject(new Error('quota')) as ReturnType<typeof put>;
+      return put(...args);
+    });
+    expect(await saveLaboratoryState(key, { stateVersion: 1 }, original)).toBe(false);
+    expect(await kvGet(key)).toEqual(original);
+    expect(await kvGet(`${key}:recovery:93027`)).toBeUndefined();
+  });
+  it('rejects oversized envelopes and unrelated keys before writing', async () => {
+    await expect(saveLaboratoryState('settings', {})).rejects.toThrow('Invalid');
+    await expect(saveLaboratoryState(key, 'x'.repeat(256 * 1024))).rejects.toThrow('256 KiB');
+    expect(await db.kv.count()).toBe(0);
   });
 });

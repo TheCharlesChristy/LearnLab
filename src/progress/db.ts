@@ -495,3 +495,26 @@ export async function recordEngagementEvent(
     ),
   );
 }
+
+/** Versioned laboratory event envelopes share the existing local export/erase
+ * boundary. Atomic recovery archives preserve an unreadable previous envelope.
+ * Callers validate the envelope before writing. Success is explicit for the UI. */
+export async function saveLaboratoryState(
+  key: string,
+  value: unknown,
+  archive?: unknown,
+): Promise<boolean> {
+  if (!/^laboratory:[a-z0-9-]+:[a-z0-9-]+$/.test(key))
+    throw new Error('Invalid laboratory state key');
+  const bytes = new TextEncoder().encode(JSON.stringify(value)).length;
+  if (bytes > 256 * 1024) throw new Error('Laboratory save exceeds 256 KiB');
+  const saved = await guardedWrite('saveLaboratoryState', () =>
+    db.transaction('rw', db.kv, async () => {
+      if (archive !== undefined)
+        await db.kv.put({ key: `${key}:recovery:${Date.now()}`, value: archive });
+      await db.kv.put({ key, value });
+      return true;
+    }),
+  );
+  return saved === true;
+}

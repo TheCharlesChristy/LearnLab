@@ -22,6 +22,7 @@ export {
   dueReviewItems,
   kvGet,
   kvSet,
+  saveLaboratoryState,
   markLessonComplete,
   onWriteError,
   recordAttempt,

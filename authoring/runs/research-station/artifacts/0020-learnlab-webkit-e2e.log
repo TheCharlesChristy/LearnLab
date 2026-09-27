@@ -1,0 +1,150 @@
+(node:44946) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[2m[WebServer] [22m(node:45005) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:45005) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+[2m[WebServer] [22mFound 2 warnings while optimizing generated CSS:
+[2m[WebServer] [22m
+[2m[WebServer] [22mIssue #1:
+[2m[WebServer] [22m[2m│   padding-block: 0.25rem;[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m[2m│[22m ::highlight(learnlab-read-aloud) {
+[2m[WebServer] [22m[2m┆[22m             [33m[2m^--[22m 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?[39m
+[2m[WebServer] [22m[2m┆[22m
+[2m[WebServer] [22m[2m│   background-color: oklch(85% 0.15 85 / 60%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m
+[2m[WebServer] [22mIssue #2:
+[2m[WebServer] [22m[2m│   background-color: oklch(85% 0.15 85 / 60%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m[2m│[22m :root.dark ::highlight(learnlab-read-aloud) {
+[2m[WebServer] [22m[2m┆[22m                        [33m[2m^--[22m 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?[39m
+[2m[WebServer] [22m[2m┆[22m
+[2m[WebServer] [22m[2m│   background-color: oklch(75% 0.15 85 / 45%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m
+[2m[WebServer] [22m[lightningcss minify] 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?
+[2m[WebServer] [22m1  |  /*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+[2m[WebServer] [22m2  |  ...splay{padding-block:.25rem;overflow:auto hidden}::highlight(learnlab-read-aloud){background-color:oklch(85% .15 85...
+[2m[WebServer] [22m   |                                                                 ^
+[2m[WebServer] [22m[lightningcss minify] 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?
+[2m[WebServer] [22m1  |  /*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+[2m[WebServer] [22m2  |  ...ackground-color:oklch(85% .15 85/.6)}:root.dark ::highlight(learnlab-read-aloud){background-color:oklch(75% .15 85...
+[2m[WebServer] [22m   |                                                                 ^
+[2m[WebServer] [22m(node:45072) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:45072) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 4 tests using 1 worker
+
+(node:45114) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:45114) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:45114) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [webkit] › e2e/laboratory.pw.ts:7:1 › first station episode: mistakes, keyboard repair, help, evidence and resume (1ms)
+(node:45479) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:45479) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:45479) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [webkit] › e2e/laboratory.pw.ts:118:1 › narrow touch workspace: both themes, help escape and retained exposure on restart (2ms)
+(node:45844) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:45844) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:45844) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [webkit] › e2e/laboratory.pw.ts:203:1 › downloaded episode survives browser close and offline reopen with local progress (2ms)
+(node:46209) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:46209) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:46209) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [webkit] › e2e/laboratory.pw.ts:279:1 › write failure offers an export and keeps the last persisted circuit intact (1ms)
+
+
+  1) [webkit] › e2e/laboratory.pw.ts:7:1 › first station episode: mistakes, keyboard repair, help, evidence and resume 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libicu74\                   ║
+    ║         libxml2\                                     ║
+    ║         libmanette-0.2-0\                            ║
+    ║         libwoff1                                     ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    Error Context: test-results/laboratory-first-station-e-47938-ir-help-evidence-and-resume-webkit/error-context.md
+
+  2) [webkit] › e2e/laboratory.pw.ts:118:1 › narrow touch workspace: both themes, help escape and retained exposure on restart 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libicu74\                   ║
+    ║         libxml2\                                     ║
+    ║         libmanette-0.2-0\                            ║
+    ║         libwoff1                                     ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    Error Context: test-results/laboratory-narrow-touch-wo-f8bf7-etained-exposure-on-restart-webkit/error-context.md
+
+  3) [webkit] › e2e/laboratory.pw.ts:203:1 › downloaded episode survives browser close and offline reopen with local progress 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libicu74\                   ║
+    ║         libxml2\                                     ║
+    ║         libmanette-0.2-0\                            ║
+    ║         libwoff1                                     ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    Error Context: test-results/laboratory-downloaded-epis-2f1a7--reopen-with-local-progress-webkit/error-context.md
+
+  4) [webkit] › e2e/laboratory.pw.ts:279:1 › write failure offers an export and keeps the last persisted circuit intact 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libicu74\                   ║
+    ║         libxml2\                                     ║
+    ║         libmanette-0.2-0\                            ║
+    ║         libwoff1                                     ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    Error Context: test-results/laboratory-write-failure-o-fbd62-st-persisted-circuit-intact-webkit/error-context.md
+
+  4 failed
+    [webkit] › e2e/laboratory.pw.ts:7:1 › first station episode: mistakes, keyboard repair, help, evidence and resume 
+    [webkit] › e2e/laboratory.pw.ts:118:1 › narrow touch workspace: both themes, help escape and retained exposure on restart 
+    [webkit] › e2e/laboratory.pw.ts:203:1 › downloaded episode survives browser close and offline reopen with local progress 
+    [webkit] › e2e/laboratory.pw.ts:279:1 › write failure offers an export and keeps the last persisted circuit intact 

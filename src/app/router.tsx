@@ -21,6 +21,7 @@ const ReviewPage = lazy(() => import('./pages/ReviewPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const WidgetsPage = lazy(() => import('./pages/WidgetsPage'));
+const LaboratoryPage = lazy(() => import('../v2/LaboratoryPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 function page(node: ReactNode): ReactNode {
@@ -62,6 +63,11 @@ export function buildRoutes(): RouteObject[] {
         {
           path: 'widgets/:widgetKey?',
           element: page(<WidgetsPage />),
+          errorElement: <RouteErrorPage />,
+        },
+        {
+          path: 'laboratory/:packId?/:episodeId?',
+          element: page(<LaboratoryPage />),
           errorElement: <RouteErrorPage />,
         },
         { path: '*', element: page(<NotFoundPage />), errorElement: <RouteErrorPage /> },

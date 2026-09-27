@@ -21,10 +21,21 @@ export interface ReadAloudControlProps {
   /** Stop reading whenever this changes — see useReadAloud's own doc comment. */
   resetKey?: string | number;
   className?: string;
+  /** Constrain speech to a browser-reported local voice; no remote fallback. */
+  localOnly?: boolean;
 }
 
-export function ReadAloudControl({ targetRef, resetKey, className }: ReadAloudControlProps) {
-  const { status, rate, setRate, start, pause, resume, stop } = useReadAloud(targetRef, resetKey);
+export function ReadAloudControl({
+  targetRef,
+  resetKey,
+  className,
+  localOnly = false,
+}: ReadAloudControlProps) {
+  const { status, rate, setRate, start, pause, resume, stop } = useReadAloud(
+    targetRef,
+    resetKey,
+    localOnly,
+  );
 
   // The Stop button only exists while active, so stopping removes the
   // focused element from the DOM — without this, focus would fall back to
@@ -35,7 +46,12 @@ export function ReadAloudControl({ targetRef, resetKey, className }: ReadAloudCo
     groupRef.current?.querySelector<HTMLButtonElement>('[data-role="read-aloud-primary"]')?.focus();
   };
 
-  if (status === 'unsupported') return null;
+  if (status === 'unsupported')
+    return localOnly ? (
+      <p className="text-sm">
+        Local read-aloud unavailable. All activity information is available as text.
+      </p>
+    ) : null;
 
   const isSpeaking = status === 'speaking';
   const isPaused = status === 'paused';

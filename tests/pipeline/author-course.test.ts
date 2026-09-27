@@ -211,13 +211,30 @@ describe('authoring run contracts', () => {
     }
   });
 
-  it('derives capability identifiers from actual screen type constants and reports v2 as unimplemented', () => {
+  it('scaffolds a new subject through a retained plan and rejects placeholder content', () => {
+    const f = fixture();
+    expect(start(f).code).toBe(0);
+    expect(cli('plan', '--run', f.run, '--file', f.save('plan.json', f.plan)).code).toBe(0);
+    const output = path.join(f.dir, 'draft');
+    const result = cli('scaffold', '--run', f.run, '--output', output);
+    expect(result.code, result.error).toBe(0);
+    const pack = JSON.parse(fs.readFileSync(path.join(output, 'pack.json'), 'utf8'));
+    expect(pack.subject.id).toBe('economic-history');
+    expect(pack.level).toBe('University introductory');
+    expect(cli('validate-pack', '--file', path.join(output, 'pack.json')).code).toBe(1);
+    expect(cli('scaffold', '--run', f.run, '--output', output).error).toContain('already exists');
+    expect(
+      JSON.parse(fs.readFileSync(path.join(f.run, 'manifest.json'), 'utf8')).history.at(-1).kind,
+    ).toBe('scaffold-created');
+  });
+  it('derives capability identifiers from actual v1 schemas and v2 activity contracts', () => {
     const result = cli('capabilities');
     expect(result.code, result.error).toBe(0);
     const output = JSON.parse(result.out);
     expect(output.v1.screens).toContain('tap-choice');
     expect(output.v1.screens).not.toContain('tapChoice');
     expect(output.v1.widgets).toContain('circuit-sim');
-    expect(output.v2.activities).toEqual([]);
+    expect(Object.keys(output.v2.activities)).toEqual(['choice', 'circuit']);
+    expect(output.v2.activities.circuit.schemaDef).toBe('circuit');
   });
 });

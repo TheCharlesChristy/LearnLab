@@ -2,6 +2,9 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { createHash } from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
 import { VitePWA } from 'vite-plugin-pwa';
 
 import { APP_NAME, PYODIDE_BASE_URL, PYODIDE_VERSION, REPO_NAME } from './src/config';
@@ -42,8 +45,17 @@ const pwaPlugin = VitePWA({
     // AC-04 @py e2e test). It's a normal `dist/` build artifact, so
     // vite-plugin-pwa content-hashes/revisions it like any other precached
     // file — a content change (e.g. via FR-PYDX-001 rebuilds) busts the entry.
-    globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2,zip}'],
+    globPatterns: [
+      '**/*.{js,css,html,svg,png,ico,woff2,zip}',
+      'laboratory/index.json',
+      'laboratory/runtime-assets.json',
+    ],
     runtimeCaching: [
+      {
+        urlPattern: /\/laboratory\//,
+        handler: 'CacheFirst',
+        options: { cacheName: 'learnlab-laboratory-acquired-v1' },
+      },
       {
         // Same-origin course content (FR-PWA-002). A path-only RegExp can
         // only ever match same-origin URLs in Workbox (cross-origin patterns
@@ -73,7 +85,44 @@ export default defineConfig({
   base,
   // pyHotReloadPlugin is apply:'serve' → active in `vite dev` only, never in
   // the production build (FR-PYDX-001; keeps prod output unchanged).
-  plugins: [react(), tailwindcss(), pwaPlugin, pyHotReloadPlugin()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    {
+      name: 'laboratory-runtime-closure',
+      apply: 'build',
+      generateBundle() {
+        this.emitFile({ type: 'asset', fileName: 'laboratory/runtime-assets.json', source: '{}' });
+      },
+      writeBundle(options) {
+        // Vite rewrites chunks and CSS late in generateBundle. Hash actual
+        // final bytes after writing, before Workbox closeBundle precaches them.
+        const folder = path.resolve(options.dir ?? 'dist');
+        const files: { path: string; sha256: string; bytes: number }[] = [];
+        const walk = (dir: string) => {
+          for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+            const file = path.join(dir, entry.name);
+            if (entry.isDirectory()) walk(file);
+            else if (/\.(js|css|html|woff2|svg|png|ico)$/.test(entry.name)) {
+              const bytes = fs.readFileSync(file);
+              files.push({
+                path: path.relative(folder, file).split(path.sep).join('/'),
+                sha256: createHash('sha256').update(bytes).digest('hex'),
+                bytes: bytes.length,
+              });
+            }
+          }
+        };
+        walk(folder);
+        fs.writeFileSync(
+          path.join(folder, 'laboratory/runtime-assets.json'),
+          JSON.stringify({ formatVersion: 1, files }),
+        );
+      },
+    },
+    pwaPlugin,
+    pyHotReloadPlugin(),
+  ],
   build: {
     // NFR-SEC-001: never inline fonts as data: URIs. Vite inlines assets
     // under 4 KB by default, which caught KaTeX_Size3-Regular.woff2 (3.6 KB);
@@ -81,7 +130,8 @@ export default defineConfig({
     // large delimiters. Emitting fonts as same-origin files keeps the CSP
     // strict and lets the PWA precache them like every other KaTeX font.
     // Other assets keep Vite's default threshold (undefined = default).
-    assetsInlineLimit: (filePath) => (/\.(woff2?|ttf|otf|eot)$/i.test(filePath) ? false : undefined),
+    assetsInlineLimit: (filePath) =>
+      /\.(woff2?|ttf|otf|eot)$/i.test(filePath) ? false : undefined,
   },
   test: {
     environment: 'jsdom',

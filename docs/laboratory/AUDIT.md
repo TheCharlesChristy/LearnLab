@@ -41,6 +41,15 @@ runtime outside `src/v2/`. The existing `V2_SUPPORTED_CAPABILITIES` literals are
 negotiation contract fixtures, not proof that their named runtime capabilities
 exist. Capability discovery must make that distinction explicit until implemented.
 
+## First-slice update
+
+The table above records the inspected baseline. The implementation now adds the
+first registered `choice`/`circuit` graph, event replay, explicit pack acquisition,
+retained exposure, recovery and CLI scaffold/validate/stage commands. See ADR-002
+and [activity contracts](ACTIVITIES.md) for exact bounds. Only one of the ten planned
+circuits episodes is staged; history, Studio, broad skill-map/review and owner revision
+remain pending. The older rollout fixtures still do not establish typed effects.
+
 ## Deliberate choices
 
 Continue ADR-001's additive migration. Implement graphs and activities in `src/v2/`,

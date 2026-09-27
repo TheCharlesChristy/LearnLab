@@ -1,0 +1,15 @@
+
+> learnlab@0.1.0 test
+> vitest run
+
+(node:46825) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ RUN  v4.1.8 /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab
+
+
+ Test Files  89 passed | 9 skipped (98)
+      Tests  926 passed | 9 skipped (935)
+   Start at  17:59:50
+   Duration  25.61s (transform 7.12s, setup 19.38s, import 25.02s, tests 83.38s, environment 120.90s)
+
