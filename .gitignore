@@ -29,3 +29,6 @@ __pycache__/
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# Generated laboratory acquisition index
+public/laboratory/index.json

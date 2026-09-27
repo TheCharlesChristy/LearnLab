@@ -91,6 +91,226 @@
       "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0009-circuit-model.ts",
+      "sha256": "6dd1a3a3cbe67e06ac3b29076bd945ef36b1d0b8c8838fc8ce8d75190933b1fc",
+      "note": "Bounded pure ideal DC model written during this existing run, before rendered episode implementation",
+      "at": "2026-09-27T16:04:16.377Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "critique",
+      "file": "artifacts/0010-circuit-independent-review.md",
+      "sha256": "007964adbbbe28bf1db086f6b07ab2768788ca76af538352e95a08998b088730",
+      "note": "Independent agent model review; two defects corrected, no UI or human learning claims",
+      "at": "2026-09-27T16:14:32.708Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "revision",
+      "file": "artifacts/0011-circuit-model.ts",
+      "sha256": "b53aaafd085ecc65a5df9d23fdefe3ae1e55db257dbd4fdfe0023b52e78a08bc",
+      "note": "Post-review model: floating zero-supply breaks and sparse array validation corrected",
+      "at": "2026-09-27T16:14:32.820Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0012-scaffold.json",
+      "sha256": "8513dd3d5d2e7c3b9ba1d967bb019f1eb1c42f1ccea26dfee403bcd21d3d31df",
+      "note": "Actual draft scaffold at authoring/drafts/research-station; incomplete nodes/references deliberately fail validation.",
+      "at": "2026-09-27T16:15:42.288Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0013-pack.json",
+      "sha256": "57b28125e84489e248f0a8b6226715cebbf857888ef9b13acd87517e6d09152f",
+      "note": "Staged local preview at public/laboratory/research-station; no merge or deployment.",
+      "at": "2026-09-27T16:20:04.221Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0014-pack.json",
+      "sha256": "86428730ec7de937bfc00d9ae6b3b5fab624425b78fccfbc828c8858ff53f77a",
+      "note": "Staged local preview at public/laboratory/research-station; no merge or deployment.",
+      "at": "2026-09-27T17:03:34.671Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "critique",
+      "file": "artifacts/0015-circuit-independent-review.md",
+      "sha256": "651e88e94fffe2504d450af2967b58c748c71bd98bb23bbc91d775aad8f701a9",
+      "note": "Independent model and runtime source review; browser critique retained separately",
+      "at": "2026-09-27T17:04:57.454Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0016-learnlab-full-unit.log",
+      "sha256": "f0c084a9424ff01791fe981e25592f2bdfc15f4ac2832b2e952eacdf512f126b",
+      "note": "926 passed, 9 skipped; includes new atomic recovery tests; before visual notebook revisions",
+      "at": "2026-09-27T17:04:57.611Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0017-first-episode-playthrough.md",
+      "sha256": "6cf09c72cb806022a1e492cf9bfa338f2b8de41e061bbc0475128a7d5885c074",
+      "note": "Independent rendered critique with author revisions; human outcomes unobserved",
+      "at": "2026-09-27T17:06:40.186Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0018-learnlab-independent-360-start.png",
+      "sha256": "86ed0885c0694c6a295c20ed62f5233c7b9f16f1c14bbbd2eb01b4a9ffd4cd23",
+      "note": "Independent pre-revision mobile screenshot",
+      "at": "2026-09-27T17:06:40.331Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0019-learnlab-independent-desktop-complete.png",
+      "sha256": "f80eefb62b5e1e6cb0e51619e198017095c82b715f5afea0a37b4f0e0ae0e578",
+      "note": "Independent pre-revision impatient completion",
+      "at": "2026-09-27T17:06:40.470Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0020-learnlab-webkit-e2e.log",
+      "sha256": "c7bc9bac752e794712aae988954e57a2a0b8ca328c6528caaeef0ba47f4071f6",
+      "note": "Unavailable WebKit host dependencies, no rendered browser coverage",
+      "at": "2026-09-27T17:06:40.659Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0021-learnlab-final-unit.log",
+      "sha256": "d78a348ec1b9c7aa9faefe669c199624368739cd59eb6a12426f57d66e7507db",
+      "note": "Concurrent verification run: 925 passed, one legacy lazy-route wait timed out; sequential follow-up pending",
+      "at": "2026-09-27T17:09:28.753Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0022-learnlab-episode-e2e.log",
+      "sha256": "b5aff0565d87c0cce4aab20198d2c8933bbc3ee29595abdd5b2e0eba73c324d1",
+      "note": "Interrupted verification after overlapping rebuild invalidated production files; superseded by sequential final browser run",
+      "at": "2026-09-27T17:09:29.005Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "revision",
+      "file": "artifacts/0023-first-episode-playthrough.md",
+      "sha256": "fa730546047c6f0e18c066ec43f5c0c859f18ce8bff2c2abb1a87a66312677fc",
+      "note": "Independent rendered recheck and legacy route-state repair",
+      "at": "2026-09-27T17:11:52.160Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0024-learnlab-final-browser.log",
+      "sha256": "d5117a261a8297d0ebee857e3c86a14328864acfcb811471442ea7ae0d73568e",
+      "note": "24 passed; legacy route-state and stale keyboard-summary assertions exposed and revised",
+      "at": "2026-09-27T17:11:52.297Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0025-learnlab-final-browser.log",
+      "sha256": "1dcfe0eec0a05b7740f66037c08b7983ca7a2b7bbd3b2919445f448949f368a9",
+      "note": "28 production browser checks passed: Chromium and Firefox, first episode plus v1 regression; Pyodide tier excluded",
+      "at": "2026-09-27T17:12:49.918Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0026-beacon-mobile-light.png",
+      "sha256": "85efc5e0cc7bcb7878ebfc39cde4817824af0f2c4b9980017bb319223dc707d0",
+      "note": "Author revised 360x640 light theme, actual model diagram and visible control",
+      "at": "2026-09-27T17:12:50.524Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0027-beacon-mobile-dark.png",
+      "sha256": "f9a81cf060aece07d906171de5a04d743d5998e8a8089df400833446a8e32d35",
+      "note": "Author revised 360x640 dark theme after assisted completion and restart",
+      "at": "2026-09-27T17:12:50.886Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0028-beacon-desktop.png",
+      "sha256": "03b28883f6fe3dc899f562818fba67e36cdb9559466f31509e3a145cf93ec575",
+      "note": "Author revised desktop actual circuit readings",
+      "at": "2026-09-27T17:12:51.206Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0029-learnlab-final-unit.log",
+      "sha256": "7998dd4142528c259bbdef4d2282cbc75f2ef5d60a1a22c158d217f11ab1a7d5",
+      "note": "Final sequential suite: 927 passed, 9 skipped; includes lesson-navigation regression",
+      "at": "2026-09-27T17:13:36.696Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0030-learnlab-final-build.log",
+      "sha256": "52cb05f14b8723e040852b530e269ddd1874dd767a61e0f2470525fe78acfdb7",
+      "note": "Opt-in production build and all chunk size budgets passed; existing CSS highlight warnings retained",
+      "at": "2026-09-27T17:14:21.966Z",
+      "revision": "652f533385fc32a6cca04dfa947b9c3f614a5196",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [
@@ -102,6 +322,11 @@
       "kind": "plan-verified",
       "at": "2026-09-27T15:57:08.685Z",
       "file": "plan-0001.json"
+    },
+    {
+      "kind": "scaffold-created",
+      "at": "2026-09-27T16:15:42.293Z",
+      "output": "authoring/drafts/research-station"
     }
   ]
 }

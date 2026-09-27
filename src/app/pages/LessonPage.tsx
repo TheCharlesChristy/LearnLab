@@ -446,5 +446,5 @@ export default function LessonPage() {
     return <RetryCard what="this module" error={loc.error} onRetry={loc.retry} />;
   }
   if (loc.data === null) return <MissingContent what={`Module “${moduleId}”`} />;
-  return <LessonBody loc={loc.data} lessonId={lessonId} />;
+  return <LessonBody key={`${moduleId}:${lessonId}`} loc={loc.data} lessonId={lessonId} />;
 }

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { RouterProvider, createMemoryRouter } from 'react-router';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -36,6 +36,15 @@ describe('routes (FR-SHELL-001)', () => {
       'The slope of a curve.',
     );
     expect(screen.getByRole('button', { name: 'Mark lesson complete' })).toBeInTheDocument();
+  });
+
+  it('does not carry a completed lesson banner into the next lesson', async () => {
+    renderRoute('/module/diff-1/lesson/l1');
+    fireEvent.click(await screen.findByRole('button', { name: 'Mark lesson complete' }));
+    await screen.findByRole('button', { name: 'Lesson completed' });
+    fireEvent.click(screen.getByRole('link', { name: 'Next: Power rule →' }));
+    expect(await screen.findByRole('button', { name: 'Mark lesson complete' })).toBeEnabled();
+    expect(screen.queryByRole('button', { name: 'Lesson completed' })).not.toBeInTheDocument();
   });
 
   it('renders the not-found page with a link home for unknown routes', async () => {

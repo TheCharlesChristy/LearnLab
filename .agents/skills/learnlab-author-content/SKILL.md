@@ -29,9 +29,12 @@ For new laboratory courses, read `docs/laboratory/AUTHORING-HARNESS.md` and
 course drafting, record bounded audience/level/outcomes and research decisions,
 and validate the plan with `plan`. Preserve actual authoring, failure and playthrough
 artifacts using `record`; artifact presence alone does not pass a gate. The CLI
-currently implements intake/planning/discovery/evidence preservation only; course
-scaffolding, graph validators and Studio are pending. Use `capabilities` to distinguish
-shipped v1 sets from planned v2 activities. New v2 metadata is not confined to the v1
+implements intake/planning/discovery, scaffolding, shared pack/graph validation,
+local preview staging and evidence preservation. Studio and complete pilots remain
+pending. Use `capabilities` and `schemas` to discover actual v1 sets and registered
+laboratory activities (`choice`, `circuit`), not old v2 negotiation fixtures. Scaffold
+with `scaffold` before drafting; use `validate-pack` and `stage-pack` for laboratory
+packs. See `docs/laboratory/ACTIVITIES.md` for marking, state and accessibility. New v2 metadata is not confined to the v1
 subject/level enums. Keep v1 content compatible and use `src/v2/` for the additive
 experience runtime. Adult playfulness is allowed; difficulty is contextual. Assisted
 exits, self-report and answer-exposed retries cannot award independent mastery.

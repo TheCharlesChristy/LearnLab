@@ -11,6 +11,9 @@ export default tseslint.config(
       'node_modules',
       'playwright-report',
       'test-results',
+      // Retained authoring evidence is opaque data, including historical code snapshots.
+      'authoring/runs/**/artifacts/**',
+      'src/v2/generated/**',
       'public/content/index.json',
     ],
   },

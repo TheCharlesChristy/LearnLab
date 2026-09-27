@@ -16,6 +16,7 @@ interface BoundaryEvent {
 class MockUtterance {
   text: string;
   rate = 1;
+  voice: SpeechSynthesisVoice | null = null;
   onboundary: ((event: BoundaryEvent) => void) | null = null;
   onend: (() => void) | null = null;
   onerror: (() => void) | null = null;
@@ -67,8 +68,9 @@ beforeEach(async () => {
     configurable: true,
     writable: true,
   });
-  (window as unknown as { SpeechSynthesisUtterance: typeof MockUtterance }).SpeechSynthesisUtterance =
-    MockUtterance;
+  (
+    window as unknown as { SpeechSynthesisUtterance: typeof MockUtterance }
+  ).SpeechSynthesisUtterance = MockUtterance;
   await db.open();
   await Promise.all(db.tables.map((t) => t.clear()));
 });
@@ -98,6 +100,33 @@ describe('useReadAloud', () => {
     expect(result.current.status).toBe('unsupported');
   });
 
+  it('constrains laboratory speech to a browser-reported local voice', () => {
+    const remote = { localService: false, lang: 'en-GB', name: 'Remote' } as SpeechSynthesisVoice;
+    const local = { localService: true, lang: 'en-GB', name: 'Local' } as SpeechSynthesisVoice;
+    Object.assign(mockSynthesis, {
+      getVoices: () => [remote, local],
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    });
+    const { result } = renderHook(() =>
+      useReadAloud(containerRef('<p>Charge is conserved.</p>'), 'lab', true),
+    );
+    act(() => result.current.start());
+    expect(mockSynthesis.current?.voice).toBe(local);
+  });
+  it('does not send laboratory text to a remote default voice when no local voice exists', () => {
+    Object.assign(mockSynthesis, {
+      getVoices: () => [{ localService: false, lang: 'en-GB' }],
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    });
+    const { result } = renderHook(() =>
+      useReadAloud(containerRef('<p>Local text</p>'), 'lab', true),
+    );
+    act(() => result.current.start());
+    expect(result.current.status).toBe('unsupported');
+    expect(mockSynthesis.current).toBeNull();
+  });
   it('starts idle, then speaking after start()', () => {
     const ref = containerRef('<p>Hello world</p>');
     const { result } = renderHook(() => useReadAloud(ref));

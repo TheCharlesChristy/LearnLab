@@ -55,9 +55,31 @@ function speechSupported(): boolean {
 export function useReadAloud(
   containerRef: RefObject<HTMLElement | null>,
   resetKey?: string | number,
+  localOnly = false,
 ): UseReadAloudResult {
   const supported = speechSupported();
-  const [status, setStatus] = useState<ReadAloudStatus>(supported ? 'idle' : 'unsupported');
+  const localVoice = () =>
+    supported && typeof window.speechSynthesis.getVoices === 'function'
+      ? (window.speechSynthesis
+          .getVoices()
+          .find((v) => v.localService && v.lang.startsWith('en')) ??
+        window.speechSynthesis.getVoices().find((v) => v.localService))
+      : undefined;
+  const [status, setStatus] = useState<ReadAloudStatus>(
+    supported && (!localOnly || localVoice()) ? 'idle' : 'unsupported',
+  );
+  useEffect(() => {
+    if (!supported || !localOnly) return;
+    const update = () => {
+      const available = window.speechSynthesis.getVoices().some((v) => v.localService);
+      setStatus((previous) =>
+        available ? (previous === 'unsupported' ? 'idle' : previous) : 'unsupported',
+      );
+    };
+    window.speechSynthesis.addEventListener('voiceschanged', update);
+    update();
+    return () => window.speechSynthesis.removeEventListener('voiceschanged', update);
+  }, [supported, localOnly]);
   const statusRef = useRef(status);
   useEffect(() => {
     statusRef.current = status;
@@ -73,7 +95,10 @@ export function useReadAloud(
   // boundary reported — SpeechSynthesisUtterance.rate can't be changed on an
   // in-flight utterance in any engine, so applying a rate change mid-speech
   // means re-speaking from here, not mutating the existing utterance.
-  const contentRef = useRef<{ text: string; segments: SpeakableSegment[] }>({ text: '', segments: [] });
+  const contentRef = useRef<{ text: string; segments: SpeakableSegment[] }>({
+    text: '',
+    segments: [],
+  });
   const lastCharIndexRef = useRef(0);
   // Bumped on every speakFrom() call so a cancelled utterance's onend/onerror
   // (queued async by speechSynthesis.cancel(), and so liable to fire after
@@ -137,7 +162,19 @@ export function useReadAloud(
         return;
       }
 
+      const voice =
+        localOnly && typeof window.speechSynthesis.getVoices === 'function'
+          ? (window.speechSynthesis
+              .getVoices()
+              .find((v) => v.localService && v.lang.startsWith('en')) ??
+            window.speechSynthesis.getVoices().find((v) => v.localService))
+          : undefined;
+      if (localOnly && !voice) {
+        setStatus('unsupported');
+        return;
+      }
       const utterance = new SpeechSynthesisUtterance(slice);
+      if (voice) utterance.voice = voice;
       utterance.rate = rateRef.current;
 
       utterance.onboundary = (event) => {
@@ -164,7 +201,7 @@ export function useReadAloud(
       window.speechSynthesis.speak(utterance);
       setStatus('speaking');
     },
-    [supported],
+    [supported, localOnly],
   );
 
   const start = useCallback(() => {

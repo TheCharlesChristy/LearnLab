@@ -1,6 +1,7 @@
 // Catalogue (#/): renders from content/index.json alone (FR-CONT-001),
 // grouped by subject with per-course stats + percent complete (FR-SHELL-002).
 
+import { createV2RolloutConfig } from '../../v2/rollout';
 import { Link } from 'react-router';
 
 import { useOverallProgress } from '../../progress';
@@ -77,6 +78,18 @@ export default function CataloguePage() {
     <div>
       <h1 className="sr-only">Course catalogue</h1>
       <TodayPanel />
+      {createV2RolloutConfig().enabled && (
+        <Card className="mb-6">
+          <h2 className="text-xl font-bold">Enter the field laboratory</h2>
+          <p className="my-2">
+            A research station needs a working beacon. Change its circuit and investigate what
+            follows.
+          </p>
+          <Link className="underline" to="/laboratory">
+            Explore the laboratory preview →
+          </Link>
+        </Card>
+      )}
       {subjects.map((subject) => (
         <section key={subject.id} aria-labelledby={`subject-${subject.id}`} className="mb-8">
           <h2 id={`subject-${subject.id}`} className="mb-3 text-xl font-bold">

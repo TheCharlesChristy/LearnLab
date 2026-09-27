@@ -1,0 +1,30 @@
+{
+  "choice": {
+    "version": "0.1.0",
+    "schemaDef": "choice",
+    "stateVersion": 1,
+    "goal": "exactly-one-authored-correct-option",
+    "documentation": "docs/laboratory/ACTIVITIES.md#choice",
+    "accessibility": {
+      "keyboard": "Native buttons; focus moves to the next scene heading on transition.",
+      "announcement": "Authored feedback is a polite status; correctness is expressed in text.",
+      "touch": "No dragging; targets at least 44 CSS pixels high.",
+      "motion": "No essential motion; reduced motion preserves the same controls.",
+      "alternative": "All options and feedback are text."
+    }
+  },
+  "circuit": {
+    "version": "0.1.0",
+    "schemaDef": "circuit",
+    "stateVersion": 1,
+    "goal": "all-finite-reading-ranges-after-control-action",
+    "documentation": "docs/laboratory/ACTIVITIES.md#circuit",
+    "accessibility": {
+      "keyboard": "Native buttons select switch/resistor values; no drag requirement.",
+      "announcement": "Current and goal feedback in a polite status after control changes.",
+      "touch": "Same controls on touch; targets at least 44 CSS pixels high.",
+      "motion": "Energy indication is static; no essential motion or sound.",
+      "alternative": "Circuit topology and meter readings are available as text and a table."
+    }
+  }
+}

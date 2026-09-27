@@ -1,0 +1,96 @@
+(node:57938) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[2m[WebServer] [22m(node:57997) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:57997) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+[2m[WebServer] [22mFound 2 warnings while optimizing generated CSS:
+[2m[WebServer] [22m
+[2m[WebServer] [22mIssue #1:
+[2m[WebServer] [22m[2m│   padding-block: 0.25rem;[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m[2m│[22m ::highlight(learnlab-read-aloud) {
+[2m[WebServer] [22m[2m┆[22m             [33m[2m^--[22m 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?[39m
+[2m[WebServer] [22m[2m┆[22m
+[2m[WebServer] [22m[2m│   background-color: oklch(85% 0.15 85 / 60%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m
+[2m[WebServer] [22mIssue #2:
+[2m[WebServer] [22m[2m│   background-color: oklch(85% 0.15 85 / 60%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m[2m│[22m :root.dark ::highlight(learnlab-read-aloud) {
+[2m[WebServer] [22m[2m┆[22m                        [33m[2m^--[22m 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?[39m
+[2m[WebServer] [22m[2m┆[22m
+[2m[WebServer] [22m[2m│   background-color: oklch(75% 0.15 85 / 45%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m
+[2m[WebServer] [22m[lightningcss minify] 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?
+[2m[WebServer] [22m1  |  /*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+[2m[WebServer] [22m2  |  ...splay{padding-block:.25rem;overflow:auto hidden}::highlight(learnlab-read-aloud){background-color:oklch(85% .15 85...
+[2m[WebServer] [22m   |                                                                 ^
+[2m[WebServer] [22m[lightningcss minify] 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?
+[2m[WebServer] [22m1  |  /*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+[2m[WebServer] [22m2  |  ...ackground-color:oklch(85% .15 85/.6)}:root.dark ::highlight(learnlab-read-aloud){background-color:oklch(75% .15 85...
+[2m[WebServer] [22m   |                                                                 ^
+[2m[WebServer] [22m(node:58069) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:58069) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 10 tests using 2 workers
+
+(node:58117) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58117) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:58118) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58117) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58118) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:58118) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [chromium] › e2e/laboratory.pw.ts:124:1 › narrow touch workspace: both themes, help escape and retained exposure on restart (3.0s)
+  ✓   1 [chromium] › e2e/laboratory.pw.ts:7:1 › first station episode: mistakes, keyboard repair, help, evidence and resume (3.2s)
+  ✓   4 [chromium] › e2e/laboratory.pw.ts:292:1 › write failure offers an export and keeps the last persisted circuit intact (1.5s)
+  ✘   5 [chromium] › e2e/laboratory.pw.ts:328:1 › tablet, landscape and expanded text preserve controls and local-only requests (10.1s)
+(node:58935) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58935) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:58935) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [firefox] › e2e/laboratory.pw.ts:7:1 › first station episode: mistakes, keyboard repair, help, evidence and resume (3.8s)
+  ✓   7 [firefox] › e2e/laboratory.pw.ts:124:1 › narrow touch workspace: both themes, help escape and retained exposure on restart (5.0s)
+  ✓   8 [firefox] › e2e/laboratory.pw.ts:216:1 › downloaded episode survives browser close and offline reopen with local progress (21.7s)
+  ✓   9 [firefox] › e2e/laboratory.pw.ts:292:1 › write failure offers an export and keeps the last persisted circuit intact (3.1s)
+  ✓  10 [firefox] › e2e/laboratory.pw.ts:328:1 › tablet, landscape and expanded text preserve controls and local-only requests (1.9s)
+  ✘   3 [chromium] › e2e/laboratory.pw.ts:216:1 › downloaded episode survives browser close and offline reopen with local progress (58.2s)
+
+
+  1) [chromium] › e2e/laboratory.pw.ts:328:1 › tablet, landscape and expanded text preserve controls and local-only requests 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('heading', { name: 'Wake the beacon' })
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 10000ms[22m
+    [2m  - waiting for getByRole('heading', { name: 'Wake the beacon' })[22m
+
+
+      229 |     await page.setViewportSize(viewport);
+      230 |     await page.goto(ROUTE);
+    > 231 |     await expect(page.getByRole('heading', { name: 'Wake the beacon' })).toBeVisible();
+          |                                                                          ^
+      232 |     await page.evaluate(() => {
+      233 |       document.documentElement.style.fontSize = '200%';
+      234 |     });
+        at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/e2e/laboratory.pw.ts:231:74
+
+    Error Context: test-results/laboratory-tablet-landscap-731a1-ols-and-local-only-requests-chromium/error-context.md
+
+  1 failed
+    [chromium] › e2e/laboratory.pw.ts:328:1 › tablet, landscape and expanded text preserve controls and local-only requests 
+  1 interrupted
+    [chromium] › e2e/laboratory.pw.ts:216:1 › downloaded episode survives browser close and offline reopen with local progress 
+  8 passed (1.1m)

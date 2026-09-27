@@ -1,0 +1,359 @@
+{
+  "formatVersion": 1,
+  "version": 2,
+  "stateVersion": 1,
+  "id": "research-station",
+  "title": "Bring the research station back online",
+  "description": "A storm has silenced the research station. Restore its beacon by finding a complete path for charge.",
+  "audience": "Learners approaching A-level physics, with optional GCSE bridges; curious adult explorers welcome",
+  "level": "Introduction bridging GCSE to A-level DC circuits",
+  "subject": {
+    "id": "physics",
+    "title": "Physics"
+  },
+  "capabilities": {
+    "experience-graph": "0.1.0",
+    "activity-plugin": "0.1.0",
+    "choice": "0.1.0",
+    "circuit": "0.1.0"
+  },
+  "skills": [
+    {
+      "id": "capability-1",
+      "title": "Explain closed-path charge flow and distinguish current from charge",
+      "criterion": "Correct mechanism prediction and applicable numeric/design task with correct units; at least two fresh independent opportunities, not completion count",
+      "prerequisites": []
+    }
+  ],
+  "episodes": [
+    {
+      "id": "close-the-loop",
+      "title": "The dark beacon",
+      "estimatedMinutes": 8,
+      "skills": [
+        "capability-1"
+      ],
+      "prerequisites": [],
+      "start": "first-action",
+      "nodes": [
+        {
+          "id": "first-action",
+          "title": "Wake the beacon",
+          "prompt": "The beacon is dark. Two links were opened during the storm. Make a complete conducting path to bring it online. Try either link first.",
+          "role": "practice",
+          "activity": {
+            "type": "circuit",
+            "initial": {
+              "voltage": 6,
+              "circuit": {
+                "type": "series",
+                "elements": [
+                  {
+                    "type": "switch",
+                    "id": "supply-link",
+                    "closed": false
+                  },
+                  {
+                    "type": "resistor",
+                    "id": "beacon",
+                    "ohms": 6
+                  },
+                  {
+                    "type": "switch",
+                    "id": "return-link",
+                    "closed": false
+                  }
+                ]
+              }
+            },
+            "solution": {
+              "voltage": 6,
+              "circuit": {
+                "type": "series",
+                "elements": [
+                  {
+                    "type": "switch",
+                    "id": "supply-link",
+                    "closed": true
+                  },
+                  {
+                    "type": "resistor",
+                    "id": "beacon",
+                    "ohms": 6
+                  },
+                  {
+                    "type": "switch",
+                    "id": "return-link",
+                    "closed": true
+                  }
+                ]
+              }
+            },
+            "labels": {
+              "supply-link": "Supply link",
+              "beacon": "Beacon heater",
+              "return-link": "Return link"
+            },
+            "controls": [
+              {
+                "id": "supply-link",
+                "values": [
+                  false,
+                  true
+                ]
+              },
+              {
+                "id": "return-link",
+                "values": [
+                  false,
+                  true
+                ]
+              }
+            ],
+            "goals": [
+              {
+                "reading": "source",
+                "quantity": "current",
+                "min": 0.999,
+                "max": 1.001
+              }
+            ]
+          },
+          "hints": [
+            "Trace from one supply terminal, through the heater, and back to the other terminal.",
+            "A break anywhere in this single path stops the steady current. Find every break."
+          ],
+          "workedExample": "Close both links. With the path complete, the 6 V supply drives 1 A through the 6 ohm heater. Reopening either link stops it; the heater has not used up charge.",
+          "mechanism": "The supply transfers energy to charge already in the conducting circuit. A complete conducting path allows a steady current. The heater transfers energy, rather than consuming charge. In this one-path ideal circuit, the same current passes every point.",
+          "transitions": {
+            "passed": "predict-break",
+            "assisted": "predict-break"
+          }
+        },
+        {
+          "id": "predict-break",
+          "title": "What if the return link opens?",
+          "prompt": "The beacon is running. Predict the steady current near the supply after only the return link opens. Then test your idea.",
+          "role": "prediction",
+          "activity": {
+            "type": "choice",
+            "options": [
+              {
+                "id": "near-source",
+                "text": "It keeps flowing near the supply, but not after the gap.",
+                "correct": false,
+                "feedback": "Steady charge cannot keep piling up at the gap. A break interrupts the entire single path."
+              },
+              {
+                "id": "used-up",
+                "text": "It falls because the heater consumes the charge.",
+                "correct": false,
+                "feedback": "The heater transfers energy from moving charge. Charge is conserved; the missing conducting path causes the stop."
+              },
+              {
+                "id": "zero",
+                "text": "It falls to zero throughout the path.",
+                "correct": true,
+                "feedback": "Yes. A return-side break interrupts the same complete path as a supply-side break."
+              }
+            ]
+          },
+          "hints": [
+            "Follow the entire path, including the return side."
+          ],
+          "workedExample": "In a single loop, removing a connection on either side of the load stops the steady current everywhere.",
+          "mechanism": "The supply transfers energy to charge already in the conducting circuit. A complete conducting path allows a steady current. The heater transfers energy, rather than consuming charge. In this one-path ideal circuit, the same current passes every point.",
+          "transitions": {
+            "passed": "break-test",
+            "assisted": "break-test"
+          }
+        },
+        {
+          "id": "break-test",
+          "title": "Test the return-side fault",
+          "prompt": "Open the return link and watch the meter. You can also compare opening the supply link, or restore the beacon again before leaving. The goal is a stopped current.",
+          "role": "practice",
+          "activity": {
+            "type": "circuit",
+            "initial": {
+              "voltage": 6,
+              "circuit": {
+                "type": "series",
+                "elements": [
+                  {
+                    "type": "switch",
+                    "id": "supply-link",
+                    "closed": true
+                  },
+                  {
+                    "type": "resistor",
+                    "id": "beacon",
+                    "ohms": 6
+                  },
+                  {
+                    "type": "switch",
+                    "id": "return-link",
+                    "closed": true
+                  }
+                ]
+              }
+            },
+            "solution": {
+              "voltage": 6,
+              "circuit": {
+                "type": "series",
+                "elements": [
+                  {
+                    "type": "switch",
+                    "id": "supply-link",
+                    "closed": true
+                  },
+                  {
+                    "type": "resistor",
+                    "id": "beacon",
+                    "ohms": 6
+                  },
+                  {
+                    "type": "switch",
+                    "id": "return-link",
+                    "closed": false
+                  }
+                ]
+              }
+            },
+            "labels": {
+              "supply-link": "Supply link",
+              "beacon": "Beacon heater",
+              "return-link": "Return link"
+            },
+            "controls": [
+              {
+                "id": "supply-link",
+                "values": [
+                  false,
+                  true
+                ]
+              },
+              {
+                "id": "return-link",
+                "values": [
+                  false,
+                  true
+                ]
+              }
+            ],
+            "goals": [
+              {
+                "reading": "source",
+                "quantity": "current",
+                "min": 0,
+                "max": 0
+              }
+            ]
+          },
+          "hints": [
+            "Try the return link. Compare the source current with the reading across the heater."
+          ],
+          "workedExample": "Open the return link. Current becomes 0 A, heater power 0 W. With just one break the source voltage appears across that break.",
+          "mechanism": "The supply transfers energy to charge already in the conducting circuit. A complete conducting path allows a steady current. The heater transfers energy, rather than consuming charge. In this one-path ideal circuit, the same current passes every point.",
+          "transitions": {
+            "passed": "fresh-fault",
+            "assisted": "fresh-fault"
+          }
+        },
+        {
+          "id": "fresh-fault",
+          "title": "A new instrument, a new fault",
+          "prompt": "A separate thermometer has one conducting loop: supply \u2192 resistor \u2192 return. Its current was 0.4 A. A wire breaks after the resistor. What is the new steady current before the resistor?",
+          "role": "transfer",
+          "activity": {
+            "type": "choice",
+            "options": [
+              {
+                "id": "half",
+                "text": "0.2 A",
+                "correct": false,
+                "feedback": "A single break is not a half-resistance adjustment. There is no complete conducting path."
+              },
+              {
+                "id": "zero",
+                "text": "0 A",
+                "correct": true,
+                "feedback": "Correct. The gap breaks the complete path; its position after the resistor does not preserve current before it."
+              },
+              {
+                "id": "same",
+                "text": "0.4 A",
+                "correct": false,
+                "feedback": "That was the current with a complete path. The break interrupts the entire steady loop."
+              }
+            ]
+          },
+          "hints": [
+            "Identify whether any complete conducting path remains."
+          ],
+          "workedExample": "If a single-loop wire breaks on either side of a load, the steady current is zero throughout that loop.",
+          "mechanism": "The supply transfers energy to charge already in the conducting circuit. A complete conducting path allows a steady current. The heater transfers energy, rather than consuming charge. In this one-path ideal circuit, the same current passes every point.",
+          "transitions": {
+            "passed": "fresh-reason",
+            "assisted": "fresh-reason"
+          }
+        },
+        {
+          "id": "fresh-reason",
+          "title": "Explain the repair",
+          "prompt": "A 9 V supply and a 3 ohm resistor form a closed single loop. A technician says current is smaller after the resistor because some charge is used up. Choose the causal correction.",
+          "role": "transfer",
+          "activity": {
+            "type": "choice",
+            "options": [
+              {
+                "id": "battery",
+                "text": "The supply creates extra charge to replace what the resistor consumes.",
+                "correct": false,
+                "feedback": "The source transfers energy; it does not continuously create net charge to replace consumed charge."
+              },
+              {
+                "id": "distance",
+                "text": "The current decreases the farther it travels from the supply.",
+                "correct": false,
+                "feedback": "Distance from the source does not cause steady current to vanish in this ideal single loop."
+              },
+              {
+                "id": "energy",
+                "text": "Charge is conserved. The resistor transfers energy; the steady current is the same before and after it.",
+                "correct": true,
+                "feedback": "Yes. Energy is transferred to the resistor. Charge flow does not steadily disappear along a single path."
+              }
+            ]
+          },
+          "hints": [
+            "Distinguish charge from the energy transferred by each unit of charge."
+          ],
+          "workedExample": "One path means no branch where charge can go elsewhere. In steady state, as much charge per second leaves the resistor as enters it.",
+          "mechanism": "The supply transfers energy to charge already in the conducting circuit. A complete conducting path allows a steady current. The heater transfers energy, rather than consuming charge. In this one-path ideal circuit, the same current passes every point.",
+          "transitions": {
+            "passed": null,
+            "assisted": null
+          }
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": "openstax-dc",
+      "title": "OpenStax University Physics: resistors in series and parallel",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/10-2-resistors-in-series-and-parallel",
+      "note": "Reference for ideal DC networks; our station story and tasks are original. No non-ohmic lamp model is implied."
+    },
+    {
+      "id": "aqa-electricity",
+      "title": "AQA A-level physics electricity scope",
+      "url": "https://www.aqa.org.uk/subjects/physics/a-level/physics-7408/specification/subject-content/electricity",
+      "note": "Scope-informed GCSE bridge; this first prototype is not the whole specification."
+    }
+  ],
+  "assets": [],
+  "scopeNote": "Partial first-episode prototype: 1 of 10 planned episodes. Ten short investigations of ideal DC resistors, source and switches, conservation, measurement, power, open faults and repair; optional unrestricted exploration within the bounded model"
+}
