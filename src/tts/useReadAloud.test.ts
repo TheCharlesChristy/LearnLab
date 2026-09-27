@@ -219,6 +219,17 @@ describe('useReadAloud', () => {
     });
   });
 
+  it('keeps isolated preferences in memory without reading or overwriting learner rate', async () => {
+    await db.kv.put({ key: 'ttsRate', value: 1.5 });
+    const { result } = renderHook(() =>
+      useReadAloud(containerRef('<p>Preview</p>'), 'preview', false, false),
+    );
+    act(() => result.current.setRate(1.1));
+    await act(async () => {});
+    expect(result.current.rate).toBe(1.1);
+    expect((await db.kv.get('ttsRate'))?.value).toBe(1.5);
+  });
+
   it('restores a previously persisted rate on mount', async () => {
     await db.kv.put({ key: 'ttsRate', value: 1.5 });
     const ref = containerRef('<p>Hello world</p>');

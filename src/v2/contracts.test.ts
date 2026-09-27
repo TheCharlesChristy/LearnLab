@@ -47,6 +47,16 @@ describe('laboratory content boundary', () => {
     for (const [key, contract] of Object.entries(ACTIVITY_CONTRACTS))
       expect(schema.$defs[contract.schemaDef].properties.type.const).toBe(key);
   });
+  it('negotiates authored course copy while accepting older packs with generic fallback', () => {
+    const pack = fixture();
+    pack.capabilities['experience-graph'] = '0.1.0';
+    expect(() => parseLaboratoryPack(pack)).toThrow('bridge/debrief');
+    for (const episode of pack.episodes) {
+      delete episode.debrief;
+      for (const node of episode.nodes) delete node.bridge;
+    }
+    expect(() => parseLaboratoryPack(pack)).not.toThrow();
+  });
   it('rejects orphan scenes, cycles and missing destinations', () => {
     const orphan = fixture();
     orphan.episodes[0]!.nodes.push({ ...orphan.episodes[0]!.nodes[0]!, id: 'orphan' });

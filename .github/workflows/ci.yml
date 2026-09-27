@@ -85,3 +85,34 @@ jobs:
             test-results/
           retention-days: 14
           if-no-files-found: ignore
+
+  authoring-preview:
+    # Local-only Studio is tested without changing the production build/deploy flags.
+    runs-on: ubuntu-latest
+    env:
+      VITE_EXPERIENCE_RUNTIME_V2: 'true'
+      VITE_AUTHOR_STUDIO: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - name: Shared laboratory and isolated author preview
+        run: npx playwright test e2e/author-studio.spec.ts e2e/author-build-boundary.spec.ts e2e/laboratory.spec.ts --workers=2
+      - name: Ordinary build excludes Studio
+        env:
+          VITE_AUTHOR_STUDIO: 'false'
+        run: npx playwright test e2e/author-build-boundary.spec.ts --workers=2
+      - name: Upload preview failure diagnostics
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-authoring-preview
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+          if-no-files-found: ignore

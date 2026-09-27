@@ -72,7 +72,9 @@ function parseFiles(raw: unknown): LocalFile[] {
 export async function loadLaboratoryIndex(): Promise<PackReference[]> {
   const response = await fetch(local('laboratory/index.json'));
   if (!response.ok) throw new Error('Laboratory catalogue unavailable');
-  const raw: unknown = await response.json();
+  return parseIndex(await response.json());
+}
+function parseIndex(raw: unknown): PackReference[] {
   if (
     !raw ||
     typeof raw !== 'object' ||
@@ -141,14 +143,58 @@ export async function offlineReady(reference: PackReference): Promise<boolean> {
   )
     return false;
   try {
-    const files = await acquisitionFiles(reference);
     const cache = await caches.open(CACHE);
+    const catalogue = await cache.match(local('laboratory/index.json'));
+    const runtime = await cache.match(local('laboratory/runtime-assets.json'));
+    const descriptor = await cache.match(
+      local(`laboratory/${reference.id}/download-v${reference.version}.json`),
+    );
+    if (!catalogue?.ok || !runtime?.ok || !descriptor?.ok) return false;
+    const sameReference = (value: PackReference) =>
+      value.id === reference.id &&
+      value.version === reference.version &&
+      value.files.length === reference.files.length &&
+      value.files.every((file) =>
+        reference.files.some(
+          (expected) =>
+            expected.path === file.path &&
+            expected.sha256 === file.sha256 &&
+            expected.bytes === file.bytes,
+        ),
+      );
+    if (
+      !parseIndex(await catalogue.json()).some(sameReference) ||
+      !sameReference(parseIndex({ packs: [await descriptor.json()] })[0]!)
+    )
+      return false;
+    const raw: unknown = await runtime.json();
+    if (!raw || typeof raw !== 'object' || !('files' in raw)) return false;
+    const files = [
+      ...parseFiles(raw.files),
+      ...reference.files.map((f) => ({ ...f, path: `laboratory/${f.path}` })),
+    ];
     for (const file of files)
       if (!(await bytesMatch(await cache.match(revisionUrl(file)), file))) return false;
     return true;
   } catch {
     return false;
   }
+}
+async function retainMetadata(
+  cache: Cache,
+  url: string,
+  response: Response,
+  label: string,
+): Promise<void> {
+  const data = await response.clone().arrayBuffer();
+  const sha256 = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', data)), (v) =>
+    v.toString(16).padStart(2, '0'),
+  ).join('');
+  await cache.put(url, response);
+  if (!(await bytesMatch(await cache.match(url), { path: label, bytes: data.byteLength, sha256 })))
+    throw new Error(
+      `Offline storage could not retain ${label}. Retry or free browser storage; this course is not ready offline.`,
+    );
 }
 export async function acquirePack(
   reference: PackReference,
@@ -173,6 +219,10 @@ export async function acquirePack(
       if (!(await bytesMatch(response.clone(), file)))
         throw new Error(`Asset version/hash mismatch: ${file.path}. Refresh before retrying.`);
       await cache.put(url, response);
+      if (!(await bytesMatch(await cache.match(url), file)))
+        throw new Error(
+          `Offline storage could not retain ${file.path}. Retry or free browser storage; this course is not ready offline.`,
+        );
     }
     progress(i + 1, files.length);
   }
@@ -180,11 +230,13 @@ export async function acquirePack(
   for (const name of ['laboratory/index.json', 'laboratory/runtime-assets.json']) {
     const response = await fetch(local(name));
     if (!response.ok) throw new Error('Acquisition catalogue could not be saved');
-    await cache.put(local(name), response);
+    await retainMetadata(cache, local(name), response, name);
   }
-  await cache.put(
+  await retainMetadata(
+    cache,
     local(`laboratory/${reference.id}/download-v${reference.version}.json`),
     new Response(JSON.stringify(reference), { headers: { 'content-type': 'application/json' } }),
+    'downloaded course descriptor',
   );
   if (!(await offlineReady(reference)))
     throw new Error('Download finished but offline readiness could not be confirmed.');

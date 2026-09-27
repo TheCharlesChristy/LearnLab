@@ -56,6 +56,7 @@ export function useReadAloud(
   containerRef: RefObject<HTMLElement | null>,
   resetKey?: string | number,
   localOnly = false,
+  persistPreferences = true,
 ): UseReadAloudResult {
   const supported = speechSupported();
   const localVoice = () =>
@@ -107,7 +108,7 @@ export function useReadAloud(
   const speakGenRef = useRef(0);
 
   useEffect(() => {
-    if (!supported) return;
+    if (!supported || !persistPreferences) return;
     let cancelled = false;
     void kvGet<number>(KV_RATE_KEY)
       .then((saved) => {
@@ -123,7 +124,7 @@ export function useReadAloud(
     return () => {
       cancelled = true;
     };
-  }, [supported]);
+  }, [supported, persistPreferences]);
 
   const stop = useCallback(() => {
     if (!supported) return;
@@ -234,14 +235,14 @@ export function useReadAloud(
       const clamped = Math.min(MAX_RATE, Math.max(MIN_RATE, next));
       setRateState(clamped);
       rateRef.current = clamped;
-      void kvSet(KV_RATE_KEY, clamped);
+      if (persistPreferences) void kvSet(KV_RATE_KEY, clamped);
       // Mid-speech rate changes only take effect on a fresh utterance
       // (rate is immutable once speak() is called) — re-speak from the
       // last known word boundary so the change applies immediately instead
       // of only after a manual stop/restart.
       if (statusRef.current === 'speaking') speakFrom(lastCharIndexRef.current);
     },
-    [speakFrom],
+    [speakFrom, persistPreferences],
   );
 
   return { status, rate, setRate, start, pause, resume, stop };

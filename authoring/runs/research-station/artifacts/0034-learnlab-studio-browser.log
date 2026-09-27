@@ -1,0 +1,106 @@
+(node:82052) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[2m[WebServer] [22m(node:82127) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:82127) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+[2m[WebServer] [22mFound 2 warnings while optimizing generated CSS:
+[2m[WebServer] [22m
+[2m[WebServer] [22mIssue #1:
+[2m[WebServer] [22m[2m│   padding-block: 0.25rem;[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m[2m│[22m ::highlight(learnlab-read-aloud) {
+[2m[WebServer] [22m[2m┆[22m             [33m[2m^--[22m 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?[39m
+[2m[WebServer] [22m[2m┆[22m
+[2m[WebServer] [22m[2m│   background-color: oklch(85% 0.15 85 / 60%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m
+[2m[WebServer] [22mIssue #2:
+[2m[WebServer] [22m[2m│   background-color: oklch(85% 0.15 85 / 60%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m[2m│[22m :root.dark ::highlight(learnlab-read-aloud) {
+[2m[WebServer] [22m[2m┆[22m                        [33m[2m^--[22m 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?[39m
+[2m[WebServer] [22m[2m┆[22m
+[2m[WebServer] [22m[2m│   background-color: oklch(75% 0.15 85 / 45%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m
+[2m[WebServer] [22m[lightningcss minify] 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?
+[2m[WebServer] [22m1  |  /*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+[2m[WebServer] [22m2  |  ...splay{padding-block:.25rem;overflow:auto hidden}::highlight(learnlab-read-aloud){background-color:oklch(85% .15 85...
+[2m[WebServer] [22m   |                                                                 ^
+[2m[WebServer] [22m[lightningcss minify] 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?
+[2m[WebServer] [22m1  |  /*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+[2m[WebServer] [22m2  |  ...ackground-color:oklch(85% .15 85/.6)}:root.dark ::highlight(learnlab-read-aloud){background-color:oklch(75% .15 85...
+[2m[WebServer] [22m   |                                                                 ^
+[2m[WebServer] [22m(node:82211) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:82211) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 6 tests using 2 workers
+
+(node:82253) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:82254) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:82254) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:82253) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:82254) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:82253) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › e2e/author-studio.pw.ts:116:1 › source validation, undo, new-subject preview and bounded diagnostics (1.4s)
+  ✓  2 [chromium] › e2e/author-studio.pw.ts:9:1 › author preview shares actual renderer, survives diagnostic export/import and writes no learner rows (2.6s)
+(node:82449) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:82449) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:82449) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [firefox] › e2e/author-studio.pw.ts:9:1 › author preview shares actual renderer, survives diagnostic export/import and writes no learner rows (3.0s)
+  ✓  5 [firefox] › e2e/author-studio.pw.ts:116:1 › source validation, undo, new-subject preview and bounded diagnostics (1.7s)
+  ✘  3 [chromium] › e2e/author-studio.pw.ts:172:1 › switching preview episodes clears stale state and archives retain their original content (1.5m)
+  ✘  6 [firefox] › e2e/author-studio.pw.ts:172:1 › switching preview episodes clears stale state and archives retain their original content (1.5m)
+
+
+  1) [chromium] › e2e/author-studio.pw.ts:172:1 › switching preview episodes clears stale state and archives retain their original content 
+
+    [31mTest timeout of 90000ms exceeded.[39m
+
+    Error: locator.selectOption: Test timeout of 90000ms exceeded.
+    Call log:
+    [2m  - waiting for getByLabel('Episode', { exact: true })[22m
+
+
+      147 |   await page.getByLabel('Source pack', { exact: true }).fill(JSON.stringify(changed));
+      148 |   await page.getByRole('button', { name: 'Validate and apply source', exact: true }).click();
+    > 149 |   await page.getByLabel('Episode', { exact: true }).selectOption(second.id);
+          |                                                     ^
+      150 |   await page.getByRole('button', { name: 'Start isolated preview', exact: true }).click();
+      151 |   await expect(
+      152 |     page.getByRole('heading', { name: second.nodes[0]!.title, exact: true }),
+        at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/e2e/author-studio.pw.ts:149:53
+
+    Error Context: test-results/author-studio-switching-pr-3d5fc-tain-their-original-content-chromium/error-context.md
+
+  2) [firefox] › e2e/author-studio.pw.ts:172:1 › switching preview episodes clears stale state and archives retain their original content 
+
+    [31mTest timeout of 90000ms exceeded.[39m
+
+    Error: locator.selectOption: Test timeout of 90000ms exceeded.
+    Call log:
+    [2m  - waiting for getByLabel('Episode', { exact: true })[22m
+
+
+      147 |   await page.getByLabel('Source pack', { exact: true }).fill(JSON.stringify(changed));
+      148 |   await page.getByRole('button', { name: 'Validate and apply source', exact: true }).click();
+    > 149 |   await page.getByLabel('Episode', { exact: true }).selectOption(second.id);
+          |                                                     ^
+      150 |   await page.getByRole('button', { name: 'Start isolated preview', exact: true }).click();
+      151 |   await expect(
+      152 |     page.getByRole('heading', { name: second.nodes[0]!.title, exact: true }),
+        at /home/charles/.codex/worktrees/learnlab-laboratory/LearnLab/e2e/author-studio.pw.ts:149:53
+
+    Error Context: test-results/author-studio-switching-pr-3d5fc-tain-their-original-content-firefox/error-context.md
+
+  2 failed
+    [chromium] › e2e/author-studio.pw.ts:172:1 › switching preview episodes clears stale state and archives retain their original content 
+    [firefox] › e2e/author-studio.pw.ts:172:1 › switching preview episodes clears stale state and archives retain their original content 
+  4 passed (1.7m)

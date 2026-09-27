@@ -21,13 +21,20 @@ real learner errors. All are cheap to prevent up front and expensive to find lat
 
 ## Laboratory workflow amendment (27 September 2026)
 
+Use `preview`/`inspect` and the loopback-only `VITE_AUTHOR_STUDIO=true` Studio for
+arbitrary scenes, deterministic choice ordering and assistance state. These are synthetic
+previews with prior exposure, not fresh assessment variants or observed learning. The
+Studio edits validated JSON and shares the actual renderer; export before leaving.
+See `docs/laboratory/AUTHORING-HARNESS.md` for bounds and the executable procedure.
+
+
 For new laboratory courses, read `docs/laboratory/AUTHORING-HARNESS.md` and
 `docs/laboratory/AUDIT.md`. Start a run with `npm run author:course -- start` before
 course drafting, record bounded audience/level/outcomes and research decisions,
 and validate the plan with `plan`. Preserve actual authoring, failure and playthrough
 artifacts using `record`; artifact presence alone does not pass a gate. The CLI
 implements intake/planning/discovery, scaffolding, shared pack/graph validation,
-local preview staging and evidence preservation. Studio and complete pilots remain
+local preview staging and evidence preservation. Local Studio preview/inspection is implemented; complete pilots remain
 pending. Use `capabilities` and `schemas` to discover actual v1 sets and registered
 laboratory activities (`choice`, `circuit`), not old v2 negotiation fixtures. Scaffold
 with `scaffold` before drafting; use `validate-pack` and `stage-pack` for laboratory

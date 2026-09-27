@@ -1,0 +1,6 @@
+{
+  "kind": "final emitted runtime bytes",
+  "verified": 90,
+  "sourceAndStagedPackSemanticallyEqual": true,
+  "note": "JSON unicode escaping differs harmlessly between draft and parsed staging; emitted runtime hashes match actual disk bytes."
+}

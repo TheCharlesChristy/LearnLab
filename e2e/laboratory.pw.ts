@@ -56,7 +56,7 @@ test('first station episode: mistakes, keyboard repair, help, evidence and resum
     })
     .click();
   await page.getByRole('button', { name: 'Finish investigation', exact: true }).click();
-  await expect(page.getByText('1 of 2 fresh causal checks', { exact: false })).toBeVisible();
+  await expect(page.getByText('1 of 2 fresh checks', { exact: false })).toBeVisible();
   await page.reload();
   await expect(page.getByRole('heading', { name: 'The beacon has a story to tell' })).toBeVisible();
   await page.getByText('See each check in your notebook', { exact: true }).click();
@@ -117,7 +117,7 @@ test('narrow touch workspace: both themes, help escape and retained exposure on 
       await page.getByRole('button', { name: 'Show worked example', exact: true }).tap();
       await page.getByRole('button', { name: 'Continue with help', exact: true }).tap();
     }
-    await expect(page.getByText('0 of 2 fresh causal checks', { exact: false })).toBeVisible();
+    await expect(page.getByText('0 of 2 fresh checks', { exact: false })).toBeVisible();
     await page.getByText('Notebook tools', { exact: true }).click();
     await page.getByRole('button', { name: 'Restart episode', exact: true }).tap();
     await expect(page.getByRole('heading', { name: 'Wake the beacon' })).toBeVisible();
@@ -133,16 +133,73 @@ test('narrow touch workspace: both themes, help escape and retained exposure on 
 test('downloaded episode survives browser close and offline reopen with local progress', async ({
   browser,
   baseURL,
-}) => {
+  browserName,
+}, info) => {
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'learnlab-offline-'));
   let context = await browser.browserType().launchPersistentContext(profile);
   const url = `${baseURL}${ROUTE}`;
   try {
     let page = await context.newPage();
+    // Use an app-free same-origin document before installing its service worker.
+    const probeUrl = `${baseURL}/__persistent_cache_probe__.html`;
+    await page.route(probeUrl, (route) =>
+      route.fulfill({
+        contentType: 'text/html',
+        body: '<!doctype html><title>Isolated cache probe</title>',
+      }),
+    );
+    await page.goto(probeUrl);
+    const probe = await page.evaluate(async () => {
+      const name = `learnlab-test-cache-probe-${crypto.randomUUID()}`;
+      const key = new URL('/__cache_probe__', location.origin).href;
+      const cache = await caches.open(name);
+      await cache.put(key, new Response('retained'));
+      const response = await cache.match(key);
+      const body = response ? await response.text() : null;
+      const keys = (await cache.keys()).map((request) => request.url);
+      const reopened = await (await caches.open(name)).match(key);
+      const reopenedBody = reopened ? await reopened.text() : null;
+      const names = await caches.keys();
+      await caches.delete(name);
+      return {
+        putResolved: true,
+        body,
+        reopenedBody,
+        keys,
+        names,
+        name,
+        key,
+        userAgent: navigator.userAgent,
+      };
+    });
+    await info.attach('persistent-cache-api-probe', {
+      body: JSON.stringify({
+        browserName,
+        version: browser.version(),
+        mode: 'persistent',
+        ...probe,
+      }),
+      contentType: 'application/json',
+    });
+    await page.unroute(probeUrl);
+    // The exact resolved-write/unreadable-entry symptom is an unavailable
+    // Linux WebKit port capability. Any exception/corruption remains a failure.
+    test.skip(
+      process.platform === 'linux' &&
+        browserName === 'webkit' &&
+        probe.body === null &&
+        probe.reopenedBody === null &&
+        probe.keys.length === 0 &&
+        probe.names.includes(probe.name),
+      'Linux WebKit persistent Cache.put resolves but discards bytes; close/reopen coverage unavailable. Strict failure recovery is tested separately.',
+    );
+    expect(probe.body).toBe('retained');
+    expect(probe.reopenedBody).toBe('retained');
+    expect(probe.keys).toContain(probe.key);
     await page.goto(url);
     await page.waitForFunction(() => !!navigator.serviceWorker.controller);
     await page.getByRole('button', { name: 'Download for offline use', exact: true }).click();
-    await expect(page.getByRole('status').filter({ hasText: 'Ready offline' })).toBeVisible({
+    await expect(page.getByRole('status').filter({ hasText: /^Ready offline ·/ })).toBeVisible({
       timeout: 60000,
     });
     await page
@@ -164,7 +221,7 @@ test('downloaded episode survives browser close and offline reopen with local pr
         .getByRole('group', { name: 'Supply link' })
         .getByRole('button', { name: 'Closed', exact: true }),
     ).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.getByRole('status').filter({ hasText: 'Ready offline' })).toBeVisible({
+    await expect(page.getByRole('status').filter({ hasText: /^Ready offline ·/ })).toBeVisible({
       timeout: 30000,
     });
     await page
@@ -203,6 +260,11 @@ test('write failure offers an export and keeps the last persisted circuit intact
   const exported = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export unsaved work', exact: true }).click();
   expect((await exported).suggestedFilename()).toContain('unsaved');
+  await expect(
+    page
+      .getByRole('group', { name: 'Supply link' })
+      .getByRole('button', { name: 'Closed', exact: true }),
+  ).toHaveAttribute('aria-pressed', 'true');
   await page.reload();
   await expect(
     page
@@ -246,4 +308,42 @@ test('tablet, landscape and expanded text preserve controls and local-only reque
   }
   expect(external).toEqual([]);
   expect(errors).toEqual([]);
+});
+
+test('silently discarded offline writes show recovery and never claim readiness', async ({
+  page,
+}) => {
+  await page.goto(ROUTE);
+  await page.waitForFunction(() => !!navigator.serviceWorker.controller);
+  await page.evaluate(() => {
+    Cache.prototype.put = async () => {};
+  });
+  await page.getByRole('button', { name: 'Download for offline use', exact: true }).click();
+  await expect(
+    page.getByRole('status').filter({ hasText: 'Offline storage could not retain' }),
+  ).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: /^Ready offline ·/ })).toHaveCount(0);
+  await expect(
+    page.getByRole('button', { name: 'Download for offline use', exact: true }),
+  ).toBeEnabled();
+  await page
+    .getByRole('group', { name: 'Supply link' })
+    .getByRole('button', { name: 'Closed', exact: true })
+    .click();
+  await expect(
+    page
+      .getByRole('group', { name: 'Supply link' })
+      .getByRole('button', { name: 'Closed', exact: true }),
+  ).toBeEnabled();
+  await expect(
+    page
+      .getByRole('group', { name: 'Supply link' })
+      .getByRole('button', { name: 'Closed', exact: true }),
+  ).toHaveAttribute('aria-pressed', 'true');
+  await page.reload();
+  await expect(
+    page
+      .getByRole('group', { name: 'Supply link' })
+      .getByRole('button', { name: 'Closed', exact: true }),
+  ).toHaveAttribute('aria-pressed', 'true');
 });

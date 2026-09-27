@@ -101,3 +101,14 @@ do not silently reinterpret legacy completion as independent competence.
 
 Platform PRs contain only narrow demonstration content. Broad pilot packs use
 separate branches/PRs against the required platform changes, with explicit ordering.
+
+## Local Studio update
+
+The opt-in loopback Studio now edits validated source/scene JSON with 20-snapshot Undo/Redo,
+inspects branch edges and previews arbitrary scenes using the same learner workspace. CLI
+`preview`/`inspect` and a versioned envelope reproduce seeds/help/checkpoints. Seeds reorder
+choices only; every preview scene has prior exposure. Storage and speech preferences stay in
+memory, with eight archives retaining original content context. ADR-003 records the boundary.
+Graph 0.1.1 moves bridging/debrief copy into optional authored metadata; the demonstration pack
+increments to version 3. Visual graph authoring, fresh-task generation, Git automation, complete
+pilots and the owner cycle remain pending. This update does not reinterpret the baseline table.

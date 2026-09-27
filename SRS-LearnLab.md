@@ -1273,13 +1273,29 @@ be inferred from structural validation.
 Event replay SHALL recompute outcomes and preserve prior answer/help exposure through
 restart and rollback import. Bounded archival SHALL preserve the previous envelope
 atomically with its replacement. Incompatible work SHALL remain exportable. Downloads
-SHALL verify complete required runtime/pack bytes, and compatible older acquired pack
+SHALL verify complete required runtime/pack bytes plus the cached catalogue, runtime manifest and version descriptor. A resolved cache write without a readable byte-for-byte entry SHALL be treated as failed, never Ready offline. Compatible older acquired pack
 versions SHALL retain their own saved-work boundary. Laboratory speech SHALL use only
 browser-reported local voices or remain unavailable with usable text.
 
 ADR-002 records the smaller initial graph contract and remaining extensions. The first
 circuits episode SHALL NOT be described as a complete pilot, whole-skill certification,
-implemented Studio or evidence of superior learning. V1 routes, schemas and saved work
+evidence of superior learning. V1 routes, schemas and saved work
 remain compatible, and the laboratory build flag remains an explicit rollback boundary.
+
+### 14.10 Local Author Studio (27 September 2026)
+
+Author Studio SHALL be explicitly build-gated and loopback-only. Its previews SHALL use
+shared pack validation, activity rendering, assistance and event replay through an in-memory
+storage port; learner progress and speech preferences SHALL NOT be read or written by preview
+sessions. Explicit exports SHALL validate the combined pack/session envelope before download.
+All synthetic preview scenes SHALL retain prior exposure and SHALL NOT award fresh independence.
+Archives SHALL retain their original content/version/seed/episode context and SHALL be bounded.
+Changing preview configuration SHALL clear stale projected state and create a fresh workspace.
+
+The initial editor SHALL support validated source/scene JSON, bounded Undo/Redo, branch
+inspection, arbitrary reachable starting points, deterministic choice order and help state.
+It SHALL NOT be advertised as a visual graph editor, fresh-task generator, complete harness,
+complete pilot or human learning/enjoyment evidence. ADR-003 and the authoring workflow record
+its shipped limits. V1 learner routes and default speech preference behaviour remain compatible.
 
 *End of SRS v1.0 with the additive v2 laboratory amendment.*
