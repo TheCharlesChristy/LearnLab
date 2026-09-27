@@ -1,0 +1,182 @@
+# LearnLab implementation goal: a playful learning laboratory and course-authoring harness
+
+Status: implementation brief derived from the owner's requirements, 27 September 2026. This document defines work for a future coding agent; it does not claim the work has been implemented or validated.
+
+## Goal
+
+Evolve LearnLab into an immersive, playful, scientifically informed learning laboratory that people want to return to. Combine the short, valuable, interactive lesson experience the owner admires in Brilliant with the agency, discovery, feedback, and meaningful progression of successful video games. Learners should develop genuine understanding and reach independently demonstrated competence efficiently.
+
+Build a reusable, executable harness through which AI coding agents can interview a course requester, research a subject, design and implement a complete course, create needed tools and widgets, play through the result, verify it, revise it, and deliver reviewable Git pull requests. Prove that workflow with an excellent STEM course and a smaller non-STEM course, both actually produced using the harness. Complete an owner walkthrough and revision cycle before declaring the goal achieved.
+
+“Scientifically best” is the aspiration. The deliverable must support continuous evidence-led improvement, rather than claim universal superiority based on feature count, citations, agent opinions, or one pilot.
+
+## Owner decisions and agent authority
+
+- Audience and level belong to the course, not the platform. Support school-level through postgraduate and doctoral material without assuming one universal learner profile. Supporting advanced metadata does not require shipping a doctoral course in this goal.
+- STEM is the initial focus. A history pilot must test whether the same infrastructure can make a previously uninteresting subject engaging.
+- Fun is central, including in adult courses. Academic rigor belongs in the models, reasoning, and correctness; adult presentation must still be playful.
+- The app recommends, offers help, and allows exploration. It does not force a single learning pathway.
+- AI's learner-facing role is none for this goal. Courses, hints, feedback, and local adaptation run without inference services.
+- Learner use remains free, account-free, private, locally stored, and offline-capable on GitHub Pages. External authoring models are separate tooling; disclose any authoring costs or credentials required.
+- The owner delegates course selection, interaction design, visual design, and routine implementation choices. Use creative judgment and explain material tradeoffs; do not repeatedly request approval for ordinary reversible work.
+- Changes are delivered through PRs. Creating PRs does not authorize merging them or deploying changes.
+- The owner will walk through the pilot and write about their experience. This feedback and the resulting revision are part of completion.
+
+## Starting point and compatibility
+
+Inspect the actual checkout, working-tree changes, applicable instructions, SRS, architecture, v2 plans, schemas, widgets, lessons, tests, and authoring skills before implementation. Distinguish shipped capabilities from proposed or stale documentation. Preserve unrelated work.
+
+Reuse or extend the existing review system, local progress storage, content pipeline, accessibility infrastructure, and experience-runtime work where appropriate. Avoid creating a competing runtime or authoring system solely because an existing proposal is unfinished. Record the chosen architecture and deliberate changes to existing contracts.
+
+Two known guidance conflicts must be resolved in the implementation's documentation and skills: adult-facing content must be allowed to be playful, and compulsory checkpoint success must not strand a learner. An assisted exit or skip must never silently award independent mastery. Existing content and saved progress must remain usable, with tested migrations when needed.
+
+## Learning and play contract
+
+Treat a lesson as an invitation to investigate something, not a reading assignment with a quiz attached. Use a flexible loop such as question or puzzle, prediction, action, visible consequence, explanation, further experiment, and application. Do not impose that exact sequence on every topic.
+
+Require these properties:
+
+1. A meaningful action appears early. Use a first-action target of 20 seconds as a design hypothesis, verified in playtests rather than described as a scientifically optimal threshold.
+2. Actions perform conceptual work: constructing a circuit, testing a hypothesis, inspecting evidence, changing a variable, diagnosing an error, or forming an explanation. Cosmetic clicks do not count as learning interactions.
+3. Learners have purposeful freedom. Provide optional experiments, alternative approaches, and optional challenges while keeping the current question and available tools understandable.
+4. Feedback makes consequences and mechanisms visible. Explanations connect observations to principles and make assumptions, limits, and approximations explicit.
+5. Support is gentle and available through Help. Offer it without modal interruption when there is useful evidence of difficulty; do not interpret inactivity alone as failure. Learners can dismiss suggestions.
+6. Research and implement a graduated recovery policy: useful hints, a clearer representation, a worked example, prerequisite recommendations, retry, and an escape route. Record the assistance used. Adapt the policy by task and audience rather than asserting a universal rule.
+7. Use worked examples, fading, retrieval, spacing, and self-explanation where evidence and task demands justify them. Return reviews as fresh applications or meaningful challenges when possible; avoid relying on memorisation of repeated answers.
+8. Operationalise the Feynman preference through simple explanations, causal reasoning, first-principles derivation where appropriate, prediction, counterexamples, and application to unfamiliar situations. Short vocabulary recall can support these outcomes but cannot stand in for understanding.
+9. Open explanation responses may use reflection prompts, exemplars, and authored rubrics. Unverified self-reports or free-text explanations must not be treated as objectively marked mastery. No runtime AI assessor is introduced.
+10. Challenges remain approachable and recoverable. Research difficulty and support policies; do not hard-code a purported universally optimal success rate.
+
+Study successful games for concrete interaction patterns, not just points and badges: clear goals, experimentation, player agency, responsive systems, discovery, escalating capabilities, satisfying payoff, and forgiving retry. Explain how each chosen mechanic serves the subject. Narrative can carry the learning; long exposition and unrelated spectacle must not crowd it out.
+
+Optional streaks, rewards, reminders, and celebrations should support voluntary return and demonstrated progress. Make them dismissible and recoverable after absences. No guilt-based messaging or default competitive leaderboard. Evaluate browser notification feasibility: a static offline app cannot promise reliable scheduled notifications on every device. Provide an honest fallback.
+
+## UX and visual direction
+
+Build an inviting, polished, playful laboratory that respects both adults and younger learners. Use original assets and interactions; Brilliant is an experience reference, not a source to copy.
+
+- Home offers a useful next action, resume, review, and access to the skill map without presenting a wall of competing tasks.
+- The skill tree represents capabilities and their prerequisite relationships. Course detail connects capabilities to lessons and challenges. Prerequisites are advisory; learners can explore elsewhere.
+- Distinguish unvisited, explored, completed with help, independently demonstrated, and due-for-review states using language as well as colour. Communicate uncertainty instead of inventing precision.
+- Lesson workspaces prioritise the interactive activity, contextual tools, concise explanations, and a persistent Help affordance. Longer derivations and references can be opened when useful.
+- Preserve exploration state and make restart, retry, resume, and return-to-map clear.
+- Start with accessible light and dark themes, expressive but legible typography, coherent colour, visible focus, and meaningful motion. Sound is optional and muted by default; no essential information depends on it.
+- Phone, tablet, and desktop receive equal design attention. Adapt interactions to the device while preserving learning goals; dragging must have touch, keyboard, and accessible alternatives.
+- Support screen readers, reduced motion, text scaling, captions or text equivalents, and read-aloud where available. Required course functionality cannot depend on a network-only speech voice.
+- Validate narrow layouts, landscape layouts, touch targets, text expansion, and interaction density in the actual browser.
+
+These are starting design decisions, not a fixed layout template for every course. Build one complete lesson early and use its playtest to refine the design system.
+
+## Pilot courses
+
+### STEM: Bring the research station back online
+
+Build a bounded introduction to DC circuits for learners approaching A-level physics, with explicit bridging prerequisites. Target roughly 9–12 short episodes, ordinarily 5–12 minutes each with optional longer exploration. Those durations are design estimates, not completion requirements imposed on learners.
+
+Cover charge flow, current, potential difference, resistance, series and parallel relationships, energy and power, measurement, and fault diagnosis. Progress from manipulating and observing circuits to predicting unfamiliar configurations and explaining faults. Clearly label idealised models and the limits of analogies. Include an open circuit workspace and a capstone repair challenge with more than one meaningful investigation path.
+
+Research curriculum scope and documented misconceptions before locking the design. Independently verify simulation rules, units, answers, and reachable goals. Implement only the model complexity this course needs; document its unsupported configurations. Do not present a toy simulation as an unrestricted electronics simulator.
+
+### Non-STEM: Investigate the Great Fire of London
+
+Build roughly 3–5 short episodes for curious secondary learners and adults without assuming prior enthusiasm for history. Use maps, timelines, source comparison, and competing explanations. Outcomes include separating observation from inference, evaluating provenance and bias, corroborating accounts, and forming a defensible explanation with uncertainty.
+
+Research authoritative historical sources and historical-reasoning pedagogy. Use licensed or public-domain material appropriately and distinguish original sources from adaptations. Do not invent quotations or disguise fictional evidence as historical fact. Multiple defensible interpretations require a rubric; they cannot be collapsed into one mechanically correct answer. This pilot must demonstrate learning through evidence and reasoning, rather than reskinning numerical quizzes.
+
+## Research standard
+
+Before committing to pedagogical policies, research retention and transfer, self-explanation, guided inquiry, feedback, worked-example fading, cognitive load, motivation, game-based learning, accessibility, and the specific disciplines being taught.
+
+Search recent literature up to the implementation date alongside influential and highly cited work. Assess study quality, relevance of population and task, comparator, follow-up period, uncertainty, and conflicting results. Citation count and publication date are search signals, not evidence grades. Prioritise systematic reviews and meta-analyses where appropriate, then inspect relevant primary studies. Read accessible full texts before making detailed claims; explicitly mark abstract-only or inaccessible evidence. Never fabricate having read a paper.
+
+Maintain a research ledger linking each important design decision to sources, evidence strength, applicability limits, and its validation plan. Label established principles, contextual findings, and speculative game-design hypotheses separately. Do not add effect sizes or claim that a bundle of supported techniques automatically makes the product superior.
+
+Initial research leads, to be refreshed and critically assessed:
+
+- [Learning versus performance: an integrative review](https://doi.org/10.1177/1745691615569000).
+- [Inducing self-explanation: a meta-analysis](https://doi.org/10.1007/s10648-018-9434-x).
+- [Inquiry-based learning: effects of guidance](https://doi.org/10.3102/0034654315627366).
+- [Gamification and intrinsic motivation, autonomy, relatedness, and competency](https://doi.org/10.1007/s11423-023-10337-7).
+- [Gamification in mathematics: engagement and motivation](https://doi.org/10.1007/s10648-025-10108-1).
+- [Game-based learning in mathematics: second-order meta-analysis](https://doi.org/10.1016/j.edurev.2026.100816).
+
+These are starting leads, not a completed evidence review or guarantees about the pilots.
+
+## Executable course-authoring harness
+
+Deliver a working local authoring workflow, stable commands or interfaces, machine-readable contracts, agent instructions, examples, and diagnostics. A prose skill alone does not satisfy this requirement.
+
+### Adaptive intake and planning
+
+Accept a natural-language request, supplied sources, and existing context. Ask targeted questions only about material gaps or contradictions. Derive questions from the subject, audience, intended outcomes, requested depth, prerequisites, curriculum, available sources, and prior answers. Preserve a structured brief with decisions, assumptions, open questions, and completeness checks so the agent does not repeatedly interview the requester.
+
+“Complete” means covering the agreed bounded outcomes, not the entire subject. Delegated choices can be resolved by the agent. Produce a course map, outcome-to-activity-to-assessment traceability, prerequisite graph, and initial play concept before bulk authoring. Keep these inspectable; do not make repeated human approvals a mandatory gate when the requester has delegated decisions.
+
+### Authoring and extensibility
+
+- Scaffold a genuinely new subject and course without hard-coded subject enums or misleading school-only level labels. Give audiences, levels, and prerequisites explicit metadata.
+- Version content packs, capabilities, assessment contracts, references, assets, and state requirements. Discover supported capabilities from a source of truth; generate or validate related schemas, documentation, and authoring examples to prevent drift.
+- Support declarative composition and executable extensions. Agents can create widgets, tools, screen or activity types, models, and validators when they serve the course. Package shared extensions separately from broad content changes, with examples and clear dependencies between PRs.
+- Keep ordinary course content as data using registered capabilities. Do not require arbitrary JavaScript evaluation inside content or weaken the app's execution and privacy boundaries to gain authoring freedom.
+- Provide preview and inspection tools for arbitrary starting points, reproducible variants, branch state, hint state, progress, and error diagnostics. Prefer the existing local Studio direction if it meets these needs.
+- Support branch reachability checks, valid prerequisites, asset closure, known capabilities, state compatibility, and structural validation. Reject orphaned or unregistered content instead of giving misleading green results.
+- Support repeatable verification of parameterised tasks and their edge cases. Independently derive mathematical answers and test marking tolerance, units, alternative correct responses, and degenerate variants.
+- Preserve run manifests, source provenance, decisions, check results, playthrough artifacts, known limits, and revision history. Resuming a run should not discard its brief or previously verified work.
+
+### Playthrough and critique
+
+Every course author must play through the actual rendered course, not just inspect its files. Cover all episodes and consequential branches, free exploration, mistakes, hint use, assisted exits, retries, resume, and fresh transfer tasks. Exercise mouse, keyboard, touch, and offline operation.
+
+Use bounded learner perspectives such as novice, impatient explorer, struggling learner, and experienced learner, while recognising these are simulations. Identify boring stretches, artificial choices, unclear controls, unexplained effects, reading-heavy sections, repeated-answer shortcuts, and failures to teach. Retain observations and revise the course.
+
+Agent playthroughs are required product critique and functional evidence. They are not human enjoyment data or proof of learning. Where agents or reviewers are available, use independent critique and independent answer derivation; never falsely claim independent review of an author's self-check.
+
+### Git delivery
+
+Produce focused branches and PRs with the final behaviour, validation evidence, screenshots or interaction recordings, research artifacts, known limitations, and a simple walkthrough route. Do not include unrelated working-tree changes. Keep existing authoring and platform skills aligned with the shipped capability contracts so subsequent agents can use the harness without rediscovering hidden rules.
+
+## Offline, privacy, and reliability
+
+Make course availability explicit: learners can download the complete pack and its required runtime/assets, see download progress and failure, and confirm offline readiness. Online access is necessary for first acquisition, but a downloaded course must work after the browser is closed and reopened without a network connection.
+
+Test offline lessons, simulations, fonts, feedback, hints, review, navigation, progress writes, and resume. Account for unavailable browser APIs and storage pressure. Preserve exports and provide recovery paths for persistence failures; never promise that browser storage cannot be evicted. Updates must not leave a downloaded course with incompatible assets or unreadable progress.
+
+All learner events, mastery evidence, and optional playtest measurements remain local. Explicitly initiated exports are the only route for sharing results. No accounts, telemetry, hosted learner profiles, runtime AI calls, or implicit upload paths. Provide local export, import, and deletion; do not imply automatic cross-device sync.
+
+## Measurement and evaluation
+
+Primary outcome: active learning time to reach a predefined competence criterion for a specified capability and learner baseline. Competence must involve independently solving fresh tasks, explaining or predicting mechanisms through assessable evidence, and applying knowledge beyond the exact practiced answer.
+
+Record active time with transparent pause and idle rules. Count productive exploration as learning time; avoid speed bonuses that discourage it. Separate baseline knowledge, hints, assisted completion, independent performance, retention, and transfer. Learners who do not reach the criterion remain visible in results rather than disappearing from averages.
+
+Report difficulty and estimated effort per capability transparently, and validate estimates over time. Do not manufacture a single scientific score that makes doctoral material and school material directly comparable. Completion counts and difficulty-weighted progress are secondary indicators.
+
+Use separate measures of enjoyment and learning: owner observations, voluntary continuation or return, optional enjoyment feedback, independent task performance, and short delayed checks at approximately one week and one month. Define rubrics and success/revision thresholds before evaluating a version. The timing is an initial study design, not a claimed universal optimum.
+
+Deliver an evaluation protocol and local export tools. Where feasible, include a small controlled comparison with equivalent content and assessments, matching baseline knowledge and time conditions. Do not claim superiority without adequate human data. Recruiting learners and completing a month-long study are follow-on validation work, not a reason to block delivery of the working harness and owner-reviewed pilots. Unobserved delayed outcomes must be reported as unobserved.
+
+## Implementation milestones
+
+1. **Audit and design:** inspect the live repository; produce the research ledger, capability audit, architecture decision, pilot briefs, and acceptance plan. Reconcile this goal with existing SRS, v2 work, and skills.
+2. **One complete playable episode:** implement the first circuits episode with its real model, help, consequences, responsive UI, save/resume, and offline behaviour. Drive it in the browser and revise before copying its patterns across a course.
+3. **Harness foundation:** implement adaptive intake, structured briefs, scaffolding, capability discovery, preview, validation, run artifacts, and the Git delivery workflow. Capture and reproduce the first episode through this harness.
+4. **STEM course:** use the harness to produce the complete bounded course, skill map, review/application activities, capstone, and assessment evidence. Retain the actual authoring run.
+5. **Non-STEM proof:** use the same harness to create the history course. Generalise only where demonstrated needs require it. Document what transfers and what requires discipline-specific contracts.
+6. **Verification and owner playtest:** complete automated and browser checks; deliver reviewable PRs and a walkthrough route. Obtain the owner's written experience report and revise the pilots and relevant harness rules accordingly.
+
+If owner feedback has not arrived, report the implementation as ready for owner playtest, with that milestone pending. Do not claim the complete goal achieved. On receipt of feedback, resume the revision work and verify the revised experience.
+
+## Definition of done
+
+- The home, skill map, and lesson experience deliver short, playful, meaningful learning interactions across phone, tablet, and desktop.
+- The executable harness can accept a new request, conduct context-sensitive intake, create a new subject/course, add necessary capabilities, validate and preview the result, and produce reviewable PRs.
+- Both complete pilots were authored through that harness, with inspectable run artifacts rather than merely retroactively labelled as harness products.
+- Course answers, models, sources, goals, and assessment claims have verification evidence. All consequential paths are reachable and recovery routes work without awarding false mastery.
+- Downloaded pilots work offline after restart; progress, review, export/import, and compatibility checks pass.
+- Appropriate content validation, lint, type checks, build, unit/integration tests, and production browser checks pass. Report unavailable physical-device or browser coverage honestly.
+- Accessibility and responsive interaction checks cover real activities, not only screenshots or automated scans.
+- Research, capability contracts, authoring docs, examples, and agent skills reflect the shipped system, including playful adult tone and safe assisted exits.
+- The owner has played the pilot, supplied feedback, and received a revised version with material problems resolved. Record whether the owner found it fun and interesting; the agent cannot certify that on the owner's behalf.
+- Delivery includes focused PRs, a clear local walkthrough, test evidence, and an evaluation plan. Remaining human-study uncertainty is explicit.
+
+Do not stop at a mockup, a skill file, a technically valid but dull course, or an agent declaration that the experience is fun. Deliver the playable platform and reproducible authoring infrastructure, then improve them through the owner's actual experience.

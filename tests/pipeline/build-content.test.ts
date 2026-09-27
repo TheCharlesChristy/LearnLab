@@ -39,6 +39,22 @@ const TIMEOUT = 30_000;
 
 describe('build-content.mjs — §4.7 pipeline', () => {
   it(
+    'rejects an orphan module in strict mode instead of silently leaving it unvalidated',
+    () => {
+      const root = tempDir();
+      fs.cpSync(path.join(fixtures, 'valid'), root, { recursive: true });
+      const orphan = path.join(root, 'maths/test-course/orphan');
+      fs.mkdirSync(orphan);
+      fs.writeFileSync(path.join(orphan, 'module.json'), '{"invalid":true}');
+      const strict = runBuild(root, '--strict');
+      expect(strict.status).toBe(1);
+      expect(strict.output).toContain('orphan');
+      expect(strict.output).toContain('not referenced');
+      expect(runBuild(root).status).toBe(0); // legacy non-strict preview still warns
+    },
+    TIMEOUT,
+  );
+  it(
     'exits 0 on an empty/missing root and emits a schema-valid empty index.json',
     () => {
       const root = path.join(tempDir(), 'does-not-exist-yet');
@@ -242,7 +258,11 @@ describe('build-content.mjs — widget doc coverage (§7.3, FR-WID-002)', () => 
       expect(mutated).not.toBe(original); // sanity: the replace actually matched
       const scratchDocsFile = path.join(tempDir(), 'WIDGETS.md');
       fs.writeFileSync(scratchDocsFile, mutated);
-      const { status, output } = runBuild(path.join(fixtures, 'valid'), '--docs-file', scratchDocsFile);
+      const { status, output } = runBuild(
+        path.join(fixtures, 'valid'),
+        '--docs-file',
+        scratchDocsFile,
+      );
       expect(status, output).not.toBe(0);
       expect(output).toContain('widget "figure" is registered');
       expect(output).toContain('## `figure`');

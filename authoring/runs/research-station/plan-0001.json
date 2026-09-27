@@ -1,0 +1,308 @@
+{
+  "schemaVersion": 1,
+  "courseId": "research-station",
+  "episodes": [
+    {
+      "id": "close-the-loop",
+      "title": "The dark beacon",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Explain closed-path charge flow and distinguish current from charge"
+      ],
+      "activity": "Construct a closed path and test a switch",
+      "assessment": "Fresh open-path diagnosis with causal prediction",
+      "prerequisites": [],
+      "optionalExperiments": [
+        "Compare two possible breaks"
+      ],
+      "recovery": "Task-specific authored hints; table/diagram alternative, worked example, prerequisite bridge, retry and assisted exit recorded without independent mastery"
+    },
+    {
+      "id": "charge-counter",
+      "title": "Count the traffic",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Explain closed-path charge flow and distinguish current from charge"
+      ],
+      "activity": "Vary elapsed time and count charge passing a point",
+      "assessment": "Compute current from fresh charge/time and predict return-path current",
+      "prerequisites": [
+        "close-the-loop"
+      ],
+      "optionalExperiments": [
+        "Compare equal-current charge counts over different times"
+      ],
+      "recovery": "Task-specific authored hints; table/diagram alternative, worked example, prerequisite bridge, retry and assisted exit recorded without independent mastery"
+    },
+    {
+      "id": "energy-lift",
+      "title": "Give charge an energy lift",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Interpret potential difference as energy per unit charge"
+      ],
+      "activity": "Change source voltage and compare energy transferred per charge",
+      "assessment": "Fresh energy-per-charge calculation and distinction from current",
+      "prerequisites": [
+        "charge-counter"
+      ],
+      "optionalExperiments": [
+        "Hold resistance fixed while doubling voltage"
+      ],
+      "recovery": "Task-specific authored hints; table/diagram alternative, worked example, prerequisite bridge, retry and assisted exit recorded without independent mastery"
+    },
+    {
+      "id": "resistance-budget",
+      "title": "Tune the sensor heater",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Predict how resistance changes current in ideal DC circuits"
+      ],
+      "activity": "Vary resistance and source voltage against a current window",
+      "assessment": "Predict and calculate a fresh resistor change",
+      "prerequisites": [
+        "energy-lift"
+      ],
+      "optionalExperiments": [
+        "Find two voltage/resistance pairs with the same current"
+      ],
+      "recovery": "Task-specific authored hints; table/diagram alternative, worked example, prerequisite bridge, retry and assisted exit recorded without independent mastery"
+    },
+    {
+      "id": "series-path",
+      "title": "Two loads, one path",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Apply conservation of charge and energy to series and parallel networks",
+        "Explain closed-path charge flow and distinguish current from charge",
+        "Interpret potential difference as energy per unit charge"
+      ],
+      "activity": "Build series loads and compare currents and voltage drops",
+      "assessment": "Fresh unequal series resistors; conservation explanation",
+      "prerequisites": [
+        "resistance-budget"
+      ],
+      "optionalExperiments": [
+        "Swap load order without changing current"
+      ],
+      "recovery": "Task-specific authored hints; table/diagram alternative, worked example, prerequisite bridge, retry and assisted exit recorded without independent mastery"
+    },
+    {
+      "id": "parallel-routes",
+      "title": "Keep the backup alive",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Apply conservation of charge and energy to series and parallel networks",
+        "Explain closed-path charge flow and distinguish current from charge"
+      ],
+      "activity": "Compare independent parallel branches and disconnect one branch",
+      "assessment": "Fresh branch current and total current prediction",
+      "prerequisites": [
+        "series-path"
+      ],
+      "optionalExperiments": [
+        "Add a branch and explain source current"
+      ],
+      "recovery": "Task-specific authored hints; table/diagram alternative, worked example, prerequisite bridge, retry and assisted exit recorded without independent mastery"
+    },
+    {
+      "id": "meter-detective",
+      "title": "Choose what to measure",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Use current and potential-difference measurements to test a hypothesis",
+        "Explain closed-path charge flow and distinguish current from charge",
+        "Interpret potential difference as energy per unit charge"
+      ],
+      "activity": "Place ideal current/voltage probes using topology-aware controls",
+      "assessment": "Choose informative measurements in a fresh layout",
+      "prerequisites": [
+        "parallel-routes"
+      ],
+      "optionalExperiments": [
+        "Investigate branch A before B or vice versa"
+      ],
+      "recovery": "Task-specific authored hints; table/diagram alternative, worked example, prerequisite bridge, retry and assisted exit recorded without independent mastery"
+    },
+    {
+      "id": "power-budget",
+      "title": "Spend the station energy",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Relate power and energy to a station component budget",
+        "Interpret potential difference as energy per unit charge"
+      ],
+      "activity": "Balance component power against an authored station requirement",
+      "assessment": "Fresh P=VI/E=Pt application with units",
+      "prerequisites": [
+        "meter-detective"
+      ],
+      "optionalExperiments": [
+        "Compare equal power with different current and voltage"
+      ],
+      "recovery": "Task-specific authored hints; table/diagram alternative, worked example, prerequisite bridge, retry and assisted exit recorded without independent mastery"
+    },
+    {
+      "id": "fault-board",
+      "title": "The misleading symptom",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Diagnose unfamiliar faults and justify a repair using independent evidence"
+      ],
+      "activity": "Diagnose a branch break and changed resistance with measurements",
+      "assessment": "Fresh faults; identify discriminating evidence",
+      "prerequisites": [
+        "power-budget"
+      ],
+      "optionalExperiments": [
+        "Use voltage-first or current-first diagnosis"
+      ],
+      "recovery": "Task-specific authored hints; table/diagram alternative, worked example, prerequisite bridge, retry and assisted exit recorded without independent mastery"
+    },
+    {
+      "id": "station-repair",
+      "title": "Bring the station back online",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Diagnose unfamiliar faults and justify a repair using independent evidence",
+        "Explain closed-path charge flow and distinguish current from charge",
+        "Interpret potential difference as energy per unit charge"
+      ],
+      "activity": "Capstone repair with circuit inspection or meter investigation routes",
+      "assessment": "Fresh transfer repair plus causal prediction and explanation evidence",
+      "prerequisites": [
+        "fault-board"
+      ],
+      "optionalExperiments": [
+        "Choose multiple repair configurations satisfying power/current goals"
+      ],
+      "recovery": "Task-specific authored hints; table/diagram alternative, worked example, prerequisite bridge, retry and assisted exit recorded without independent mastery"
+    }
+  ],
+  "traceability": [
+    {
+      "outcome": "Explain closed-path charge flow and distinguish current from charge",
+      "episodes": [
+        "close-the-loop",
+        "charge-counter",
+        "series-path",
+        "parallel-routes",
+        "meter-detective",
+        "station-repair"
+      ],
+      "independentEvidence": "Fresh marked calculation or causal prediction without hints/answer exposure; open explanation remains reflection unless human rubric reviewed",
+      "transfer": "New values and circuit layout in another station subsystem",
+      "criterion": "Correct mechanism prediction and applicable numeric/design task with correct units; at least two fresh independent opportunities, not completion count"
+    },
+    {
+      "outcome": "Interpret potential difference as energy per unit charge",
+      "episodes": [
+        "energy-lift",
+        "series-path",
+        "meter-detective",
+        "power-budget",
+        "station-repair"
+      ],
+      "independentEvidence": "Fresh marked calculation or causal prediction without hints/answer exposure; open explanation remains reflection unless human rubric reviewed",
+      "transfer": "New values and circuit layout in another station subsystem",
+      "criterion": "Correct mechanism prediction and applicable numeric/design task with correct units; at least two fresh independent opportunities, not completion count"
+    },
+    {
+      "outcome": "Predict how resistance changes current in ideal DC circuits",
+      "episodes": [
+        "resistance-budget"
+      ],
+      "independentEvidence": "Fresh marked calculation or causal prediction without hints/answer exposure; open explanation remains reflection unless human rubric reviewed",
+      "transfer": "New values and circuit layout in another station subsystem",
+      "criterion": "Correct mechanism prediction and applicable numeric/design task with correct units; at least two fresh independent opportunities, not completion count"
+    },
+    {
+      "outcome": "Apply conservation of charge and energy to series and parallel networks",
+      "episodes": [
+        "series-path",
+        "parallel-routes"
+      ],
+      "independentEvidence": "Fresh marked calculation or causal prediction without hints/answer exposure; open explanation remains reflection unless human rubric reviewed",
+      "transfer": "New values and circuit layout in another station subsystem",
+      "criterion": "Correct mechanism prediction and applicable numeric/design task with correct units; at least two fresh independent opportunities, not completion count"
+    },
+    {
+      "outcome": "Use current and potential-difference measurements to test a hypothesis",
+      "episodes": [
+        "meter-detective"
+      ],
+      "independentEvidence": "Fresh marked calculation or causal prediction without hints/answer exposure; open explanation remains reflection unless human rubric reviewed",
+      "transfer": "New values and circuit layout in another station subsystem",
+      "criterion": "Correct mechanism prediction and applicable numeric/design task with correct units; at least two fresh independent opportunities, not completion count"
+    },
+    {
+      "outcome": "Relate power and energy to a station component budget",
+      "episodes": [
+        "power-budget"
+      ],
+      "independentEvidence": "Fresh marked calculation or causal prediction without hints/answer exposure; open explanation remains reflection unless human rubric reviewed",
+      "transfer": "New values and circuit layout in another station subsystem",
+      "criterion": "Correct mechanism prediction and applicable numeric/design task with correct units; at least two fresh independent opportunities, not completion count"
+    },
+    {
+      "outcome": "Diagnose unfamiliar faults and justify a repair using independent evidence",
+      "episodes": [
+        "fault-board",
+        "station-repair"
+      ],
+      "independentEvidence": "Fresh marked calculation or causal prediction without hints/answer exposure; open explanation remains reflection unless human rubric reviewed",
+      "transfer": "New values and circuit layout in another station subsystem",
+      "criterion": "Correct mechanism prediction and applicable numeric/design task with correct units; at least two fresh independent opportunities, not completion count"
+    }
+  ],
+  "researchDecisions": [
+    {
+      "decision": "Offer purposeful exploration plus authored support, not unguided discovery",
+      "source": "https://doi.org/10.3102/0034654315627366",
+      "access": "full-text",
+      "strength": "Meta-analysis of guidance comparisons across inquiry studies",
+      "limitations": "Limited age-specific evidence; guidance categories and tasks vary; no universal recovery ladder",
+      "validation": "Playtest novice/struggling paths and assistance accounting"
+    },
+    {
+      "decision": "Explain the mechanism and useful next action after a mistake",
+      "source": "https://doi.org/10.3389/fpsyg.2019.03087",
+      "access": "full-text",
+      "strength": "Broad random-effects meta-analysis, with moderator and limitation discussion inspected",
+      "limitations": "High heterogeneity, publication/reporting bias and varying comparators; more information is not a licence for long feedback",
+      "validation": "Trace each error to feedback; test whether the next independent task improves"
+    },
+    {
+      "decision": "Build from sensible voltage/current/resistance reasoning and counterexample tests",
+      "source": "https://doi.org/10.1103/PhysRevPhysEducRes.20.020128",
+      "access": "full-text",
+      "strength": "2024 primary multi-university conceptual-response research; methods and implications inspected",
+      "limitations": "University samples; context-sensitive ideas, not fixed learner labels or a causal trial of this app",
+      "validation": "Feedback addresses current-used-up/fixed-current reasoning; fresh layouts test transfer"
+    },
+    {
+      "decision": "Use series sums, parallel conductance sums and P=VI in a bounded ideal model",
+      "source": "https://openstax.org/books/university-physics-volume-2/pages/10-2-resistors-in-series-and-parallel",
+      "access": "primary-source",
+      "strength": "Established theory checked in textbook sections and AQA",
+      "limitations": "No unrestricted electronics solver; ideal wires/source/resistors; no transients or heating-dependent resistance",
+      "validation": "Independent hand calculations, conservation invariants and open/fault boundary tests"
+    },
+    {
+      "decision": "Provide tap/click and keyboard alternatives to dragging",
+      "source": "https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html",
+      "access": "standard",
+      "strength": "W3C WCAG 2.2 understanding documents",
+      "limitations": "Standards compliance is not established by screenshots; actual reader/device experience may differ",
+      "validation": "Drive real interactions, focus, text alternatives, reduced motion and text expansion"
+    },
+    {
+      "decision": "Offer hints, representation, worked example, prerequisite, retry and escape",
+      "source": "owner requirement and contextual design",
+      "access": "design-hypothesis",
+      "strength": "Owner contract plus guided-inquiry/feedback evidence motivates support",
+      "limitations": "Exact ladder and idle cutoff are hypotheses; inactivity alone does not show difficulty",
+      "validation": "Record help; assisted paths never give independent credit; owner revision"
+    }
+  ]
+}

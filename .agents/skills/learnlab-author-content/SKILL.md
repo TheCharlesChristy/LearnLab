@@ -21,6 +21,21 @@ time and cannot advance without a real interaction. This is now the default and 
 format; the older Markdown + directives format (§"Legacy format" below) still works and still
 renders, but new lessons should use screens unless there's a specific reason not to.
 
+
+## Laboratory workflow amendment (27 September 2026)
+
+For new laboratory courses, read `docs/laboratory/AUTHORING-HARNESS.md` and
+`docs/laboratory/AUDIT.md`. Start a run with `npm run author:course -- start` before
+course drafting, record bounded audience/level/outcomes and research decisions,
+and validate the plan with `plan`. Preserve actual authoring, failure and playthrough
+artifacts using `record`; artifact presence alone does not pass a gate. The CLI
+currently implements intake/planning/discovery/evidence preservation only; course
+scaffolding, graph validators and Studio are pending. Use `capabilities` to distinguish
+shipped v1 sets from planned v2 activities. New v2 metadata is not confined to the v1
+subject/level enums. Keep v1 content compatible and use `src/v2/` for the additive
+experience runtime. Adult playfulness is allowed; difficulty is contextual. Assisted
+exits, self-report and answer-exposed retries cannot award independent mastery.
+
 ## The four closed sets — never silently extend
 
 LearnLab has exactly four enumerable vocabularies. If a task seems to need a fifth directive, a
@@ -108,11 +123,10 @@ The **house bar** is higher than the CI bar: the learnlab-lesson-pedagogy skill'
 distractors, cumulative review question — now expressed as screen types) applies to every module
 on top of the ◆ rules above. CI passing does not mean the module is done.
 
-One sharp edge worth knowing (D-018): `build-content.mjs` **silently skips** full MVC checking for
-any module folder not yet referenced by its course's `course.json` — it only prints a
-`WARN ... not referenced by course.json`. An orphan folder that "passes `--strict`" may just never
-have been checked. Always add the `ModuleRef` to the real `course.json` before trusting a green
-`--strict` run as meaning the module is actually valid.
+Strict validation now rejects orphan module folders (present on disk but absent from
+`course.json`). Non-strict preview still warns and skips them. Always register the
+module before relying on validation, and use `--strict` for delivery; a warning-only
+preview is not a complete content check.
 
 ## Pedagogy is its own skill — read it before drafting
 

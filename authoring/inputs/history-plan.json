@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "courseId": "great-fire-investigation",
+  "episodes": [
+    {
+      "id": "first-report",
+      "title": "The first report",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Separate observation from inference with explicit uncertainty"
+      ],
+      "activity": "Sort eyewitness observation and inference and justify one distinction",
+      "assessment": "Fresh short account with observation/inference and uncertainty",
+      "prerequisites": [],
+      "optionalExperiments": [
+        "Choose evidence inspection order; revisit a source after testing a claim"
+      ],
+      "recovery": "Source gloss, worked evidence comparison, exemplar and assisted exit; self-reports remain unverified"
+    },
+    {
+      "id": "source-desk",
+      "title": "Who should we trust?",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Evaluate provenance, purpose and limits of a historical source"
+      ],
+      "activity": "Compare source author, purpose, date and access; select a useful claim and limitation",
+      "assessment": "Fresh provenance comparison with an authored rubric",
+      "prerequisites": [
+        "first-report"
+      ],
+      "optionalExperiments": [
+        "Choose evidence inspection order; revisit a source after testing a claim"
+      ],
+      "recovery": "Source gloss, worked evidence comparison, exemplar and assisted exit; self-reports remain unverified"
+    },
+    {
+      "id": "fire-map",
+      "title": "Follow the evidence",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Corroborate independent accounts using maps and chronology"
+      ],
+      "activity": "Reconstruct a schematic map/timeline from corroborating accounts; test competing spread explanations",
+      "assessment": "Compare a new pair of accounts for independent corroboration",
+      "prerequisites": [
+        "source-desk"
+      ],
+      "optionalExperiments": [
+        "Choose evidence inspection order; revisit a source after testing a claim"
+      ],
+      "recovery": "Source gloss, worked evidence comparison, exemplar and assisted exit; self-reports remain unverified"
+    },
+    {
+      "id": "case-conference",
+      "title": "Make the case",
+      "estimatedMinutes": 8,
+      "outcomes": [
+        "Build a defensible multi-causal explanation and acknowledge alternatives"
+      ],
+      "activity": "Construct a causal account from inspected evidence and acknowledge an alternative",
+      "assessment": "Fresh claim using two sources, mechanism and uncertainty; human rubric review",
+      "prerequisites": [
+        "fire-map"
+      ],
+      "optionalExperiments": [
+        "Choose evidence inspection order; revisit a source after testing a claim"
+      ],
+      "recovery": "Source gloss, worked evidence comparison, exemplar and assisted exit; self-reports remain unverified"
+    }
+  ],
+  "traceability": [
+    {
+      "outcome": "Separate observation from inference with explicit uncertainty",
+      "episodes": [
+        "first-report"
+      ],
+      "independentEvidence": "Human-reviewed fresh source task against authored rubric; structural checks alone do not imply mastery",
+      "transfer": "Another source/date or unfamiliar historical claim supplied with sufficient context",
+      "criterion": "Relevant evidence, correct source distinction and explicit limit; no one-answer collapse of defensible interpretations"
+    },
+    {
+      "outcome": "Evaluate provenance, purpose and limits of a historical source",
+      "episodes": [
+        "source-desk"
+      ],
+      "independentEvidence": "Human-reviewed fresh source task against authored rubric; structural checks alone do not imply mastery",
+      "transfer": "Another source/date or unfamiliar historical claim supplied with sufficient context",
+      "criterion": "Relevant evidence, correct source distinction and explicit limit; no one-answer collapse of defensible interpretations"
+    },
+    {
+      "outcome": "Corroborate independent accounts using maps and chronology",
+      "episodes": [
+        "fire-map"
+      ],
+      "independentEvidence": "Human-reviewed fresh source task against authored rubric; structural checks alone do not imply mastery",
+      "transfer": "Another source/date or unfamiliar historical claim supplied with sufficient context",
+      "criterion": "Relevant evidence, correct source distinction and explicit limit; no one-answer collapse of defensible interpretations"
+    },
+    {
+      "outcome": "Build a defensible multi-causal explanation and acknowledge alternatives",
+      "episodes": [
+        "case-conference"
+      ],
+      "independentEvidence": "Human-reviewed fresh source task against authored rubric; structural checks alone do not imply mastery",
+      "transfer": "Another source/date or unfamiliar historical claim supplied with sufficient context",
+      "criterion": "Relevant evidence, correct source distinction and explicit limit; no one-answer collapse of defensible interpretations"
+    }
+  ],
+  "researchDecisions": [
+    {
+      "decision": "Distinguish observed events, inferred mechanisms and uncertain origin",
+      "source": "https://www.londonmuseum.org.uk/collections/london-stories/great-fire-of-london/",
+      "access": "primary-source",
+      "strength": "Museum historical synthesis and myth discussion accessed",
+      "limitations": "Museum interpretation is secondary historical evidence; it is an authoritative factual reference, not an eyewitness; illustrations copyrighted",
+      "validation": "Use own labelled schematic/map; compare actual primary accounts; no invented quotations"
+    },
+    {
+      "decision": "Investigate provenance, context and corroboration before forming a claim",
+      "source": "https://www.inquirygroup.org/history-lessons",
+      "access": "primary-source",
+      "strength": "Provider curriculum guidance and linked evaluation overview inspected",
+      "limitations": "Practice guidance/evaluation summary; original evaluation paper not yet read; classroom support differs from solo learners",
+      "validation": "Authored evidence rubric and human evaluation of defensible interpretations"
+    },
+    {
+      "decision": "Provide tap/click and keyboard alternatives to dragging",
+      "source": "https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html",
+      "access": "standard",
+      "strength": "W3C WCAG 2.2 understanding documents",
+      "limitations": "Standards compliance is not established by screenshots; actual reader/device experience may differ",
+      "validation": "Drive real interactions, focus, text alternatives, reduced motion and text expansion"
+    },
+    {
+      "decision": "Offer hints, representation, worked example, prerequisite, retry and escape",
+      "source": "owner requirement and contextual design",
+      "access": "design-hypothesis",
+      "strength": "Owner contract plus guided-inquiry/feedback evidence motivates support",
+      "limitations": "Exact ladder and idle cutoff are hypotheses; inactivity alone does not show difficulty",
+      "validation": "Record help; assisted paths never give independent credit; owner revision"
+    }
+  ]
+}

@@ -4,6 +4,13 @@ The Experience Runtime v2 boundary is recorded in [`ADR-001-experience-runtime-v
 
 This is SRS §3, condensed for contributors, plus the operational runbooks. The SRS (`SRS-LearnLab.md`) is normative; if this file and the SRS disagree, the SRS wins.
 
+The learning laboratory implementation inventory and deliberate v2 continuation are in
+[`laboratory/AUDIT.md`](laboratory/AUDIT.md). The executable local intake/planning/run-artifact
+foundation is documented in [`laboratory/AUTHORING-HARNESS.md`](laboratory/AUTHORING-HARNESS.md).
+Graph runtime, pack scaffolding and Studio remain pending; registry negotiation fixtures must
+not be advertised as implemented activities. Authoring schemas come from
+`scripts/authoring/contracts.mjs`, emitted by `author:course -- schemas`.
+
 ## 1. High-level view
 
 LearnLab is a **static, client-only SPA** on GitHub Pages. The browser is the entire execution environment: no backend, no accounts, no telemetry. All learner data stays on-device in IndexedDB (NFR-PRIV-001).

@@ -1,0 +1,1 @@
+Bring the research station back online: a playful bounded introduction to ideal DC circuits for learners approaching A-level physics, ten short episodes with an open workspace and capstone repair. Use the owner-goal.txt contract. Course/design choices are delegated. No runtime AI, telemetry or accounts.

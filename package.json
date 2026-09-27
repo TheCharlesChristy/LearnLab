@@ -14,7 +14,8 @@
     "new:item": "node scripts/new-item.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "author:course": "node scripts/author-course.mjs"
   },
   "dependencies": {
     "ajv": "8.20.0",

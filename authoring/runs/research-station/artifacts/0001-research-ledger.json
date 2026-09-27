@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-27",
+  "status": "initial evidence review; remaining full-text and primary-study follow-ups are explicit",
+  "searchScope": "Foundational learning/performance, self-explanation, inquiry, feedback; refreshed motivation and mathematics game reviews through 27 September 2026; discipline and accessibility sources",
+  "accessNote": "Full-text means the document was accessible and relevant methods/results/limitations were inspected, not that every reference was exhaustively read. No effect sizes are promised for LearnLab. Primary-source access category denotes direct source access; historical status is separately described.",
+  "decisions": [
+    {
+      "id": "learning-performance",
+      "decision": "Separate practice success, independent competence, retention and transfer",
+      "source": "https://doi.org/10.1177/1745691615569000",
+      "accessedAt": "https://bjorklab.psych.ucla.edu/wp-content/uploads/sites/13/2016/11/soderstorm_ra_learningvsperformance.pdf",
+      "access": "full-text",
+      "strength": "Integrative review; converging evidence rather than a product trial",
+      "limitations": "Motor/verbal tasks and laboratory research; no direct estimate for LearnLab",
+      "validation": "Fresh tasks and delayed checks; preserve non-attainment"
+    },
+    {
+      "id": "self-explanation",
+      "decision": "Ask for causal explanation and show an exemplar without claiming objective free-text marking",
+      "source": "https://doi.org/10.1007/s10648-018-9434-x",
+      "accessedAt": "https://gwern.net/doc/psychology/spaced-repetition/2018-bisra.pdf",
+      "access": "full-text",
+      "strength": "Meta-analysis with diverse instructional tasks; supports prompted reasoning",
+      "limitations": "Prompt quality and populations vary; pooled result does not certify our rubric or bundle",
+      "validation": "Compare explanations using authored criteria; human review for open claims"
+    },
+    {
+      "id": "guided-inquiry",
+      "decision": "Offer purposeful exploration plus authored support, not unguided discovery",
+      "source": "https://doi.org/10.3102/0034654315627366",
+      "accessedAt": "https://www.platformsamenonderzoeken.nl/wetenwatwerkt/wp-content/uploads/sites/3/2021/01/Meta-Analysis-of-Inquiry-Based-Learning.pdf",
+      "access": "full-text",
+      "strength": "Meta-analysis of guidance comparisons across inquiry studies",
+      "limitations": "Limited age-specific evidence; guidance categories and tasks vary; no universal recovery ladder",
+      "validation": "Playtest novice/struggling paths and assistance accounting"
+    },
+    {
+      "id": "feedback",
+      "decision": "Explain the mechanism and useful next action after a mistake",
+      "source": "https://doi.org/10.3389/fpsyg.2019.03087",
+      "accessedAt": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2019.03087/full",
+      "access": "full-text",
+      "strength": "Broad random-effects meta-analysis, with moderator and limitation discussion inspected",
+      "limitations": "High heterogeneity, publication/reporting bias and varying comparators; more information is not a licence for long feedback",
+      "validation": "Trace each error to feedback; test whether the next independent task improves"
+    },
+    {
+      "id": "gamification-motivation",
+      "decision": "Provide choice and visible conceptual payoff; measure enjoyment separately",
+      "source": "https://doi.org/10.1007/s11423-023-10337-7",
+      "accessedAt": "https://link.springer.com/article/10.1007/s11423-023-10337-7",
+      "access": "full-text",
+      "strength": "Systematic review/meta-analysis; methods and discussion inspected",
+      "limitations": "Mostly self-report motivation; perceived competence is not independently tested competence; intervention duration and instructors confound interpretation",
+      "validation": "Optional continuation/return and fresh performance alongside owner report"
+    },
+    {
+      "id": "recent-maths-gamification",
+      "decision": "Avoid claiming that game elements guarantee STEM learning",
+      "source": "https://doi.org/10.1007/s10648-025-10108-1",
+      "accessedAt": "https://link.springer.com/article/10.1007/s10648-025-10108-1",
+      "access": "full-text",
+      "strength": "2026 systematic review/meta-analysis; methods, sensitivity and discussion inspected",
+      "limitations": "Motivation outcome; engagement measures limited; many quasi-experiments; sensitivity excluding lower-quality studies is imprecise and includes no effect",
+      "validation": "Retain neutral and negative observations; separate learning and enjoyment"
+    },
+    {
+      "id": "recent-second-order",
+      "decision": "Refresh game-based learning evidence without assuming a universal advantage",
+      "source": "https://doi.org/10.1016/j.edurev.2026.100816",
+      "accessedAt": "https://www.sciencedirect.com/science/article/pii/S1747938X26000552",
+      "access": "abstract-only",
+      "strength": "Recent second-order meta-analysis identified; publisher full text unavailable to this browsing session",
+      "limitations": "Only indexed abstract/summary accessible; no detailed methodological claims or effect sizes taken from it",
+      "validation": "Obtain full text before relying on detailed findings; no release claim based on this lead"
+    },
+    {
+      "id": "classroom-transfer",
+      "decision": "Use retrieval, spacing and worked examples as contextual tools",
+      "source": "https://educationendowmentfoundation.org.uk/education-evidence/evidence-reviews/cognitive-science-approaches-in-the-classroom",
+      "accessedAt": "https://educationendowmentfoundation.org.uk/education-evidence/evidence-reviews/cognitive-science-approaches-in-the-classroom",
+      "access": "abstract-only",
+      "strength": "Commissioned evidence-review landing summary; full report not yet assessed",
+      "limitations": "Lab-to-classroom and subject transfer uncertain; no claim that every skill recipe is replicated",
+      "validation": "Inspect full report and relevant fading/retention studies before locking broader course policies"
+    },
+    {
+      "id": "circuit-thinking",
+      "decision": "Build from sensible voltage/current/resistance reasoning and counterexample tests",
+      "source": "https://doi.org/10.1103/PhysRevPhysEducRes.20.020128",
+      "accessedAt": "https://journals.aps.org/prper/pdf/10.1103/PhysRevPhysEducRes.20.020128",
+      "access": "full-text",
+      "strength": "2024 primary multi-university conceptual-response research; methods and implications inspected",
+      "limitations": "University samples; context-sensitive ideas, not fixed learner labels or a causal trial of this app",
+      "validation": "Feedback addresses current-used-up/fixed-current reasoning; fresh layouts test transfer"
+    },
+    {
+      "id": "circuits-scope",
+      "decision": "Bound pilot to ideal DC resistors, conservation, measurement and power",
+      "source": "https://www.aqa.org.uk/subjects/physics/a-level/physics-7408/specification/subject-content/electricity",
+      "accessedAt": "https://www.aqa.org.uk/subjects/physics/a-level/physics-7408/specification/subject-content/electricity",
+      "access": "standard",
+      "strength": "Live official specification checked against existing electricity-dc objectives",
+      "limitations": "Introduction is not complete exam preparation; internal resistance, resistivity and non-ohmic devices outside initial model",
+      "validation": "Outcome map, unit checks and unsupported-configuration diagnostics"
+    },
+    {
+      "id": "circuits-model",
+      "decision": "Use series sums, parallel conductance sums and P=VI in a bounded ideal model",
+      "source": "https://openstax.org/books/university-physics-volume-2/pages/10-2-resistors-in-series-and-parallel",
+      "accessedAt": "https://openstax.org/books/university-physics-volume-2/pages/9-5-electrical-energy-and-power",
+      "access": "primary-source",
+      "strength": "Established theory checked in textbook sections and AQA",
+      "limitations": "No unrestricted electronics solver; ideal wires/source/resistors; no transients or heating-dependent resistance",
+      "validation": "Independent hand calculations, conservation invariants and open/fault boundary tests"
+    },
+    {
+      "id": "history-facts",
+      "decision": "Distinguish observed events, inferred mechanisms and uncertain origin",
+      "source": "https://www.londonmuseum.org.uk/collections/london-stories/great-fire-of-london/",
+      "accessedAt": "https://www.londonmuseum.org.uk/collections/london-stories/myths-great-fire-london/",
+      "access": "primary-source",
+      "strength": "Museum historical synthesis and myth discussion accessed",
+      "limitations": "Museum interpretation is secondary historical evidence; it is an authoritative factual reference, not an eyewitness; illustrations copyrighted",
+      "validation": "Use own labelled schematic/map; compare actual primary accounts; no invented quotations"
+    },
+    {
+      "id": "history-reasoning",
+      "decision": "Investigate provenance, context and corroboration before forming a claim",
+      "source": "https://www.inquirygroup.org/history-lessons",
+      "accessedAt": "https://inquirygroup.org/impact",
+      "access": "primary-source",
+      "strength": "Provider curriculum guidance and linked evaluation overview inspected",
+      "limitations": "Practice guidance/evaluation summary; original evaluation paper not yet read; classroom support differs from solo learners",
+      "validation": "Authored evidence rubric and human evaluation of defensible interpretations"
+    },
+    {
+      "id": "accessible-controls",
+      "decision": "Provide tap/click and keyboard alternatives to dragging",
+      "source": "https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html",
+      "accessedAt": "https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum",
+      "access": "standard",
+      "strength": "W3C WCAG 2.2 understanding documents",
+      "limitations": "Standards compliance is not established by screenshots; actual reader/device experience may differ",
+      "validation": "Drive real interactions, focus, text alternatives, reduced motion and text expansion"
+    },
+    {
+      "id": "curiosity-loop",
+      "decision": "Make repairing and evidence discovery the payoff; allow multiple investigation orders",
+      "source": "https://www.gdcvault.com/play/1027368/Independent-Games-Summit-Sparking-Curiosity",
+      "accessedAt": "https://media.gdcvault.com/GDC%2B2021/beachum_gdc_2021%281%29.pdf",
+      "access": "design-hypothesis",
+      "strength": "Developer talk abstract inspected; slides located, not fully reviewed",
+      "limitations": "Game-design account, not causal learning evidence; no claim that game success transfers to a course",
+      "validation": "Owner finds controls/question clear, can explore, wants to continue; revise from observations"
+    },
+    {
+      "id": "readable-world",
+      "decision": "Use visual language to expose concepts with concise labels",
+      "source": "https://www.gdcvault.com/play/1021148/The-Art-of-The",
+      "accessedAt": "https://www.gdcvault.com/play/1021148/The-Art-of-The",
+      "access": "design-hypothesis",
+      "strength": "Developer talk abstract inspected; video not watched",
+      "limitations": "Design reference only; no copied assets/layout and no learning claim",
+      "validation": "Playtest schematic and table representations in both themes and small layouts"
+    },
+    {
+      "id": "recovery-policy",
+      "decision": "Offer hints, representation, worked example, prerequisite, retry and escape",
+      "source": "owner requirement and contextual design",
+      "accessedAt": "docs/laboratory/ACCEPTANCE.md",
+      "access": "design-hypothesis",
+      "strength": "Owner contract plus guided-inquiry/feedback evidence motivates support",
+      "limitations": "Exact ladder and idle cutoff are hypotheses; inactivity alone does not show difficulty",
+      "validation": "Record help; assisted paths never give independent credit; owner revision"
+    }
+  ],
+  "followUps": [
+    "Inspect worked-example fading primary studies and classroom review full text before fixing episode support/fading policies.",
+    "Inspect the original history curriculum evaluation, not just its provider summary.",
+    "Verify primary Pepys/Evelyn source provenance and adaptation terms before authoring historical evidence cards.",
+    "Refresh the recent second-order review if full text becomes available."
+  ]
+}

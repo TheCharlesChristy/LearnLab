@@ -16,6 +16,21 @@ also holds: platform work never edits `public/content/**` except to add a demons
 module for a new capability, and a diff that mixes engine and content changes is a
 scoping error (invariant C-5).
 
+
+## Laboratory workflow amendment (27 September 2026)
+
+For new laboratory courses, read `docs/laboratory/AUTHORING-HARNESS.md` and
+`docs/laboratory/AUDIT.md`. Start a run with `npm run author:course -- start` before
+course drafting, record bounded audience/level/outcomes and research decisions,
+and validate the plan with `plan`. Preserve actual authoring, failure and playthrough
+artifacts using `record`; artifact presence alone does not pass a gate. The CLI
+currently implements intake/planning/discovery/evidence preservation only; course
+scaffolding, graph validators and Studio are pending. Use `capabilities` to distinguish
+shipped v1 sets from planned v2 activities. New v2 metadata is not confined to the v1
+subject/level enums. Keep v1 content compatible and use `src/v2/` for the additive
+experience runtime. Adult playfulness is allowed; difficulty is contextual. Assisted
+exits, self-report and answer-exposed retries cannot award independent mastery.
+
 ## The extension procedure — every new capability follows it
 
 Read `docs/ARCHITECTURE.md` and the relevant SRS sections before touching anything;
