@@ -551,6 +551,16 @@
       "revision": "60231262423776db947e1cdfb19eb09b67e358e7",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "delivery",
+      "file": "artifacts/0055-learnlab-author-studio-delivery.json",
+      "sha256": "83fc95133b5b3061a2b2cefdc0665ce076bbe11250801e44b0acf8a84c97175b",
+      "note": "Verified draft PR71,source31c7acd,dependent on PR70; no merge/deployment. Remote CI was in progress at creation.",
+      "at": "2026-09-27T17:55:13.887Z",
+      "revision": "31c7acd23bddbee98c4a0754cff13dabd9df380f",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [

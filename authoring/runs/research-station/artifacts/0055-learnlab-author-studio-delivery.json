@@ -1,0 +1,28 @@
+{
+  "kind": "draft pull request delivery",
+  "url": "https://github.com/TheCharlesChristy/LearnLab/pull/71",
+  "branch": "feat/laboratory-author-studio",
+  "base": "feat/laboratory-circuits-episode",
+  "sourceCommit": "31c7acd23bddbee98c4a0754cff13dabd9df380f",
+  "localValidation": {
+    "unitPassed": 935,
+    "unitWorkers": 2,
+    "authorBrowserPassed": 10,
+    "ordinaryBrowserPassed": 30,
+    "engines": [
+      "Chromium",
+      "Firefox"
+    ],
+    "runtimeHashesMatched": 90
+  },
+  "remoteCI": "in progress when PR created; no pass claimed",
+  "status": "draft; no merge or deployment",
+  "remaining": [
+    "Git delivery automation",
+    "Complete circuits pilot",
+    "Complete history pilot",
+    "Whole-skill criteria and evaluation",
+    "Owner written walkthrough report and revision"
+  ],
+  "note": "Delivered preview/inspection milestone; entire implementation goal remains active."
+}
