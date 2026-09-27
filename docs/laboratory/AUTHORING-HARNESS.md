@@ -3,16 +3,17 @@
 Status: intake, planning, capability discovery, scaffolding, shared pack validation,
 local preview staging, isolated Studio inspection and evidence preservation are implemented.
 One circuits episode has been authored through these commands. Choice-order seeds are
-presentation variants; parameterised fresh tasks, complete pilots and Git delivery automation
-remain pending. This first
+presentation variants; parameterised fresh tasks and complete pilots remain pending.
+The Git delivery command now creates a reviewable draft PR from a committed slice. This first
 slice does **not** satisfy the complete harness goal.
 
 Use Node 22.18 or newer: the CLI shares the browser's typed pack/model contracts
 through Node's built-in TypeScript stripping. No extra authoring service is needed.
 
 Run `npm run author:course -- <command>`. Commands return inspectable JSON and exit
-nonzero on an invalid contract. No inference, credentials, accounts or authoring API
-calls are built in. An external coding agent supplies the reasoning and interviews;
+nonzero on an invalid contract. No learner inference or course-authoring model API calls are built in.
+Git delivery uses the author's existing GitHub CLI authentication; it
+never stores that credential in a content pack. An external coding agent supplies the reasoning and interviews;
 its model subscription/API costs are separate and depend on the user's provider.
 The CLI never claims to semantically understand a subject from keywords.
 
@@ -67,7 +68,7 @@ npm run author:course -- record --run authoring/runs/my-course --kind playthroug
 Discovery reads existing widget keys, screen/question schemas, and the laboratory
 activity registry. The implemented laboratory activities are `choice` and `circuit`;
 older v2 negotiation fixtures are not implemented activities. `schemas` emits brief,
-plan, pack, author-preview and activity contracts from their source of truth. The generated browser
+plan, pack, author-preview, delivery receipt and activity contracts from their source of truth. The generated browser
 pack validator is checked by `npm run validate:laboratory` and the production build.
 See [activity contracts](ACTIVITIES.md) for controls, marking, outputs and limits.
 
@@ -158,6 +159,41 @@ restores its checkpoint; starting-scene/help configuration applies when creating
 `inspect` reports actual branch edges, current scene, controls, evidence and events without
 claiming observed learner performance. A fixture file proves reproducibility, not a rendered
 playthrough; retain separate browser observations and failures using `record`.
+
+## Deliver a committed slice as a draft PR
+
+The authoring run must have a complete current brief and verified current plan.
+Play the rendered slice and inspect its committed diff, then write the PR title and
+body with observed checks, screenshots, source/answer verification, limitations and
+a short owner walkthrough. GitHub CLI authentication is an authoring requirement;
+no learner credentials or GitHub API calls enter the shipped app.
+
+```sh
+npm run author:course -- deliver --run authoring/runs/my-course --base feat/prerequisite-slice --title "Add the next investigation" --file /absolute/path/pr-body.md --output /absolute/path/delivery-dry-run.json --dry-run
+npm run author:course -- deliver --run authoring/runs/my-course --base feat/prerequisite-slice --title "Add the next investigation" --file /absolute/path/pr-body.md --output /absolute/path/delivery.json
+# If creation/push returned an uncertain result, repeat the same inputs:
+npm run author:course -- deliver --run authoring/runs/my-course --base feat/prerequisite-slice --title "Add the next investigation" --file /absolute/path/pr-body.md --output /absolute/path/delivery.json --resume
+```
+
+The `--base` must be the current remote prerequisite branch. Run from a focused
+branch with a clean tracked tree and a committed content diff. The command validates
+the origin fetch/push repository, current branch and head, retained run hashes,
+remote base ancestry, changed files and PR body before publishing a fixed commit
+SHA. It never stages, commits, rebases, force-pushes or merges. Untracked files are
+listed in the receipt and excluded from the push. A dry run writes only a local
+receipt, does not fetch or contact GitHub, and uses a separate output path. Review
+the proposed scope yourself; Git and schema checks do not judge answer accuracy,
+teaching quality, screenshot truth or the completeness of either pilot.
+
+On a real run, the receipt is stored before network mutations and can be resumed
+with exactly the same branch, head, base, title and body. It creates a draft PR,
+or updates an already-matching open draft. A matching ready-for-review PR, moved
+head, changed body or ambiguous remote state stops for inspection. `--resume` never
+blindly creates a second PR after an uncertain result. Copy the verified PR URL into
+the authoring run with `record --kind delivery` and attach it to the Codex task if
+app tooling is available. If later evidence commits move the branch head, use a
+new output path for a new delivery attempt; the earlier receipt remains historical
+rather than certifying the later head. PR creation is not merge or deployment.
 
 ## Subsequent author procedure
 

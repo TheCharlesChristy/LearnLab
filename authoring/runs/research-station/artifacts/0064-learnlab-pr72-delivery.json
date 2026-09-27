@@ -1,0 +1,35 @@
+{
+  "formatVersion": 1,
+  "kind": "learnlab-author-delivery",
+  "attemptId": "936220e6-634f-433b-8605-ad0d4e2a2de9",
+  "status": "created",
+  "repository": "TheCharlesChristy/LearnLab",
+  "branch": "feat/laboratory-git-delivery",
+  "base": "feat/laboratory-author-studio",
+  "headCommit": "9c2f08d9d4b1bfa8257b547da3479329182d839b",
+  "baseCommit": "8addfc2884628651ab0a316ff732544b09bbaae8",
+  "title": "Add guarded author draft PR delivery",
+  "bodySha256": "30fd22da461aa0de713f1b32cf7b9a8b719f9b03475268a87d762e1b0a63e7db",
+  "bodyBytes": 2197,
+  "untrackedCount": 1,
+  "untrackedPaths": [
+    "node_modules"
+  ],
+  "range": {
+    "commits": 1,
+    "fileCount": 8,
+    "files": [
+      ".agents/skills/learnlab-author-content/SKILL.md",
+      ".agents/skills/learnlab-extend-platform/SKILL.md",
+      "SRS-LearnLab.md",
+      "docs/laboratory/AUTHORING-HARNESS.md",
+      "schemas/author-delivery.schema.json",
+      "scripts/author-course.mjs",
+      "scripts/authoring/delivery.mjs",
+      "tests/pipeline/author-delivery.test.ts"
+    ],
+    "stat": " .agents/skills/learnlab-author-content/SKILL.md  |   7 +-\n .agents/skills/learnlab-extend-platform/SKILL.md |   7 +-\n SRS-LearnLab.md                                  |  15 ++\n docs/laboratory/AUTHORING-HARNESS.md             |  46 +++-\n schemas/author-delivery.schema.json              |  66 +++++\n scripts/author-course.mjs                        |  72 +++++-\n scripts/authoring/delivery.mjs                   | 312 +++++++++++++++++++++++\n tests/pipeline/author-delivery.test.ts           | 264 +++++++++++++++++++\n 8 files changed, 768 insertions(+), 21 deletions(-)\n"
+  },
+  "url": "https://github.com/TheCharlesChristy/LearnLab/pull/72",
+  "at": "2026-09-27T22:27:00.301Z"
+}
