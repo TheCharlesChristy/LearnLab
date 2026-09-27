@@ -34,9 +34,10 @@ is claimed complete.
   source; episode switching has no page errors; synthetic evidence stays non-independent.
   At360px, normal and200%text, client/content/inner widths are360px. Buttons are at least44px.
 
-The added CI job requests all three installed engines, but its remote result is not claimed
-here. WebKit/Safari, physical phones and a screen-reader-user session were not run for this
-slice. Prior local WebKit launch lacked host libraries. Mock voice availability proves the
+The first added CI run at head `a02b13a` failed three WebKit tests and had one Chromium
+reload retry. The failures and their follow-up are retained in
+`docs/laboratory/STUDIO-CI-REVISION.md`. That earlier result is not a green CI claim.
+Physical Safari, phones and a screen-reader-user session remain untested. Mock voice availability proves the
 preference boundary; it does not prove installed voices or actual speech playback.
 
 The Studio is a validated JSON editor with shared rendering, bounded in-memory history and

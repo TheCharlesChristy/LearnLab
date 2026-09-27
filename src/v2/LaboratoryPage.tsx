@@ -158,7 +158,8 @@ export function EpisodeWorkspace({
         );
         const next = appendEvent(pack, episode, runRef.current, { ...event, at } as RunEvent);
         runRef.current = next;
-        setRun(next);
+        // Publish the resulting scene after the save has settled, so a
+        // completion screen is not shown while its write is still pending.
         const saved = await persist(next);
         if (mounted.current)
           setSaveError(
@@ -171,7 +172,10 @@ export function EpisodeWorkspace({
           setSaveError(cause instanceof Error ? cause.message : 'This action could not be saved.');
       } finally {
         busyRef.current = false;
-        if (mounted.current) setBusy(false);
+        if (mounted.current) {
+          setRun(runRef.current);
+          setBusy(false);
+        }
       }
     },
     [pack, episode, persist],

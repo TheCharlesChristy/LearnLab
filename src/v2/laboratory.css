@@ -292,3 +292,12 @@
 .lab-studio button {
   white-space: normal;
 }
+
+/* WebKit counts long native option text as grid overflow even when the
+   select fits. Block flow keeps the full native selector and focus outline. */
+.lab-studio label:has(select) {
+  display: block;
+}
+.lab-studio label > select {
+  margin-block-start: 0.25rem;
+}

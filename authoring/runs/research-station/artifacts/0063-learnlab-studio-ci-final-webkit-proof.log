@@ -1,0 +1,8 @@
+
+Running 2 tests using 1 worker
+
+  ✓  1 [webkit] › e2e/author-studio.pw.ts:246:1 › phone author controls and expanded text stay within requested viewport (7.4s)
+  -  2 [webkit] › e2e/laboratory.pw.ts:216:1 › downloaded episode survives browser close and offline reopen with local progress
+
+  1 skipped
+  1 passed (12.6s)

@@ -1,0 +1,42 @@
+
+Running 36 tests using 2 workers
+
+  -   1 [chromium] › e2e/author-build-boundary.pw.ts:3:1 › ordinary learner build excludes Studio route and emitted module
+  ✓   2 [chromium] › e2e/author-build-boundary.pw.ts:14:1 › explicit author build rejects a non-loopback document host (1.8s)
+  ✓   4 [chromium] › e2e/author-studio.pw.ts:120:1 › source validation, undo, new-subject preview and bounded diagnostics (3.1s)
+  ✓   3 [chromium] › e2e/author-studio.pw.ts:9:1 › author preview shares actual renderer, survives diagnostic export/import and writes no learner rows (4.9s)
+  ✓   5 [chromium] › e2e/author-studio.pw.ts:176:1 › switching preview episodes clears stale state and archives retain their original content (3.2s)
+  ✓   6 [chromium] › e2e/author-studio.pw.ts:246:1 › phone author controls and expanded text stay within requested viewport (3.5s)
+  ✓   7 [chromium] › e2e/laboratory.pw.ts:7:1 › first station episode: mistakes, keyboard repair, help, evidence and resume (5.1s)
+  ✓   8 [chromium] › e2e/laboratory.pw.ts:124:1 › narrow touch workspace: both themes, help escape and retained exposure on restart (5.8s)
+  ✓  10 [chromium] › e2e/laboratory.pw.ts:339:1 › write failure offers an export and keeps the last persisted circuit intact (2.1s)
+  ✓  11 [chromium] › e2e/laboratory.pw.ts:375:1 › tablet, landscape and expanded text preserve controls and local-only requests (2.2s)
+  ✓  12 [chromium] › e2e/laboratory.pw.ts:424:1 › silently discarded offline writes show recovery and never claim readiness (3.5s)
+  ✓   9 [chromium] › e2e/laboratory.pw.ts:216:1 › downloaded episode survives browser close and offline reopen with local progress (9.6s)
+  -  13 [firefox] › e2e/author-build-boundary.pw.ts:3:1 › ordinary learner build excludes Studio route and emitted module
+  ✓  14 [firefox] › e2e/author-build-boundary.pw.ts:14:1 › explicit author build rejects a non-loopback document host (6.4s)
+  ✓  15 [firefox] › e2e/author-studio.pw.ts:9:1 › author preview shares actual renderer, survives diagnostic export/import and writes no learner rows (9.8s)
+  ✓  16 [firefox] › e2e/author-studio.pw.ts:120:1 › source validation, undo, new-subject preview and bounded diagnostics (4.8s)
+  ✓  18 [firefox] › e2e/author-studio.pw.ts:246:1 › phone author controls and expanded text stay within requested viewport (4.2s)
+  ✓  17 [firefox] › e2e/author-studio.pw.ts:176:1 › switching preview episodes clears stale state and archives retain their original content (6.0s)
+  ✓  19 [firefox] › e2e/laboratory.pw.ts:7:1 › first station episode: mistakes, keyboard repair, help, evidence and resume (10.4s)
+  ✓  20 [firefox] › e2e/laboratory.pw.ts:124:1 › narrow touch workspace: both themes, help escape and retained exposure on restart (9.1s)
+  ✓  22 [firefox] › e2e/laboratory.pw.ts:339:1 › write failure offers an export and keeps the last persisted circuit intact (4.2s)
+  ✓  23 [firefox] › e2e/laboratory.pw.ts:375:1 › tablet, landscape and expanded text preserve controls and local-only requests (4.2s)
+  ✓  24 [firefox] › e2e/laboratory.pw.ts:424:1 › silently discarded offline writes show recovery and never claim readiness (6.9s)
+  -  25 [webkit] › e2e/author-build-boundary.pw.ts:3:1 › ordinary learner build excludes Studio route and emitted module
+  ✓  26 [webkit] › e2e/author-build-boundary.pw.ts:14:1 › explicit author build rejects a non-loopback document host (2.2s)
+  ✓  21 [firefox] › e2e/laboratory.pw.ts:216:1 › downloaded episode survives browser close and offline reopen with local progress (30.3s)
+  ✓  27 [webkit] › e2e/author-studio.pw.ts:9:1 › author preview shares actual renderer, survives diagnostic export/import and writes no learner rows (12.0s)
+  ✓  29 [webkit] › e2e/author-studio.pw.ts:120:1 › source validation, undo, new-subject preview and bounded diagnostics (8.9s)
+  ✓  28 [webkit] › e2e/author-studio.pw.ts:176:1 › switching preview episodes clears stale state and archives retain their original content (9.9s)
+  ✓  30 [webkit] › e2e/author-studio.pw.ts:246:1 › phone author controls and expanded text stay within requested viewport (12.1s)
+  ✓  31 [webkit] › e2e/laboratory.pw.ts:7:1 › first station episode: mistakes, keyboard repair, help, evidence and resume (15.3s)
+  -  33 [webkit] › e2e/laboratory.pw.ts:216:1 › downloaded episode survives browser close and offline reopen with local progress
+  ✓  34 [webkit] › e2e/laboratory.pw.ts:339:1 › write failure offers an export and keeps the last persisted circuit intact (7.2s)
+  ✓  32 [webkit] › e2e/laboratory.pw.ts:124:1 › narrow touch workspace: both themes, help escape and retained exposure on restart (21.2s)
+  ✓  35 [webkit] › e2e/laboratory.pw.ts:375:1 › tablet, landscape and expanded text preserve controls and local-only requests (10.1s)
+  ✓  36 [webkit] › e2e/laboratory.pw.ts:424:1 › silently discarded offline writes show recovery and never claim readiness (6.5s)
+
+  4 skipped
+  32 passed (2.3m)

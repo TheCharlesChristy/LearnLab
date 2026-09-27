@@ -1,0 +1,26 @@
+2026-09-27T21:57:52.828Z pw:browser <launching> /ms-playwright/webkit-2287/pw_run.sh --inspector-pipe --headless --user-data-dir=/home/charles/.codex/worktrees/learnlab-studio-ci-fix/LearnLab/.local-diagnostics/cache-profile about:blank
+2026-09-27T21:57:52.845Z pw:browser <launched> pid=2928
+2026-09-27T21:57:53.555Z pw:browser [pid=2928][err] libEGL warning: failed to get driver name for fd -1
+2026-09-27T21:57:53.556Z pw:browser [pid=2928][err] 
+2026-09-27T21:57:53.557Z pw:browser [pid=2928][err] libEGL warning: MESA-LOADER: failed to retrieve device information
+2026-09-27T21:57:53.559Z pw:browser [pid=2928][err] 
+2026-09-27T21:57:53.559Z pw:browser [pid=2928][err] libEGL warning: failed to get driver name for fd -1
+2026-09-27T21:57:53.559Z pw:browser [pid=2928][err] 
+2026-09-27T21:57:53.567Z pw:browser [pid=2928][err] MESA: error: ZINK: vkCreateInstance failed (VK_ERROR_INCOMPATIBLE_DRIVER)
+2026-09-27T21:57:53.568Z pw:browser [pid=2928][err] libEGL warning: egl: failed to create dri2 screen
+2026-09-27T21:57:53.825Z pw:browser [pid=2928][err] 
+2026-09-27T21:57:53.826Z pw:browser [pid=2928][err] ** (MiniBrowser:2934): CRITICAL **: 21:57:53.824: WebKitWebView is-controlled-by-automation set but automation is not allowed in the context, falling back to default session.
+2026-09-27T21:57:54.054Z pw:browser [pid=2928][err] libEGL warning: failed to get driver name for fd -1
+2026-09-27T21:57:54.054Z pw:browser [pid=2928][err] 
+2026-09-27T21:57:54.056Z pw:browser [pid=2928][err] libEGL warning: MESA-LOADER: failed to retrieve device information
+2026-09-27T21:57:54.056Z pw:browser [pid=2928][err] 
+2026-09-27T21:57:54.056Z pw:browser [pid=2928][err] libEGL warning: failed to get driver name for fd -1
+2026-09-27T21:57:54.056Z pw:browser [pid=2928][err] 
+2026-09-27T21:57:54.065Z pw:browser [pid=2928][err] MESA: error: ZINK: vkCreateInstance failed (VK_ERROR_INCOMPATIBLE_DRIVER)
+2026-09-27T21:57:54.065Z pw:browser [pid=2928][err] libEGL warning: egl: failed to create dri2 screen
+{ immediate: [], reopened: [], names: [ 'probe' ] }
+2026-09-27T21:57:55.228Z pw:browser [pid=2928] <gracefully close start>
+2026-09-27T21:57:55.627Z pw:browser [pid=2928] <process did exit: exitCode=0, signal=null>
+2026-09-27T21:57:55.629Z pw:browser [pid=2928] starting temporary directories cleanup
+2026-09-27T21:57:55.634Z pw:browser [pid=2928] finished temporary directories cleanup
+2026-09-27T21:57:55.634Z pw:browser [pid=2928] <gracefully close end>

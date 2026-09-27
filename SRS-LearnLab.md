@@ -1273,7 +1273,7 @@ be inferred from structural validation.
 Event replay SHALL recompute outcomes and preserve prior answer/help exposure through
 restart and rollback import. Bounded archival SHALL preserve the previous envelope
 atomically with its replacement. Incompatible work SHALL remain exportable. Downloads
-SHALL verify complete required runtime/pack bytes, and compatible older acquired pack
+SHALL verify complete required runtime/pack bytes plus the cached catalogue, runtime manifest and version descriptor. A resolved cache write without a readable byte-for-byte entry SHALL be treated as failed, never Ready offline. Compatible older acquired pack
 versions SHALL retain their own saved-work boundary. Laboratory speech SHALL use only
 browser-reported local voices or remain unavailable with usable text.
 

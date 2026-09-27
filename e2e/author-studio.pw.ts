@@ -18,12 +18,15 @@ test('author preview shares actual renderer, survives diagnostic export/import a
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.addInitScript(() => {
-    // Mock voice availability only; no claim about installed platform voices.
-    if ('speechSynthesis' in window)
-      Object.defineProperty(window.speechSynthesis, 'getVoices', {
-        value: () => [{ localService: true, lang: 'en-GB', name: 'Test local voice' }],
-        configurable: true,
-      });
+    // Mock API/voice availability for the preference-isolation check, including
+    // engines without speech support. This does not test audio playback.
+    Object.defineProperty(window, 'speechSynthesis', {
+      value: Object.assign(new EventTarget(), {
+        cancel() {},
+        getVoices: () => [{ localService: true, lang: 'en-GB', name: 'Test local voice' }],
+      }),
+      configurable: true,
+    });
   });
   await page.goto('/#/author-studio');
   await expect(page.getByRole('heading', { name: 'LearnLab Author Studio' })).toBeVisible();

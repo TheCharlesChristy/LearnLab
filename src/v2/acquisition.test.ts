@@ -22,7 +22,7 @@ const fixture = (version: number): PackReference => {
   pack.version = version;
   const text = JSON.stringify(pack);
   network.set(`${origin()}/laboratory/research-station/pack.json`, text);
-  return {
+  const reference = {
     id: pack.id,
     title: pack.title,
     description: pack.description,
@@ -33,6 +33,8 @@ const fixture = (version: number): PackReference => {
     episodes: 1,
     files: [localFile('research-station/pack.json', text)],
   };
+  network.set(`${origin()}/laboratory/index.json`, JSON.stringify({ packs: [reference] }));
+  return reference;
 };
 beforeEach(() => {
   stored = new Map();
@@ -82,17 +84,58 @@ describe('complete local acquisition', () => {
     await acquirePack(first, () => {});
     expect(await offlineReady(first)).toBe(true);
     const second = fixture(2);
+    // The new reference came from an updated catalogue (normally the new SW
+    // precache). Keep stale pack bytes, but expose that current catalogue.
+    stored.delete(`${origin()}/laboratory/index.json`);
     await acquirePack(second, () => {});
     expect((await loadLaboratoryPack(second)).version).toBe(2);
     expect((await loadDownloadedVersion(first.id, 1)).version).toBe(1);
     network.clear();
     expect(await offlineReady(second)).toBe(true);
+    // Readiness refers to the current catalogue; older descriptors remain loadable.
+    expect(await offlineReady(first)).toBe(false);
     expect((await loadDownloadedVersion(first.id, 1)).version).toBe(1);
   });
   it('rejects altered byte content and cannot claim readiness for a partial/corrupt download', async () => {
     const reference = fixture(1);
     network.set(`${origin()}/assets/runtime.js`, 'corrupt code');
     await expect(acquirePack(reference, () => {})).rejects.toThrow('hash mismatch');
+    expect(await offlineReady(reference)).toBe(false);
+  });
+  it('rejects a silently discarded cache write before reporting acquisition progress', async () => {
+    const reference = fixture(1);
+    vi.stubGlobal('caches', {
+      open: async () => ({ match: async () => undefined, put: async () => {} }),
+    });
+    const progress = vi.fn();
+    await expect(acquirePack(reference, progress)).rejects.toThrow('could not retain');
+    expect(progress.mock.calls).toEqual([[0, 3]]);
+    expect(await offlineReady(reference)).toBe(false);
+  });
+  it.each([
+    'laboratory/index.json',
+    'laboratory/runtime-assets.json',
+    'laboratory/research-station/download-v1.json',
+  ])('readiness requires cached lookup metadata: %s', async (file) => {
+    const reference = fixture(1);
+    await acquirePack(reference, () => {});
+    stored.delete(`${origin()}/${file}`);
+    // Network still works, so an online metadata fetch must not hide the loss.
+    expect(await offlineReady(reference)).toBe(false);
+  });
+  it('rejects metadata-only write loss even with intact asset hashes', async () => {
+    const reference = fixture(1);
+    vi.stubGlobal('caches', {
+      open: async () => ({
+        match: async (url: string) => stored.get(url)?.clone(),
+        put: async (url: string, response: Response) => {
+          if (url.includes('lab-revision=')) stored.set(url, response.clone());
+        },
+      }),
+    });
+    await expect(acquirePack(reference, () => {})).rejects.toThrow(
+      'could not retain laboratory/index.json',
+    );
     expect(await offlineReady(reference)).toBe(false);
   });
   it('does not promise offline support when the browser cannot persist a service worker', async () => {

@@ -12,15 +12,19 @@ import { renderRoute } from '../__tests__/helpers';
 describe('WidgetsPage', () => {
   it('redirects bare /widgets to the first widget, alphabetically', async () => {
     renderRoute('/widgets');
-    expect(await screen.findByRole('heading', { name: 'circuit-sim', level: 2 })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: 'circuit-sim', level: 2 }, { timeout: 5000 }),
+    ).toBeInTheDocument();
   });
 
-  it('shows the selected widget\'s playground immediately, with documentation collapsed', async () => {
+  it("shows the selected widget's playground immediately, with documentation collapsed", async () => {
     renderRoute('/widgets/truth-table');
 
-    expect(await screen.findByRole('heading', { name: 'truth-table', level: 2 })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: 'truth-table', level: 2 }, { timeout: 5000 }),
+    ).toBeInTheDocument();
     // Playground form is visible with no click needed.
-    expect(await screen.findByLabelText(/^expr/)).toBeInTheDocument();
+    expect(await screen.findByLabelText(/^expr/, {}, { timeout: 5000 })).toBeInTheDocument();
     // Documentation (props table) is not shown until requested.
     expect(screen.queryByRole('table')).not.toBeInTheDocument();
 
@@ -30,17 +34,21 @@ describe('WidgetsPage', () => {
 
   it('selecting a different sidebar item swaps the visible playground', async () => {
     renderRoute('/widgets/truth-table');
-    await screen.findByRole('heading', { name: 'truth-table', level: 2 });
+    await screen.findByRole('heading', { name: 'truth-table', level: 2 }, { timeout: 5000 });
 
     await userEvent.click(screen.getByRole('link', { name: 'flashcards' }));
 
-    expect(await screen.findByRole('heading', { name: 'flashcards', level: 2 })).toBeInTheDocument();
-    expect(screen.queryByRole('heading', { name: 'truth-table', level: 2 })).not.toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: 'flashcards', level: 2 }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: 'truth-table', level: 2 }),
+    ).not.toBeInTheDocument();
   });
 
   it('an invalid prop surfaces the real DirectiveErrorCard', async () => {
     renderRoute('/widgets/truth-table');
-    const exprField = await screen.findByLabelText(/^expr/);
+    const exprField = await screen.findByLabelText(/^expr/, {}, { timeout: 5000 });
 
     await userEvent.clear(exprField);
     await waitFor(
@@ -53,7 +61,7 @@ describe('WidgetsPage', () => {
 
   it('sidebar search narrows the list without blanking the open widget', async () => {
     renderRoute('/widgets/truth-table');
-    await screen.findByRole('heading', { name: 'truth-table', level: 2 });
+    await screen.findByRole('heading', { name: 'truth-table', level: 2 }, { timeout: 5000 });
 
     const searchInput = screen.getByLabelText('Search widgets');
     await userEvent.type(searchInput, 'flashcards');
@@ -63,7 +71,7 @@ describe('WidgetsPage', () => {
     });
     // The already-open widget's playground is untouched by the sidebar filter.
     expect(screen.getByRole('heading', { name: 'truth-table', level: 2 })).toBeInTheDocument();
-    expect(await screen.findByLabelText(/^expr/)).toBeInTheDocument();
+    expect(await screen.findByLabelText(/^expr/, {}, { timeout: 5000 })).toBeInTheDocument();
   });
 
   it('shows a graceful fallback for an unknown widget key', async () => {

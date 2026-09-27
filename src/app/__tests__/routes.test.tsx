@@ -23,16 +23,15 @@ describe('routes (FR-SHELL-001)', () => {
 
   it('renders the module page with breadcrumb (FR-SHELL-007)', async () => {
     renderRoute('/module/diff-1');
-    expect(
-      await screen.findByRole('heading', { name: 'Differentiation I' }),
-    ).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Differentiation I' })).toBeInTheDocument();
     expect(screen.getByRole('navigation', { name: 'Breadcrumb' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /1\. Gradients/ })).toBeInTheDocument();
   });
 
   it('renders the lesson page content', async () => {
     renderRoute('/module/diff-1/lesson/l1');
-    expect(await screen.findByTestId('markdown-lesson')).toHaveTextContent(
+    // This is a real lazy route plus markdown chunk; wait for its import to settle.
+    expect(await screen.findByTestId('markdown-lesson', {}, { timeout: 5000 })).toHaveTextContent(
       'The slope of a curve.',
     );
     expect(screen.getByRole('button', { name: 'Mark lesson complete' })).toBeInTheDocument();

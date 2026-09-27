@@ -561,6 +561,86 @@
       "revision": "31c7acd23bddbee98c4a0754cff13dabd9df380f",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0056-learnlab-studio-ci-failure.log",
+      "sha256": "a2746f018587af923d27891010d0363587e7974293e1a40e4b6ccba62edbbc13",
+      "note": "PR71 authoring-preview job at a02b13a: 3 WebKit failures and 1 Chromium retry; kept as failed evidence, not a pass.",
+      "at": "2026-09-27T22:09:40.417Z",
+      "revision": "a02b13a37586eeb49faa65882a7254b1d8420c18",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "critique",
+      "file": "artifacts/0057-STUDIO-CI-REVISION.md",
+      "sha256": "95e502363911058f6e8d19b02c0305704017b103c515c7f1769ed4b881f0f405",
+      "note": "Independent source review of metadata closure and save settlement was 10 focused tests; browser rerun and limits separately documented.",
+      "at": "2026-09-27T22:09:45.946Z",
+      "revision": "a02b13a37586eeb49faa65882a7254b1d8420c18",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0058-learnlab-studio-ci-final-browsers.log",
+      "sha256": "ba0ceb84af605db196c29596ec1c34b9fdd590a4d6c8fd2083e17c35ed92ce48",
+      "note": "Local official Playwright 1.60.0 Linux image author build: 32 passed, 4 skipped; WebKit persistent Cache API probe failed and only that close/reopen check was skipped.",
+      "at": "2026-09-27T22:12:50.188Z",
+      "revision": "a02b13a37586eeb49faa65882a7254b1d8420c18",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0059-learnlab-studio-ci-fix-host-full-units.log",
+      "sha256": "6a2266467a915a78b4703e8f6e9f002087a49b3c3ed473d1b8bfa46252242d26",
+      "note": "Host full suite after fixes: 942 passed, 11 browser-only shims skipped; local git metadata visible.",
+      "at": "2026-09-27T22:18:56.467Z",
+      "revision": "a02b13a37586eeb49faa65882a7254b1d8420c18",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0060-studio-phone-normal.png",
+      "sha256": "9db1d5c512f760788ddf9b55d7925a6dad336ca067cf3dc18f356a53f479c5b8",
+      "note": "Automated Linux WebKit 360px Studio screenshot; browser test, not human enjoyment review",
+      "at": "2026-09-27T22:21:14.050Z",
+      "revision": "a02b13a37586eeb49faa65882a7254b1d8420c18",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0061-studio-phone-expanded.png",
+      "sha256": "db1fe3864a213a94f8fb80a2e6f7cd7347c872b761e330fe9680577dc5cea8c2",
+      "note": "Automated Linux WebKit 360px, 200% text Studio screenshot; no horizontal overflow; not human enjoyment review",
+      "at": "2026-09-27T22:21:14.627Z",
+      "revision": "a02b13a37586eeb49faa65882a7254b1d8420c18",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0062-learnlab-webkit-cache-browser.log",
+      "sha256": "c08340f02c386521c404c95cefa6c81f305151d21f72eac1ae27b95b81375328",
+      "note": "Minimal Linux WebKit Cache API probe: put resolved but immediate and reopened match absent",
+      "at": "2026-09-27T22:21:15.190Z",
+      "revision": "a02b13a37586eeb49faa65882a7254b1d8420c18",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0063-learnlab-studio-ci-final-webkit-proof.log",
+      "sha256": "ff4bd0263ed746ddf8e720297c3b64816c54e75fa42688d34b23faeadb18fcdf",
+      "note": "Final targeted Linux WebKit Studio and persistent-cache gate check",
+      "at": "2026-09-27T22:21:15.745Z",
+      "revision": "a02b13a37586eeb49faa65882a7254b1d8420c18",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [
