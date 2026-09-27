@@ -7,9 +7,12 @@ This is SRS §3, condensed for contributors, plus the operational runbooks. The 
 The learning laboratory implementation inventory and deliberate v2 continuation are in
 [`laboratory/AUDIT.md`](laboratory/AUDIT.md). The executable local intake/planning/run-artifact
 foundation is documented in [`laboratory/AUTHORING-HARNESS.md`](laboratory/AUTHORING-HARNESS.md).
-Graph runtime, pack scaffolding and Studio remain pending; registry negotiation fixtures must
-not be advertised as implemented activities. Authoring schemas come from
-`scripts/authoring/contracts.mjs`, emitted by `author:course -- schemas`.
+The opt-in finite graph runtime, pack scaffolding, validation and local Studio are implemented
+for the registered choice/circuit contracts. Complete pilots and Git delivery automation remain
+pending; registry negotiation fixtures must not be advertised as implemented activities. Authoring schemas come from
+`scripts/authoring/contracts.mjs` and the laboratory/preview schemas, emitted by
+`author:course -- schemas`. [ADR-003](ADR-003-author-studio.md) records the shared-renderer
+preview boundary and its limits.
 
 ## 1. High-level view
 

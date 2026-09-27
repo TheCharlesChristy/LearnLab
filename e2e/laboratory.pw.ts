@@ -56,7 +56,7 @@ test('first station episode: mistakes, keyboard repair, help, evidence and resum
     })
     .click();
   await page.getByRole('button', { name: 'Finish investigation', exact: true }).click();
-  await expect(page.getByText('1 of 2 fresh causal checks', { exact: false })).toBeVisible();
+  await expect(page.getByText('1 of 2 fresh checks', { exact: false })).toBeVisible();
   await page.reload();
   await expect(page.getByRole('heading', { name: 'The beacon has a story to tell' })).toBeVisible();
   await page.getByText('See each check in your notebook', { exact: true }).click();
@@ -117,7 +117,7 @@ test('narrow touch workspace: both themes, help escape and retained exposure on 
       await page.getByRole('button', { name: 'Show worked example', exact: true }).tap();
       await page.getByRole('button', { name: 'Continue with help', exact: true }).tap();
     }
-    await expect(page.getByText('0 of 2 fresh causal checks', { exact: false })).toBeVisible();
+    await expect(page.getByText('0 of 2 fresh checks', { exact: false })).toBeVisible();
     await page.getByText('Notebook tools', { exact: true }).click();
     await page.getByRole('button', { name: 'Restart episode', exact: true }).tap();
     await expect(page.getByRole('heading', { name: 'Wake the beacon' })).toBeVisible();

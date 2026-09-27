@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "version": 2,
+  "version": 3,
   "stateVersion": 1,
   "id": "research-station",
   "title": "Bring the research station back online",
@@ -12,7 +12,7 @@
     "title": "Physics"
   },
   "capabilities": {
-    "experience-graph": "0.1.0",
+    "experience-graph": "0.1.1",
     "activity-plugin": "0.1.0",
     "choice": "0.1.0",
     "circuit": "0.1.0"
@@ -128,7 +128,8 @@
           "transitions": {
             "passed": "predict-break",
             "assisted": "predict-break"
-          }
+          },
+          "bridge": "A steady current needs a complete conducting path. The source transfers energy; charge is conserved. You can return to the map and explore later."
         },
         {
           "id": "predict-break",
@@ -166,7 +167,8 @@
           "transitions": {
             "passed": "break-test",
             "assisted": "break-test"
-          }
+          },
+          "bridge": "A steady current needs a complete conducting path. The source transfers energy; charge is conserved. You can return to the map and explore later."
         },
         {
           "id": "break-test",
@@ -259,7 +261,8 @@
           "transitions": {
             "passed": "fresh-fault",
             "assisted": "fresh-fault"
-          }
+          },
+          "bridge": "A steady current needs a complete conducting path. The source transfers energy; charge is conserved. You can return to the map and explore later."
         },
         {
           "id": "fresh-fault",
@@ -297,7 +300,8 @@
           "transitions": {
             "passed": "fresh-reason",
             "assisted": "fresh-reason"
-          }
+          },
+          "bridge": "A steady current needs a complete conducting path. The source transfers energy; charge is conserved. You can return to the map and explore later."
         },
         {
           "id": "fresh-reason",
@@ -335,9 +339,14 @@
           "transitions": {
             "passed": null,
             "assisted": null
-          }
+          },
+          "bridge": "A steady current needs a complete conducting path. The source transfers energy; charge is conserved. You can return to the map and explore later."
         }
-      ]
+      ],
+      "debrief": {
+        "title": "The beacon has a story to tell",
+        "body": "You investigated why the full path matters, and what the heater transfers."
+      }
     }
   ],
   "references": [

@@ -11,7 +11,8 @@ the CLI and browser. Run `npm run author:course -- capabilities` and `schemas` t
 inspect the actual contracts. `build-laboratory-contracts.mjs` generates the strict
 CSP-safe browser validator; `--check` rejects schema/generated-code drift.
 The current renderer dispatches these two registered types directly. A general
-external-plugin loader, arbitrary scripts, variants and Studio are not implemented.
+external-plugin loader, arbitrary scripts and parameterised fresh-task variants are not implemented.
+The local Studio shares this renderer; see [authoring workflow](AUTHORING-HARNESS.md).
 
 ## Composition
 
@@ -21,6 +22,9 @@ Skills and episodes each have advisory prerequisite DAGs. Every episode has a st
 node and reachable finite scene graph: `passed` and `assisted` transitions name a
 node or null for completion. Cycles, missing destinations and orphaned nodes fail.
 Nodes include a concise prompt, role, graduated hints, worked example and mechanism.
+`experience-graph@0.1.1` adds optional node `bridge` text and episode `debrief`
+`{title,body}`. Older 0.1.0 packs without these fields receive generic course copy.
+New packs using the fields must declare 0.1.1; course copy is no longer hard-coded to circuits.
 The role may be prediction, practice, transfer or reflection; a role label alone
 never proves competence. At least one transfer opportunity is structurally required.
 

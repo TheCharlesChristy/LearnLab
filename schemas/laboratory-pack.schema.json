@@ -473,6 +473,11 @@
             }
           },
           "required": ["passed", "assisted"]
+        },
+        "bridge": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2400
         }
       },
       "required": [
@@ -538,6 +543,23 @@
           },
           "minItems": 1,
           "maxItems": 64
+        },
+        "debrief": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2400
+            },
+            "body": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2400
+            }
+          },
+          "required": ["title", "body"]
         }
       },
       "required": ["id", "title", "estimatedMinutes", "skills", "prerequisites", "start", "nodes"]

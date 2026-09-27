@@ -1,9 +1,10 @@
 # Executable authoring workflow
 
 Status: intake, planning, capability discovery, scaffolding, shared pack validation,
-local preview staging and evidence preservation are implemented. One circuits
-episode has been authored through these commands. Studio inspection, parameterised
-variants, complete pilots and Git delivery automation remain pending. This first
+local preview staging, isolated Studio inspection and evidence preservation are implemented.
+One circuits episode has been authored through these commands. Choice-order seeds are
+presentation variants; parameterised fresh tasks, complete pilots and Git delivery automation
+remain pending. This first
 slice does **not** satisfy the complete harness goal.
 
 Use Node 22.18 or newer: the CLI shares the browser's typed pack/model contracts
@@ -66,7 +67,7 @@ npm run author:course -- record --run authoring/runs/my-course --kind playthroug
 Discovery reads existing widget keys, screen/question schemas, and the laboratory
 activity registry. The implemented laboratory activities are `choice` and `circuit`;
 older v2 negotiation fixtures are not implemented activities. `schemas` emits brief,
-plan, pack and activity contracts from their source of truth. The generated browser
+plan, pack, author-preview and activity contracts from their source of truth. The generated browser
 pack validator is checked by `npm run validate:laboratory` and the production build.
 See [activity contracts](ACTIVITIES.md) for controls, marking, outputs and limits.
 
@@ -113,6 +114,50 @@ Run `npm run validate:laboratory` after staging to check the complete preview tr
 including stale or unregistered files. Remove obsolete assets deliberately when
 updating a pack. Production builds generate checksummed acquisition manifests.
 The learner routes remain behind `VITE_EXPERIENCE_RUNTIME_V2=true` in this prototype.
+
+## Reproduce, inspect and edit a local author preview
+
+```sh
+npm run author:course -- preview --file authoring/drafts/research-station/pack.json --episode close-the-loop --node fresh-fault --seed 17 --hints 1 --worked --output authoring/previews/research-station-assisted.json
+npm run author:course -- inspect --file authoring/previews/research-station-assisted.json
+npm run author:course -- record --run authoring/runs/research-station --kind playthrough --file authoring/previews/research-station-assisted.json --note "Synthetic assisted starting state; not a browser playthrough"
+VITE_EXPERIENCE_RUNTIME_V2=true VITE_AUTHOR_STUDIO=true npm run build
+npm exec vite preview -- --host 127.0.0.1
+```
+
+CI includes an explicit author-build browser job and a second ordinary-build boundary check;
+these flags do not alter the deployment job. Local Chromium/Firefox checks are recorded
+in `STUDIO-VERIFICATION.md`; unrun CI/WebKit results are not claimed.
+
+Open `#/author-studio` on the local preview. Ordinary builds exclude its route and chunk;
+even explicitly enabled builds reject non-loopback hosts. This is developer tooling, not
+author authentication. Load a staged pack or explicitly import pack/preview JSON. Files
+are limited to 1 MiB; episode work keeps the runtime's 256 KiB/2,000-event bounds.
+
+The source and selected-scene editors edit JSON, validate the entire shared pack contract
+before applying, and retain the last 20 applied source snapshots for Undo/Redo. Branch
+inspection lists actual passed/assisted destinations. There is no visual graph drawing or
+schema-generated form editor yet. New subject metadata uses no school-only enum; a new
+activity still requires a registered code extension rather than embedded scripts.
+
+Choose an episode, arbitrary reachable starting scene, unsigned 32-bit choice-order seed,
+preferred passed/assisted route, hint count and worked-example state. The harness constructs
+a valid synthetic predecessor route using actual marking/witness semantics. A seed changes
+option order only; it never turns a known question into fresh competence evidence. All preview
+scenes carry prior exposure, including after import/restart/archival. Session and speech-rate
+preferences stay in memory; previews use the exact learner activity workspace, help and replay
+engine through an isolated storage port. They do not write learner rows or acquire offline packs.
+
+Inspect events, replayed state and assistance evidence, then explicitly export a reproducible
+snapshot. Combined pack/session export is validated against the same import size limit before
+download. The last eight preview archives retain their original pack/seed/episode context across
+source edits and can be exported while a preview is open. Export before leaving or refreshing:
+source history, archives and unsaved sessions are deliberately not persisted. An imported preview
+restores its checkpoint; starting-scene/help configuration applies when creating a new preview.
+
+`inspect` reports actual branch edges, current scene, controls, evidence and events without
+claiming observed learner performance. A fixture file proves reproducibility, not a rendered
+playthrough; retain separate browser observations and failures using `record`.
 
 ## Subsequent author procedure
 

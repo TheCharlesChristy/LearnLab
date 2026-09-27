@@ -1,0 +1,230 @@
+{
+  "kind": "learnlab-author-preview",
+  "episode": "close-the-loop",
+  "current": "fresh-fault",
+  "seed": 17,
+  "branches": [
+    {
+      "id": "first-action",
+      "type": "circuit",
+      "role": "practice",
+      "transitions": {
+        "passed": "predict-break",
+        "assisted": "predict-break"
+      }
+    },
+    {
+      "id": "predict-break",
+      "type": "choice",
+      "role": "prediction",
+      "transitions": {
+        "passed": "break-test",
+        "assisted": "break-test"
+      }
+    },
+    {
+      "id": "break-test",
+      "type": "circuit",
+      "role": "practice",
+      "transitions": {
+        "passed": "fresh-fault",
+        "assisted": "fresh-fault"
+      }
+    },
+    {
+      "id": "fresh-fault",
+      "type": "choice",
+      "role": "transfer",
+      "transitions": {
+        "passed": "fresh-reason",
+        "assisted": "fresh-reason"
+      }
+    },
+    {
+      "id": "fresh-reason",
+      "type": "choice",
+      "role": "transfer",
+      "transitions": {
+        "passed": null,
+        "assisted": null
+      }
+    }
+  ],
+  "memory": {
+    "first-action": {
+      "circuit": {
+        "voltage": 6,
+        "circuit": {
+          "type": "series",
+          "elements": [
+            {
+              "type": "switch",
+              "id": "supply-link",
+              "closed": true
+            },
+            {
+              "type": "resistor",
+              "id": "beacon",
+              "ohms": 6
+            },
+            {
+              "type": "switch",
+              "id": "return-link",
+              "closed": true
+            }
+          ]
+        }
+      },
+      "attempts": 0,
+      "actions": 2,
+      "hints": 0,
+      "worked": false,
+      "replayed": true
+    },
+    "predict-break": {
+      "attempts": 1,
+      "actions": 1,
+      "hints": 0,
+      "worked": false,
+      "replayed": true,
+      "selected": "zero"
+    },
+    "break-test": {
+      "circuit": {
+        "voltage": 6,
+        "circuit": {
+          "type": "series",
+          "elements": [
+            {
+              "type": "switch",
+              "id": "supply-link",
+              "closed": true
+            },
+            {
+              "type": "resistor",
+              "id": "beacon",
+              "ohms": 6
+            },
+            {
+              "type": "switch",
+              "id": "return-link",
+              "closed": false
+            }
+          ]
+        }
+      },
+      "attempts": 0,
+      "actions": 2,
+      "hints": 0,
+      "worked": false,
+      "replayed": true
+    },
+    "fresh-fault": {
+      "attempts": 0,
+      "actions": 0,
+      "hints": 1,
+      "worked": true,
+      "replayed": true
+    }
+  },
+  "evidence": [
+    {
+      "node": "first-action",
+      "role": "practice",
+      "outcome": "passed",
+      "independent": false,
+      "attempts": 0,
+      "hints": 0,
+      "worked": false,
+      "replayed": true,
+      "at": 1790530754088
+    },
+    {
+      "node": "predict-break",
+      "role": "prediction",
+      "outcome": "passed",
+      "independent": false,
+      "attempts": 1,
+      "hints": 0,
+      "worked": false,
+      "replayed": true,
+      "at": 1790530754088
+    },
+    {
+      "node": "break-test",
+      "role": "practice",
+      "outcome": "passed",
+      "independent": false,
+      "attempts": 0,
+      "hints": 0,
+      "worked": false,
+      "replayed": true,
+      "at": 1790530754088
+    }
+  ],
+  "events": [
+    {
+      "type": "control",
+      "node": "first-action",
+      "id": "supply-link",
+      "value": true,
+      "at": 1790530754088
+    },
+    {
+      "type": "control",
+      "node": "first-action",
+      "id": "return-link",
+      "value": true,
+      "at": 1790530754088
+    },
+    {
+      "type": "advance",
+      "node": "first-action",
+      "outcome": "passed",
+      "at": 1790530754088
+    },
+    {
+      "type": "answer",
+      "node": "predict-break",
+      "option": "zero",
+      "at": 1790530754088
+    },
+    {
+      "type": "advance",
+      "node": "predict-break",
+      "outcome": "passed",
+      "at": 1790530754088
+    },
+    {
+      "type": "control",
+      "node": "break-test",
+      "id": "supply-link",
+      "value": true,
+      "at": 1790530754088
+    },
+    {
+      "type": "control",
+      "node": "break-test",
+      "id": "return-link",
+      "value": false,
+      "at": 1790530754088
+    },
+    {
+      "type": "advance",
+      "node": "break-test",
+      "outcome": "passed",
+      "at": 1790530754088
+    },
+    {
+      "type": "hint",
+      "node": "fresh-fault",
+      "at": 1790530754088
+    },
+    {
+      "type": "worked",
+      "node": "fresh-fault",
+      "at": 1790530754088
+    }
+  ],
+  "note": "Author-generated preview only; no observed learner performance."
+}

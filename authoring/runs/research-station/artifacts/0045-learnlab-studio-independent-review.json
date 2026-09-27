@@ -1,0 +1,36 @@
+{
+  "reviewer": "/root/circuit_model_review",
+  "date": "2026-09-27",
+  "kind": "independent agent source and rendered critique",
+  "initial_findings": [
+    "Read-aloud speed wrote ttsRate learner kv row",
+    "Archive context/lifecycle concerns",
+    "360px overflow normal366px,200pct708px"
+  ],
+  "revisions": [
+    "Nonpersisting speech preferences",
+    "Archives retain full original fixture context",
+    "Begin preview clears run and remounts; obsolete callbacks ignored",
+    "Scoped44pxbutton targets, widths and wrapping"
+  ],
+  "recheck": {
+    "TTS": "Mock browser-local voice availability plus ArrowRight leaves all learner stores empty",
+    "episodes": "Different preview episodes render without stale-state errors",
+    "archives": "Export retains original source pack/title/episode and validates",
+    "evidence": "Synthetic prior exposure remains non-independent",
+    "phone": {
+      "requested": 360,
+      "clientWidth": 360,
+      "scrollWidth": 360,
+      "innerWidth": 360,
+      "normalAnd200pct": true,
+      "buttonsMinCssPx": 44
+    },
+    "pageErrors": []
+  },
+  "limits": [
+    "Agent critique is not human enjoyment or observed learning evidence",
+    "No physical phone, Safari/iOS or assistive technology user study",
+    "Voice availability mocked; no real speech playback claim"
+  ]
+}

@@ -261,3 +261,34 @@
     order: 3;
   }
 }
+
+/* Author tools keep the shared workspace's touch target size. */
+.lab-studio button,
+.lab-studio input[type='file'] {
+  min-height: 44px;
+}
+.lab-studio select {
+  max-width: 100%;
+}
+.lab-studio label {
+  min-width: 0;
+}
+.lab-studio {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.lab-studio label,
+.lab-studio button {
+  max-width: 100%;
+}
+.lab-studio input[type='file'] {
+  width: 100%;
+  min-width: 0;
+}
+.lab-studio select {
+  width: 100%;
+  min-width: 0;
+}
+.lab-studio button {
+  white-space: normal;
+}

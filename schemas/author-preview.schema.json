@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://learnlab.local/author-preview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "formatVersion",
+    "kind",
+    "pack",
+    "episodeId",
+    "nodeId",
+    "branchPreference",
+    "seed",
+    "hints",
+    "worked"
+  ],
+  "properties": {
+    "formatVersion": { "const": 1 },
+    "kind": { "const": "learnlab-author-preview" },
+    "pack": { "$ref": "https://learnlab.local/laboratory-pack" },
+    "episodeId": { "type": "string", "maxLength": 64 },
+    "nodeId": { "type": "string", "maxLength": 64 },
+    "branchPreference": { "enum": ["passed", "assisted"] },
+    "seed": { "type": "integer", "minimum": 0, "maximum": 4294967295 },
+    "hints": { "type": "integer", "minimum": 0, "maximum": 4 },
+    "worked": { "type": "boolean" },
+    "session": { "type": "object" }
+  }
+}

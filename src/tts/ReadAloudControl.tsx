@@ -23,6 +23,8 @@ export interface ReadAloudControlProps {
   className?: string;
   /** Constrain speech to a browser-reported local voice; no remote fallback. */
   localOnly?: boolean;
+  /** Keep preferences in memory for isolated author previews. */
+  persistPreferences?: boolean;
 }
 
 export function ReadAloudControl({
@@ -30,11 +32,13 @@ export function ReadAloudControl({
   resetKey,
   className,
   localOnly = false,
+  persistPreferences = true,
 }: ReadAloudControlProps) {
   const { status, rate, setRate, start, pause, resume, stop } = useReadAloud(
     targetRef,
     resetKey,
     localOnly,
+    persistPreferences,
   );
 
   // The Stop button only exists while active, so stopping removes the

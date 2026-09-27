@@ -25,12 +25,14 @@ export interface LaboratoryNode {
   hints: string[];
   workedExample: string;
   mechanism: string;
+  bridge?: string;
   transitions: { passed: string | null; assisted: string | null };
 }
 export interface LaboratoryEpisode {
   id: string;
   title: string;
   estimatedMinutes: number;
+  debrief?: { title: string; body: string };
   skills: string[];
   prerequisites: string[];
   start: string;
@@ -55,7 +57,7 @@ export interface LaboratoryPack {
 }
 export const ACTIVITY_CONTRACTS = contracts;
 export const LABORATORY_CAPABILITIES: Readonly<Record<string, string>> = {
-  'experience-graph': '0.1.0',
+  'experience-graph': '0.1.1',
   'activity-plugin': '0.1.0',
   ...Object.fromEntries(Object.entries(contracts).map(([key, value]) => [key, value.version])),
 };
@@ -182,6 +184,11 @@ export function parseLaboratoryPack(raw: unknown): LaboratoryPack {
   }
   for (const core of ['experience-graph', 'activity-plugin'])
     if (!pack.capabilities[core]) throw new Error(`Missing required capability ${core}`);
+  if (
+    pack.capabilities['experience-graph'] === '0.1.0' &&
+    pack.episodes.some((episode) => episode.debrief || episode.nodes.some((node) => node.bridge))
+  )
+    throw new Error('Authored bridge/debrief requires experience-graph@0.1.1');
   dag(pack.skills, 'skills');
   dag(pack.episodes, 'episodes');
   unique(

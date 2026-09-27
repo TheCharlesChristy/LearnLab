@@ -22,6 +22,10 @@ const SearchPage = lazy(() => import('./pages/SearchPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const WidgetsPage = lazy(() => import('./pages/WidgetsPage'));
 const LaboratoryPage = lazy(() => import('../v2/LaboratoryPage'));
+const AuthorStudioPage =
+  import.meta.env.VITE_AUTHOR_STUDIO === 'true'
+    ? lazy(() => import('../v2/AuthorStudioPage'))
+    : undefined;
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 function page(node: ReactNode): ReactNode {
@@ -35,6 +39,15 @@ export function buildRoutes(): RouteObject[] {
       element: <AppLayout />,
       errorElement: <RouteErrorPage />,
       children: [
+        ...(AuthorStudioPage
+          ? [
+              {
+                path: 'author-studio',
+                element: page(<AuthorStudioPage />),
+                errorElement: <RouteErrorPage />,
+              },
+            ]
+          : []),
         { index: true, element: page(<CataloguePage />), errorElement: <RouteErrorPage /> },
         {
           path: 'course/:courseId',

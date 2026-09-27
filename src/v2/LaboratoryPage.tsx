@@ -88,16 +88,29 @@ function Acquisition({ reference }: { reference: PackReference }) {
     </div>
   );
 }
-function EpisodeWorkspace({
+export interface LaboratorySessionPort {
+  read: () => Promise<unknown>;
+  write: (value: LaboratoryRun, archive?: unknown) => Promise<boolean>;
+  changed?: (value: LaboratoryRun) => void;
+}
+export function EpisodeWorkspace({
   pack,
   episode,
   reference,
+  session,
 }: {
   pack: LaboratoryPack;
   episode: LaboratoryEpisode;
-  reference: PackReference;
+  reference?: PackReference;
+  session?: LaboratorySessionPort;
 }) {
   const key = `laboratory:${pack.id}:${episode.id}`;
+  const persist = useCallback(
+    (value: LaboratoryRun, archive?: unknown) =>
+      session ? session.write(value, archive) : saveLaboratoryState(key, value, archive),
+    [key, session],
+  );
+
   const [run, setRun] = useState<LaboratoryRun>();
   const runRef = useRef<LaboratoryRun | undefined>(undefined);
   const [error, setError] = useState('');
@@ -116,7 +129,7 @@ function EpisodeWorkspace({
   const mounted = useRef(true);
   useEffect(() => {
     mounted.current = true;
-    void kvGet<unknown>(key)
+    void (session ? session.read() : kvGet<unknown>(key))
       .then((raw) => {
         if (!mounted.current) return;
         setRawSaved(raw);
@@ -131,7 +144,7 @@ function EpisodeWorkspace({
     return () => {
       mounted.current = false;
     };
-  }, [key, pack, episode]);
+  }, [key, pack, episode, session]);
   const send = useCallback(
     async (event: RunInput) => {
       if (!runRef.current || busyRef.current) return;
@@ -146,7 +159,7 @@ function EpisodeWorkspace({
         const next = appendEvent(pack, episode, runRef.current, { ...event, at } as RunEvent);
         runRef.current = next;
         setRun(next);
-        const saved = await saveLaboratoryState(key, next);
+        const saved = await persist(next);
         if (mounted.current)
           setSaveError(
             saved
@@ -161,7 +174,7 @@ function EpisodeWorkspace({
         if (mounted.current) setBusy(false);
       }
     },
-    [pack, episode, key],
+    [pack, episode, persist],
   );
   useEffect(() => {
     let lastTick = Date.now();
@@ -207,6 +220,9 @@ function EpisodeWorkspace({
         window.removeEventListener(type, interact);
     };
   }, [pack, episode, paused, send]);
+  useEffect(() => {
+    if (run) session?.changed?.(run);
+  }, [run, session]);
   const projection = run && projectRun(pack, episode, run);
   const current = projection?.current;
   useEffect(() => {
@@ -237,7 +253,7 @@ function EpisodeWorkspace({
           onClick={() => {
             void (async () => {
               const value = newRun(pack, episode, retainedExposure(rawSaved, episode));
-              if (await saveLaboratoryState(key, value, rawSaved)) {
+              if (await persist(value, rawSaved)) {
                 runRef.current = value;
                 setRun(value);
                 setError('');
@@ -247,7 +263,7 @@ function EpisodeWorkspace({
         >
           Archive original and start this version
         </Button>
-        <Link to={`/laboratory/${pack.id}`}>Return to map</Link>
+        <Link to={session ? '/author-studio' : `/laboratory/${pack.id}`}>Return to map</Link>
       </div>
     );
   if (!run || !projection) return <Spinner label="Loading your local workspace…" />;
@@ -264,8 +280,11 @@ function EpisodeWorkspace({
   return (
     <div className="lab-page space-y-5">
       <div className="lab-toolbar flex flex-wrap items-center justify-between gap-3">
-        <Link to={`/laboratory/${pack.id}`} className="rounded underline underline-offset-4">
-          ← Station map
+        <Link
+          to={session ? '/author-studio' : `/laboratory/${pack.id}`}
+          className="rounded underline underline-offset-4"
+        >
+          ← {session ? 'Author Studio' : 'Course map'}
         </Link>
         {node && (
           <Button
@@ -319,7 +338,7 @@ function EpisodeWorkspace({
               if (busyRef.current) return;
               busyRef.current = true;
               setBusy(true);
-              void saveLaboratoryState(key, runRef.current)
+              void persist(runRef.current!)
                 .then((saved) => setSaveError(saved ? '' : saveError))
                 .finally(() => {
                   busyRef.current = false;
@@ -337,7 +356,10 @@ function EpisodeWorkspace({
       {node && memory ? (
         <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_17rem]">
           <div ref={textRef} className="lab-panel lab-scene min-w-0 space-y-5">
-            <p className="lab-kicker">Research station · {episode.title}</p>
+            <p className="lab-kicker">
+              <span className="hidden sm:inline">{pack.title} · </span>
+              {episode.title}
+            </p>
             <h1 ref={headingRef} tabIndex={-1} className="text-2xl font-bold focus:outline-none">
               {node.title}
             </h1>
@@ -447,8 +469,8 @@ function EpisodeWorkspace({
                 </Button>
                 {memory.worked && <p className="lab-feedback">{node.workedExample}</p>}
                 <p>
-                  Bridge: a steady current needs a complete conducting path. The source transfers
-                  energy; charge is conserved. You can return to the map and explore later.
+                  {node.bridge ??
+                    'Review recommended prerequisites on the course map. You can explore another episode and return later.'}
                 </p>
                 <Button
                   variant="secondary"
@@ -465,13 +487,16 @@ function EpisodeWorkspace({
                 </p>
               </section>
             )}
-            <ReadAloudControl localOnly targetRef={textRef} resetKey={node.id} />
+            <ReadAloudControl
+              localOnly
+              persistPreferences={!session}
+              targetRef={textRef}
+              resetKey={node.id}
+            />
           </div>
           <aside className="lab-panel space-y-4">
             <p className="lab-kicker">Field notebook</p>
-            <p>
-              This first episode is a working prototype: 1 of 10 planned station investigations.
-            </p>
+            <p>{pack.scopeNote}</p>
             <p className="text-sm">
               {paused
                 ? 'Timer paused'
@@ -485,7 +510,9 @@ function EpisodeWorkspace({
                 closing. Time is not a score.
               </p>
             </details>
-            {pack.version === reference.version ? (
+            {!reference ? (
+              <p>Author preview · held in memory, no learner progress writes.</p>
+            ) : pack.version === reference.version ? (
               <Acquisition reference={reference} />
             ) : (
               <p>
@@ -494,8 +521,10 @@ function EpisodeWorkspace({
               </p>
             )}
             <p className="text-sm">
-              Saved locally. No account, uploads or learner AI. Read-aloud is optional; all tasks
-              work without a voice.
+              {session
+                ? 'Author-generated state; no mastery claims. Export explicitly to retain it.'
+                : 'Saved locally. No account, uploads or learner AI.'}{' '}
+              Read-aloud is optional; all tasks work without a voice.
             </p>
           </aside>
         </div>
@@ -503,13 +532,17 @@ function EpisodeWorkspace({
         <div className="lab-hero space-y-4">
           <p className="lab-kicker">Investigation complete</p>
           <h1 ref={headingRef} tabIndex={-1}>
-            The beacon has a story to tell
+            {episode.debrief?.title ?? 'Investigation complete'}
           </h1>
-          <p>You investigated why the full path matters, and what the heater transfers.</p>
           <p>
-            {independent} of 2 fresh causal checks passed independently. Assisted and repeated
-            checks stay visible in your notebook. These checks alone do not establish the full
-            charge-flow capability.
+            {episode.debrief?.body ??
+              'Inspect your evidence and compare it with the capability criteria on the course map.'}
+          </p>
+          <p>
+            {independent} of {episode.nodes.filter((n) => n.role === 'transfer').length} fresh
+            checks passed independently. Assisted and repeated checks stay visible in your notebook.
+            Scene checks are provisional evidence; the full capability criteria are on the course
+            map.
           </p>
           <details className="lab-details">
             <summary>See each check in your notebook</summary>
@@ -539,13 +572,13 @@ function EpisodeWorkspace({
               : 'not observed (assisted route)'}
             .
           </p>
-          <Link to={`/laboratory/${pack.id}`} className="lab-map-link">
-            Return to the station map
+          <Link to={session ? '/author-studio' : `/laboratory/${pack.id}`} className="lab-map-link">
+            Return to the course map
           </Link>
           <Button
             variant="secondary"
             onClick={() =>
-              download({ run, evidence: projection.evidence }, 'station-local-evidence.json')
+              download({ run, evidence: projection.evidence }, `${pack.id}-local-evidence.json`)
             }
           >
             Export local evidence
@@ -555,8 +588,11 @@ function EpisodeWorkspace({
       <details className="lab-details">
         <summary>Archive this notebook and start a new workspace</summary>
         <p className="my-3">
-          The old event log is preserved in local storage and Settings exports. Prior answer and
-          help exposure stays recorded; repeating these checks does not count as fresh independence.
+          {session
+            ? 'The last eight preview archives stay in memory and can be exported from the Studio before leaving. '
+            : 'The old event log is preserved in local storage and Settings exports. '}
+          Prior answer and help exposure stays recorded; repeating these checks does not count as
+          fresh independence.
         </p>
         <Button
           variant="secondary"
@@ -568,7 +604,7 @@ function EpisodeWorkspace({
             void (async () => {
               try {
                 const fresh = newRun(pack, episode, retainedExposure(runRef.current, episode));
-                if (!(await saveLaboratoryState(key, fresh, runRef.current)))
+                if (!(await persist(fresh, runRef.current)))
                   throw new Error('Archiving failed; original work remains unchanged.');
                 runRef.current = fresh;
                 setRun(fresh);
@@ -589,7 +625,10 @@ function EpisodeWorkspace({
         <summary>Import saved work for this episode</summary>
         <p className="my-3">
           Importing replaces this episode after validation and archives its current envelope. Other
-          progress is unchanged. Use Settings to export, import or delete all local progress.
+          progress is unchanged.{' '}
+          {session
+            ? 'Preview archives stay in memory; export from the Studio before leaving.'
+            : 'Use Settings to export, import or delete all local progress.'}
         </p>
         <input
           type="file"
@@ -610,7 +649,7 @@ function EpisodeWorkspace({
                   pack,
                   episode,
                 );
-                if (!(await saveLaboratoryState(key, imported, runRef.current)))
+                if (!(await persist(imported, runRef.current)))
                   throw new Error('Import could not be saved; original work remains unchanged.');
                 runRef.current = imported;
                 setRun(imported);

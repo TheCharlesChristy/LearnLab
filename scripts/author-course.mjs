@@ -13,6 +13,8 @@ import {
   LABORATORY_CAPABILITIES,
   parseLaboratoryPack,
 } from '../src/v2/pack.ts';
+import { createPreviewRun, parseAuthorPreview, previewPack } from '../src/v2/author-preview.ts';
+import { projectRun } from '../src/v2/run.ts';
 import { briefSchema, planSchema, planningErrors, questionsFor } from './authoring/contracts.mjs';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -22,6 +24,11 @@ const { values, positionals } = parseArgs({
     run: { type: 'string' },
     output: { type: 'string' },
     episode: { type: 'string' },
+    node: { type: 'string' },
+    seed: { type: 'string' },
+    hints: { type: 'string' },
+    worked: { type: 'boolean' },
+    branch: { type: 'string' },
     replace: { type: 'boolean' },
     request: { type: 'string' },
     brief: { type: 'string' },
@@ -228,7 +235,7 @@ try {
       audience: brief.audience,
       level: brief.level,
       subject: brief.subject,
-      capabilities: { 'experience-graph': '0.1.0', 'activity-plugin': '0.1.0', choice: '0.1.0' },
+      capabilities: { 'experience-graph': '0.1.1', 'activity-plugin': '0.1.0', choice: '0.1.0' },
       skills: skills.filter((s) => episodes.some((e) => e.outcomes.includes(s.title))),
       episodes: episodes.map((e) => ({
         id: e.id,
@@ -273,6 +280,66 @@ try {
           output,
           episodes: episodes.length,
           note: 'Empty scenes and references must be authored. This scaffold is not a valid playable course.',
+        },
+        null,
+        2,
+      ),
+    );
+  } else if (command === 'preview') {
+    const pack = parseLaboratoryPack(read(path.resolve(need('file'))));
+    const episode =
+      pack.episodes.find((v) => v.id === values.episode) ??
+      (values.episode ? undefined : pack.episodes[0]);
+    if (!episode) throw new Error('Unknown preview episode');
+    const fixture = parseAuthorPreview({
+      formatVersion: 1,
+      kind: 'learnlab-author-preview',
+      pack,
+      episodeId: episode.id,
+      nodeId: values.node ?? episode.start,
+      branchPreference: values.branch ?? 'passed',
+      seed: Number(values.seed ?? 93027),
+      hints: Number(values.hints ?? 0),
+      worked: values.worked ?? false,
+    });
+    fixture.session = createPreviewRun(fixture);
+    const output = path.resolve(need('output'));
+    fs.mkdirSync(path.dirname(output), { recursive: true });
+    write(output, parseAuthorPreview(fixture));
+    console.log(
+      JSON.stringify(
+        {
+          preview: values.output,
+          route: '#/author-studio',
+          note: 'Import into a local VITE_AUTHOR_STUDIO=true build. Synthetic state cannot award learner independence. Record this fixture in the retained run.',
+        },
+        null,
+        2,
+      ),
+    );
+  } else if (command === 'inspect') {
+    const fixture = parseAuthorPreview(read(path.resolve(need('file'))));
+    const pack = previewPack(fixture.pack, fixture.seed);
+    const episode = pack.episodes.find((v) => v.id === fixture.episodeId);
+    const run = createPreviewRun(fixture);
+    const projection = projectRun(pack, episode, run);
+    console.log(
+      JSON.stringify(
+        {
+          kind: fixture.kind,
+          episode: episode.id,
+          current: projection.current,
+          seed: fixture.seed,
+          branches: episode.nodes.map((v) => ({
+            id: v.id,
+            type: v.activity.type,
+            role: v.role,
+            transitions: v.transitions,
+          })),
+          memory: projection.memory,
+          evidence: projection.evidence,
+          events: run.events,
+          note: 'Author-generated preview only; no observed learner performance.',
         },
         null,
         2,
@@ -477,6 +544,7 @@ try {
           brief: briefSchema,
           plan: planSchema,
           laboratoryPack: read(path.join(repo, 'schemas/laboratory-pack.schema.json')),
+          authorPreview: read(path.join(repo, 'schemas/author-preview.schema.json')),
           activities: ACTIVITY_CONTRACTS,
         },
         null,
@@ -485,7 +553,7 @@ try {
     );
   } else {
     throw new Error(
-      'Usage: node scripts/author-course.mjs start|intake|plan|scaffold|validate-pack|stage-pack|record|status|capabilities|schemas [--run directory] [--request text-file] [--brief json-file] [--file artifact] [--kind kind] [--note text]',
+      'Usage: node scripts/author-course.mjs start|intake|plan|scaffold|validate-pack|stage-pack|preview|inspect|record|status|capabilities|schemas [--run directory] [--request text-file] [--brief json-file] [--file artifact] [--kind kind] [--note text]',
     );
   }
 } catch (error) {
