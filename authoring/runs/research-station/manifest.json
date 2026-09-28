@@ -741,6 +741,16 @@
       "revision": "eb30882c9695eedb4f256fb9e67a8ad136ada36a",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "delivery",
+      "file": "artifacts/0074-learnlab-pr73-delivery.json",
+      "sha256": "0a0fe9d7980ffbf90232f0696c65a44a0e40f81e9cb9949beba64fa9282bced4",
+      "note": "Draft PR #73 for research station episodes 2-4, base PR #72; receipt records initial head.",
+      "at": "2026-09-28T07:40:35.607Z",
+      "revision": "7adcd94b2077f6afce0d9f8f1017a624518ac69f",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [
