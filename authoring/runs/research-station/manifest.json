@@ -1121,6 +1121,16 @@
       "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "delivery",
+      "file": "artifacts/0112-meter-delivery.json",
+      "sha256": "72db9380c50a6ded47d6f30dee5245d590ae903491c7a1d9efd2621badb20cfa",
+      "note": "Draft PR #75 delivery receipt for b65da3f; later evidence-only commit does not change implementation",
+      "at": "2026-09-28T18:38:40.704Z",
+      "revision": "b65da3f7d24bd10646a617177eb6594e1cf4a323",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [
