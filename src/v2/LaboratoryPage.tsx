@@ -26,6 +26,7 @@ import {
 import type { LaboratoryRun, RunEvent, RunInput } from './run';
 import CircuitActivity from './CircuitActivity';
 import MeterProbeActivity from './MeterProbeActivity';
+import RepairBenchActivity from './RepairBenchActivity';
 import { formatMeterReading, meterReading } from './meter-probe';
 import './laboratory.css';
 
@@ -434,6 +435,22 @@ export function EpisodeWorkspace({
                 disabled={busy}
                 onProbe={(id) => {
                   void send({ type: 'probe', node: node.id, id });
+                }}
+              />
+            ) : node.activity.type === 'repair-bench' && memory.repair ? (
+              <RepairBenchActivity
+                activity={node.activity}
+                state={memory.repair}
+                inspections={memory.inspections ?? []}
+                disabled={busy}
+                onPlace={(slot, part) => {
+                  void send({ type: 'place', node: node.id, slot, part });
+                }}
+                onRewire={(layout) => {
+                  void send({ type: 'rewire', node: node.id, layout });
+                }}
+                onInspect={(reading, quantity) => {
+                  void send({ type: 'inspect', node: node.id, reading, quantity });
                 }}
               />
             ) : null}

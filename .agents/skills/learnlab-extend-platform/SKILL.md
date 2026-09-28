@@ -34,12 +34,15 @@ artifacts using `record`; artifact presence alone does not pass a gate. The CLI
 implements intake/planning/discovery, scaffolding, shared pack/graph validation,
 local preview staging, evidence preservation and draft-PR Git delivery. Local Studio preview/inspection is implemented; complete pilots remain
 pending. Use `capabilities` and `schemas` to discover actual v1 sets and registered
-laboratory activities (`choice`, `circuit`, `meter-probe`), not old v2 negotiation fixtures.
+laboratory activities (`choice`, `circuit`, `meter-probe`, `repair-bench`), not old v2 negotiation fixtures.
 `circuit@0.1.1` adds finite supply-voltage and observation-window controls with
 charge/energy readings; use the shared pack validator and event replay for extensions.
 `meter-probe@0.1.0` registers a finite hypothesis-testing activity; its recorded
 placements never award independent mastery. Keep schema, registry, renderer,
 preview replay, docs and browser checks aligned when extending this set.
+`repair-bench@0.1.0` permits part placement and series/parallel rewiring in a
+bounded socket board. Its exploratory pass is practice, with fresh independent
+checks authored afterwards.
 Scaffold with `scaffold` before drafting; use `validate-pack` and `stage-pack` for laboratory
 packs. See `docs/laboratory/ACTIVITIES.md` for marking, state and accessibility. New v2 metadata is not confined to the v1
 subject/level enums. Keep v1 content compatible and use `src/v2/` for the additive

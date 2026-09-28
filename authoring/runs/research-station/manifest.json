@@ -1321,6 +1321,126 @@
       "revision": "3f84e4a2fa221616426f01b7968d3f537283b637",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0132-scaffold.json",
+      "sha256": "79d4992821e581353a91ffcb768ec6f923bf6554c7008a1afa9a76568daca59a",
+      "note": "Actual draft scaffold at authoring/drafts/research-station-capstone; incomplete nodes/references deliberately fail validation.",
+      "at": "2026-09-28T19:09:18.738Z",
+      "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0133-pack.json",
+      "sha256": "28751a1ce6be0e5b79b90c27f3a90e4f5f714b103134cd91521eb7c6c9500cd5",
+      "note": "Staged local preview at public/laboratory/research-station; no merge or deployment.",
+      "at": "2026-09-28T19:10:45.391Z",
+      "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0134-pack.json",
+      "sha256": "c4734dd415d204838d2f39ff922fb2d67eb935f611262f7a308a4ea5059e2a8c",
+      "note": "Staged local preview at public/laboratory/research-station; no merge or deployment.",
+      "at": "2026-09-28T19:21:15.470Z",
+      "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "research",
+      "file": "artifacts/0135-research-ledger.json",
+      "sha256": "0d85897e6c579e2a8846410d62eac329073a8736e7848f13b3e182f2c3bcb66e",
+      "note": "Capstone source scope and two-route derivation added after prior AQA review.",
+      "at": "2026-09-28T19:26:43.127Z",
+      "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0136-station-repair-contracts.log",
+      "sha256": "ac4503f5607843690a3b3c75e3a7b334d64943acd5fb9432cc100555869777ef",
+      "note": "Pack v9 and generated validator passed.",
+      "at": "2026-09-28T19:26:43.550Z",
+      "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0137-station-repair-types.log",
+      "sha256": "9db56300b0bf5d5dd8f19cd445585168aec7f425300402b5c00501892fa29208",
+      "note": "Final repair bench typecheck passed.",
+      "at": "2026-09-28T19:26:43.960Z",
+      "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0138-station-repair-focused.log",
+      "sha256": "cb0bd2910d82a1a20132e9533bcc634a0c2f0721ff68894da23f53d6dcf06d69",
+      "note": "Repair contract, capstone route and harness contract tests passed.",
+      "at": "2026-09-28T19:26:44.370Z",
+      "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0139-station-repair-browser.log",
+      "sha256": "40ca38e2de39f77336a76f63c67ca4a0cb237f4d6205818e90c143922cbb5763",
+      "note": "Chromium and Firefox repair paths plus offline close/reopen passed.",
+      "at": "2026-09-28T19:26:44.743Z",
+      "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0140-station-repair-webkit.log",
+      "sha256": "68d25165f6e6c3f4865739193bbbdf53327d253c37898f8854da9b0fe4b56170",
+      "note": "Official Playwright WebKit container passed both repair paths.",
+      "at": "2026-09-28T19:26:45.105Z",
+      "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0141-station-repair-parallel.png",
+      "sha256": "edf9aee31315a6d5fed3d9acbd671dfdad0e206d605c9fedaf29c8f5f40d23d3",
+      "note": "Rendered parallel repair and meter notebook.",
+      "at": "2026-09-28T19:26:45.470Z",
+      "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0142-station-repair-series-phone.png",
+      "sha256": "5f83dba32bca832a9716a21c8b2b80ede81ce466adfbee368140fc67346ee5d7",
+      "note": "Rendered series repair at 360px and 200% text.",
+      "at": "2026-09-28T19:26:45.880Z",
+      "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "critique",
+      "file": "artifacts/0143-REPAIR-CAPSTONE-VERIFICATION.md",
+      "sha256": "074cb04acb000939ebd57d2ec9ee6aa75c8b54fe79ae8771b7e99f2d6b6ed363",
+      "note": "Numerical derivation, visual revision and bounded evidence.",
+      "at": "2026-09-28T19:26:46.382Z",
+      "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [
@@ -1357,6 +1477,11 @@
       "kind": "scaffold-created",
       "at": "2026-09-28T18:40:18.171Z",
       "output": "authoring/drafts/research-station-fault"
+    },
+    {
+      "kind": "scaffold-created",
+      "at": "2026-09-28T19:09:18.745Z",
+      "output": "authoring/drafts/research-station-capstone"
     }
   ]
 }

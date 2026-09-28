@@ -864,6 +864,17 @@ test('downloaded episode survives browser close and offline reopen with local pr
     await expect(page.getByRole('status').filter({ hasText: 'Source power' })).toContainText(
       '12 W',
     );
+    await page.goto(`${baseURL}/#/laboratory/research-station/station-repair`);
+    await page
+      .getByRole('button', { name: /0.5 A, because the complete navigation branch/ })
+      .click();
+    await page.getByRole('button', { name: 'Continue investigation' }).click();
+    await page.getByRole('button', { name: 'Connect as branches' }).click();
+    await page.getByRole('combobox', { name: 'Sensor socket' }).selectOption('sensor-load');
+    await expect(
+      page.getByRole('status').filter({ hasText: 'Repair target reached' }),
+    ).toContainText('1.5 A');
+    await expect(page.getByRole('status').filter({ hasText: /^Ready offline ·/ })).toBeVisible();
   } finally {
     await context.close();
     fs.rmSync(profile, { recursive: true, force: true });
@@ -975,4 +986,90 @@ test('silently discarded offline writes show recovery and never claim readiness'
       .getByRole('group', { name: 'Supply link' })
       .getByRole('button', { name: 'Closed', exact: true }),
   ).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('repair bench: inspect, restore both rails and finish fresh checks', async ({
+  page,
+}, info) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/#/laboratory/research-station/station-repair');
+  await page.getByRole('button', { name: /0.5 A, because the complete navigation branch/ }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await expect(page.getByRole('heading', { name: 'Wake the two rails' })).toBeVisible();
+  await page.getByRole('button', { name: 'Source ammeter' }).click();
+  await expect(page.getByRole('list', { name: 'Meter notebook' })).toContainText('0 A');
+  await page.getByRole('button', { name: 'Connect as branches' }).click();
+  await page.getByRole('combobox', { name: 'Sensor socket' }).selectOption('sensor-load');
+  await expect(page.getByRole('status').filter({ hasText: 'Repair target reached' })).toContainText(
+    '1.5 A',
+  );
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: /ideal supply keeps 12 V across each branch/ }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await expect(page.getByRole('heading', { name: 'Bring the station back online' })).toBeVisible();
+  await page.getByRole('combobox', { name: 'Sensor service socket' }).selectOption('sensor-high');
+  await expect(page.getByRole('status').filter({ hasText: 'Repair target reached' })).toContainText(
+    '1 A',
+  );
+  await page.getByRole('button', { name: 'Sensor service socket voltmeter' }).click();
+  await expect(page.getByRole('list', { name: 'Meter notebook' })).toContainText('12 V');
+  await page.getByRole('button', { name: 'Sensor service socket ammeter' }).click();
+  await expect(page.getByRole('list', { name: 'Meter notebook' })).toContainText('0.5 A');
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      ),
+  );
+  await page.screenshot({ path: info.outputPath('station-repair-parallel.png'), fullPage: true });
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: /1 A. The main branch still draws 1 A/ }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: '6 C and 60 J.' }).click();
+  await page.getByRole('button', { name: 'Finish investigation' }).click();
+  await expect(page.getByText('2 of 2 fresh checks', { exact: false })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('repair bench: a different series repair works with keyboard and expanded touch text', async ({
+  page,
+}, info) => {
+  await page.setViewportSize({ width: 360, height: 740 });
+  await page.goto('/#/laboratory/research-station/station-repair');
+  await page.getByRole('button', { name: /0.5 A, because the complete navigation branch/ }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: 'Connect as branches' }).press('Enter');
+  await page.getByRole('combobox', { name: 'Sensor socket' }).selectOption('sensor-load');
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: /ideal supply keeps 12 V across each branch/ }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.evaluate(() => {
+    document.documentElement.style.fontSize = '200%';
+  });
+  await page.getByRole('button', { name: 'Connect in one path' }).press('Enter');
+  await page.getByRole('combobox', { name: 'Navigation service socket' }).selectOption('nav-low');
+  await page.getByRole('combobox', { name: 'Sensor service socket' }).selectOption('sensor-low');
+  await expect(page.getByRole('status').filter({ hasText: 'Repair target reached' })).toContainText(
+    '1 A',
+  );
+  await page.getByRole('button', { name: 'Navigation service socket voltmeter' }).click();
+  await expect(page.getByRole('list', { name: 'Meter notebook' })).toContainText('6 V');
+  await page.getByRole('button', { name: 'Navigation service socket ammeter' }).click();
+  await expect(page.getByRole('list', { name: 'Meter notebook' })).toContainText('1 A');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+    true,
+  );
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      ),
+  );
+  await page.screenshot({
+    path: info.outputPath('station-repair-series-phone.png'),
+    fullPage: true,
+  });
 });

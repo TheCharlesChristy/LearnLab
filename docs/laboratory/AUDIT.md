@@ -112,8 +112,9 @@ choices only; every preview scene has prior exposure. Storage and speech prefere
 memory, with eight archives retaining original content context. ADR-003 records the boundary.
 Graph 0.1.1 moves bridging/debrief copy into optional authored metadata. Circuit
 0.1.1 adds finite source and observation-window controls with integrated charge/energy
-readings; pack version 7 now contains nine episodes, including bounded series,
-parallel branch, diagnostic meter, power and fault investigations. Visual graph authoring,
-fresh-task generation, complete pilots and the owner cycle remain pending. Git
+readings; pack version 9 now contains ten circuits episodes, including bounded series,
+parallel branch, diagnostic meter, power and fault investigations, plus a socket-based
+repair capstone with two valid configurations. The complete history pilot, visual graph
+authoring, fresh-task generation and the owner cycle remain pending. Git
 delivery automation is implemented in the subsequent focused slice. This update
 does not reinterpret the baseline table.

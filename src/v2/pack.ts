@@ -5,6 +5,9 @@ import type { CircuitConfiguration, CircuitElement } from './circuit-model.ts';
 import { validateMeterProbe } from './meter-probe.ts';
 import type { MeterProbeActivity } from './meter-probe.ts';
 export type { MeterProbeActivity } from './meter-probe.ts';
+import { validateRepairBench } from './repair-bench.ts';
+import type { RepairBenchActivity } from './repair-bench.ts';
+export type { RepairBenchActivity } from './repair-bench.ts';
 
 export interface ChoiceActivity {
   type: 'choice';
@@ -25,7 +28,7 @@ export interface CircuitActivity {
     max: number;
   }[];
 }
-export type Activity = ChoiceActivity | CircuitActivity | MeterProbeActivity;
+export type Activity = ChoiceActivity | CircuitActivity | MeterProbeActivity | RepairBenchActivity;
 export interface LaboratoryNode {
   id: string;
   title: string;
@@ -139,6 +142,10 @@ function validateActivity(activity: Activity, at: string) {
   }
   if (activity.type === 'meter-probe') {
     validateMeterProbe(activity, at);
+    return;
+  }
+  if (activity.type === 'repair-bench') {
+    validateRepairBench(activity, at);
     return;
   }
   const initial = parseCircuitConfiguration(activity.initial);

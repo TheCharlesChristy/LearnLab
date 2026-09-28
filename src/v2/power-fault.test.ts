@@ -122,7 +122,7 @@ describe('power budget and fault-board course checks', () => {
           });
         } else if (activity.type === 'meter-probe') {
           emit({ type: 'probe', node: node.id, id: informativeProbeIds(activity)[0]! });
-        } else {
+        } else if (activity.type === 'circuit') {
           for (const control of activity.controls)
             emit({
               type: 'control',
@@ -144,6 +144,8 @@ describe('power budget and fault-board course checks', () => {
               id: 'elapsed-time',
               value: activity.interval.solutionSeconds,
             });
+        } else {
+          throw new Error(`Unexpected activity in ${id}: ${activity.type}`);
         }
         emit({ type: 'advance', node: node.id, outcome: 'passed' });
       }

@@ -1,16 +1,17 @@
 # Laboratory activity contracts
 
-Status: nine-episode partial circuits pilot, opt-in through `VITE_EXPERIENCE_RUNTIME_V2=true`.
+Status: ten-episode circuits pilot, opt-in through `VITE_EXPERIENCE_RUNTIME_V2=true`.
 This additive runtime lives under `src/v2/`; legacy courses and their saved work
 retain the existing schemas and storage. The registered activities are `choice`
-at 0.1.0, `circuit` at 0.1.1 and `meter-probe` at 0.1.0, with event state version 1.
+at 0.1.0, `circuit` at 0.1.1, `meter-probe` at 0.1.0 and `repair-bench`
+at 0.1.0, with event state version 1.
 
 `src/v2/activity-contracts.json` is the metadata registry. Its `schemaDef` points into
 `schemas/laboratory-pack.schema.json`; `src/v2/pack.ts` adds semantic checks shared by
 the CLI and browser. Run `npm run author:course -- capabilities` and `schemas` to
 inspect the actual contracts. `build-laboratory-contracts.mjs` generates the strict
 CSP-safe browser validator; `--check` rejects schema/generated-code drift.
-The current renderer dispatches these three registered types directly. A general
+The current renderer dispatches these four registered types directly. A general
 external-plugin loader, arbitrary scripts and parameterised fresh-task variants are not implemented.
 The local Studio shares this renderer; see [authoring workflow](AUTHORING-HARNESS.md).
 
@@ -114,6 +115,42 @@ several positions or inspecting the predicted values is answer exposure, so the
 replay engine never awards independent mastery for a meter-probe scene. To test
 fresh competence, author a separate bounded decision **before** revealing the
 new panel's meter readings. Preview sessions also carry prior exposure.
+
+## Repair bench
+
+Input: `type: "repair-bench"`, an ideal source above 0 V and at most 24 V, two to four labelled
+sockets, two to six distinct labelled ideal resistive parts, an initial board,
+a reachable satisfying witness and finite current, voltage or power goals.
+Each board state has a `series` or `parallel` layout and exactly one placement
+per socket, either one part ID or `null` for an open gap. A part can occupy only
+one socket. The same parts can be moved between sockets or returned to the tray;
+changing the layout changes the electrical topology. This is a bounded open
+workspace with fixed socket positions, not an arbitrary graph editor. The
+existing solver handles each arrangement, including all-open boards. Unsafe
+ideal shorts remain unsupported. The authoring validator checks the initial
+state, the witness, the part inventory and the goals, but a witness is not a
+unique solution: any legal arrangement satisfying the ranges passes.
+
+Action: native select controls place or remove parts, and native buttons connect
+the sockets in one path or separate branches. `place` and `rewire` events are
+replayed from the registered contract; forged parts, duplicated placements,
+no-op changes and unearned passes fail. A separate `inspect` event takes an
+ideal source ammeter reading or a voltmeter reading across a socket and retains
+the observed value in a notebook snapshot. Each socket also permits an ideal
+branch ammeter reading. Measurement can precede or follow
+repair. A passing board requires a genuine placement/wiring action and all
+goals satisfied by computed unrounded values. The SVG is decorative; selected
+parts, topology, status and meter notes are text. Moving parts uses the same
+native controls with mouse, keyboard or touch, with no required dragging.
+
+The bench is exploratory practice even if a scene carries a `transfer` role.
+Unlimited rewiring, inspectable readings and live target feedback expose the
+solution, so it never awards independent mastery. Author fresh bounded checks
+after the bench to collect provisional independent evidence. The current
+capstone has two distinct valid 12 V solutions: two 24 Ω loads in parallel
+draw 0.5 A each and transfer 6 W each, while two 6 Ω loads in series draw 1 A
+through each and transfer 6 W each. The source draws 1 A and transfers 12 W
+in either case, but socket voltages differ (12 V versus 6 V).
 
 ## State, evidence and recovery
 
