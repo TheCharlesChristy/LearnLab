@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { parseLaboratoryPack, ACTIVITY_CONTRACTS, circuitGoalMet } from './pack';
-import { solveCircuit } from './circuit-model';
+import { setCircuitElement, solveCircuit } from './circuit-model';
 import { appendEvent, newRun, parseRun, projectRun, restoreRun, retainedExposure } from './run';
 import type { RunInput } from './run';
 const fixture = () =>
@@ -55,6 +55,23 @@ describe('laboratory content boundary', () => {
     expect(older.capabilities.circuit).toBe('0.1.0');
     expect(parseLaboratoryPack(older).episodes).toHaveLength(1);
   });
+  it('keeps version-4 episode state replayable against its retained pack', () => {
+    const older = parseLaboratoryPack(
+      JSON.parse(readFileSync('authoring/runs/research-station/artifacts/0066-pack.json', 'utf8')),
+    );
+    expect(older.version).toBe(4);
+    const episode = older.episodes.find((candidate) => candidate.id === 'charge-counter')!;
+    const original = newRun(older, episode);
+    const saved = appendEvent(older, episode, original, {
+      type: 'control',
+      node: 'set-recorder',
+      id: 'elapsed-time',
+      value: 4,
+      at: original.startedAt + 1,
+    });
+    expect(projectRun(older, episode, saved).memory['set-recorder']?.elapsedSeconds).toBe(4);
+    expect(() => projectRun(fixture(), fixture().episodes[1]!, saved)).toThrow('version');
+  });
   it('negotiates authored course copy while accepting older packs with generic fallback', () => {
     const pack = fixture();
     pack.capabilities['experience-graph'] = '0.1.0';
@@ -105,6 +122,56 @@ describe('laboratory content boundary', () => {
   });
 });
 describe('local event replay and evidence', () => {
+  it('supports both series placements and conserves the 12 V drop', () => {
+    const pack = fixture();
+    const episode = pack.episodes.find((e) => e.id === 'series-path')!;
+    const activity = episode.nodes[0]!.activity;
+    if (activity.type !== 'circuit') throw new Error('Expected series circuit');
+    const rearHigh = setCircuitElement(activity.initial, 'rear-coil', 9);
+    const frontHigh = setCircuitElement(activity.initial, 'front-coil', 9);
+    for (const configuration of [rearHigh, frontHigh]) {
+      expect(circuitGoalMet(activity, configuration)).toBe(true);
+      const solved = solveCircuit(configuration);
+      expect(solved.status).toBe('solved');
+      if (solved.status === 'solved') {
+        expect(solved.current).toBe(1);
+        expect(solved.readings.map((reading) => reading.current)).toEqual([1, 1]);
+        expect(solved.readings.reduce((sum, reading) => sum + (reading.voltage ?? 0), 0)).toBe(12);
+        expect(solved.readings.reduce((sum, reading) => sum + reading.power, 0)).toBe(12);
+      }
+    }
+  });
+  it('keeps an intact parallel path live and allows either branch to take the limit', () => {
+    const pack = fixture();
+    const episode = pack.episodes.find((e) => e.id === 'parallel-routes')!;
+    const switchActivity = episode.nodes[0]!.activity;
+    if (switchActivity.type !== 'circuit') throw new Error('Expected parallel circuit');
+    const open = solveCircuit(switchActivity.initial);
+    const closed = solveCircuit(switchActivity.solution);
+    expect(open.status).toBe('solved');
+    expect(closed.status).toBe('solved');
+    if (open.status === 'solved' && closed.status === 'solved') {
+      expect(open.current).toBe(1);
+      expect(open.readings.find((reading) => reading.id === 'main-load')?.current).toBe(1);
+      expect(open.readings.find((reading) => reading.id === 'backup-load')?.current).toBe(0);
+      expect(closed.current).toBe(2);
+      expect(closed.readings.find((reading) => reading.id === 'main-load')?.current).toBe(1);
+      expect(closed.readings.find((reading) => reading.id === 'backup-load')?.current).toBe(1);
+    }
+    const limitActivity = episode.nodes[2]!.activity;
+    if (limitActivity.type !== 'circuit') throw new Error('Expected branch limit');
+    for (const id of ['main-load', 'backup-load']) {
+      const configuration = setCircuitElement(limitActivity.initial, id, 12);
+      expect(circuitGoalMet(limitActivity, configuration)).toBe(true);
+      const solved = solveCircuit(configuration);
+      expect(solved.status).toBe('solved');
+      if (solved.status === 'solved') {
+        expect(solved.current).toBe(3);
+        expect(solved.readings.reduce((sum, reading) => sum + reading.current, 0)).toBe(3);
+        expect(solved.readings.map((reading) => reading.voltage)).toEqual([12, 12]);
+      }
+    }
+  });
   it('counts charge over an authored observation window and preserves alternative paths', () => {
     const pack = fixture();
     const episode = pack.episodes.find((e) => e.id === 'charge-counter')!;

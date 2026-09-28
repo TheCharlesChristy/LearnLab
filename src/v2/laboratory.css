@@ -190,8 +190,15 @@
   scroll-margin-top: 7rem;
 }
 .lab-diagram {
+  order: 3;
   margin: 1rem 0;
   overflow-x: auto;
+}
+.lab-controls {
+  order: 1;
+}
+.lab-bench > [role='status'] {
+  order: 2;
 }
 .lab-diagram svg {
   display: block;
@@ -250,15 +257,8 @@
   .lab-tool-menu summary {
     padding: 0.6rem 0;
   }
-  .lab-controls {
-    order: 1;
-  }
   .lab-diagram {
-    order: 2;
     margin: 0.3rem 0;
-  }
-  .lab-bench > [role='status'] {
-    order: 3;
   }
 }
 

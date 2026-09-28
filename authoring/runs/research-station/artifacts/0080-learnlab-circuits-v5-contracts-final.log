@@ -1,0 +1,11 @@
+(node:3398317) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ RUN  v4.1.8 /home/charles/.codex/worktrees/laboratory-series-parallel/LearnLab
+
+
+ Test Files  1 passed (1)
+      Tests  21 passed (21)
+   Start at  08:57:30
+   Duration  1.43s (transform 206ms, setup 111ms, import 210ms, tests 307ms, environment 675ms)
+

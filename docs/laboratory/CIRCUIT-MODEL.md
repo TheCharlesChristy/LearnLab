@@ -1,7 +1,7 @@
 # Circuits activity model contract
 
 Status: implemented in `src/v2/circuit-model.ts` and registered as the `circuit`
-0.1.1 laboratory activity. Four rendered episodes use its real controls and
+0.1.1 laboratory activity. Six rendered episodes use its real controls and
 readings behind the laboratory preview flag. See [activity contracts](ACTIVITIES.md).
 
 This extends the same series/parallel reduction used by the legacy `circuit-sim`

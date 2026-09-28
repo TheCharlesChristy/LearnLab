@@ -1,6 +1,6 @@
 # Laboratory activity contracts
 
-Status: four-episode partial circuits pilot, opt-in through `VITE_EXPERIENCE_RUNTIME_V2=true`.
+Status: six-episode partial circuits pilot, opt-in through `VITE_EXPERIENCE_RUNTIME_V2=true`.
 This additive runtime lives under `src/v2/`; legacy courses and their saved work
 retain the existing schemas and storage. The registered activities are `choice`
 at 0.1.0 and `circuit` at 0.1.1, with event state version 1.
@@ -81,6 +81,11 @@ never an invented zero. A circuit pass requires at least one control action and 
 goals satisfied. Controls, textual topology and a readings table give keyboard,
 touch and screen-reader alternatives to the decorative circuit indicator. Targets
 are at least 44 CSS pixels high; essential information has no motion/sound dependency.
+The authored series and parallel scenes use the same bounded tree model: series
+loads share current and split the source potential difference; complete parallel
+branches share potential difference and their currents add at the source. Branch
+survival assumes an ideal fixed-voltage supply. These are controlled configurations,
+not free-form rewiring or a physical circuit builder.
 
 ## State, evidence and recovery
 

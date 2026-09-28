@@ -1,0 +1,57 @@
+{
+  "formatVersion": 1,
+  "version": 1,
+  "stateVersion": 1,
+  "id": "research-station",
+  "title": "Bring the research station back online",
+  "description": "A storm has isolated a research station. Restore useful equipment by constructing, measuring, predicting and diagnosing its real circuit states. More than one investigation order; experiments expose conservation.",
+  "audience": "Learners approaching A-level physics, with optional GCSE bridges; curious adult explorers welcome",
+  "level": "Introduction bridging GCSE to A-level DC circuits",
+  "subject": {
+    "id": "physics",
+    "title": "Physics"
+  },
+  "capabilities": {
+    "experience-graph": "0.1.1",
+    "activity-plugin": "0.1.0",
+    "choice": "0.1.0"
+  },
+  "skills": [
+    {
+      "id": "capability-1",
+      "title": "Explain closed-path charge flow and distinguish current from charge",
+      "criterion": "Correct mechanism prediction and applicable numeric/design task with correct units; at least two fresh independent opportunities, not completion count",
+      "prerequisites": []
+    },
+    {
+      "id": "capability-2",
+      "title": "Interpret potential difference as energy per unit charge",
+      "criterion": "Correct mechanism prediction and applicable numeric/design task with correct units; at least two fresh independent opportunities, not completion count",
+      "prerequisites": []
+    },
+    {
+      "id": "capability-4",
+      "title": "Apply conservation of charge and energy to series and parallel networks",
+      "criterion": "Correct mechanism prediction and applicable numeric/design task with correct units; at least two fresh independent opportunities, not completion count",
+      "prerequisites": []
+    }
+  ],
+  "episodes": [
+    {
+      "id": "series-path",
+      "title": "Two loads, one path",
+      "estimatedMinutes": 8,
+      "skills": [
+        "capability-1",
+        "capability-2",
+        "capability-4"
+      ],
+      "prerequisites": [],
+      "start": "first-action",
+      "nodes": []
+    }
+  ],
+  "references": [],
+  "assets": [],
+  "scopeNote": "Partial first-episode prototype: 1 of 10 planned episodes. Ten short investigations of ideal DC resistors, source and switches, conservation, measurement, power, open faults and repair; optional unrestricted exploration within the bounded model"
+}
