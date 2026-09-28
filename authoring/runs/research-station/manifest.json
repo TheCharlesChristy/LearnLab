@@ -901,6 +901,16 @@
       "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "delivery",
+      "file": "artifacts/0090-learnlab-pr74-delivery.json",
+      "sha256": "429387584ca8efdfd6042ec5e3614a6990ad1a82ea1ea0179bf9b375dc27dbdb",
+      "note": "Draft PR #74 for series and parallel episodes, base PR #73; initial delivery receipt.",
+      "at": "2026-09-28T08:01:25.417Z",
+      "revision": "99bca6fc7ad75afb7a2a89c1e90cbded2ad5daa3",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [
