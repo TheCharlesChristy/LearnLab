@@ -46,8 +46,8 @@ exist. Capability discovery must make that distinction explicit until implemente
 The table above records the inspected baseline. The implementation now adds the
 first registered `choice`/`circuit` graph, event replay, explicit pack acquisition,
 retained exposure, recovery and CLI scaffold/validate/stage commands. See ADR-002
-and [activity contracts](ACTIVITIES.md) for exact bounds. Seven of the ten planned
-circuits episodes are staged, including a bounded meter-probe investigation; history,
+and [activity contracts](ACTIVITIES.md) for exact bounds. Nine of the ten planned
+circuits episodes are staged, including bounded meter, power and fault investigations; history,
 the remaining investigation tools and owner revision
 remain pending. The older rollout fixtures still do not establish typed effects.
 
@@ -112,8 +112,8 @@ choices only; every preview scene has prior exposure. Storage and speech prefere
 memory, with eight archives retaining original content context. ADR-003 records the boundary.
 Graph 0.1.1 moves bridging/debrief copy into optional authored metadata. Circuit
 0.1.1 adds finite source and observation-window controls with integrated charge/energy
-readings; pack version 6 now contains seven episodes, including bounded series,
-parallel branch and diagnostic meter investigations. Visual graph authoring,
+readings; pack version 7 now contains nine episodes, including bounded series,
+parallel branch, diagnostic meter, power and fault investigations. Visual graph authoring,
 fresh-task generation, complete pilots and the owner cycle remain pending. Git
 delivery automation is implemented in the subsequent focused slice. This update
 does not reinterpret the baseline table.

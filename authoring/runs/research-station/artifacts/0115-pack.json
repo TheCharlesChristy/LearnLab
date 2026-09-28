@@ -2665,42 +2665,42 @@
         {
           "id": "fresh-placement",
           "title": "A fault in one series path",
-          "prompt": "A fresh 12 V panel has a separate 6 ohm reference branch. Its suspect branch has a known 6 ohm resistor in series with a hidden load that is either 6 or 12 ohms. Which single measurement distinguishes the two hidden states?",
+          "prompt": "A fresh 12 V unit has a known 6 ohm resistor in series with a hidden load that is either 6 or 12 ohms. Which single measurement can distinguish those two states?",
           "role": "transfer",
           "activity": {
             "type": "choice",
             "options": [
               {
-                "id": "suspect-current",
-                "text": "An ammeter in the suspect series branch",
+                "id": "current",
+                "text": "An ammeter in the single series path",
                 "correct": true,
-                "feedback": "Yes. Its total resistance is 12 or 18 ohms, so its current is 1 A or about 0.667 A."
-              },
-              {
-                "id": "reference-current",
-                "text": "An ammeter in the separate 6 ohm reference branch",
-                "correct": false,
-                "feedback": "That branch still has 12 V across 6 ohms and carries 2 A in either hidden state."
+                "feedback": "Yes. Total resistance is 12 or 18 ohms, so source current is 1 A or about 0.667 A."
               },
               {
                 "id": "source-voltage",
-                "text": "A voltmeter across the ideal 12 V supply",
+                "text": "A voltmeter across the ideal supply",
                 "correct": false,
-                "feedback": "The source stays at 12 V in both states."
+                "feedback": "The source is 12 V in both states."
               },
               {
-                "id": "reference-voltage",
-                "text": "A voltmeter across the reference branch",
+                "id": "fuse-state",
+                "text": "A visual check that the wiring is present",
                 "correct": false,
-                "feedback": "Both possibilities leave 12 V across the complete reference branch."
+                "feedback": "Both possible states have a complete path; the changed resistance is not visible."
+              },
+              {
+                "id": "elapsed",
+                "text": "A stopwatch without any electrical reading",
+                "correct": false,
+                "feedback": "Time alone does not distinguish the two steady currents."
               }
             ]
           },
           "hints": [
-            "The reference branch stays fixed across the ideal 12 V supply. Which branch changes its total resistance?"
+            "Add the two series resistances for each possibility, then divide 12 V by each total."
           ],
-          "workedExample": "At 9 V, a separate 3 ohm reference branch stays at 3 A, while a suspect branch of 3 ohms plus a hidden 3 or 6 ohms carries 1.5 or 1 A. Measure the suspect branch.",
-          "mechanism": "The suspect series path has one shared current that changes with its total resistance. The separate reference path remains at fixed voltage and resistance, so its readings cannot distinguish the hidden load.",
+          "workedExample": "At 9 V, known 3 ohms plus a hidden 3 or 6 ohms gives 1.5 or 1 A in the one path. A source voltmeter would still read 9 V.",
+          "mechanism": "A series ammeter samples the one shared current. If candidate totals differ under a fixed supply, that current is a discriminating observation.",
           "transitions": {
             "passed": "fresh-diagnosis",
             "assisted": "fresh-diagnosis"

@@ -1131,6 +1131,196 @@
       "revision": "b65da3f7d24bd10646a617177eb6594e1cf4a323",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0113-scaffold.json",
+      "sha256": "2220f8670f59f6a07e82a46966de27693795af48f2b36935b14267c880f42788",
+      "note": "Actual draft scaffold at authoring/drafts/research-station-power-fault; incomplete nodes/references deliberately fail validation.",
+      "at": "2026-09-28T18:40:11.946Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0114-scaffold.json",
+      "sha256": "10f37aa0ebad40d58c635f1a67a08b8ee2cdd07e3fa65416a874ccb55438be03",
+      "note": "Actual draft scaffold at authoring/drafts/research-station-fault; incomplete nodes/references deliberately fail validation.",
+      "at": "2026-09-28T18:40:18.167Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0115-pack.json",
+      "sha256": "d3c8c9961dee04a116ff64e6a522bb91ce705be564bfc065b9c13606d43bde5a",
+      "note": "Staged local preview at public/laboratory/research-station; no merge or deployment.",
+      "at": "2026-09-28T18:42:45.981Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0116-pack.json",
+      "sha256": "3073ce5574154ce912502c7818c11ec49909812b543e7ba1e7db3309115b9c8d",
+      "note": "Staged local preview at public/laboratory/research-station; no merge or deployment.",
+      "at": "2026-09-28T18:43:27.695Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "research",
+      "file": "artifacts/0117-research-ledger.json",
+      "sha256": "b82f57d3d064ee211fe4b03d3f991f60bcf977047af65ac8190d3e039836065f",
+      "note": "Updated power and competing-fault decisions, scope limits and validation plans",
+      "at": "2026-09-28T18:57:28.054Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0118-power-fault-contracts.log",
+      "sha256": "ac4503f5607843690a3b3c75e3a7b334d64943acd5fb9432cc100555869777ef",
+      "note": "Nine-episode laboratory pack and generated contracts validated",
+      "at": "2026-09-28T18:57:28.454Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0119-power-fault-types-final.log",
+      "sha256": "9db56300b0bf5d5dd8f19cd445585168aec7f425300402b5c00501892fa29208",
+      "note": "Final TypeScript check passed",
+      "at": "2026-09-28T18:57:28.934Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0120-power-fault-lint-final.log",
+      "sha256": "e14530a78941a6974f6528a343db0ee467ac02bc9096b133fa7d28696afface7",
+      "note": "Final lint passed, one pre-existing signal-scope warning",
+      "at": "2026-09-28T18:57:29.393Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0121-power-fault-build.log",
+      "sha256": "4d0e2a1a273fc50909d7bbb40e41068daaa22d26db240b44b64d7d7153466ae6",
+      "note": "Opt-in production build and chunk budgets passed",
+      "at": "2026-09-28T18:57:29.870Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0122-power-fault-legacy.log",
+      "sha256": "0c6139390cd9c10495b45c693243a2baa76634c684f1ced8b48faa2ac14a8f98",
+      "note": "Strict legacy content validation passed",
+      "at": "2026-09-28T18:57:30.328Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0123-power-fault-units.log",
+      "sha256": "27457360115258a2e735983708f21b69441550578d27987ba17d7cc94a17651b",
+      "note": "Full unit suite 966 passed, 11 skipped",
+      "at": "2026-09-28T18:57:30.817Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0124-power-fault-browser-full.log",
+      "sha256": "91799b3ecc1b2aa26de04441e25b171c01582ec1c40f9c235842b510f27b1098",
+      "note": "Full Chromium and Firefox production browser suite 30 passed",
+      "at": "2026-09-28T18:57:31.224Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0125-power-fault-webkit-full.log",
+      "sha256": "5eba172abea123e1fa4b6a6345bc22dbfe3ac74410ffeb732c1183103f8f83e9",
+      "note": "Official Linux WebKit 14 passed, one persistent-cache capability skip",
+      "at": "2026-09-28T18:57:31.670Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0126-station-power-budget.png",
+      "sha256": "4ad61ef8348e4986a31a146f889e4165c419eb2bca202e84d4469498f984ffff",
+      "note": "WebKit author power-budget control and reading view",
+      "at": "2026-09-28T18:57:32.121Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0127-station-fault-repair.png",
+      "sha256": "7e18cec6422ac23da486236aa36a32744b89474355b5cc3ad7aa1ce04fa1929d",
+      "note": "WebKit author fault repair view",
+      "at": "2026-09-28T18:57:32.502Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0128-station-fault-phone-expanded.png",
+      "sha256": "f9e4d59019f7cd4846ce2aba1b911015193677b4fc8695b8f95f0febd430b9c1",
+      "note": "WebKit 360 px touch at 200 percent text; long but operable",
+      "at": "2026-09-28T18:57:32.970Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "critique",
+      "file": "artifacts/0129-POWER-FAULT-VERIFICATION.md",
+      "sha256": "22df9a54fdc6e7f6b139a82ad036064b65452b63bd80531276221fd1fa29fdbb",
+      "note": "Author derivations, playthrough critique, evidence limits and remaining work",
+      "at": "2026-09-28T18:57:33.402Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0130-power-fault-focused-final.log",
+      "sha256": "e3f80d804828abf4830ee8a38661295c55c1625489c0980cfa66fce131676ae5",
+      "note": "Five focused power, fault, clean-route and pinned version-6 replay checks passed",
+      "at": "2026-09-28T18:57:46.906Z",
+      "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "delivery",
+      "file": "artifacts/0131-power-fault-delivery.json",
+      "sha256": "05757a3ed0871d6f381c2f9898e80b608a038dd4642faac0f3025a1786c25c4d",
+      "note": "Draft PR #76 receipt for power and fault investigations; evidence-only follow-up commit will retain this delivery record.",
+      "at": "2026-09-28T19:00:30.245Z",
+      "revision": "3f84e4a2fa221616426f01b7968d3f537283b637",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [
@@ -1157,6 +1347,16 @@
       "kind": "scaffold-created",
       "at": "2026-09-28T08:10:21.826Z",
       "output": "authoring/drafts/research-station-meter"
+    },
+    {
+      "kind": "scaffold-created",
+      "at": "2026-09-28T18:40:11.951Z",
+      "output": "authoring/drafts/research-station-power-fault"
+    },
+    {
+      "kind": "scaffold-created",
+      "at": "2026-09-28T18:40:18.171Z",
+      "output": "authoring/drafts/research-station-fault"
     }
   ]
 }

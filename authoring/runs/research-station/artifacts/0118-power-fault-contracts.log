@@ -1,0 +1,5 @@
+
+> learnlab@0.1.0 validate:laboratory
+> node scripts/build-laboratory-contracts.mjs --check && node scripts/build-laboratory.mjs
+
+Validated 1 laboratory pack(s), generated acquisition index.

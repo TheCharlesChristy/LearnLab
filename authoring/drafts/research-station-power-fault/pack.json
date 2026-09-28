@@ -318,7 +318,7 @@
         {
           "id": "fresh-fault",
           "title": "A new instrument, a new fault",
-          "prompt": "A separate thermometer has one conducting loop: supply → resistor → return. Its current was 0.4 A. A wire breaks after the resistor. What is the new steady current before the resistor?",
+          "prompt": "A separate thermometer has one conducting loop: supply \u2192 resistor \u2192 return. Its current was 0.4 A. A wire breaks after the resistor. What is the new steady current before the resistor?",
           "role": "transfer",
           "activity": {
             "type": "choice",
@@ -2117,7 +2117,7 @@
                 "id": "different-current",
                 "text": "Both are 12 W, but the 6 V setting draws 2 A while the 12 V setting draws 1 A.",
                 "correct": true,
-                "feedback": "Yes. 6×2 and 12×1 both make 12 W."
+                "feedback": "Yes. 6\u00d72 and 12\u00d71 both make 12 W."
               },
               {
                 "id": "same-current",
@@ -2237,7 +2237,7 @@
             "At 12 V, the 12 ohm navigation rail takes 1 A and 12 W.",
             "Give the sensor 24 ohms: at 12 V it takes 0.5 A and 6 W. Total 18 W for 10 s is 180 J."
           ],
-          "workedExample": "At 12 V, navigation P = V²/R = 144/12 = 12 W; sensor with 24 ohms uses 144/24 = 6 W. Total 18 W over 10 s is 180 J.",
+          "workedExample": "At 12 V, navigation P = V\u00b2/R = 144/12 = 12 W; sensor with 24 ohms uses 144/24 = 6 W. Total 18 W over 10 s is 180 J.",
           "mechanism": "Both complete parallel loads receive the same ideal 12 V. The source supplies the sum of their power, and energy depends on how long that rate continues. The model does not simulate battery depletion.",
           "transitions": {
             "passed": "fresh-energy",
@@ -2257,7 +2257,7 @@
                 "id": "seventy-two",
                 "text": "72 J",
                 "correct": true,
-                "feedback": "Correct. P = 12 V × 1.5 A = 18 W, then E = 18 W × 4 s = 72 J."
+                "feedback": "Correct. P = 12 V \u00d7 1.5 A = 18 W, then E = 18 W \u00d7 4 s = 72 J."
               },
               {
                 "id": "eighteen",
@@ -2269,7 +2269,7 @@
                 "id": "six",
                 "text": "6 J",
                 "correct": false,
-                "feedback": "1.5 A × 4 s gives 6 C of charge, not energy. Each coulomb carries 12 J here."
+                "feedback": "1.5 A \u00d7 4 s gives 6 C of charge, not energy. Each coulomb carries 12 J here."
               },
               {
                 "id": "forty-eight",
@@ -2328,7 +2328,7 @@
             "Calculate current before and after from I = V/R."
           ],
           "workedExample": "At 8 V, changing an ideal resistor from 4 to 8 ohms reduces current from 2 to 1 A and power from 16 to 8 W.",
-          "mechanism": "Under a fixed ideal supply and ohmic conditions, P = V²/R; doubling resistance halves the rate. Equal observation times preserve that factor for energy.",
+          "mechanism": "Under a fixed ideal supply and ohmic conditions, P = V\u00b2/R; doubling resistance halves the rate. Equal observation times preserve that factor for energy.",
           "transitions": {
             "passed": "power-reflection",
             "assisted": "power-reflection"
