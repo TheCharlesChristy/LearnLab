@@ -2,7 +2,7 @@
 
 Status: intake, planning, capability discovery, scaffolding, shared pack validation,
 local preview staging, isolated Studio inspection and evidence preservation are implemented.
-One circuits episode has been authored through these commands. Choice-order seeds are
+Four of ten planned circuits episodes have been authored through these commands. Choice-order seeds are
 presentation variants; parameterised fresh tasks and complete pilots remain pending.
 The Git delivery command now creates a reviewable draft PR from a committed slice. This first
 slice does **not** satisfy the complete harness goal.

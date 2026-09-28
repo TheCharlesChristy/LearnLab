@@ -337,6 +337,27 @@
             "maxLength": 2400
           }
         },
+        "sourceValues": {
+          "type": "array",
+          "items": { "type": "number", "minimum": 0, "maximum": 24 },
+          "minItems": 2,
+          "maxItems": 8
+        },
+        "interval": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "initialSeconds": { "type": "number", "exclusiveMinimum": 0, "maximum": 3600 },
+            "solutionSeconds": { "type": "number", "exclusiveMinimum": 0, "maximum": 3600 },
+            "values": {
+              "type": "array",
+              "items": { "type": "number", "exclusiveMinimum": 0, "maximum": 3600 },
+              "minItems": 2,
+              "maxItems": 8
+            }
+          },
+          "required": ["initialSeconds", "solutionSeconds", "values"]
+        },
         "controls": {
           "type": "array",
           "items": {
@@ -359,7 +380,7 @@
             },
             "required": ["id", "values"]
           },
-          "minItems": 1,
+          "minItems": 0,
           "maxItems": 8
         },
         "goals": {
@@ -374,7 +395,7 @@
                 "maxLength": 64
               },
               "quantity": {
-                "enum": ["current", "voltage", "power"]
+                "enum": ["current", "voltage", "power", "charge", "energy"]
               },
               "min": {
                 "type": "number"

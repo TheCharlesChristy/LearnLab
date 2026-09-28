@@ -1,7 +1,7 @@
 import validate from './generated/validate-pack.mjs';
 import contracts from './activity-contracts.json' with { type: 'json' };
 import { parseCircuitConfiguration, setCircuitElement, solveCircuit } from './circuit-model.ts';
-import type { CircuitConfiguration, CircuitElement, CircuitSolution } from './circuit-model.ts';
+import type { CircuitConfiguration, CircuitElement } from './circuit-model.ts';
 
 export interface ChoiceActivity {
   type: 'choice';
@@ -12,8 +12,15 @@ export interface CircuitActivity {
   initial: CircuitConfiguration;
   solution: CircuitConfiguration;
   labels: Record<string, string>;
+  sourceValues?: number[];
+  interval?: { initialSeconds: number; solutionSeconds: number; values: number[] };
   controls: { id: string; values: (number | boolean)[] }[];
-  goals: { reading: string; quantity: 'current' | 'voltage' | 'power'; min: number; max: number }[];
+  goals: {
+    reading: string;
+    quantity: 'current' | 'voltage' | 'power' | 'charge' | 'energy';
+    min: number;
+    max: number;
+  }[];
 }
 export type Activity = ChoiceActivity | CircuitActivity;
 export interface LaboratoryNode {
@@ -67,15 +74,29 @@ export function leaves(
   if (node.type === 'series' || node.type === 'parallel') return node.elements.flatMap(leaves);
   return [node];
 }
-export function circuitGoalMet(activity: CircuitActivity, solution: CircuitSolution): boolean {
+export function circuitGoalMet(
+  activity: CircuitActivity,
+  config: CircuitConfiguration,
+  elapsedSeconds = activity.interval?.initialSeconds ?? 0,
+): boolean {
+  const solution = solveCircuit(config);
   if (solution.status !== 'solved') return false;
   return activity.goals.every(({ reading, quantity, min, max }) => {
+    const meter = reading === 'source' ? null : solution.readings.find((v) => v.id === reading);
+    const current = reading === 'source' ? solution.current : meter?.current;
+    const power = reading === 'source' ? solution.power : meter?.power;
     const value =
-      reading === 'source'
-        ? quantity === 'voltage'
-          ? activity.initial.voltage
-          : solution[quantity]
-        : solution.readings.find((v) => v.id === reading)?.[quantity];
+      quantity === 'voltage'
+        ? reading === 'source'
+          ? config.voltage
+          : meter?.voltage
+        : quantity === 'charge' && typeof current === 'number'
+          ? current * elapsedSeconds
+          : quantity === 'energy' && typeof power === 'number'
+            ? power * elapsedSeconds
+            : quantity === 'current'
+              ? current
+              : power;
     return typeof value === 'number' && Number.isFinite(value) && value >= min && value <= max;
   });
 }
@@ -116,12 +137,14 @@ function validateActivity(activity: Activity, at: string) {
   const initial = parseCircuitConfiguration(activity.initial);
   const witness = parseCircuitConfiguration(activity.solution);
   const initialLeaves = leaves(initial.circuit);
-  if (initialLeaves.some((v) => v.id === 'source'))
-    throw new Error(`${at}: source is reserved for supply readings`);
+  if (initialLeaves.some((v) => ['source', 'elapsed-time'].includes(v.id)))
+    throw new Error(`${at}: source and elapsed-time are reserved controls/readings`);
   unique(
     activity.controls.map((v) => v.id),
     at,
   );
+  if (!activity.controls.length && !activity.sourceValues && !activity.interval)
+    throw new Error(`${at}: circuit needs an adjustable control`);
   let reachable = initial;
   for (const control of activity.controls) {
     unique(control.values.map(String), `${at}/${control.id}`);
@@ -138,6 +161,23 @@ function validateActivity(activity: Activity, at: string) {
       throw new Error(`${at}: solution control ${control.id} is unreachable`);
     reachable = setCircuitElement(reachable, control.id, endValue);
   }
+  if (activity.sourceValues) {
+    unique(activity.sourceValues.map(String), `${at}/sourceValues`);
+    if (
+      !activity.sourceValues.includes(initial.voltage) ||
+      !activity.sourceValues.includes(witness.voltage)
+    )
+      throw new Error(`${at}: source voltage control is unreachable`);
+    reachable = parseCircuitConfiguration({ ...reachable, voltage: witness.voltage });
+  }
+  if (activity.interval) {
+    unique(activity.interval.values.map(String), `${at}/interval`);
+    if (
+      !activity.interval.values.includes(activity.interval.initialSeconds) ||
+      !activity.interval.values.includes(activity.interval.solutionSeconds)
+    )
+      throw new Error(`${at}: observation interval is unreachable`);
+  }
   if (JSON.stringify(reachable) !== JSON.stringify(witness))
     throw new Error(`${at}: solution changes an unavailable control, source or topology`);
   if (
@@ -151,8 +191,13 @@ function validateActivity(activity: Activity, at: string) {
       (goal.reading !== 'source' && !initialLeaves.some((v) => v.id === goal.reading))
     )
       throw new Error(`${at}: invalid reading range ${goal.reading}`);
+    if (['charge', 'energy'].includes(goal.quantity) && !activity.interval)
+      throw new Error(`${at}: integrated reading requires an observation interval`);
   }
-  if (solveCircuit(initial).status !== 'solved' || !circuitGoalMet(activity, solveCircuit(witness)))
+  if (
+    solveCircuit(initial).status !== 'solved' ||
+    !circuitGoalMet(activity, witness, activity.interval?.solutionSeconds)
+  )
     throw new Error(
       `${at}: supported initial state and a satisfying reachable solution are required`,
     );
@@ -189,6 +234,19 @@ export function parseLaboratoryPack(raw: unknown): LaboratoryPack {
     pack.episodes.some((episode) => episode.debrief || episode.nodes.some((node) => node.bridge))
   )
     throw new Error('Authored bridge/debrief requires experience-graph@0.1.1');
+  if (
+    pack.capabilities.circuit === '0.1.0' &&
+    pack.episodes.some((episode) =>
+      episode.nodes.some(
+        (node) =>
+          node.activity.type === 'circuit' &&
+          (node.activity.sourceValues ||
+            node.activity.interval ||
+            node.activity.goals.some((goal) => ['charge', 'energy'].includes(goal.quantity))),
+      ),
+    )
+  )
+    throw new Error('Source/interval/charge/energy controls require circuit@0.1.1');
   dag(pack.skills, 'skills');
   dag(pack.episodes, 'episodes');
   unique(

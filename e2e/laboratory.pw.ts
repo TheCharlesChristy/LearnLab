@@ -69,6 +69,152 @@ test('first station episode: mistakes, keyboard repair, help, evidence and resum
   expect(errors).toEqual([]);
 });
 
+test('new investigations: charge windows, source energy and two resistance routes', async ({
+  page,
+}, info) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/#/laboratory/research-station/charge-counter');
+  await expect(page.getByRole('heading', { name: 'The recorder needs a reading' })).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
+    '2 C passes in 2 s',
+  );
+  await page
+    .getByRole('group', { name: 'Observation window' })
+    .getByRole('button', { name: '4 s' })
+    .press('Enter');
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
+    '4 C passes in 4 s',
+  );
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: '6 C', exact: true }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: '6 C', exact: true }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: /0.8 A, because charge is conserved/ }).click();
+  await page.getByRole('button', { name: 'Finish investigation' }).click();
+  await expect(page.getByText('2 of 2 fresh checks', { exact: false })).toBeVisible();
+
+  await page.goto('/#/laboratory/research-station/energy-lift');
+  await expect(page.getByRole('heading', { name: 'Set the energy lift' })).toBeVisible();
+  await page
+    .getByRole('group', { name: 'Ideal supply' })
+    .getByRole('button', { name: '6 V' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
+    '24 J transferred',
+  );
+  await page
+    .getByRole('group', { name: 'Observation window' })
+    .getByRole('button', { name: '2 s' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
+    '12 J transferred',
+  );
+  await page
+    .getByRole('group', { name: 'Observation window' })
+    .getByRole('button', { name: '4 s' })
+    .click();
+  await expect(
+    page.getByRole('group', { name: 'Observation window' }).getByRole('button', { name: '4 s' }),
+  ).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
+    '24 J transferred',
+  );
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      ),
+  );
+  await page.screenshot({ path: info.outputPath('station-energy-console.png'), fullPage: true });
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await expect(page.getByRole('heading', { name: 'Read a different lift' })).toBeVisible();
+  await page.getByRole('button', { name: '6 V', exact: true }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: '5 V', exact: true }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page
+    .getByRole('button', { name: /Both have 1 A, but each coulomb receives more energy/ })
+    .click();
+  await page.getByRole('button', { name: 'Finish investigation' }).click();
+  await expect(page.getByText('2 of 2 fresh checks', { exact: false })).toBeVisible();
+
+  await page.goto('/#/laboratory/research-station/resistance-budget');
+  await expect(page.getByRole('heading', { name: 'Keep the heater in range' })).toBeVisible();
+  await page
+    .getByRole('group', { name: 'Ideal sensor heater' })
+    .getByRole('button', { name: '6 Ω' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
+    'Target reached',
+  );
+  await page
+    .getByRole('group', { name: 'Ideal sensor heater' })
+    .getByRole('button', { name: '12 Ω' })
+    .click();
+  await page
+    .getByRole('group', { name: 'Ideal supply' })
+    .getByRole('button', { name: '12 V' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText('1 A');
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await expect(page.getByRole('heading', { name: 'Two ways to one ampere' })).toBeVisible();
+  await page.getByRole('button', { name: /Voltage and resistance rise together/ }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: '1.5 A', exact: true }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page
+    .getByRole('button', { name: /It is true when the potential difference is held fixed/ })
+    .click();
+  await page.getByRole('button', { name: 'Finish investigation' }).click();
+  await expect(page.getByText('2 of 2 fresh checks', { exact: false })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('new circuit controls fit a narrow touch layout with expanded text', async ({
+  browser,
+  baseURL,
+  browserName,
+}, info) => {
+  const context = await browser.newContext({
+    baseURL,
+    viewport: { width: 360, height: 640 },
+    hasTouch: true,
+    isMobile: browserName !== 'firefox',
+    reducedMotion: 'reduce',
+  });
+  const page = await context.newPage();
+  try {
+    await page.goto('/#/laboratory/research-station/energy-lift');
+    await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });
+    await expect(page.getByRole('heading', { name: 'Set the energy lift' })).toBeVisible();
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    const targets = await page
+      .locator('.lab-control button')
+      .evaluateAll((buttons) => buttons.map((button) => button.getBoundingClientRect().height));
+    expect(targets.every((height) => height >= 44)).toBe(true);
+    await page
+      .getByRole('group', { name: 'Ideal supply' })
+      .getByRole('button', { name: '6 V' })
+      .tap();
+    await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
+      '24 J transferred',
+    );
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    await page.screenshot({
+      path: info.outputPath('station-energy-phone-expanded.png'),
+      fullPage: true,
+    });
+  } finally {
+    await context.close();
+  }
+});
+
 test('narrow touch workspace: both themes, help escape and retained exposure on restart', async ({
   browser,
   baseURL,
@@ -235,6 +381,16 @@ test('downloaded episode survives browser close and offline reopen with local pr
     await expect(
       page.getByRole('heading', { name: 'What if the return link opens?' }),
     ).toBeVisible();
+    await page.goto(`${baseURL}/#/laboratory/research-station/charge-counter`);
+    await expect(page.getByRole('heading', { name: 'The recorder needs a reading' })).toBeVisible();
+    await page
+      .getByRole('group', { name: 'Observation window' })
+      .getByRole('button', { name: '4 s' })
+      .click();
+    await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
+      '4 C passes in 4 s',
+    );
+    await expect(page.getByRole('status').filter({ hasText: /^Ready offline ·/ })).toBeVisible();
   } finally {
     await context.close();
     fs.rmSync(profile, { recursive: true, force: true });

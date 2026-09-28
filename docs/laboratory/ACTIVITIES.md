@@ -1,9 +1,9 @@
 # Laboratory activity contracts
 
-Status: first-episode prototype, opt-in through `VITE_EXPERIENCE_RUNTIME_V2=true`.
+Status: four-episode partial circuits pilot, opt-in through `VITE_EXPERIENCE_RUNTIME_V2=true`.
 This additive runtime lives under `src/v2/`; legacy courses and their saved work
-retain the existing schemas and storage. The two registered activities are `choice`
-and `circuit` at 0.1.0, with event state version 1.
+retain the existing schemas and storage. The registered activities are `choice`
+at 0.1.0 and `circuit` at 0.1.1, with event state version 1.
 
 `src/v2/activity-contracts.json` is the metadata registry. Its `schemaDef` points into
 `schemas/laboratory-pack.schema.json`; `src/v2/pack.ts` adds semantic checks shared by
@@ -55,21 +55,28 @@ available. All information is text and feedback is a polite status.
 Input: `type: "circuit"`, `initial` and reachable `solution` configurations, labels
 for every leaf, controls with finite allowed values, and goals. Configurations have
 `voltage` and a series/parallel `circuit` tree. Controls change a named switch's
-boolean state or a resistor's numeric ohms. Content cannot change topology or supply
-voltage through these controls. See [bounded model](CIRCUIT-MODEL.md) for supported
+boolean state or a resistor's numeric ohms. Content cannot change topology.
+At `circuit@0.1.1`, optional `sourceValues` and `interval` add finite supply-voltage
+and observation-window controls. Older 0.1.0 activities remain loadable, while
+advanced fields require the declared 0.1.1 capability. See the [bounded model](CIRCUIT-MODEL.md) for supported
 DC configurations, ranges, idealisation and indeterminate/unsupported readings.
 
 Each goal names `reading` (leaf ID or reserved `source`), `quantity` (`current`,
-`voltage`, `power`) and inclusive finite `min`/`max`. Units are A, V and W; goals use
+`voltage`, `power`, `charge`, `energy`) and inclusive finite `min`/`max`. Units are
+A, V, W, C and J. Charge/energy goals require an authored observation interval:
+the steady ideal readings are integrated as `Q = I × t` and `E = P × t`. This is
+not a switch-on transient, battery-depletion or heating simulation. Goals use
 actual computed values, not displayed rounding. Choose tolerances from an independent
 derivation. The validator checks the witness is reachable using allowed controls,
-shares topology and supply, and meets every goal. A witness is not a unique solution:
+shares topology and changes supply only through authored source values. A witness
+is not a unique solution:
 other allowed configurations meeting the ranges also pass. Initial supported state
 is required. Unsupported exploratory configurations receive explicit feedback.
 
 Action: a native control records `{type:"control",node,id,value,at}`. Output comes
 from `solveCircuit`: status, source current/power/equivalent resistance and per-leaf
-current/voltage/power. Open equivalent resistance and indeterminate drops use null,
+current/voltage/power, plus charge/energy over an interval when present. Open
+equivalent resistance and indeterminate drops use null,
 never an invented zero. A circuit pass requires at least one control action and all
 goals satisfied. Controls, textual topology and a readings table give keyboard,
 touch and screen-reader alternatives to the decorative circuit indicator. Targets

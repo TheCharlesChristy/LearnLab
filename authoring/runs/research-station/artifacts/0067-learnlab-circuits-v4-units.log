@@ -1,0 +1,11 @@
+(node:3288436) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ RUN  v4.1.8 /home/charles/.codex/worktrees/laboratory-circuits-course/LearnLab
+
+
+ Test Files  92 passed | 11 skipped (103)
+      Tests  955 passed | 11 skipped (966)
+   Start at  08:32:44
+   Duration  77.89s (transform 2.71s, setup 11.57s, import 11.91s, tests 48.87s, environment 67.44s)
+

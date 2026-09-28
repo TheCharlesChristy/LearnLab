@@ -42,11 +42,13 @@ function Topology({
 export default function CircuitActivity({
   activity,
   config,
+  elapsedSeconds,
   onControl,
   disabled,
 }: {
   activity: CircuitActivityDefinition;
   config: CircuitConfiguration;
+  elapsedSeconds?: number;
   onControl: (id: string, value: number | boolean) => void;
   disabled: boolean;
 }) {
@@ -64,6 +66,44 @@ export default function CircuitActivity({
         </div>
         <CircuitDiagram element={config.circuit} labels={activity.labels} />
         <div className="lab-controls grid gap-3 sm:grid-cols-2">
+          {activity.sourceValues && (
+            <fieldset className="lab-control">
+              <legend className="px-1 font-semibold">Ideal supply</legend>
+              <div className="flex flex-wrap gap-2">
+                {activity.sourceValues.map((value) => (
+                  <Button
+                    key={value}
+                    variant={config.voltage === value ? 'primary' : 'secondary'}
+                    aria-pressed={config.voltage === value}
+                    disabled={disabled}
+                    onClick={() => onControl('source', value)}
+                    className="min-h-11"
+                  >
+                    {number(value)} V
+                  </Button>
+                ))}
+              </div>
+            </fieldset>
+          )}
+          {activity.interval && (
+            <fieldset className="lab-control">
+              <legend className="px-1 font-semibold">Observation window</legend>
+              <div className="flex flex-wrap gap-2">
+                {activity.interval.values.map((value) => (
+                  <Button
+                    key={value}
+                    variant={elapsedSeconds === value ? 'primary' : 'secondary'}
+                    aria-pressed={elapsedSeconds === value}
+                    disabled={disabled}
+                    onClick={() => onControl('elapsed-time', value)}
+                    className="min-h-11"
+                  >
+                    {number(value)} s
+                  </Button>
+                ))}
+              </div>
+            </fieldset>
+          )}
           {activity.controls.map((control) => (
             <fieldset key={control.id} className="lab-control">
               <legend className="px-1 font-semibold">{activity.labels[control.id]}</legend>
@@ -72,9 +112,13 @@ export default function CircuitActivity({
                   <Button
                     key={String(value)}
                     variant={
-                      controlValue(activity, config, control.id) === value ? 'primary' : 'secondary'
+                      controlValue(activity, config, control.id, elapsedSeconds) === value
+                        ? 'primary'
+                        : 'secondary'
                     }
-                    aria-pressed={controlValue(activity, config, control.id) === value}
+                    aria-pressed={
+                      controlValue(activity, config, control.id, elapsedSeconds) === value
+                    }
                     disabled={disabled}
                     onClick={() => onControl(control.id, value)}
                     className="min-h-11"
@@ -92,7 +136,7 @@ export default function CircuitActivity({
         </div>
         <p role="status" className="mt-4 font-semibold">
           {solution.status === 'solved'
-            ? `Source current: ${number(solution.current)} A · ${circuitGoalMet(activity, solution) ? 'Target reached' : 'Investigate the connections'}`
+            ? `Source current: ${number(solution.current)} A${elapsedSeconds === undefined ? '' : ` · ${number(solution.current * elapsedSeconds)} C passes in ${number(elapsedSeconds)} s · ${number(solution.power * elapsedSeconds)} J transferred`} · ${circuitGoalMet(activity, config, elapsedSeconds) ? 'Target reached' : 'Investigate the connections'}`
             : solution.reason}
         </p>
       </div>
@@ -111,7 +155,13 @@ export default function CircuitActivity({
               <caption className="sr-only">Ideal steady circuit readings</caption>
               <thead>
                 <tr>
-                  {['Element', 'Current / A', 'Potential difference / V', 'Power / W'].map((v) => (
+                  {[
+                    'Element',
+                    'Current / A',
+                    'Potential difference / V',
+                    'Power / W',
+                    ...(elapsedSeconds === undefined ? [] : ['Charge / C', 'Energy / J']),
+                  ].map((v) => (
                     <th key={v} scope="col" className="p-2">
                       {v}
                     </th>
@@ -129,6 +179,12 @@ export default function CircuitActivity({
                       {reading.voltage === null ? 'Indeterminate' : number(reading.voltage)}
                     </td>
                     <td className="p-2">{number(reading.power)}</td>
+                    {elapsedSeconds !== undefined && (
+                      <>
+                        <td className="p-2">{number(reading.current * elapsedSeconds)}</td>
+                        <td className="p-2">{number(reading.power * elapsedSeconds)}</td>
+                      </>
+                    )}
                   </tr>
                 ))}
               </tbody>

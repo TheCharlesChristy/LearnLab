@@ -1276,6 +1276,11 @@ atomically with its replacement. Incompatible work SHALL remain exportable. Down
 SHALL verify complete required runtime/pack bytes plus the cached catalogue, runtime manifest and version descriptor. A resolved cache write without a readable byte-for-byte entry SHALL be treated as failed, never Ready offline. Compatible older acquired pack
 versions SHALL retain their own saved-work boundary. Laboratory speech SHALL use only
 browser-reported local voices or remain unavailable with usable text.
+Circuit activity 0.1.1 MAY offer finite authored source-voltage and observation-window
+controls. Charge and energy readings SHALL integrate steady current/power over the
+selected duration with explicit C/J units; they SHALL NOT be described as transient,
+battery-depletion or realistic lamp behaviour. Old circuit 0.1.0 packs SHALL remain
+loadable, while advanced fields require a declared 0.1.1 capability.
 
 ADR-002 records the smaller initial graph contract and remaining extensions. The first
 circuits episode SHALL NOT be described as a complete pilot, whole-skill certification,

@@ -372,6 +372,7 @@ export function EpisodeWorkspace({
               <CircuitActivity
                 activity={node.activity}
                 config={memory.circuit}
+                elapsedSeconds={memory.elapsedSeconds}
                 disabled={busy}
                 onControl={(id, value) => {
                   void send({ type: 'control', node: node.id, id, value });
