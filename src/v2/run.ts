@@ -2,10 +2,12 @@ import { circuitGoalMet, leaves } from './pack.ts';
 import type { CircuitActivity, LaboratoryEpisode, LaboratoryNode, LaboratoryPack } from './pack.ts';
 import { parseCircuitConfiguration, setCircuitElement } from './circuit-model.ts';
 import type { CircuitConfiguration } from './circuit-model.ts';
+import { informativeProbeIds } from './meter-probe.ts';
 
 export type RunEvent = { at: number; node: string } & (
   | { type: 'control'; id: string; value: number | boolean }
   | { type: 'answer'; option: string }
+  | { type: 'probe'; id: string }
   | { type: 'hint' }
   | { type: 'worked' }
   | { type: 'advance'; outcome: 'passed' | 'assisted' }
@@ -28,6 +30,7 @@ export interface NodeMemory {
   circuit?: CircuitConfiguration;
   elapsedSeconds?: number;
   selected?: string;
+  probes?: string[];
   attempts: number;
   actions: number;
   hints: number;
@@ -82,6 +85,10 @@ const initialMemory = (node: LaboratoryNode, replayed = false): NodeMemory => ({
 export function nodePassed(node: LaboratoryNode, memory: NodeMemory): boolean {
   if (node.activity.type === 'choice')
     return !!node.activity.options.find((v) => v.id === memory.selected)?.correct;
+  if (node.activity.type === 'meter-probe') {
+    const informative = informativeProbeIds(node.activity);
+    return (memory.probes ?? []).some((id) => informative.includes(id));
+  }
   return (
     memory.actions > 0 &&
     !!memory.circuit &&
@@ -143,6 +150,7 @@ export function projectRun(
     const keys: Record<RunEvent['type'], string[]> = {
       control: ['id', 'value'],
       answer: ['option'],
+      probe: ['id'],
       hint: [],
       worked: [],
       advance: ['outcome'],
@@ -222,6 +230,19 @@ export function projectRun(
       result.exposed.add(node.id);
       continue;
     }
+    if (event.type === 'probe') {
+      if (
+        node.activity.type !== 'meter-probe' ||
+        !node.activity.probes.some((probe) => probe.id === event.id) ||
+        memory.probes?.includes(event.id)
+      )
+        throw new Error('Saved meter position is unavailable');
+      memory.probes = [...(memory.probes ?? []), event.id];
+      memory.attempts++;
+      memory.actions++;
+      result.exposed.add(node.id);
+      continue;
+    }
     if (event.type === 'advance') {
       if (
         !['passed', 'assisted'].includes(event.outcome) ||
@@ -239,6 +260,7 @@ export function projectRun(
           memory.hints === 0 &&
           !memory.worked &&
           !replayed &&
+          node.activity.type !== 'meter-probe' &&
           (node.activity.type !== 'choice' || memory.attempts === 1),
         attempts: memory.attempts,
         hints: memory.hints,

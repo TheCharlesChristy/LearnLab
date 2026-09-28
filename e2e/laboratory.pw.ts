@@ -187,11 +187,17 @@ test('series and parallel investigations: shared current, branch survival and fr
   await page.getByRole('group', { name: 'Rear coil' }).getByRole('button', { name: '9 Ω' }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText('1 A');
   await page.getByRole('group', { name: 'Rear coil' }).getByRole('button', { name: '3 Ω' }).click();
-  await page.getByRole('group', { name: 'Front coil' }).getByRole('button', { name: '9 Ω' }).click();
+  await page
+    .getByRole('group', { name: 'Front coil' })
+    .getByRole('button', { name: '9 Ω' })
+    .click();
   await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
     'Target reached',
   );
-  await page.getByRole('group', { name: 'Front coil' }).getByRole('button', { name: '3 Ω' }).click();
+  await page
+    .getByRole('group', { name: 'Front coil' })
+    .getByRole('button', { name: '3 Ω' })
+    .click();
   await page.getByRole('group', { name: 'Rear coil' }).getByRole('button', { name: '9 Ω' }).click();
   await page.getByText('See the path and meter readings', { exact: true }).click();
   await expect(page.getByRole('table')).toContainText('9');
@@ -221,7 +227,10 @@ test('series and parallel investigations: shared current, branch survival and fr
     .getByRole('button', { name: 'Closed' })
     .click();
   await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText('2 A');
-  await page.getByRole('group', { name: 'Backup link' }).getByRole('button', { name: 'Open' }).click();
+  await page
+    .getByRole('group', { name: 'Backup link' })
+    .getByRole('button', { name: 'Open' })
+    .click();
   await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText('1 A');
   await page
     .getByRole('group', { name: 'Backup link' })
@@ -264,6 +273,105 @@ test('series and parallel investigations: shared current, branch survival and fr
   await page.getByRole('button', { name: 'Finish investigation' }).click();
   await expect(page.getByText('2 of 2 fresh checks', { exact: false })).toBeVisible();
   expect(errors).toEqual([]);
+});
+
+test('meter detective: unhelpful reading, diagnostic evidence, fresh decision and resume', async ({
+  page,
+}, info) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/#/laboratory/research-station/meter-detective');
+  await expect(page.getByRole('heading', { name: 'The silent backup' })).toBeVisible();
+  const meterGroup = page.getByRole('group', { name: 'Choose a meter position' });
+  const main = meterGroup.getByRole('button', { name: 'Ammeter · Main rail' });
+  const box = await main.boundingBox();
+  expect(box!.y + box!.height).toBeLessThan(page.viewportSize()!.height);
+  await main.press('Enter');
+  await expect(
+    page.getByText('Both explanations predict this reading. Try another position.'),
+  ).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Continue investigation' })).toBeDisabled();
+  const backup = meterGroup.getByRole('button', { name: 'Ammeter · Backup heater' });
+  await backup.click();
+  await expect(
+    page.getByText('These predictions differ. The reading can distinguish the explanations.'),
+  ).toBeVisible();
+  await expect(backup).toHaveAttribute('aria-pressed', 'true');
+  await expect(backup).toHaveCSS('opacity', '1');
+  await expect(page.getByText(/Backup branch has an open link: 0 A/)).toBeVisible();
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      ),
+  );
+  await page.screenshot({ path: info.outputPath('station-meter-diagnostic.png'), fullPage: true });
+  await page.reload();
+  await expect(meterGroup.getByRole('button', { name: 'Ammeter · Backup heater' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByText('Earlier field readings', { exact: true }).click();
+  await expect(page.getByText('The silent backup: current at Backup heater = 0 A')).toBeVisible();
+  await page.getByRole('button', { name: /The backup link is open/ }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: /ammeter in the unchanged navigation rail/ }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'That rail stays' })).toBeVisible();
+  await page.getByRole('button', { name: /ammeter in series with the sensor heater/ }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page
+    .getByRole('group', { name: 'Choose a meter position' })
+    .getByRole('button', { name: 'Ammeter · Sensor heater' })
+    .click();
+  await expect(page.getByText(/Sensor heater has drifted to 24 ohms: 0.5 A/)).toBeVisible();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: '6 ohms; total resistance is 9 ohms.' }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: /Predict each candidate reading first/ }).click();
+  await page.getByRole('button', { name: 'Finish investigation' }).click();
+  await expect(page.getByText('1 of 2 fresh checks', { exact: false })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('meter detective: narrow touch and expanded text keep probes usable', async ({
+  browser,
+  baseURL,
+  browserName,
+}, info) => {
+  const context = await browser.newContext({
+    baseURL,
+    viewport: { width: 360, height: 640 },
+    hasTouch: true,
+    isMobile: browserName !== 'firefox',
+    reducedMotion: 'reduce',
+  });
+  const page = await context.newPage();
+  try {
+    await page.goto('/#/laboratory/research-station/meter-detective');
+    await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });
+    await expect(page.getByRole('heading', { name: 'The silent backup' })).toBeVisible();
+    const buttons = page
+      .getByRole('group', { name: 'Choose a meter position' })
+      .getByRole('button');
+    const heights = await buttons.evaluateAll((items) =>
+      items.map((item) => item.getBoundingClientRect().height),
+    );
+    expect(heights.every((height) => height >= 44)).toBe(true);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    await buttons.filter({ hasText: 'Voltmeter · Backup link' }).tap();
+    await expect(
+      page.getByText('These predictions differ. The reading can distinguish the explanations.'),
+    ).toBeVisible();
+    await page.screenshot({
+      path: info.outputPath('station-meter-phone-expanded.png'),
+      fullPage: true,
+    });
+  } finally {
+    await context.close();
+  }
 });
 
 test('parallel branches remain operable by touch with expanded text', async ({
@@ -498,6 +606,14 @@ test('downloaded episode survives browser close and offline reopen with local pr
         .getByRole('group', { name: 'Supply link' })
         .getByRole('button', { name: 'Closed', exact: true }),
     ).toBeEnabled();
+    await page.goto(`${baseURL}/#/laboratory/research-station/meter-detective`);
+    await page
+      .getByRole('group', { name: 'Choose a meter position' })
+      .getByRole('button', { name: 'Ammeter · Main rail' })
+      .click();
+    await expect(
+      page.getByText('Both explanations predict this reading. Try another position.'),
+    ).toBeVisible();
     await context.close();
     context = await browser.browserType().launchPersistentContext(profile, { offline: true });
     page = await context.newPage();
@@ -532,6 +648,19 @@ test('downloaded episode survives browser close and offline reopen with local pr
       '4 C passes in 4 s',
     );
     await expect(page.getByRole('status').filter({ hasText: /^Ready offline ·/ })).toBeVisible();
+    await page.goto(`${baseURL}/#/laboratory/research-station/meter-detective`);
+    await expect(
+      page
+        .getByRole('group', { name: 'Choose a meter position' })
+        .getByRole('button', { name: 'Ammeter · Main rail' }),
+    ).toHaveAttribute('aria-pressed', 'true');
+    await page
+      .getByRole('group', { name: 'Choose a meter position' })
+      .getByRole('button', { name: 'Ammeter · Backup heater' })
+      .click();
+    await expect(
+      page.getByText('These predictions differ. The reading can distinguish the explanations.'),
+    ).toBeVisible();
   } finally {
     await context.close();
     fs.rmSync(profile, { recursive: true, force: true });

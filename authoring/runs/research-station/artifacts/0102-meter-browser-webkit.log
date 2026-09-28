@@ -1,0 +1,51 @@
+[WebServer] Found 2 warnings while optimizing generated CSS:
+[WebServer] 
+[WebServer] Issue #1:
+[WebServer] [2m│   padding-block: 0.25rem;[22m
+[WebServer] [2m│ }[22m
+[WebServer] [2m│[22m ::highlight(learnlab-read-aloud) {
+[WebServer] [2m┆[22m             [33m[2m^--[22m 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?[39m
+[WebServer] [2m┆[22m
+[WebServer] [2m│   background-color: oklch(85% 0.15 85 / 60%);[22m
+[WebServer] [2m│ }[22m
+[WebServer] 
+[WebServer] Issue #2:
+[WebServer] [2m│   background-color: oklch(85% 0.15 85 / 60%);[22m
+[WebServer] [2m│ }[22m
+[WebServer] [2m│[22m :root.dark ::highlight(learnlab-read-aloud) {
+[WebServer] [2m┆[22m                        [33m[2m^--[22m 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?[39m
+[WebServer] [2m┆[22m
+[WebServer] [2m│   background-color: oklch(75% 0.15 85 / 45%);[22m
+[WebServer] [2m│ }[22m
+[WebServer] 
+[WebServer] [33m[lightningcss minify] 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?
+[WebServer] 1  |  /*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+[WebServer] 2  |  ...splay{padding-block:.25rem;overflow:auto hidden}::highlight(learnlab-read-aloud){background-color:oklch(85% .15 85...
+[WebServer]    |                                                                 ^[39m
+[WebServer] [33m[lightningcss minify] 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?
+[WebServer] 1  |  /*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+[WebServer] 2  |  ...ackground-color:oklch(85% .15 85/.6)}:root.dark ::highlight(learnlab-read-aloud){background-color:oklch(75% .15 85...
+[WebServer]    |                                                                 ^[39m
+
+Running 12 tests using 1 worker
+
+  ✓   1 [webkit] › e2e/laboratory.pw.ts:7:1 › first station episode: mistakes, keyboard repair, help, evidence and resume (5.6s)
+  ✓   2 [webkit] › e2e/laboratory.pw.ts:124:1 › new investigations: charge windows, source energy and two resistance routes (4.8s)
+  ✓   3 [webkit] › e2e/laboratory.pw.ts:292:1 › series and parallel investigations: shared current, branch survival and fresh predictions (5.1s)
+  ✓   4 [webkit] › e2e/laboratory.pw.ts:473:1 › meter detective: unhelpful reading, diagnostic evidence, fresh decision and resume (4.6s)
+  ✓   5 [webkit] › e2e/laboratory.pw.ts:559:1 › meter detective: narrow touch and expanded text keep probes usable (1.8s)
+  ✓   6 [webkit] › e2e/laboratory.pw.ts:601:1 › parallel branches remain operable by touch with expanded text (1.9s)
+  ✓   7 [webkit] › e2e/laboratory.pw.ts:649:1 › new circuit controls fit a narrow touch layout with expanded text (1.6s)
+  ✓   8 [webkit] › e2e/laboratory.pw.ts:693:1 › narrow touch workspace: both themes, help escape and retained exposure on restart (5.3s)
+  -   9 [webkit] › e2e/laboratory.pw.ts:785:1 › downloaded episode survives browser close and offline reopen with local progress
+  ✓  10 [webkit] › e2e/laboratory.pw.ts:942:1 › write failure offers an export and keeps the last persisted circuit intact (3.3s)
+  ✓  11 [webkit] › e2e/laboratory.pw.ts:984:1 › tablet, landscape and expanded text preserve controls and local-only requests (3.0s)
+  ✓  12 [webkit] › e2e/laboratory.pw.ts:1033:1 › silently discarded offline writes show recovery and never claim readiness (2.6s)
+
+  1 skipped
+  11 passed (50.3s)
+npm notice
+npm notice New major version of npm available! 11.12.1 -> 12.1.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.1.0
+npm notice To update run: npm install -g npm@12.1.0
+npm notice

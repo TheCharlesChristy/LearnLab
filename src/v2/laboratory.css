@@ -139,6 +139,14 @@
 .lab-choice:disabled {
   cursor: default;
 }
+.lab-diagram rect {
+  fill: var(--lab-panel);
+  stroke: currentColor;
+  stroke-width: 2;
+}
+.lab-meter-button:disabled {
+  opacity: 1;
+}
 .lab-map-link {
   display: block;
   border: 1px solid var(--lab-line);

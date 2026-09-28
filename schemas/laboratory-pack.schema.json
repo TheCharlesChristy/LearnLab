@@ -412,6 +412,67 @@
       },
       "required": ["type", "initial", "solution", "labels", "controls", "goals"]
     },
+    "meterConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "voltage": { "type": "number", "minimum": 0, "maximum": 24 },
+        "circuit": { "$ref": "#/$defs/element" }
+      },
+      "required": ["voltage", "circuit"]
+    },
+    "meterProbe": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "meter-probe" },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 64 },
+              "title": { "type": "string", "minLength": 1, "maxLength": 2400 },
+              "configuration": { "$ref": "#/$defs/meterConfiguration" }
+            },
+            "required": ["id", "title", "configuration"]
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "actual": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 64 },
+        "labels": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+            "maxLength": 64
+          },
+          "additionalProperties": { "type": "string", "minLength": 1, "maxLength": 2400 }
+        },
+        "probes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 64 },
+              "reading": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+                "maxLength": 64
+              },
+              "quantity": { "enum": ["current", "voltage"] }
+            },
+            "required": ["id", "reading", "quantity"]
+          },
+          "minItems": 2,
+          "maxItems": 12
+        }
+      },
+      "required": ["type", "candidates", "actual", "labels", "probes"]
+    },
     "node": {
       "type": "object",
       "additionalProperties": false,
@@ -441,6 +502,9 @@
             },
             {
               "$ref": "#/$defs/circuit"
+            },
+            {
+              "$ref": "#/$defs/meterProbe"
             }
           ]
         },

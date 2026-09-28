@@ -1751,7 +1751,7 @@
         {
           "id": "interpret-backup",
           "title": "Read the clue",
-          "prompt": "Open Earlier field readings below if you want to revisit your measurements. Which explanation fits the observed circuit?",
+          "prompt": "Your diagnostic meter reading is now in the field notebook above. Which explanation fits the observed circuit?",
           "role": "prediction",
           "activity": {
             "type": "choice",
@@ -2001,7 +2001,7 @@
             "A useful observation could rule out at least one possible explanation."
           ],
           "workedExample": "If two possible branch faults both leave a main current at 1 A, measuring there cannot distinguish them. Choose a position whose predicted readings differ.",
-          "mechanism": "Your next station task can combine meter evidence with a repair. Real meters load circuits slightly; this pilot uses ideal instruments and steady ohmic components.",
+          "mechanism": "Your next station task can combine meter evidence with a repair. Real meters load circuits slightly; this pilot uses ideal instruments and steady ohmic components. ",
           "transitions": {
             "passed": null,
             "assisted": null
@@ -2054,5 +2054,5 @@
     }
   ],
   "assets": [],
-  "scopeNote": "Partial pilot: 7 of 10 planned investigations. The ideal DC resistor/switch model supports bounded series and parallel trees, not transients, realistic lamps or unrestricted electronics. Power budgeting, faults, an open workspace and capstone remain planned."
+  "scopeNote": "Partial pilot: 6 of 10 planned investigations. The ideal DC resistor/switch model supports bounded series and parallel trees, not transients, realistic lamps or unrestricted electronics. Measurement, power budgeting, faults, an open workspace and capstone remain planned."
 }

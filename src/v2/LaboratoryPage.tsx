@@ -25,6 +25,8 @@ import {
 } from './run';
 import type { LaboratoryRun, RunEvent, RunInput } from './run';
 import CircuitActivity from './CircuitActivity';
+import MeterProbeActivity from './MeterProbeActivity';
+import { formatMeterReading, meterReading } from './meter-probe';
 import './laboratory.css';
 
 const download = (value: unknown, filename: string) => {
@@ -280,7 +282,24 @@ export function EpisodeWorkspace({
       : undefined;
   const transfers = projection.evidence.filter((e) => e.role === 'transfer');
   const independent = new Set(transfers.filter((e) => e.independent).map((e) => e.node)).size;
-  const firstAction = run.events.find((e) => e.type === 'control' || e.type === 'answer');
+  const firstAction = run.events.find((e) => ['control', 'answer', 'probe'].includes(e.type));
+  const priorMeters = run.events.flatMap((event) => {
+    if (event.type !== 'probe' || event.node === node?.id) return [];
+    const scene = episode.nodes.find((candidate) => candidate.id === event.node);
+    if (scene?.activity.type !== 'meter-probe') return [];
+    const activity = scene.activity;
+    const probe = activity.probes.find((candidate) => candidate.id === event.id);
+    if (!probe) return [];
+    return [
+      {
+        scene: scene.title,
+        position: probe.reading === 'source' ? 'supply' : activity.labels[probe.reading],
+        quantity: probe.quantity,
+        value: formatMeterReading(meterReading(activity, activity.actual, probe.id)),
+        unit: probe.quantity === 'current' ? 'A' : 'V',
+      },
+    ];
+  });
   return (
     <div className="lab-page space-y-5">
       <div className="lab-toolbar flex flex-wrap items-center justify-between gap-3">
@@ -368,6 +387,19 @@ export function EpisodeWorkspace({
               {node.title}
             </h1>
             <p className="max-w-prose text-lg leading-relaxed">{node.prompt}</p>
+            {node.activity.type === 'choice' && priorMeters.length > 0 && (
+              <details className="lab-details">
+                <summary>Earlier field readings</summary>
+                <ul className="mt-2 list-disc pl-5">
+                  {priorMeters.map((reading, index) => (
+                    <li key={`${reading.scene}-${reading.position}-${index}`}>
+                      {reading.scene}: {reading.quantity} at {reading.position} = {reading.value}{' '}
+                      {reading.unit}
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            )}
             {node.activity.type === 'circuit' && memory.circuit ? (
               <CircuitActivity
                 activity={node.activity}
@@ -395,6 +427,15 @@ export function EpisodeWorkspace({
                   </button>
                 ))}
               </div>
+            ) : node.activity.type === 'meter-probe' ? (
+              <MeterProbeActivity
+                activity={node.activity}
+                probes={memory.probes ?? []}
+                disabled={busy}
+                onProbe={(id) => {
+                  void send({ type: 'probe', node: node.id, id });
+                }}
+              />
             ) : null}
             {feedback && (
               <div role="status" className="lab-feedback">
@@ -571,7 +612,7 @@ export function EpisodeWorkspace({
             </ul>
           </details>
           <p>
-            First recorded control/answer:{' '}
+            First recorded learning action:{' '}
             {firstAction
               ? `${((firstAction.at - run.startedAt) / 1000).toFixed(1)} seconds after this run started`
               : 'not observed (assisted route)'}
