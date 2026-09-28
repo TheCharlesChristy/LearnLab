@@ -1441,6 +1441,16 @@
       "revision": "4d5976baa063d7af64ef3f8b52e8e406e727d946",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "delivery",
+      "file": "artifacts/0144-station-repair-delivery.json",
+      "sha256": "2170b7a45c9888c7704eb79c5e444e6c700f3921c2df11fb158b2e5689dff69e",
+      "note": "Draft PR #77 receipt for ten-episode circuits capstone; evidence-only follow-up commit retains delivery record.",
+      "at": "2026-09-28T19:29:19.976Z",
+      "revision": "77cf215a38e052da7477f89db72872bca43772cf",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [
