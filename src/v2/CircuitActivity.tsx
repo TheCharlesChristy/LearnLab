@@ -136,7 +136,7 @@ export default function CircuitActivity({
         </div>
         <p role="status" className="mt-4 font-semibold">
           {solution.status === 'solved'
-            ? `Source current: ${number(solution.current)} A${elapsedSeconds === undefined ? '' : ` · ${number(solution.current * elapsedSeconds)} C passes in ${number(elapsedSeconds)} s · ${number(solution.power * elapsedSeconds)} J transferred`} · ${circuitGoalMet(activity, config, elapsedSeconds) ? 'Target reached' : 'Investigate the connections'}`
+            ? `Source current: ${number(solution.current)} A · Source power: ${number(solution.power)} W${elapsedSeconds === undefined ? '' : ` · ${number(solution.current * elapsedSeconds)} C passes in ${number(elapsedSeconds)} s · ${number(solution.power * elapsedSeconds)} J transferred`} · ${circuitGoalMet(activity, config, elapsedSeconds) ? 'Target reached' : 'Investigate the connections'}`
             : solution.reason}
         </p>
       </div>

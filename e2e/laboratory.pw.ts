@@ -374,6 +374,201 @@ test('meter detective: narrow touch and expanded text keep probes usable', async
   }
 });
 
+test('power budget: two equal-power routes, branch budget and fresh energy checks', async ({
+  page,
+}, info) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/#/laboratory/research-station/power-budget');
+  await expect(page.getByRole('heading', { name: 'Two ways to warm a sensor' })).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: 'Source power' })).toContainText('3 W');
+  const firstControl = await page
+    .getByRole('group', { name: 'Shelter heater' })
+    .getByRole('button', { name: '3 Ω' })
+    .boundingBox();
+  expect(firstControl!.y + firstControl!.height).toBeLessThan(page.viewportSize()!.height);
+  await page
+    .getByRole('group', { name: 'Shelter heater' })
+    .getByRole('button', { name: '3 Ω' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source power' })).toContainText(
+    '2 A · Source power: 12 W',
+  );
+  await page
+    .getByRole('group', { name: 'Shelter heater' })
+    .getByRole('button', { name: '12 Ω' })
+    .click();
+  await page
+    .getByRole('group', { name: 'Ideal supply' })
+    .getByRole('button', { name: '12 V' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source power' })).toContainText(
+    '1 A · Source power: 12 W',
+  );
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: /Both are 12 W and both draw 2 A/ }).click();
+  await expect(
+    page.getByRole('status').filter({ hasText: 'At 12 V across 12 ohms' }),
+  ).toBeVisible();
+  await page.getByRole('button', { name: /Both are 12 W, but the 6 V setting draws 2 A/ }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page
+    .getByRole('group', { name: 'Ideal supply' })
+    .getByRole('button', { name: '12 V' })
+    .click();
+  await page
+    .getByRole('group', { name: 'Sensor heater' })
+    .getByRole('button', { name: '24 Ω' })
+    .click();
+  await page
+    .getByRole('group', { name: 'Observation window' })
+    .getByRole('button', { name: '10 s' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source power' })).toContainText(
+    'Source power: 18 W',
+  );
+  await expect(page.getByRole('status').filter({ hasText: 'Source power' })).toContainText(
+    '180 J transferred',
+  );
+  await expect(
+    page.getByRole('group', { name: 'Sensor heater' }).getByRole('button', { name: '24 Ω' }),
+  ).toHaveAttribute('aria-pressed', 'true');
+  await page.getByText('See the path and meter readings', { exact: true }).click();
+  await expect(page.getByRole('table')).toContainText('Sensor heater');
+  await page.evaluate(() => {
+    window.scrollTo(0, 0);
+    return new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+    );
+  });
+  await page.screenshot({ path: info.outputPath('station-power-budget.png'), fullPage: true });
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: '72 J', exact: true }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: 'Both power and energy halve.' }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: /Power is the transfer rate in W/ }).click();
+  await page.getByRole('button', { name: 'Finish investigation' }).click();
+  await expect(page.getByText('2 of 2 fresh checks', { exact: false })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('fault board: discriminate, repair and explain an unfamiliar branch', async ({
+  page,
+}, info) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/#/laboratory/research-station/fault-board');
+  await expect(page.getByRole('heading', { name: 'Two faults, one dim backup' })).toBeVisible();
+  const meters = page.getByRole('group', { name: 'Choose a meter position' });
+  await meters.getByRole('button', { name: 'Ammeter · Main rail' }).click();
+  await expect(
+    page.getByText('Both explanations predict this reading. Try another position.'),
+  ).toBeVisible();
+  await meters.getByRole('button', { name: 'Ammeter · Backup heater' }).click();
+  await expect(
+    page.getByText(/Backup link is closed; its heater has drifted to 24 ohms: 0.5 A/),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page
+    .getByRole('button', { name: /backup link is closed, but the heater is 24 ohms/ })
+    .click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source power' })).toContainText('1.5 A');
+  await page
+    .getByRole('group', { name: 'Backup link' })
+    .getByRole('button', { name: 'Open' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source power' })).toContainText('1 A');
+  await page
+    .getByRole('group', { name: 'Backup link' })
+    .getByRole('button', { name: 'Closed' })
+    .click();
+  await page
+    .getByRole('group', { name: 'Backup heater' })
+    .getByRole('button', { name: '12 Ω' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source power' })).toContainText(
+    '2 A · Source power: 24 W',
+  );
+  await expect(
+    page.getByRole('group', { name: 'Backup heater' }).getByRole('button', { name: '12 Ω' }),
+  ).toHaveAttribute('aria-pressed', 'true');
+  await page.evaluate(() => {
+    window.scrollTo(0, 0);
+    return new Promise<void>((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+    );
+  });
+  await page.screenshot({ path: info.outputPath('station-fault-repair.png'), fullPage: true });
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page
+    .getByRole('button', { name: 'An ammeter in the separate 6 ohm reference branch' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'That branch still has' })).toBeVisible();
+  await page.getByRole('button', { name: 'An ammeter in the suspect series branch' }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page
+    .getByRole('button', { name: /backup link is open; the 5 ohm main alone takes 2 A/ })
+    .click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page
+    .getByRole('button', { name: /Compare fault predictions, measure where they differ/ })
+    .click();
+  await page.getByRole('button', { name: 'Finish investigation' }).click();
+  await expect(page.getByText('1 of 2 fresh checks', { exact: false })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('power and fault controls remain usable at 200% text on a narrow touch screen', async ({
+  browser,
+  baseURL,
+  browserName,
+}, info) => {
+  const context = await browser.newContext({
+    baseURL,
+    viewport: { width: 360, height: 640 },
+    hasTouch: true,
+    isMobile: browserName !== 'firefox',
+    reducedMotion: 'reduce',
+  });
+  const page = await context.newPage();
+  try {
+    await page.goto('/#/laboratory/research-station/power-budget');
+    await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });
+    const heater = page
+      .getByRole('group', { name: 'Shelter heater' })
+      .getByRole('button', { name: '3 Ω' });
+    expect((await heater.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+    await heater.tap();
+    await expect(page.getByRole('status').filter({ hasText: 'Source power' })).toContainText(
+      '12 W',
+    );
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    await page.goto('/#/laboratory/research-station/fault-board');
+    await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });
+    const probe = page
+      .getByRole('group', { name: 'Choose a meter position' })
+      .getByRole('button', { name: 'Ammeter · Backup heater' });
+    expect((await probe.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+    await probe.tap();
+    await expect(
+      page.getByText('These predictions differ. The reading can distinguish the explanations.'),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    await page.screenshot({
+      path: info.outputPath('station-fault-phone-expanded.png'),
+      fullPage: true,
+    });
+  } finally {
+    await context.close();
+  }
+});
+
 test('parallel branches remain operable by touch with expanded text', async ({
   browser,
   baseURL,
@@ -661,6 +856,14 @@ test('downloaded episode survives browser close and offline reopen with local pr
     await expect(
       page.getByText('These predictions differ. The reading can distinguish the explanations.'),
     ).toBeVisible();
+    await page.goto(`${baseURL}/#/laboratory/research-station/power-budget`);
+    await page
+      .getByRole('group', { name: 'Shelter heater' })
+      .getByRole('button', { name: '3 Ω' })
+      .click();
+    await expect(page.getByRole('status').filter({ hasText: 'Source power' })).toContainText(
+      '12 W',
+    );
   } finally {
     await context.close();
     fs.rmSync(profile, { recursive: true, force: true });
