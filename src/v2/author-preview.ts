@@ -3,6 +3,7 @@ import { parseLaboratoryPack } from './pack.ts';
 import type { LaboratoryEpisode, LaboratoryPack } from './pack.ts';
 import { appendEvent, controlValue, newRun, parseRun, projectRun } from './run.ts';
 import type { LaboratoryRun, RunInput } from './run.ts';
+import { informativeProbeIds } from './meter-probe.ts';
 
 export interface AuthorPreview {
   formatVersion: 1;
@@ -104,6 +105,8 @@ export function createPreviewRun(input: AuthorPreview): LaboratoryRun {
           node: node.id,
           option: node.activity.options.find((v) => v.correct)!.id,
         });
+      else if (node.activity.type === 'meter-probe')
+        emit({ type: 'probe', node: node.id, id: informativeProbeIds(node.activity)[0]! });
       else
         for (const control of node.activity.controls)
           emit({

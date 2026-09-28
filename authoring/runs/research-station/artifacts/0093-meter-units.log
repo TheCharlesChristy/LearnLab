@@ -1,0 +1,38 @@
+(node:3477558) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ RUN  v4.1.8 /home/charles/.codex/worktrees/laboratory-meter-probes/LearnLab
+
+ ❯ tests/pipeline/author-course.test.ts (8 tests | 1 failed) 7817ms
+     × derives capability identifiers from actual v1 schemas and v2 activity contracts 242ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/pipeline/author-course.test.ts > authoring run contracts > derives capability identifiers from actual v1 schemas and v2 activity contracts
+AssertionError: expected [ 'choice', 'circuit', 'meter-probe' ] to deeply equal [ 'choice', 'circuit' ]
+
+- Expected
++ Received
+
+  [
+    "choice",
+    "circuit",
++   "meter-probe",
+  ]
+
+ ❯ tests/pipeline/author-course.test.ts:237:47
+    235|     expect(output.v1.screens).not.toContain('tapChoice');
+    236|     expect(output.v1.widgets).toContain('circuit-sim');
+    237|     expect(Object.keys(output.v2.activities)).toEqual(['choice', 'circ…
+       |                                               ^
+    238|     expect(output.v2.activities.circuit.schemaDef).toBe('circuit');
+    239|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 92 passed | 11 skipped (104)
+      Tests  1 failed | 961 passed | 11 skipped (973)
+   Start at  09:16:01
+   Duration  81.69s (transform 2.49s, setup 12.12s, import 12.49s, tests 51.60s, environment 70.07s)
+

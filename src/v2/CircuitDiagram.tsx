@@ -19,11 +19,13 @@ function Path({
   x,
   y,
   labels,
+  maskedIds = [],
 }: {
   element: CircuitElement;
   x: number;
   y: number;
   labels: Record<string, string>;
+  maskedIds?: string[];
 }) {
   const box = size(element);
   const centre = y + box.height / 2;
@@ -42,6 +44,7 @@ function Path({
               x={childX}
               y={centre - childBox.height / 2}
               labels={labels}
+              maskedIds={maskedIds}
             />
           );
         })}
@@ -70,6 +73,7 @@ function Path({
                 x={x + 20}
                 y={centres[i]! - childBox.height / 2}
                 labels={labels}
+                maskedIds={maskedIds}
               />
               <path d={`M ${x + 20 + childBox.width} ${centres[i]} H ${x + box.width - 20}`} />
             </g>
@@ -78,10 +82,18 @@ function Path({
       </g>
     );
   }
+  const masked = maskedIds.includes(element.id);
   return (
     <g>
       <path d={`M ${x} ${centre} H ${x + 25} M ${x + 75} ${centre} H ${x + 100}`} />
-      {element.type === 'switch' ? (
+      {masked ? (
+        <>
+          <rect x={x + 27} y={centre - 16} width={46} height={32} rx={7} />
+          <text x={x + 50} y={centre + 5}>
+            ?
+          </text>
+        </>
+      ) : element.type === 'switch' ? (
         <>
           <circle cx={x + 25} cy={centre} r={3} />
           <circle cx={x + 75} cy={centre} r={3} />
@@ -110,9 +122,11 @@ function Path({
 export default function CircuitDiagram({
   element,
   labels,
+  maskedIds = [],
 }: {
   element: CircuitElement;
   labels: Record<string, string>;
+  maskedIds?: string[];
 }) {
   const box = size(element);
   const centre = box.height / 2 + 10;
@@ -129,7 +143,7 @@ export default function CircuitDiagram({
         <text x={25} y={centre + 28}>
           −
         </text>
-        <Path element={element} x={80} y={10} labels={labels} />
+        <Path element={element} x={80} y={10} labels={labels} maskedIds={maskedIds} />
       </svg>
     </div>
   );

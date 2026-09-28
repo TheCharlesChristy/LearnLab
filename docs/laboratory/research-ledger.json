@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-27",
+  "updatedAt": "2026-09-28",
   "status": "initial evidence review; remaining full-text and primary-study follow-ups are explicit",
   "searchScope": "Foundational learning/performance, self-explanation, inquiry, feedback; refreshed motivation and mathematics game reviews through 27 September 2026; discipline and accessibility sources",
   "accessNote": "Full-text means the document was accessible and relevant methods/results/limitations were inspected, not that every reference was exhaustively read. No effect sizes are promised for LearnLab. Primary-source access category denotes direct source access; historical status is separately described.",
@@ -214,6 +214,16 @@
       "strength": "Established parallel voltage/current relations and charge conservation checked in textbook and specification",
       "limitations": "The main-branch independence claim assumes an ideal fixed-voltage source; real supplies may sag or have internal resistance. Branches are bounded series/parallel trees.",
       "validation": "Hand-derive open/closed branch readings, junction sum and alternate resistor settings; test browser switch, recovery and transfer"
+    },
+    {
+      "id": "diagnostic-meter-position",
+      "decision": "Let learners compare rival ideal-DC fault predictions by placing an ammeter or voltmeter; require a reading that separates the hypotheses, and follow practice with fresh pre-reveal decisions.",
+      "source": "https://www.aqa.org.uk/subjects/physics/a-level/physics-7408/specification/subject-content/electricity",
+      "accessedAt": "https://www.aqa.org.uk/subjects/physics/a-level/physics-7408/specification/practical-assessment",
+      "access": "standard",
+      "strength": "Current AQA specification confirms ideal meter assumption, DC series/parallel relationships and practical measurement and design skills; it does not evaluate this learning interaction.",
+      "limitations": "An ideal model omits meter loading, uncertainty, physical lead placement and practical safety. Selecting a diagnostic probe after trying others is practice, not independent mastery.",
+      "validation": "Hand-calculate every candidate and meter position, reject identical displayed predictions as diagnostic, test wrong-probe and fresh-choice paths, browser focus/touch/offline and owner observation."
     }
   ],
   "followUps": [

@@ -911,6 +911,226 @@
       "revision": "99bca6fc7ad75afb7a2a89c1e90cbded2ad5daa3",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0091-scaffold.json",
+      "sha256": "5e519e58173864bec6612daf9384a7c6b88ec441d5249b892183fc3d08a7cbd3",
+      "note": "Actual draft scaffold at authoring/drafts/research-station-meter; incomplete nodes/references deliberately fail validation.",
+      "at": "2026-09-28T08:10:21.820Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0092-pack.json",
+      "sha256": "8bc4c1544399fd5891a237c74961159b9772d7d156fc66fc3418d83f2feb4d47",
+      "note": "Staged local preview at public/laboratory/research-station; no merge or deployment.",
+      "at": "2026-09-28T08:13:28.514Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0093-meter-units.log",
+      "sha256": "e0d8def7f93498b84106dfdbf1bf9a122463b509b18e41903065c94aa49725fc",
+      "note": "First full v6 run: 961 passed, one discovery expectation failed after adding meter-probe; expectation updated, rerun pending",
+      "at": "2026-09-28T08:17:37.846Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0094-pack.json",
+      "sha256": "2988bdc3b2d0b73f238f6ac729e0a6131d1e990daaa380831213d7fce0b1e850",
+      "note": "Staged local preview at public/laboratory/research-station; no merge or deployment.",
+      "at": "2026-09-28T08:20:36.218Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0095-pack.json",
+      "sha256": "2c39a6c4b058f2eb4089b175e735760c64cd755f54b4780012c58483c80b5a90",
+      "note": "Staged local preview at public/laboratory/research-station; no merge or deployment.",
+      "at": "2026-09-28T08:21:32.205Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0096-meter-units-final.log",
+      "sha256": "22d79e2603981c90e47f5030546cae41195fd31f915b3377754231830e2a76f8",
+      "note": "Second full v6 run: source-current exact binary equality in new hand-check test failed; tolerance corrected, displayed reading and underlying model unchanged",
+      "at": "2026-09-28T08:23:17.295Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0097-meter-browser-full.log",
+      "sha256": "c4ebe8847747883372007c28b613bbfadd6c0246cd309c75305b59e3f77dcf20",
+      "note": "First full Chromium/Firefox v6 browser run: 22 pass, two test locator ambiguities on newly worded prompt; selector corrected, rerun pending",
+      "at": "2026-09-28T08:26:44.779Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0098-meter-lint.log",
+      "sha256": "691637a4a9070d1ba73078b26edc2498445f1a7045fb9d23f73420817eb5520a",
+      "note": "Full ESLint pass for v6",
+      "at": "2026-09-28T18:34:24.820Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0099-meter-build.log",
+      "sha256": "4670aaf6ae8bff614793b7f1b35fda009dbbba7db4f99669249bd015d04d16ba",
+      "note": "V2 production build pass before final copy revision",
+      "at": "2026-09-28T18:34:25.184Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0100-meter-units-pass.log",
+      "sha256": "8a4866d88a28f7cae1a5d4f03e16ce0189007cac7e2600e22c8506ec54378b90",
+      "note": "Full unit suite 962 passed, 11 skipped",
+      "at": "2026-09-28T18:34:25.535Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0101-meter-browser-targeted.log",
+      "sha256": "6aad0b2f1e87d3d06ee83d16e0b6d8efcf2032421350ed942aa8427b315cc982",
+      "note": "Chromium and Firefox targeted recheck after locator correction, both passed",
+      "at": "2026-09-28T18:34:25.900Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0102-meter-browser-webkit.log",
+      "sha256": "011e26d9b1202bd64b4f0d9c18cf20b1fcf9cc858e1a6dd12fd3c170d29ecb6d",
+      "note": "Official Linux WebKit container, 11 passed and one known persistent Cache API skip",
+      "at": "2026-09-28T18:34:26.286Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0103-station-meter-diagnostic.png",
+      "sha256": "96e416b50a520f504259c92c8f63ae0942db2ffe9c99f83507119becdb60be2b",
+      "note": "Author Chromium wrong and diagnostic probe visual check",
+      "at": "2026-09-28T18:34:26.652Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0104-meter-types-final.log",
+      "sha256": "9db56300b0bf5d5dd8f19cd445585168aec7f425300402b5c00501892fa29208",
+      "note": "Final TypeScript check passed",
+      "at": "2026-09-28T18:36:31.755Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0105-meter-lint-final.log",
+      "sha256": "691637a4a9070d1ba73078b26edc2498445f1a7045fb9d23f73420817eb5520a",
+      "note": "Final lint passed with one pre-existing signal-scope warning",
+      "at": "2026-09-28T18:36:32.093Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0106-meter-contracts-final.log",
+      "sha256": "ac4503f5607843690a3b3c75e3a7b334d64943acd5fb9432cc100555869777ef",
+      "note": "Final generated-contract check and pack validation passed",
+      "at": "2026-09-28T18:36:32.429Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0107-meter-build-final.log",
+      "sha256": "9f6fc1ed48e10a3fb6940f3aa0f4ef3f9ae071b5cf8aa3b11c3bc1b476a139d7",
+      "note": "Final opt-in production build and size budgets passed",
+      "at": "2026-09-28T18:36:32.824Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0108-meter-legacy-strict.log",
+      "sha256": "af68e47b322db6e0dfcf15c194616071969d8e928ccdf1101c8d7714e07b5dc1",
+      "note": "Strict legacy content validation passed",
+      "at": "2026-09-28T18:36:33.161Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0109-meter-webkit-phone.log",
+      "sha256": "70efda4b9d1a344d19618ca0f8c8000bde2739f516700d019b2068ac2a2f09a9",
+      "note": "Targeted WebKit expanded-text phone check passed",
+      "at": "2026-09-28T18:36:33.600Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0110-station-meter-phone-expanded.png",
+      "sha256": "187c81641dab49e7dde63c35a331e22e9b5d53a14a8ad9bf19131c515688a3e9",
+      "note": "WebKit 360 px touch view at 200 percent text; long but operable",
+      "at": "2026-09-28T18:36:33.985Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "critique",
+      "file": "artifacts/0111-METER-DETECTIVE-VERIFICATION.md",
+      "sha256": "060ceff27f7a4fad3cf16e8c63467e30bfb54fd39f77d163e7cbcdd0bfeb0f68",
+      "note": "Author model derivation, rendered critique, evidence bounds and open tasks",
+      "at": "2026-09-28T18:36:34.380Z",
+      "revision": "2d44130a4ce66b0d6e279191ba724592b4adf5fa",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "delivery",
+      "file": "artifacts/0112-meter-delivery.json",
+      "sha256": "72db9380c50a6ded47d6f30dee5245d590ae903491c7a1d9efd2621badb20cfa",
+      "note": "Draft PR #75 delivery receipt for b65da3f; later evidence-only commit does not change implementation",
+      "at": "2026-09-28T18:38:40.704Z",
+      "revision": "b65da3f7d24bd10646a617177eb6594e1cf4a323",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [
@@ -932,6 +1152,11 @@
       "kind": "scaffold-created",
       "at": "2026-09-28T07:43:21.130Z",
       "output": "authoring/drafts/research-station-networks"
+    },
+    {
+      "kind": "scaffold-created",
+      "at": "2026-09-28T08:10:21.826Z",
+      "output": "authoring/drafts/research-station-meter"
     }
   ]
 }

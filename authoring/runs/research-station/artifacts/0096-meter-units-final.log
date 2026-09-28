@@ -1,0 +1,35 @@
+(node:3503205) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ RUN  v4.1.8 /home/charles/.codex/worktrees/laboratory-meter-probes/LearnLab
+
+ ❯ src/v2/meter-probe.test.ts (4 tests | 1 failed) 93ms
+     × independently matches predicted branch and source readings for the open fault 48ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/v2/meter-probe.test.ts > meter-probe contract and replay > independently matches predicted branch and source readings for the open fault
+AssertionError: expected 2.4999999999999996 to be 2.5 // Object.is equality
+
+- Expected
++ Received
+
+- 2.5
++ 2.4999999999999996
+
+ ❯ src/v2/meter-probe.test.ts:43:63
+     41|     expect(meterReading(second, 'drifted', 'sensor-current')).toBe(0.5…
+     42|     expect(meterReading(second, 'nominal', 'source-current')).toBe(3);
+     43|     expect(meterReading(second, 'drifted', 'source-current')).toBe(2.5…
+       |                                                               ^
+     44|   });
+     45|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 92 passed | 11 skipped (104)
+      Tests  1 failed | 961 passed | 11 skipped (973)
+   Start at  09:21:41
+   Duration  81.71s (transform 2.51s, setup 12.30s, import 12.24s, tests 51.35s, environment 70.08s)
+

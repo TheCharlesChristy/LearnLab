@@ -26,5 +26,19 @@
       "motion": "Energy indication is static; no essential motion or sound.",
       "alternative": "Circuit topology and meter readings are available as text and a table."
     }
+  },
+  "meter-probe": {
+    "version": "0.1.0",
+    "schemaDef": "meterProbe",
+    "stateVersion": 1,
+    "goal": "select-a-probe-whose-displayed-reading-distinguishes-two-bounded-circuit-states",
+    "documentation": "docs/laboratory/ACTIVITIES.md#meter-probe",
+    "accessibility": {
+      "keyboard": "Native buttons place ideal current or voltage meters at labelled positions.",
+      "announcement": "Each observed reading and whether it separates hypotheses is announced in text.",
+      "touch": "The same buttons work by touch without dragging; targets are at least 44 CSS pixels high.",
+      "motion": "No essential motion or sound.",
+      "alternative": "A labelled topology list and text readings accompany the optional diagram."
+    }
   }
 }

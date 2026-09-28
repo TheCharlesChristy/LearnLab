@@ -1,16 +1,16 @@
 # Laboratory activity contracts
 
-Status: six-episode partial circuits pilot, opt-in through `VITE_EXPERIENCE_RUNTIME_V2=true`.
+Status: seven-episode partial circuits pilot, opt-in through `VITE_EXPERIENCE_RUNTIME_V2=true`.
 This additive runtime lives under `src/v2/`; legacy courses and their saved work
 retain the existing schemas and storage. The registered activities are `choice`
-at 0.1.0 and `circuit` at 0.1.1, with event state version 1.
+at 0.1.0, `circuit` at 0.1.1 and `meter-probe` at 0.1.0, with event state version 1.
 
 `src/v2/activity-contracts.json` is the metadata registry. Its `schemaDef` points into
 `schemas/laboratory-pack.schema.json`; `src/v2/pack.ts` adds semantic checks shared by
 the CLI and browser. Run `npm run author:course -- capabilities` and `schemas` to
 inspect the actual contracts. `build-laboratory-contracts.mjs` generates the strict
 CSP-safe browser validator; `--check` rejects schema/generated-code drift.
-The current renderer dispatches these two registered types directly. A general
+The current renderer dispatches these three registered types directly. A general
 external-plugin loader, arbitrary scripts and parameterised fresh-task variants are not implemented.
 The local Studio shares this renderer; see [authoring workflow](AUTHORING-HARNESS.md).
 
@@ -86,6 +86,32 @@ loads share current and split the source potential difference; complete parallel
 branches share potential difference and their currents add at the source. Branch
 survival assumes an ideal fixed-voltage supply. These are controlled configurations,
 not free-form rewiring or a physical circuit builder.
+
+## Meter probe
+
+Input: `type: "meter-probe"`, two candidate configurations with identical supply and
+component positions, the actual candidate ID, labels for every component and a
+finite list of ideal ammeter/voltmeter positions. The candidates must differ in a
+component setting. At least one position must produce a different **displayed**
+reading under the two candidates and at least one must produce the same reading.
+The latter makes an uninformative but valid observation available to test. Both
+states must have supported determinate readings at every authored position.
+
+Action: a native button records `{type:"probe",node,id,at}` once per position. The
+actual measured value and both predicted values appear with A or V units. A pass
+requires a probe whose displayed reading separates the candidates. An unhelpful
+probe remains in the field notebook and the learner can try another position.
+The changed component settings are masked in the visual diagram and textual
+topology; the meter is not a shortcut to a value already shown. A labelled
+topology list and text readings carry the information without the SVG. Ideal
+ammeters are understood in series with the named component; voltmeters are
+across it. Real-meter loading and wiring mistakes are outside the model.
+
+This exploration is practice even if authored with a `transfer` role: selecting
+several positions or inspecting the predicted values is answer exposure, so the
+replay engine never awards independent mastery for a meter-probe scene. To test
+fresh competence, author a separate bounded decision **before** revealing the
+new panel's meter readings. Preview sessions also carry prior exposure.
 
 ## State, evidence and recovery
 

@@ -234,7 +234,8 @@ describe('authoring run contracts', () => {
     expect(output.v1.screens).toContain('tap-choice');
     expect(output.v1.screens).not.toContain('tapChoice');
     expect(output.v1.widgets).toContain('circuit-sim');
-    expect(Object.keys(output.v2.activities)).toEqual(['choice', 'circuit']);
+    expect(Object.keys(output.v2.activities)).toEqual(['choice', 'circuit', 'meter-probe']);
     expect(output.v2.activities.circuit.schemaDef).toBe('circuit');
+    expect(output.v2.activities['meter-probe'].schemaDef).toBe('meterProbe');
   });
 });

@@ -2,6 +2,9 @@ import validate from './generated/validate-pack.mjs';
 import contracts from './activity-contracts.json' with { type: 'json' };
 import { parseCircuitConfiguration, setCircuitElement, solveCircuit } from './circuit-model.ts';
 import type { CircuitConfiguration, CircuitElement } from './circuit-model.ts';
+import { validateMeterProbe } from './meter-probe.ts';
+import type { MeterProbeActivity } from './meter-probe.ts';
+export type { MeterProbeActivity } from './meter-probe.ts';
 
 export interface ChoiceActivity {
   type: 'choice';
@@ -22,7 +25,7 @@ export interface CircuitActivity {
     max: number;
   }[];
 }
-export type Activity = ChoiceActivity | CircuitActivity;
+export type Activity = ChoiceActivity | CircuitActivity | MeterProbeActivity;
 export interface LaboratoryNode {
   id: string;
   title: string;
@@ -132,6 +135,10 @@ function validateActivity(activity: Activity, at: string) {
       throw new Error(
         `${at}: choice requires exactly one correct option; use reflection for unmarked interpretation`,
       );
+    return;
+  }
+  if (activity.type === 'meter-probe') {
+    validateMeterProbe(activity, at);
     return;
   }
   const initial = parseCircuitConfiguration(activity.initial);

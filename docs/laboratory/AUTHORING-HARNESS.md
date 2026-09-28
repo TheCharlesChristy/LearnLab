@@ -2,7 +2,7 @@
 
 Status: intake, planning, capability discovery, scaffolding, shared pack validation,
 local preview staging, isolated Studio inspection and evidence preservation are implemented.
-Six of ten planned circuits episodes have been authored through these commands. Choice-order seeds are
+Seven of ten planned circuits episodes have been authored through these commands. Choice-order seeds are
 presentation variants; parameterised fresh tasks and complete pilots remain pending.
 The Git delivery command now creates a reviewable draft PR from a committed slice. This first
 slice does **not** satisfy the complete harness goal.
@@ -66,7 +66,7 @@ npm run author:course -- record --run authoring/runs/my-course --kind playthroug
 ```
 
 Discovery reads existing widget keys, screen/question schemas, and the laboratory
-activity registry. The implemented laboratory activities are `choice` and `circuit`;
+activity registry. The implemented laboratory activities are `choice`, `circuit` and `meter-probe`;
 older v2 negotiation fixtures are not implemented activities. `schemas` emits brief,
 plan, pack, author-preview, delivery receipt and activity contracts from their source of truth. The generated browser
 pack validator is checked by `npm run validate:laboratory` and the production build.

@@ -300,7 +300,7 @@
         {
           "id": "fresh-fault",
           "title": "A new instrument, a new fault",
-          "prompt": "A separate thermometer has one conducting loop: supply → resistor → return. Its current was 0.4 A. A wire breaks after the resistor. What is the new steady current before the resistor?",
+          "prompt": "A separate thermometer has one conducting loop: supply \u2192 resistor \u2192 return. Its current was 0.4 A. A wire breaks after the resistor. What is the new steady current before the resistor?",
           "role": "transfer",
           "activity": {
             "type": "choice",
