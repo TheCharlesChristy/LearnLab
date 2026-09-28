@@ -33,7 +33,7 @@ with its own checkpoint, not a longer prompt.
 For the learning laboratory and v2 pilots, read `docs/laboratory/AUTHORING-HARNESS.md`
 and `docs/laboratory/ACCEPTANCE.md`. Start an executable authoring run before drafting.
 The CLI supports intake/planning, scaffolding, shared pack/graph validation, local
-staging and evidence preservation. Four of ten circuits episodes are implemented;
+staging and evidence preservation. Six of ten circuits episodes are implemented;
 Local Studio preview/inspection is implemented; complete pilots remain pending.
 Use `preview`/`inspect` and the loopback-only `VITE_AUTHOR_STUDIO=true` Studio for
 arbitrary scenes, choice-order seeds and assistance state. These are synthetic

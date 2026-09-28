@@ -172,6 +172,147 @@ test('new investigations: charge windows, source energy and two resistance route
   expect(errors).toEqual([]);
 });
 
+test('series and parallel investigations: shared current, branch survival and fresh predictions', async ({
+  page,
+}, info) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/#/laboratory/research-station/series-path');
+  await expect(page.getByRole('heading', { name: 'Tune two loads in one path' })).toBeVisible();
+  const firstControl = await page
+    .getByRole('group', { name: 'Rear coil' })
+    .getByRole('button', { name: '9 Ω' })
+    .boundingBox();
+  expect(firstControl!.y + firstControl!.height).toBeLessThan(page.viewportSize()!.height);
+  await page.getByRole('group', { name: 'Rear coil' }).getByRole('button', { name: '9 Ω' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText('1 A');
+  await page.getByRole('group', { name: 'Rear coil' }).getByRole('button', { name: '3 Ω' }).click();
+  await page.getByRole('group', { name: 'Front coil' }).getByRole('button', { name: '9 Ω' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
+    'Target reached',
+  );
+  await page.getByRole('group', { name: 'Front coil' }).getByRole('button', { name: '3 Ω' }).click();
+  await page.getByRole('group', { name: 'Rear coil' }).getByRole('button', { name: '9 Ω' }).click();
+  await page.getByText('See the path and meter readings', { exact: true }).click();
+  await expect(page.getByRole('table')).toContainText('9');
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: /3 V then 9 V/ }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page
+    .getByRole('group', { name: 'Front coil' })
+    .getByRole('button', { name: '9 Ω' })
+    .click();
+  await page.getByRole('group', { name: 'Rear coil' }).getByRole('button', { name: '3 Ω' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
+    'Target reached',
+  );
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: '1 A and 10 V' }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: 'Both currents fall to zero' }).click();
+  await page.getByRole('button', { name: 'Finish investigation' }).click();
+  await expect(page.getByText('2 of 2 fresh checks', { exact: false })).toBeVisible();
+
+  await page.goto('/#/laboratory/research-station/parallel-routes');
+  await expect(page.getByRole('heading', { name: 'Bring the backup branch online' })).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText('1 A');
+  await page
+    .getByRole('group', { name: 'Backup link' })
+    .getByRole('button', { name: 'Closed' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText('2 A');
+  await page.getByRole('group', { name: 'Backup link' }).getByRole('button', { name: 'Open' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText('1 A');
+  await page
+    .getByRole('group', { name: 'Backup link' })
+    .getByRole('button', { name: 'Closed' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText('2 A');
+  await expect(
+    page.getByRole('group', { name: 'Backup link' }).getByRole('button', { name: 'Closed' }),
+  ).toHaveAttribute('aria-pressed', 'true');
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      ),
+  );
+  await page.screenshot({ path: info.outputPath('station-parallel-branches.png'), fullPage: true });
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: 'Main 1 A; source 1 A' }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page
+    .getByRole('group', { name: 'Backup load' })
+    .getByRole('button', { name: '12 Ω' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText('3 A');
+  await page
+    .getByRole('group', { name: 'Backup load' })
+    .getByRole('button', { name: '6 Ω' })
+    .click();
+  await page
+    .getByRole('group', { name: 'Main load' })
+    .getByRole('button', { name: '12 Ω' })
+    .click();
+  await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
+    'Target reached',
+  );
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: '4.5 A' }).click();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByRole('button', { name: /Main stays 2 A; source falls/ }).click();
+  await page.getByRole('button', { name: 'Finish investigation' }).click();
+  await expect(page.getByText('2 of 2 fresh checks', { exact: false })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('parallel branches remain operable by touch with expanded text', async ({
+  browser,
+  baseURL,
+  browserName,
+}, info) => {
+  const context = await browser.newContext({
+    baseURL,
+    viewport: { width: 360, height: 640 },
+    hasTouch: true,
+    isMobile: browserName !== 'firefox',
+    reducedMotion: 'reduce',
+  });
+  const page = await context.newPage();
+  try {
+    await page.goto('/#/laboratory/research-station/parallel-routes');
+    await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });
+    await expect(
+      page.getByRole('heading', { name: 'Bring the backup branch online' }),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    const targets = await page
+      .locator('.lab-control button')
+      .evaluateAll((buttons) => buttons.map((button) => button.getBoundingClientRect().height));
+    expect(targets.every((height) => height >= 44)).toBe(true);
+    await page
+      .getByRole('group', { name: 'Backup link' })
+      .getByRole('button', { name: 'Closed' })
+      .tap();
+    await expect(page.getByRole('status').filter({ hasText: 'Source current' })).toContainText(
+      '2 A',
+    );
+    await page.getByText('See the path and meter readings', { exact: true }).click();
+    await expect(page.getByRole('table')).toContainText('Backup load');
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
+    ).toBe(true);
+    await page.screenshot({
+      path: info.outputPath('station-parallel-phone-expanded.png'),
+      fullPage: true,
+    });
+  } finally {
+    await context.close();
+  }
+});
+
 test('new circuit controls fit a narrow touch layout with expanded text', async ({
   browser,
   baseURL,

@@ -1,0 +1,970 @@
+
+> learnlab@0.1.0 test
+> vitest run
+
+(node:3374621) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ RUN  v4.1.8 /home/charles/.codex/worktrees/laboratory-series-parallel/LearnLab
+
+ ❯ src/app/__tests__/assessment.test.tsx (3 tests | 1 failed) 1726ms
+     × records assessment attempts WITH passMarkInfo 1337ms
+ ❯ src/python/components/__tests__/viz.test.tsx (4 tests | 1 failed) 3102ms
+     × shows a loading fallback then renders the lazy chart 2815ms
+ ❯ src/app/pages/LessonPage.test.tsx (1 test | 1 failed) 1367ms
+     × "Print this lesson" calls window.print() when clicked 1337ms
+ ❯ tests/pipeline/author-course.test.ts (8 tests | 3 failed) 29549ms
+     × preserves a new non-enumerated subject and adult level, records a plan, and resumes it without reinterview 5285ms
+     × retains brief/plan revisions and invalidates prior verification when the brief changes 5123ms
+     × scaffolds a new subject through a retained plan and rejects placeholder content 5835ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/pipeline/author-course.test.ts > authoring run contracts > preserves a new non-enumerated subject and adult level, records a plan, and resumes it without reinterview
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/pipeline/author-course.test.ts:100:3
+     98|
+     99| describe('authoring run contracts', () => {
+    100|   it('preserves a new non-enumerated subject and adult level, records …
+       |   ^
+    101|     const f = fixture();
+    102|     expect(start(f).code).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  tests/pipeline/author-course.test.ts > authoring run contracts > retains brief/plan revisions and invalidates prior verification when the brief changes
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/pipeline/author-course.test.ts:159:3
+    157|   });
+    158|
+    159|   it('retains brief/plan revisions and invalidates prior verification …
+       |   ^
+    160|     const f = fixture();
+    161|     start(f);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  tests/pipeline/author-course.test.ts > authoring run contracts > scaffolds a new subject through a retained plan and rejects placeholder content
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ tests/pipeline/author-course.test.ts:214:3
+    212|   });
+    213|
+    214|   it('scaffolds a new subject through a retained plan and rejects plac…
+       |   ^
+    215|     const f = fixture();
+    216|     expect(start(f).code).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  src/app/__tests__/assessment.test.tsx > AssessmentPage (FR-QUIZ-003/006) > records assessment attempts WITH passMarkInfo
+TestingLibraryElementError: Unable to find role="button" and name "finish-quiz"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"min-h-screen bg-surface text-slate-900 dark:bg-surface-dark dark:text-slate-100"[39m
+    [36m>[39m
+      [36m<a[39m
+        [33mclass[39m=[32m"sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-indigo-700 focus:px-3 focus:py-2 focus:text-white"[39m
+        [33mhref[39m=[32m"#main-content"[39m
+      [36m>[39m
+        [0mSkip to content[0m
+      [36m</a>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-center gap-3 border-b border-amber-300 bg-amber-100 px-4 py-2 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-900 dark:text-amber-100"[39m
+        [33mrole[39m=[32m"status"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"flex-1"[39m
+        [36m>[39m
+          [0mPython items won’t run in this browser; reading content still works.[0m
+        [36m</p>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Dismiss browser support notice"[39m
+          [33mclass[39m=[32m"rounded p-1 hover:bg-amber-200 focus-visible:outline-2 focus-visible:outline-amber-700 dark:hover:bg-amber-800"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-x h-4 w-4"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M18 6 6 18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m6 6 12 12"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-surface-dark-muted"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto flex max-w-5xl flex-wrap items-center gap-3 px-4 py-3"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"rounded text-lg font-bold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/"[39m
+          [36m>[39m
+            [0mLearnLab[0m
+          [36m</a>[39m
+          [36m<nav[39m
+            [33maria-label[39m=[32m"Main"[39m
+            [33mclass[39m=[32m"ml-auto flex max-w-full flex-wrap items-center gap-0.5 sm:gap-1"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Search"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/search"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-search h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"m21 21-4.34-4.34"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"11"[39m
+                  [33mcy[39m=[32m"11"[39m
+                  [33mr[39m=[32m"8"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mSearch[0m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Review"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/review"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-rotate-ccw h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 3v5h5"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mReview[0m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Progress"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/progress"[39m
+            [36m>[39m
+     ...
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"min-h-screen bg-surface text-slate-900 dark:bg-surface-dark dark:text-slate-100"[39m
+    [36m>[39m
+      [36m<a[39m
+        [33mclass[39m=[32m"sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-indigo-700 focus:px-3 focus:py-2 focus:text-white"[39m
+        [33mhref[39m=[32m"#main-content"[39m
+      [36m>[39m
+        [0mSkip to content[0m
+      [36m</a>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-center gap-3 border-b border-amber-300 bg-amber-100 px-4 py-2 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-900 dark:text-amber-100"[39m
+        [33mrole[39m=[32m"status"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"flex-1"[39m
+        [36m>[39m
+          [0mPython items won’t run in this browser; reading content still works.[0m
+        [36m</p>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Dismiss browser support notice"[39m
+          [33mclass[39m=[32m"rounded p-1 hover:bg-amber-200 focus-visible:outline-2 focus-visible:outline-amber-700 dark:hover:bg-amber-800"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-x h-4 w-4"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M18 6 6 18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m6 6 12 12"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-surface-dark-muted"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto flex max-w-5xl flex-wrap items-center gap-3 px-4 py-3"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"rounded text-lg font-bold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/"[39m
+          [36m>[39m
+            [0mLearnLab[0m
+          [36m</a>[39m
+          [36m<nav[39m
+            [33maria-label[39m=[32m"Main"[39m
+            [33mclass[39m=[32m"ml-auto flex max-w-full flex-wrap items-center gap-0.5 sm:gap-1"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Search"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/search"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-search h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"m21 21-4.34-4.34"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"11"[39m
+                  [33mcy[39m=[32m"11"[39m
+                  [33mr[39m=[32m"8"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mSearch[0m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Review"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/review"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-rotate-ccw h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 3v5h5"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mReview[0m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Progress"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/progress"[39m
+            [36m>[39m
+     ...
+ ❯ waitForWrapper ../../../../Desktop/Projects/LearnLab/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ ../../../../Desktop/Projects/LearnLab/node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/app/__tests__/assessment.test.tsx:54:35
+     52|     renderRoute('/module/diff-1/assessment');
+     53|
+     54|     await user.click(await screen.findByRole('button', { name: 'finish…
+       |                                   ^
+     55|
+     56|     expect(progress.recordAttempt).toHaveBeenCalledWith(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  src/app/pages/LessonPage.test.tsx > LessonPage printable view (SRS §13, D-026) > "Print this lesson" calls window.print() when clicked
+TestingLibraryElementError: Unable to find role="button" and name "Print this lesson"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"min-h-screen bg-surface text-slate-900 dark:bg-surface-dark dark:text-slate-100"[39m
+    [36m>[39m
+      [36m<a[39m
+        [33mclass[39m=[32m"sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-indigo-700 focus:px-3 focus:py-2 focus:text-white"[39m
+        [33mhref[39m=[32m"#main-content"[39m
+      [36m>[39m
+        [0mSkip to content[0m
+      [36m</a>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-center gap-3 border-b border-amber-300 bg-amber-100 px-4 py-2 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-900 dark:text-amber-100"[39m
+        [33mrole[39m=[32m"status"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"flex-1"[39m
+        [36m>[39m
+          [0mPython items won’t run in this browser; reading content still works.[0m
+        [36m</p>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Dismiss browser support notice"[39m
+          [33mclass[39m=[32m"rounded p-1 hover:bg-amber-200 focus-visible:outline-2 focus-visible:outline-amber-700 dark:hover:bg-amber-800"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-x h-4 w-4"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M18 6 6 18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m6 6 12 12"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-surface-dark-muted"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto flex max-w-5xl flex-wrap items-center gap-3 px-4 py-3"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"rounded text-lg font-bold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/"[39m
+          [36m>[39m
+            [0mLearnLab[0m
+          [36m</a>[39m
+          [36m<nav[39m
+            [33maria-label[39m=[32m"Main"[39m
+            [33mclass[39m=[32m"ml-auto flex max-w-full flex-wrap items-center gap-0.5 sm:gap-1"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Search"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/search"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-search h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"m21 21-4.34-4.34"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"11"[39m
+                  [33mcy[39m=[32m"11"[39m
+                  [33mr[39m=[32m"8"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mSearch[0m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Review"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/review"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-rotate-ccw h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 3v5h5"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mReview[0m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Progress"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/progress"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-chart-column h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 3v16a2 2 0 0 0 2 2h16"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M18 17V9"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M13 17V5"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M8 17v-3"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mProgress[0m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Widgets"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/widgets"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-blocks h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M10 22V7a1 1 0 0 0-1-1H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5a1 1 0 0 0-1-1H2"[39m
+                [36m/>[39m
+                [36m<rect[39m
+                  [33mheight[39m=[32m"8"[39m
+                  [33mrx[39m=[32m"1"[39m
+                  [33mwidth[39m=[32m"8"[39m
+                  [33mx[39m=[32m"14"[39m
+                  [33my[39m=[32m"2"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mWidgets[0m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Settings"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/settings"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-settings h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"12"[39m
+                  [33mr[39m=[32m"3"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mSettings[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</nav>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"mx-auto max-w-5xl px-4 py-6 outline-none"[39m
+        [33mid[39m=[32m"main-content"[39m
+        [33mtabindex[39m=[32m"-1"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"flex items-center gap-2 py-8 text-sm text-slate-600 dark:text-slate-300"[39m
+          [33mrole[39m=[32m"status"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-loader-circle h-4 w-4 motion-safe:animate-spin"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M21 12a9 9 0 1 1-6.219-8.56"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mLoading module…[0m
+        [36m</p>[39m
+      [36m</main>[39m
+    [36m</div>[39m
+    [36m<div[39m
+      [33maria-label[39m=[32m"Notifications"[39m
+      [33maria-live[39m=[32m"polite"[39m
+      [33mclass[39m=[32m"fixed bottom-4 left-1/2 z-50 flex w-full max-w-sm -translate-x-1/2 flex-col gap-2 px-4"[39m
+      [33mrole[39m=[32m"region"[39m
+    [36m/>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"min-h-screen bg-surface text-slate-900 dark:bg-surface-dark dark:text-slate-100"[39m
+    [36m>[39m
+      [36m<a[39m
+        [33mclass[39m=[32m"sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-indigo-700 focus:px-3 focus:py-2 focus:text-white"[39m
+        [33mhref[39m=[32m"#main-content"[39m
+      [36m>[39m
+        [0mSkip to content[0m
+      [36m</a>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex items-center gap-3 border-b border-amber-300 bg-amber-100 px-4 py-2 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-900 dark:text-amber-100"[39m
+        [33mrole[39m=[32m"status"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"flex-1"[39m
+        [36m>[39m
+          [0mPython items won’t run in this browser; reading content still works.[0m
+        [36m</p>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Dismiss browser support notice"[39m
+          [33mclass[39m=[32m"rounded p-1 hover:bg-amber-200 focus-visible:outline-2 focus-visible:outline-amber-700 dark:hover:bg-amber-800"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-x h-4 w-4"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M18 6 6 18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m6 6 12 12"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<header[39m
+        [33mclass[39m=[32m"border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-surface-dark-muted"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mx-auto flex max-w-5xl flex-wrap items-center gap-3 px-4 py-3"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"rounded text-lg font-bold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/"[39m
+          [36m>[39m
+            [0mLearnLab[0m
+          [36m</a>[39m
+          [36m<nav[39m
+            [33maria-label[39m=[32m"Main"[39m
+            [33mclass[39m=[32m"ml-auto flex max-w-full flex-wrap items-center gap-0.5 sm:gap-1"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Search"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/search"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-search h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"m21 21-4.34-4.34"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"11"[39m
+                  [33mcy[39m=[32m"11"[39m
+                  [33mr[39m=[32m"8"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mSearch[0m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Review"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/review"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-rotate-ccw h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 3v5h5"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mReview[0m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Progress"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/progress"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-chart-column h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M3 3v16a2 2 0 0 0 2 2h16"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M18 17V9"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M13 17V5"[39m
+                [36m/>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M8 17v-3"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mProgress[0m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Widgets"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/widgets"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-blocks h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M10 22V7a1 1 0 0 0-1-1H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5a1 1 0 0 0-1-1H2"[39m
+                [36m/>[39m
+                [36m<rect[39m
+                  [33mheight[39m=[32m"8"[39m
+                  [33mrx[39m=[32m"1"[39m
+                  [33mwidth[39m=[32m"8"[39m
+                  [33mx[39m=[32m"14"[39m
+                  [33my[39m=[32m"2"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mWidgets[0m
+              [36m</span>[39m
+            [36m</a>[39m
+            [36m<a[39m
+              [33maria-label[39m=[32m"Settings"[39m
+              [33mclass[39m=[32m"flex items-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:px-3 text-slate-700 hover:bg-slate-200 dark:text-slate-200 dark:hover:bg-slate-700"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/settings"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-settings h-4 w-4 shrink-0"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"[39m
+                [36m/>[39m
+                [36m<circle[39m
+                  [33mcx[39m=[32m"12"[39m
+                  [33mcy[39m=[32m"12"[39m
+                  [33mr[39m=[32m"3"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"hidden sm:inline"[39m
+              [36m>[39m
+                [0mSettings[0m
+              [36m</span>[39m
+            [36m</a>[39m
+          [36m</nav>[39m
+        [36m</div>[39m
+      [36m</header>[39m
+      [36m<main[39m
+        [33mclass[39m=[32m"mx-auto max-w-5xl px-4 py-6 outline-none"[39m
+        [33mid[39m=[32m"main-content"[39m
+        [33mtabindex[39m=[32m"-1"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"flex items-center gap-2 py-8 text-sm text-slate-600 dark:text-slate-300"[39m
+          [33mrole[39m=[32m"status"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-loader-circle h-4 w-4 motion-safe:animate-spin"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M21 12a9 9 0 1 1-6.219-8.56"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mLoading module…[0m
+        [36m</p>[39m
+      [36m</main>[39m
+    [36m</div>[39m
+    [36m<div[39m
+      [33maria-label[39m=[32m"Notifications"[39m
+      [33maria-live[39m=[32m"polite"[39m
+      [33mclass[39m=[32m"fixed bottom-4 left-1/2 z-50 flex w-full max-w-sm -translate-x-1/2 flex-col gap-2 px-4"[39m
+      [33mrole[39m=[32m"region"[39m
+    [36m/>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ waitForWrapper ../../../../Desktop/Projects/LearnLab/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ ../../../../Desktop/Projects/LearnLab/node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/app/pages/LessonPage.test.tsx:28:35
+     26|     renderRoute('/module/diff-1/lesson/l1');
+     27|
+     28|     await user.click(await screen.findByRole('button', { name: 'Print …
+       |                                   ^
+     29|
+     30|     expect(printSpy).toHaveBeenCalledTimes(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  src/python/components/__tests__/viz.test.tsx > Plot component > shows a loading fallback then renders the lazy chart
+AssertionError: expected null not to be null
+
+Ignored nodes: comments, script, style
+[36m<html>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<div[39m
+        [33mstyle[39m=[32m"width: 100%; height: 200px;"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33maria-live[39m=[32m"polite"[39m
+          [33mclass[39m=[32m"flex h-full w-full items-center justify-center text-sm text-slate-500"[39m
+          [33mrole[39m=[32m"status"[39m
+        [36m>[39m
+          [0mLoading chart…[0m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</body>[39m
+[36m</html>[39m
+ ❯ src/python/components/__tests__/viz.test.tsx:43:84
+     41|     // The lazy Recharts module resolves and the chart container appea…
+     42|     await waitFor(() => {
+     43|       expect(result.container.querySelector('.recharts-responsive-cont…
+       |                                                                                    ^
+     44|     });
+     45|   });
+ ❯ runWithExpensiveErrorDiagnosticsDisabled ../../../../Desktop/Projects/LearnLab/node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback ../../../../Desktop/Projects/LearnLab/node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback ../../../../Desktop/Projects/LearnLab/node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+
+ Test Files  4 failed | 88 passed | 11 skipped (103)
+      Tests  6 failed | 951 passed | 11 skipped (968)
+   Start at  08:52:23
+   Duration  57.74s (transform 22.01s, setup 46.86s, import 76.34s, tests 180.38s, environment 261.36s)
+

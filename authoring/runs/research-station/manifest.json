@@ -751,6 +751,156 @@
       "revision": "7adcd94b2077f6afce0d9f8f1017a624518ac69f",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0075-scaffold.json",
+      "sha256": "26406783d8c16db1db92af82f4c64f9a7000524546167acb537add41c0a219bb",
+      "note": "Actual draft scaffold at authoring/drafts/research-station-networks; incomplete nodes/references deliberately fail validation.",
+      "at": "2026-09-28T07:43:21.124Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0076-pack.json",
+      "sha256": "d43e0eb0c17b7963e4f5550d859c3f927c90c2ea92b2b705b9dc89dcfd84478f",
+      "note": "Staged local preview at public/laboratory/research-station; no merge or deployment.",
+      "at": "2026-09-28T07:45:56.432Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "research",
+      "file": "artifacts/0077-research-ledger.json",
+      "sha256": "4dcc5580606c600211d87370416645e222d68675f84727178afeb2d2fb4dcbd2",
+      "note": "Series and parallel source decisions, ideal-source limits and verification plan.",
+      "at": "2026-09-28T07:59:22.626Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0078-learnlab-circuits-v5-units.log",
+      "sha256": "1bb37be1eda9fbbecf0e92caa148e480170f8618713d139159d822ba4904fc3a",
+      "note": "First concurrent full unit run failed six timeouts or late renders; retained for diagnosis.",
+      "at": "2026-09-28T07:59:22.889Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0079-learnlab-circuits-v5-units-retry.log",
+      "sha256": "8d43b08e66944e112c1865f45bb2f3fa64f89956a05b297ebea7a76129c602e5",
+      "note": "Full Vitest rerun with two workers: 957 passed; 11 browser-only skips.",
+      "at": "2026-09-28T07:59:23.166Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0080-learnlab-circuits-v5-contracts-final.log",
+      "sha256": "8e00e76de22423c22339ef505e9dfc6cd3921a5e094e04ddfcd24349203d4134",
+      "note": "Focused contract tests after retained version-4 replay case: 21 passed.",
+      "at": "2026-09-28T07:59:23.440Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0081-learnlab-circuits-v5-types.log",
+      "sha256": "9db56300b0bf5d5dd8f19cd445585168aec7f425300402b5c00501892fa29208",
+      "note": "TypeScript check passed.",
+      "at": "2026-09-28T07:59:23.767Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0082-learnlab-circuits-v5-lint.log",
+      "sha256": "fec26811c4c87ee611cf4eddcd89c8e8a6be90a0879ecc6ab689cedf60630f6f",
+      "note": "Lint passed with one pre-existing SignalScope warning.",
+      "at": "2026-09-28T07:59:24.090Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0083-learnlab-circuits-v5-content.log",
+      "sha256": "19ec28cf6b6b70332fcc9a7650a212aa4d22861ca6e45126c1b3f5a8e8254c2a",
+      "note": "Strict legacy content validation: 9 courses and 78 modules.",
+      "at": "2026-09-28T07:59:24.384Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0084-learnlab-circuits-v5-build.log",
+      "sha256": "9c7c4f9b7cde574958d8ce92a6f73e0dbb7a7fbeb8d9f834277162d169ef1abb",
+      "note": "Production build and size budget passed before final CSS-only refinement; full browser rebuild covered refinement.",
+      "at": "2026-09-28T07:59:24.649Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0085-learnlab-circuits-v5-browser-host-full.log",
+      "sha256": "d5acc7fcc5c7a0b6f9584f6a3d661dbf438b580efd6e1d324d4c5e10e831013d",
+      "note": "Production Chromium and Firefox laboratory suite, including offline close and reopen: 20 passed.",
+      "at": "2026-09-28T07:59:24.927Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0086-learnlab-circuits-v5-browser-webkit-full.log",
+      "sha256": "6b9aff07e4ca95d047adbe7855afe9cbc5fe5611bcfaab6a832df495d3dac9c6",
+      "note": "Official Linux WebKit laboratory suite: 9 passed and persistent-cache environment skip.",
+      "at": "2026-09-28T07:59:25.222Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0087-CIRCUITS-EPISODES-5-6-VERIFICATION.md",
+      "sha256": "1964a79a6731126afbac70d0cda5848ae7a32b11a25fd20e3772e9dd9509d361",
+      "note": "Hand-derived answers, model assumptions, alternative routes and rendered critique.",
+      "at": "2026-09-28T07:59:25.497Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0088-station-parallel-branches.png",
+      "sha256": "e40135b04e14f078010c944729a5760d082818ea933a0c097cfc93df42aa45a7",
+      "note": "WebKit desktop parallel scene after settled closed-link render.",
+      "at": "2026-09-28T07:59:25.776Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0089-station-parallel-phone-expanded.png",
+      "sha256": "ab35a29bf045de5ff6da77ad793780cc897e980abbf8e8c23b740ba22c5f5b29",
+      "note": "WebKit 360px touch parallel scene at 200 percent text, with meter table opened and no document overflow.",
+      "at": "2026-09-28T07:59:51.679Z",
+      "revision": "40c19ea7f91bd6590cb3639a6293a01b227e5026",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [
@@ -767,6 +917,11 @@
       "kind": "scaffold-created",
       "at": "2026-09-27T16:15:42.293Z",
       "output": "authoring/drafts/research-station"
+    },
+    {
+      "kind": "scaffold-created",
+      "at": "2026-09-28T07:43:21.130Z",
+      "output": "authoring/drafts/research-station-networks"
     }
   ]
 }
