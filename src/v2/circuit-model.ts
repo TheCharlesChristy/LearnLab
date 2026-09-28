@@ -79,13 +79,7 @@ export function parseCircuitConfiguration(raw: unknown): CircuitConfiguration {
     return { type: 'resistor', id: value.id, ohms: value.ohms };
   };
   const circuit = parse(raw.circuit, 'circuit', 0);
-  if (!containsResistor(circuit)) throw new Error('circuit: at least one resistor is required');
   return { voltage: raw.voltage, circuit };
-}
-function containsResistor(node: CircuitElement): boolean {
-  return (
-    node.type === 'resistor' || (node.type !== 'switch' && node.elements.some(containsResistor))
-  );
 }
 export function equivalentResistance(node: CircuitElement): number {
   if (node.type === 'resistor') return node.ohms;

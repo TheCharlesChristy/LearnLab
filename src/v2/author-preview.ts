@@ -4,6 +4,7 @@ import type { LaboratoryEpisode, LaboratoryPack } from './pack.ts';
 import { appendEvent, controlValue, newRun, parseRun, projectRun } from './run.ts';
 import type { LaboratoryRun, RunInput } from './run.ts';
 import { informativeProbeIds } from './meter-probe.ts';
+import { placeRepairPart } from './repair-bench.ts';
 
 export interface AuthorPreview {
   formatVersion: 1;
@@ -107,7 +108,17 @@ export function createPreviewRun(input: AuthorPreview): LaboratoryRun {
         });
       else if (node.activity.type === 'meter-probe')
         emit({ type: 'probe', node: node.id, id: informativeProbeIds(node.activity)[0]! });
-      else
+      else if (node.activity.type === 'repair-bench') {
+        let state = structuredClone(node.activity.initial);
+        if (state.layout !== node.activity.solution.layout)
+          emit({ type: 'rewire', node: node.id, layout: node.activity.solution.layout });
+        for (const slot of node.activity.slots) {
+          const wanted = node.activity.solution.placements[slot.id] ?? null;
+          if (state.placements[slot.id] === wanted) continue;
+          emit({ type: 'place', node: node.id, slot: slot.id, part: wanted });
+          state = placeRepairPart(node.activity, state, slot.id, wanted);
+        }
+      } else
         for (const control of node.activity.controls)
           emit({
             type: 'control',

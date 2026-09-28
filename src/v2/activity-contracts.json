@@ -40,5 +40,19 @@
       "motion": "No essential motion or sound.",
       "alternative": "A labelled topology list and text readings accompany the optional diagram."
     }
+  },
+  "repair-bench": {
+    "version": "0.1.0",
+    "schemaDef": "repairBench",
+    "stateVersion": 1,
+    "goal": "place distinct resistive parts in two to four sockets, change series or parallel wiring, and meet computed reading ranges",
+    "documentation": "docs/laboratory/ACTIVITIES.md#repair-bench",
+    "accessibility": {
+      "keyboard": "Native part and layout buttons; every socket has a labelled fieldset.",
+      "announcement": "Meter observations and repair feedback appear in text status regions.",
+      "touch": "The same placement buttons work by touch; no dragging is required.",
+      "motion": "No essential motion or sound.",
+      "alternative": "The topology, selected parts and meter readings are available as text."
+    }
   }
 }

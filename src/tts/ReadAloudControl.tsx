@@ -88,7 +88,7 @@ export function ReadAloudControl({
           </Button>
         )}
       </div>
-      <label className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300">
+      <label className="flex min-w-0 max-w-full flex-wrap items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300">
         <span>Speed</span>
         <input
           type="range"
@@ -98,7 +98,7 @@ export function ReadAloudControl({
           value={rate}
           onChange={(e) => setRate(Number(e.target.value))}
           aria-label="Reading speed"
-          className="accent-indigo-700 dark:accent-indigo-400"
+          className="min-w-0 w-20 max-w-full accent-indigo-700 dark:accent-indigo-400"
         />
         <span className="w-8 tabular-nums">{rate.toFixed(1)}x</span>
       </label>

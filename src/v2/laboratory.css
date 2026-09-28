@@ -93,6 +93,15 @@
   padding: 0.6rem;
   min-width: 0;
 }
+.lab-part-select {
+  background: var(--lab-panel);
+  border-color: var(--lab-line);
+  color: var(--lab-ink);
+}
+.lab-part-select:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
 .lab-details {
   border: 1px solid var(--lab-line);
   border-radius: 0.7rem;

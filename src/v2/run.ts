@@ -3,11 +3,16 @@ import type { CircuitActivity, LaboratoryEpisode, LaboratoryNode, LaboratoryPack
 import { parseCircuitConfiguration, setCircuitElement } from './circuit-model.ts';
 import type { CircuitConfiguration } from './circuit-model.ts';
 import { informativeProbeIds } from './meter-probe.ts';
+import { placeRepairPart, repairGoalMet, repairReading, setRepairLayout } from './repair-bench.ts';
+import type { RepairBenchState } from './repair-bench.ts';
 
 export type RunEvent = { at: number; node: string } & (
   | { type: 'control'; id: string; value: number | boolean }
   | { type: 'answer'; option: string }
   | { type: 'probe'; id: string }
+  | { type: 'place'; slot: string; part: string | null }
+  | { type: 'rewire'; layout: 'series' | 'parallel' }
+  | { type: 'inspect'; reading: string; quantity: 'current' | 'voltage' | 'power' }
   | { type: 'hint' }
   | { type: 'worked' }
   | { type: 'advance'; outcome: 'passed' | 'assisted' }
@@ -31,6 +36,12 @@ export interface NodeMemory {
   elapsedSeconds?: number;
   selected?: string;
   probes?: string[];
+  repair?: RepairBenchState;
+  inspections?: {
+    reading: string;
+    quantity: 'current' | 'voltage' | 'power';
+    value: number | null;
+  }[];
   attempts: number;
   actions: number;
   hints: number;
@@ -76,6 +87,9 @@ const initialMemory = (node: LaboratoryNode, replayed = false): NodeMemory => ({
   ...(node.activity.type === 'circuit' && node.activity.interval
     ? { elapsedSeconds: node.activity.interval.initialSeconds }
     : {}),
+  ...(node.activity.type === 'repair-bench'
+    ? { repair: structuredClone(node.activity.initial), inspections: [] }
+    : {}),
   attempts: 0,
   actions: 0,
   hints: 0,
@@ -89,6 +103,8 @@ export function nodePassed(node: LaboratoryNode, memory: NodeMemory): boolean {
     const informative = informativeProbeIds(node.activity);
     return (memory.probes ?? []).some((id) => informative.includes(id));
   }
+  if (node.activity.type === 'repair-bench')
+    return memory.actions > 0 && !!memory.repair && repairGoalMet(node.activity, memory.repair);
   return (
     memory.actions > 0 &&
     !!memory.circuit &&
@@ -151,6 +167,9 @@ export function projectRun(
       control: ['id', 'value'],
       answer: ['option'],
       probe: ['id'],
+      place: ['slot', 'part'],
+      rewire: ['layout'],
+      inspect: ['reading', 'quantity'],
       hint: [],
       worked: [],
       advance: ['outcome'],
@@ -243,6 +262,43 @@ export function projectRun(
       result.exposed.add(node.id);
       continue;
     }
+    if (event.type === 'place') {
+      if (node.activity.type !== 'repair-bench' || !memory.repair)
+        throw new Error('Saved placement is unavailable');
+      memory.repair = placeRepairPart(node.activity, memory.repair, event.slot, event.part);
+      memory.actions++;
+      result.exposed.add(node.id);
+      continue;
+    }
+    if (event.type === 'rewire') {
+      if (node.activity.type !== 'repair-bench' || !memory.repair)
+        throw new Error('Saved wiring is unavailable');
+      memory.repair = setRepairLayout(node.activity, memory.repair, event.layout);
+      memory.actions++;
+      result.exposed.add(node.id);
+      continue;
+    }
+    if (event.type === 'inspect') {
+      if (
+        node.activity.type !== 'repair-bench' ||
+        !memory.repair ||
+        !(
+          (event.reading === 'source' && event.quantity === 'current') ||
+          (['current', 'voltage'].includes(event.quantity) &&
+            node.activity.slots.some((slot) => slot.id === event.reading))
+        )
+      )
+        throw new Error('Saved meter inspection is unavailable');
+      memory.inspections ??= [];
+      memory.inspections.push({
+        reading: event.reading,
+        quantity: event.quantity,
+        value: repairReading(node.activity, memory.repair, event.reading, event.quantity),
+      });
+      memory.attempts++;
+      result.exposed.add(node.id);
+      continue;
+    }
     if (event.type === 'advance') {
       if (
         !['passed', 'assisted'].includes(event.outcome) ||
@@ -261,6 +317,7 @@ export function projectRun(
           !memory.worked &&
           !replayed &&
           node.activity.type !== 'meter-probe' &&
+          node.activity.type !== 'repair-bench' &&
           (node.activity.type !== 'choice' || memory.attempts === 1),
         attempts: memory.attempts,
         hints: memory.hints,

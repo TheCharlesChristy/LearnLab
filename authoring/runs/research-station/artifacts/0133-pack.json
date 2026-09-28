@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
-  "version": 9,
+  "version": 8,
   "stateVersion": 1,
   "id": "research-station",
-  "title": "Research Station",
+  "title": "Bring the research station back online",
   "description": "Restore the research station through ten short ideal DC circuit investigations. Predict, build, measure, diagnose and test more than one repair.",
   "audience": "Learners approaching A-level physics, with optional GCSE bridges; curious adult explorers welcome",
   "level": "Introduction bridging GCSE to A-level DC circuits",
@@ -3188,5 +3188,5 @@
     }
   ],
   "assets": [],
-  "scopeNote": "These station boards use ideal resistive loads and an ideal supply. Explore wiring and readings, then compare the model with real equipment in a practical lesson."
+  "scopeNote": "Ten short investigations use an ideal, bounded DC series/parallel model with resistive loads and ideal meters. The repair bench allows part placement and series/parallel socket wiring, not arbitrary graphs, transients, real lamp heating or internal source resistance."
 }
