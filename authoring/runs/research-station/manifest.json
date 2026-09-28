@@ -651,6 +651,106 @@
       "revision": "9c2f08d9d4b1bfa8257b547da3479329182d839b",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "research",
+      "file": "artifacts/0065-research-ledger.json",
+      "sha256": "0dd7e8021d4666f74bd9b6f57099d3ac66bc5819a5360397b4b6670ad9b14879",
+      "note": "Current, energy and power sources; partial circuits pilot evidence update",
+      "at": "2026-09-27T22:40:31.419Z",
+      "revision": "eb30882c9695eedb4f256fb9e67a8ad136ada36a",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0066-pack.json",
+      "sha256": "9873e52172f480af300a7bec2597180e97d5a1d60bc03e8d3aad390a0c81a9ba",
+      "note": "Staged local preview at public/laboratory/research-station; no merge or deployment.",
+      "at": "2026-09-27T22:40:31.993Z",
+      "revision": "eb30882c9695eedb4f256fb9e67a8ad136ada36a",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0067-learnlab-circuits-v4-units.log",
+      "sha256": "c2bf8f12557d898ba80ded6fa91e5056ecc2d594e243f9681563061158e6b8cc",
+      "note": "Full Vitest: 955 passed; 11 browser-only shims skipped.",
+      "at": "2026-09-28T07:38:26.336Z",
+      "revision": "eb30882c9695eedb4f256fb9e67a8ad136ada36a",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0068-learnlab-circuits-v4-browser-host.log",
+      "sha256": "aedf05514480ff824a271229f00b9216ae56d1aff57c9c12a23dad5005b7406a",
+      "note": "Production Chromium and Firefox laboratory paths: 16 passed.",
+      "at": "2026-09-28T07:38:26.595Z",
+      "revision": "eb30882c9695eedb4f256fb9e67a8ad136ada36a",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0069-learnlab-circuits-v4-browser-webkit.log",
+      "sha256": "26cace5c09f4c7997ed6d938c2f1ff4419e441168eb9cfa63c82cc85a6c31c4e",
+      "note": "Official Playwright Linux WebKit suite: 7 passed, 1 persistent-cache environment skip.",
+      "at": "2026-09-28T07:38:26.848Z",
+      "revision": "eb30882c9695eedb4f256fb9e67a8ad136ada36a",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0070-learnlab-circuits-offline-browser.log",
+      "sha256": "3621ba03080bb9f6f66d4a9fb9f65ff79d965195aea8b6e87c476be7fd9c9a2f",
+      "note": "Downloaded version-4 pack after browser close and offline reopen: Chromium and Firefox passed.",
+      "at": "2026-09-28T07:38:27.102Z",
+      "revision": "eb30882c9695eedb4f256fb9e67a8ad136ada36a",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0071-CIRCUITS-EPISODES-2-4-VERIFICATION.md",
+      "sha256": "724baa475c886444f4ee606afd1422a74356e4149593933bba09f296632f1178",
+      "note": "Hand-derived answers, model limits, rendered critique, and browser coverage.",
+      "at": "2026-09-28T07:38:27.320Z",
+      "revision": "eb30882c9695eedb4f256fb9e67a8ad136ada36a",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0072-station-energy-console.png",
+      "sha256": "ddf9b7ebeada5ff9458476a5e458e4073452d70f183c2e3e36caf11670d0ed4d",
+      "note": "Linux WebKit desktop capture after rechecking selected 4-second interval and 24 J status.",
+      "at": "2026-09-28T07:38:27.565Z",
+      "revision": "eb30882c9695eedb4f256fb9e67a8ad136ada36a",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0073-station-energy-phone-expanded.png",
+      "sha256": "f5236d6f264035d12e20c8544a66e1feaa17eef68a475405355d6642acedae69",
+      "note": "Linux WebKit 360px touch capture at 200% text with source control and 24 J result.",
+      "at": "2026-09-28T07:38:50.212Z",
+      "revision": "eb30882c9695eedb4f256fb9e67a8ad136ada36a",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "delivery",
+      "file": "artifacts/0074-learnlab-pr73-delivery.json",
+      "sha256": "0a0fe9d7980ffbf90232f0696c65a44a0e40f81e9cb9949beba64fa9282bced4",
+      "note": "Draft PR #73 for research station episodes 2-4, base PR #72; receipt records initial head.",
+      "at": "2026-09-28T07:40:35.607Z",
+      "revision": "7adcd94b2077f6afce0d9f8f1017a624518ac69f",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [

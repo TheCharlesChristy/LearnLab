@@ -46,8 +46,8 @@ exist. Capability discovery must make that distinction explicit until implemente
 The table above records the inspected baseline. The implementation now adds the
 first registered `choice`/`circuit` graph, event replay, explicit pack acquisition,
 retained exposure, recovery and CLI scaffold/validate/stage commands. See ADR-002
-and [activity contracts](ACTIVITIES.md) for exact bounds. Only one of the ten planned
-circuits episodes is staged; history, Studio, broad skill-map/review and owner revision
+and [activity contracts](ACTIVITIES.md) for exact bounds. Four of the ten planned
+circuits episodes are staged; history, the remaining investigation tools and owner revision
 remain pending. The older rollout fixtures still do not establish typed effects.
 
 ## Deliberate choices
@@ -109,6 +109,9 @@ inspects branch edges and previews arbitrary scenes using the same learner works
 `preview`/`inspect` and a versioned envelope reproduce seeds/help/checkpoints. Seeds reorder
 choices only; every preview scene has prior exposure. Storage and speech preferences stay in
 memory, with eight archives retaining original content context. ADR-003 records the boundary.
-Graph 0.1.1 moves bridging/debrief copy into optional authored metadata; the demonstration pack
-increments to version 3. Visual graph authoring, fresh-task generation, Git automation, complete
-pilots and the owner cycle remain pending. This update does not reinterpret the baseline table.
+Graph 0.1.1 moves bridging/debrief copy into optional authored metadata. Circuit
+0.1.1 adds finite source and observation-window controls with integrated charge/energy
+readings; pack version 4 now contains four episodes. Visual graph authoring,
+fresh-task generation, complete pilots and the owner cycle remain pending. Git
+delivery automation is implemented in the subsequent focused slice. This update
+does not reinterpret the baseline table.

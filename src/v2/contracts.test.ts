@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
-import { parseLaboratoryPack, ACTIVITY_CONTRACTS } from './pack';
+import { parseLaboratoryPack, ACTIVITY_CONTRACTS, circuitGoalMet } from './pack';
+import { solveCircuit } from './circuit-model';
 import { appendEvent, newRun, parseRun, projectRun, restoreRun, retainedExposure } from './run';
 import type { RunInput } from './run';
 const fixture = () =>
@@ -46,6 +47,13 @@ describe('laboratory content boundary', () => {
     const schema = JSON.parse(readFileSync('schemas/laboratory-pack.schema.json', 'utf8'));
     for (const [key, contract] of Object.entries(ACTIVITY_CONTRACTS))
       expect(schema.$defs[contract.schemaDef].properties.type.const).toBe(key);
+  });
+  it('keeps the retained circuit 0.1.0 pack readable after the additive activity extension', () => {
+    const older = JSON.parse(
+      readFileSync('authoring/runs/research-station/artifacts/0031-pack.json', 'utf8'),
+    );
+    expect(older.capabilities.circuit).toBe('0.1.0');
+    expect(parseLaboratoryPack(older).episodes).toHaveLength(1);
   });
   it('negotiates authored course copy while accepting older packs with generic fallback', () => {
     const pack = fixture();
@@ -97,6 +105,90 @@ describe('laboratory content boundary', () => {
   });
 });
 describe('local event replay and evidence', () => {
+  it('counts charge over an authored observation window and preserves alternative paths', () => {
+    const pack = fixture();
+    const episode = pack.episodes.find((e) => e.id === 'charge-counter')!;
+    const node = episode.nodes[0]!;
+    if (node.activity.type !== 'circuit') throw new Error('Expected circuit activity');
+    expect(circuitGoalMet(node.activity, node.activity.initial, 2)).toBe(false);
+    expect(circuitGoalMet(node.activity, node.activity.solution, 4)).toBe(true);
+    const one = newRun(pack, episode);
+    const time = appendEvent(pack, episode, one, {
+      type: 'control',
+      node: node.id,
+      id: 'elapsed-time',
+      value: 4,
+      at: one.startedAt + 1,
+    });
+    expect(projectRun(pack, episode, time).memory[node.id]?.elapsedSeconds).toBe(4);
+    expect(() =>
+      appendEvent(pack, episode, one, {
+        type: 'control',
+        node: node.id,
+        id: 'elapsed-time',
+        value: 0,
+        at: one.startedAt + 1,
+      }),
+    ).toThrow('unavailable');
+    const alternative = appendEvent(pack, episode, one, {
+      type: 'control',
+      node: node.id,
+      id: 'sensor',
+      value: 3,
+      at: one.startedAt + 1,
+    });
+    expect(
+      circuitGoalMet(
+        node.activity,
+        projectRun(pack, episode, alternative).memory[node.id]!.circuit!,
+        2,
+      ),
+    ).toBe(true);
+    const oldContract = structuredClone(pack);
+    oldContract.capabilities.circuit = '0.1.0';
+    expect(() => parseLaboratoryPack(oldContract)).toThrow('circuit@0.1.1');
+  });
+  it('replays supply changes and checks energy against independently derived values', () => {
+    const pack = fixture();
+    const episode = pack.episodes.find((e) => e.id === 'energy-lift')!;
+    const node = episode.nodes[0]!;
+    if (node.activity.type !== 'circuit') throw new Error('Expected circuit activity');
+    const hand = solveCircuit({
+      voltage: 6,
+      circuit: { type: 'resistor', id: 'console', ohms: 6 },
+    });
+    expect(hand.status).toBe('solved');
+    if (hand.status === 'solved') {
+      expect(hand.current).toBe(1); // 6 V / 6 ohms
+      expect(hand.power).toBe(6); // 6 V times 1 A
+      expect(hand.power * 4).toBe(24); // 4 second observation
+    }
+    let run = newRun(pack, episode);
+    run = appendEvent(pack, episode, run, {
+      type: 'control',
+      node: node.id,
+      id: 'source',
+      value: 6,
+      at: run.startedAt + 1,
+    });
+    const memory = projectRun(pack, episode, run).memory[node.id]!;
+    expect(memory.circuit?.voltage).toBe(6);
+    expect(memory.elapsedSeconds).toBe(4);
+    expect(circuitGoalMet(node.activity, memory.circuit!, memory.elapsedSeconds)).toBe(true);
+    expect(() =>
+      appendEvent(pack, episode, run, {
+        type: 'control',
+        node: node.id,
+        id: 'source',
+        value: 24,
+        at: run.startedAt + 2,
+      }),
+    ).toThrow('unavailable');
+    const invalid = structuredClone(pack);
+    const activity = invalid.episodes.find((e) => e.id === 'energy-lift')!.nodes[0]!.activity;
+    if (activity.type === 'circuit') activity.interval!.solutionSeconds = 3;
+    expect(() => parseLaboratoryPack(invalid)).toThrow('unreachable');
+  });
   it('replays a complete independent path and retains working control state', () => {
     const s = session();
     s.toTransfer();
@@ -117,6 +209,24 @@ describe('local event replay and evidence', () => {
     const p = projectRun(s.pack, s.episode, s.run);
     expect(p.current).toBeNull();
     expect(p.evidence.every((e) => !e.independent)).toBe(true);
+  });
+  it('each new episode has a reachable assisted route without independent credit', () => {
+    const pack = fixture();
+    for (const episode of pack.episodes.slice(1)) {
+      let run = newRun(pack, episode);
+      let at = run.startedAt;
+      for (const node of episode.nodes)
+        run = appendEvent(pack, episode, run, {
+          type: 'advance',
+          node: node.id,
+          outcome: 'assisted',
+          at: ++at,
+        });
+      const projected = projectRun(pack, episode, run);
+      expect(projected.current).toBeNull();
+      expect(projected.evidence).toHaveLength(episode.nodes.length);
+      expect(projected.evidence.every((item) => !item.independent)).toBe(true);
+    }
   });
   it('wrong attempts, hints and worked examples remain distinct from fresh independent checks', () => {
     for (const assistance of ['wrong', 'hint', 'worked'] as const) {

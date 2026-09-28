@@ -1,6 +1,6 @@
 import { circuitGoalMet, leaves } from './pack.ts';
 import type { CircuitActivity, LaboratoryEpisode, LaboratoryNode, LaboratoryPack } from './pack.ts';
-import { parseCircuitConfiguration, setCircuitElement, solveCircuit } from './circuit-model.ts';
+import { parseCircuitConfiguration, setCircuitElement } from './circuit-model.ts';
 import type { CircuitConfiguration } from './circuit-model.ts';
 
 export type RunEvent = { at: number; node: string } & (
@@ -26,6 +26,7 @@ export interface LaboratoryRun {
 }
 export interface NodeMemory {
   circuit?: CircuitConfiguration;
+  elapsedSeconds?: number;
   selected?: string;
   attempts: number;
   actions: number;
@@ -69,6 +70,9 @@ export function newRun(
 }
 const initialMemory = (node: LaboratoryNode, replayed = false): NodeMemory => ({
   ...(node.activity.type === 'circuit' ? { circuit: structuredClone(node.activity.initial) } : {}),
+  ...(node.activity.type === 'circuit' && node.activity.interval
+    ? { elapsedSeconds: node.activity.interval.initialSeconds }
+    : {}),
   attempts: 0,
   actions: 0,
   hints: 0,
@@ -81,7 +85,7 @@ export function nodePassed(node: LaboratoryNode, memory: NodeMemory): boolean {
   return (
     memory.actions > 0 &&
     !!memory.circuit &&
-    circuitGoalMet(node.activity, solveCircuit(memory.circuit))
+    circuitGoalMet(node.activity, memory.circuit, memory.elapsedSeconds)
   );
 }
 /** Replay is the persistence validation boundary. Only bounded typed events are
@@ -185,12 +189,22 @@ export function projectRun(
       continue;
     }
     if (event.type === 'control') {
+      if (node.activity.type !== 'circuit') throw new Error('Saved control is unavailable');
       if (
-        node.activity.type !== 'circuit' ||
-        !node.activity.controls.find((v) => v.id === event.id)?.values.includes(event.value)
+        event.id === 'source' &&
+        typeof event.value === 'number' &&
+        node.activity.sourceValues?.includes(event.value)
       )
-        throw new Error('Saved control is unavailable');
-      memory.circuit = setCircuitElement(memory.circuit!, event.id, event.value);
+        memory.circuit = parseCircuitConfiguration({ ...memory.circuit!, voltage: event.value });
+      else if (
+        event.id === 'elapsed-time' &&
+        typeof event.value === 'number' &&
+        node.activity.interval?.values.includes(event.value)
+      )
+        memory.elapsedSeconds = event.value;
+      else if (node.activity.controls.find((v) => v.id === event.id)?.values.includes(event.value))
+        memory.circuit = setCircuitElement(memory.circuit!, event.id, event.value);
+      else throw new Error('Saved control is unavailable');
       memory.actions++;
       result.exposed.add(node.id);
       continue;
@@ -286,8 +300,12 @@ export function controlValue(
   activity: CircuitActivity,
   config: CircuitConfiguration,
   id: string,
+  elapsedSeconds = activity.interval?.initialSeconds,
 ): number | boolean {
   parseCircuitConfiguration(config);
+  if (id === 'source' && activity.sourceValues) return config.voltage;
+  if (id === 'elapsed-time' && activity.interval && elapsedSeconds !== undefined)
+    return elapsedSeconds;
   if (!activity.controls.some((v) => v.id === id)) throw new Error('Unknown control');
   const element = leaves(config.circuit).find((v) => v.id === id)!;
   return element.type === 'switch' ? element.closed : element.ohms;

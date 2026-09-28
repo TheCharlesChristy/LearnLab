@@ -14,14 +14,14 @@
     }
   },
   "circuit": {
-    "version": "0.1.0",
+    "version": "0.1.1",
     "schemaDef": "circuit",
     "stateVersion": 1,
-    "goal": "all-finite-reading-ranges-after-control-action",
+    "goal": "all-finite-reading-ranges-after-control-action; optional source and observation-window controls",
     "documentation": "docs/laboratory/ACTIVITIES.md#circuit",
     "accessibility": {
-      "keyboard": "Native buttons select switch/resistor values; no drag requirement.",
-      "announcement": "Current and goal feedback in a polite status after control changes.",
+      "keyboard": "Native buttons select switch, resistor, source and observation-window values; no drag requirement.",
+      "announcement": "Current, integrated charge/energy and goal feedback in a polite status after control changes.",
       "touch": "Same controls on touch; targets at least 44 CSS pixels high.",
       "motion": "Energy indication is static; no essential motion or sound.",
       "alternative": "Circuit topology and meter readings are available as text and a table."

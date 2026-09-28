@@ -33,7 +33,7 @@ with its own checkpoint, not a longer prompt.
 For the learning laboratory and v2 pilots, read `docs/laboratory/AUTHORING-HARNESS.md`
 and `docs/laboratory/ACCEPTANCE.md`. Start an executable authoring run before drafting.
 The CLI supports intake/planning, scaffolding, shared pack/graph validation, local
-staging and evidence preservation. Only a first circuits slice is implemented;
+staging and evidence preservation. Four of ten circuits episodes are implemented;
 Local Studio preview/inspection is implemented; complete pilots remain pending.
 Use `preview`/`inspect` and the loopback-only `VITE_AUTHOR_STUDIO=true` Studio for
 arbitrary scenes, choice-order seeds and assistance state. These are synthetic
@@ -44,6 +44,11 @@ Discover actual capabilities with
 packs through the harness; use `docs/laboratory/ACTIVITIES.md` for the current contract.
 Restart and import must retain prior answer/help exposure. A corrected choice after
 an error, hint, worked example or replay is practice evidence, not fresh independence.
+For circuit investigations, a displayed target reached by adjusting controls is
+exploratory practice. Follow it with a fresh prediction or calculation that cannot
+be answered by reading the visible target alone. State what remains fixed when
+comparing voltage and resistance; do not mistake integrated steady readings for
+a transient simulation.
 
 Learning and enjoyment are separate outcomes, and both matter. Adult courses may
 be playful, including narrative and discovery, when these carry conceptual work.

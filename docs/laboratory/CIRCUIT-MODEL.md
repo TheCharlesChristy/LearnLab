@@ -1,7 +1,7 @@
 # Circuits activity model contract
 
 Status: implemented in `src/v2/circuit-model.ts` and registered as the `circuit`
-0.1.0 laboratory activity. The first rendered episode uses its real controls and
+0.1.1 laboratory activity. Four rendered episodes use its real controls and
 readings behind the laboratory preview flag. See [activity contracts](ACTIVITIES.md).
 
 This extends the same series/parallel reduction used by the legacy `circuit-sim`
@@ -18,7 +18,10 @@ numbers and out-of-bounds configurations are rejected at the content/import boun
 
 `setCircuitElement` is an immutable typed operation changing a named resistor's
 resistance or a named switch's state. It rejects unknown IDs, type mismatches and
-values outside the model. Content cannot supply JavaScript or arbitrary predicates.
+values outside the model. The activity layer's optional source settings also pass
+through the bounded configuration parser. Observation windows are positive authored
+durations from a finite list (at most 3,600 s), not simulated transients. Content
+cannot supply JavaScript or arbitrary predicates.
 
 ## Semantics
 
@@ -27,6 +30,9 @@ A closed switch has zero resistance; an open switch interrupts a path. An intact
 parallel branch still works when another is opened. Current is charge flow rate;
 components transfer energy, not consume charge. Source current is determined by the
 whole circuit at the specified voltage, not a constant battery current.
+For a steady observation interval, passing charge is `I × t` and transferred
+energy is `P × t`; the activity shows these in C and J without changing the
+static circuit model.
 
 A solved result contains source current, equivalent resistance, power and per-element
 current/potential-difference/power in A, ohms, V and W. An open circuit's equivalent
