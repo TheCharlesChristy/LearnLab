@@ -1311,6 +1311,16 @@
       "revision": "7c6ccc49a627edc892333490ec7c2f9351756aec",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "delivery",
+      "file": "artifacts/0131-power-fault-delivery.json",
+      "sha256": "05757a3ed0871d6f381c2f9898e80b608a038dd4642faac0f3025a1786c25c4d",
+      "note": "Draft PR #76 receipt for power and fault investigations; evidence-only follow-up commit will retain this delivery record.",
+      "at": "2026-09-28T19:00:30.245Z",
+      "revision": "3f84e4a2fa221616426f01b7968d3f537283b637",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [
