@@ -13,6 +13,10 @@ export type RunEvent = { at: number; node: string } & (
   | { type: 'place'; slot: string; part: string | null }
   | { type: 'rewire'; layout: 'series' | 'parallel' }
   | { type: 'inspect'; reading: string; quantity: 'current' | 'voltage' | 'power' }
+  | { type: 'open-source'; id: string }
+  | { type: 'pin-source'; id: string }
+  | { type: 'write-claim'; text: string }
+  | { type: 'self-review' }
   | { type: 'hint' }
   | { type: 'worked' }
   | { type: 'advance'; outcome: 'passed' | 'assisted' }
@@ -42,6 +46,10 @@ export interface NodeMemory {
     quantity: 'current' | 'voltage' | 'power';
     value: number | null;
   }[];
+  openedSources?: string[];
+  pinnedSources?: string[];
+  claim?: string;
+  selfReviewed?: boolean;
   attempts: number;
   actions: number;
   hints: number;
@@ -105,6 +113,9 @@ export function nodePassed(node: LaboratoryNode, memory: NodeMemory): boolean {
   }
   if (node.activity.type === 'repair-bench')
     return memory.actions > 0 && !!memory.repair && repairGoalMet(node.activity, memory.repair);
+  if (node.activity.type === 'evidence-board')
+    return (memory.pinnedSources?.length ?? 0) >= 2 &&
+      (memory.claim?.trim().length ?? 0) >= 40 && !!memory.selfReviewed;
   return (
     memory.actions > 0 &&
     !!memory.circuit &&
@@ -170,6 +181,10 @@ export function projectRun(
       place: ['slot', 'part'],
       rewire: ['layout'],
       inspect: ['reading', 'quantity'],
+      'open-source': ['id'],
+      'pin-source': ['id'],
+      'write-claim': ['text'],
+      'self-review': [],
       hint: [],
       worked: [],
       advance: ['outcome'],
@@ -299,6 +314,48 @@ export function projectRun(
       result.exposed.add(node.id);
       continue;
     }
+    if (event.type === 'open-source') {
+      if (node.activity.type !== 'evidence-board' ||
+          !node.activity.sources.some((source) => source.id === event.id) ||
+          memory.openedSources?.includes(event.id))
+        throw new Error('Saved source inspection is unavailable');
+      memory.openedSources = [...(memory.openedSources ?? []), event.id];
+      memory.actions++;
+      result.exposed.add(node.id);
+      continue;
+    }
+    if (event.type === 'pin-source') {
+      if (node.activity.type !== 'evidence-board' || !memory.openedSources?.includes(event.id))
+        throw new Error('Saved source pin is unavailable');
+      const pinned = new Set(memory.pinnedSources ?? []);
+      if (pinned.has(event.id)) pinned.delete(event.id);
+      else pinned.add(event.id);
+      memory.pinnedSources = [...pinned];
+      memory.selfReviewed = false;
+      memory.actions++;
+      result.exposed.add(node.id);
+      continue;
+    }
+    if (event.type === 'write-claim') {
+      if (node.activity.type !== 'evidence-board' || typeof event.text !== 'string' ||
+          event.text.length > 1600 || event.text.trim().length === 0)
+        throw new Error('Saved claim is unavailable');
+      memory.claim = event.text;
+      memory.selfReviewed = false;
+      memory.actions++;
+      result.exposed.add(node.id);
+      continue;
+    }
+    if (event.type === 'self-review') {
+      if (node.activity.type !== 'evidence-board' ||
+          (memory.pinnedSources?.length ?? 0) < 2 ||
+          (memory.claim?.trim().length ?? 0) < 40)
+        throw new Error('Saved review has no source-backed claim');
+      memory.selfReviewed = true;
+      memory.actions++;
+      result.exposed.add(node.id);
+      continue;
+    }
     if (event.type === 'advance') {
       if (
         !['passed', 'assisted'].includes(event.outcome) ||
@@ -318,6 +375,7 @@ export function projectRun(
           !replayed &&
           node.activity.type !== 'meter-probe' &&
           node.activity.type !== 'repair-bench' &&
+          node.activity.type !== 'evidence-board' &&
           (node.activity.type !== 'choice' || memory.attempts === 1),
         attempts: memory.attempts,
         hints: memory.hints,
@@ -401,7 +459,7 @@ export function retainedExposure(raw: unknown, episode: LaboratoryEpisode): stri
   const observed = events.flatMap((event: unknown) => {
     if (!event || typeof event !== 'object' || Array.isArray(event)) return [];
     const e = event as Record<string, unknown>;
-    return ['answer', 'control', 'hint', 'worked', 'advance'].includes(String(e.type))
+    return ['answer', 'control', 'open-source', 'pin-source', 'write-claim', 'self-review', 'hint', 'worked', 'advance'].includes(String(e.type))
       ? [e.node]
       : [];
   });

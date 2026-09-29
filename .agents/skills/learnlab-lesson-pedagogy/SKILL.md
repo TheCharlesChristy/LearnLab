@@ -33,8 +33,9 @@ with its own checkpoint, not a longer prompt.
 For the learning laboratory and v2 pilots, read `docs/laboratory/AUTHORING-HARNESS.md`
 and `docs/laboratory/ACCEPTANCE.md`. Start an executable authoring run before drafting.
 The CLI supports intake/planning, scaffolding, shared pack/graph validation, local
-staging and evidence preservation. Six of ten circuits episodes are implemented;
-Local Studio preview/inspection is implemented; complete pilots remain pending.
+staging and evidence preservation. The circuits pilot has ten authored episodes;
+the history pilot is being authored with a separate source-analysis activity. Local Studio
+preview/inspection is implemented; owner playthrough and review remain pending.
 Use `preview`/`inspect` and the loopback-only `VITE_AUTHOR_STUDIO=true` Studio for
 arbitrary scenes, choice-order seeds and assistance state. These are synthetic
 previews with prior exposure, not fresh assessment variants or observed learning.
@@ -49,6 +50,11 @@ exploratory practice. Follow it with a fresh prediction or calculation that cann
 be answered by reading the visible target alone. State what remains fixed when
 comparing voltage and resistance; do not mistake integrated steady readings for
 a transient simulation.
+For source-based history, let learners inspect records in a meaningful order of
+their own choosing, distinguish observation from inference, and compare creator,
+purpose, date, place and limits. Ask for a qualified written claim against an
+authored rubric. Treat `evidence-board` completion as unmarked reflection; do
+not encode one defensible interpretation as the sole correct `choice` answer.
 
 Learning and enjoyment are separate outcomes, and both matter. Adult courses may
 be playful, including narrative and discovery, when these carry conceptual work.

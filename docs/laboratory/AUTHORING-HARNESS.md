@@ -66,7 +66,7 @@ npm run author:course -- record --run authoring/runs/my-course --kind playthroug
 ```
 
 Discovery reads existing widget keys, screen/question schemas, and the laboratory
-activity registry. The implemented laboratory activities are `choice`, `circuit`, `meter-probe` and `repair-bench`;
+activity registry. The implemented laboratory activities are `choice`, `circuit`, `meter-probe`, `repair-bench` and `evidence-board`;
 older v2 negotiation fixtures are not implemented activities. `schemas` emits brief,
 plan, pack, author-preview, delivery receipt and activity contracts from their source of truth. The generated browser
 pack validator is checked by `npm run validate:laboratory` and the production build.
