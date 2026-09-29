@@ -134,7 +134,27 @@ export function createPreviewRun(input: AuthorPreview): LaboratoryRun {
         }
         emit({ type: 'write-claim', node: node.id, text: 'Preview placeholder: compare both pinned sources and state what neither source can establish.' });
         emit({ type: 'self-review', node: node.id });
-      } else
+      } else {
+        if (
+          node.activity.sourceValues &&
+          node.activity.initial.voltage !== node.activity.solution.voltage
+        )
+          emit({
+            type: 'control',
+            node: node.id,
+            id: 'source',
+            value: node.activity.solution.voltage,
+          });
+        if (
+          node.activity.interval &&
+          node.activity.interval.initialSeconds !== node.activity.interval.solutionSeconds
+        )
+          emit({
+            type: 'control',
+            node: node.id,
+            id: 'elapsed-time',
+            value: node.activity.interval.solutionSeconds,
+          });
         for (const control of node.activity.controls)
           emit({
             type: 'control',
@@ -142,6 +162,7 @@ export function createPreviewRun(input: AuthorPreview): LaboratoryRun {
             id: control.id,
             value: controlValue(node.activity, node.activity.solution, control.id),
           });
+      }
     }
     emit({ type: 'advance', ...step });
   }

@@ -24,6 +24,38 @@ const fixture = (): AuthorPreview => {
   };
 };
 describe('author preview boundary', () => {
+  it('replays voltage-source and observation-window controls when synthesising a route', () => {
+    const voltage = fixture();
+    voltage.episodeId = 'resistance-budget';
+    voltage.nodeId = 'fresh-ohm-law';
+    voltage.hints = 0;
+    voltage.worked = false;
+    const voltageRun = createPreviewRun(voltage);
+    expect(voltageRun.events).toContainEqual(expect.objectContaining({
+      type: 'control', node: 'safe-current', id: 'source', value: 12,
+    }));
+    expect(projectRun(
+      voltage.pack,
+      voltage.pack.episodes.find((episode) => episode.id === voltage.episodeId)!,
+      voltageRun,
+    ).current).toBe(voltage.nodeId);
+
+    const interval = fixture();
+    interval.episodeId = 'charge-counter';
+    interval.nodeId = 'fresh-recorder';
+    interval.hints = 0;
+    interval.worked = false;
+    const intervalRun = createPreviewRun(interval);
+    expect(intervalRun.events).toContainEqual(expect.objectContaining({
+      type: 'control', node: 'set-recorder', id: 'elapsed-time', value: 4,
+    }));
+    expect(projectRun(
+      interval.pack,
+      interval.pack.episodes.find((episode) => episode.id === interval.episodeId)!,
+      intervalRun,
+    ).current).toBe(interval.nodeId);
+  });
+
   it('replays a reachable authored witness path and injects explicit assistance at any starting scene', () => {
     const f = fixture(),
       p = previewPack(f.pack, f.seed),
