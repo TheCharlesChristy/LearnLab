@@ -141,6 +141,16 @@
       "revision": "18fe5a817f00a09d988929cb5cfed8fedb6ce38e",
       "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
       "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "delivery",
+      "file": "artifacts/0014-delivery-attempt.json",
+      "sha256": "0c90c9fe057792270acacecd3b47a51f5b6990ef7539fbdda5aad4b4e97b509f",
+      "note": "Draft PR #79 created from validated content commit; depends on PR #78",
+      "at": "2026-09-29T08:09:11.231Z",
+      "revision": "b769087cd7526c73c96b990432297a8f40f1bc4b",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
     }
   ],
   "history": [
