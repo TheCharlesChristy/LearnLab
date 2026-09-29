@@ -4,6 +4,7 @@ import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import type { LaboratoryPack } from '../src/v2/pack';
+import { newRun } from '../src/v2/run';
 
 const pack = JSON.parse(readFileSync('public/laboratory/great-fire-investigation/pack.json', 'utf8')) as LaboratoryPack;
 test.skip(process.env.VITE_EXPERIENCE_RUNTIME_V2 !== 'true', 'Opt-in laboratory is disabled.');
@@ -97,6 +98,52 @@ test('downloaded history case reopens with source pins and writing while offline
     await context.close();
     rmSync(profile, { recursive: true, force: true });
   }
+});
+
+test('older work without its downloaded pack can be exported and safely archived', async ({ page, browserName }) => {
+  test.skip(browserName !== 'chromium', 'Missing-version recovery is checked in Chromium.');
+  const route = `/#/laboratory/${pack.id}/first-report`;
+  const key = `laboratory:${pack.id}:first-report`;
+  const original = { ...newRun(pack, pack.episodes[0]!), packVersion: pack.version - 1 };
+  await page.goto(route);
+  await expect(page.getByRole('heading', { name: pack.episodes[0]!.nodes[0]!.title })).toBeVisible();
+  await page.evaluate(async ({ key, original }) => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open('learnlab');
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    await new Promise<void>((resolve, reject) => {
+      const transaction = db.transaction('kv', 'readwrite');
+      transaction.objectStore('kv').put({ key, value: original });
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+    });
+    db.close();
+  }, { key, original });
+  await page.reload();
+  await expect(page.getByRole('heading', { name: 'Saved work needs recovery' })).toBeVisible();
+  const exported = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export original saved work' }).click();
+  expect(JSON.parse(readFileSync((await (await exported).path())!, 'utf8'))).toEqual(original);
+  await page.getByRole('button', { name: 'Archive original and start this version' }).click();
+  await expect(page.getByRole('heading', { name: pack.episodes[0]!.nodes[0]!.title })).toBeVisible();
+  const records = await page.evaluate(async (key) => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open('learnlab');
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    const rows = await new Promise<Array<{ key: string; value: unknown }>>((resolve, reject) => {
+      const request = db.transaction('kv').objectStore('kv').getAll();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    db.close();
+    return rows.filter((row) => row.key === key || row.key.startsWith(`${key}:recovery:`));
+  }, key);
+  expect(records.find((row) => row.key === key)?.value).toMatchObject({ packVersion: pack.version });
+  expect(records.find((row) => row.key.startsWith(`${key}:recovery:`))?.value).toEqual(original);
 });
 
 test('a struggling history learner can use hints and leave without false mastery', async ({ page }) => {
