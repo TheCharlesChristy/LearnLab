@@ -64,7 +64,7 @@ const chromiumExecutable = chromiumExecutableFallback();
 
 export default defineConfig({
   testDir: './e2e',
-  testMatch: '**/*.pw.ts',
+  testMatch: ['**/*.spec.ts', '**/*.pw.ts'],
   timeout: 90_000,
   expect: { timeout: 10_000 },
   fullyParallel: true,
