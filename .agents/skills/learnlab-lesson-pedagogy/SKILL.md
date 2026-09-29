@@ -34,7 +34,7 @@ For the learning laboratory and v2 pilots, read `docs/laboratory/AUTHORING-HARNE
 and `docs/laboratory/ACCEPTANCE.md`. Start an executable authoring run before drafting.
 The CLI supports intake/planning, scaffolding, shared pack/graph validation, local
 staging and evidence preservation. The circuits pilot has ten authored episodes;
-the history pilot is being authored with a separate source-analysis activity. Local Studio
+the history pilot now uses a separate source-analysis activity. Local Studio
 preview/inspection is implemented; owner playthrough and review remain pending.
 Use `preview`/`inspect` and the loopback-only `VITE_AUTHOR_STUDIO=true` Studio for
 arbitrary scenes, choice-order seeds and assistance state. These are synthetic

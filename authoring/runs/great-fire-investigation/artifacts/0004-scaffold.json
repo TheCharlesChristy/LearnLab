@@ -1,0 +1,100 @@
+{
+  "formatVersion": 1,
+  "version": 1,
+  "stateVersion": 1,
+  "id": "great-fire-investigation",
+  "title": "Investigate the Great Fire of London",
+  "description": "A case file with maps and time-stamped evidence: inspect witnesses in different orders, distinguish seen from inferred, corroborate and assemble a defensible account with limits.",
+  "audience": "Curious secondary learners and adults, including people uninterested in history",
+  "level": "Introductory historical inquiry, no prior Great Fire study assumed",
+  "subject": {
+    "id": "history",
+    "title": "History"
+  },
+  "capabilities": {
+    "experience-graph": "0.1.1",
+    "activity-plugin": "0.1.0",
+    "choice": "0.1.0"
+  },
+  "skills": [
+    {
+      "id": "capability-1",
+      "title": "Separate observation from inference with explicit uncertainty",
+      "criterion": "Relevant evidence, correct source distinction and explicit limit; no one-answer collapse of defensible interpretations",
+      "prerequisites": []
+    },
+    {
+      "id": "capability-2",
+      "title": "Evaluate provenance, purpose and limits of a historical source",
+      "criterion": "Relevant evidence, correct source distinction and explicit limit; no one-answer collapse of defensible interpretations",
+      "prerequisites": []
+    },
+    {
+      "id": "capability-3",
+      "title": "Corroborate independent accounts using maps and chronology",
+      "criterion": "Relevant evidence, correct source distinction and explicit limit; no one-answer collapse of defensible interpretations",
+      "prerequisites": []
+    },
+    {
+      "id": "capability-4",
+      "title": "Build a defensible multi-causal explanation and acknowledge alternatives",
+      "criterion": "Relevant evidence, correct source distinction and explicit limit; no one-answer collapse of defensible interpretations",
+      "prerequisites": []
+    }
+  ],
+  "episodes": [
+    {
+      "id": "first-report",
+      "title": "The first report",
+      "estimatedMinutes": 8,
+      "skills": [
+        "capability-1"
+      ],
+      "prerequisites": [],
+      "start": "first-action",
+      "nodes": []
+    },
+    {
+      "id": "source-desk",
+      "title": "Who should we trust?",
+      "estimatedMinutes": 8,
+      "skills": [
+        "capability-2"
+      ],
+      "prerequisites": [
+        "first-report"
+      ],
+      "start": "first-action",
+      "nodes": []
+    },
+    {
+      "id": "fire-map",
+      "title": "Follow the evidence",
+      "estimatedMinutes": 8,
+      "skills": [
+        "capability-3"
+      ],
+      "prerequisites": [
+        "source-desk"
+      ],
+      "start": "first-action",
+      "nodes": []
+    },
+    {
+      "id": "case-conference",
+      "title": "Make the case",
+      "estimatedMinutes": 8,
+      "skills": [
+        "capability-4"
+      ],
+      "prerequisites": [
+        "fire-map"
+      ],
+      "start": "first-action",
+      "nodes": []
+    }
+  ],
+  "references": [],
+  "assets": [],
+  "scopeNote": "Four source-based investigations of the September 1666 fire, its spread, accounts and explanations"
+}

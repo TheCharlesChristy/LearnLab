@@ -41,6 +41,106 @@
       "revision": "024edfcd2a5c140ac562b1543abb14cba3b4ecf3",
       "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
       "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0004-scaffold.json",
+      "sha256": "7a901aaaf5633d642f5ff6db4c748d4f2bb7410d815db42d52de44738a0d4b4e",
+      "note": "Actual draft scaffold at authoring/drafts/great-fire-investigation; incomplete nodes/references deliberately fail validation.",
+      "at": "2026-09-29T07:33:56.884Z",
+      "revision": "0ad31e255d50e7724a75a63a604cfc41b6b6e4ef",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "research",
+      "file": "artifacts/0005-HISTORY-RESEARCH.md",
+      "sha256": "5703da4c8cd8d803f993ec7d7908c9856cb3d4d723bb81633e74b0c49e0032f3",
+      "note": "Primary-source provenance, paraphrase boundaries and human-review rubric recorded",
+      "at": "2026-09-29T07:39:57.159Z",
+      "revision": "0ad31e255d50e7724a75a63a604cfc41b6b6e4ef",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0006-pack.json",
+      "sha256": "bd2976a189e300ba68c099624fe21664c517de8937c02a2ba848feef0aeb78c5",
+      "note": "Staged local preview at public/laboratory/great-fire-investigation; no merge or deployment.",
+      "at": "2026-09-29T07:40:00.766Z",
+      "revision": "0ad31e255d50e7724a75a63a604cfc41b6b6e4ef",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0007-pack.json",
+      "sha256": "c9fcdbf5956d6dce3e4f5224a2996ae2b536be8a033da69cd95ad89eb3c91efd",
+      "note": "Staged local preview at public/laboratory/great-fire-investigation; no merge or deployment.",
+      "at": "2026-09-29T07:49:13.682Z",
+      "revision": "0ad31e255d50e7724a75a63a604cfc41b6b6e4ef",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0008-history-map-desktop.png",
+      "sha256": "2162245f03c6e4d179661512024332efd88aaddc973e464d78030b5111990549",
+      "note": "Official Playwright WebKit container, authored history route",
+      "at": "2026-09-29T08:01:56.911Z",
+      "revision": "0ad31e255d50e7724a75a63a604cfc41b6b6e4ef",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0009-history-map-phone-expanded.png",
+      "sha256": "2aac49ac0e62d75ca4a2df82cce2f6cf9bba8efea1f5cefa82ef2234e970700c",
+      "note": "Official Playwright WebKit container, authored history route",
+      "at": "2026-09-29T08:01:57.278Z",
+      "revision": "0ad31e255d50e7724a75a63a604cfc41b6b6e4ef",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0010-history-phone-dark-touch.png",
+      "sha256": "1f9c4d02ffb8dd7e54f98da7ea61c756865a9590c97b34288343b27ccd24b084",
+      "note": "Official Playwright WebKit container, authored history route",
+      "at": "2026-09-29T08:01:57.610Z",
+      "revision": "0ad31e255d50e7724a75a63a604cfc41b6b6e4ef",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0011-history-completion.png",
+      "sha256": "26073a01b72a6ff2c84fb9e2b7f8719b374e409263009a5310a234e375ac7bfe",
+      "note": "WebKit course completion after map investigation",
+      "at": "2026-09-29T08:02:02.374Z",
+      "revision": "0ad31e255d50e7724a75a63a604cfc41b6b6e4ef",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0012-HISTORY-VERIFICATION.md",
+      "sha256": "67c34b7ae6ba9ad1ef7e976fbd234a7ee0050168bc40e0c8063477485a4d65f8",
+      "note": "Four-episode browser playthrough, failures and revisions, evidence limits and owner walkthrough",
+      "at": "2026-09-29T08:02:44.502Z",
+      "revision": "0ad31e255d50e7724a75a63a604cfc41b6b6e4ef",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
+    },
+    {
+      "kind": "research",
+      "file": "artifacts/0013-HISTORY-RESEARCH.md",
+      "sha256": "cc58069141c08025377c9508e3c62ff8558ae7d36f798dfad00ea1cff8990ad3",
+      "note": "Correct initial plan source-type labels: museum synthesis and pedagogy guide are not original fire records",
+      "at": "2026-09-29T08:07:16.357Z",
+      "revision": "18fe5a817f00a09d988929cb5cfed8fedb6ce38e",
+      "briefHash": "14c61f650a703f7823cecd22c87b68790b47a15d35a7b4bc119677cb98c2f2c2",
+      "planHash": "13fe8035cb2ba5f8ed1d99769859be31f947fe789ec2a9294d7d5524dd752b4a"
     }
   ],
   "history": [
@@ -52,6 +152,11 @@
       "kind": "plan-verified",
       "at": "2026-09-27T15:57:09.256Z",
       "file": "plan-0001.json"
+    },
+    {
+      "kind": "scaffold-created",
+      "at": "2026-09-29T07:33:56.898Z",
+      "output": "authoring/drafts/great-fire-investigation"
     }
   ]
 }

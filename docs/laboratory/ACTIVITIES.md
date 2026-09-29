@@ -1,7 +1,6 @@
 # Laboratory activity contracts
 
-Status: ten-episode circuits pilot and registered source-evidence activity; the
-four-episode history pack follows in a dependent draft PR. Opt in through
+Status: ten-episode circuits pilot and four-episode Great Fire source investigation. Opt in through
 `VITE_EXPERIENCE_RUNTIME_V2=true`.
 This additive runtime lives under `src/v2/`; legacy courses and their saved work
 retain the existing schemas and storage. The registered activities are `choice`
