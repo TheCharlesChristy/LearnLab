@@ -1451,6 +1451,86 @@
       "revision": "77cf215a38e052da7477f89db72872bca43772cf",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "content",
+      "file": "artifacts/0145-pack.json",
+      "sha256": "9e7c80a60b84ce18f2150674f3da1d4e8c5eaf1f871aea6dc0bf23dbd5afaf19",
+      "note": "Staged local preview at public/laboratory/research-station; no merge or deployment.",
+      "at": "2026-09-29T18:25:30.816Z",
+      "revision": "f812bb9ca1de2bc3be7c2dbe8551b2e6cac7dab4",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "research",
+      "file": "artifacts/0146-research-ledger.json",
+      "sha256": "bd811c7b19f8e063e91b1a0b1ea42ab461f39a7a52b45fa29401bf128eef3f3e",
+      "note": "Adds the primary-source basis and applicability boundary for the parameterised fresh Ohm law transfer task.",
+      "at": "2026-09-29T18:35:02.867Z",
+      "revision": "6ff91fc47b90ee15df15bdd2231a1ee45f29a0f9",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "check",
+      "file": "artifacts/0147-NUMERIC-VARIANT-VERIFICATION.md",
+      "sha256": "a64e8ea1e6af71d9936f09afd7095d260ddb3690bf0c3f95d0156d7111a5f1f6",
+      "note": "Independent derivations for all nine parameter combinations and numeric marking edge cases.",
+      "at": "2026-09-29T18:35:07.629Z",
+      "revision": "6ff91fc47b90ee15df15bdd2231a1ee45f29a0f9",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0148-numeric-variant-circuits-e2e.log",
+      "sha256": "79a95790d7dee66069228cc3a40b22e61ee4a3d9d4a35fc5b5aff2028ecce7f3",
+      "note": "Production Chromium route completed the actual resistance-budget episode. The fresh parameterised current task accepted its derived mA answer; three independent fresh checks completed.",
+      "at": "2026-09-29T18:37:20.766Z",
+      "revision": "6ff91fc47b90ee15df15bdd2231a1ee45f29a0f9",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0149-numeric-variant-circuits-transfer.png",
+      "sha256": "a405dde423420317426f99af10645be66ddb64af323d13b706d4b99a6699e90f",
+      "note": "Actual fresh Ohm law task displayed inside the rendered resistance episode with mA selected.",
+      "at": "2026-09-29T18:37:26.302Z",
+      "revision": "6ff91fc47b90ee15df15bdd2231a1ee45f29a0f9",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0150-numeric-variant-studio-e2e-final.log",
+      "sha256": "0a47f9bfe275091bf923bd90668b493e104c7c0e92be7b20d4333f51a46146df",
+      "note": "Studio imported the authored resistance-budget episode, reproduced the numeric scenario, preserved prior-exposure status, and passed the 360px/200% text/dark-theme check. Chromium: 3 passed.",
+      "at": "2026-09-29T18:54:05.887Z",
+      "revision": "1d9f0941a632b8620f850e63928b58f043f95763",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0151-numeric-variant-phone-expanded.png",
+      "sha256": "1dddf2e8085d0534089789412bb4ca6baf38ea6631ead0f9fd78972c92bf9d23",
+      "note": "Actual authored task in Studio at 360px width and 200 percent text; overflow check passed.",
+      "at": "2026-09-29T18:54:21.149Z",
+      "revision": "1d9f0941a632b8620f850e63928b58f043f95763",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0152-numeric-variant-phone-dark-expanded.png",
+      "sha256": "5371cc4afd129ac176795c6bc9417a3d791b3d8e970da33dc5cdc3cb76881cfc",
+      "note": "Dark theme input colours checked on the 360px, 200 percent text route.",
+      "at": "2026-09-29T18:54:30.523Z",
+      "revision": "1d9f0941a632b8620f850e63928b58f043f95763",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [

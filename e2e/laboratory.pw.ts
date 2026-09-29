@@ -162,13 +162,28 @@ test('new investigations: charge windows, source energy and two resistance route
   await expect(page.getByRole('heading', { name: 'Two ways to one ampere' })).toBeVisible();
   await page.getByRole('button', { name: /Voltage and resistance rise together/ }).click();
   await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await expect(page.getByRole('heading', { name: 'A fresh calibration card' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Continue investigation' })).toBeDisabled();
+  const calibrationCard = await page
+    .getByText(/A \d+ V ideal source drives a \d+ Ω resistor/)
+    .innerText();
+  const values = /A ([\d.]+) V ideal source drives a ([\d.]+) Ω resistor/.exec(calibrationCard);
+  expect(values).not.toBeNull();
+  const currentMilliamps = (Number(values![1]) / Number(values![2])) * 1000;
+  await page.getByLabel('Your answer').fill(String(currentMilliamps));
+  await page.getByRole('combobox', { name: /^Unit/ }).selectOption('mA');
+  await page.screenshot({ path: info.outputPath('numeric-variant-circuits-transfer.png'), fullPage: true });
+  await page.getByRole('button', { name: 'Check answer' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Answer checked using mA' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Continue investigation' })).toBeEnabled();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
   await page.getByRole('button', { name: '1.5 A', exact: true }).click();
   await page.getByRole('button', { name: 'Continue investigation' }).click();
   await page
     .getByRole('button', { name: /It is true when the potential difference is held fixed/ })
     .click();
   await page.getByRole('button', { name: 'Finish investigation' }).click();
-  await expect(page.getByText('2 of 2 fresh checks', { exact: false })).toBeVisible();
+  await expect(page.getByText('3 of 3 fresh checks', { exact: false })).toBeVisible();
   expect(errors).toEqual([]);
 });
 
