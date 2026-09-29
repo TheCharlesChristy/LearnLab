@@ -5,6 +5,7 @@ import { appendEvent, controlValue, newRun, parseRun, projectRun } from './run.t
 import type { LaboratoryRun, RunInput } from './run.ts';
 import { informativeProbeIds } from './meter-probe.ts';
 import { placeRepairPart } from './repair-bench.ts';
+import { numericAnswer, numericVariantIndex, numericVariants } from './numeric-variant.ts';
 
 export interface AuthorPreview {
   formatVersion: 1;
@@ -18,7 +19,7 @@ export interface AuthorPreview {
   worked: boolean;
   session?: LaboratoryRun;
 }
-/** Choice order is a presentation variant, not a fresh assessment variant. */
+/** Choice order is a presentation variant; numeric cases use the same seed. */
 export function previewPack(source: LaboratoryPack, seed: number): LaboratoryPack {
   const pack = structuredClone(source);
   let state = seed >>> 0;
@@ -92,6 +93,8 @@ export function createPreviewRun(input: AuthorPreview): LaboratoryRun {
     episode,
     episode.nodes.map((n) => n.id),
   );
+  // Synthetic previews must reproduce the same numeric scenario for a seed.
+  run.startedAt = 1_700_000_000_000 + fixture.seed;
   const emit = (event: RunInput) => {
     run = appendEvent(pack, episode, run, { ...event, at: run.startedAt } as Parameters<
       typeof appendEvent
@@ -106,6 +109,12 @@ export function createPreviewRun(input: AuthorPreview): LaboratoryRun {
           node: node.id,
           option: node.activity.options.find((v) => v.correct)!.id,
         });
+      else if (node.activity.type === 'numeric-variant') {
+        const index = numericVariantIndex(node.activity, run.startedAt, node.id, 0);
+        emit({ type: 'numeric-answer', node: node.id,
+          value: String(numericAnswer(node.activity, numericVariants(node.activity)[index]!)),
+          unit: node.activity.units[0]!.symbol });
+      }
       else if (node.activity.type === 'meter-probe')
         emit({ type: 'probe', node: node.id, id: informativeProbeIds(node.activity)[0]! });
       else if (node.activity.type === 'repair-bench') {
@@ -125,7 +134,27 @@ export function createPreviewRun(input: AuthorPreview): LaboratoryRun {
         }
         emit({ type: 'write-claim', node: node.id, text: 'Preview placeholder: compare both pinned sources and state what neither source can establish.' });
         emit({ type: 'self-review', node: node.id });
-      } else
+      } else {
+        if (
+          node.activity.sourceValues &&
+          node.activity.initial.voltage !== node.activity.solution.voltage
+        )
+          emit({
+            type: 'control',
+            node: node.id,
+            id: 'source',
+            value: node.activity.solution.voltage,
+          });
+        if (
+          node.activity.interval &&
+          node.activity.interval.initialSeconds !== node.activity.interval.solutionSeconds
+        )
+          emit({
+            type: 'control',
+            node: node.id,
+            id: 'elapsed-time',
+            value: node.activity.interval.solutionSeconds,
+          });
         for (const control of node.activity.controls)
           emit({
             type: 'control',
@@ -133,6 +162,7 @@ export function createPreviewRun(input: AuthorPreview): LaboratoryRun {
             id: control.id,
             value: controlValue(node.activity, node.activity.solution, control.id),
           });
+      }
     }
     emit({ type: 'advance', ...step });
   }

@@ -37,7 +37,7 @@ test('author preview shares actual renderer, survives diagnostic export/import a
   await loadResearchStation(page);
   await expect(page.getByLabel('Starting scene')).toBeVisible();
   await page.getByLabel('Starting scene').selectOption('fresh-fault');
-  await page.getByLabel('Choice-order seed').fill('17');
+  await page.getByLabel('Preview seed (choices and numeric cases)').fill('17');
   await page.getByLabel('Hints already used').fill('1');
   await page.getByLabel('Worked example already used').check();
   await page.getByRole('button', { name: 'Start isolated preview', exact: true }).click();
@@ -121,7 +121,7 @@ test('source validation, undo, new-subject preview and bounded diagnostics', asy
   await source.fill(JSON.stringify({ ...pack, execute: 'arbitrary-code' }));
   await page.getByRole('button', { name: 'Validate and apply source', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('additional');
-  await page.getByLabel('Choice-order seed').fill('-1');
+  await page.getByLabel('Preview seed (choices and numeric cases)').fill('-1');
   await page.getByRole('button', { name: 'Start isolated preview', exact: true }).click();
   await expect(page.getByRole('alert')).toContainText('Author preview');
 });

@@ -4,16 +4,16 @@ Status: ten-episode circuits pilot and four-episode Great Fire source investigat
 `VITE_EXPERIENCE_RUNTIME_V2=true`.
 This additive runtime lives under `src/v2/`; legacy courses and their saved work
 retain the existing schemas and storage. The registered activities are `choice`
-at 0.1.0, `circuit` at 0.1.1, `meter-probe` at 0.1.0 and `repair-bench`
-at 0.1.0, plus `evidence-board` at 0.1.0, with event state version 1.
+at 0.1.0, `numeric-variant` at 0.1.0, `circuit` at 0.1.1, `meter-probe` at
+0.1.0, `repair-bench` at 0.1.0 and `evidence-board` at 0.1.0, with event state version 1.
 
 `src/v2/activity-contracts.json` is the metadata registry. Its `schemaDef` points into
 `schemas/laboratory-pack.schema.json`; `src/v2/pack.ts` adds semantic checks shared by
 the CLI and browser. Run `npm run author:course -- capabilities` and `schemas` to
 inspect the actual contracts. `build-laboratory-contracts.mjs` generates the strict
 CSP-safe browser validator; `--check` rejects schema/generated-code drift.
-The current renderer dispatches these five registered types directly. A general
-external-plugin loader, arbitrary scripts and parameterised fresh-task variants are not implemented.
+The current renderer dispatches these six registered types directly. A general
+external-plugin loader and arbitrary scripts are not implemented.
 The local Studio shares this renderer; see [authoring workflow](AUTHORING-HARNESS.md).
 
 ## Composition
@@ -51,6 +51,40 @@ option. A first correct response on a fresh transfer node may be independent onl
 when no hint, worked example or prior exposure exists. An incorrect first response
 followed by correction is practice. Buttons are locked after success; Help remains
 available. All information is text and feedback is a polite status.
+
+## Numeric variant
+
+`numeric-variant@0.1.0` is a bounded, declarative numeric task. Its `question`
+uses `{variable-name}` placeholders; each of one to four variables declares
+two to eight distinct finite values. The Cartesian product must contain 3–128
+scenarios. `answer` is a pure arithmetic tree with number/variable leaves and
+add, subtract, multiply or divide nodes, at most six levels deep. All scenarios
+are evaluated during pack validation; a near-zero denominator, non-finite or
+out-of-range answer, undeclared placeholder, fewer than three distinct answers,
+or a tolerance broad enough to overlap distinct answers fails validation. Every
+declared variable must change the answer in at least one paired scenario. No
+expression string, JavaScript or runtime inference is accepted.
+
+The first unit is the base unit (`factor: 1`). Optional other units declare a
+positive factor that converts an entered number into that base unit. The learner
+may use decimal or scientific notation. An answer passes when the converted
+value is within the inclusive absolute `tolerance` of the formula result. For
+example, if the formula gives 0.5 A, `500` with unit `mA` is equally correct
+when `mA` has `factor: 0.001`. Invalid numeric text is explained without a
+recorded attempt. A valid but wrong answer is a recorded attempt; a subsequent
+correction counts as practice, never independent transfer.
+
+An author must record at least three **independently hand-derived** scenario
+answers in `checks`, including the first and last enumerated combinations.
+Validation compares them with the engine but cannot prove the author's hand
+derivation was independent. Derive the formula from the subject model, test
+range endpoints, alternative units, tolerance boundaries and degenerate
+scenarios, then retain those checks in the authoring run. Scenario selection is
+deterministic for a saved run and moves to a different combination on restart;
+the saved event log replays the same task after reload. The activity uses a
+native text field, unit selector and check button, with text feedback and no
+essential motion. This provides fresh in-episode numbers; scheduled delayed
+review and whole-skill competence still require separate work.
 
 ## Evidence board
 

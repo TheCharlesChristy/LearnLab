@@ -37,14 +37,17 @@ staging and evidence preservation. The circuits pilot has ten authored episodes;
 the history pilot now uses a separate source-analysis activity. Local Studio
 preview/inspection is implemented; owner playthrough and review remain pending.
 Use `preview`/`inspect` and the loopback-only `VITE_AUTHOR_STUDIO=true` Studio for
-arbitrary scenes, choice-order seeds and assistance state. These are synthetic
-previews with prior exposure, not fresh assessment variants or observed learning.
+arbitrary scenes, choice ordering, numeric cases and assistance state. These are synthetic
+previews with prior exposure, not fresh competence evidence or observed learning.
 The Studio edits validated JSON and shares the actual renderer; export before leaving.
 Discover actual capabilities with
 `npm run author:course -- capabilities` and `schemas`. Validate and stage laboratory
 packs through the harness; use `docs/laboratory/ACTIVITIES.md` for the current contract.
 Restart and import must retain prior answer/help exposure. A corrected choice after
 an error, hint, worked example or replay is practice evidence, not fresh independence.
+Use `numeric-variant` for a calculation that depends on a causal relation the learner
+has investigated; ask for a prediction or explanation as well as a number. Fresh
+numbers deter answer recall, but a numerical pass alone is not a whole-skill claim.
 For circuit investigations, a displayed target reached by adjusting controls is
 exploratory practice. Follow it with a fresh prediction or calculation that cannot
 be answered by reading the visible target alone. State what remains fixed when

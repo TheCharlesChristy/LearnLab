@@ -351,7 +351,7 @@ function AuthorStudio() {
           </details>
           <div className="flex flex-wrap items-end gap-3">
             <label className="grid gap-1">
-              Choice-order seed
+              Preview seed (choices and numeric cases)
               <input
                 className="w-36 min-h-11 rounded border p-2"
                 type="number"
@@ -416,8 +416,8 @@ function AuthorStudio() {
           <p className="text-sm">
             Synthetic route to starting scene:{' '}
             {graphPath.map((v) => `${v.node} (${v.outcome})`).join(' → ') || 'episode start'}.
-            Choice order varies reproducibly; it does not create fresh assessment questions. All
-            preview scenes carry prior exposure.
+            Choice order and numeric cases vary reproducibly. Preview scenes carry prior exposure
+            and do not certify fresh competence.
           </p>
         </>
       )}

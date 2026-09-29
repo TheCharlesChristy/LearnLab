@@ -29,6 +29,7 @@ import MeterProbeActivity from './MeterProbeActivity';
 import RepairBenchActivity from './RepairBenchActivity';
 import { formatMeterReading, meterReading } from './meter-probe';
 import EvidenceBoardActivity from './EvidenceBoardActivity';
+import NumericVariantActivity from './NumericVariantActivity';
 import './laboratory.css';
 
 const download = (value: unknown, filename: string) => {
@@ -284,7 +285,7 @@ export function EpisodeWorkspace({
       : undefined;
   const transfers = projection.evidence.filter((e) => e.role === 'transfer');
   const independent = new Set(transfers.filter((e) => e.independent).map((e) => e.node)).size;
-  const firstAction = run.events.find((e) => ['control', 'answer', 'probe', 'open-source', 'pin-source', 'write-claim'].includes(e.type));
+  const firstAction = run.events.find((e) => ['control', 'answer', 'numeric-answer', 'probe', 'open-source', 'pin-source', 'write-claim'].includes(e.type));
   const priorMeters = run.events.flatMap((event) => {
     if (event.type !== 'probe' || event.node === node?.id) return [];
     const scene = episode.nodes.find((candidate) => candidate.id === event.node);
@@ -402,7 +403,17 @@ export function EpisodeWorkspace({
                 </ul>
               </details>
             )}
-            {node.activity.type === 'circuit' && memory.circuit ? (
+            {node.activity.type === 'numeric-variant' ? (
+              <NumericVariantActivity
+                key={`${node.id}:${memory.numericVariant}`}
+                activity={node.activity}
+                memory={memory}
+                disabled={busy}
+                onAnswer={(value, unit) => {
+                  void send({ type: 'numeric-answer', node: node.id, value, unit });
+                }}
+              />
+            ) : node.activity.type === 'circuit' && memory.circuit ? (
               <CircuitActivity
                 activity={node.activity}
                 config={memory.circuit}

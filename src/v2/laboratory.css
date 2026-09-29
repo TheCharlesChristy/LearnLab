@@ -101,6 +101,15 @@
   border-color: var(--lab-line);
   color: var(--lab-ink);
 }
+.lab-numeric-control {
+  background: var(--lab-panel);
+  border-color: var(--lab-line);
+  color: var(--lab-ink);
+}
+.lab-numeric-control:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
 .lab-evidence-map {
   position: relative;
   min-height: 12rem;
