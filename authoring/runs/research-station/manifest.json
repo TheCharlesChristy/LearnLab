@@ -1531,6 +1531,66 @@
       "revision": "1d9f0941a632b8620f850e63928b58f043f95763",
       "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
       "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0153-learnlab-numeric-offline-playthrough.log",
+      "sha256": "9b7cd0598496dec811f332ffc2117f8edbc990f12b00f675aaccc05fba46b38a",
+      "note": "Production Chromium offline browser-process close/reopen downloaded v10 pack, progressed to fresh Ohm law transfer, and checked the derived mA answer.",
+      "at": "2026-09-29T19:16:52.806Z",
+      "revision": "5a8b7267b49814cf2a2d14c4986f492be9e41ae9",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0154-learnlab-numeric-help-assertion-failure.log",
+      "sha256": "45451accf6c420451de08c4b2a51406ada443c9a9b81c1c7a4dda3d26fdacb17",
+      "note": "Retained assertion mismatch during numeric Help playthrough: the rendered worked-example copy is correct but does not carry a Worked example heading; test is being corrected to assert its authored content. Log line-end whitespace was normalized for repository checks; failure content retained.",
+      "at": "2026-09-29T19:19:41.563Z",
+      "revision": "5a8b7267b49814cf2a2d14c4986f492be9e41ae9",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0155-learnlab-numeric-help-playthrough.log",
+      "sha256": "c4ed1da4c7465429680cdf8d705b51b0043b96712167921e69ceb1ef5e9df42f",
+      "note": "Studio rendered the authored numeric scene; hint and worked-example use preceded an alternative-unit correct answer, which remained assisted practice in evidence.",
+      "at": "2026-09-29T19:20:51.514Z",
+      "revision": "5a8b7267b49814cf2a2d14c4986f492be9e41ae9",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0156-learnlab-final-circuits-browser-check.log",
+      "sha256": "2394f3bb935bdb816ef516a9980d07a531cb484358ab9be6ff0fbbdf8d57abf6",
+      "note": "Fresh-port production Chromium: actual resistance-budget route and downloaded v10 pack after browser-process close/offline reopen; answer gated until checked; three fresh checks and offline mA transfer passed.",
+      "at": "2026-09-29T19:22:22.698Z",
+      "revision": "5a8b7267b49814cf2a2d14c4986f492be9e41ae9",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0157-learnlab-final-numeric-studio-check.log",
+      "sha256": "10b7bc698be600e8a7e53357aa1707f33ef33f2cf34708f852253335641eaae2",
+      "note": "Focused numeric-variant Studio Chromium suite passed: wrong-to-correct practice, hint/worked-example assistance, alternative units, and 360px/200% text/dark theme.",
+      "at": "2026-09-29T19:22:23.248Z",
+      "revision": "5a8b7267b49814cf2a2d14c4986f492be9e41ae9",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
+    },
+    {
+      "kind": "playthrough",
+      "file": "artifacts/0158-learnlab-stale-preview-pack-failure.log",
+      "sha256": "8692ae7ef136e223cd8bfed07979416b93d205546ff12b591cee148d79ede222",
+      "note": "Retained local E2E failure when Playwright reused an existing port-4173 preview serving v9 while this branch contains v10; configurable PLAYWRIGHT_PORT isolates validation from stale worktree servers. Log line-end whitespace was normalized for repository checks; failure content retained.",
+      "at": "2026-09-29T19:25:10.792Z",
+      "revision": "5a8b7267b49814cf2a2d14c4986f492be9e41ae9",
+      "briefHash": "2a236425f9154f1160ae58c6c1cbdb7b95a264acf08823da7847335964a5b2a5",
+      "planHash": "7e706f3d68104a5e538238bf2d0309720b9eeddd6dac524c1177952d63352d32"
     }
   ],
   "history": [

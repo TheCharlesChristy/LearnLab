@@ -890,6 +890,27 @@ test('downloaded episode survives browser close and offline reopen with local pr
       page.getByRole('status').filter({ hasText: 'Repair target reached' }),
     ).toContainText('1.5 A');
     await expect(page.getByRole('status').filter({ hasText: /^Ready offline ·/ })).toBeVisible();
+    await page.goto(`${baseURL}/#/laboratory/research-station/resistance-budget`);
+    await expect(page.getByRole('heading', { name: 'Keep the heater in range' })).toBeVisible();
+    await page
+      .getByRole('group', { name: 'Ideal sensor heater' })
+      .getByRole('button', { name: '6 Ω', exact: true })
+      .click();
+    await page.getByRole('button', { name: 'Continue investigation', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Two ways to one ampere' })).toBeVisible();
+    await page.getByRole('button', { name: /Voltage and resistance rise together/ }).click();
+    await page.getByRole('button', { name: 'Continue investigation', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'A fresh calibration card' })).toBeVisible();
+    await expect(page.getByRole('status').filter({ hasText: /^Ready offline ·/ })).toBeVisible();
+    const calibrationCard = await page
+      .getByText(/A \d+ V ideal source drives a \d+ Ω resistor/)
+      .innerText();
+    const values = /A ([\d.]+) V ideal source drives a ([\d.]+) Ω resistor/.exec(calibrationCard);
+    expect(values).not.toBeNull();
+    await page.getByLabel('Your answer').fill(String((Number(values![1]) / Number(values![2])) * 1000));
+    await page.getByRole('combobox', { name: /^Unit/ }).selectOption('mA');
+    await page.getByRole('button', { name: 'Check answer' }).click();
+    await expect(page.getByRole('status').filter({ hasText: 'Answer checked using mA' })).toBeVisible();
   } finally {
     await context.close();
     fs.rmSync(profile, { recursive: true, force: true });

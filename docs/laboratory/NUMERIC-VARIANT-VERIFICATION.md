@@ -32,4 +32,6 @@ The authored hand checks include the first and last combinations and an interior
 
 ## Scope of this check
 
-These are model and marking checks, not evidence that a learner understands Ohm's law or finds the scene enjoyable. The actual course preview must still be played through, including an incorrect answer, a correct answer in an alternative unit, and the helped path. The whole-skill criterion still needs delayed review and multiple fresh independent opportunities.
+Production Chromium playthroughs rendered the authored scene in the real Research Station episode, checked the derived answer in mA, and verified that Continue stays disabled until the answer is checked. The downloaded pack was also exercised after browser close and offline reopen; the current v10 transfer task loaded and accepted its derived mA answer. In isolated Studio previews, an incorrect answer followed by a corrected alternative-unit answer remained practice, and the hint plus worked-example route recorded assistance. The rendered 360px/200%-text and dark-theme checks passed.
+
+These are model, marking and interaction checks, not evidence that a learner understands Ohm's law or finds the scene enjoyable. The whole-skill criterion still needs multiple fresh independent opportunities and delayed review; the owner's walkthrough and revision remain pending.

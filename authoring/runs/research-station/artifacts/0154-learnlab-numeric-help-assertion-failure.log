@@ -1,0 +1,76 @@
+(node:3240533) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[2m[WebServer] [22m(node:3240669) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:3240669) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+[2m[WebServer] [22mFound 2 warnings while optimizing generated CSS:
+[2m[WebServer] [22m
+[2m[WebServer] [22mIssue #1:
+[2m[WebServer] [22m[2m│   padding-block: 0.25rem;[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m[2m│[22m ::highlight(learnlab-read-aloud) {
+[2m[WebServer] [22m[2m┆[22m             [33m[2m^--[22m 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?[39m
+[2m[WebServer] [22m[2m┆[22m
+[2m[WebServer] [22m[2m│   background-color: oklch(85% 0.15 85 / 60%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m
+[2m[WebServer] [22mIssue #2:
+[2m[WebServer] [22m[2m│   background-color: oklch(85% 0.15 85 / 60%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m[2m│[22m :root.dark ::highlight(learnlab-read-aloud) {
+[2m[WebServer] [22m[2m┆[22m                        [33m[2m^--[22m 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?[39m
+[2m[WebServer] [22m[2m┆[22m
+[2m[WebServer] [22m[2m│   background-color: oklch(75% 0.15 85 / 45%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m
+[2m[WebServer] [22m[lightningcss minify] 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?
+[2m[WebServer] [22m1  |  /*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+[2m[WebServer] [22m2  |  ...splay{padding-block:.25rem;overflow:auto hidden}::highlight(learnlab-read-aloud){background-color:oklch(85% .15 85...
+[2m[WebServer] [22m   |                                                                 ^
+[2m[WebServer] [22m[lightningcss minify] 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?
+[2m[WebServer] [22m1  |  /*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+[2m[WebServer] [22m2  |  ...ackground-color:oklch(85% .15 85/.6)}:root.dark ::highlight(learnlab-read-aloud){background-color:oklch(75% .15 85...
+[2m[WebServer] [22m   |                                                                 ^
+[2m[WebServer] [22m(node:3241052) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:3241052) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 1 test using 1 worker
+
+(node:3241094) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3241094) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:3241094) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › e2e/numeric-variant.pw.ts:41:1 › hinted worked example and alternative units remain assisted practice in author preview (11.0s)
+
+
+  1) [chromium] › e2e/numeric-variant.pw.ts:41:1 › hinted worked example and alternative units remain assisted practice in author preview
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.lab-help')
+    Expected substring: [32m"Worked example"[39m
+    Received string:    [31m"Take a different routeHelp is available at any point. Using a hint or worked example records assistance, so there is no pressure to pretend you did it alone.Hint 1: For this ideal single-loop resistor, current is the source voltage divided by resistance.Show next hintShow worked exampleFor 6 V across 2 Ω, I = V/R = 6/2 = 3 A. The unit A is volts per ohm.Now apply the same relationship to a fixed-voltage heater change.Continue with helpThis escape records assisted completion; it never awards an independent pass."[39m
+    Timeout: 10000ms
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 10000ms[22m
+    [2m  - waiting for locator('.lab-help')[22m
+    [2m    24 × locator resolved to <section id="lab-help-panel" aria-label="Help and recovery" class="lab-details lab-help space-y-3">…</section>[22m
+    [2m       - unexpected value "Take a different routeHelp is available at any point. Using a hint or worked example records assistance, so there is no pressure to pretend you did it alone.Hint 1: For this ideal single-loop resistor, current is the source voltage divided by resistance.Show next hintShow worked exampleFor 6 V across 2 Ω, I = V/R = 6/2 = 3 A. The unit A is volts per ohm.Now apply the same relationship to a fixed-voltage heater change.Continue with helpThis escape records assisted completion; it never awards an independent pass."[22m
+
+
+      56 |   await expect(page.locator('.lab-help')).toContainText('Hint 1:');
+      57 |   await page.getByRole('button', { name: 'Show worked example', exact: true }).click();
+    > 58 |   await expect(page.locator('.lab-help')).toContainText('Worked example');
+         |                                           ^
+      59 |   const index = numericVariantIndex(activity, 1_700_000_000_021, node.id, 0);
+      60 |   const answer = numericAnswer(activity, numericVariants(activity)[index]!);
+      61 |   await page.getByLabel('Your answer').fill(String(answer * 1000));
+        at /home/charles/.codex/worktrees/laboratory-numeric-variants/LearnLab/e2e/numeric-variant.pw.ts:58:43
+
+    Error Context: test-results/numeric-variant.pw.ts-hint-7a4c1--practice-in-author-preview-chromium/error-context.md
+
+  1 failed
+    [chromium] › e2e/numeric-variant.pw.ts:41:1 › hinted worked example and alternative units remain assisted practice in author preview

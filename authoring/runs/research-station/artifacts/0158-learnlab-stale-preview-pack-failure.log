@@ -1,0 +1,40 @@
+(node:3265720) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:3265833) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3265833) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:3265833) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [chromium] › e2e/laboratory.pw.ts:738:1 › downloaded episode survives browser close and offline reopen with local progress (14.6s)
+
+
+  1) [chromium] › e2e/laboratory.pw.ts:738:1 › downloaded episode survives browser close and offline reopen with local progress
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('heading', { name: 'A fresh calibration card' })
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 10000ms[22m
+    [2m  - waiting for getByRole('heading', { name: 'A fresh calibration card' })[22m
+
+
+      901 |     await page.getByRole('button', { name: /Voltage and resistance rise together/ }).click();
+      902 |     await page.getByRole('button', { name: 'Continue investigation', exact: true }).click();
+    > 903 |     await expect(page.getByRole('heading', { name: 'A fresh calibration card' })).toBeVisible();
+          |                                                                                   ^
+      904 |     await expect(page.getByRole('status').filter({ hasText: /^Ready offline ·/ })).toBeVisible();
+      905 |     const calibrationCard = await page
+      906 |       .getByText(/A \d+ V ideal source drives a \d+ Ω resistor/)
+        at /home/charles/.codex/worktrees/laboratory-numeric-variants/LearnLab/e2e/laboratory.pw.ts:903:83
+
+    Error Context: test-results/laboratory.pw.ts-downloade-abea9--reopen-with-local-progress-chromium/error-context.md
+
+  1 failed
+    [chromium] › e2e/laboratory.pw.ts:738:1 › downloaded episode survives browser close and offline reopen with local progress

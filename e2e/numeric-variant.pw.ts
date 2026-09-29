@@ -38,7 +38,7 @@ test('Studio previews the authored circuits task and records a corrected answer 
   await expect(page.locator('pre').filter({ hasText: '"numeric-answer"' })).toContainText('"independent": false');
 });
 
-test('a first correct alternative-unit answer remains practice inside synthetic author preview', async ({ page }) => {
+test('hinted worked example and alternative units remain assisted practice in author preview', async ({ page }) => {
   await page.goto('/#/author-studio');
   await page.getByLabel('Import pack or author preview').setInputFiles({
     name: 'research-station.json', mimeType: 'application/json',
@@ -51,6 +51,11 @@ test('a first correct alternative-unit answer remains practice inside synthetic 
   await page.getByLabel('Preview seed (choices and numeric cases)').fill('21');
   await page.getByRole('button', { name: 'Start isolated preview' }).click();
   await expect(page.getByRole('heading', { name: 'Actual workspace preview' })).toBeVisible();
+  await page.getByRole('button', { name: 'Help', exact: true }).click();
+  await page.getByRole('button', { name: 'Show next hint', exact: true }).click();
+  await expect(page.locator('.lab-help')).toContainText('Hint 1:');
+  await page.getByRole('button', { name: 'Show worked example', exact: true }).click();
+  await expect(page.locator('.lab-help')).toContainText('For 6 V across 2 Ω, I = V/R = 6/2 = 3 A.');
   const index = numericVariantIndex(activity, 1_700_000_000_021, node.id, 0);
   const answer = numericAnswer(activity, numericVariants(activity)[index]!);
   await page.getByLabel('Your answer').fill(String(answer * 1000));
@@ -60,6 +65,7 @@ test('a first correct alternative-unit answer remains practice inside synthetic 
   await page.getByRole('button', { name: 'Continue investigation' }).click();
   await page.getByText('Inspect preview events, state and evidence', { exact: true }).click();
   await expect(page.locator('pre').filter({ hasText: '"numeric-answer"' })).toContainText('"independent": false');
+  await expect(page.locator('pre')).toContainText('"worked": true');
 });
 
 test('numeric entry and unit control remain usable at narrow width and 200% text', async ({ page }, info) => {
