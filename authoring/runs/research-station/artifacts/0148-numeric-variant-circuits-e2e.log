@@ -1,0 +1,47 @@
+(node:3055266) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[2m[WebServer] [22m(node:3055470) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:3055470) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+[2m[WebServer] [22mFound 2 warnings while optimizing generated CSS:
+[2m[WebServer] [22m
+[2m[WebServer] [22mIssue #1:
+[2m[WebServer] [22m[2m│   padding-block: 0.25rem;[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m[2m│[22m ::highlight(learnlab-read-aloud) {
+[2m[WebServer] [22m[2m┆[22m             [33m[2m^--[22m 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?[39m
+[2m[WebServer] [22m[2m┆[22m
+[2m[WebServer] [22m[2m│   background-color: oklch(85% 0.15 85 / 60%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m
+[2m[WebServer] [22mIssue #2:
+[2m[WebServer] [22m[2m│   background-color: oklch(85% 0.15 85 / 60%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m[2m│[22m :root.dark ::highlight(learnlab-read-aloud) {
+[2m[WebServer] [22m[2m┆[22m                        [33m[2m^--[22m 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?[39m
+[2m[WebServer] [22m[2m┆[22m
+[2m[WebServer] [22m[2m│   background-color: oklch(75% 0.15 85 / 45%);[22m
+[2m[WebServer] [22m[2m│ }[22m
+[2m[WebServer] [22m
+[2m[WebServer] [22m[lightningcss minify] 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?
+[2m[WebServer] [22m1  |  /*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+[2m[WebServer] [22m2  |  ...splay{padding-block:.25rem;overflow:auto hidden}::highlight(learnlab-read-aloud){background-color:oklch(85% .15 85...
+[2m[WebServer] [22m   |                                                                 ^
+[2m[WebServer] [22m[lightningcss minify] 'highlight' is not recognized as a valid pseudo-element. Did you mean ':highlight' (pseudo-class) or is this a typo?
+[2m[WebServer] [22m1  |  /*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */
+[2m[WebServer] [22m2  |  ...ackground-color:oklch(85% .15 85/.6)}:root.dark ::highlight(learnlab-read-aloud){background-color:oklch(75% .15 85...
+[2m[WebServer] [22m   |                                                                 ^
+[2m[WebServer] [22m(node:3056041) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+[2m[WebServer] [22m(node:3056041) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 1 test using 1 worker
+
+(node:3056181) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3056181) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:3056181) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [chromium] › e2e/laboratory.pw.ts:124:1 › new investigations: charge windows, source energy and two resistance routes (3.4s)
+
+  1 passed (11.0s)

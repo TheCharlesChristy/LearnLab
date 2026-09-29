@@ -1,34 +1,28 @@
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
-import { parseLaboratoryPack } from '../src/v2/pack';
 import { numericAnswer, numericQuestion, numericVariantIndex, numericVariants } from '../src/v2/numeric-variant';
 import type { NumericVariantActivity } from '../src/v2/numeric-variant';
 
 test.skip(process.env.VITE_AUTHOR_STUDIO !== 'true', 'Numeric activity preview needs the local Studio build.');
 
-const activity = JSON.parse(readFileSync('tests/fixtures/numeric-variant-activity.json', 'utf8')) as NumericVariantActivity;
-const source = JSON.parse(readFileSync('public/laboratory/research-station/pack.json', 'utf8'));
-source.capabilities['numeric-variant'] = '0.1.0';
-const changed = source.episodes[0].nodes.find((node: { id: string }) => node.id === 'fresh-fault');
-changed.activity = activity;
-changed.title = 'Calibrate the current meter';
-changed.prompt = 'Use an ideal source and one resistor. Predict the current from the source voltage and resistance, then enter a number with units.';
-changed.hints = ['Use the relationship I = V/R.', 'Convert milliamps to amps before comparing with the model.'];
-changed.workedExample = 'For 6 V across 2 Ω, the current is 6 ÷ 2 = 3 A.';
-changed.mechanism = 'In this ideal DC model, current equals potential difference divided by resistance.';
-const pack = parseLaboratoryPack(source);
-const episode = pack.episodes[0]!;
-const node = episode.nodes.find((item) => item.id === 'fresh-fault')!;
+const pack = JSON.parse(readFileSync('public/laboratory/research-station/pack.json', 'utf8'));
+const episode = pack.episodes.find((item: { id: string }) => item.id === 'resistance-budget')!;
+const node = episode.nodes.find((item: { id: string }) => item.id === 'fresh-ohm-law')!;
+const activity = node.activity as NumericVariantActivity;
 
 test('Studio previews the authored circuits task and records a corrected answer as practice', async ({ page }) => {
   await page.goto('/#/author-studio');
   await page.getByLabel('Import pack or author preview').setInputFiles({
-    name: 'numeric-variant-example.json', mimeType: 'application/json',
+    name: 'research-station.json', mimeType: 'application/json',
     buffer: Buffer.from(JSON.stringify(pack)),
   });
+  await expect(page.getByLabel('Import pack or author preview')).toBeEnabled();
+  await expect(page.getByLabel('Episode').getByRole('option', { name: 'Tune the sensor heater' })).toHaveCount(1);
+  await page.getByLabel('Episode').selectOption(episode.id);
   await page.getByLabel('Starting scene').selectOption(node.id);
   await page.getByLabel('Preview seed (choices and numeric cases)').fill('17');
   await page.getByRole('button', { name: 'Start isolated preview' }).click();
+  await expect(page.getByRole('heading', { name: 'Actual workspace preview' })).toBeVisible();
   const index = numericVariantIndex(activity, 1_700_000_000_017, node.id, 0);
   const answer = numericAnswer(activity, numericVariants(activity)[index]!);
   await expect(page.getByText(numericQuestion(activity, index), { exact: true })).toBeVisible();
@@ -44,15 +38,49 @@ test('Studio previews the authored circuits task and records a corrected answer 
   await expect(page.locator('pre').filter({ hasText: '"numeric-answer"' })).toContainText('"independent": false');
 });
 
+test('hinted worked example and alternative units remain assisted practice in author preview', async ({ page }) => {
+  await page.goto('/#/author-studio');
+  await page.getByLabel('Import pack or author preview').setInputFiles({
+    name: 'research-station.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify(pack)),
+  });
+  await expect(page.getByLabel('Import pack or author preview')).toBeEnabled();
+  await expect(page.getByLabel('Episode').getByRole('option', { name: 'Tune the sensor heater' })).toHaveCount(1);
+  await page.getByLabel('Episode').selectOption(episode.id);
+  await page.getByLabel('Starting scene').selectOption(node.id);
+  await page.getByLabel('Preview seed (choices and numeric cases)').fill('21');
+  await page.getByRole('button', { name: 'Start isolated preview' }).click();
+  await expect(page.getByRole('heading', { name: 'Actual workspace preview' })).toBeVisible();
+  await page.getByRole('button', { name: 'Help', exact: true }).click();
+  await page.getByRole('button', { name: 'Show next hint', exact: true }).click();
+  await expect(page.locator('.lab-help')).toContainText('Hint 1:');
+  await page.getByRole('button', { name: 'Show worked example', exact: true }).click();
+  await expect(page.locator('.lab-help')).toContainText('For 6 V across 2 Ω, I = V/R = 6/2 = 3 A.');
+  const index = numericVariantIndex(activity, 1_700_000_000_021, node.id, 0);
+  const answer = numericAnswer(activity, numericVariants(activity)[index]!);
+  await page.getByLabel('Your answer').fill(String(answer * 1000));
+  await page.getByRole('combobox', { name: /^Unit/ }).selectOption('mA');
+  await page.getByRole('button', { name: 'Check answer' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Answer checked using mA' })).toBeVisible();
+  await page.getByRole('button', { name: 'Continue investigation' }).click();
+  await page.getByText('Inspect preview events, state and evidence', { exact: true }).click();
+  await expect(page.locator('pre').filter({ hasText: '"numeric-answer"' })).toContainText('"independent": false');
+  await expect(page.locator('pre')).toContainText('"worked": true');
+});
+
 test('numeric entry and unit control remain usable at narrow width and 200% text', async ({ page }, info) => {
   await page.setViewportSize({ width: 360, height: 740 });
   await page.goto('/#/author-studio');
   await page.getByLabel('Import pack or author preview').setInputFiles({
-    name: 'numeric-variant-example.json', mimeType: 'application/json',
+    name: 'research-station.json', mimeType: 'application/json',
     buffer: Buffer.from(JSON.stringify(pack)),
   });
+  await expect(page.getByLabel('Import pack or author preview')).toBeEnabled();
+  await expect(page.getByLabel('Episode').getByRole('option', { name: 'Tune the sensor heater' })).toHaveCount(1);
+  await page.getByLabel('Episode').selectOption(episode.id);
   await page.getByLabel('Starting scene').selectOption(node.id);
   await page.getByRole('button', { name: 'Start isolated preview' }).click();
+  await expect(page.getByRole('heading', { name: 'Actual workspace preview' })).toBeVisible();
   await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
   await expect(page.getByLabel('Your answer')).toBeVisible();
   await page.getByLabel('Your answer').fill('0.5');

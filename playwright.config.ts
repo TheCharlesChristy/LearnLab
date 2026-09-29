@@ -27,7 +27,10 @@ import path from 'node:path';
 
 import { chromium, defineConfig, devices } from '@playwright/test';
 
-const PORT = 4173;
+// Use a dedicated free port when another worktree may have a stale preview server.
+const PORT = Number(process.env.PLAYWRIGHT_PORT ?? 4173);
+if (!Number.isInteger(PORT) || PORT < 1 || PORT > 65535)
+  throw new Error('PLAYWRIGHT_PORT must be an integer between 1 and 65535');
 // Resolve Vite through the checked-in dependency tree. On Windows, spawning
 // the PowerShell `npx` shim from Playwright can produce ENOENT even when `npx`
 // works interactively, which makes the production e2e gate environment-dependent.
