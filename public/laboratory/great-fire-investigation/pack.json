@@ -1,0 +1,876 @@
+{
+  "formatVersion": 1,
+  "version": 2,
+  "stateVersion": 1,
+  "id": "great-fire-investigation",
+  "title": "Investigate the Great Fire of London",
+  "description": "A case file with maps and time-stamped evidence: inspect witnesses in different orders, distinguish seen from inferred, corroborate and assemble a defensible account with limits.",
+  "audience": "Curious secondary learners and adults, including people uninterested in history",
+  "level": "Introductory historical inquiry, no prior Great Fire study assumed",
+  "subject": {
+    "id": "history",
+    "title": "History"
+  },
+  "capabilities": {
+    "experience-graph": "0.1.1",
+    "activity-plugin": "0.1.0",
+    "choice": "0.1.0",
+    "evidence-board": "0.1.0"
+  },
+  "skills": [
+    {
+      "id": "capability-1",
+      "title": "Separate observation from inference with explicit uncertainty",
+      "criterion": "Relevant evidence, correct source distinction and explicit limit; no one-answer collapse of defensible interpretations",
+      "prerequisites": []
+    },
+    {
+      "id": "capability-2",
+      "title": "Evaluate provenance, purpose and limits of a historical source",
+      "criterion": "Relevant evidence, correct source distinction and explicit limit; no one-answer collapse of defensible interpretations",
+      "prerequisites": []
+    },
+    {
+      "id": "capability-3",
+      "title": "Corroborate independent accounts using maps and chronology",
+      "criterion": "Relevant evidence, correct source distinction and explicit limit; no one-answer collapse of defensible interpretations",
+      "prerequisites": []
+    },
+    {
+      "id": "capability-4",
+      "title": "Build a defensible multi-causal explanation and acknowledge alternatives",
+      "criterion": "Relevant evidence, correct source distinction and explicit limit; no one-answer collapse of defensible interpretations",
+      "prerequisites": []
+    }
+  ],
+  "episodes": [
+    {
+      "id": "first-report",
+      "title": "The first report",
+      "estimatedMinutes": 9,
+      "skills": [
+        "capability-1"
+      ],
+      "prerequisites": [],
+      "start": "first-action",
+      "nodes": [
+        {
+          "id": "first-action",
+          "title": "The alert arrives",
+          "prompt": "You are the night clerk. Pepys records that a servant woke him to news of a fire. Which line describes what his diary directly establishes?",
+          "role": "prediction",
+          "activity": {
+            "type": "choice",
+            "options": [
+              {
+                "id": "option-1",
+                "text": "The servant brought Pepys an alert.",
+                "correct": true,
+                "feedback": "Yes. The diary records the alert; its wording does not let Pepys see the first spark."
+              },
+              {
+                "id": "option-2",
+                "text": "A spark from the baker’s oven started the fire.",
+                "correct": false,
+                "feedback": "That is a possible explanation of ignition, not something this alert establishes."
+              },
+              {
+                "id": "option-3",
+                "text": "Foreign agents started the fire.",
+                "correct": false,
+                "feedback": "The alert supplies no evidence for an accusation."
+              }
+            ]
+          },
+          "hints": [
+            "Ask what Pepys could personally see at the moment he was woken."
+          ],
+          "workedExample": "The diary supports that Pepys was alerted; it cannot by itself establish the initial cause.",
+          "mechanism": "An account can contain both direct observation and relayed news.",
+          "transitions": {
+            "passed": "case-files",
+            "assisted": "case-files"
+          }
+        },
+        {
+          "id": "case-files",
+          "title": "Two dispatches, two vantage points",
+          "prompt": "Open the early reports in any order. Pin at least two, then write what the clerk could responsibly tell Londoners by morning.",
+          "role": "practice",
+          "activity": {
+            "type": "evidence-board",
+            "question": "What is supported about the early fire, and what remains an inference?",
+            "sources": [
+              {
+                "id": "pepys",
+                "title": "A diary hears, then sees",
+                "origin": "Samuel Pepys, diary; extract via The National Archives",
+                "date": "2 September 1666",
+                "order": 2,
+                "kind": "firsthand",
+                "account": "A servant alerted Pepys to a city fire. He later watched flames and strong wind from the river and Bankside, and urged that houses be pulled down.",
+                "limit": "His first alarm was secondhand. He did not see the first spark or establish the ignition cause.",
+                "referenceId": "pepys"
+              },
+              {
+                "id": "gazette",
+                "title": "The Crown’s early report",
+                "origin": "London Gazette, licensed official newspaper; extract via The National Archives",
+                "date": "2 September 1666",
+                "order": 1,
+                "kind": "contemporary-report",
+                "account": "The report located the outbreak near Thames Street and London Bridge and emphasized the King’s orders to stop it.",
+                "limit": "It reports an early location and official response, not a tested cause; its public purpose may shape emphasis.",
+                "referenceId": "gazette"
+              },
+              {
+                "id": "maynard",
+                "title": "A correspondent wants certainty",
+                "origin": "Lord Maynard to Joseph Williamson, from Eton; letter via The National Archives",
+                "date": "9 September 1666",
+                "order": 6,
+                "kind": "contemporary-report",
+                "account": "Maynard described stories reaching him about possible plots, but said he did not know what to believe and wanted a trustworthy account.",
+                "limit": "He was away from London and was relaying rumours, not inspecting the origin.",
+                "referenceId": "maynard"
+              }
+            ],
+            "rubric": [
+              "Names at least two sources and distinguishes first-hand from relayed or official reporting.",
+              "States a supported early location or observation without inventing ignition.",
+              "Names one relevant limitation or unanswered question."
+            ]
+          },
+          "hints": [
+            "The Gazette’s proximity to the fire in time does not make it an eyewitness to ignition.",
+            "Compare what Pepys saw later with what he was told first."
+          ],
+          "workedExample": "A cautious dispatch might report the Gazette’s location and Pepys’s later view, then say neither observed the first spark.",
+          "mechanism": "Keeping a question open is a historical move, not a failure.",
+          "transitions": {
+            "passed": "fresh-dispatch",
+            "assisted": "fresh-dispatch"
+          }
+        },
+        {
+          "id": "fresh-dispatch",
+          "title": "The later letter",
+          "prompt": "A 9 September letter from Eton repeats alarming stories but says the writer does not know what to believe. What can it most securely show?",
+          "role": "transfer",
+          "activity": {
+            "type": "choice",
+            "options": [
+              {
+                "id": "option-1",
+                "text": "How uncertainty and rumours travelled beyond London.",
+                "correct": true,
+                "feedback": "Yes. Its author reports his uncertainty from Eton; the rumour is not verified by the letter."
+              },
+              {
+                "id": "option-2",
+                "text": "That a plot caused the ignition.",
+                "correct": false,
+                "feedback": "Repeating an allegation does not establish its truth."
+              },
+              {
+                "id": "option-3",
+                "text": "Exactly when Pudding Lane caught fire.",
+                "correct": false,
+                "feedback": "The letter was later and written away from London."
+              }
+            ]
+          },
+          "hints": [
+            "Attend to where the writer was and whether he saw the event."
+          ],
+          "workedExample": "The letter is direct evidence of Maynard’s uncertainty, not direct evidence of ignition.",
+          "mechanism": "Provenance changes what a source can support.",
+          "transitions": {
+            "passed": null,
+            "assisted": null
+          }
+        }
+      ],
+      "debrief": {
+        "title": "Your first dispatch is filed",
+        "body": "A first report can locate an event without explaining its ignition. Your written source claim remains open for human review."
+      }
+    },
+    {
+      "id": "source-desk",
+      "title": "Who should we trust?",
+      "estimatedMinutes": 9,
+      "skills": [
+        "capability-2"
+      ],
+      "prerequisites": [
+        "first-report"
+      ],
+      "start": "first-action",
+      "nodes": [
+        {
+          "id": "first-action",
+          "title": "The headline is loud",
+          "prompt": "A pamphlet accuses foreign people of using fireballs. Before deciding whether to trust it, what would you ask first?",
+          "role": "prediction",
+          "activity": {
+            "type": "choice",
+            "options": [
+              {
+                "id": "option-1",
+                "text": "Who made this, when, and what independent record supports the allegation?",
+                "correct": true,
+                "feedback": "Yes. Provenance and corroboration are the first checks for an extraordinary accusation."
+              },
+              {
+                "id": "option-2",
+                "text": "Is the accusation exciting enough to remember?",
+                "correct": false,
+                "feedback": "Vividness is not evidence."
+              },
+              {
+                "id": "option-3",
+                "text": "Can I find the same words copied in another pamphlet?",
+                "correct": false,
+                "feedback": "Copying one allegation would not be independent corroboration."
+              }
+            ]
+          },
+          "hints": [
+            "Think about the writer’s purpose and independent evidence."
+          ],
+          "workedExample": "Record the pamphlet as a contemporary allegation, then check its claims against independently produced records.",
+          "mechanism": "A source’s existence proves a claim circulated; its content still needs evaluation.",
+          "transitions": {
+            "passed": "source-desk",
+            "assisted": "source-desk"
+          }
+        },
+        {
+          "id": "source-desk",
+          "title": "Build a provenance file",
+          "prompt": "The Gazette, Whitehall, a private diary, a distant letter and a sensational pamphlet all speak differently. Pin at least two and compare what they can support.",
+          "role": "practice",
+          "activity": {
+            "type": "evidence-board",
+            "question": "Whose purpose and vantage point change the weight you give their account?",
+            "sources": [
+              {
+                "id": "gazette",
+                "title": "The Crown’s early report",
+                "origin": "London Gazette, licensed official newspaper; extract via The National Archives",
+                "date": "2 September 1666",
+                "order": 1,
+                "kind": "contemporary-report",
+                "account": "The report located the outbreak near Thames Street and London Bridge and emphasized the King’s orders to stop it.",
+                "limit": "It reports an early location and official response, not a tested cause; its public purpose may shape emphasis.",
+                "referenceId": "gazette"
+              },
+              {
+                "id": "pepys",
+                "title": "A diary hears, then sees",
+                "origin": "Samuel Pepys, diary; extract via The National Archives",
+                "date": "2 September 1666",
+                "order": 2,
+                "kind": "firsthand",
+                "account": "A servant alerted Pepys to a city fire. He later watched flames and strong wind from the river and Bankside, and urged that houses be pulled down.",
+                "limit": "His first alarm was secondhand. He did not see the first spark or establish the ignition cause.",
+                "referenceId": "pepys"
+              },
+              {
+                "id": "whitehall",
+                "title": "The official retrospective",
+                "origin": "Whitehall printed account; transcript via The National Archives",
+                "date": "8 September 1666",
+                "order": 5,
+                "kind": "contemporary-report",
+                "account": "The account connected rapid spread to close wooden buildings and an easterly wind, described attempts to demolish houses, and defended the government’s response.",
+                "limit": "It was issued by the government after the event and partly serves to justify officials; compare its claims with other witnesses.",
+                "referenceId": "whitehall"
+              },
+              {
+                "id": "maynard",
+                "title": "A correspondent wants certainty",
+                "origin": "Lord Maynard to Joseph Williamson, from Eton; letter via The National Archives",
+                "date": "9 September 1666",
+                "order": 6,
+                "kind": "contemporary-report",
+                "account": "Maynard described stories reaching him about possible plots, but said he did not know what to believe and wanted a trustworthy account.",
+                "limit": "He was away from London and was relaying rumours, not inspecting the origin.",
+                "referenceId": "maynard"
+              },
+              {
+                "id": "pamphlet",
+                "title": "A dramatic printed accusation",
+                "origin": "Anonymous contemporary pamphlet; transcript via The National Archives",
+                "date": "3–6 September 1666 letters, printed later",
+                "order": 4,
+                "kind": "contemporary-report",
+                "account": "Several letters alleged that French or Dutch people used fireballs. The pamphlet also gave conflicting timing and identity details.",
+                "limit": "The allegations are evidence of rumour and prejudice, not proof that any accused group caused the fire.",
+                "referenceId": "pamphlet"
+              }
+            ],
+            "rubric": [
+              "Identifies creator, date, position or audience for the chosen records.",
+              "Treats allegations about French or Dutch people as unverified claims, not established fact.",
+              "Compares at least two independent origins and states a limit of each."
+            ]
+          },
+          "hints": [
+            "An official record can be useful while still selecting what it emphasizes.",
+            "A diary can offer a personal observation without proving every reported detail."
+          ],
+          "workedExample": "One defensible comparison is that Pepys observed later spread, while Whitehall offered an official explanation after the fire; neither witnessed ignition.",
+          "mechanism": "This is an open judgement. Your draft needs a human reader to assess it.",
+          "transitions": {
+            "passed": "new-file",
+            "assisted": "new-file"
+          }
+        },
+        {
+          "id": "new-file",
+          "title": "A fresh source label",
+          "prompt": "You find an official report written six days after the fire. It describes wind and closely built wooden houses, then defends government action. Which label best fits?",
+          "role": "transfer",
+          "activity": {
+            "type": "choice",
+            "options": [
+              {
+                "id": "option-1",
+                "text": "Contemporary retrospective account with a possible institutional interest.",
+                "correct": true,
+                "feedback": "Yes. It is close in time, but its purpose and author matter."
+              },
+              {
+                "id": "option-2",
+                "text": "Neutral eyewitness proof of the first spark.",
+                "correct": false,
+                "feedback": "The report was issued later and does not observe ignition."
+              },
+              {
+                "id": "option-3",
+                "text": "A modern historian’s synthesis.",
+                "correct": false,
+                "feedback": "It was created in 1666, though it looks back at the event."
+              }
+            ]
+          },
+          "hints": [
+            "Classify when it was made and why, separately."
+          ],
+          "workedExample": "The Whitehall account is contemporary primary material about an official interpretation, not neutral direct sight of the start.",
+          "mechanism": "Source type is about creation and context, not simple trust/distrust.",
+          "transitions": {
+            "passed": null,
+            "assisted": null
+          }
+        }
+      ],
+      "debrief": {
+        "title": "The source desk stays open",
+        "body": "The files reveal different purposes and vantage points. A dramatic account is evidence of a claim being made, not necessarily of the event claimed."
+      }
+    },
+    {
+      "id": "fire-map",
+      "title": "Follow the evidence",
+      "estimatedMinutes": 9,
+      "skills": [
+        "capability-3"
+      ],
+      "prerequisites": [
+        "source-desk"
+      ],
+      "start": "first-action",
+      "nodes": [
+        {
+          "id": "first-action",
+          "title": "A map with a trap",
+          "prompt": "An archive map shows ruined streets, but was surveyed after the fire. What question can that map answer most directly?",
+          "role": "prediction",
+          "activity": {
+            "type": "choice",
+            "options": [
+              {
+                "id": "option-1",
+                "text": "Which streets and landmarks were recorded in the ruined area afterward.",
+                "correct": true,
+                "feedback": "Yes. It is a post-fire survey, so its strongest claim concerns recorded damage."
+              },
+              {
+                "id": "option-2",
+                "text": "The exact hour each street caught fire.",
+                "correct": false,
+                "feedback": "A later static survey does not timestamp each flame front."
+              },
+              {
+                "id": "option-3",
+                "text": "Whether a particular person lit the first flame.",
+                "correct": false,
+                "feedback": "Damage mapping cannot identify an individual cause."
+              }
+            ]
+          },
+          "hints": [
+            "Read the survey date before reading damage as a timeline."
+          ],
+          "workedExample": "A post-fire map is excellent evidence for surveyed ruins, not a clock for the spreading fire.",
+          "mechanism": "Date the source, not just the event it depicts.",
+          "transitions": {
+            "passed": "map-desk",
+            "assisted": "map-desk"
+          }
+        },
+        {
+          "id": "map-desk",
+          "title": "Walk the evidence map",
+          "prompt": "The sketch puts the river, bridge, Pudding Lane, Bankside and St Paul’s in broad relation. The cards date accounts and a later survey. Pin independent clues and write a cautious route claim.",
+          "role": "practice",
+          "activity": {
+            "type": "evidence-board",
+            "question": "What broad spread can the accounts support, and which route detail remains unproved?",
+            "sources": [
+              {
+                "id": "gazette",
+                "title": "The Crown’s early report",
+                "origin": "London Gazette, licensed official newspaper; extract via The National Archives",
+                "date": "2 September 1666",
+                "order": 1,
+                "kind": "contemporary-report",
+                "account": "The report located the outbreak near Thames Street and London Bridge and emphasized the King’s orders to stop it.",
+                "limit": "It reports an early location and official response, not a tested cause; its public purpose may shape emphasis.",
+                "referenceId": "gazette",
+                "placeId": "bridge"
+              },
+              {
+                "id": "pepys",
+                "title": "A diary hears, then sees",
+                "origin": "Samuel Pepys, diary; extract via The National Archives",
+                "date": "2 September 1666",
+                "order": 2,
+                "kind": "firsthand",
+                "account": "A servant alerted Pepys to a city fire. He later watched flames and strong wind from the river and Bankside, and urged that houses be pulled down.",
+                "limit": "His first alarm was secondhand. He did not see the first spark or establish the ignition cause.",
+                "referenceId": "pepys",
+                "placeId": "bankside"
+              },
+              {
+                "id": "evelyn",
+                "title": "A view from across the river",
+                "origin": "John Evelyn, diary; extract via The National Archives",
+                "date": "3 September 1666",
+                "order": 3,
+                "kind": "firsthand",
+                "account": "From Bankside, Evelyn saw a large sweep of burning near the waterside and described a fierce easterly wind.",
+                "limit": "His distant view supports broad extent, not a street-by-street path or the first ignition.",
+                "referenceId": "evelyn",
+                "placeId": "bankside"
+              },
+              {
+                "id": "commission",
+                "title": "Why the survey exists",
+                "origin": "Charles II’s instruction; record via The National Archives",
+                "date": "10 September 1666",
+                "order": 6,
+                "kind": "contemporary-report",
+                "account": "The King commissioned Hollar and Sandford to plan and survey the City as it stood after the fire, with the ruins described.",
+                "limit": "The commission explains purpose, but is neither a damage map itself nor evidence about how the blaze began.",
+                "referenceId": "commission"
+              },
+              {
+                "id": "hollar",
+                "title": "A survey after the flames",
+                "origin": "Wenceslaus Hollar / City surveyors; map via The National Archives",
+                "date": "1667 survey of the ruined City",
+                "order": 7,
+                "kind": "later-survey",
+                "account": "The survey shows streets and ruined areas after the fire, including the Thames, London Bridge area and St Paul’s.",
+                "limit": "Blank ruin areas do not timestamp when each street burned or show flame direction during the event.",
+                "referenceId": "hollar",
+                "placeId": "st-pauls"
+              }
+            ],
+            "rubric": [
+              "Uses dated observations and the post-fire survey without treating them as interchangeable snapshots.",
+              "Corroborates a broad place or direction with more than one independent origin.",
+              "Notes that this schematic is not to scale and cannot establish precise times or speeds."
+            ],
+            "places": [
+              {
+                "id": "st-pauls",
+                "label": "St Paul’s",
+                "x": 24,
+                "y": 27
+              },
+              {
+                "id": "pudding",
+                "label": "Pudding Lane",
+                "x": 70,
+                "y": 35
+              },
+              {
+                "id": "bridge",
+                "label": "London Bridge",
+                "x": 72,
+                "y": 68
+              },
+              {
+                "id": "bankside",
+                "label": "Bankside",
+                "x": 49,
+                "y": 84
+              }
+            ]
+          },
+          "hints": [
+            "The map is a place index; the dated accounts carry time clues.",
+            "Evelyn’s Bankside view and Hollar’s later survey answer different questions."
+          ],
+          "workedExample": "Evelyn’s 3 September view and Pepys’s account support broad extent near the river; Hollar’s later survey shows ruins, but none pins each street to an exact hour.",
+          "mechanism": "A useful map claim is deliberately bounded.",
+          "transitions": {
+            "passed": "map-check",
+            "assisted": "map-check"
+          }
+        },
+        {
+          "id": "map-check",
+          "title": "A new label on the survey",
+          "prompt": "The King ordered a survey on 10 September to record the City after the fire. Which inference survives this date check?",
+          "role": "transfer",
+          "activity": {
+            "type": "choice",
+            "options": [
+              {
+                "id": "option-1",
+                "text": "The resulting map can show surveyed ruins; it cannot alone date each street’s burning.",
+                "correct": true,
+                "feedback": "Yes. Commission and survey dates limit temporal claims."
+              },
+              {
+                "id": "option-2",
+                "text": "Every white block burned on 2 September.",
+                "correct": false,
+                "feedback": "The survey cannot date individual blocks this way."
+              },
+              {
+                "id": "option-3",
+                "text": "The commission proves the first ignition happened at St Paul’s.",
+                "correct": false,
+                "feedback": "The commission concerns ruins and mapping, not ignition."
+              }
+            ]
+          },
+          "hints": [
+            "What did the commission ask the surveyors to record?"
+          ],
+          "workedExample": "The 10 September commission establishes a post-fire purpose for the survey.",
+          "mechanism": "Source creation date is part of map interpretation.",
+          "transitions": {
+            "passed": null,
+            "assisted": null
+          }
+        }
+      ],
+      "debrief": {
+        "title": "The route remains a hypothesis",
+        "body": "Your map links places and source dates, but no surviving survey in this case file plays back the flames minute by minute."
+      }
+    },
+    {
+      "id": "case-conference",
+      "title": "Make the case",
+      "estimatedMinutes": 9,
+      "skills": [
+        "capability-4"
+      ],
+      "prerequisites": [
+        "fire-map"
+      ],
+      "start": "first-action",
+      "nodes": [
+        {
+          "id": "first-action",
+          "title": "The easy story is too neat",
+          "prompt": "A colleague says, “One rumour explains everything.” What should a careful investigator do first?",
+          "role": "prediction",
+          "activity": {
+            "type": "choice",
+            "options": [
+              {
+                "id": "option-1",
+                "text": "Separate ignition from spread, and seek independent evidence for each claim.",
+                "correct": true,
+                "feedback": "Yes. Different questions need different sources and may have different levels of certainty."
+              },
+              {
+                "id": "option-2",
+                "text": "Treat the loudest contemporary pamphlet as the answer.",
+                "correct": false,
+                "feedback": "A contemporary allegation still needs corroboration."
+              },
+              {
+                "id": "option-3",
+                "text": "Assume a later damage map identifies the culprit.",
+                "correct": false,
+                "feedback": "A ruin survey does not establish who or what ignited the fire."
+              }
+            ]
+          },
+          "hints": [
+            "Try splitting “why” into ignition, rapid spread and response."
+          ],
+          "workedExample": "A defensible explanation can be strong on spread and cautious on the first spark.",
+          "mechanism": "Good history distinguishes what is known from what remains uncertain.",
+          "transitions": {
+            "passed": "conference",
+            "assisted": "conference"
+          }
+        },
+        {
+          "id": "conference",
+          "title": "Convene the case conference",
+          "prompt": "Choose any two or more source files. Draft a multi-causal account of spread and assess the accusations about ignition; cite the limits of your evidence.",
+          "role": "transfer",
+          "activity": {
+            "type": "evidence-board",
+            "question": "What account would you defend to a sceptical colleague, and what would you still investigate?",
+            "sources": [
+              {
+                "id": "pepys",
+                "title": "A diary hears, then sees",
+                "origin": "Samuel Pepys, diary; extract via The National Archives",
+                "date": "2 September 1666",
+                "order": 2,
+                "kind": "firsthand",
+                "account": "A servant alerted Pepys to a city fire. He later watched flames and strong wind from the river and Bankside, and urged that houses be pulled down.",
+                "limit": "His first alarm was secondhand. He did not see the first spark or establish the ignition cause.",
+                "referenceId": "pepys",
+                "placeId": "bankside"
+              },
+              {
+                "id": "evelyn",
+                "title": "A view from across the river",
+                "origin": "John Evelyn, diary; extract via The National Archives",
+                "date": "3 September 1666",
+                "order": 3,
+                "kind": "firsthand",
+                "account": "From Bankside, Evelyn saw a large sweep of burning near the waterside and described a fierce easterly wind.",
+                "limit": "His distant view supports broad extent, not a street-by-street path or the first ignition.",
+                "referenceId": "evelyn",
+                "placeId": "bankside"
+              },
+              {
+                "id": "whitehall",
+                "title": "The official retrospective",
+                "origin": "Whitehall printed account; transcript via The National Archives",
+                "date": "8 September 1666",
+                "order": 5,
+                "kind": "contemporary-report",
+                "account": "The account connected rapid spread to close wooden buildings and an easterly wind, described attempts to demolish houses, and defended the government’s response.",
+                "limit": "It was issued by the government after the event and partly serves to justify officials; compare its claims with other witnesses.",
+                "referenceId": "whitehall",
+                "placeId": "pudding"
+              },
+              {
+                "id": "hollar",
+                "title": "A survey after the flames",
+                "origin": "Wenceslaus Hollar / City surveyors; map via The National Archives",
+                "date": "1667 survey of the ruined City",
+                "order": 7,
+                "kind": "later-survey",
+                "account": "The survey shows streets and ruined areas after the fire, including the Thames, London Bridge area and St Paul’s.",
+                "limit": "Blank ruin areas do not timestamp when each street burned or show flame direction during the event.",
+                "referenceId": "hollar",
+                "placeId": "st-pauls"
+              },
+              {
+                "id": "maynard",
+                "title": "A correspondent wants certainty",
+                "origin": "Lord Maynard to Joseph Williamson, from Eton; letter via The National Archives",
+                "date": "9 September 1666",
+                "order": 6,
+                "kind": "contemporary-report",
+                "account": "Maynard described stories reaching him about possible plots, but said he did not know what to believe and wanted a trustworthy account.",
+                "limit": "He was away from London and was relaying rumours, not inspecting the origin.",
+                "referenceId": "maynard"
+              },
+              {
+                "id": "pamphlet",
+                "title": "A dramatic printed accusation",
+                "origin": "Anonymous contemporary pamphlet; transcript via The National Archives",
+                "date": "3–6 September 1666 letters, printed later",
+                "order": 4,
+                "kind": "contemporary-report",
+                "account": "Several letters alleged that French or Dutch people used fireballs. The pamphlet also gave conflicting timing and identity details.",
+                "limit": "The allegations are evidence of rumour and prejudice, not proof that any accused group caused the fire.",
+                "referenceId": "pamphlet",
+                "placeId": "pudding"
+              },
+              {
+                "id": "museum",
+                "title": "A modern synthesis",
+                "origin": "London Museum, modern public history article",
+                "date": "Modern account",
+                "order": 8,
+                "kind": "modern-synthesis",
+                "account": "The museum describes dry conditions, east winds, close buildings and combustible goods as factors in spread; it treats the precise ignition as uncertain.",
+                "limit": "A synthesis combines earlier evidence; it is not a direct observation made in 1666.",
+                "referenceId": "museum"
+              }
+            ],
+            "rubric": [
+              "Makes a claim about spread supported by at least two independent records, for example wind plus closely built combustible streets.",
+              "Separates the uncertain first ignition from better-attested conditions of spread and attempts to stop it.",
+              "Handles the pamphlet’s accusations as allegations and does not blame a group without corroboration.",
+              "Names a source limit, missing perspective or follow-up question."
+            ],
+            "places": [
+              {
+                "id": "st-pauls",
+                "label": "St Paul’s",
+                "x": 24,
+                "y": 27
+              },
+              {
+                "id": "pudding",
+                "label": "Pudding Lane",
+                "x": 70,
+                "y": 35
+              },
+              {
+                "id": "bridge",
+                "label": "London Bridge",
+                "x": 72,
+                "y": 68
+              },
+              {
+                "id": "bankside",
+                "label": "Bankside",
+                "x": 49,
+                "y": 84
+              }
+            ]
+          },
+          "hints": [
+            "Look for agreement across an eyewitness and a differently produced record.",
+            "Rumour of a plot is evidence of fear and prejudice unless independently supported."
+          ],
+          "workedExample": "A careful account can connect wind and close buildings to rapid spread while leaving the exact ignition unsettled and refusing to promote an unsupported accusation.",
+          "mechanism": "Your claim will need a human reader; the app only records your reflection.",
+          "transitions": {
+            "passed": "final-check",
+            "assisted": "final-check"
+          }
+        },
+        {
+          "id": "final-check",
+          "title": "Challenge from the editor",
+          "prompt": "The editor asks whether the post-fire survey and the pamphlet together prove who started the fire. Which reply is defensible?",
+          "role": "transfer",
+          "activity": {
+            "type": "choice",
+            "options": [
+              {
+                "id": "option-1",
+                "text": "No. The survey records ruins and the pamphlet records an allegation; neither proves a culprit.",
+                "correct": true,
+                "feedback": "Yes. Each can be useful without answering the ignition question."
+              },
+              {
+                "id": "option-2",
+                "text": "Yes. A map plus a printed accusation is independent proof.",
+                "correct": false,
+                "feedback": "The records answer different questions; the map does not corroborate the culprit claim."
+              },
+              {
+                "id": "option-3",
+                "text": "Yes, because both were made close to 1666.",
+                "correct": false,
+                "feedback": "Proximity in time alone does not establish the alleged act."
+              }
+            ]
+          },
+          "hints": [
+            "Ask what each source was actually made to record."
+          ],
+          "workedExample": "Two sources are not corroboration when one does not address the claim.",
+          "mechanism": "The bounded method check is separate from the open historical claim.",
+          "transitions": {
+            "passed": null,
+            "assisted": null
+          }
+        }
+      ],
+      "debrief": {
+        "title": "The case is yours to defend",
+        "body": "Your claim, source pins and rubric reflection are stored in your local case file. A teacher or course owner still needs to judge the quality of your historical argument."
+      }
+    }
+  ],
+  "references": [
+    {
+      "id": "archives",
+      "title": "The National Archives: Examine the evidence",
+      "url": "https://www.nationalarchives.gov.uk/education/resources/great-fire-of-london-examine-the-evidence/",
+      "note": "Modern archival introduction and context; not a 1666 eyewitness."
+    },
+    {
+      "id": "pepys",
+      "title": "The National Archives: Samuel Pepys diary extracts",
+      "url": "https://www.nationalarchives.gov.uk/education/resources/great-fire-of-london-examine-the-evidence/extracts-from-samuel-pepys-diary/",
+      "note": "Transcribed diary selections; separate Pepys’s observations from news brought to him."
+    },
+    {
+      "id": "gazette",
+      "title": "The National Archives: London Gazette, 2 September",
+      "url": "https://www.nationalarchives.gov.uk/education/resources/great-fire-of-london-examine-the-evidence/london-gazette-reports-start-of-great-fire/",
+      "note": "Licensed official report, catalogue ZJ 1/1 (84v)."
+    },
+    {
+      "id": "evelyn",
+      "title": "The National Archives: John Evelyn diary extracts",
+      "url": "https://www.nationalarchives.gov.uk/education/resources/great-fire-of-london-examine-the-evidence/extracts-from-john-evelyns-diary/",
+      "note": "Transcribed diary selections, including a Bankside view on 3 September."
+    },
+    {
+      "id": "whitehall",
+      "title": "The National Archives: Whitehall account, 8 September",
+      "url": "https://www.nationalarchives.gov.uk/education/resources/great-fire-of-london-examine-the-evidence/a-true-relation-of-the-sad-and-deplorable-fire/",
+      "note": "Contemporary official retrospective account; compare its purpose with other records."
+    },
+    {
+      "id": "hollar",
+      "title": "The National Archives: Hollar survey of ruined City, 1667",
+      "url": "https://www.nationalarchives.gov.uk/education/resources/great-fire-of-london-examine-the-evidence/hollars-map-of-the-ruined-city/",
+      "note": "Post-fire map, catalogue ZMAP 4/18; not a live spread map."
+    },
+    {
+      "id": "commission",
+      "title": "The National Archives: commission for Hollar’s map",
+      "url": "https://www.nationalarchives.gov.uk/education/resources/great-fire-of-london-examine-the-evidence/hollars-commission-for-a-map-of-london-ruined-by-fire/",
+      "note": "Royal instruction to survey the post-fire ruins, catalogue SP 29/171 f20."
+    },
+    {
+      "id": "maynard",
+      "title": "The National Archives: Lord Maynard letter, 9 September",
+      "url": "https://www.nationalarchives.gov.uk/education/resources/great-fire-of-london-examine-the-evidence/fire-caused-by-treachery-or-chance/",
+      "note": "Contemporary letter from Eton describing uncertainty and rumours."
+    },
+    {
+      "id": "pamphlet",
+      "title": "The National Archives: Destruction by a Consuming Fire",
+      "url": "https://www.nationalarchives.gov.uk/education/resources/great-fire-of-london-examine-the-evidence/destruction-by-a-consuming-fire/",
+      "note": "Contemporary pamphlet containing anti-foreign allegations; these are not established facts."
+    },
+    {
+      "id": "museum",
+      "title": "London Museum: Great Fire overview",
+      "url": "https://www.londonmuseum.org.uk/collections/london-stories/great-fire-of-london/",
+      "note": "Modern secondary synthesis; used to cross-check broad context."
+    }
+  ],
+  "assets": [],
+  "scopeNote": "September 1666 case file. Evidence cards paraphrase linked records; the exact ignition remains uncertain. Your written interpretations need human review."
+}

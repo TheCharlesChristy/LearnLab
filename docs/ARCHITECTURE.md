@@ -8,7 +8,7 @@ The learning laboratory implementation inventory and deliberate v2 continuation 
 [`laboratory/AUDIT.md`](laboratory/AUDIT.md). The executable local intake/planning/run-artifact
 foundation is documented in [`laboratory/AUTHORING-HARNESS.md`](laboratory/AUTHORING-HARNESS.md).
 The opt-in finite graph runtime, pack scaffolding, validation and local Studio are implemented
-for the activities registered in `src/v2/activity-contracts.json`. Circuits has ten authored episodes; the Great Fire course follows in a dependent draft PR. Owner review remains pending. Draft-PR Git delivery is implemented; registry negotiation fixtures must not be advertised as implemented activities. Authoring schemas come from
+for the activities registered in `src/v2/activity-contracts.json`. Circuits has ten authored episodes and the Great Fire has four. Owner review remains pending. Draft-PR Git delivery is implemented; registry negotiation fixtures must not be advertised as implemented activities. Authoring schemas come from
 `scripts/authoring/contracts.mjs` and the laboratory/preview schemas, emitted by
 `author:course -- schemas`. [ADR-003](ADR-003-author-studio.md) records the shared-renderer
 preview boundary and its limits.

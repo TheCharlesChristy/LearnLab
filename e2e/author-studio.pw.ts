@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import fs from 'node:fs';
 import { createPreviewRun, parseAuthorPreview } from '../src/v2/author-preview';
 import { projectRun } from '../src/v2/run';
@@ -7,6 +7,10 @@ import { readFileSync } from 'node:fs';
 const pack = parseLaboratoryPack(
   JSON.parse(readFileSync('public/laboratory/research-station/pack.json', 'utf8')),
 );
+async function loadResearchStation(page: Page) {
+  await page.getByLabel('Staged course').selectOption(pack.id);
+  await page.getByRole('button', { name: 'Load staged pack', exact: true }).click();
+}
 test.skip(
   process.env.VITE_AUTHOR_STUDIO !== 'true',
   'Author Studio is excluded unless explicitly enabled.',
@@ -30,7 +34,7 @@ test('author preview shares actual renderer, survives diagnostic export/import a
   });
   await page.goto('/#/author-studio');
   await expect(page.getByRole('heading', { name: 'LearnLab Author Studio' })).toBeVisible();
-  await page.getByRole('button', { name: 'Load staged pack', exact: true }).click();
+  await loadResearchStation(page);
   await expect(page.getByLabel('Starting scene')).toBeVisible();
   await page.getByLabel('Starting scene').selectOption('fresh-fault');
   await page.getByLabel('Choice-order seed').fill('17');
@@ -97,7 +101,7 @@ test('author preview shares actual renderer, survives diagnostic export/import a
 
 test('source validation, undo, new-subject preview and bounded diagnostics', async ({ page }) => {
   await page.goto('/#/author-studio');
-  await page.getByRole('button', { name: 'Load staged pack', exact: true }).click();
+  await loadResearchStation(page);
   await expect(page.getByLabel('Starting scene')).toBeVisible();
   await page.getByText('Edit source pack JSON', { exact: true }).click();
   const source = page.getByLabel('Source pack', { exact: true });
@@ -128,7 +132,7 @@ test('switching preview episodes clears stale state and archives retain their or
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/#/author-studio');
-  await page.getByRole('button', { name: 'Load staged pack', exact: true }).click();
+  await loadResearchStation(page);
   await page.getByRole('button', { name: 'Start isolated preview', exact: true }).click();
   await expect(
     page.getByRole('heading', { name: pack.episodes[0]!.nodes[0]!.title, exact: true }),
@@ -169,7 +173,7 @@ test('phone author controls and expanded text stay within requested viewport', a
 }, info) => {
   await page.setViewportSize({ width: 360, height: 740 });
   await page.goto('/#/author-studio');
-  await page.getByRole('button', { name: 'Load staged pack', exact: true }).click();
+  await loadResearchStation(page);
   await page.getByRole('button', { name: 'Start isolated preview', exact: true }).click();
   await expect(
     page.getByRole('heading', { name: pack.episodes[0]!.nodes[0]!.title, exact: true }),

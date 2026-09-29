@@ -1,0 +1,48 @@
+{
+  "formatVersion": 1,
+  "kind": "learnlab-author-delivery",
+  "attemptId": "cbf47de0-52fb-4db6-969c-71698676d54f",
+  "status": "created",
+  "repository": "TheCharlesChristy/LearnLab",
+  "branch": "feat/laboratory-great-fire",
+  "base": "feat/laboratory-evidence-board",
+  "headCommit": "b769087cd7526c73c96b990432297a8f40f1bc4b",
+  "baseCommit": "18fe5a817f00a09d988929cb5cfed8fedb6ce38e",
+  "title": "Investigate the Great Fire through historical sources",
+  "bodySha256": "a24b2b8d9ccba467e77eeefb77954b7818fd2b8ef1ab555e3e1b80ae77c1e58b",
+  "bodyBytes": 1664,
+  "untrackedCount": 1,
+  "untrackedPaths": [
+    "node_modules"
+  ],
+  "range": {
+    "commits": 1,
+    "fileCount": 21,
+    "files": [
+      ".agents/skills/learnlab-lesson-pedagogy/SKILL.md",
+      "authoring/drafts/great-fire-investigation/pack.json",
+      "authoring/runs/great-fire-investigation/artifacts/0004-scaffold.json",
+      "authoring/runs/great-fire-investigation/artifacts/0005-HISTORY-RESEARCH.md",
+      "authoring/runs/great-fire-investigation/artifacts/0006-pack.json",
+      "authoring/runs/great-fire-investigation/artifacts/0007-pack.json",
+      "authoring/runs/great-fire-investigation/artifacts/0008-history-map-desktop.png",
+      "authoring/runs/great-fire-investigation/artifacts/0009-history-map-phone-expanded.png",
+      "authoring/runs/great-fire-investigation/artifacts/0010-history-phone-dark-touch.png",
+      "authoring/runs/great-fire-investigation/artifacts/0011-history-completion.png",
+      "authoring/runs/great-fire-investigation/artifacts/0012-HISTORY-VERIFICATION.md",
+      "authoring/runs/great-fire-investigation/artifacts/0013-HISTORY-RESEARCH.md",
+      "authoring/runs/great-fire-investigation/manifest.json",
+      "docs/ARCHITECTURE.md",
+      "docs/laboratory/ACTIVITIES.md",
+      "docs/laboratory/HISTORY-RESEARCH.md",
+      "docs/laboratory/HISTORY-VERIFICATION.md",
+      "e2e/great-fire.pw.ts",
+      "playwright.config.ts",
+      "public/laboratory/great-fire-investigation/pack.json",
+      "src/v2/evidence-board.test.ts"
+    ],
+    "stat": " .agents/skills/learnlab-lesson-pedagogy/SKILL.md   |   2 +-\n .../drafts/great-fire-investigation/pack.json      | 876 +++++++++++++++++++++\n .../artifacts/0004-scaffold.json                   | 100 +++\n .../artifacts/0005-HISTORY-RESEARCH.md             |  18 +\n .../artifacts/0006-pack.json                       | 876 +++++++++++++++++++++\n .../artifacts/0007-pack.json                       | 876 +++++++++++++++++++++\n .../artifacts/0008-history-map-desktop.png         | Bin 0 -> 900808 bytes\n .../artifacts/0009-history-map-phone-expanded.png  | Bin 0 -> 2034683 bytes\n .../artifacts/0010-history-phone-dark-touch.png    | Bin 0 -> 742603 bytes\n .../artifacts/0011-history-completion.png          | Bin 0 -> 304344 bytes\n .../artifacts/0012-HISTORY-VERIFICATION.md         |  18 +\n .../artifacts/0013-HISTORY-RESEARCH.md             |  20 +\n .../runs/great-fire-investigation/manifest.json    | 105 +++\n docs/ARCHITECTURE.md                               |   2 +-\n docs/laboratory/ACTIVITIES.md                      |   3 +-\n docs/laboratory/HISTORY-RESEARCH.md                |  20 +\n docs/laboratory/HISTORY-VERIFICATION.md            |  18 +\n e2e/great-fire.pw.ts                               | 146 ++++\n playwright.config.ts                               |   1 +\n .../laboratory/great-fire-investigation/pack.json  | 876 +++++++++++++++++++++\n src/v2/evidence-board.test.ts                      |  82 ++\n 21 files changed, 4035 insertions(+), 4 deletions(-)\n"
+  },
+  "url": "https://github.com/TheCharlesChristy/LearnLab/pull/79",
+  "at": "2026-09-29T08:08:55.703Z"
+}

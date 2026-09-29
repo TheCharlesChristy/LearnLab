@@ -2,10 +2,11 @@
 
 Status: intake, planning, capability discovery, scaffolding, shared pack validation,
 local preview staging, isolated Studio inspection and evidence preservation are implemented.
-All ten planned circuits episodes have been authored through these commands. Choice-order seeds are
-presentation variants; parameterised fresh tasks, the history pilot and owner review remain pending.
-The Git delivery command now creates a reviewable draft PR from a committed slice. This first
-slice does **not** satisfy the complete harness goal.
+All ten planned circuits episodes and four Great Fire episodes have been authored through these commands.
+Choice-order seeds are presentation variants; general parameterised fresh tasks and owner review
+remain pending.
+The Git delivery command creates a reviewable draft PR from a committed slice. The pilot
+delivery still awaits the owner's playthrough and resulting revision.
 
 Use Node 22.18 or newer: the CLI shares the browser's typed pack/model contracts
 through Node's built-in TypeScript stripping. No extra authoring service is needed.
