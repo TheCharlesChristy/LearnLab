@@ -11,6 +11,9 @@ export type { RepairBenchActivity } from './repair-bench.ts';
 import { validateEvidenceBoard } from './evidence-board.ts';
 import type { EvidenceBoardActivity } from './evidence-board.ts';
 export type { EvidenceBoardActivity } from './evidence-board.ts';
+import { validateNumericVariant } from './numeric-variant.ts';
+import type { NumericVariantActivity } from './numeric-variant.ts';
+export type { NumericVariantActivity } from './numeric-variant.ts';
 
 export interface ChoiceActivity {
   type: 'choice';
@@ -31,7 +34,7 @@ export interface CircuitActivity {
     max: number;
   }[];
 }
-export type Activity = ChoiceActivity | CircuitActivity | MeterProbeActivity | RepairBenchActivity | EvidenceBoardActivity;
+export type Activity = ChoiceActivity | NumericVariantActivity | CircuitActivity | MeterProbeActivity | RepairBenchActivity | EvidenceBoardActivity;
 export interface LaboratoryNode {
   id: string;
   title: string;
@@ -141,6 +144,10 @@ function validateActivity(activity: Activity, at: string, references: string[]) 
       throw new Error(
         `${at}: choice requires exactly one correct option; use reflection for unmarked interpretation`,
       );
+    return;
+  }
+  if (activity.type === 'numeric-variant') {
+    validateNumericVariant(activity, at);
     return;
   }
   if (activity.type === 'meter-probe') {

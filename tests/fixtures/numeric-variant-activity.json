@@ -1,0 +1,21 @@
+{
+  "type": "numeric-variant",
+  "question": "A {voltage} V ideal source drives a {resistance} Ω resistor. What current flows?",
+  "variables": [
+    { "name": "voltage", "values": [6, 10, 12] },
+    { "name": "resistance", "values": [2, 3, 5] }
+  ],
+  "answer": {
+    "kind": "operation",
+    "op": "divide",
+    "left": { "kind": "variable", "name": "voltage" },
+    "right": { "kind": "variable", "name": "resistance" }
+  },
+  "units": [{ "symbol": "A", "factor": 1 }, { "symbol": "mA", "factor": 0.001 }],
+  "tolerance": 0.01,
+  "checks": [
+    { "values": { "voltage": 6, "resistance": 2 }, "answer": 3 },
+    { "values": { "voltage": 10, "resistance": 3 }, "answer": 3.3333333333333335 },
+    { "values": { "voltage": 12, "resistance": 5 }, "answer": 2.4 }
+  ]
+}

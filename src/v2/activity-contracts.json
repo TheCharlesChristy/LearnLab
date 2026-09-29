@@ -13,6 +13,20 @@
       "alternative": "All options and feedback are text."
     }
   },
+  "numeric-variant": {
+    "version": "0.1.0",
+    "schemaDef": "numericVariant",
+    "stateVersion": 1,
+    "goal": "bounded-declarative-formula, finite-variant-numeric-answer-with-unit-conversion-and-inclusive-absolute-tolerance",
+    "documentation": "docs/laboratory/ACTIVITIES.md#numeric-variant",
+    "accessibility": {
+      "keyboard": "Native numeric text field, unit selector and check button; focus moves to the next scene heading on transition.",
+      "announcement": "Marked feedback uses a polite status and explicitly names the selected unit.",
+      "touch": "No dragging; input, unit selector and check button are at least 44 CSS pixels high.",
+      "motion": "No essential motion or sound.",
+      "alternative": "The scenario, quantities, units and feedback are all available as text."
+    }
+  },
   "circuit": {
     "version": "0.1.1",
     "schemaDef": "circuit",

@@ -101,7 +101,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium firefox webkit
       - name: Shared laboratory and isolated author preview
-        run: npx playwright test e2e/author-studio.spec.ts e2e/author-build-boundary.spec.ts e2e/laboratory.spec.ts --workers=2
+        run: npx playwright test e2e/author-studio.spec.ts e2e/author-build-boundary.spec.ts e2e/laboratory.spec.ts e2e/numeric-variant.spec.ts --workers=2
       - name: Ordinary build excludes Studio
         env:
           VITE_AUTHOR_STUDIO: 'false'

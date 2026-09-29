@@ -3,8 +3,8 @@
 Status: intake, planning, capability discovery, scaffolding, shared pack validation,
 local preview staging, isolated Studio inspection and evidence preservation are implemented.
 All ten planned circuits episodes and four Great Fire episodes have been authored through these commands.
-Choice-order seeds are presentation variants; general parameterised fresh tasks and owner review
-remain pending.
+`numeric-variant@0.1.0` adds bounded fresh numeric cases with hand-check requirements;
+whole-skill delayed review and owner review remain pending.
 The Git delivery command creates a reviewable draft PR from a committed slice. The pilot
 delivery still awaits the owner's playthrough and resulting revision.
 
@@ -142,10 +142,11 @@ inspection lists actual passed/assisted destinations. There is no visual graph d
 schema-generated form editor yet. New subject metadata uses no school-only enum; a new
 activity still requires a registered code extension rather than embedded scripts.
 
-Choose an episode, arbitrary reachable starting scene, unsigned 32-bit choice-order seed,
+Choose an episode, arbitrary reachable starting scene, unsigned 32-bit preview seed,
 preferred passed/assisted route, hint count and worked-example state. The harness constructs
 a valid synthetic predecessor route using actual marking/witness semantics. A seed changes
-option order only; it never turns a known question into fresh competence evidence. All preview
+choice order and selects a reproducible numeric case; it never turns a known question into
+fresh competence evidence. All preview
 scenes carry prior exposure, including after import/restart/archival. Session and speech-rate
 preferences stay in memory; previews use the exact learner activity workspace, help and replay
 engine through an isolated storage port. They do not write learner rows or acquire offline packs.

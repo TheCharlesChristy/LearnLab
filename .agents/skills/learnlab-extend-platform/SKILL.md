@@ -20,8 +20,8 @@ scoping error (invariant C-5).
 ## Laboratory workflow amendment (27 September 2026)
 
 Use `preview`/`inspect` and the loopback-only `VITE_AUTHOR_STUDIO=true` Studio for
-arbitrary scenes, deterministic choice ordering and assistance state. These are synthetic
-previews with prior exposure, not fresh assessment variants or observed learning. The
+arbitrary scenes, deterministic choice ordering, numeric cases and assistance state. These are synthetic
+previews with prior exposure, not fresh competence evidence or observed learning. The
 Studio edits validated JSON and shares the actual renderer; export before leaving.
 See `docs/laboratory/AUTHORING-HARNESS.md` for bounds and the executable procedure.
 
@@ -32,9 +32,12 @@ course drafting, record bounded audience/level/outcomes and research decisions,
 and validate the plan with `plan`. Preserve actual authoring, failure and playthrough
 artifacts using `record`; artifact presence alone does not pass a gate. The CLI
 implements intake/planning/discovery, scaffolding, shared pack/graph validation,
-local preview staging, evidence preservation and draft-PR Git delivery. Local Studio preview/inspection is implemented; complete pilots remain
+local preview staging, evidence preservation and draft-PR Git delivery. Local Studio preview/inspection is implemented; owner review remains
 pending. Use `capabilities` and `schemas` to discover actual v1 sets and registered
-laboratory activities (`choice`, `circuit`, `meter-probe`, `repair-bench`), not old v2 negotiation fixtures.
+laboratory activities (`choice`, `numeric-variant`, `circuit`, `meter-probe`, `repair-bench`, `evidence-board`), not old v2 negotiation fixtures.
+`numeric-variant@0.1.0` uses finite declared values and a pure arithmetic tree;
+every combination is checked and three hand-derived answers are required. It
+adds fresh in-episode numeric cases but not scheduled delayed review by itself.
 `circuit@0.1.1` adds finite supply-voltage and observation-window controls with
 charge/energy readings; use the shared pack validator and event replay for extensions.
 `meter-probe@0.1.0` registers a finite hypothesis-testing activity; its recorded
@@ -221,7 +224,10 @@ prover. **On shipping:** pedagogy skill's generation-format quotas start countin
 `expression` items; author skill documents the marking semantics with the same
 precision as the existing four.
 
-### 6. Parameterised question generation
+### 6. Parameterised question generation — PARTIAL DELIVERED in v2
+`numeric-variant@0.1.0` gives the laboratory a bounded declarative formula and
+reproducible numeric cases. The v1 review queue and delayed v2 review do not yet
+generate new variants; that integration and whole-skill criteria remain open.
 **What:** question templates with declared variable ranges and answer formulas, so one
 authored template yields unlimited numeric variants per attempt. **Why:** a force
 multiplier rather than a direct learning effect: it removes the item-reuse ceiling on

@@ -25,8 +25,8 @@ renders, but new lessons should use screens unless there's a specific reason not
 ## Laboratory workflow amendment (27 September 2026)
 
 Use `preview`/`inspect` and the loopback-only `VITE_AUTHOR_STUDIO=true` Studio for
-arbitrary scenes, deterministic choice ordering and assistance state. These are synthetic
-previews with prior exposure, not fresh assessment variants or observed learning. The
+arbitrary scenes, deterministic choice ordering, numeric cases and assistance state. These are synthetic
+previews with prior exposure, not fresh competence evidence or observed learning. The
 Studio edits validated JSON and shares the actual renderer; export before leaving.
 See `docs/laboratory/AUTHORING-HARNESS.md` for bounds and the executable procedure.
 
@@ -38,7 +38,10 @@ and validate the plan with `plan`. Preserve actual authoring, failure and playth
 artifacts using `record`; artifact presence alone does not pass a gate. The CLI
 implements intake/planning/discovery, scaffolding, shared pack/graph validation,
 local preview staging, evidence preservation and draft-PR Git delivery. Local Studio preview/inspection is implemented. Use `capabilities` and `schemas` to discover actual v1 sets and registered
-laboratory activities (`choice`, `circuit`, `meter-probe`, `repair-bench`, `evidence-board`), not old v2 negotiation fixtures.
+laboratory activities (`choice`, `numeric-variant`, `circuit`, `meter-probe`, `repair-bench`, `evidence-board`), not old v2 negotiation fixtures.
+For `numeric-variant@0.1.0`, hand-derive at least three formula checks including both
+range endpoints, verify units and tolerance boundaries, and reject degenerate draws;
+the validator compares those checks but cannot establish independent derivation.
 `circuit@0.1.1` adds finite supply-voltage and observation-window controls with
 charge/energy readings; see `docs/laboratory/ACTIVITIES.md` before authoring goals.
 `meter-probe@0.1.0` compares two bounded ideal DC states; probe choices are

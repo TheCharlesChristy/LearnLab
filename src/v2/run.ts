@@ -5,10 +5,12 @@ import type { CircuitConfiguration } from './circuit-model.ts';
 import { informativeProbeIds } from './meter-probe.ts';
 import { placeRepairPart, repairGoalMet, repairReading, setRepairLayout } from './repair-bench.ts';
 import type { RepairBenchState } from './repair-bench.ts';
+import { markNumericVariant, numericVariantIndex } from './numeric-variant.ts';
 
 export type RunEvent = { at: number; node: string } & (
   | { type: 'control'; id: string; value: number | boolean }
   | { type: 'answer'; option: string }
+  | { type: 'numeric-answer'; value: string; unit: string }
   | { type: 'probe'; id: string }
   | { type: 'place'; slot: string; part: string | null }
   | { type: 'rewire'; layout: 'series' | 'parallel' }
@@ -39,6 +41,10 @@ export interface NodeMemory {
   circuit?: CircuitConfiguration;
   elapsedSeconds?: number;
   selected?: string;
+  numericVariant?: number;
+  numericValue?: string;
+  numericUnit?: string;
+  numericCorrect?: boolean;
   probes?: string[];
   repair?: RepairBenchState;
   inspections?: {
@@ -68,6 +74,7 @@ export interface Evidence {
   replayed: boolean;
 }
 export interface RunProjection {
+  startedAt: number;
   current: string | null;
   memory: Record<string, NodeMemory>;
   evidence: Evidence[];
@@ -90,7 +97,10 @@ export function newRun(
     priorExposure: [...new Set(priorExposure)],
   };
 }
-const initialMemory = (node: LaboratoryNode, replayed = false): NodeMemory => ({
+const initialMemory = (node: LaboratoryNode, replayed = false, startedAt = 0, restarts = 0): NodeMemory => ({
+  ...(node.activity.type === 'numeric-variant'
+    ? { numericVariant: numericVariantIndex(node.activity, startedAt, node.id, restarts) }
+    : {}),
   ...(node.activity.type === 'circuit' ? { circuit: structuredClone(node.activity.initial) } : {}),
   ...(node.activity.type === 'circuit' && node.activity.interval
     ? { elapsedSeconds: node.activity.interval.initialSeconds }
@@ -107,6 +117,7 @@ const initialMemory = (node: LaboratoryNode, replayed = false): NodeMemory => ({
 export function nodePassed(node: LaboratoryNode, memory: NodeMemory): boolean {
   if (node.activity.type === 'choice')
     return !!node.activity.options.find((v) => v.id === memory.selected)?.correct;
+  if (node.activity.type === 'numeric-variant') return memory.numericCorrect === true;
   if (node.activity.type === 'meter-probe') {
     const informative = informativeProbeIds(node.activity);
     return (memory.probes ?? []).some((id) => informative.includes(id));
@@ -145,6 +156,7 @@ export function projectRun(
   )
     throw new Error('Saved work exceeds the bounded event limit. Export it before starting again.');
   const result: RunProjection = {
+    startedAt: run.startedAt,
     current: episode.start,
     memory: Object.create(null) as Record<string, NodeMemory>,
     evidence: [],
@@ -177,6 +189,7 @@ export function projectRun(
     const keys: Record<RunEvent['type'], string[]> = {
       control: ['id', 'value'],
       answer: ['option'],
+      'numeric-answer': ['value', 'unit'],
       probe: ['id'],
       place: ['slot', 'part'],
       rewire: ['layout'],
@@ -206,7 +219,7 @@ export function projectRun(
     if (result.current !== event.node) throw new Error('Saved event is out of scene order');
     const node = episode.nodes.find((n) => n.id === result.current);
     if (!node) throw new Error('Saved scene no longer exists');
-    const memory = (result.memory[node.id] ??= initialMemory(node, result.exposed.has(node.id)));
+    const memory = (result.memory[node.id] ??= initialMemory(node, result.exposed.has(node.id), run.startedAt, result.restarts));
     if (event.type === 'time') {
       if (
         !Number.isFinite(event.ms) ||
@@ -259,6 +272,21 @@ export function projectRun(
       )
         throw new Error('Saved answer is unavailable');
       memory.selected = event.option;
+      memory.attempts++;
+      memory.actions++;
+      result.exposed.add(node.id);
+      continue;
+    }
+    if (event.type === 'numeric-answer') {
+      if (node.activity.type !== 'numeric-variant' ||
+          typeof event.value !== 'string' || event.value.length > 32 ||
+          typeof event.unit !== 'string' ||
+          !node.activity.units.some((unit) => unit.symbol === event.unit) ||
+          nodePassed(node, memory))
+        throw new Error('Saved numeric answer is unavailable');
+      memory.numericValue = event.value;
+      memory.numericUnit = event.unit;
+      memory.numericCorrect = markNumericVariant(node.activity, memory.numericVariant!, event.value, event.unit);
       memory.attempts++;
       memory.actions++;
       result.exposed.add(node.id);
@@ -376,7 +404,7 @@ export function projectRun(
           node.activity.type !== 'meter-probe' &&
           node.activity.type !== 'repair-bench' &&
           node.activity.type !== 'evidence-board' &&
-          (node.activity.type !== 'choice' || memory.attempts === 1),
+          (!['choice', 'numeric-variant'].includes(node.activity.type) || memory.attempts === 1),
         attempts: memory.attempts,
         hints: memory.hints,
         worked: memory.worked,
@@ -389,7 +417,7 @@ export function projectRun(
   }
   if (result.current) {
     const node = episode.nodes.find((n) => n.id === result.current)!;
-    result.memory[node.id] ??= initialMemory(node, result.exposed.has(node.id));
+    result.memory[node.id] ??= initialMemory(node, result.exposed.has(node.id), run.startedAt, result.restarts);
   }
   return result;
 }
@@ -431,7 +459,7 @@ export function appendEvent(
   return next;
 }
 export function activityMemory(node: LaboratoryNode, projection: RunProjection): NodeMemory {
-  return projection.memory[node.id] ?? initialMemory(node, projection.exposed.has(node.id));
+  return projection.memory[node.id] ?? initialMemory(node, projection.exposed.has(node.id), projection.startedAt, projection.restarts);
 }
 export function controlValue(
   activity: CircuitActivity,
