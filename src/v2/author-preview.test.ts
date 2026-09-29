@@ -27,7 +27,7 @@ describe('author preview boundary', () => {
   it('replays voltage-source and observation-window controls when synthesising a route', () => {
     const voltage = fixture();
     voltage.episodeId = 'resistance-budget';
-    voltage.nodeId = 'fresh-ohm-law';
+    voltage.nodeId = 'why-two-settings';
     voltage.hints = 0;
     voltage.worked = false;
     const voltageRun = createPreviewRun(voltage);
@@ -42,7 +42,7 @@ describe('author preview boundary', () => {
 
     const interval = fixture();
     interval.episodeId = 'charge-counter';
-    interval.nodeId = 'fresh-recorder';
+    interval.nodeId = 'predict-window';
     interval.hints = 0;
     interval.worked = false;
     const intervalRun = createPreviewRun(interval);
