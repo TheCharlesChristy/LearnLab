@@ -112,9 +112,19 @@ choices only; every preview scene has prior exposure. Storage and speech prefere
 memory, with eight archives retaining original content context. ADR-003 records the boundary.
 Graph 0.1.1 moves bridging/debrief copy into optional authored metadata. Circuit
 0.1.1 adds finite source and observation-window controls with integrated charge/energy
-readings; pack version 9 now contains ten circuits episodes, including bounded series,
-parallel branch, diagnostic meter, power and fault investigations, plus a socket-based
-repair capstone with two valid configurations. The complete history pilot, visual graph
-authoring, fresh-task generation and the owner cycle remain pending. Git
-delivery automation is implemented in the subsequent focused slice. This update
-does not reinterpret the baseline table.
+readings; the circuits pack has ten episodes, including bounded series, parallel branch,
+diagnostic meter, power and fault investigations, plus a socket-based repair capstone
+with two valid configurations.
+
+## Subsequent status: 29 September 2026
+
+The four-episode Great Fire pilot is now authored through the same harness and has
+production-browser verification; its evidence and owner route are in
+[HISTORY-VERIFICATION.md](HISTORY-VERIFICATION.md). PR #80 registers bounded
+`numeric-variant@0.1.0`; dependent PR #81 adds the first authored circuits transfer
+task, with hand-derived answer checks and offline/browser evidence. These checks do
+not establish human learning or enjoyment. Visual graph authoring and whole-skill
+delayed assessment remain unimplemented; the author's written walkthrough and resulting
+revision are pending. Git delivery automation is implemented in the focused PR chain.
+The historical baseline and first-slice snapshot above are not claims about this later
+state.
