@@ -41,6 +41,20 @@
       "alternative": "A labelled topology list and text readings accompany the optional diagram."
     }
   },
+  "evidence-board": {
+    "version": "0.1.0",
+    "schemaDef": "evidenceBoard",
+    "stateVersion": 1,
+    "goal": "inspect-and-pin-at-least-two-sources, write-a-claim, and-self-review-without-automated-marking",
+    "documentation": "docs/laboratory/ACTIVITIES.md#evidence-board",
+    "accessibility": {
+      "keyboard": "Native buttons, source details, text field and review checkbox are keyboard operable.",
+      "announcement": "Saved claim and evidence selection use text status; no interpretation is pronounced correct.",
+      "touch": "No dragging; source and map navigation use the same buttons.",
+      "motion": "No essential motion or sound.",
+      "alternative": "Timeline and schematic map have complete ordered text equivalents."
+    }
+  },
   "repair-bench": {
     "version": "0.1.0",
     "schemaDef": "repairBench",

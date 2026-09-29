@@ -1,17 +1,19 @@
 # Laboratory activity contracts
 
-Status: ten-episode circuits pilot, opt-in through `VITE_EXPERIENCE_RUNTIME_V2=true`.
+Status: ten-episode circuits pilot and registered source-evidence activity; the
+four-episode history pack follows in a dependent draft PR. Opt in through
+`VITE_EXPERIENCE_RUNTIME_V2=true`.
 This additive runtime lives under `src/v2/`; legacy courses and their saved work
 retain the existing schemas and storage. The registered activities are `choice`
 at 0.1.0, `circuit` at 0.1.1, `meter-probe` at 0.1.0 and `repair-bench`
-at 0.1.0, with event state version 1.
+at 0.1.0, plus `evidence-board` at 0.1.0, with event state version 1.
 
 `src/v2/activity-contracts.json` is the metadata registry. Its `schemaDef` points into
 `schemas/laboratory-pack.schema.json`; `src/v2/pack.ts` adds semantic checks shared by
 the CLI and browser. Run `npm run author:course -- capabilities` and `schemas` to
 inspect the actual contracts. `build-laboratory-contracts.mjs` generates the strict
 CSP-safe browser validator; `--check` rejects schema/generated-code drift.
-The current renderer dispatches these four registered types directly. A general
+The current renderer dispatches these five registered types directly. A general
 external-plugin loader, arbitrary scripts and parameterised fresh-task variants are not implemented.
 The local Studio shares this renderer; see [authoring workflow](AUTHORING-HARNESS.md).
 
@@ -50,6 +52,35 @@ option. A first correct response on a fresh transfer node may be independent onl
 when no hint, worked example or prior exposure exists. An incorrect first response
 followed by correction is practice. Buttons are locked after success; Help remains
 available. All information is text and feedback is a polite status.
+
+## Evidence board
+
+Input: `type: "evidence-board"`, an inquiry question, 2–8 short source cards,
+2–5 human review prompts, and optionally 1–12 labelled schematic map places.
+Every card has an author/source origin, source date and chronology order, class,
+paraphrased account, explicit evidential limit and a `referenceId` linking to a
+pack reference. A card may name a map place. The validator checks unique IDs,
+closed references and places, bounded map coordinates and all text lengths.
+Source dates label the record, not automatically the event it describes. Authors
+must label paraphrases and never present a schematic as a measured map.
+
+Actions: native buttons open cards in any order, then pin or unpin inspected
+cards. An editable 1,600-character local claim is saved by an explicit button.
+The learner can self-review against the authored prompts after pinning two
+sources and saving at least 40 characters. Editing the claim resets the review.
+All these steps replay through typed, size-bounded events. A completed board is
+recorded as **reflection/practice even on a transfer node**: there is no
+semantic or AI grade, and it never counts as independent mastery. The length
+threshold is a guard against accidental empty submission, not an assessment.
+A teacher or course owner must judge whether the claim actually uses evidence,
+handles alternatives and states its uncertainty. Avoid putting the one
+"correct" historical interpretation into `choice`; reserve choice for bounded
+source-method distinctions. Original source links open separately; no network
+request is needed for the locally available paraphrases.
+
+The optional map is a static schematic with a text equivalent; the chronology
+is an ordered text list. Buttons, textarea and review work with keyboard and
+touch, with no dragging or essential motion.
 
 ## Circuit
 

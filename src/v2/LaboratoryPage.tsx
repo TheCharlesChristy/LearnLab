@@ -28,6 +28,7 @@ import CircuitActivity from './CircuitActivity';
 import MeterProbeActivity from './MeterProbeActivity';
 import RepairBenchActivity from './RepairBenchActivity';
 import { formatMeterReading, meterReading } from './meter-probe';
+import EvidenceBoardActivity from './EvidenceBoardActivity';
 import './laboratory.css';
 
 const download = (value: unknown, filename: string) => {
@@ -283,7 +284,7 @@ export function EpisodeWorkspace({
       : undefined;
   const transfers = projection.evidence.filter((e) => e.role === 'transfer');
   const independent = new Set(transfers.filter((e) => e.independent).map((e) => e.node)).size;
-  const firstAction = run.events.find((e) => ['control', 'answer', 'probe'].includes(e.type));
+  const firstAction = run.events.find((e) => ['control', 'answer', 'probe', 'open-source', 'pin-source', 'write-claim'].includes(e.type));
   const priorMeters = run.events.flatMap((event) => {
     if (event.type !== 'probe' || event.node === node?.id) return [];
     const scene = episode.nodes.find((candidate) => candidate.id === event.node);
@@ -453,7 +454,18 @@ export function EpisodeWorkspace({
                   void send({ type: 'inspect', node: node.id, reading, quantity });
                 }}
               />
-            ) : null}
+            ) : node.activity.type === 'evidence-board' ? (
+              <EvidenceBoardActivity
+                activity={node.activity}
+                references={pack.references}
+                memory={memory}
+                disabled={busy}
+                onOpen={(id) => { void send({ type: 'open-source', node: node.id, id }); }}
+                onPin={(id) => { void send({ type: 'pin-source', node: node.id, id }); }}
+                onClaim={(text) => { void send({ type: 'write-claim', node: node.id, text }); }}
+                onReview={() => { void send({ type: 'self-review', node: node.id }); }}
+              />
+              ) : null}
             {feedback && (
               <div role="status" className="lab-feedback">
                 <strong>
@@ -462,11 +474,12 @@ export function EpisodeWorkspace({
                 {feedback.feedback}
               </div>
             )}
-            {passed && (
+            {passed && node.activity.type !== 'evidence-board' && (
               <div className="lab-feedback">
                 <p>{node.mechanism}</p>
               </div>
             )}
+            {passed && node.activity.type === 'evidence-board' && <div className="lab-feedback" role="status">Reflection saved. {node.mechanism} This has not been marked for historical accuracy.</div>}
             <div className="flex flex-wrap items-center gap-3">
               <Button
                 className="min-h-11"

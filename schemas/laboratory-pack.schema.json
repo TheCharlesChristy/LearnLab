@@ -540,6 +540,51 @@
       },
       "required": ["type", "voltage", "slots", "parts", "initial", "solution", "goals"]
     },
+    "evidenceBoard": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": { "const": "evidence-board" },
+        "question": { "type": "string", "minLength": 1, "maxLength": 2400 },
+        "sources": {
+          "type": "array", "minItems": 2, "maxItems": 8,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 64 },
+              "title": { "type": "string", "minLength": 1, "maxLength": 2400 },
+              "origin": { "type": "string", "minLength": 1, "maxLength": 2400 },
+              "date": { "type": "string", "minLength": 1, "maxLength": 2400 },
+              "order": { "type": "integer", "minimum": 0, "maximum": 10000 },
+              "kind": { "enum": ["firsthand", "contemporary-report", "later-survey", "modern-synthesis"] },
+              "account": { "type": "string", "minLength": 1, "maxLength": 2400 },
+              "limit": { "type": "string", "minLength": 1, "maxLength": 2400 },
+              "referenceId": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 64 },
+              "placeId": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 64 }
+            },
+            "required": ["id", "title", "origin", "date", "order", "kind", "account", "limit", "referenceId"]
+          }
+        },
+        "places": {
+          "type": "array", "minItems": 1, "maxItems": 12,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "maxLength": 64 },
+              "label": { "type": "string", "minLength": 1, "maxLength": 2400 },
+              "x": { "type": "number", "minimum": 0, "maximum": 100 },
+              "y": { "type": "number", "minimum": 0, "maximum": 100 }
+            },
+            "required": ["id", "label", "x", "y"]
+          }
+        },
+        "rubric": {
+          "type": "array", "minItems": 2, "maxItems": 5,
+          "items": { "type": "string", "minLength": 1, "maxLength": 2400 }
+        }
+      },
+      "required": ["type", "question", "sources", "rubric"]
+    },
     "node": {
       "type": "object",
       "additionalProperties": false,
@@ -575,6 +620,9 @@
             },
             {
               "$ref": "#/$defs/repairBench"
+            },
+            {
+              "$ref": "#/$defs/evidenceBoard"
             }
           ]
         },

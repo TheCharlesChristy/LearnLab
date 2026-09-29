@@ -8,6 +8,9 @@ export type { MeterProbeActivity } from './meter-probe.ts';
 import { validateRepairBench } from './repair-bench.ts';
 import type { RepairBenchActivity } from './repair-bench.ts';
 export type { RepairBenchActivity } from './repair-bench.ts';
+import { validateEvidenceBoard } from './evidence-board.ts';
+import type { EvidenceBoardActivity } from './evidence-board.ts';
+export type { EvidenceBoardActivity } from './evidence-board.ts';
 
 export interface ChoiceActivity {
   type: 'choice';
@@ -28,7 +31,7 @@ export interface CircuitActivity {
     max: number;
   }[];
 }
-export type Activity = ChoiceActivity | CircuitActivity | MeterProbeActivity | RepairBenchActivity;
+export type Activity = ChoiceActivity | CircuitActivity | MeterProbeActivity | RepairBenchActivity | EvidenceBoardActivity;
 export interface LaboratoryNode {
   id: string;
   title: string;
@@ -128,7 +131,7 @@ const dag = (items: { id: string; prerequisites: string[] }[], at: string) => {
   };
   items.forEach((v) => visit(v.id));
 };
-function validateActivity(activity: Activity, at: string) {
+function validateActivity(activity: Activity, at: string, references: string[]) {
   if (activity.type === 'choice') {
     unique(
       activity.options.map((v) => v.id),
@@ -146,6 +149,10 @@ function validateActivity(activity: Activity, at: string) {
   }
   if (activity.type === 'repair-bench') {
     validateRepairBench(activity, at);
+    return;
+  }
+  if (activity.type === 'evidence-board') {
+    validateEvidenceBoard(activity, at, references);
     return;
   }
   const initial = parseCircuitConfiguration(activity.initial);
@@ -295,7 +302,7 @@ export function parseLaboratoryPack(raw: unknown): LaboratoryPack {
       active.add(id);
       if (!pack.capabilities[node.activity.type])
         throw new Error(`${id}: missing activity capability ${node.activity.type}`);
-      validateActivity(node.activity, `${episode.id}/${id}`);
+      validateActivity(node.activity, `${episode.id}/${id}`, pack.references.map((reference) => reference.id));
       visit(node.transitions.passed);
       visit(node.transitions.assisted);
       active.delete(id);

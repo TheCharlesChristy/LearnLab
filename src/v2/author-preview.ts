@@ -118,6 +118,13 @@ export function createPreviewRun(input: AuthorPreview): LaboratoryRun {
           emit({ type: 'place', node: node.id, slot: slot.id, part: wanted });
           state = placeRepairPart(node.activity, state, slot.id, wanted);
         }
+      } else if (node.activity.type === 'evidence-board') {
+        for (const source of node.activity.sources.slice(0, 2)) {
+          emit({ type: 'open-source', node: node.id, id: source.id });
+          emit({ type: 'pin-source', node: node.id, id: source.id });
+        }
+        emit({ type: 'write-claim', node: node.id, text: 'Preview placeholder: compare both pinned sources and state what neither source can establish.' });
+        emit({ type: 'self-review', node: node.id });
       } else
         for (const control of node.activity.controls)
           emit({
